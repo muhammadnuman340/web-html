@@ -6,6 +6,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Optional (set in Netlify UI → Environment variables, scope: Builds):
+  # VITE_PADDLE_TOKEN, VITE_PADDLE_PRICE_ID, VITE_PADDLE_ENV, VITE_PADDLE_SUCCESS_URL
 
 # React Router (SPA) — all routes serve index.html
 [[redirects]]

@@ -1,6 +1,17 @@
-const PADDLE_TOKEN = 'test_223df1dfe41ff662cf2f5c704f8'
-const PRICE_ID = 'pri_01krpf7bkn6tnrwtzekf4f8b1t'
-const SUCCESS_URL = 'http://192.168.18.94:3000/?payment=success'
+const PADDLE_TOKEN =
+  import.meta.env.VITE_PADDLE_TOKEN ?? 'test_223df1dfe41ff662cf2f5c704f8'
+const PRICE_ID =
+  import.meta.env.VITE_PADDLE_PRICE_ID ?? 'pri_01krpf7bkn6tnrwtzekf4f8b1t'
+const PADDLE_ENV = import.meta.env.VITE_PADDLE_ENV ?? 'sandbox'
+
+function successUrl(): string {
+  const configured = import.meta.env.VITE_PADDLE_SUCCESS_URL?.trim()
+  if (configured) return configured
+  if (typeof window !== 'undefined') {
+    return `${window.location.origin}/?payment=success`
+  }
+  return '/?payment=success'
+}
 
 let _ready = false
 const _listeners: Array<(ok: boolean) => void> = []
@@ -13,7 +24,7 @@ function notify(ok: boolean) {
 
 function initPaddle() {
   if (!window.Paddle) return false
-  try { window.Paddle.Environment?.set?.('sandbox') } catch {}
+  try { window.Paddle.Environment?.set?.(PADDLE_ENV) } catch {}
   window.Paddle.Initialize({ token: PADDLE_TOKEN })
   return true
 }
@@ -60,6 +71,6 @@ export async function openPaddleCheckout() {
   }
   window.Paddle.Checkout.open({
     items: [{ priceId: PRICE_ID, quantity: 1 }],
-    settings: { successUrl: SUCCESS_URL },
+    settings: { successUrl: successUrl() },
   })
 }
