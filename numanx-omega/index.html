@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f0f2f8" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="Omega X Converter - The most advanced universal unit converter platform. 30+ categories, 200+ units, live currency, crypto, PWA enabled." />
+    <meta name="keywords" content="unit converter, currency converter, crypto converter, length converter, weight converter, temperature converter, PWA, offline converter" />
+    <meta name="application-name" content="Omega X Converter" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Omega X" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- SEO Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Omega X Converter",
+      "description": "Universal Unit Converter Platform",
+      "applicationCategory": "Utilities",
+      "operatingSystem": "Web",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <title>Omega X Converter — Universal Unit Converter Platform</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Restore theme before paint
+      (function() {
+        const t = localStorage.getItem('uc_theme_class');
+        if (t) document.body.className = t;
+      })();
+    </script>
+  </body>
+</html>
