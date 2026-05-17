@@ -123,7 +123,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         </div>
 
         <div className="mt-4 px-3">
-          <AdSense slot="4648257834" format="auto" />
+          <AdSense slot="3115913228" format="auto" />
         </div>
         <div className="mt-auto pt-4 text-center text-xs opacity-40">
           NumanX Studios © 2026

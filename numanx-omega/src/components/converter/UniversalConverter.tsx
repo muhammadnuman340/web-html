@@ -630,6 +630,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
+      {/* Below multipliers ad */}
+      <div className="flex justify-center">
+        <AdSense slot="6553577897" width={320} height={100} />
+      </div>
+
       {/* Precision */}
       {mode !== 'fast' && !chainMode && (
         <div className="flex items-center gap-3">
@@ -662,6 +667,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
         </div>
       )}
+
+      {/* Bottom banner ad */}
+      <div className="flex justify-center pt-2">
+        <AdSense slot="4063145925" width={320} height={50} />
+      </div>
     </div>
   )
 }

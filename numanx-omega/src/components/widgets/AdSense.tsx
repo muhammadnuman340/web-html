@@ -4,11 +4,15 @@ interface Props {
   slot: string
   format?: 'auto' | 'rectangle' | 'horizontal' | 'vertical'
   className?: string
+  width?: number
+  height?: number
 }
 
-export default function AdSense({ slot, format = 'auto', className = '' }: Props) {
+export default function AdSense({ slot, format = 'auto', className = '', width, height }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const initialized = useRef(false)
+
+  const isFixed = width && height
 
   useEffect(() => {
     if (initialized.current) return
@@ -26,11 +30,10 @@ export default function AdSense({ slot, format = 'auto', className = '' }: Props
       <div className="text-[9px] uppercase tracking-wider opacity-20 text-center mb-1">— Sponsored —</div>
       <ins
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={isFixed ? { display: 'inline-block', width, height } : { display: 'block' }}
         data-ad-client="ca-pub-9437859906171826"
         data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive="true"
+        {...(isFixed ? {} : { 'data-ad-format': format, 'data-full-width-responsive': 'true' })}
       />
     </div>
   )
