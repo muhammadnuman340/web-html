@@ -6,11 +6,28 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  # Optional (set in Netlify UI → Environment variables, scope: Builds):
-  # VITE_PADDLE_TOKEN, VITE_PADDLE_PRICE_ID, VITE_PADDLE_ENV, VITE_PADDLE_SUCCESS_URL
 
 # React Router (SPA) — all routes serve index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Ensure sitemap and robots are served from root
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"

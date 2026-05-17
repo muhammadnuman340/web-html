@@ -27,31 +27,33 @@ export default function Settings() {
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-bold">⚙️ Settings</h2>
+    <article className="space-y-4">
+      <header>
+        <h2 className="text-lg font-bold">⚙️ Settings</h2>
+      </header>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-4 space-y-4">
-        <div>
-          <div className="text-sm font-semibold mb-2">🎨 Theme</div>
+        <section>
+          <h3 className="text-sm font-semibold mb-2">🎨 Theme</h3>
           <ThemeCustomizer theme={theme} setTheme={setTheme} />
-        </div>
+        </section>
 
-        <div>
-          <div className="text-sm font-semibold mb-2">🎯 Default Precision: {prec}</div>
+        <section>
+          <h3 className="text-sm font-semibold mb-2">🎯 Default Precision: {prec}</h3>
           <input type="range" min="0" max="12" value={prec} onChange={e => handlePrec(Number(e.target.value))}
             className="w-full accent-[var(--primary)]" />
-        </div>
+        </section>
 
-        <div>
-          <div className="text-sm font-semibold mb-2">🧹 Data</div>
+        <section>
+          <h3 className="text-sm font-semibold mb-2">🧹 Data</h3>
           <button onClick={handleClearAll}
             className="px-4 py-2 rounded-xl text-sm bg-red-500/20 text-red-500 hover:bg-red-500/30 transition-colors">
             {clearHist ? '✅ Cleared!' : 'Clear All Data'}
           </button>
-        </div>
+        </section>
 
-        <div>
-          <div className="text-sm font-semibold mb-2">📱 About</div>
+        <section>
+          <h3 className="text-sm font-semibold mb-2">📱 About</h3>
           <div className="text-xs opacity-60 space-y-1">
             <p>Omega X Converter v2.0</p>
             <p>NumanX Studios</p>
@@ -59,9 +61,9 @@ export default function Settings() {
             <p>React + TypeScript + Vite + Tailwind CSS</p>
             <p className="pt-2">© 2026 NumanX Studios. All rights reserved.</p>
           </div>
-        </div>
+        </section>
 
       </motion.div>
-    </div>
+    </article>
   )
 }

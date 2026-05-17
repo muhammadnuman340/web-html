@@ -13,14 +13,16 @@ export default function ConverterPage({ mode }: Props) {
   const initVal = params.get('val') ? parseFloat(params.get('val')!) : undefined
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-bold">🔄 Universal Converter</h2>
-      {mode === 'student' && (
-        <p className="text-xs opacity-60">🎓 Student Mode · Try typing "5 km in miles" or "100 USD to EUR"</p>
-      )}
+    <article className="space-y-4">
+      <header>
+        <h2 className="text-lg font-bold">🔄 Universal Converter</h2>
+        {mode === 'student' && (
+          <p className="text-xs opacity-60">🎓 Student Mode · Try typing "5 km in miles" or "100 USD to EUR"</p>
+        )}
+      </header>
       <GlassCard>
         <UniversalConverter category={cat} mode={mode} initialFrom={initFrom} initialTo={initTo} initialValue={initVal} />
       </GlassCard>
-    </div>
+    </article>
   )
 }

@@ -54,11 +54,11 @@ export default function Home({ mode = 'pro' }: Props) {
       <div className="relative z-10 space-y-6">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center py-6">
           <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 3, repeat: Infinity }}
-            className="inline-block text-4xl mb-3">🔄</motion.div>
+            className="inline-block text-4xl mb-3" role="img" aria-label="Converter icon">🔄</motion.div>
           <h1 className="text-3xl sm:text-4xl font-bold mb-1">
             <span className="bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] bg-clip-text text-transparent">Omega X</span> Converter
           </h1>
-          <p className="text-sm opacity-60 max-w-md mx-auto">{cats.length} categories · {cats.reduce((a, c) => a + c.un.length, 0)}+ units · Zero backend</p>
+          <p className="text-sm opacity-60 max-w-md mx-auto">{cats.length} categories · {cats.reduce((a, c) => a + c.un.length, 0)}+ units · Zero backend · Free for everyone</p>
           <div className="flex gap-2 justify-center mt-3 text-xs opacity-40 flex-wrap">
             <span>⚡ {cats.reduce((a, c) => a + c.un.length, 0)}+ units</span>
             <span>🌐 {visitors.toLocaleString()} users</span>
@@ -122,21 +122,27 @@ export default function Home({ mode = 'pro' }: Props) {
         </div>
 
         {/* Feature Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-          {displayFeatures.map((f, i) => (
-            <motion.button key={f.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }} whileHover={{ y: -3 }}
-              onClick={() => navigate(mode === 'trader' && (f.label === 'Currency' || f.label === 'Crypto') ? `/${f.label.toLowerCase()}` : '/converter')}
-              className="glass rounded-2xl p-4 text-left hover:shadow-lg transition-all interact-lift">
-              <div className="text-2xl mb-2">{f.icon}</div>
-              <div className="font-semibold text-sm">{f.label}</div>
-              <div className="text-xs opacity-50 mt-0.5">{f.desc}</div>
-            </motion.button>
-          ))}
-        </div>
+        <section aria-labelledby="feature-heading">
+          <h2 id="feature-heading" className="sr-only">Conversion Features</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {displayFeatures.map((f, i) => (
+              <motion.button key={f.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }} whileHover={{ y: -3 }}
+                onClick={() => navigate(mode === 'trader' && (f.label === 'Currency' || f.label === 'Crypto') ? `/${f.label.toLowerCase()}` : '/converter')}
+                className="glass rounded-2xl p-4 text-left hover:shadow-lg transition-all interact-lift"
+                aria-label={`${f.label}: ${f.desc}`}>
+                <div className="text-2xl mb-2" role="img" aria-hidden="true">{f.icon}</div>
+                <div className="font-semibold text-sm">{f.label}</div>
+                <div className="text-xs opacity-50 mt-0.5">{f.desc}</div>
+              </motion.button>
+            ))}
+          </div>
+        </section>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-3 text-center">
+        <section aria-labelledby="stats-heading">
+          <h2 id="stats-heading" className="sr-only">Platform Statistics</h2>
+          <div className="grid grid-cols-4 gap-3 text-center">
           {[
             { n: cats.length, l: 'Categories' },
             { n: cats.reduce((a, c) => a + c.un.length, 0), l: 'Units' },
@@ -148,22 +154,23 @@ export default function Home({ mode = 'pro' }: Props) {
               <div className="text-xl font-bold">{s.n}</div>
               <div className="text-xs opacity-50">{s.l}</div>
             </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </section>
 
         {/* Quick tips */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass rounded-2xl p-3 text-xs opacity-50 space-y-1">
-          <div className="font-semibold mb-1">💡 Tips</div>
+        <section aria-labelledby="tips-heading" className="glass rounded-2xl p-3 text-xs opacity-50 space-y-1">
+          <h2 id="tips-heading" className="font-semibold mb-1">💡 Tips</h2>
           <p>• Press <kbd className="px-1 rounded bg-[var(--border)]">⌘K</kbd> for command palette</p>
           <p>• Try "5 km in miles" or "(5m + 20cm) × 2" in the converter</p>
           {mode === 'pro' && <p>• Click ⛓ for cross-category conversion chains (Energy → Cost)</p>}
           {mode === 'pro' && <p>• Use 📋 Batch mode to convert multiple values at once</p>}
           <p>• Click 🎯 in the header for Focus Mode</p>
-        </motion.div>
+        </section>
 
-        <div className="text-center text-xs opacity-30 py-4">
+        <footer className="text-center text-xs opacity-30 py-4">
           NumanX Omega X · NumanX Studios · Frontend-Only · PWA · Press ⌘K for commands
-        </div>
+        </footer>
       </div>
     </div>
   )

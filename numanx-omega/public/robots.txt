@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://numanx-omega.netlify.app/sitemap.xml
+
+# Disallow admin-like paths
+Disallow: /_redirects
+Disallow: /icons/
