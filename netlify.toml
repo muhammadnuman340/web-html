@@ -7,12 +7,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# React Router (SPA) — all routes serve index.html
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 # Ensure sitemap and robots are served from root
 [[headers]]
   for = "/sitemap.xml"
