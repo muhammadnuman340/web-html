@@ -14,4 +14,21 @@
   <url><loc>https://numanx-omega.netlify.app/custom-units</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-omega.netlify.app/help</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-omega.netlify.app/health</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/length</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/mass</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/temperature</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/currency</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/crypto</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/area</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/volume</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/speed</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/time</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/energy</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/pressure</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/power</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/force</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/data</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/fuel</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/angle</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/convert/frequency</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
 </urlset>

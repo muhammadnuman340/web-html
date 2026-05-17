@@ -94,7 +94,7 @@ export default function Categories() {
             key={cat.id}
             cat={cat}
             index={i}
-            onClick={() => navigate('/converter?cat=' + cat.id)}
+            onClick={() => navigate('/convert/' + cat.id)}
           />
         ))}
       </div>

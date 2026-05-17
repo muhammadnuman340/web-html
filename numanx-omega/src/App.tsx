@@ -32,6 +32,7 @@ const History = lazy(() => import('./pages/History'))
 const Settings = lazy(() => import('./pages/Settings'))
 const CustomUnits = lazy(() => import('./pages/CustomUnits'))
 const Help = lazy(() => import('./pages/Help'))
+const CategoryLanding = lazy(() => import('./pages/CategoryLanding'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -202,6 +203,7 @@ function AppContent() {
                       <Route path="/" element={<Home mode={mode} />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/categories" element={<Categories />} />
+                      <Route path="/convert/:category" element={<CategoryLanding />} />
                       <Route path="/converter" element={<ConverterPage mode={mode} />} />
                       <Route path="/currency" element={<Currency />} />
                       <Route path="/crypto" element={<Crypto />} />
