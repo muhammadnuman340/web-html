@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMonetization } from '../../hooks/useMonetization'
 import { openPaddleCheckout } from '../../engine/paddle'
+import { useToast } from '../../hooks/useToast'
 
 export default function UpgradePrompt() {
   const { upgradePrompt, clearUpgrade, setPro } = useMonetization()
   const [upgrading, setUpgrading] = useState(false)
+  const { addToast } = useToast()
 
   const handleUpgrade = async () => {
     setUpgrading(true)
@@ -13,6 +15,7 @@ export default function UpgradePrompt() {
     setUpgrading(false)
     if (paid) {
       setPro(true)
+      addToast('🚀 Welcome to Omega X Pro! All features unlocked.', 'success', '🚀')
       clearUpgrade()
     }
   }

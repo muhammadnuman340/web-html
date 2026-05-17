@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useMonetization } from '../../hooks/useMonetization'
 import { openPaddleCheckout } from '../../engine/paddle'
+import { useToast } from '../../hooks/useToast'
 
 export default function ProBadge() {
   const { isPro, setProSettingsOpen, setPro } = useMonetization()
   const [loading, setLoading] = useState(false)
+  const { addToast } = useToast()
 
   const handleClick = async () => {
     if (isPro) { setProSettingsOpen(true); return }
@@ -13,6 +15,7 @@ export default function ProBadge() {
     setLoading(false)
     if (paid) {
       setPro(true)
+      addToast('🚀 Welcome to Omega X Pro! All features unlocked.', 'success', '🚀')
     }
   }
 
@@ -31,7 +34,7 @@ export default function ProBadge() {
       ) : (
         <span>{isPro ? '🚀' : '🔒'}</span>
       )}
-      <span>{loading ? 'Loading...' : isPro ? 'Pro' : 'Upgrade'}</span>
+      <span>{loading ? 'Opening...' : isPro ? 'Pro' : 'Upgrade'}</span>
     </button>
   )
 }

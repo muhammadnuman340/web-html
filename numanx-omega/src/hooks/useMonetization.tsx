@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import { ensurePaddle, onCheckoutCompleted } from '../engine/paddle'
-import { useToast } from './useToast'
 
 interface MonetizationContextType {
   isPro: boolean
@@ -19,24 +18,22 @@ const MonetizationContext = createContext<MonetizationContextType>({
 
 export function useMonetization() { return useContext(MonetizationContext) }
 
-function activatePro(addToast: (msg: string, type: string, icon: string) => void) {
+function persistPro() {
   localStorage.setItem('omega_pro_user', 'true')
   document.body.classList.add('omega-pro-active')
   document.body.classList.remove('omega-free-active')
-  addToast('🚀 Welcome to Omega X Pro! All features unlocked.', 'success', '🚀')
 }
 
 export function MonetizationProvider({ children }: { children: ReactNode }) {
   const [isPro, setProState] = useState(() => localStorage.getItem('omega_pro_user') === 'true')
   const [upgradePrompt, setUpgradePrompt] = useState<{ feature: string; description: string } | null>(null)
   const [proSettingsOpen, setProSettingsOpen] = useState(false)
-  const { addToast } = useToast()
 
   // Init: check URL params for ?payment=success (Paddle redirect fallback)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('payment') === 'success') {
-      activatePro(addToast)
+      persistPro()
       setProState(true)
       window.history.replaceState({}, document.title, window.location.pathname)
     }
@@ -44,7 +41,7 @@ export function MonetizationProvider({ children }: { children: ReactNode }) {
     ensurePaddle()
     // Listen for checkout completed events from the Paddle overlay
     onCheckoutCompleted(() => {
-      activatePro(addToast)
+      persistPro()
       setProState(true)
     })
   }, [])

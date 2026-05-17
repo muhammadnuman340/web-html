@@ -5,49 +5,77 @@ const PRICE_ID =
 const PADDLE_ENV = import.meta.env.VITE_PADDLE_ENV ?? 'sandbox'
 
 let _ready = false
+let _initPromise: Promise<boolean> | null = null
 let _onCompleted: (() => void) | null = null
 
 export function onCheckoutCompleted(fn: () => void) {
   _onCompleted = fn
 }
 
-function initPaddle(): boolean {
+/**
+ * Initialize Paddle SDK.
+ * Paddle.Initialize() is async in v3 — MUST be awaited before Checkout.open().
+ * Environment is passed in Initialize options (Paddle.Environment.set does NOT exist in v3).
+ */
+async function initPaddle(): Promise<boolean> {
   if (!window.Paddle) return false
-  try { window.Paddle.Environment?.set?.(PADDLE_ENV) } catch {}
-  window.Paddle.Initialize({ token: PADDLE_TOKEN })
-  return true
+  try {
+    await window.Paddle.Initialize({
+      token: PADDLE_TOKEN,
+      environment: PADDLE_ENV === 'live' ? 'production' : 'sandbox',
+    })
+    return true
+  } catch (err) {
+    console.error('[Paddle] Initialize failed:', err)
+    return false
+  }
 }
 
 function loadScript(): Promise<boolean> {
   return new Promise(resolve => {
     if (document.getElementById('paddle-checkout-sdk')) {
-      resolve(initPaddle())
+      initPaddle().then(resolve)
       return
     }
     const script = document.createElement('script')
     script.id = 'paddle-checkout-sdk'
     script.src = 'https://cdn.paddle.com/paddle/v3/paddle.js'
     script.async = true
-    script.onload = () => { _ready = initPaddle(); resolve(_ready) }
-    script.onerror = () => { _ready = false; resolve(false) }
+    script.onload = () => {
+      initPaddle().then(ok => { _ready = ok; resolve(ok) })
+    }
+    script.onerror = () => {
+      _ready = false
+      console.error('[Paddle] Script failed to load (ad-blocker?):', script.src)
+      resolve(false)
+    }
     document.head.appendChild(script)
   })
 }
 
 export async function ensurePaddle(): Promise<boolean> {
   if (_ready) return true
-  if (window.Paddle && initPaddle()) { _ready = true; return true }
-  return loadScript()
+  if (_initPromise) return _initPromise
+
+  if (window.Paddle) {
+    _initPromise = initPaddle()
+    const ok = await _initPromise
+    _ready = ok
+    return ok
+  }
+
+  _initPromise = loadScript()
+  const ok = await _initPromise
+  _ready = ok
+  return ok
 }
 
 export function isPaddleReady() { return _ready }
 
 /**
  * Opens Paddle Checkout overlay. Returns true if the user completed payment.
- * Uses eventCallback to detect checkout.completed in real-time,
- * with successUrl redirect as fallback.
- *
- * NEVER falls back to free activation — user must go through Paddle.
+ * Uses eventCallback to detect checkout.completed in real-time.
+ * Falls back to ?payment=success URL param detection on page load.
  */
 export async function openPaddleCheckout(): Promise<boolean> {
   if (!await ensurePaddle()) {
@@ -62,30 +90,46 @@ export async function openPaddleCheckout(): Promise<boolean> {
   }
 
   return new Promise(resolve => {
+    let settled = false
     const cleanup = () => {
+      settled = true
       window.removeEventListener('beforeunload', onUnload)
     }
-    const onUnload = () => resolve(false)
+    const onUnload = () => { if (!settled) { cleanup(); resolve(false) } }
+    // Safety timeout: resolve false after 5 min so the promise doesn't hang forever
+    const timeout = setTimeout(() => {
+      if (!settled) { cleanup(); resolve(false) }
+    }, 300_000)
 
     window.addEventListener('beforeunload', onUnload)
 
-    window.Paddle.Checkout.open({
-      items: [{ priceId: PRICE_ID, quantity: 1 }],
-      settings: {
-        displayMode: 'overlay',
-        theme: 'dark',
-      },
-      eventCallback: (event: any) => {
-        if (event.name === 'checkout.completed') {
-          cleanup()
-          _onCompleted?.()
-          resolve(true)
-        }
-        if (event.name === 'checkout.closed') {
-          cleanup()
-          resolve(false)
-        }
-      },
-    })
+    try {
+      window.Paddle.Checkout.open({
+        items: [{ priceId: PRICE_ID, quantity: 1 }],
+        settings: {
+          displayMode: 'overlay',
+          theme: 'dark',
+        },
+        eventCallback: (event: any) => {
+          if (event.name === 'checkout.completed') {
+            clearTimeout(timeout)
+            cleanup()
+            _onCompleted?.()
+            resolve(true)
+          }
+          if (event.name === 'checkout.closed' && !settled) {
+            clearTimeout(timeout)
+            cleanup()
+            resolve(false)
+          }
+        },
+      })
+    } catch (err) {
+      clearTimeout(timeout)
+      cleanup()
+      console.error('[Paddle] Checkout.open threw:', err)
+      alert('Failed to open payment window. Please try again or contact support.')
+      resolve(false)
+    }
   })
 }
