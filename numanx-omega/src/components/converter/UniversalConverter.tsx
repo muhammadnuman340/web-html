@@ -523,7 +523,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {formula && <div className="text-xs text-center opacity-60 italic">{formula}</div>}
 
       {/* AdSense */}
-      <AdSense slot="1234567891" format="horizontal" />
+      <AdSense slot="4648257834" format="auto" />
 
       {/* Visual context — real-world comparison */}
       {visualRef && (
