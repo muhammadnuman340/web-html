@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import ThemeCustomizer from '../components/widgets/ThemeCustomizer'
-import { useMonetization } from '../hooks/useMonetization'
 
 export default function Settings() {
   const [theme, setThemeState] = useState(() => localStorage.getItem('uc_theme_class') || '')
@@ -62,34 +61,7 @@ export default function Settings() {
           </div>
         </div>
 
-        <ProActivation />
       </motion.div>
-    </div>
-  )
-}
-
-function ProActivation() {
-  const { isPro, setPro } = useMonetization()
-  const [show, setShow] = useState(false)
-  const isDev = localStorage.getItem('dev_mode') === 'true'
-  if (!isDev) return null
-
-  return (
-    <div>
-      <button onClick={() => setShow(!show)} className="text-[9px] opacity-20 hover:opacity-100 transition-opacity">
-        {show ? '▼' : '▶'} Developer (dev_mode)
-      </button>
-      {show && (
-        <div className="mt-2 p-3 rounded-xl border border-dashed border-[var(--border)] space-y-2">
-          <div className="text-xs font-semibold">🧪 Pro Override</div>
-          <div className="text-[10px] opacity-50">Status: {isPro ? <span className="text-green-500">Active</span> : <span className="text-red-500/60">Free</span>}</div>
-          <button onClick={() => { setPro(!isPro); window.location.reload() }}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--primary)] text-white hover:shadow-lg transition-all">
-            {isPro ? '⬇ Deactivate Pro' : '🚀 Activate Pro'}
-          </button>
-          <div className="text-[8px] opacity-30">Only visible with localStorage.dev_mode=true — bypasses payment</div>
-        </div>
-      )}
     </div>
   )
 }

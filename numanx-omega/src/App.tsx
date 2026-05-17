@@ -14,11 +14,6 @@ import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
 import AmbientBackground from './components/ui/AmbientBackground'
 import JSONLD from './components/ui/JSONLD'
-import UpgradePrompt from './components/widgets/UpgradePrompt'
-import ProSettingsModal from './components/widgets/ProSettingsModal'
-import ProBadge from './components/widgets/ProBadge'
-import ActivateProButton from './components/widgets/ActivateProButton'
-import { MonetizationProvider } from './hooks/useMonetization'
 import { getAllCategories } from './engine/converter'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useGlobalShortcuts } from './hooks/useKeyboard'
@@ -124,12 +119,9 @@ function AppContent() {
   return (
     <>
       <JSONLD />
-      <UpgradePrompt />
-      <ProSettingsModal />
       <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
       <ShortcutsPanel open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
       <FloatingTools />
-      <ActivateProButton />
       {aiAssistantOpen && <AIAssistant onClose={() => setAiAssistantOpen(false)} />}
       <OnboardingTour />
       <InstallPWA />
@@ -184,10 +176,8 @@ function AppContent() {
                 )}
               </div>
 
-              {/* Minimal actions */}
-              <div className="flex items-center gap-1">
-                <ProBadge />
-              </div>
+              {/* Empty spacer — header kept minimal */}
+              <div className="flex items-center gap-1" />
             </div>
           </header>
 
@@ -262,9 +252,7 @@ export default function App() {
     <ErrorBoundary>
       <BrowserRouter>
         <ToastProvider>
-          <MonetizationProvider>
-            <AppContent />
-          </MonetizationProvider>
+          <AppContent />
         </ToastProvider>
       </BrowserRouter>
     </ErrorBoundary>

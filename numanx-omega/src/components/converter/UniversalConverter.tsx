@@ -11,7 +11,6 @@ import type { AppMode } from '../widgets/ModeSwitcher'
 import { useToast } from '../../hooks/useToast'
 import { useClipboardDetection } from '../../hooks/useClipboard'
 import { findVisualContext } from '../../engine/visualContext'
-import { useMonetization } from '../../hooks/useMonetization'
 
 interface Props {
   category?: string
@@ -201,7 +200,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   }
 
   const { addToast } = useToast()
-  const { isPro, showUpgrade } = useMonetization()
   const { suggestion: clipSuggestion, checkClipboard, clear: clearClip } = useClipboardDetection()
   const explanations = getExplanations(catId)
   const quickValues = mode === 'fast' ? [] : [0.001, 0.01, 0.1, 1, 10, 100, 1000, 1e6]
@@ -309,21 +307,14 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* Chain selector (when chain mode is off) */}
       {mode !== 'fast' && !chainMode && (
         <div className="flex gap-1 overflow-x-auto">
-          <button onClick={() => {
-              if (!isPro) { showUpgrade('⛓ Conversion Chains', 'Chain multiple conversions together — turn Energy→Cost, Speed→Distance, or Fuel→Cost in one click. Pro users get unlimited chains with full step-by-step breakdowns.'); return }
-              autoSuggestChain()
-            }}
+          <button onClick={() => autoSuggestChain()}
             className="px-2.5 py-1 rounded-lg text-[10px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1">
             ⛓ Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
-            {!isPro && <span className="ml-1 inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-500 border border-orange-500/30">🔒 Pro</span>}
           </button>
           {chains.map(chain => (
-            <button key={chain.id} onClick={() => {
-                if (!isPro) { showUpgrade('⛓ ' + chain.label + ' Chain', 'Connect category conversions for multi-step results like Energy→Cost or Speed→Distance. Pro users get unlimited chains with full step-by-step breakdowns.'); return }
-                setActiveChain(chain.id); setChainMode(true)
-              }}
+            <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
               className="px-2.5 py-1 rounded-lg text-[10px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all">
-              {chain.icon} {chain.label} {!isPro && <span className="ml-1 inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-500 border border-orange-500/30">🔒 Pro</span>}
+              {chain.icon} {chain.label}
             </button>
           ))}
         </div>
@@ -427,12 +418,9 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showExplanation ? 'bg-[var(--accent)] text-white' : 'glass'}`}>
                 {mode === 'scientist' ? '🔬' : '📖'}
               </button>
-              <button onClick={() => {
-                  if (!isPro) { showUpgrade('📋 Batch Mode', 'Process multiple values at once with batch conversion. Upgrade to Pro for unlimited batch size.'); return }
-                  setBatchMode(!batchMode)
-                }}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode && isPro ? 'bg-[var(--primary)] text-white' : 'glass'}`}>
-                📋 Batch {!isPro && <span className="ml-1 inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-500 border border-orange-500/30">🔒 Pro</span>}
+              <button onClick={() => setBatchMode(!batchMode)}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode ? 'bg-[var(--primary)] text-white' : 'glass'}`}>
+                📋 Batch
               </button>
             </>
           )}

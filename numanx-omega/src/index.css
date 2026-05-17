@@ -767,13 +767,4 @@ kbd {
   opacity: 0.3;
 }
 
-/* Pro user — hide all ads */
-body.omega-pro-active .omega-ad-wrapper,
-body.omega-pro-active #carbonads {
-  display: none !important;
-}
-
-/* Pro badge glow animation for active Pro users */
-body.omega-pro-active [data-pro-badge="true"] {
-  animation: glow 2s ease-in-out infinite;
-}
+/* Ads hidden by default (monetization removed) */

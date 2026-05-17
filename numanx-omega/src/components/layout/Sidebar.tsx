@@ -1,9 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
-import AdContainer from '../widgets/AdContainer'
-import ProBadge from '../widgets/ProBadge'
-import InstallPWAIcon from '../widgets/InstallPWAIcon'
 import SmartSuggestions from '../widgets/SmartSuggestions'
 import ModeSwitcher, { MODES } from '../widgets/ModeSwitcher'
 import type { AppMode } from '../widgets/ModeSwitcher'
@@ -124,13 +121,6 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           <SmartSuggestions visible={true} onApplyPair={onApplyPair} />
         </div>
 
-        {/* Bottom actions */}
-        <div className="flex items-center gap-2 px-3 mt-4">
-          <ProBadge />
-          <InstallPWAIcon />
-        </div>
-
-        <AdContainer position="sidebar" />
         <div className="mt-auto pt-4 text-center text-xs opacity-40">
           NumanX Studios © 2026
         </div>
