@@ -6,22 +6,14 @@ const PADDLE_ENV = import.meta.env.VITE_PADDLE_ENV ?? 'sandbox'
 
 let _ready = false
 let _initPromise: Promise<boolean> | null = null
+let _lastSdkBlocked = false
 let _onCompleted: (() => void) | null = null
 
 export function onCheckoutCompleted(fn: () => void) {
   _onCompleted = fn
 }
 
-/** Direct checkout URL — works even when Paddle.js SDK is blocked by ad-blockers */
-function getDirectCheckoutUrl(): string {
-  const base = PADDLE_ENV === 'live'
-    ? 'https://checkout.paddle.com'
-    : 'https://sandbox-checkout.paddle.com'
-  const successUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/?payment=success`
-    : '/?payment=success'
-  return `${base}/price/${PRICE_ID}/checkout?successUrl=${encodeURIComponent(successUrl)}`
-}
+export function wasSdkBlocked() { return _lastSdkBlocked }
 
 async function initPaddle(): Promise<boolean> {
   if (!window.Paddle) return false
@@ -37,26 +29,40 @@ async function initPaddle(): Promise<boolean> {
   }
 }
 
+let _loadCount = 0
+
 function loadScript(): Promise<boolean> {
   return new Promise(resolve => {
-    if (document.getElementById('paddle-checkout-sdk')) {
-      initPaddle().then(resolve)
-      return
+    const existing = document.getElementById('paddle-checkout-sdk')
+    if (existing) {
+      existing.remove() // Remove stale script tag so we can retry
     }
     const script = document.createElement('script')
     script.id = 'paddle-checkout-sdk'
-    script.src = 'https://cdn.paddle.com/paddle/v3/paddle.js'
+    // Try alternate CDN on retry in case main one is blocked
+    script.src = _loadCount > 1
+      ? 'https://cdn.jsdelivr.net/npm/@paddle/paddle-js@latest/dist/paddle.js'
+      : 'https://cdn.paddle.com/paddle/v3/paddle.js'
     script.async = true
     script.onload = () => {
       initPaddle().then(ok => { _ready = ok; resolve(ok) })
     }
     script.onerror = () => {
       _ready = false
-      console.warn('[Paddle] Script blocked by browser/ad-blocker:', script.src)
+      _lastSdkBlocked = true
+      console.warn('[Paddle] Script blocked (attempt ' + (_loadCount + 1) + '):', script.src)
       resolve(false)
     }
     document.head.appendChild(script)
   })
+}
+
+function resetPaddleState() {
+  _ready = false
+  _initPromise = null
+  _lastSdkBlocked = false
+  const existing = document.getElementById('paddle-checkout-sdk')
+  if (existing) existing.remove()
 }
 
 export async function ensurePaddle(): Promise<boolean> {
@@ -70,6 +76,7 @@ export async function ensurePaddle(): Promise<boolean> {
     return ok
   }
 
+  _loadCount++
   _initPromise = loadScript()
   const ok = await _initPromise
   _ready = ok
@@ -78,34 +85,25 @@ export async function ensurePaddle(): Promise<boolean> {
 
 export function isPaddleReady() { return _ready }
 
+export async function retryPaddle(): Promise<boolean> {
+  resetPaddleState()
+  _loadCount = 0
+  return ensurePaddle()
+}
+
 /**
- * Opens Paddle Checkout. Two paths:
- * 1. SDK loaded → open overlay with event callback (normal flow)
- * 2. SDK blocked → open direct checkout URL in new tab (ad-blocker fallback)
- *
- * In fallback mode, activation happens via ?payment=success URL param
- * when Paddle redirects back after payment.
+ * Opens Paddle Checkout overlay.
+ * Paddle v3 REQUIRES the SDK — there's no direct hosted checkout URL in v3.
+ * If the SDK is blocked, returns false and the caller shows a retry UI.
  */
 export async function openPaddleCheckout(): Promise<boolean> {
   const sdkLoaded = await ensurePaddle()
 
   if (!sdkLoaded) {
-    // SDK blocked — use direct URL fallback
-    const url = getDirectCheckoutUrl()
-    try { window.open(url, '_blank') } catch {}
-    alert(
-      '⚠️  Paddle Checkout\n\n' +
-      'The payment window couldn\'t open automatically (ad-blocker or firewall).\n\n' +
-      'Please complete your purchase in the new tab that just opened.\n' +
-      'If it didn\'t open, click this link:\n\n' +
-      url + '\n\n' +
-      'After payment, you\'ll be redirected back and Pro will activate automatically.'
-    )
-    // Can't detect result from new tab — relies on ?payment=success redirect
+    // SDK blocked — cannot proceed in v3. Caller must show retry UI.
     return false
   }
 
-  // SDK loaded — use overlay with event callback
   return new Promise(resolve => {
     let settled = false
     const cleanup = () => {
@@ -141,16 +139,6 @@ export async function openPaddleCheckout(): Promise<boolean> {
       clearTimeout(timeout)
       cleanup()
       console.error('[Paddle] Checkout.open threw:', err)
-      // Fallback: open direct URL in new tab
-      const url = getDirectCheckoutUrl()
-      try { window.open(url, '_blank') } catch {}
-      alert(
-        '⚠️  Paddle Checkout\n\n' +
-        'The payment window encountered an error.\n\n' +
-        'Please complete your purchase at this link:\n\n' +
-        url + '\n\n' +
-        'After payment, you\'ll be redirected back and Pro will activate automatically.'
-      )
       resolve(false)
     }
   })
