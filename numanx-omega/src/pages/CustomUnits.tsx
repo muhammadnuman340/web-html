@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, getCategory } from '../engine/converter'
 import { addCustomUnit } from '../engine/converter'
 import { useToast } from '../hooks/useToast'
@@ -73,6 +74,7 @@ export default function CustomUnits() {
       animate={{ opacity: 1 }}
       className="space-y-4"
     >
+      <SEOHead title="Custom Unit Creator — Define Your Own Units" description="Create custom conversion units with your own symbols and conversion rates. Perfect for specialized industries, niche measurements, and personal use." path="/custom-units" />
       <div className="page-header">
         <h2 className="text-lg font-bold">⚒️ Custom Unit Creator</h2>
         <p className="text-xs opacity-40 mt-1">Define your own units and conversion factors</p>

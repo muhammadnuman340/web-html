@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import SEOHead from '../components/ui/SEOHead'
 import { fmt } from '../utils/numbers'
 import { getHistory, clearHistory, removeHistoryEntry, searchHistory, exportAllData } from '../services/storage'
 
@@ -53,6 +54,7 @@ export default function History() {
 
   return (
     <div className="space-y-4">
+      <SEOHead title="History — Conversion Timeline" description="View your unit conversion history with day-wise grouping, search, and export. Track all your past conversions with replay and JSON export." path="/history" />
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h2 className="text-lg font-bold">📜 History Timeline</h2>
         <div className="flex gap-1">

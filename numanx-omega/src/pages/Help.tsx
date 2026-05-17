@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import SEOHead from '../components/ui/SEOHead'
 
 export default function Help() {
   const shortcuts = [
@@ -16,6 +17,7 @@ export default function Help() {
 
   return (
     <div className="space-y-4">
+      <SEOHead title="Help Center — Shortcuts, Features & Tips" description="Learn how to use Omega X Converter with keyboard shortcuts, feature overview, theme guide, and pro tips for getting the most out of the platform." path="/help" />
       <h2 className="text-lg font-bold">ℹ️ Help Center</h2>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-4 space-y-4">

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import SEOHead from '../components/ui/SEOHead'
 
 export default function FormulaExplorer() {
   const navigate = useNavigate()
@@ -36,6 +37,7 @@ export default function FormulaExplorer() {
 
   return (
     <div className="space-y-4">
+      <SEOHead title="Formula Explorer — Physics, Chemistry & Engineering Formulas" description="Explore conversion formulas for physics, chemistry, engineering, and health. Includes step-by-step explanations and real-world examples." path="/formulas" />
       <h2 className="text-lg font-bold">📐 Formula Explorer</h2>
       <p className="text-xs opacity-60">Physics · Chemistry · Engineering · Health</p>
 

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt } from '../utils/numbers'
 import { useTilt } from '../hooks/useTilt'
@@ -78,10 +79,10 @@ export default function Categories() {
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
+      <SEOHead title="All Conversion Categories — 30+ Unit Types" description="Browse all 30+ conversion categories from length and mass to currency and crypto. Each category includes multiple units with metric, imperial, and scientific options." path="/categories" />
       <motion.div
-        initial={{ opacity: 0, y: -10 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05 }}
         className="flex items-center justify-between"
       >
         <h2 className="text-lg font-bold page-header">📂 Category Wheel</h2>

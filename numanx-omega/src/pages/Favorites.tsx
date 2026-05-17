@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import SEOHead from '../components/ui/SEOHead'
 import { groupFavorites, removeFavorite } from '../services/storage'
 
 export default function Favorites() {
@@ -36,6 +37,7 @@ export default function Favorites() {
 
   return (
     <div className="space-y-4">
+      <SEOHead title="Favorites — Saved Conversions" description="Access your saved unit conversions organized by category. Star your most-used conversions for quick access." path="/favorites" />
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold">⭐ Personal Library</h2>
         <div className="flex gap-1">

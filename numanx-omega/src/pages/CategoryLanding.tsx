@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
 import UniversalConverter from '../components/converter/UniversalConverter'
@@ -25,6 +26,7 @@ export default function CategoryLanding() {
 
   return (
     <article className="space-y-6">
+      <SEOHead title={content.title} description={content.metaDesc} path={`/convert/${category}`} />
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="text-xs opacity-50 flex gap-1">
         <Link to="/" className="hover:text-[var(--primary)]">Home</Link>

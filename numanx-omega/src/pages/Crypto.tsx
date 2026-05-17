@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import GlassCard from '../components/ui/GlassCard'
+import SEOHead from '../components/ui/SEOHead'
 import { fmt } from '../utils/numbers'
 
 const CRYPTO_LIST = [
@@ -45,6 +46,7 @@ export default function Crypto() {
 
   return (
     <div className="space-y-4">
+      <SEOHead title="Crypto Converter — Bitcoin, Ethereum & Altcoin Prices" description="Free live cryptocurrency converter. Real-time prices for Bitcoin, Ethereum, Solana, XRP, Dogecoin, and 50+ cryptocurrencies via CoinGecko." path="/crypto" />
       <h2 className="text-lg font-bold">₿ Crypto Converter</h2>
       {loading && <div className="text-sm opacity-60 animate-pulse">Loading prices from CoinGecko...</div>}
 

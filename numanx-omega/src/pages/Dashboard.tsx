@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import SEOHead from '../components/ui/SEOHead'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import CurrencyCenter from '../components/charts/CurrencyCenter'
 import CryptoConverter from '../pages/Crypto'
@@ -39,6 +40,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-4">
+      <SEOHead title="Dashboard — Analytics & Insights" description="View your conversion analytics, usage statistics, trending categories, and activity heatmap. Track your most-used conversions and productivity." path="/dashboard" />
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold">📊 OS Control Center</h2>
         <div className="flex items-center gap-2 text-xs">

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import SEOHead from '../components/ui/SEOHead'
 import ThemeCustomizer from '../components/widgets/ThemeCustomizer'
 
 export default function Settings() {
@@ -28,6 +29,7 @@ export default function Settings() {
 
   return (
     <article className="space-y-4">
+      <SEOHead title="Settings — Theme, Precision & Data" description="Customize your converter experience: choose from 5 themes (AMOLED, Light, Cyberpunk, RGB, Holographic), adjust precision, and manage your data." path="/settings" />
       <header>
         <h2 className="text-lg font-bold">⚙️ Settings</h2>
       </header>
