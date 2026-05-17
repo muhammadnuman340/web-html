@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
-import { ensurePaddle } from '../engine/paddle'
+import { ensurePaddle, onCheckoutCompleted } from '../engine/paddle'
+import { useToast } from './useToast'
 
 interface MonetizationContextType {
   isPro: boolean
@@ -12,28 +13,40 @@ interface MonetizationContextType {
 }
 
 const MonetizationContext = createContext<MonetizationContextType>({
-  isPro: false, setPro: () => {}, showUpgrade: () => {}, upgradePrompt: null, clearUpgrade: () => {}, proSettingsOpen: false, setProSettingsOpen: () => {},
+  isPro: false, setPro: () => {}, showUpgrade: () => {}, upgradePrompt: null,
+  clearUpgrade: () => {}, proSettingsOpen: false, setProSettingsOpen: () => {},
 })
 
 export function useMonetization() { return useContext(MonetizationContext) }
+
+function activatePro(addToast: (msg: string, type: string, icon: string) => void) {
+  localStorage.setItem('omega_pro_user', 'true')
+  document.body.classList.add('omega-pro-active')
+  document.body.classList.remove('omega-free-active')
+  addToast('🚀 Welcome to Omega X Pro! All features unlocked.', 'success', '🚀')
+}
 
 export function MonetizationProvider({ children }: { children: ReactNode }) {
   const [isPro, setProState] = useState(() => localStorage.getItem('omega_pro_user') === 'true')
   const [upgradePrompt, setUpgradePrompt] = useState<{ feature: string; description: string } | null>(null)
   const [proSettingsOpen, setProSettingsOpen] = useState(false)
+  const { addToast } = useToast()
 
-  // Init: check URL params for /?payment=success
+  // Init: check URL params for ?payment=success (Paddle redirect fallback)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('payment') === 'success') {
-      localStorage.setItem('omega_pro_user', 'true')
+      activatePro(addToast)
       setProState(true)
       window.history.replaceState({}, document.title, window.location.pathname)
-      alert('🚀 Success! Welcome to Omega X Pro. All premium conversion features and chains are now unlocked.')
-      window.location.reload()
     }
     // Pre-load Paddle in background so it's ready on click
     ensurePaddle()
+    // Listen for checkout completed events from the Paddle overlay
+    onCheckoutCompleted(() => {
+      activatePro(addToast)
+      setProState(true)
+    })
   }, [])
 
   // Sync body class

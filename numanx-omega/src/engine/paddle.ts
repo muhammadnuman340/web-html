@@ -4,25 +4,14 @@ const PRICE_ID =
   import.meta.env.VITE_PADDLE_PRICE_ID ?? 'pri_01krpf7bkn6tnrwtzekf4f8b1t'
 const PADDLE_ENV = import.meta.env.VITE_PADDLE_ENV ?? 'sandbox'
 
-function successUrl(): string {
-  const configured = import.meta.env.VITE_PADDLE_SUCCESS_URL?.trim()
-  if (configured) return configured
-  if (typeof window !== 'undefined') {
-    return `${window.location.origin}/?payment=success`
-  }
-  return '/?payment=success'
-}
-
 let _ready = false
-const _listeners: Array<(ok: boolean) => void> = []
+let _onCompleted: (() => void) | null = null
 
-function notify(ok: boolean) {
-  _ready = ok
-  _listeners.forEach(fn => fn(ok))
-  _listeners.length = 0
+export function onCheckoutCompleted(fn: () => void) {
+  _onCompleted = fn
 }
 
-function initPaddle() {
+function initPaddle(): boolean {
   if (!window.Paddle) return false
   try { window.Paddle.Environment?.set?.(PADDLE_ENV) } catch {}
   window.Paddle.Initialize({ token: PADDLE_TOKEN })
@@ -39,8 +28,8 @@ function loadScript(): Promise<boolean> {
     script.id = 'paddle-checkout-sdk'
     script.src = 'https://cdn.paddle.com/paddle/v3/paddle.js'
     script.async = true
-    script.onload = () => { notify(initPaddle()); resolve(_ready) }
-    script.onerror = () => { notify(false); resolve(false) }
+    script.onload = () => { _ready = initPaddle(); resolve(_ready) }
+    script.onerror = () => { _ready = false; resolve(false) }
     document.head.appendChild(script)
   })
 }
@@ -51,14 +40,16 @@ export async function ensurePaddle(): Promise<boolean> {
   return loadScript()
 }
 
-export function onPaddleReady(fn: (ok: boolean) => void) {
-  if (_ready) { fn(true); return }
-  _listeners.push(fn)
-}
-
 export function isPaddleReady() { return _ready }
 
-export async function openPaddleCheckout() {
+/**
+ * Opens Paddle Checkout overlay. Returns true if the user completed payment.
+ * Uses eventCallback to detect checkout.completed in real-time,
+ * with successUrl redirect as fallback.
+ *
+ * NEVER falls back to free activation — user must go through Paddle.
+ */
+export async function openPaddleCheckout(): Promise<boolean> {
   if (!await ensurePaddle()) {
     alert(
       'Paddle is being blocked by your browser (ad-blocker or firewall).\n\n' +
@@ -67,10 +58,34 @@ export async function openPaddleCheckout() {
       '• uBlock Origin: Click icon → Power button off\n' +
       '• Then refresh the page and try again.'
     )
-    return
+    return false
   }
-  window.Paddle.Checkout.open({
-    items: [{ priceId: PRICE_ID, quantity: 1 }],
-    settings: { successUrl: successUrl() },
+
+  return new Promise(resolve => {
+    const cleanup = () => {
+      window.removeEventListener('beforeunload', onUnload)
+    }
+    const onUnload = () => resolve(false)
+
+    window.addEventListener('beforeunload', onUnload)
+
+    window.Paddle.Checkout.open({
+      items: [{ priceId: PRICE_ID, quantity: 1 }],
+      settings: {
+        displayMode: 'overlay',
+        theme: 'dark',
+      },
+      eventCallback: (event: any) => {
+        if (event.name === 'checkout.completed') {
+          cleanup()
+          _onCompleted?.()
+          resolve(true)
+        }
+        if (event.name === 'checkout.closed') {
+          cleanup()
+          resolve(false)
+        }
+      },
+    })
   })
 }

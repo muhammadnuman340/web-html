@@ -2,11 +2,18 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useMonetization } from '../../hooks/useMonetization'
 
+/**
+ * Hidden dev-mode toggle.
+ * Only appears when localStorage.dev_mode === 'true'.
+ * NEVER ships as a user-facing activation path.
+ */
 export default function ActivateProButton() {
   const { isPro, setPro } = useMonetization()
   const [showConfirm, setShowConfirm] = useState(false)
 
-  if (isPro) return null
+  // Only show in dev mode — hidden from all users by default
+  const isDev = localStorage.getItem('dev_mode') === 'true'
+  if (!isDev || isPro) return null
 
   const activate = () => {
     setShowConfirm(true)
@@ -21,7 +28,7 @@ export default function ActivateProButton() {
       <button
         onClick={() => setShowConfirm(true)}
         className="fixed bottom-24 right-4 z-40 w-12 h-12 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] text-white shadow-xl shadow-[var(--primary)]/40 flex items-center justify-center text-lg hover:scale-110 transition-transform active:scale-90"
-        data-tooltip="Unlock Pro"
+        data-tooltip="DEV: Unlock Pro"
         data-tooltip-bottom
       >
         🚀
@@ -45,13 +52,13 @@ export default function ActivateProButton() {
               className="relative glass rounded-2xl p-8 max-w-xs w-full text-center shadow-2xl border border-[var(--border)]"
             >
               <div className="text-5xl mb-4 animate-bounce">🚀</div>
-              <h3 className="text-lg font-bold mb-1">Omega X Pro</h3>
-              <p className="text-xs opacity-60 mb-4">Activate all premium features?</p>
+              <h3 className="text-lg font-bold mb-1">DEV: Activate Pro</h3>
+              <p className="text-xs opacity-60 mb-4">Developer bypass — only visible with dev_mode=true</p>
               <button
                 onClick={activate}
                 className="w-full py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white shadow-lg hover:shadow-[var(--primary)]/30 transition-all"
               >
-                ⚡ Activate Now
+                ⚡ Activate (DEV)
               </button>
               <button
                 onClick={() => setShowConfirm(false)}

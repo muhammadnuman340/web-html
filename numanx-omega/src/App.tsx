@@ -3,9 +3,7 @@ import { BrowserRouter, Routes, Route, useNavigate, NavLink, useLocation } from 
 import { motion, AnimatePresence } from 'framer-motion'
 import Sidebar from './components/layout/Sidebar'
 import CommandBar from './components/ui/CommandBar'
-import ModeSwitcher, { MODES } from './components/widgets/ModeSwitcher'
 import type { AppMode } from './components/widgets/ModeSwitcher'
-import SmartSuggestions from './components/widgets/SmartSuggestions'
 import FloatingTools from './components/widgets/FloatingTools'
 import AIAssistant from './components/widgets/AIAssistant'
 import ErrorBoundary from './components/ui/ErrorBoundary'
@@ -22,7 +20,6 @@ import ProBadge from './components/widgets/ProBadge'
 import ActivateProButton from './components/widgets/ActivateProButton'
 import { MonetizationProvider } from './hooks/useMonetization'
 import { getAllCategories } from './engine/converter'
-import { analytics } from './engine/analytics'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useGlobalShortcuts } from './hooks/useKeyboard'
 import { useSwipe } from './hooks/useSwipe'
@@ -47,7 +44,6 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<{ cat: string; label: string; unit: boolean }[]>([])
   const [mode, setMode] = useLocalStorage<AppMode>('uc_mode', 'pro')
-  const [showSuggestions, setShowSuggestions] = useState(true)
   const [focusMode, setFocusMode] = useState(false)
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
@@ -117,8 +113,6 @@ function AppContent() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
-  const isProOrScientist = mode === 'pro' || mode === 'scientist'
-
   const navItems = [
     { path: '/', icon: '🏠', label: 'Home' },
     { path: '/dashboard', icon: '📊', label: 'Dashboard' },
@@ -142,25 +136,26 @@ function AppContent() {
 
       <AmbientBackground />
       <div className="flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} mode={mode} onModeChange={setMode} onApplyPair={handleApplyPair} />
 
         <div className="flex-1 flex flex-col min-h-screen">
-          {/* Top bar */}
+          {/* Minimal header: Logo, Search, Pro badge, Hamburger */}
           <header className="sticky top-0 z-30 glass border-b border-[var(--border)]">
-            <div className="flex items-center gap-2 px-4 py-1.5 max-w-4xl mx-auto">
+            <div className="flex items-center gap-2 px-4 py-2 max-w-4xl mx-auto">
               <button onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-1.5 rounded-xl hover:bg-[var(--border)] interact-lift" aria-label="Open sidebar">☰</button>
+                className="p-1.5 rounded-xl hover:bg-[var(--border)] interact-lift" aria-label="Open sidebar">☰</button>
 
               {/* Studio logo */}
-              <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] flex items-center justify-center text-white text-[8px] font-bold shadow-sm shadow-[var(--primary)]/30">NX</div>
-                <div className="flex items-center gap-1">
+                <div className="hidden sm:flex items-center gap-1">
                   <span className="font-semibold text-xs">NumanX</span>
                   <span className="px-1 py-0.5 rounded text-[6px] font-semibold uppercase tracking-widest bg-[var(--primary)]/20 text-[var(--primary)]">Studio</span>
                 </div>
               </div>
 
-              <div className="flex-1 relative max-w-sm">
+              {/* Search bar */}
+              <div className="flex-1 relative max-w-xs">
                 <input
                   type="text" value={searchQuery}
                   onChange={e => handleSearch(e.target.value)}
@@ -189,85 +184,16 @@ function AppContent() {
                 )}
               </div>
 
-              {/* Mode selector — compact dropdown */}
-              <div className="relative group">
-                <button className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-medium glass hover:bg-[var(--border)] transition-all interact-lift">
-                  {MODES.find(m => m.id === mode)?.icon} {MODES.find(m => m.id === mode)?.label}
-                  <span className="text-[8px] opacity-40 ml-0.5">▼</span>
-                </button>
-                <div className="absolute top-full right-0 mt-1 glass rounded-xl overflow-hidden shadow-xl z-50 min-w-[160px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 origin-top-right">
-                  {MODES.filter(m => m.id !== mode).map(m => (
-                    <button key={m.id} onClick={() => setMode(m.id)}
-                      className="w-full text-left px-3 py-2 text-xs hover:bg-[var(--border)] transition-colors flex items-center gap-2">
-                      <span>{m.icon}</span>
-                      <span>{m.label}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Utility buttons */}
+              {/* Minimal actions */}
               <div className="flex items-center gap-1">
                 <ProBadge />
-                <button onClick={() => setShowSuggestions(s => !s)}
-                  className={`p-1.5 rounded-xl hover:bg-[var(--border)] text-xs transition-all ${isProOrScientist ? '' : 'distraction'}`}
-                  aria-label="Toggle suggestions">
-                  {mode === 'scientist' ? '🔬' : '🤖'}
-                </button>
-                <button onClick={() => setFocusMode(!focusMode)}
-                  className={`p-1.5 rounded-xl text-xs transition-all interact-lift ${focusMode ? 'bg-[var(--primary)] text-white' : 'hover:bg-[var(--border)]'}`}
-                  aria-label="Toggle focus mode">
-                  🎯
-                </button>
-                <button onClick={() => setAiAssistantOpen(!aiAssistantOpen)}
-                  className={`p-1.5 rounded-xl text-xs transition-all interact-lift ${aiAssistantOpen ? 'bg-[var(--primary)] text-white animate-glow' : 'hover:bg-[var(--border)]'}`}
-                  aria-label="Toggle AI assistant">
-                  🧠
-                </button>
-                <a href="/help" className="p-1.5 rounded-xl hover:bg-[var(--border)] text-xs distraction" aria-label="Help">ℹ️</a>
               </div>
             </div>
-            {/* Gradient accent bar */}
-            <div className="h-0.5 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-transparent w-full opacity-60" />
           </header>
 
-          {/* Smart suggestions bar */}
-          {isProOrScientist && (
-            <div className="px-4 max-w-4xl mx-auto w-full pt-2 distraction">
-              <SmartSuggestions visible={showSuggestions} onApplyPair={handleApplyPair} />
-            </div>
-          )}
-
-          {/* Mode indicator — compact one-liner */}
-          <div className="px-4 max-w-4xl mx-auto w-full pt-1">
-            <div className="flex items-center gap-2 text-[9px] opacity-30">
-              <span className={`px-1.5 py-0.5 rounded ${
-                mode === 'student' ? 'bg-green-500/10 text-green-500' :
-                mode === 'engineer' ? 'bg-blue-500/10 text-blue-500' :
-                mode === 'scientist' ? 'bg-purple-500/10 text-purple-500' :
-                mode === 'trader' ? 'bg-yellow-500/10 text-yellow-500' :
-                mode === 'fast' ? 'bg-orange-500/10 text-orange-500' :
-                'bg-[var(--primary)]/10 text-[var(--primary)]'
-              }`}>
-                {mode === 'student' && '🎓 Student'}
-                {mode === 'engineer' && '🔧 Engineer'}
-                {mode === 'scientist' && '🔬 Scientist'}
-                {mode === 'trader' && '💹 Trader'}
-                {mode === 'fast' && '⚡ Fast'}
-                {mode === 'pro' && '🚀 Pro'}
-              </span>
-              <span className="opacity-20">·</span>
-              <span className="opacity-30">
-                {mode === 'student' && 'Explanations ON · simplified UI'}
-                {mode === 'engineer' && 'Precision focus'}
-                {mode === 'scientist' && 'Constants + advanced math'}
-                {mode === 'trader' && 'Currency + crypto focus'}
-                {mode === 'fast' && 'Minimal instant mode'}
-                {mode === 'pro' && 'Full analytics + AI'}
-              </span>
-              {focusMode && <span className="px-1.5 py-0.5 rounded bg-red-500/10 text-red-500 animate-pulse">🎯 Focus</span>}
-              {aiAssistantOpen && <span className="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-500">🧠 AI</span>}
-            </div>
+          {/* Install PWA banner */}
+          <div className="max-w-4xl mx-auto w-full pt-1">
+            <InstallPWA />
           </div>
 
           {/* Main content with Suspense fallback */}

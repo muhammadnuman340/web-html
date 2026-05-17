@@ -47,6 +47,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null)
   const [pulseKey, setPulseKey] = useState(0)
   const [copyBtnIcon, setCopyBtnIcon] = useState('📋')
+  const [showAllCats, setShowAllCats] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const resultRef = useRef<HTMLDivElement>(null)
 
@@ -258,26 +259,50 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
-      {/* Category selector with fade overlay */}
-      <div className="relative sticky top-0 z-10 py-1 -mx-1 px-1" style={{ background: 'var(--bg)' }}>
-        <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-none">
-          <div className="absolute right-0 top-0 bottom-1 w-8 pointer-events-none z-10"
-            style={{ background: 'linear-gradient(to right, transparent, var(--bg))' }} />
-        {cats.map(c => (
-          <motion.button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
-            whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.95 }}
-            className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-300 font-medium interact-lift ${
-              catId === c.id
-                ? 'text-white shadow-lg scale-105'
-                : 'glass opacity-60 hover:opacity-100'
-            }`}
-            style={catId === c.id ? {
-              background: `linear-gradient(135deg, ${c.cl || '#6c63ff'}, ${c.cl || '#6c63ff'}cc)`,
-              boxShadow: `0 4px 16px ${c.cl || '#6c63ff'}50`
-            } : {}}>
-            {c.ic} {c.lb}
-          </motion.button>
-        ))}
+      {/* Responsive category selector */}
+      <div className="relative">
+        {/* Mobile: collapsible icon grid */}
+        <div className="lg:hidden">
+          <div className="grid grid-cols-3 gap-1.5">
+            {cats.slice(0, showAllCats ? cats.length : 9).map(c => (
+              <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+                className={`px-2 py-2.5 rounded-xl text-xs font-medium transition-all flex flex-col items-center gap-1 interact-lift ${
+                  catId === c.id
+                    ? 'text-white shadow-md'
+                    : 'glass opacity-60 hover:opacity-100'
+                }`}
+                style={catId === c.id ? {
+                  background: `linear-gradient(135deg, ${c.cl || '#6c63ff'}, ${c.cl || '#6c63ff'}cc)`,
+                  boxShadow: `0 4px 12px ${c.cl || '#6c63ff'}40`
+                } : {}}>
+                <span className="text-lg">{c.ic}</span>
+                <span className="truncate w-full text-center leading-tight">{c.lb}</span>
+              </button>
+            ))}
+          </div>
+          {cats.length > 9 && (
+            <button onClick={() => setShowAllCats(!showAllCats)}
+              className="w-full mt-1.5 px-3 py-1.5 rounded-xl glass text-xs text-center hover:bg-[var(--border)] transition-all interact-lift font-medium">
+              {showAllCats ? '▲ Show Less' : `▼ See All Categories (${cats.length})`}
+            </button>
+          )}
+        </div>
+        {/* Desktop: wrap-around pill grid */}
+        <div className="hidden lg:flex flex-wrap gap-1">
+          {cats.map(c => (
+            <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+              className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-300 font-medium interact-lift ${
+                catId === c.id
+                  ? 'text-white shadow-lg scale-105'
+                  : 'glass opacity-60 hover:opacity-100'
+              }`}
+              style={catId === c.id ? {
+                background: `linear-gradient(135deg, ${c.cl || '#6c63ff'}, ${c.cl || '#6c63ff'}cc)`,
+                boxShadow: `0 4px 16px ${c.cl || '#6c63ff'}50`
+              } : {}}>
+              {c.ic} {c.lb}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -285,20 +310,20 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {mode !== 'fast' && !chainMode && (
         <div className="flex gap-1 overflow-x-auto">
           <button onClick={() => {
-              if (!isPro) { showUpgrade('⛓ Conversion Chains', 'Chain multiple conversions together (Energy→Cost, Speed→Distance). Upgrade to Pro for unlimited chains.'); return }
+              if (!isPro) { showUpgrade('⛓ Conversion Chains', 'Chain multiple conversions together — turn Energy→Cost, Speed→Distance, or Fuel→Cost in one click. Pro users get unlimited chains with full step-by-step breakdowns.'); return }
               autoSuggestChain()
             }}
             className="px-2.5 py-1 rounded-lg text-[10px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1">
             ⛓ Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
-            {!isPro && <span className="text-[8px] opacity-50 ml-0.5">🔒</span>}
+            {!isPro && <span className="ml-1 inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-500 border border-orange-500/30">🔒 Pro</span>}
           </button>
           {chains.map(chain => (
             <button key={chain.id} onClick={() => {
-                if (!isPro) { showUpgrade('⛓ ' + chain.label + ' Chain', 'Connect category conversions for multi-step results. Upgrade to Pro.'); return }
+                if (!isPro) { showUpgrade('⛓ ' + chain.label + ' Chain', 'Connect category conversions for multi-step results like Energy→Cost or Speed→Distance. Pro users get unlimited chains with full step-by-step breakdowns.'); return }
                 setActiveChain(chain.id); setChainMode(true)
               }}
               className="px-2.5 py-1 rounded-lg text-[10px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all">
-              {chain.icon} {chain.label} {!isPro && <span className="text-[8px] opacity-50">🔒</span>}
+              {chain.icon} {chain.label} {!isPro && <span className="ml-1 inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-500 border border-orange-500/30">🔒 Pro</span>}
             </button>
           ))}
         </div>
@@ -339,6 +364,21 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
+      {/* Breadcrumb */}
+      {fromUnit && toUnit && (() => {
+        const fu = cat?.un.find(u => u.id === fromUnit)
+        const tu = cat?.un.find(u => u.id === toUnit)
+        return (
+          <div className="flex items-center gap-1.5 text-[10px] opacity-50 mb-1">
+            <span className="font-medium text-[var(--primary)]">{cat?.lb}</span>
+            <span className="opacity-30">➔</span>
+            <span>{fu?.lb || fromUnit}</span>
+            <span className="opacity-30">to</span>
+            <span className="font-medium">{tu?.lb || toUnit}</span>
+          </div>
+        )
+      })()}
+
       {/* Converter UI */}
       <div className="space-y-3">
         <div className="flex gap-2 items-center">
@@ -346,7 +386,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <input ref={inputRef} type="text" value={fromVal}
                 onChange={e => setFromVal(e.target.value)}
                 placeholder={mode === 'student' ? 'Type: "5 km in miles" or "(5km + 200m)"' : '0'}
-                className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-lg font-medium outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all"
+                className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow),0_0_30px_var(--glow)] transition-all placeholder:text-base"
                 onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
                 onDrop={e => { e.preventDefault(); const v = e.dataTransfer.getData('text/plain'); if (v) setFromVal(v) }}
               />
@@ -392,7 +432,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   setBatchMode(!batchMode)
                 }}
                 className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode && isPro ? 'bg-[var(--primary)] text-white' : 'glass'}`}>
-                📋 Batch {!isPro && <span className="text-[8px] opacity-50 ml-0.5">🔒</span>}
+                📋 Batch {!isPro && <span className="ml-1 inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[7px] font-bold uppercase tracking-wider bg-orange-500/20 text-orange-500 border border-orange-500/30">🔒 Pro</span>}
               </button>
             </>
           )}

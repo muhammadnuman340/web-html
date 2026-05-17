@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function InstallPWA() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [show, setShow] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -19,29 +20,26 @@ export default function InstallPWA() {
     if (!deferredPrompt) return
     deferredPrompt.prompt()
     const result = await deferredPrompt.userChoice
-    if (result.outcome === 'accepted') setShow(false)
+    if (result.outcome === 'accepted') { setShow(false); setDismissed(true) }
     setDeferredPrompt(null)
   }
 
   return (
     <AnimatePresence>
-      {show && (
+      {show && !dismissed && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-20 lg:bottom-6 left-4 right-4 z-50 max-w-sm mx-auto"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="overflow-hidden"
         >
-          <div className="glass rounded-2xl p-4 flex items-center gap-3 shadow-2xl border border-[var(--border)]">
-            <span className="text-3xl">📲</span>
-            <div className="flex-1">
-              <div className="text-sm font-semibold">Install NX-COS</div>
-              <div className="text-[11px] opacity-50">Works offline, like a real OS</div>
-            </div>
+          <div className="glass rounded-xl px-4 py-2.5 flex items-center gap-3 border border-[var(--border)] mx-4 max-w-4xl mx-auto mb-2">
+            <span className="text-lg">📲</span>
+            <span className="text-xs flex-1">Install <strong>NX-COS</strong> for offline access</span>
             <button onClick={install}
-              className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs interact-lift">Install</button>
-            <button onClick={() => setShow(false)}
-              className="text-xs opacity-30 hover:opacity-100 p-1">✕</button>
+              className="px-3 py-1 rounded-lg text-xs bg-[var(--primary)] text-white interact-lift font-medium">Install</button>
+            <button onClick={() => setDismissed(true)}
+              className="text-xs opacity-30 hover:opacity-100 p-1 interact-lift">✕</button>
           </div>
         </motion.div>
       )}

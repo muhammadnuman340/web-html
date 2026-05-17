@@ -71,11 +71,13 @@ export default function Settings() {
 function ProActivation() {
   const { isPro, setPro } = useMonetization()
   const [show, setShow] = useState(false)
+  const isDev = localStorage.getItem('dev_mode') === 'true'
+  if (!isDev) return null
 
   return (
     <div>
       <button onClick={() => setShow(!show)} className="text-[9px] opacity-20 hover:opacity-100 transition-opacity">
-        {show ? '▼' : '▶'} Developer
+        {show ? '▼' : '▶'} Developer (dev_mode)
       </button>
       {show && (
         <div className="mt-2 p-3 rounded-xl border border-dashed border-[var(--border)] space-y-2">
@@ -85,7 +87,7 @@ function ProActivation() {
             className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[var(--primary)] text-white hover:shadow-lg transition-all">
             {isPro ? '⬇ Deactivate Pro' : '🚀 Activate Pro'}
           </button>
-          <div className="text-[8px] opacity-30">Bypasses payment — sets localStorage directly</div>
+          <div className="text-[8px] opacity-30">Only visible with localStorage.dev_mode=true — bypasses payment</div>
         </div>
       )}
     </div>
