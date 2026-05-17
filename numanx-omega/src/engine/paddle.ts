@@ -12,11 +12,17 @@ export function onCheckoutCompleted(fn: () => void) {
   _onCompleted = fn
 }
 
-/**
- * Initialize Paddle SDK.
- * Paddle.Initialize() is async in v3 — MUST be awaited before Checkout.open().
- * Environment is passed in Initialize options (Paddle.Environment.set does NOT exist in v3).
- */
+/** Direct checkout URL — works even when Paddle.js SDK is blocked by ad-blockers */
+function getDirectCheckoutUrl(): string {
+  const base = PADDLE_ENV === 'live'
+    ? 'https://checkout.paddle.com'
+    : 'https://sandbox-checkout.paddle.com'
+  const successUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/?payment=success`
+    : '/?payment=success'
+  return `${base}/price/${PRICE_ID}/checkout?successUrl=${encodeURIComponent(successUrl)}`
+}
+
 async function initPaddle(): Promise<boolean> {
   if (!window.Paddle) return false
   try {
@@ -46,7 +52,7 @@ function loadScript(): Promise<boolean> {
     }
     script.onerror = () => {
       _ready = false
-      console.error('[Paddle] Script failed to load (ad-blocker?):', script.src)
+      console.warn('[Paddle] Script blocked by browser/ad-blocker:', script.src)
       resolve(false)
     }
     document.head.appendChild(script)
@@ -73,22 +79,33 @@ export async function ensurePaddle(): Promise<boolean> {
 export function isPaddleReady() { return _ready }
 
 /**
- * Opens Paddle Checkout overlay. Returns true if the user completed payment.
- * Uses eventCallback to detect checkout.completed in real-time.
- * Falls back to ?payment=success URL param detection on page load.
+ * Opens Paddle Checkout. Two paths:
+ * 1. SDK loaded → open overlay with event callback (normal flow)
+ * 2. SDK blocked → open direct checkout URL in new tab (ad-blocker fallback)
+ *
+ * In fallback mode, activation happens via ?payment=success URL param
+ * when Paddle redirects back after payment.
  */
 export async function openPaddleCheckout(): Promise<boolean> {
-  if (!await ensurePaddle()) {
+  const sdkLoaded = await ensurePaddle()
+
+  if (!sdkLoaded) {
+    // SDK blocked — use direct URL fallback
+    const url = getDirectCheckoutUrl()
+    try { window.open(url, '_blank') } catch {}
     alert(
-      'Paddle is being blocked by your browser (ad-blocker or firewall).\n\n' +
-      'Please disable your ad-blocker for this site, or try:\n' +
-      '• Brave Shield: Click the lion icon → Shields Down\n' +
-      '• uBlock Origin: Click icon → Power button off\n' +
-      '• Then refresh the page and try again.'
+      '⚠️  Paddle Checkout\n\n' +
+      'The payment window couldn\'t open automatically (ad-blocker or firewall).\n\n' +
+      'Please complete your purchase in the new tab that just opened.\n' +
+      'If it didn\'t open, click this link:\n\n' +
+      url + '\n\n' +
+      'After payment, you\'ll be redirected back and Pro will activate automatically.'
     )
+    // Can't detect result from new tab — relies on ?payment=success redirect
     return false
   }
 
+  // SDK loaded — use overlay with event callback
   return new Promise(resolve => {
     let settled = false
     const cleanup = () => {
@@ -96,7 +113,6 @@ export async function openPaddleCheckout(): Promise<boolean> {
       window.removeEventListener('beforeunload', onUnload)
     }
     const onUnload = () => { if (!settled) { cleanup(); resolve(false) } }
-    // Safety timeout: resolve false after 5 min so the promise doesn't hang forever
     const timeout = setTimeout(() => {
       if (!settled) { cleanup(); resolve(false) }
     }, 300_000)
@@ -106,10 +122,7 @@ export async function openPaddleCheckout(): Promise<boolean> {
     try {
       window.Paddle.Checkout.open({
         items: [{ priceId: PRICE_ID, quantity: 1 }],
-        settings: {
-          displayMode: 'overlay',
-          theme: 'dark',
-        },
+        settings: { displayMode: 'overlay', theme: 'dark' },
         eventCallback: (event: any) => {
           if (event.name === 'checkout.completed') {
             clearTimeout(timeout)
@@ -128,7 +141,16 @@ export async function openPaddleCheckout(): Promise<boolean> {
       clearTimeout(timeout)
       cleanup()
       console.error('[Paddle] Checkout.open threw:', err)
-      alert('Failed to open payment window. Please try again or contact support.')
+      // Fallback: open direct URL in new tab
+      const url = getDirectCheckoutUrl()
+      try { window.open(url, '_blank') } catch {}
+      alert(
+        '⚠️  Paddle Checkout\n\n' +
+        'The payment window encountered an error.\n\n' +
+        'Please complete your purchase at this link:\n\n' +
+        url + '\n\n' +
+        'After payment, you\'ll be redirected back and Pro will activate automatically.'
+      )
       resolve(false)
     }
   })
