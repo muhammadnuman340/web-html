@@ -10,6 +10,7 @@ import { executeBatch, parseCSV, generateSequence, batchStats } from '../../engi
 import type { AppMode } from '../widgets/ModeSwitcher'
 import { useToast } from '../../hooks/useToast'
 import { useClipboardDetection } from '../../hooks/useClipboard'
+import AdSense from '../widgets/AdSense'
 import { findVisualContext } from '../../engine/visualContext'
 
 interface Props {
@@ -520,6 +521,9 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       </div>
 
       {formula && <div className="text-xs text-center opacity-60 italic">{formula}</div>}
+
+      {/* AdSense */}
+      <AdSense slot="1234567891" format="horizontal" />
 
       {/* Visual context — real-world comparison */}
       {visualRef && (
