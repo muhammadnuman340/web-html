@@ -522,9 +522,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {formula && <div className="text-xs text-center opacity-60 italic">{formula}</div>}
 
-      {/* AdSense */}
-      <AdSense slot="4648257834" format="auto" />
-
       {/* Visual context — real-world comparison */}
       {visualRef && (
         <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
@@ -566,6 +563,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
         </motion.div>
       )}
+
+      {/* In-article fluid ad */}
+      <div className="flex justify-center my-2">
+        <AdSense slot="2750064252" format="fluid" layout="in-article" />
+      </div>
 
       {/* Batch mode */}
       {batchMode && (
@@ -668,9 +670,9 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
-      {/* Bottom banner ad */}
-      <div className="flex justify-center pt-2">
-        <AdSense slot="4063145925" width={320} height={50} />
+      {/* Matched content / autorelaxed */}
+      <div className="pt-4">
+        <AdSense slot="9262290267" format="autorelaxed" />
       </div>
     </div>
   )
