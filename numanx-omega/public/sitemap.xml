@@ -31,4 +31,7 @@
   <url><loc>https://numanx-omega.netlify.app/convert/fuel</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://numanx-omega.netlify.app/convert/angle</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://numanx-omega.netlify.app/convert/frequency</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/guides/lbs-to-kg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/guides/meters-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 </urlset>

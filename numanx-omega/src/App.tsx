@@ -33,6 +33,7 @@ const Settings = lazy(() => import('./pages/Settings'))
 const CustomUnits = lazy(() => import('./pages/CustomUnits'))
 const Help = lazy(() => import('./pages/Help'))
 const CategoryLanding = lazy(() => import('./pages/CategoryLanding'))
+const GuidePage = lazy(() => import('./pages/GuidePage'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -215,6 +216,7 @@ function AppContent() {
                     <Route path="/help" element={<Help />} />
                       <Route path="/calculator" element={<ConverterPage mode={mode} />} />
                       <Route path="/health" element={<Dashboard />} />
+                      <Route path="/guides/:slug" element={<GuidePage />} />
                     </Routes>
                   </motion.div>
                 </Suspense>

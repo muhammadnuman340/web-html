@@ -1,0 +1,172 @@
+export const guideContent: Record<string, {
+  title: string
+  metaDesc: string
+  h1: string
+  slug: string
+  intro: string
+  formula: string
+  table: { from: number; to: string; rounded: string }[]
+  steps: string[]
+  examples: string[]
+  faq: { q: string; a: string }[]
+  relatedGuides: { label: string; slug: string }[]
+  relatedCat: string
+}> = {
+  'lbs-to-kg': {
+    title: 'Pounds to Kilograms Converter — Convert lb to kg Instantly',
+    metaDesc: 'Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.',
+    h1: 'Pounds to Kilograms Converter (lb → kg)',
+    slug: 'lbs-to-kg',
+    intro: 'Converting pounds to kilograms is essential for fitness tracking, international travel, medical dosage calculations, and shipping. One pound equals exactly 0.45359237 kilograms. Our free converter handles the math instantly — type any value in pounds and get the exact kilogram equivalent with up to 12 decimal places of precision.',
+    formula: 'kg = lb × 0.45359237',
+    table: [
+      { from: 1, to: '0.45 kg', rounded: '0.5 kg' },
+      { from: 5, to: '2.27 kg', rounded: '2.5 kg' },
+      { from: 10, to: '4.54 kg', rounded: '5 kg' },
+      { from: 20, to: '9.07 kg', rounded: '9 kg' },
+      { from: 30, to: '13.61 kg', rounded: '14 kg' },
+      { from: 40, to: '18.14 kg', rounded: '18 kg' },
+      { from: 50, to: '22.68 kg', rounded: '23 kg' },
+      { from: 60, to: '27.22 kg', rounded: '27 kg' },
+      { from: 70, to: '31.75 kg', rounded: '32 kg' },
+      { from: 80, to: '36.29 kg', rounded: '36 kg' },
+      { from: 90, to: '40.82 kg', rounded: '41 kg' },
+      { from: 100, to: '45.36 kg', rounded: '45 kg' },
+      { from: 120, to: '54.43 kg', rounded: '54 kg' },
+      { from: 140, to: '63.50 kg', rounded: '64 kg' },
+      { from: 150, to: '68.04 kg', rounded: '68 kg' },
+      { from: 160, to: '72.57 kg', rounded: '73 kg' },
+      { from: 180, to: '81.65 kg', rounded: '82 kg' },
+      { from: 200, to: '90.72 kg', rounded: '91 kg' },
+      { from: 220, to: '99.79 kg', rounded: '100 kg' },
+      { from: 250, to: '113.40 kg', rounded: '113 kg' },
+      { from: 300, to: '136.08 kg', rounded: '136 kg' },
+    ],
+    steps: [
+      'Take the weight in pounds (lb)',
+      'Multiply by 0.45359237 (the conversion factor)',
+      'Round the result to your desired precision',
+      'Add the "kg" unit label',
+    ],
+    examples: [
+      '150 lb × 0.45359237 = 68.04 kg (a person weighing 150 lb weighs 68 kg)',
+      '10 lb × 0.45359237 = 4.54 kg (a 10 lb bag of flour is 4.54 kg)',
+      '1 lb × 0.45359237 = 0.45 kg (one pound is just under half a kilogram)',
+      '200 lb × 0.45359237 = 90.72 kg (an adult male weighing 200 lb is about 91 kg)',
+    ],
+    faq: [
+      { q: 'How do I convert pounds to kilograms in my head?', a: 'Divide pounds by 2.2 for a rough estimate. For example, 150 lb ÷ 2.2 ≈ 68 kg. For precise conversions, multiply by 0.45359237.' },
+      { q: 'What is the difference between lb and lbs?', a: 'Both are the same — "lb" is the singular abbreviation for pound (from Latin libra), and "lbs" is the plural form.' },
+      { q: 'Why do Americans use pounds instead of kilograms?', a: 'The US is one of three countries (along with Liberia and Myanmar) that still use the imperial system. Most of the world uses kilograms.' },
+      { q: 'How many kg is 1 pound?', a: 'One pound equals exactly 0.45359237 kilograms.' },
+    ],
+    relatedGuides: [
+      { label: 'Kilograms to Pounds Converter', slug: 'kg-to-lbs' },
+      { label: 'Celsius to Fahrenheit Converter', slug: 'celsius-to-fahrenheit' },
+      { label: 'Meters to Feet Converter', slug: 'meters-to-feet' },
+    ],
+    relatedCat: 'mass',
+  },
+  'celsius-to-fahrenheit': {
+    title: 'Celsius to Fahrenheit Converter — °C to °F Instantly',
+    metaDesc: 'Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40°C to 100°C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.',
+    h1: 'Celsius to Fahrenheit Converter (°C → °F)',
+    slug: 'celsius-to-fahrenheit',
+    intro: 'Converting Celsius to Fahrenheit is one of the most common temperature conversions used worldwide. Whether you are following a recipe from a European blog, checking weather forecasts, doing science homework, or traveling to the United States, knowing how to convert °C to °F is essential. The formula is simple: multiply by 9/5 and add 32.',
+    formula: '°F = (°C × 9/5) + 32',
+    table: [
+      { from: -40, to: '-40.0 °F', rounded: '-40 °F' },
+      { from: -20, to: '-4.0 °F', rounded: '-4 °F' },
+      { from: -10, to: '14.0 °F', rounded: '14 °F' },
+      { from: 0, to: '32.0 °F', rounded: '32 °F' },
+      { from: 10, to: '50.0 °F', rounded: '50 °F' },
+      { from: 15, to: '59.0 °F', rounded: '59 °F' },
+      { from: 20, to: '68.0 °F', rounded: '68 °F' },
+      { from: 22, to: '71.6 °F', rounded: '72 °F' },
+      { from: 25, to: '77.0 °F', rounded: '77 °F' },
+      { from: 30, to: '86.0 °F', rounded: '86 °F' },
+      { from: 32, to: '89.6 °F', rounded: '90 °F' },
+      { from: 35, to: '95.0 °F', rounded: '95 °F' },
+      { from: 37, to: '98.6 °F', rounded: '99 °F' },
+      { from: 40, to: '104.0 °F', rounded: '104 °F' },
+      { from: 50, to: '122.0 °F', rounded: '122 °F' },
+      { from: 60, to: '140.0 °F', rounded: '140 °F' },
+      { from: 80, to: '176.0 °F', rounded: '176 °F' },
+      { from: 100, to: '212.0 °F', rounded: '212 °F' },
+    ],
+    steps: [
+      'Take the temperature in Celsius (°C)',
+      'Multiply by 9 (numerator of 9/5)',
+      'Divide by 5 (denominator of 9/5)',
+      'Add 32 to the result',
+      'Add the "°F" unit label',
+    ],
+    examples: [
+      '25°C × 9/5 + 32 = 77°F (a warm summer day in Europe is 77°F)',
+      '0°C × 9/5 + 32 = 32°F (water freezes at 0°C or 32°F)',
+      '37°C × 9/5 + 32 = 98.6°F (normal human body temperature)',
+      '100°C × 9/5 + 32 = 212°F (water boils at 100°C or 212°F)',
+      '-40°C × 9/5 + 32 = -40°F (the only point where Celsius and Fahrenheit are equal)',
+    ],
+    faq: [
+      { q: 'What is the easiest way to convert Celsius to Fahrenheit?', a: 'Double the Celsius value and add 30 for a quick estimate. For example, 20°C × 2 + 30 = 70°F (real answer: 68°F). For precise math, use the formula °F = °C × 9/5 + 32.' },
+      { q: 'At what temperature are Celsius and Fahrenheit equal?', a: '-40°C = -40°F. This is the only temperature where both scales read the same value.' },
+      { q: 'What is 0°C in Fahrenheit?', a: '0°C (the freezing point of water) equals 32°F.' },
+      { q: 'What is normal body temperature in Fahrenheit?', a: 'Normal human body temperature is 37°C, which equals 98.6°F.' },
+    ],
+    relatedGuides: [
+      { label: 'Fahrenheit to Celsius Converter', slug: 'fahrenheit-to-celsius' },
+      { label: 'Pounds to Kilograms Converter', slug: 'lbs-to-kg' },
+      { label: 'Meters to Feet Converter', slug: 'meters-to-feet' },
+    ],
+    relatedCat: 'temperature',
+  },
+  'meters-to-feet': {
+    title: 'Meters to Feet Converter — Convert m to ft Instantly',
+    metaDesc: 'Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.',
+    h1: 'Meters to Feet Converter (m → ft)',
+    slug: 'meters-to-feet',
+    intro: 'Converting meters to feet is essential for construction, real estate, hiking, aviation, and understanding product dimensions. One meter equals approximately 3.28084 feet. Our converter handles any value — from millimeters to kilometers — with precision up to 12 decimal places. Type natural phrases like "5 meters in feet" and get instant results.',
+    formula: 'ft = m × 3.28084',
+    table: [
+      { from: 1, to: '3.28 ft', rounded: '3 ft 3 in' },
+      { from: 2, to: '6.56 ft', rounded: '6 ft 7 in' },
+      { from: 3, to: '9.84 ft', rounded: '9 ft 10 in' },
+      { from: 5, to: '16.40 ft', rounded: '16 ft 5 in' },
+      { from: 10, to: '32.81 ft', rounded: '32 ft 10 in' },
+      { from: 15, to: '49.21 ft', rounded: '49 ft 3 in' },
+      { from: 20, to: '65.62 ft', rounded: '65 ft 7 in' },
+      { from: 25, to: '82.02 ft', rounded: '82 ft 0 in' },
+      { from: 30, to: '98.43 ft', rounded: '98 ft 5 in' },
+      { from: 40, to: '131.23 ft', rounded: '131 ft 3 in' },
+      { from: 50, to: '164.04 ft', rounded: '164 ft 0 in' },
+      { from: 60, to: '196.85 ft', rounded: '196 ft 10 in' },
+      { from: 80, to: '262.47 ft', rounded: '262 ft 6 in' },
+      { from: 100, to: '328.08 ft', rounded: '328 ft 1 in' },
+    ],
+    steps: [
+      'Take the length in meters (m)',
+      'Multiply by 3.28084 (the conversion factor)',
+      'Round to your desired precision',
+      'Add the "ft" unit label',
+    ],
+    examples: [
+      '10 m × 3.28084 = 32.81 ft (a 10-meter room is about 33 feet long)',
+      '1.83 m × 3.28084 = 6.00 ft (a person who is 1.83 m tall is exactly 6 feet)',
+      '100 m × 3.28084 = 328.08 ft (a football field is about 100 meters)',
+      '0.3048 m × 3.28084 = 1.00 ft (one foot is exactly 0.3048 meters)',
+    ],
+    faq: [
+      { q: 'How do I convert meters to feet in my head?', a: 'Multiply meters by 3.3 for a quick estimate. For example, 10 m × 3.3 ≈ 33 ft (real answer: 32.81 ft).' },
+      { q: 'How many feet is 1 meter?', a: 'One meter equals approximately 3.28084 feet, or 3 feet 3.37 inches.' },
+      { q: 'What is the difference between a meter and a foot?', a: 'A meter is the base SI unit of length used in most countries. A foot is an imperial unit used mainly in the US. One meter = 3.28084 feet.' },
+      { q: 'How do I convert meters to feet and inches?', a: 'Multiply meters by 3.28084 to get decimal feet. Take the decimal part and multiply by 12 to get inches. For example: 1.83 m × 3.28084 = 6.003 ft = 6 ft 0.04 in.' },
+    ],
+    relatedGuides: [
+      { label: 'Feet to Meters Converter', slug: 'feet-to-meters' },
+      { label: 'Pounds to Kilograms Converter', slug: 'lbs-to-kg' },
+      { label: 'Celsius to Fahrenheit Converter', slug: 'celsius-to-fahrenheit' },
+    ],
+    relatedCat: 'length',
+  },
+}
