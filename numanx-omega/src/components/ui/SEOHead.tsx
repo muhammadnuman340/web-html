@@ -8,6 +8,12 @@ interface Props {
 
 const SITE = 'https://numanx-omega.netlify.app'
 
+const REGIONS = [
+  'en', 'x-default',
+  'en-US', 'en-GB', 'en-AU', 'en-CA', 'en-IN', 'en-NZ', 'en-ZA', 'en-IE',
+  'en-SG', 'en-PH', 'en-NG', 'en-KE', 'en-GH',
+]
+
 export default function SEOHead({ title, description, path = '' }: Props) {
   const url = `${SITE}${path}`
   return (
@@ -20,8 +26,9 @@ export default function SEOHead({ title, description, path = '' }: Props) {
       <meta name="twitter:title" content={`${title} | Omega X Converter`} />
       <meta name="twitter:description" content={description} />
       <link rel="canonical" href={url} />
-      <link rel="alternate" href={url} hrefLang="en" />
-      <link rel="alternate" href={url} hrefLang="x-default" />
+      {REGIONS.map(r => (
+        <link key={r} rel="alternate" href={url} hrefLang={r} />
+      ))}
     </Helmet>
   )
 }
