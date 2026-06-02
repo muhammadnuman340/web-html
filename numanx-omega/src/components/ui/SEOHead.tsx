@@ -20,6 +20,8 @@ export default function SEOHead({ title, description, path = '' }: Props) {
       <meta name="twitter:title" content={`${title} | Omega X Converter`} />
       <meta name="twitter:description" content={description} />
       <link rel="canonical" href={url} />
+      <link rel="alternate" href={url} hrefLang="en" />
+      <link rel="alternate" href={url} hrefLang="x-default" />
     </Helmet>
   )
 }
