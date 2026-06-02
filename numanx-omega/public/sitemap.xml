@@ -34,4 +34,7 @@
   <url><loc>https://numanx-omega.netlify.app/guides/lbs-to-kg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-omega.netlify.app/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-omega.netlify.app/guides/meters-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/guides/kg-to-lbs</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/guides/fahrenheit-to-celsius</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-omega.netlify.app/guides/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 </urlset>
