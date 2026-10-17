@@ -201,17 +201,17 @@ function AppContent() {
                   className="w-full pl-8 pr-16 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] transition-all focus:shadow-[0_0_0_3px_var(--glow)]"
                   aria-label="Search"
                 />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                  <kbd className="text-[8px] px-1 py-0.5 rounded border border-[var(--border)] opacity-30 font-mono">⌘K</kbd>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+                  <kbd className="text-[10px] px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card2)] text-[var(--text2)] opacity-85 font-mono">⌘K</kbd>
                   {searchQuery && (
                     <button onClick={() => { setSearchQuery(''); setSearchResults([]) }}
-                      className="w-4 h-4 rounded-full bg-[var(--text3)]/20 flex items-center justify-center text-[7px] opacity-40 hover:opacity-100 transition-opacity" aria-label="Clear search">
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-75 hover:opacity-100 transition-opacity" aria-label="Clear search">
                       ✕
                     </button>
                   )}
                 </div>
                 {searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 glass rounded-xl overflow-hidden shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox">
+                  <div className="absolute top-full left-0 right-0 mt-1 glass rounded-xl overflow-hidden shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" tabIndex={0} aria-label="Search suggestions">
                     {searchResults.map((r, i) => (
                       <button key={i} role="option"
                         onClick={() => { navigate(r.unit ? `/converter?cat=${r.cat}` : '/categories'); setSearchQuery('') }}

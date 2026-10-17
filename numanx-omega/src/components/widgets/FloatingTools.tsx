@@ -23,17 +23,19 @@ export default function FloatingTools() {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ type: 'spring', damping: 20 }}
-      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-2"
+      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3"
+      role="region"
+      aria-label="Quick tool shortcuts"
     >
       {tools.map(t => (
         <button
           key={t.label}
           onClick={() => navigate(t.path)}
-          className="relative w-10 h-10 rounded-xl glass flex items-center justify-center text-lg hover:scale-110 transition-transform group"
+          className="relative w-11 h-11 rounded-xl glass flex items-center justify-center text-lg hover:scale-110 transition-transform group"
           aria-label={t.label}
         >
           <span aria-hidden="true">{t.icon}</span>
-          <span className="absolute right-full mr-2 px-2 py-0.5 rounded-lg text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity bg-[var(--text)] text-[var(--bg)] pointer-events-none">
+          <span className="absolute right-full mr-2 px-2 py-0.5 rounded-lg text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity bg-[var(--text)] text-[var(--bg)] pointer-events-none">
             {t.label}
           </span>
         </button>

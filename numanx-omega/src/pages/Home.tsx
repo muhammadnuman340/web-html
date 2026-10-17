@@ -115,8 +115,8 @@ export default function Home({ mode = 'pro' }: Props) {
           <h1 className="text-3xl sm:text-4xl font-bold mb-2 leading-tight">
             <span className="gradient-horizontal bg-clip-text text-transparent">Omega X</span> Converter
           </h1>
-          <p className="text-sm opacity-60 max-w-md mx-auto">{cats.length} categories · {cats.reduce((a, c) => a + c.un.length, 0)}+ units · Zero backend · Free for everyone</p>
-          <div className="flex gap-2 justify-center mt-3 text-xs opacity-40 flex-wrap">
+          <p className="text-sm text-[var(--text2)] opacity-85 max-w-md mx-auto">{cats.length} categories · {cats.reduce((a, c) => a + c.un.length, 0)}+ units · Zero backend · Free for everyone</p>
+          <div className="flex gap-2 justify-center mt-3 text-xs text-[var(--text2)] opacity-80 flex-wrap">
             <span><span aria-hidden="true">⚡</span> {cats.reduce((a, c) => a + c.un.length, 0)}+ units</span>
             <span><span aria-hidden="true">🌐</span> {visitors.toLocaleString()} users</span>
             <span><span aria-hidden="true">📊</span> {summary.totalConversions} conversions today</span>
@@ -140,11 +140,11 @@ export default function Home({ mode = 'pro' }: Props) {
             className="glass-liquid rounded-2xl p-3 flex items-center gap-3">
             <span className="text-lg" aria-hidden="true">🤖</span>
             <div className="flex-1">
-              <div className="text-xs font-medium">Smart Suggestion</div>
-              <div className="text-xs opacity-60">Top: {summary.mostUsedCategory} · Frequent: {summary.mostUsedPair}</div>
+              <div className="text-xs font-medium text-[var(--text)]">Smart Suggestion</div>
+              <div className="text-xs text-[var(--text2)] opacity-85">Top: {summary.mostUsedCategory} · Frequent: {summary.mostUsedPair}</div>
             </div>
             <button onClick={() => navigate('/dashboard')}
-              className="px-3 py-1 rounded-lg text-xs bg-[var(--primary)] text-white interact-lift">View Insights</button>
+              className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary)] text-white shadow-sm hover:brightness-110 interact-lift">View Insights</button>
           </motion.div>
         )}
 
@@ -156,14 +156,14 @@ export default function Home({ mode = 'pro' }: Props) {
               className="glass-liquid rounded-2xl p-4 text-center hover:shadow-lg transition-all interact-lift">
               <div className="text-3xl mb-2" aria-hidden="true">💵</div>
               <div className="font-semibold text-sm">Currency</div>
-              <div className="text-xs opacity-50 mt-0.5">40+ live pairs</div>
+              <div className="text-xs text-[var(--text2)] opacity-80 mt-0.5">40+ live pairs</div>
             </motion.button>
             <motion.button initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
               onClick={() => navigate('/crypto')}
               className="glass-liquid rounded-2xl p-4 text-center hover:shadow-lg transition-all interact-lift">
-              <div className="text-3xl mb-2">₿</div>
+              <div className="text-3xl mb-2" aria-hidden="true">₿</div>
               <div className="font-semibold text-sm">Crypto</div>
-              <div className="text-xs opacity-50 mt-0.5">Live CoinGecko rates</div>
+              <div className="text-xs text-[var(--text2)] opacity-80 mt-0.5">Live CoinGecko rates</div>
             </motion.button>
           </div>
         )}

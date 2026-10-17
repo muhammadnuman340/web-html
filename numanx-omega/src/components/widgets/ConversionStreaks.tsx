@@ -57,7 +57,7 @@ export default function ConversionStreaks({ compact }: { compact?: boolean }) {
       <div className="flex items-center gap-2 text-xs">
         <span className={data.currentStreak >= 3 ? 'text-orange-500' : 'opacity-40'}>🔥</span>
         <span className="font-semibold">{data.currentStreak}</span>
-        <span className="opacity-30 text-[10px]">day streak</span>
+        <span className="text-xs text-[var(--text2)] opacity-80">day streak</span>
         {data.currentStreak > 0 && data.currentStreak >= data.longestStreak && data.currentStreak >= 3 && (
           <span className="px-1 py-0.5 rounded bg-orange-500/10 text-orange-500 text-[8px]">BEST</span>
         )}

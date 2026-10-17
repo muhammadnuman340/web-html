@@ -502,12 +502,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         const fu = cat?.un.find(u => u.id === fromUnit)
         const tu = cat?.un.find(u => u.id === toUnit)
         return (
-          <div className="flex items-center gap-1.5 text-[10px] opacity-50 mb-1">
-            <span className="font-medium text-[var(--primary)]">{cat?.lb}</span>
-            <span className="opacity-30">➔</span>
+          <div className="flex items-center gap-1.5 text-xs text-[var(--text2)] opacity-85 mb-1" aria-label="Conversion category and units">
+            <span className="font-semibold text-[var(--primary)]">{cat?.lb}</span>
+            <span aria-hidden="true" className="opacity-40">➔</span>
             <span>{fu?.lb || fromUnit}</span>
-            <span className="opacity-30">to</span>
-            <span className="font-medium">{tu?.lb || toUnit}</span>
+            <span aria-hidden="true" className="opacity-40">to</span>
+            <span className="font-semibold text-[var(--text)]">{tu?.lb || toUnit}</span>
           </div>
         )
       })()}
@@ -641,7 +641,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <button onClick={() => setShowExplanation(!showExplanation)}
                 aria-label={showExplanation ? 'Hide calculation steps' : 'Show calculation steps'}
                 aria-expanded={showExplanation}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showExplanation ? 'bg-[var(--accent)] text-white' : 'glass text-[var(--text)]'}`}>
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all interact-lift ${showExplanation ? 'bg-[var(--primary)] text-white shadow-md' : 'glass text-[var(--text)]'}`}>
                 <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
               </button>
               <button onClick={() => setBatchMode(!batchMode)}
@@ -774,7 +774,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       </div>
 
-      {formula && <div className="text-xs text-center opacity-60 italic">{formula}</div>}
+      {formula && <div className="text-xs text-center text-[var(--text2)] opacity-85 italic">{formula}</div>}
 
       {/* AI Learning Tip — Did you know? */}
       {learningTip && !showAIExplain && (
@@ -782,11 +782,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           className="flex items-start gap-2 px-3 py-2 rounded-xl glass border border-[var(--border)] text-xs">
           <span className="text-sm mt-0.5 shrink-0" aria-hidden="true">💡</span>
           <div>
-            <span className="font-semibold text-[11px]">{learningTip.title}</span>
-            <p className="opacity-60 mt-0.5">{learningTip.text}</p>
+            <span className="font-semibold text-xs text-[var(--text)]">{learningTip.title}</span>
+            <p className="text-[var(--text2)] opacity-85 mt-0.5">{learningTip.text}</p>
           </div>
           <button onClick={() => setLearningTip(null)}
-            className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100 shrink-0 ml-auto" aria-label="Dismiss tip">✕</button>
+            className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] shrink-0 ml-auto" aria-label="Dismiss tip">✕</button>
         </motion.div>
       )}
 
@@ -794,27 +794,27 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {showAIExplain && result !== null && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
           className="glass rounded-xl p-3 space-y-2 border-l-4" style={{ borderLeftColor: 'var(--primary)' }}>
-          <div className="flex items-center gap-1.5 text-xs font-semibold">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--text)]">
             <span aria-hidden="true">🤖</span> AI Explanation
           </div>
           <div className="text-xs space-y-1.5">
-            <p><span className="opacity-50">Conversion:</span> {fromVal} {fromUnit} = <strong>{fmtR(result)}</strong> {toUnit}</p>
-            {explanation && <p className="opacity-80">{explanation}</p>}
+            <p><span className="text-[var(--text2)] opacity-85">Conversion:</span> {fromVal} {fromUnit} = <strong>{fmtR(result)}</strong> {toUnit}</p>
+            {explanation && <p className="text-[var(--text)] opacity-90 leading-relaxed">{explanation}</p>}
             {steps.length > 0 && (
               <div className="pt-1 space-y-1">
-                <div className="text-[10px] opacity-40 uppercase tracking-wide">Steps</div>
+                <div className="text-[10px] text-[var(--text2)] opacity-85 uppercase tracking-wide">Steps</div>
                 {steps.map((s, i) => (
-                  <div key={i} className="flex items-center gap-2 text-[11px]">
-                    <span className="w-4 h-4 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-[7px] font-bold">{i + 1}</span>
-                    <span className="opacity-70 w-16 shrink-0">{s.label}</span>
-                    <span className="opacity-60">{s.detail}</span>
+                  <div key={i} className="flex items-center gap-2 text-xs">
+                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[9px] font-bold shrink-0">{i + 1}</span>
+                    <span className="text-[var(--text2)] opacity-85 w-24 shrink-0 font-medium">{s.label}</span>
+                    <span className="text-[var(--text)] opacity-90">{s.detail}</span>
                   </div>
                 ))}
               </div>
             )}
             {visualRef && (
-              <p className="pt-1 text-[11px]">
-                <span className="opacity-50">Real-world:</span> {visualRef.emoji} {fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong>
+              <p className="pt-1 text-xs text-[var(--text)] opacity-90">
+                <span className="text-[var(--text2)] opacity-85">Real-world:</span> {visualRef.emoji} {fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong>
               </p>
             )}
           </div>
@@ -858,11 +858,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             setShowFavSuggestion(false)
             addToast('Added to favorites!', 'success', '⭐')
           }}
-            className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium bg-yellow-500/10 text-yellow-600 border border-yellow-500/30 hover:bg-yellow-500 hover:text-white transition-all interact-lift flex items-center gap-1">
+            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-white transition-all interact-lift flex items-center gap-1">
             ⭐ Save to favorites
           </button>
           <button onClick={() => setShowFavSuggestion(false)}
-            className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100" aria-label="Dismiss favorites suggestion">✕</button>
+            className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] text-[var(--text)] transition-all" aria-label="Dismiss favorites suggestion">✕</button>
         </motion.div>
       )}
 
@@ -875,11 +875,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             setModeSuggestion(null)
             addToast(`Switched to ${modeSuggestion.label}!`, 'success', modeSuggestion.icon)
           }}
-            className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/30 hover:bg-[var(--primary)] hover:text-white transition-all interact-lift flex items-center gap-1">
+            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary-muted)] text-[var(--primary)] border border-[var(--primary)]/30 hover:bg-[var(--primary)] hover:text-white transition-all interact-lift flex items-center gap-1">
             {modeSuggestion.icon} Try {modeSuggestion.label}
           </button>
           <button onClick={() => setModeSuggestion(null)}
-            className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100" aria-label="Dismiss mode suggestion">✕</button>
+            className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] text-[var(--text)] transition-all" aria-label="Dismiss mode suggestion">✕</button>
         </motion.div>
       )}
 
@@ -888,7 +888,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
           className="glass rounded-xl px-3 py-2 flex items-center gap-2 text-xs">
           <span className="text-sm" aria-hidden="true">{visualRef.emoji}</span>
-          <span className="opacity-70">{fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong></span>
+          <span className="text-[var(--text)] opacity-90">{fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong></span>
         </motion.div>
       )}
 
@@ -896,7 +896,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {result !== null && allResults.length > 0 && (
         <div>
           <button onClick={() => setShowAllUnits(!showAllUnits)}
-            className="text-[10px] opacity-40 hover:opacity-80 transition-opacity flex items-center gap-1 mt-1">
+            aria-expanded={showAllUnits}
+            className="text-xs text-[var(--text2)] opacity-85 hover:opacity-100 transition-opacity flex items-center gap-1 mt-1">
             <span>{showAllUnits ? '▾' : '▸'}</span> Show in all {allResults.length} units
           </button>
           <AnimatePresence>
@@ -907,7 +908,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   {allResults.map(ar => (
                     <div key={ar.id} className="flex justify-between p-1.5 rounded-lg hover:bg-[var(--border)] cursor-pointer transition-colors"
                       onClick={() => setToUnit(ar.id)}>
-                      <span className="opacity-60">{ar.label}</span>
+                      <span className="text-[var(--text2)] opacity-85">{ar.label}</span>
                       <span className="font-mono font-medium">{ar.value !== null ? fmtR(ar.value) : '—'}</span>
                     </div>
                   ))}
@@ -923,26 +924,26 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
           className="overflow-hidden">
           <div className="glass-holographic rounded-xl p-3 space-y-2">
-            <div className="text-xs font-semibold mb-1">📖 Step-by-Step</div>
+            <div className="text-xs font-semibold mb-1 text-[var(--text)]">📖 Step-by-Step</div>
             {steps.length > 0 && (
               <div className="space-y-1">
                 {steps.map((s, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs py-1">
-                    <span className="w-5 h-5 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-[9px] font-bold">{i + 1}</span>
-                    <span className="font-medium w-20 opacity-70">{s.label}</span>
-                    <span className="text-[11px] opacity-60">{s.detail}</span>
+                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[9px] font-bold shrink-0">{i + 1}</span>
+                    <span className="font-medium w-24 text-[var(--text2)] opacity-85">{s.label}</span>
+                    <span className="text-xs text-[var(--text)] opacity-90">{s.detail}</span>
                   </div>
                 ))}
               </div>
             )}
-            {explanation && <div className="text-xs opacity-70 mt-2 p-2 rounded-lg bg-[var(--bg)]">{explanation}</div>}
+            {explanation && <div className="text-xs text-[var(--text)] opacity-90 mt-2 p-2 rounded-lg bg-[var(--card2)] border border-[var(--border)]">{explanation}</div>}
             {explanations.length > 0 && (
               <div className="mt-2 pt-2 border-t border-[var(--border)]">
-                <div className="text-[10px] font-semibold uppercase tracking-wide opacity-50">Learn more</div>
+                <div className="text-[10px] font-semibold uppercase tracking-wide text-[var(--text2)] opacity-85">Learn more</div>
                 {explanations.slice(0, 2).map((ex, i) => (
                   <div key={i} className="mt-1 text-xs">
-                    <div className="font-medium">{ex.title}</div>
-                    {ex.formula && <div className="font-mono mt-0.5 opacity-50 text-[11px]">{ex.formula}</div>}
+                    <div className="font-medium text-[var(--text)]">{ex.title}</div>
+                    {ex.formula && <div className="font-mono mt-0.5 text-[var(--text2)] opacity-85 text-xs">{ex.formula}</div>}
                   </div>
                 ))}
               </div>
@@ -964,17 +965,18 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             <div className="text-xs font-semibold"><span aria-hidden="true">📋</span> Batch Convert</div>
             <textarea value={batchInput} onChange={e => setBatchInput(e.target.value)}
               placeholder="Enter values (comma, newline, or semicolon separated)&#10;e.g.: 1, 2, 5, 10, 100&#10;or: 1&#10;2&#10;3"
+              aria-label="Values to batch convert"
               className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none min-h-[60px] resize-none" />
             <div className="flex gap-2">
               <button onClick={handleBatchConvert}
-                className="px-3 py-1.5 rounded-lg text-xs bg-[var(--primary)] text-white interact-lift">Convert All</button>
+                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary)] text-white shadow-sm hover:brightness-110 interact-lift">Convert All</button>
               <button onClick={() => setBatchInput(generateSequence(1, 100, 10).join('\n'))}
-                className="px-3 py-1.5 rounded-lg text-xs bg-[var(--border)] interact-lift">1-100</button>
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">1-100</button>
               <button onClick={() => setBatchInput(generateSequence(0, 1000, 100).join('\n'))}
-                className="px-3 py-1.5 rounded-lg text-xs bg-[var(--border)] interact-lift">0-1000</button>
+                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">0-1000</button>
             </div>
             {batchResults.length > 0 && (
-              <div className="max-h-32 overflow-y-auto space-y-0.5">
+              <div className="max-h-32 overflow-y-auto space-y-0.5" tabIndex={0} role="region" aria-label="Batch conversion results">
                 {batchResults.map((r, i) => (
                   <div key={i} className="flex justify-between text-xs p-1 rounded hover:bg-[var(--border)]">
                     <span>{r.input} {fromUnit}</span>
@@ -1047,8 +1049,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* All conversions */}
       {allResults.length > 0 && mode !== 'fast' && !chainMode && (
         <div>
-          <div className="text-xs font-semibold uppercase tracking-wide mb-2 opacity-60">All Conversions</div>
-          <div className="space-y-0.5 max-h-48 overflow-y-auto">
+          <div className="text-xs font-semibold uppercase tracking-wide mb-2 text-[var(--text2)] opacity-85">All Conversions</div>
+          <div className="space-y-0.5 max-h-48 overflow-y-auto" tabIndex={0} role="region" aria-label="All unit conversions">
             {allResults.map(r => {
               const maxVal = Math.max(...allResults.map(x => Math.abs(x.value || 0)), 1)
               const pct = Math.abs(r.value || 0) / maxVal * 100
@@ -1056,8 +1058,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 <motion.div key={r.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
                   className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[var(--border)] cursor-pointer text-xs interact-lift"
                   onClick={() => setToUnit(r.id)}>
-                  <span className="flex-1 text-right font-medium">{fmtR(r.value)}</span>
-                  <span className="w-16 opacity-70">{r.label}</span>
+                  <span className="flex-1 text-right font-medium text-[var(--text)]">{fmtR(r.value)}</span>
+                  <span className="w-24 text-[var(--text2)] opacity-85">{r.label}</span>
                   <div className="w-12 h-1.5 rounded-full overflow-hidden bg-[var(--border)]">
                     <div className="h-full rounded-full transition-all duration-300" style={{ width: `${Math.max(pct, 1)}%`, background: cat?.cl || '#6c63ff' }} />
                   </div>

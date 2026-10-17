@@ -37,9 +37,9 @@ export default function InstallPWA() {
             <span className="text-lg">📲</span>
             <span className="text-xs flex-1">Install <strong>NX-COS</strong> for offline access</span>
             <button onClick={install}
-              className="px-3 py-1 rounded-lg text-xs bg-[var(--primary)] text-white interact-lift font-medium">Install</button>
+              className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary)] text-white shadow-sm hover:brightness-110 interact-lift">Install</button>
             <button onClick={() => setDismissed(true)}
-              className="text-xs opacity-30 hover:opacity-100 p-1 interact-lift" aria-label="Dismiss install prompt">✕</button>
+              className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] text-[var(--text)] transition-all interact-lift" aria-label="Dismiss install prompt">✕</button>
           </div>
         </motion.div>
       )}
