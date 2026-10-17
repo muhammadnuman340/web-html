@@ -167,6 +167,29 @@ export default function PairLanding() {
     ],
   }
 
+  const handlePrint = () => {
+    window.print()
+  }
+
+  const handleDownloadCSV = () => {
+    const header = `"${u1.lb} (${u1.id})","${u2.lb} (${u2.id})","Reciprocal ${u2.id}","Reciprocal ${u1.id}"\n`
+    const body = tableValues.map(v => {
+      const resFwd = convert(v, cat.id, u1.id, u2.id)
+      const resBwd = convert(v, cat.id, u2.id, u1.id)
+      return `"${v}","${resFwd !== null ? fmt(resFwd, 6) : ''}","${v}","${resBwd !== null ? fmt(resBwd, 6) : ''}"`
+    }).join('\n')
+    const blob = new Blob([header + body], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute('download', `${u1.id}-to-${u2.id}-conversion-table.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    showToast('Downloaded CSV Table!', 'success')
+  }
+
   return (
     <article className="space-y-6">
       <SEOHead
@@ -290,11 +313,40 @@ export default function PairLanding() {
 
       {/* 1 to 100 Precomputed Conversion Reference Table */}
       <section aria-labelledby="table-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 id="table-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
-            <span role="img" aria-hidden="true">📊</span> {u1.lb} to {u2.lb} Conversion Table
-          </h2>
-          <span className="text-[11px] text-[var(--text2)] opacity-70">1 to 1,000 reference values</span>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 id="table-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
+              <span role="img" aria-hidden="true">📊</span> {u1.lb} to {u2.lb} Conversion Table
+            </h2>
+            <span className="text-[11px] text-[var(--text2)] opacity-70">1 to 1,000 reference values</span>
+          </div>
+
+          <div className="flex items-center gap-1.5 no-print">
+            <button
+              onClick={handlePrint}
+              className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+              title="Print or Save as PDF"
+              aria-label="Print or save conversion table as PDF"
+            >
+              <span aria-hidden="true">🖨️</span>
+              <span>Print / PDF</span>
+            </button>
+            <button
+              onClick={handleDownloadCSV}
+              className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+              title="Download Excel / CSV"
+              aria-label="Download conversion table as CSV"
+            >
+              <span aria-hidden="true">📥</span>
+              <span>CSV</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Printable Title visible during print */}
+        <div className="hidden print:block text-center py-2 border-b border-gray-300">
+          <h3 className="text-lg font-bold">NumanX Omega — {u1.lb} to {u2.lb} Conversion Sheet</h3>
+          <p className="text-xs text-gray-600">Formula: 1 {u1.id} = {unitRatio !== null ? fmt(unitRatio, 6) : ''} {u2.id}</p>
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-[var(--border)]">

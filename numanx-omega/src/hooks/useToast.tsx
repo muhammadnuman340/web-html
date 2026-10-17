@@ -10,9 +10,15 @@ interface Toast {
 
 interface ToastContextType {
   addToast: (message: string, type?: Toast['type'], icon?: string) => void
+  showToast: (message: string, type?: Toast['type'], icon?: string) => void
+  toast: (message: string, type?: Toast['type'], icon?: string) => void
 }
 
-const ToastContext = createContext<ToastContextType>({ addToast: () => {} })
+const ToastContext = createContext<ToastContextType>({
+  addToast: () => {},
+  showToast: () => {},
+  toast: () => {},
+})
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useToast() {
@@ -46,7 +52,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <ToastContext.Provider value={{ addToast }}>
+    <ToastContext.Provider value={{ addToast, showToast: addToast, toast: addToast }}>
       {children}
       <div className="fixed bottom-20 lg:bottom-6 right-4 z-[200] flex flex-col gap-2 pointer-events-none">
         <AnimatePresence>

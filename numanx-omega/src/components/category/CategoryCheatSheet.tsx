@@ -8,7 +8,7 @@ interface Props {
   cat: CategoryDef
 }
 
-const PRESET_VALUES = [1, 2, 5, 10, 20, 25, 50, 100, 250, 500, 1000]
+const PRESET_VALUES = [1, 2, 3, 5, 10, 15, 20, 25, 50, 75, 100, 250, 500, 1000]
 
 export default function CategoryCheatSheet({ cat }: Props) {
   const [fromUnit, setFromUnit] = useState<string>(() => cat.un[0]?.id || '')
@@ -24,16 +24,37 @@ export default function CategoryCheatSheet({ cat }: Props) {
       const res = convert(val, cat.id, fromDef.id, toDef.id)
       return {
         input: val,
-        result: res !== null ? fmtSmart(res, 5) : '—'
+        result: res !== null ? fmtSmart(res, 5) : '—',
       }
     })
   }, [cat, fromDef, toDef])
 
   const handleCopyTable = () => {
+    if (!fromDef || !toDef) return
     const header = `${fromDef.lb} (${fromDef.id})\t${toDef.lb} (${toDef.id})\n`
     const body = tableRows.map(r => `${r.input}\t${r.result}`).join('\n')
     navigator.clipboard.writeText(header + body)
     toast('Copied reference table to clipboard', 'success')
+  }
+
+  const handleDownloadCSV = () => {
+    if (!fromDef || !toDef) return
+    const header = `"${fromDef.lb} (${fromDef.id})","${toDef.lb} (${toDef.id})","Formula Ratio"\n`
+    const body = tableRows.map(r => `"${r.input}","${r.result}","${r.input === 1 ? `1 : ${r.result}` : `× ${r.input}`}"`).join('\n')
+    const blob = new Blob([header + body], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.setAttribute('href', url)
+    link.setAttribute('download', `${cat.id}-${fromDef.id}-to-${toDef.id}-cheatsheet.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+    toast('Downloaded CSV Cheat Sheet!', 'success')
+  }
+
+  const handlePrint = () => {
+    window.print()
   }
 
   const handleSwap = () => {
@@ -43,34 +64,59 @@ export default function CategoryCheatSheet({ cat }: Props) {
   }
 
   return (
-    <section aria-labelledby="cheatsheet-heading" className="glass rounded-2xl p-4 sm:p-5 space-y-4">
+    <section aria-labelledby="cheatsheet-heading" className="glass rounded-2xl p-4 sm:p-5 space-y-4 print-sheet border border-[var(--border)]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 id="cheatsheet-heading" className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>📊</span> {cat.lb} Conversion Table & Cheat Sheet
+          <h2 id="cheatsheet-heading" className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+            <span role="img" aria-hidden="true">📊</span> {cat.lb} Conversion Table & Printable Cheat Sheet
           </h2>
-          <p className="text-xs opacity-60 mt-0.5">
-            Quick reference matrix for common benchmark values between {fromDef?.lb} and {toDef?.lb}.
+          <p className="text-xs text-[var(--text2)] opacity-85 mt-0.5">
+            Quick reference matrix for benchmark values between {fromDef?.lb} and {toDef?.lb}.
           </p>
         </div>
 
-        <button
-          onClick={handleCopyTable}
-          className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] transition-all flex items-center gap-1.5 self-start sm:self-auto"
-        >
-          <span>📋</span>
-          <span>Copy Table</span>
-        </button>
+        {/* Action buttons (Print, CSV, Copy) */}
+        <div className="flex items-center gap-1.5 flex-wrap self-start sm:self-auto no-print">
+          <button
+            onClick={handlePrint}
+            className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+            title="Print or Save as PDF"
+            aria-label="Print or save reference sheet as PDF"
+          >
+            <span aria-hidden="true">🖨️</span>
+            <span>Print / PDF</span>
+          </button>
+
+          <button
+            onClick={handleDownloadCSV}
+            className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+            title="Download Excel / CSV"
+            aria-label="Download conversion table as CSV"
+          >
+            <span aria-hidden="true">📥</span>
+            <span>CSV</span>
+          </button>
+
+          <button
+            onClick={handleCopyTable}
+            className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+            title="Copy table to clipboard"
+            aria-label="Copy reference table to clipboard"
+          >
+            <span aria-hidden="true">📋</span>
+            <span>Copy</span>
+          </button>
+        </div>
       </div>
 
       {/* Selectors */}
-      <div className="flex items-center gap-2 flex-wrap text-xs">
+      <div className="flex items-center gap-2 flex-wrap text-xs no-print">
         <div className="flex items-center gap-1.5">
-          <span className="opacity-50">From:</span>
+          <span className="text-[var(--text2)] opacity-75">From:</span>
           <select
             value={fromUnit}
             onChange={e => setFromUnit(e.target.value)}
-            className="px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] font-semibold outline-none cursor-pointer"
+            className="px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] font-semibold text-[var(--text)] outline-none cursor-pointer"
             aria-label="Table source unit"
           >
             {cat.un.map(u => (
@@ -81,7 +127,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
         <button
           onClick={handleSwap}
-          className="p-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] hover:bg-[var(--border)] transition-colors text-xs"
+          className="p-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] hover:bg-[var(--primary)] hover:text-white transition-colors text-xs"
           title="Swap units"
           aria-label="Swap units"
         >
@@ -89,11 +135,11 @@ export default function CategoryCheatSheet({ cat }: Props) {
         </button>
 
         <div className="flex items-center gap-1.5">
-          <span className="opacity-50">To:</span>
+          <span className="text-[var(--text2)] opacity-75">To:</span>
           <select
             value={toUnit}
             onChange={e => setToUnit(e.target.value)}
-            className="px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] font-semibold outline-none cursor-pointer"
+            className="px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] font-semibold text-[var(--text)] outline-none cursor-pointer"
             aria-label="Table destination unit"
           >
             {cat.un.map(u => (
@@ -103,22 +149,28 @@ export default function CategoryCheatSheet({ cat }: Props) {
         </div>
       </div>
 
+      {/* Printable Title visible during print */}
+      <div className="hidden print:block text-center py-2 border-b border-gray-300">
+        <h3 className="text-lg font-bold">NumanX Omega — {cat.lb} Cheat Sheet</h3>
+        <p className="text-xs text-gray-600">Reference: {fromDef?.lb} ({fromDef?.id}) to {toDef?.lb} ({toDef?.id})</p>
+      </div>
+
       {/* Table view */}
       <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--card2)]/40">
         <table className="w-full text-xs text-left">
-          <thead className="bg-[var(--border)]/40 text-[11px] uppercase tracking-wider opacity-70">
+          <thead className="bg-[var(--border)]/40 text-[11px] uppercase tracking-wider text-[var(--text)] font-semibold">
             <tr>
-              <th className="py-2.5 px-4 font-semibold">{fromDef?.lb} ({fromDef?.id})</th>
-              <th className="py-2.5 px-4 font-semibold">{toDef?.lb} ({toDef?.id})</th>
-              <th className="py-2.5 px-4 font-semibold text-right">Formula Ratio</th>
+              <th className="py-2.5 px-4">{fromDef?.lb} ({fromDef?.id})</th>
+              <th className="py-2.5 px-4 text-[var(--primary)]">{toDef?.lb} ({toDef?.id})</th>
+              <th className="py-2.5 px-4 text-right">Formula Ratio</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--border)]/30 font-mono">
+          <tbody className="divide-y divide-[var(--border)]/30 font-mono text-[11px]">
             {tableRows.map(({ input, result }) => (
               <tr key={input} className="hover:bg-[var(--border)]/20 transition-colors">
                 <td className="py-2 px-4 font-semibold text-[var(--text)]">{input} {fromDef?.id}</td>
                 <td className="py-2 px-4 text-[var(--primary)] font-bold">{result} {toDef?.id}</td>
-                <td className="py-2 px-4 text-right opacity-40 text-[10px]">
+                <td className="py-2 px-4 text-right text-[var(--text2)] opacity-70 text-[10px]">
                   {input === 1 ? `1 : ${result}` : `× ${input}`}
                 </td>
               </tr>
