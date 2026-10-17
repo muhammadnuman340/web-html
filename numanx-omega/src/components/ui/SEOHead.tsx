@@ -4,6 +4,7 @@ interface Props {
   title: string
   description: string
   path?: string
+  schema?: Record<string, unknown>
 }
 
 const SITE = 'https://numanx-omega.netlify.app'
@@ -14,7 +15,7 @@ const REGIONS = [
   'en-SG', 'en-PH', 'en-NG', 'en-KE', 'en-GH',
 ]
 
-export default function SEOHead({ title, description, path = '' }: Props) {
+export default function SEOHead({ title, description, path = '', schema }: Props) {
   const url = `${SITE}${path}`
   return (
     <Helmet>
@@ -29,6 +30,11 @@ export default function SEOHead({ title, description, path = '' }: Props) {
       {REGIONS.map(r => (
         <link key={r} rel="alternate" href={url} hrefLang={r} />
       ))}
+      {schema && (
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      )}
     </Helmet>
   )
 }

@@ -79,28 +79,28 @@ export default function Home({ mode = 'pro' }: Props) {
   const summary = analytics.getSummary()
 
   const FEATURES = [
-    { icon: '📏', label: 'Length & Distance', desc: 'Nanometers to parsecs' },
-    { icon: '⚖️', label: 'Mass & Weight', desc: 'AMU to metric tons' },
-    { icon: '🌡️', label: 'Temperature', desc: '5 scales including Rankine' },
-    { icon: '💵', label: 'Currency', desc: '40+ world currencies live' },
-    { icon: '₿', label: 'Crypto', desc: 'Bitcoin, Ethereum, Solana...' },
-    { icon: '🧮', label: 'Scientific', desc: 'Constants & formulas' },
-    { icon: '❤️', label: 'Health', desc: 'BMI, BMR, body fat' },
-    { icon: '📐', label: 'Engineering', desc: 'Physics & mechanics' },
-    { icon: '⛓', label: 'Conversion Chains', desc: 'Energy→Cost, Fuel→Cost' },
-    { icon: '📋', label: 'Batch Convert', desc: '1000+ values at once' },
+    { icon: '📏', label: 'Length & Distance', desc: 'Nanometers to parsecs', path: '/convert/length' },
+    { icon: '⚖️', label: 'Mass & Weight', desc: 'AMU to metric tons', path: '/convert/mass' },
+    { icon: '🌡️', label: 'Temperature', desc: '5 scales including Rankine', path: '/convert/temp' },
+    { icon: '💵', label: 'Currency', desc: '40+ world currencies live', path: '/currency' },
+    { icon: '₿', label: 'Crypto', desc: 'Bitcoin, Ethereum, Solana...', path: '/crypto' },
+    { icon: '🧮', label: 'Scientific', desc: 'Constants & formulas', path: '/formulas' },
+    { icon: '❤️', label: 'Health', desc: 'BMI, BMR, body fat', path: '/health' },
+    { icon: '📐', label: 'Engineering', desc: 'Physics & mechanics', path: '/convert/press' },
+    { icon: '⛓', label: 'Conversion Chains', desc: 'Energy→Cost, Fuel→Cost', path: '/converter' },
+    { icon: '📋', label: 'Batch Convert', desc: '1000+ values at once', path: '/converter' },
   ]
 
-  const modeFeatures: Partial<Record<AppMode, { icon: string; label: string; desc: string }[]>> = {
+  const modeFeatures: Partial<Record<AppMode, { icon: string; label: string; desc: string; path?: string }[]>> = {
     trader: [
-      { icon: '💵', label: 'Currency', desc: '40+ live forex pairs' },
-      { icon: '₿', label: 'Crypto', desc: 'Real-time CoinGecko prices' },
-      { icon: '📊', label: 'Dashboard', desc: 'Trader analytics' },
+      { icon: '💵', label: 'Currency', desc: '40+ live forex pairs', path: '/currency' },
+      { icon: '₿', label: 'Crypto', desc: 'Real-time CoinGecko prices', path: '/crypto' },
+      { icon: '📊', label: 'Dashboard', desc: 'Trader analytics', path: '/dashboard' },
     ],
     scientist: [
-      { icon: '🔬', label: 'Scientific Constants', desc: 'c, h, G, Nₐ, k, e⁻' },
-      { icon: '📐', label: 'Formulas', desc: 'Physics & chemistry' },
-      { icon: '⚛️', label: 'Advanced Units', desc: 'AMU, eV, light years' },
+      { icon: '🔬', label: 'Scientific Constants', desc: 'c, h, G, Nₐ, k, e⁻', path: '/formulas' },
+      { icon: '📐', label: 'Formulas', desc: 'Physics & chemistry', path: '/formulas' },
+      { icon: '⚛️', label: 'Advanced Units', desc: 'AMU, eV, light years', path: '/convert/energy' },
     ],
   }
 
@@ -185,12 +185,12 @@ export default function Home({ mode = 'pro' }: Props) {
             {displayFeatures.map((f, i) => (
               <motion.button key={f.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }} whileHover={{ y: -4, scale: 1.02 }}
-                onClick={() => navigate(mode === 'trader' && (f.label === 'Currency' || f.label === 'Crypto') ? `/${f.label.toLowerCase()}` : '/converter')}
+                onClick={() => navigate(f.path || '/converter')}
                 className="glass rounded-2xl p-4 text-left hover:shadow-lg transition-all interact-lift group border border-transparent hover:border-[var(--border)]"
                 aria-label={`${f.label}: ${f.desc}`}>
                 <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300" role="img" aria-hidden="true">{f.icon}</div>
-                <div className="font-semibold text-sm">{f.label}</div>
-                <div className="text-xs opacity-50 mt-0.5 group-hover:opacity-80 transition-opacity">{f.desc}</div>
+                <div className="font-semibold text-sm text-[var(--text)]">{f.label}</div>
+                <div className="text-xs text-[var(--text2)] opacity-75 mt-0.5 group-hover:opacity-100 transition-opacity">{f.desc}</div>
               </motion.button>
             ))}
           </div>

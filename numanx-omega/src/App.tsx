@@ -265,6 +265,22 @@ function AppContent() {
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/categories" element={<Categories />} />
                       <Route path="/convert/:category" element={<CategoryLanding />} />
+                      <Route path="/length-converter" element={<CategoryLanding categorySlug="length" />} />
+                      <Route path="/temperature-converter" element={<CategoryLanding categorySlug="temp" />} />
+                      <Route path="/mass-converter" element={<CategoryLanding categorySlug="mass" />} />
+                      <Route path="/weight-converter" element={<CategoryLanding categorySlug="mass" />} />
+                      <Route path="/speed-converter" element={<CategoryLanding categorySlug="speed" />} />
+                      <Route path="/volume-converter" element={<CategoryLanding categorySlug="vol" />} />
+                      <Route path="/area-converter" element={<CategoryLanding categorySlug="area" />} />
+                      <Route path="/time-converter" element={<CategoryLanding categorySlug="time" />} />
+                      <Route path="/pressure-converter" element={<CategoryLanding categorySlug="press" />} />
+                      <Route path="/energy-converter" element={<CategoryLanding categorySlug="energy" />} />
+                      <Route path="/power-converter" element={<CategoryLanding categorySlug="pwr" />} />
+                      <Route path="/data-converter" element={<CategoryLanding categorySlug="data" />} />
+                      <Route path="/fuel-converter" element={<CategoryLanding categorySlug="fuel" />} />
+                      <Route path="/cooking-converter" element={<CategoryLanding categorySlug="cooking" />} />
+                      <Route path="/angle-converter" element={<CategoryLanding categorySlug="angle" />} />
+                      <Route path="/force-converter" element={<CategoryLanding categorySlug="force" />} />
                       <Route path="/converter" element={<ConverterPage mode={mode} />} />
                       <Route path="/currency" element={<Currency />} />
                       <Route path="/crypto" element={<Crypto />} />

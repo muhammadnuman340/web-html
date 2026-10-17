@@ -20,6 +20,15 @@ const NAV_MAIN = [
   { path: '/categories', icon: '📂', label: 'All Categories' },
 ]
 
+const NAV_CATEGORIES = [
+  { path: '/convert/length', icon: '📏', label: 'Length' },
+  { path: '/convert/mass', icon: '⚖️', label: 'Mass & Weight' },
+  { path: '/convert/temp', icon: '🌡️', label: 'Temperature' },
+  { path: '/convert/data', icon: '💾', label: 'Data Storage' },
+  { path: '/convert/speed', icon: '🏎️', label: 'Speed' },
+  { path: '/convert/cooking', icon: '🍳', label: 'Cooking' },
+]
+
 const NAV_FEATURES = [
   { path: '/currency', icon: '💵', label: 'Currency' },
   { path: '/crypto', icon: '₿', label: 'Crypto' },
@@ -149,19 +158,36 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
 
         {/* Main nav */}
         <div className="mb-3">
-          <div className="text-[9px] uppercase tracking-wider opacity-30 px-3 mb-1.5">Main</div>
+          <div className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Main</div>
           <nav aria-label="Main navigation" className="space-y-0.5">{NAV_MAIN.map(navItem)}</nav>
+        </div>
+
+        {/* Top Categories */}
+        <div className="mb-3">
+          <div className="flex items-center justify-between px-3 mb-1.5">
+            <span className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 font-semibold">Top Categories</span>
+            <button
+              onClick={() => { navigate('/categories'); onClose() }}
+              className="text-[10px] text-[var(--primary)] hover:underline font-medium"
+              aria-label="View all categories"
+            >
+              All →
+            </button>
+          </div>
+          <nav aria-label="Top categories navigation" className="space-y-0.5">
+            {NAV_CATEGORIES.map(navItem)}
+          </nav>
         </div>
 
         {/* Features */}
         <div className="mb-3">
-          <div className="text-[9px] uppercase tracking-wider opacity-30 px-3 mb-1.5">Features</div>
+          <div className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Features</div>
           <nav aria-label="Feature shortcuts" className="space-y-0.5">{NAV_FEATURES.map(navItem)}</nav>
         </div>
 
         {/* Tools */}
         <div className="mb-3">
-          <div className="text-[9px] uppercase tracking-wider opacity-30 px-3 mb-1.5">Tools</div>
+          <div className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Tools</div>
           <nav aria-label="Utility and secondary tools" className="space-y-0.5">{NAV_SECONDARY.map(navItem)}</nav>
         </div>
 
