@@ -117,13 +117,15 @@ export default function ContextBar() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 8 }}
         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-        className="hidden lg:flex items-center justify-between px-4 py-1.5 mx-3 sm:mx-5 mb-1 rounded-xl glass border border-[var(--border)] text-[10px]"
+        role="status"
+        aria-live="polite"
+        className="hidden lg:flex items-center justify-between px-4 py-2 mx-3 sm:mx-5 mb-1 rounded-xl glass border border-[var(--border)] text-xs"
       >
-        <div className="flex items-center gap-2">
-          <span className="text-xs" aria-hidden="true">{tip.icon}</span>
-          <span className="opacity-70">{tip.message}</span>
+        <div className="flex items-center gap-2.5">
+          <span className="text-sm flex-shrink-0" aria-hidden="true">{tip.icon}</span>
+          <span className="opacity-80 text-[var(--text)] leading-normal">{tip.message}</span>
           {tip.action && (
-            <span className="px-1.5 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)] text-[8px] font-medium ml-1">
+            <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-[11px] font-semibold tracking-wide ml-1">
               {tip.action.label}{tip.action.shortcut ? ` (${tip.action.shortcut})` : ''}
             </span>
           )}

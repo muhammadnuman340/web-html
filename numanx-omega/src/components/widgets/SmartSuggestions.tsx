@@ -26,11 +26,12 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
       >
         <button
           onClick={() => setExpanded(!expanded)}
-          className="w-full glass rounded-xl px-3 py-1.5 text-[11px] flex items-center gap-2 hover:bg-[var(--border)] transition-all"
+          aria-expanded={expanded}
+          className="w-full glass rounded-xl px-3 py-2 text-xs flex items-center gap-2 hover:bg-[var(--border)] transition-all cursor-pointer"
         >
-          <span className="opacity-40" aria-hidden="true">🤖</span>
-          <span className="opacity-30 flex-1 text-left">Smart Insights — start converting to see analytics</span>
-          <span className="text-[9px] opacity-20">{expanded ? '▲' : '▼'}</span>
+          <span className="opacity-70 text-sm" aria-hidden="true">🤖</span>
+          <span className="opacity-75 flex-1 text-left font-medium">Smart Insights — start converting to see analytics</span>
+          <span className="text-xs opacity-40" aria-hidden="true">{expanded ? '▲' : '▼'}</span>
         </button>
         <AnimatePresence>
           {expanded && (
@@ -41,13 +42,13 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
               className="overflow-hidden"
             >
               <div className="glass rounded-2xl p-3 mt-1 space-y-2">
-                <div className="text-[10px] opacity-40 leading-relaxed">
+                <div className="text-xs opacity-60 leading-relaxed">
                   Your conversion patterns, most-used categories, and productivity score will appear here once you start converting.
                 </div>
-                <div className="flex gap-1">
-                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">📏</span> Length</span>
-                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">⚖️</span> Mass</span>
-                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">🌡️</span> Temp</span>
+                <div className="flex gap-1.5 flex-wrap">
+                  <span className="px-2 py-0.5 rounded-lg text-xs bg-[var(--primary)]/10 text-[var(--primary)] font-medium"><span aria-hidden="true">📏</span> Length</span>
+                  <span className="px-2 py-0.5 rounded-lg text-xs bg-[var(--primary)]/10 text-[var(--primary)] font-medium"><span aria-hidden="true">⚖️</span> Mass</span>
+                  <span className="px-2 py-0.5 rounded-lg text-xs bg-[var(--primary)]/10 text-[var(--primary)] font-medium"><span aria-hidden="true">🌡️</span> Temp</span>
                 </div>
               </div>
             </motion.div>
@@ -88,8 +89,8 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
 
           {suggestedPairs.length > 0 && (
             <div>
-              <div className="text-[10px] uppercase tracking-wide opacity-40 mb-1">Frequent conversions</div>
-              <div className="flex gap-1 flex-wrap">
+              <div className="text-xs uppercase tracking-wide opacity-50 font-medium mb-1.5">Frequent conversions</div>
+              <div className="flex gap-1.5 flex-wrap">
                 {suggestedPairs.map(pair => (
                   <button
                     key={pair}
@@ -97,7 +98,7 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
                       const [from, to] = pair.split('→')
                       onApplyPair(from, to)
                     }}
-                    className="px-2.5 py-1 rounded-lg text-[11px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] transition-all"
+                    className="px-2.5 py-1 rounded-lg text-xs border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] transition-all cursor-pointer font-mono"
                   >
                     {pair}
                   </button>

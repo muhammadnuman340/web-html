@@ -838,3 +838,167 @@ code, .font-mono, kbd, .mono {
 }
 
 /* Ads hidden by default (monetization removed) */
+
+/* =========================================================
+   USABILITY HEURISTICS: UNIFIED TYPE SCALE & BUTTON VARIANTS
+   ========================================================= */
+
+/* 1. Consistent Type Scale Utilities */
+.type-micro {
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.type-caption {
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+}
+
+.type-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.type-body {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.type-title {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.type-display {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 800;
+}
+
+/* 2. Unified Button Design System (Consolidating into 4 primary variants) */
+.btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 0.75rem;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+}
+
+.btn-base:focus-visible {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
+}
+
+.btn-base:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary Accent Button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.75rem;
+  background: var(--primary);
+  color: #ffffff;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* Secondary / Bordered Button */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0.75rem;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+  border-color: var(--primary);
+}
+
+.btn-secondary:active {
+  transform: scale(0.97);
+}
+
+/* Icon / Tool Button (Consistent square bounds & tap target) */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid transparent;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.btn-icon:active {
+  transform: scale(0.92);
+}
+
+/* Chip / Preset Button (Filter tags, unit chips, quick shortcuts) */
+.btn-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.5rem;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-chip.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
