@@ -216,18 +216,18 @@ function generateRouteHtml(config) {
   let html = baseHtml
 
   // 1. Replace <title>
-  html = html.replace(/<title>.*?<\/title>/i, `<title>${config.title}</title>`)
+  html = html.replace(/<title.*?>.*?<\/title>/i, `<title data-rh="true">${config.title}</title>`)
 
   // 2. Replace existing canonical link
-  html = html.replace(/<link rel="canonical" href=".*?" \/>/i, `<link rel="canonical" href="${config.canonical}" />`)
+  html = html.replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>/i, `<link rel="canonical" data-rh="true" href="${config.canonical}" />`)
 
   // 3. Replace existing meta description
-  html = html.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${config.description}" />`)
+  html = html.replace(/<meta[^>]*name=["']description["'][^>]*\/?>/i, `<meta name="description" data-rh="true" content="${config.description}" />`)
 
   // 4. Replace OpenGraph tags
-  html = html.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${config.title}" />`)
-  html = html.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${config.description}" />`)
-  html = html.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${config.canonical}" />`)
+  html = html.replace(/<meta[^>]*property=["']og:title["'][^>]*\/?>/i, `<meta property="og:title" content="${config.title}" />`)
+  html = html.replace(/<meta[^>]*property=["']og:description["'][^>]*\/?>/i, `<meta property="og:description" content="${config.description}" />`)
+  html = html.replace(/<meta[^>]*property=["']og:url["'][^>]*\/?>/i, `<meta property="og:url" content="${config.canonical}" />`)
 
   // 5. Inject JSON-LD before </head>
   const headInjection = `  <script type="application/ld+json">${JSON.stringify(config.jsonLd)}</script>\n  </head>`

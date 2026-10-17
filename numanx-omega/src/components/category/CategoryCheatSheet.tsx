@@ -157,20 +157,27 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
       {/* Table view */}
       <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--card2)]/40">
-        <table className="w-full text-xs text-left">
+        <table className="w-full text-xs text-left border-collapse">
+          <caption className="sr-only">
+            {cat.lb} Conversion Reference Table and NIST Equivalency Matrix
+          </caption>
           <thead className="bg-[var(--border)]/40 text-xs uppercase tracking-wider text-[var(--text)] font-semibold">
             <tr>
-              <th className="py-2.5 px-4">{fromDef?.lb} ({fromDef?.id})</th>
-              <th className="py-2.5 px-4 text-[var(--primary)] font-bold">{toDef?.lb} ({toDef?.id})</th>
-              <th className="py-2.5 px-4 text-right">Formula Ratio</th>
+              <th scope="col" className="py-2.5 px-4 font-bold text-[var(--text)]">{fromDef?.lb} ({fromDef?.id})</th>
+              <th scope="col" className="py-2.5 px-4 text-[var(--primary)] font-bold">{toDef?.lb} ({toDef?.id})</th>
+              <th scope="col" className="py-2.5 px-4 text-right font-bold text-[var(--text)]">Formula Ratio</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--border)]/30 font-mono text-xs">
             {tableRows.map(({ input, result }) => (
               <tr key={input} className="hover:bg-[var(--border)]/20 transition-colors">
-                <td className="py-2 px-4 font-semibold text-[var(--text)]">{input} {fromDef?.id}</td>
-                <td className="py-2 px-4 text-[var(--primary)] font-bold">{result} {toDef?.id}</td>
-                <td className="py-2 px-4 text-right text-[var(--text2)] text-xs">
+                <th scope="row" className="py-2 px-4 font-semibold text-[var(--text)] text-left font-mono">
+                  {input} {fromDef?.id}
+                </th>
+                <td className="py-2 px-4 text-[var(--primary)] font-bold font-mono">
+                  {result} {toDef?.id}
+                </td>
+                <td className="py-2 px-4 text-right text-[var(--text2)] text-xs font-mono">
                   {input === 1 ? `1 : ${result}` : `× ${input}`}
                 </td>
               </tr>

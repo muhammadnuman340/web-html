@@ -17,12 +17,28 @@ const REGIONS = [
 ]
 
 export default function SEOHead({ title, description, path = '', schema }: Props) {
-  const fullTitle = `${title} | Omega X Converter`
+  const fullTitle = title.includes('—') || title.includes('|') ? title : `${title} | Omega X Converter`
   const url = `${SITE}${path}`
 
   useEffect(() => {
     document.title = fullTitle
-  }, [fullTitle])
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
+    }
+    canonical.href = url
+
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta')
+      metaDesc.name = 'description'
+      document.head.appendChild(metaDesc)
+    }
+    metaDesc.content = description
+  }, [fullTitle, url, description])
 
   return (
     <Helmet>

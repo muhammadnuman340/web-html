@@ -53,13 +53,21 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
   }
 
   return (
-    <div className="space-y-6 my-6">
+    <section aria-labelledby="toolkit-heading" className="space-y-6 my-6">
+      <div className="flex items-center gap-2">
+        <h2 id="toolkit-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
+          <span className="p-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)]" aria-hidden="true">🛠️</span>
+          <span>Professional Length & Fabrication Toolkit</span>
+        </h2>
+      </div>
+
       {/* 1. Shop-Floor Fractional Readout + Blueprint Scale Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <section className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2">
+        <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)]">
-              📐 Tape Measure Fractional Snap
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-1.5">
+              <span aria-hidden="true">📐</span>
+              <span>Tape Measure Fractional Snap</span>
             </h3>
             <div className="flex gap-1" role="group" aria-label="Fractional denominator precision">
               {([8, 16, 32, 64] as const).map(d => (
@@ -95,13 +103,14 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
               </span>
             </div>
           </div>
-        </section>
+        </div>
 
         {/* Architectural Scale Multiplier */}
-        <section className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2">
+        <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)]">
-              🏗️ Blueprint & Model Scale ({`1:${scaleRatio}`})
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-1.5">
+              <span aria-hidden="true">🏗️</span>
+              <span>Blueprint & Model Scale ({`1:${scaleRatio}`})</span>
             </h3>
             <select
               aria-label="Select blueprint scale ratio"
@@ -126,16 +135,17 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
               <span className="text-xl font-bold text-[var(--primary)] tabular-nums">{scaledIn} in</span>
             </div>
           </div>
-        </section>
+        </div>
       </div>
 
       {/* 2. GEO Table: Nominal vs. Actual Dimensional Lumber Sizing */}
-      <section aria-labelledby="lumber-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
+      <div aria-labelledby="lumber-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 id="lumber-heading" className="text-sm sm:text-base font-bold text-[var(--text)]">
-              🪵 Carpentry Reference: Nominal vs. Actual Lumber Dimensions (Softwood S4S)
-            </h2>
+            <h3 id="lumber-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
+              <span aria-hidden="true">🪵</span>
+              <span>Carpentry Reference: Nominal vs. Actual Lumber Dimensions (Softwood S4S)</span>
+            </h3>
             <p className="text-xs text-[var(--text2)] mt-0.5">
               Why a &ldquo;2×4&rdquo; doesn&apos;t measure 2 inches by 4 inches: planed & kiln-dried North American lumber equivalents in inches and millimeters.
             </p>
@@ -172,13 +182,14 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
             </tbody>
           </table>
         </div>
-      </section>
+      </div>
 
       {/* 3. GEO Table: Fractional Bolt to Metric Socket Interchangeability */}
-      <section aria-labelledby="machinist-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
-        <h2 id="machinist-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
-          <span aria-hidden="true">🔧</span> Machinist & DIY Reference: Fractional Inch to Metric Socket Interchangeability
-        </h2>
+      <div aria-labelledby="machinist-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
+        <h3 id="machinist-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
+          <span aria-hidden="true">🔧</span>
+          <span>Machinist & DIY Reference: Fractional Inch to Metric Socket Interchangeability</span>
+        </h3>
         <p className="text-xs text-[var(--text2)]">
           Exact decimal conversion vs. nearest practical metric wrench/socket size with clearance tolerance fit.
         </p>
@@ -190,7 +201,7 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
                 <th scope="col" className="p-2.5 px-4">Fractional Bolt Size</th>
                 <th scope="col" className="p-2.5 px-4">Decimal Equivalent</th>
                 <th scope="col" className="p-2.5 px-4">Exact Metric (mm)</th>
-                <th scope="col" class="p-2.5 px-4 text-[var(--primary)]">Nearest Metric Socket</th>
+                <th scope="col" className="p-2.5 px-4 text-[var(--primary)]">Nearest Metric Socket</th>
                 <th scope="col" className="p-2.5 px-4 text-right">Fit Tolerance / Play</th>
               </tr>
             </thead>
@@ -207,8 +218,8 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
             </tbody>
           </table>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }
 export default LengthProToolkit
