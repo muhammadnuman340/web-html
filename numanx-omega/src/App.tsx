@@ -34,6 +34,7 @@ const Settings = lazy(() => import('./pages/Settings'))
 const CustomUnits = lazy(() => import('./pages/CustomUnits'))
 const Help = lazy(() => import('./pages/Help'))
 const CategoryLanding = lazy(() => import('./pages/CategoryLanding'))
+const PairLanding = lazy(() => import('./pages/PairLanding'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
 const Sitemap = lazy(() => import('./pages/Sitemap'))
 
@@ -265,6 +266,8 @@ function AppContent() {
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/categories" element={<Categories />} />
                       <Route path="/convert/:category" element={<CategoryLanding />} />
+                      <Route path="/convert/:category/:pair" element={<PairLanding />} />
+                      <Route path="/pair/:pair" element={<PairLanding />} />
                       <Route path="/length-converter" element={<CategoryLanding categorySlug="length" />} />
                       <Route path="/temperature-converter" element={<CategoryLanding categorySlug="temp" />} />
                       <Route path="/mass-converter" element={<CategoryLanding categorySlug="mass" />} />

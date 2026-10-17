@@ -133,7 +133,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
         <h2 id="pairs-heading" className="text-sm font-semibold mb-3 text-[var(--text)]">Popular {cat.lb} Conversions</h2>
         <div className="grid gap-2 sm:grid-cols-2">
           {content.popularPairs.map(p => (
-            <Link key={p.from + p.to} to={`/converter?cat=${cat.id}&from=${p.from.toLowerCase()}&to=${p.to.toLowerCase()}`}
+            <Link key={p.from + p.to} to={`/convert/${cat.id}/${p.from.toLowerCase()}-to-${p.to.toLowerCase()}`}
               className="glass rounded-xl p-3 hover:shadow-md transition-all interact-lift border border-transparent hover:border-[var(--border)]">
               <div className="flex items-center gap-2 text-sm font-medium text-[var(--text)]">
                 <span>{p.from}</span>
