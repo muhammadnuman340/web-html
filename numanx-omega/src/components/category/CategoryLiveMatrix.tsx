@@ -53,10 +53,10 @@ export default function CategoryLiveMatrix({ cat }: Props) {
 
   const getSystemBadge = (s?: string) => {
     switch (s) {
-      case 'M': return { label: 'Metric', bg: 'rgba(59, 130, 246, 0.15)', color: '#3b82f6' }
-      case 'I': return { label: 'Imperial', bg: 'rgba(234, 88, 12, 0.15)', color: '#ea580c' }
-      case 'S': return { label: 'Scientific', bg: 'rgba(168, 85, 247, 0.15)', color: '#a855f7' }
-      default: return { label: 'Standard', bg: 'rgba(107, 114, 128, 0.15)', color: 'var(--text3)' }
+      case 'M': return { label: 'Metric', bg: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa' }
+      case 'I': return { label: 'Imperial', bg: 'rgba(234, 88, 12, 0.2)', color: '#fb923c' }
+      case 'S': return { label: 'Scientific', bg: 'rgba(168, 85, 247, 0.2)', color: '#c084fc' }
+      default: return { label: 'Standard', bg: 'rgba(107, 114, 128, 0.2)', color: 'var(--text2)' }
     }
   }
 
@@ -65,22 +65,23 @@ export default function CategoryLiveMatrix({ cat }: Props) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 id="matrix-heading" className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>⚡</span> Live {cat.lb} Multi-Unit Matrix
+            <span aria-hidden="true">⚡</span> Live {cat.lb} Multi-Unit Matrix
           </h2>
-          <p className="text-xs opacity-60 mt-0.5">
+          <p className="text-xs text-[var(--text2)] mt-0.5">
             Type any quantity to instantly compute equivalents across all {cat.un.length} units in real-time.
           </p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center rounded-xl bg-[var(--card2)] border border-[var(--border)] px-2.5 py-1">
-            <span className="text-xs opacity-50 mr-1.5 font-medium">Input:</span>
+            <span className="text-xs text-[var(--text2)] mr-1.5 font-medium">Input:</span>
             <input
               type="number"
               value={val}
               onChange={e => setVal(e.target.value)}
               className="w-20 bg-transparent text-sm font-semibold outline-none text-right font-mono"
               placeholder="1"
+              aria-label={`Input amount in ${currentBaseUnit?.lb || 'base unit'}`}
             />
           </div>
 
@@ -104,14 +105,16 @@ export default function CategoryLiveMatrix({ cat }: Props) {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder={`Filter ${cat.un.length} units...`}
+            aria-label={`Filter ${cat.un.length} units`}
             className="w-full px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs outline-none focus:border-[var(--primary)] transition-all"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-40 hover:opacity-100"
+              aria-label="Clear filter"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[var(--text2)] hover:text-[var(--text)] transition-colors"
             >
-              ✕
+              <span aria-hidden="true">✕</span>
             </button>
           )}
         </div>
@@ -152,7 +155,7 @@ export default function CategoryLiveMatrix({ cat }: Props) {
                   <div className="font-mono text-sm sm:text-base font-bold text-[var(--text)] truncate" title={String(result)}>
                     {formatted}
                   </div>
-                  <span className="text-xs opacity-50 font-mono font-medium flex-shrink-0">
+                  <span className="text-xs text-[var(--text2)] font-mono font-medium flex-shrink-0">
                     {unit.id}
                   </span>
                 </div>
@@ -160,16 +163,17 @@ export default function CategoryLiveMatrix({ cat }: Props) {
                 <div className="mt-2 pt-2 border-t border-[var(--border)]/40 flex items-center justify-between text-xs">
                   <Link
                     to={`/converter?cat=${cat.id}&from=${currentBaseUnit?.id}&to=${unit.id}&val=${numVal}`}
-                    className="text-[var(--primary)] hover:underline opacity-80 hover:opacity-100 flex items-center gap-1"
+                    className="text-[var(--primary)] font-semibold hover:underline flex items-center gap-1"
                   >
                     <span>Full calculator</span>
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                   </Link>
 
                   <button
                     onClick={() => handleCopy(`${formatted} ${unit.id}`, unit.lb)}
                     className="btn-chip text-xs gap-1 py-0.5 px-2"
                     title="Copy value"
+                    aria-label={`Copy converted value for ${unit.lb}`}
                   >
                     <span aria-hidden="true">📋</span>
                     <span>Copy</span>

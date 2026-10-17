@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 interface Props {
@@ -16,10 +17,16 @@ const REGIONS = [
 ]
 
 export default function SEOHead({ title, description, path = '', schema }: Props) {
+  const fullTitle = `${title} | Omega X Converter`
   const url = `${SITE}${path}`
+
+  useEffect(() => {
+    document.title = fullTitle
+  }, [fullTitle])
+
   return (
     <Helmet>
-      <title>{title} | Omega X Converter</title>
+      <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={`${title} | Omega X Converter`} />
       <meta property="og:description" content={description} />

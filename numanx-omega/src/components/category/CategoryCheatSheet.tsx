@@ -112,7 +112,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
       {/* Selectors */}
       <div className="flex items-center gap-2 flex-wrap text-xs no-print">
         <div className="flex items-center gap-1.5">
-          <span className="text-[var(--text2)] opacity-75">From:</span>
+          <span className="text-[var(--text2)] font-semibold">From:</span>
           <select
             value={fromUnit}
             onChange={e => setFromUnit(e.target.value)}
@@ -129,13 +129,13 @@ export default function CategoryCheatSheet({ cat }: Props) {
           onClick={handleSwap}
           className="btn-icon w-8 h-8 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs"
           title="Swap units"
-          aria-label="Swap units"
+          aria-label="Swap table source and destination units"
         >
-          ⇄
+          <span aria-hidden="true">⇄</span>
         </button>
 
         <div className="flex items-center gap-1.5">
-          <span className="text-[var(--text2)] opacity-75">To:</span>
+          <span className="text-[var(--text2)] font-semibold">To:</span>
           <select
             value={toUnit}
             onChange={e => setToUnit(e.target.value)}
@@ -161,7 +161,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
           <thead className="bg-[var(--border)]/40 text-xs uppercase tracking-wider text-[var(--text)] font-semibold">
             <tr>
               <th className="py-2.5 px-4">{fromDef?.lb} ({fromDef?.id})</th>
-              <th className="py-2.5 px-4 text-[var(--primary)]">{toDef?.lb} ({toDef?.id})</th>
+              <th className="py-2.5 px-4 text-[var(--primary)] font-bold">{toDef?.lb} ({toDef?.id})</th>
               <th className="py-2.5 px-4 text-right">Formula Ratio</th>
             </tr>
           </thead>
@@ -170,7 +170,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
               <tr key={input} className="hover:bg-[var(--border)]/20 transition-colors">
                 <td className="py-2 px-4 font-semibold text-[var(--text)]">{input} {fromDef?.id}</td>
                 <td className="py-2 px-4 text-[var(--primary)] font-bold">{result} {toDef?.id}</td>
-                <td className="py-2 px-4 text-right text-[var(--text2)] opacity-70 text-xs">
+                <td className="py-2 px-4 text-right text-[var(--text2)] text-xs">
                   {input === 1 ? `1 : ${result}` : `× ${input}`}
                 </td>
               </tr>

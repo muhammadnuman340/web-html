@@ -473,7 +473,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <span className="opacity-60 w-24 text-xs">{link.label}</span>
               <span className="font-mono font-bold">{fmtR(link.value)}</span>
               <span className="text-xs opacity-50">{link.unit}</span>
-              {i < chainResult.length - 1 && <span className="text-xs opacity-30">→</span>}
+              {i < chainResult.length - 1 && <span className="text-xs text-[var(--text2)]" aria-hidden="true">→</span>}
             </div>
           ))}
           <div className="pt-2 border-t border-[var(--border)]">
@@ -502,11 +502,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         const fu = cat?.un.find(u => u.id === fromUnit)
         const tu = cat?.un.find(u => u.id === toUnit)
         return (
-          <div className="flex items-center gap-1.5 text-xs text-[var(--text2)] opacity-85 mb-1" aria-label="Conversion category and units">
+          <div className="flex items-center gap-1.5 text-xs text-[var(--text2)] mb-1" role="group" aria-label="Conversion category and units">
             <span className="font-semibold text-[var(--primary)]">{cat?.lb}</span>
-            <span aria-hidden="true" className="opacity-40">➔</span>
+            <span aria-hidden="true" className="text-[var(--text2)]">➔</span>
             <span>{fu?.lb || fromUnit}</span>
-            <span aria-hidden="true" className="opacity-40">to</span>
+            <span aria-hidden="true" className="text-[var(--text2)]">to</span>
             <span className="font-semibold text-[var(--text)]">{tu?.lb || toUnit}</span>
           </div>
         )
@@ -627,7 +627,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             animate={{ rotate: swapRotation }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             aria-label="Swap source and target units"
-            className="w-9 h-9 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] interact-lift">⇅</motion.button>
+            className="w-9 h-9 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] interact-lift"><span aria-hidden="true">⇅</span></motion.button>
           {mode !== 'fast' && (
             <>
               <button onClick={() => setFrac(!frac)}

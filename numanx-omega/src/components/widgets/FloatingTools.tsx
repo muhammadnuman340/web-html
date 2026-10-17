@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-const HIDE_PATHS = ['/converter', '/currency', '/crypto', '/dashboard', '/categories', '/history', '/favorites']
+const HIDE_PATHS = ['/converter', '/currency', '/crypto', '/dashboard', '/categories', '/history', '/favorites', '/convert', '/guides']
 
 export default function FloatingTools() {
   const navigate = useNavigate()
@@ -23,7 +23,7 @@ export default function FloatingTools() {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ type: 'spring', damping: 20 }}
-      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3"
+      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-3 p-1"
       role="region"
       aria-label="Quick tool shortcuts"
     >
@@ -31,7 +31,7 @@ export default function FloatingTools() {
         <button
           key={t.label}
           onClick={() => navigate(t.path)}
-          className="relative w-11 h-11 rounded-xl glass flex items-center justify-center text-lg hover:scale-110 transition-transform group"
+          className="relative min-w-[44px] min-h-[44px] w-11 h-11 rounded-xl glass flex items-center justify-center text-lg hover:scale-105 transition-transform group p-2.5"
           aria-label={t.label}
         >
           <span aria-hidden="true">{t.icon}</span>

@@ -87,12 +87,12 @@ export default function CategoryLanding({ categorySlug }: Props) {
       />
 
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="text-xs text-[var(--text2)] opacity-85 flex gap-1 items-center">
+      <nav aria-label="Breadcrumb" className="text-xs text-[var(--text2)] flex gap-1 items-center">
         <Link to="/" className="hover:text-[var(--primary)] transition-colors">Home</Link>
         <span aria-hidden="true">/</span>
         <Link to="/categories" className="hover:text-[var(--primary)] transition-colors">Categories</Link>
         <span aria-hidden="true">/</span>
-        <span className="text-[var(--primary)] font-medium">{cat.lb}</span>
+        <span className="text-[var(--primary)] font-bold">{cat.lb}</span>
       </nav>
 
       {/* Header */}
@@ -104,7 +104,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
             <div>
               <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">{content.h1}</h1>
               <div className="flex items-center gap-2 mt-0.5 text-xs text-[var(--text2)]">
-                <span className="font-semibold text-[var(--primary)]">{cat.un.length} Precision Units</span>
+                <span className="font-bold text-[var(--primary)]">{cat.un.length} Precision Units</span>
                 <span aria-hidden="true">·</span>
                 <span>Instant Offline PWA</span>
               </div>
@@ -115,7 +115,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
             <span>Dedicated Page</span>
           </div>
         </div>
-        <p className="text-xs sm:text-sm text-[var(--text2)] opacity-85 leading-relaxed">{content.intro}</p>
+        <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed">{content.intro}</p>
       </header>
 
       {/* Flagship Category Interactive Widget (if available) */}
@@ -154,7 +154,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
                 <span className="opacity-50" aria-hidden="true">→</span>
                 <span>{p.to}</span>
               </div>
-              <div className="text-xs text-[var(--text2)] opacity-75 mt-0.5">{p.desc}</div>
+              <div className="text-xs text-[var(--text2)] mt-0.5">{p.desc}</div>
             </Link>
           ))}
         </div>
@@ -173,7 +173,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
         <h2 id="uses-heading" className="text-sm font-semibold mb-2 text-[var(--text)]">Common Use Cases & Applications</h2>
         <ul className="grid gap-1.5 sm:grid-cols-2">
           {content.useCases.map(u => (
-            <li key={u} className="text-xs text-[var(--text2)] opacity-85 flex items-center gap-2">
+            <li key={u} className="text-xs text-[var(--text2)] flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] flex-shrink-0" aria-hidden="true" />
               <span>{u}</span>
             </li>
@@ -200,7 +200,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
                     <span className="w-5 h-5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs font-bold flex-shrink-0" aria-hidden="true">Q</span>
                     <span>{f.q}</span>
                   </span>
-                  <span className="text-xs opacity-50 group-open:rotate-180 transition-transform duration-200 flex-shrink-0" aria-hidden="true">▼</span>
+                  <span className="text-xs opacity-70 group-open:rotate-180 transition-transform duration-200 flex-shrink-0" aria-hidden="true">▼</span>
                 </summary>
                 <div className="px-3.5 pb-3.5 pt-1 text-xs text-[var(--text2)] opacity-90 leading-relaxed border-t border-[var(--border)]/40">
                   {f.a}
@@ -224,7 +224,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </Link>
         <Link
           to="/categories"
-          className="w-full sm:w-auto text-center px-4 py-2 text-xs font-semibold text-[var(--primary)] hover:underline"
+          className="w-full sm:w-auto text-center px-4 py-2 text-xs font-bold text-[var(--primary)] hover:underline"
         >
           Browse All {allCats.length} Categories
         </Link>

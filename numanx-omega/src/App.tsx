@@ -351,9 +351,9 @@ function AppContent() {
             <span>NumanX Omega X v2.0</span>
             <div className="flex gap-4 items-center">
               <Link to="/sitemap" className="hover:underline hover:text-[var(--text)] transition-colors">Sitemap</Link>
-              <span aria-hidden="true" className="opacity-40 select-none">·</span>
+              <span aria-hidden="true" className="opacity-80 select-none">·</span>
               <span>Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
-              <span aria-hidden="true" className="opacity-40 select-none">·</span>
+              <span aria-hidden="true" className="opacity-80 select-none">·</span>
               <span>PWA · Offline-ready</span>
             </div>
           </footer>
