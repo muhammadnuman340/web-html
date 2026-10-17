@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, startTransition } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
-import { groupFavorites, removeFavorite } from '../services/storage'
+import { getFavorites, setItem } from '../services/storage'
 
 export default function Favorites() {
   const [groups, setGroups] = useState<Record<string, { cat: string; from: string; to: string }[]>>({})
@@ -10,24 +10,30 @@ export default function Favorites() {
   const navigate = useNavigate()
 
   const loadGroups = useCallback(async () => {
-    const g = await groupFavorites()
-    setGroups(g)
+    const favs = await getFavorites()
+    const grouped: Record<string, { cat: string; from: string; to: string }[]> = { Math: [], Currency: [], Science: [], Custom: [] }
+    favs.forEach(entry => {
+      if (entry.cat === 'currency' || entry.cat === 'crypto') grouped.Currency.push(entry)
+      else if (['length', 'mass', 'volume', 'area', 'speed', 'temp', 'time'].includes(entry.cat)) grouped.Math.push(entry)
+      else if (['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy'].includes(entry.cat)) grouped.Science.push(entry)
+      else grouped.Custom.push(entry)
+    })
+    Object.keys(grouped).forEach(k => { if (grouped[k].length === 0) delete grouped[k] })
+    setGroups(grouped)
   }, [])
 
-  useEffect(() => { loadGroups() }, [loadGroups])
+  useEffect(() => { startTransition(() => { loadGroups() }) }, [loadGroups])
 
   const remove = async (groupKey: string, index: number) => {
     const entry = groups[groupKey]?.[index]
-    if (entry) {
-      await removeFavorite(index)
-      await loadGroups()
-      // Also update localStorage
-      try {
-        const favs = JSON.parse(localStorage.getItem('uc_fav') || '[]')
-        const i = favs.findIndex((f: any) => f.cat === entry.cat && f.from === entry.from && f.to === entry.to)
-        if (i >= 0) { favs.splice(i, 1); localStorage.setItem('uc_fav', JSON.stringify(favs)) }
-      } catch { /* ignore */ }
+    if (!entry) return
+    const favs = await getFavorites()
+    const i = favs.findIndex(f => f.cat === entry.cat && f.from === entry.from && f.to === entry.to)
+    if (i >= 0) {
+      favs.splice(i, 1)
+      await setItem('favorites', favs)
     }
+    await loadGroups()
   }
 
   const groupIcons: Record<string, string> = { Math: '🔢', Currency: '💵', Science: '🔬', Custom: '⭐' }
@@ -39,7 +45,7 @@ export default function Favorites() {
     <div className="space-y-4">
       <SEOHead title="Favorites — Saved Conversions" description="Access your saved unit conversions organized by category. Star your most-used conversions for quick access." path="/favorites" />
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold">⭐ Personal Library</h2>
+        <h2 className="text-lg font-bold"><span aria-hidden="true">⭐</span> Personal Library</h2>
         <div className="flex gap-1">
           <button onClick={() => setViewMode('grid')}
             className={`px-3 py-1.5 rounded-xl text-xs interact-lift ${viewMode === 'grid' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card2)]'}`}>
@@ -53,17 +59,21 @@ export default function Favorites() {
       </div>
 
       {allFavs.length === 0 ? (
-        <div className="text-center py-16 opacity-50">
-          <div className="text-5xl mb-4 animate-float">⭐</div>
+        <div className="text-center py-16 opacity-50 space-y-3">
+          <div className="text-5xl mb-4 animate-float" aria-hidden="true">⭐</div>
           <p className="text-sm">Pin your favorite conversions with the star button</p>
-          <p className="text-xs mt-1 opacity-60">Click ☆ next to any conversion in the converter</p>
+          <p className="text-xs opacity-60">Click ☆ next to any conversion in the converter</p>
+          <button onClick={() => navigate('/categories')}
+            className="inline-block px-4 py-2 rounded-xl text-xs font-medium bg-[var(--primary)] text-white hover:shadow-lg hover:shadow-[var(--glow)] transition-all interact-lift">
+            Browse Categories →
+          </button>
         </div>
       ) : viewMode === 'grid' ? (
         <div className="space-y-6">
           {Object.entries(groups).map(([groupKey, favs]) => (
             <div key={groupKey}>
-              <div className="flex items-center gap-2 mb-2">
-                <span>{groupIcons[groupKey] || '⭐'}</span>
+              <div className="flex items-center gap-2 mb-2 pl-2 border-l-[3px] rounded-sm" style={{ borderColor: groupColors[groupKey] || 'var(--primary)' }}>
+                <span aria-hidden="true">{groupIcons[groupKey] || '⭐'}</span>
                 <span className="text-sm font-semibold">{groupKey}</span>
                 <span className="text-xs opacity-40">({favs.length})</span>
               </div>
@@ -74,9 +84,9 @@ export default function Favorites() {
                     className="glass rounded-xl p-3 hover:shadow-lg cursor-pointer group interact-lift"
                     onClick={() => navigate(`/converter?cat=${f.cat}`)}>
                     <div className="flex items-center justify-between">
-                      <span className="text-lg">{groupIcons[groupKey]}</span>
+                      <span className="text-lg" aria-hidden="true">{groupIcons[groupKey]}</span>
                       <button onClick={e => { e.stopPropagation(); remove(groupKey, i) }}
-                        className="text-xs opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity p-1">✕</button>
+                         className="text-xs opacity-0 group-hover:opacity-100 hover:text-red-500 transition-opacity p-1" aria-label="Remove favorite">✕</button>
                     </div>
                     <div className="mt-2">
                       <span className="font-medium text-sm">{f.from}</span>
@@ -109,7 +119,7 @@ export default function Favorites() {
                     <span className="text-xs opacity-40 ml-2">({f.cat})</span>
                   </span>
                   <button onClick={e => { e.stopPropagation(); remove(groupKey, i) }}
-                    className="text-xs opacity-30 hover:opacity-100 hover:text-red-500 p-1">✕</button>
+                     className="text-xs opacity-30 hover:opacity-100 hover:text-red-500 p-1" aria-label="Remove favorite">✕</button>
                 </motion.div>
               ))}
             </div>

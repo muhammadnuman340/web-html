@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler } from 'chart.js'
 import { Line } from 'react-chartjs-2'
@@ -13,14 +13,11 @@ export default function CurrencyCenter() {
   const [amount, setAmount] = useState('1')
   const [from, setFrom] = useState('USD')
   const [to, setTo] = useState('EUR')
-  const [result, setResult] = useState<number | null>(null)
-  const [favorites, setFavorites] = useState<string[]>(['USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED'])
-
-  useEffect(() => {
-    if (convCurrency && amount) {
-      const v = parseFloat(amount)
-      if (!isNaN(v)) setResult(convCurrency(v, from, to))
-    }
+  const [favorites] = useState<string[]>(['USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED'])
+  const result = useMemo(() => {
+    if (!convCurrency || !amount) return null
+    const v = parseFloat(amount)
+    return !isNaN(v) ? convCurrency(v, from, to) : null
   }, [amount, from, to, convCurrency])
 
   const chartData = rates ? {

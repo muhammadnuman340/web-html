@@ -72,8 +72,8 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
             className="relative glass rounded-2xl p-5 max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl border border-[var(--border)]"
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-bold">⌨️ Keyboard Shortcuts</h2>
-              <button onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--border)] text-xs opacity-50 hover:opacity-100 transition-all">
+              <h2 className="text-sm font-bold"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</h2>
+              <button onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--border)] text-xs opacity-50 hover:opacity-100 transition-all" aria-label="Close shortcuts panel">
                 ✕
               </button>
             </div>

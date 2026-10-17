@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import GlassCard from '../components/ui/GlassCard'
 import SEOHead from '../components/ui/SEOHead'
 import { fmt } from '../utils/numbers'
@@ -47,43 +48,54 @@ export default function Crypto() {
   return (
     <div className="space-y-4">
       <SEOHead title="Crypto Converter — Bitcoin, Ethereum & Altcoin Prices" description="Free live cryptocurrency converter. Real-time prices for Bitcoin, Ethereum, Solana, XRP, Dogecoin, and 50+ cryptocurrencies via CoinGecko." path="/crypto" />
-      <h2 className="text-lg font-bold">₿ Crypto Converter</h2>
+      <h2 className="text-lg font-bold"><span aria-hidden="true">₿</span> Crypto Converter</h2>
       {loading && <div className="text-sm opacity-60 animate-pulse">Loading prices from CoinGecko...</div>}
 
       <GlassCard>
         <div className="space-y-3">
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <input type="number" value={amount} onChange={e => setAmount(e.target.value)}
-              className="flex-1 p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-lg font-medium" />
+              className="flex-[2] min-w-[100px] p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] text-lg font-medium transition-all" />
             <select value={from} onChange={e => setFrom(e.target.value)}
-              className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none min-w-[80px]">
+              className="flex-1 min-w-[60px] p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-sm transition-all appearance-none cursor-pointer">
               {CRYPTO_LIST.map(c => <option key={c.symbol} value={c.symbol}>{c.symbol}</option>)}
             </select>
-            <button onClick={() => { const f = from; setFrom(to); setTo(f) }}
-              className="text-xl px-2">⇄</button>
+            <motion.button whileTap={{ scale: 0.85 }}
+              onClick={() => { const f = from; setFrom(to); setTo(f) }}
+              className="p-3 rounded-xl bg-[var(--primary)] text-white text-lg flex items-center justify-center w-12 shadow-md shadow-[var(--glow)] interact-lift">⇄</motion.button>
             <select value={to} onChange={e => setTo(e.target.value)}
-              className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none min-w-[80px]">
+              className="flex-1 min-w-[60px] p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-sm transition-all appearance-none cursor-pointer">
               {CRYPTO_LIST.map(c => <option key={c.symbol} value={c.symbol}>{c.symbol}</option>)}
             </select>
           </div>
 
-          {result !== null && (
-            <div className="text-center py-4">
-              <div className="text-3xl font-bold">{fmt(result, 6)}</div>
-              <div className="text-sm opacity-60">{amount} {from}</div>
+          {loading && (
+            <div className="flex items-center gap-2 text-xs opacity-60">
+              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="w-3 h-3 border-2 border-[var(--primary)] border-t-transparent rounded-full" />
+              Loading prices from CoinGecko...
             </div>
+          )}
+
+          {result !== null && (
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-4">
+              <div className="text-3xl font-bold gradient-horizontal bg-clip-text text-transparent">{fmt(result, 6)}</div>
+              <div className="text-sm opacity-60">{amount} {from}</div>
+            </motion.div>
           )}
         </div>
       </GlassCard>
 
       {/* Price table */}
       <GlassCard>
-        <div className="text-xs font-semibold uppercase mb-2 opacity-60">Live Prices (USD)</div>
+        <div className="text-xs font-semibold uppercase mb-2 opacity-60 flex items-center gap-2">
+          Live Prices (USD)
+          <span className="inline-flex items-center gap-1 text-[9px] opacity-40"><span className="w-1.5 h-1.5 rounded-full bg-[var(--success)] animate-pulse" /> live</span>
+        </div>
         <div className="space-y-1">
           {CRYPTO_LIST.map(c => (
-            <div key={c.symbol} className="flex justify-between p-2 rounded-lg text-sm hover:bg-[var(--border)]">
+            <div key={c.symbol} className="flex justify-between p-2 rounded-lg text-sm hover:bg-[var(--border)] transition-colors">
               <span><span className="font-medium">{c.symbol}</span> <span className="text-xs opacity-50">{c.name}</span></span>
-              <span className="font-medium">${prices[c.symbol] ? fmt(prices[c.symbol], 2) : '—'}</span>
+              <span className="font-medium font-mono">${prices[c.symbol] ? fmt(prices[c.symbol], 2) : <span className="opacity-30">—</span>}</span>
             </div>
           ))}
         </div>

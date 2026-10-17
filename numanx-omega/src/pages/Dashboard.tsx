@@ -1,11 +1,13 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
+import { useState, useCallback, useMemo } from 'react'
 import SEOHead from '../components/ui/SEOHead'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import CurrencyCenter from '../components/charts/CurrencyCenter'
 import CryptoConverter from '../pages/Crypto'
 import GlassCard from '../components/ui/GlassCard'
+import AIDashboardInsights from '../components/widgets/AIDashboardInsights'
+import ConversionStreaks from '../components/widgets/ConversionStreaks'
 import { getAllCategories } from '../engine/converter'
 import { useHistory } from '../hooks/useHistory'
 import { analytics } from '../engine/analytics'
@@ -29,20 +31,15 @@ export default function Dashboard() {
   const summary = analytics.getSummary()
   const chains = getAllChains()
 
-  const handleHistoryAdd = useCallback((cat: string, fv: number, fu: string, tv: number, tu: string) => {
-    try {
-      const h = JSON.parse(localStorage.getItem('uc_hist') || '[]')
-      h.unshift({ cat, fv, fu, tv, tu, t: Date.now() })
-      if (h.length > 100) h.length = 100
-      localStorage.setItem('uc_hist', JSON.stringify(h))
-    } catch { /* ignore */ }
-  }, [])
+  const handleHistoryAdd = useCallback(async (cat: string, fv: number, fu: string, tv: number, tu: string) => {
+    addEntry({ cat, fv, fu, tv, tu, t: Date.now() })
+  }, [addEntry])
 
   return (
     <div className="space-y-4">
       <SEOHead title="Dashboard — Analytics & Insights" description="View your conversion analytics, usage statistics, trending categories, and activity heatmap. Track your most-used conversions and productivity." path="/dashboard" />
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold">📊 OS Control Center</h2>
+        <h2 className="text-lg font-bold"><span aria-hidden="true">📊</span> OS Control Center</h2>
         <div className="flex items-center gap-2 text-xs">
           <span className="opacity-40">{summary.totalConversions} total</span>
           <span className="px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-[10px]">
@@ -55,8 +52,15 @@ export default function Dashboard() {
       <div className="flex gap-1 overflow-x-auto pb-1">
         {TABS.map(tab => (
           <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all interact-lift ${activeTab === tab.id ? 'glass font-semibold' : 'opacity-50 hover:opacity-100'}`}>
-            {tab.icon} {tab.label}
+            className={`relative px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all interact-lift ${
+              activeTab === tab.id
+                ? 'bg-[var(--primary-muted)] text-[var(--primary)] font-semibold shadow-sm'
+                : 'opacity-50 hover:opacity-100 hover:bg-[var(--border)]'
+            }`}>
+            <span aria-hidden="true">{tab.icon}</span> {tab.label}
+            {activeTab === tab.id && (
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full bg-[var(--primary)]" />
+            )}
           </button>
         ))}
       </div>
@@ -90,12 +94,12 @@ export default function Dashboard() {
         </GlassCard>
         <GlassCard onClick={() => navigate('/favorites')}>
           <div className="text-lg font-bold">
-            {JSON.parse(localStorage.getItem('uc_fav') || '[]').length}
+            {(() => { try { return JSON.parse(localStorage.getItem('uc_fav') || '[]').length } catch { return 0 } })()}
           </div>
           <div className="text-xs opacity-50">Favorites</div>
         </GlassCard>
         <GlassCard onClick={() => navigate('/settings')}>
-          <div className="text-lg font-bold">⚙️</div>
+          <div className="text-lg font-bold" aria-hidden="true">⚙️</div>
           <div className="text-xs opacity-50">Settings</div>
         </GlassCard>
       </div>
@@ -104,13 +108,13 @@ export default function Dashboard() {
       {summary.totalConversions > 0 && (
         <GlassCard>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wide opacity-60">📈 Productivity Score</span>
+            <span className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">📈</span> Productivity Score</span>
             <span className="text-xs font-bold" style={{ color: analytics.getProductivityScore() > 80 ? 'var(--primary)' : analytics.getProductivityScore() > 50 ? 'var(--accent)' : 'inherit' }}>
               {analytics.getProductivityScore()}%
             </span>
           </div>
           <div className="h-2 rounded-full overflow-hidden bg-[var(--border)]">
-            <div className="h-full rounded-full bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] transition-all duration-500"
+            <div className="h-full rounded-full gradient-horizontal transition-all duration-500"
               style={{ width: `${Math.min(100, analytics.getProductivityScore())}%` }} />
           </div>
           <div className="flex justify-between text-[10px] opacity-40 mt-1">
@@ -125,7 +129,7 @@ export default function Dashboard() {
       {history.length > 0 && (
         <GlassCard>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wide opacity-60">📜 Live Conversion Stream</span>
+            <span className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">📜</span> Live Conversion Stream</span>
             <span className="flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
               <span className="text-[10px] opacity-40">live</span>
@@ -169,22 +173,40 @@ function HealthTab() {
 
   return (
     <GlassCard>
-      <div className="space-y-3">
-        <div className="text-xs font-semibold uppercase tracking-wide opacity-60">❤️ Health Calculator</div>
-        <div className="grid grid-cols-3 gap-2">
-          <div><label className="text-xs opacity-50">Weight (kg)</label><input type="number" value={weight} onChange={e => setWeight(e.target.value)} className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none" /></div>
-          <div><label className="text-xs opacity-50">Height (cm)</label><input type="number" value={height} onChange={e => setHeight(e.target.value)} className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none" /></div>
-          <div><label className="text-xs opacity-50">Age</label><input type="number" value={age} onChange={e => setAge(e.target.value)} className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none" /></div>
+      <div className="space-y-4">
+        <div className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">❤️</span> Health Calculator</div>
+        <div className="grid grid-cols-3 gap-3">
+          <div>
+            <label className="text-xs opacity-50 mb-1 block">Weight (kg)</label>
+            <input type="number" value={weight} onChange={e => setWeight(e.target.value)}
+              className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
+          </div>
+          <div>
+            <label className="text-xs opacity-50 mb-1 block">Height (cm)</label>
+            <input type="number" value={height} onChange={e => setHeight(e.target.value)}
+              className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
+          </div>
+          <div>
+            <label className="text-xs opacity-50 mb-1 block">Age</label>
+            <input type="number" value={age} onChange={e => setAge(e.target.value)}
+              className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
+          </div>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setGender('male')} className={`px-4 py-2 rounded-xl text-xs interact-lift ${gender === 'male' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card2)]'}`}>Male</button>
-          <button onClick={() => setGender('female')} className={`px-4 py-2 rounded-xl text-xs interact-lift ${gender === 'female' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card2)]'}`}>Female</button>
+          <button onClick={() => setGender('male')}
+            className={`px-5 py-2 rounded-xl text-xs font-medium interact-lift transition-all ${
+              gender === 'male' ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]' : 'glass hover:bg-[var(--border)]'
+            }`}>Male</button>
+          <button onClick={() => setGender('female')}
+            className={`px-5 py-2 rounded-xl text-xs font-medium interact-lift transition-all ${
+              gender === 'female' ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]' : 'glass hover:bg-[var(--border)]'
+            }`}>Female</button>
         </div>
         {bmi && (
-          <div className="text-center">
-            <span className="text-3xl font-bold">{fmt(bmi, 1)}</span>
+          <div className="text-center py-2">
+            <span className="text-3xl font-bold gradient-horizontal bg-clip-text text-transparent">{fmt(bmi, 1)}</span>
             <span className="text-sm opacity-60 ml-2">BMI</span>
-            <div className={`text-xs mt-1 ${bmiCategory === 'Normal' ? 'text-green-500' : 'text-yellow-500'}`}>{bmiCategory}</div>
+            <div className={`text-xs mt-1 font-medium ${bmiCategory === 'Normal' ? 'text-[var(--success)]' : 'text-[var(--warning)]'}`}>{bmiCategory}</div>
           </div>
         )}
         {bmr && <div className="text-center"><span className="text-2xl font-bold">{fmt(bmr, 0)}</span><span className="text-sm opacity-60 ml-2">kcal/day BMR</span></div>}
@@ -197,7 +219,7 @@ function ChainsTab({ chains, navigate }: { chains: ReturnType<typeof getAllChain
   return (
     <GlassCard>
       <div className="space-y-3">
-        <div className="text-xs font-semibold uppercase tracking-wide opacity-60">⛓ Cross-Category Chains</div>
+        <div className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">⛓</span> Cross-Category Chains</div>
         <div className="grid gap-2">
           {chains.map(chain => (
             <motion.button key={chain.id} whileHover={{ y: -2 }}
@@ -241,6 +263,9 @@ function InsightsTab({ summary, analytics: _a }: { summary: ReturnType<typeof an
 
   return (
     <div className="space-y-4">
+      {/* AI Insights */}
+      <AIDashboardInsights />
+
       {/* KPI Cards */}
       <div className="grid grid-cols-3 gap-2">
         <GlassCard>
@@ -257,10 +282,13 @@ function InsightsTab({ summary, analytics: _a }: { summary: ReturnType<typeof an
         </GlassCard>
       </div>
 
+      {/* Conversion Streaks */}
+      <ConversionStreaks />
+
       {/* Calendar heatmap */}
       {heatmapDays.length > 0 && (
         <GlassCard>
-          <div className="text-xs font-semibold uppercase tracking-wide mb-2 opacity-60">📅 7-Day Activity Heatmap</div>
+          <div className="text-xs font-semibold uppercase tracking-wide mb-2 opacity-60"><span aria-hidden="true">📅</span> 7-Day Activity Heatmap</div>
           <div className="flex items-end gap-1 h-20">
             {heatmapDays.map((d) => (
               <div key={d.day} className="flex-1 flex flex-col items-center gap-1">
@@ -357,7 +385,7 @@ function InsightsTab({ summary, analytics: _a }: { summary: ReturnType<typeof an
 
       {summary.totalConversions === 0 && (
         <div className="text-center py-12 opacity-50">
-          <div className="text-4xl mb-3 animate-float">📊</div>
+          <div className="text-4xl mb-3 animate-float" aria-hidden="true">📊</div>
           <p className="text-sm">Start converting to see analytics insights</p>
         </div>
       )}

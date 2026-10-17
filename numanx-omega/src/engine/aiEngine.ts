@@ -1,5 +1,4 @@
 import { analytics } from './analytics'
-import type { AnalyticsEvent } from './analytics'
 
 export interface Suggestion {
   type: 'quick_pair' | 'category' | 'tip' | 'action'

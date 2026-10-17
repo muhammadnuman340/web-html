@@ -14,6 +14,7 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType>({ addToast: () => {} })
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useToast() {
   return useContext(ToastContext)
 }
@@ -35,14 +36,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     setToasts(prev => prev.filter(t => t.id !== id))
   }, [])
 
-  const typeStyles: Record<Toast['type'], string> = {
-    success: 'bg-green-500/20 border-green-500 text-green-500',
-    error: 'bg-red-500/20 border-red-500 text-red-500',
-    info: 'bg-[var(--primary)]/20 border-[var(--primary)]',
-    warning: 'bg-yellow-500/20 border-yellow-500 text-yellow-500',
-  }
 
-  const typeIcons: Record<Toast['type'], string> = {
+
+  const typeIcons = {
     success: '✅',
     error: '❌',
     info: 'ℹ️',

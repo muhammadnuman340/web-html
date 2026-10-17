@@ -1,20 +1,38 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt } from '../utils/numbers'
 import { useTilt } from '../hooks/useTilt'
+import type { CategoryDef } from '../types'
 
-function TiltCard({ cat, index, onClick }: { cat: any; index: number; onClick: () => void }) {
+function TiltCard({ cat, index, onClick }: { cat: CategoryDef; index: number; onClick: () => void }) {
   const { ref, style } = useTilt<HTMLDivElement>(10)
-  const [previewVal, setPreviewVal] = useState<number | null>(null)
+  const [showQuick, setShowQuick] = useState(false)
+  const [quickVal, setQuickVal] = useState('')
+  const [quickResult, setQuickResult] = useState<number | null>(null)
+  const quickRef = useRef<HTMLDivElement>(null)
+  const previewVal = useMemo(() => cat.un.length >= 2 ? convert(1, cat.id, cat.un[0].id, cat.un[1].id) : null, [cat])
 
-  useState(() => {
-    if (cat.un.length >= 2) {
-      setPreviewVal(convert(1, cat.id, cat.un[0].id, cat.un[1].id))
+  useEffect(() => {
+    if (!showQuick) return
+    const handler = (e: MouseEvent) => {
+      if (quickRef.current && !quickRef.current.contains(e.target as Node)) setShowQuick(false)
     }
-  })
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [showQuick])
+
+  const handleQuick = (val: string) => {
+    setQuickVal(val)
+    const v = parseFloat(val)
+    if (!isNaN(v) && cat.un.length >= 2) {
+      setQuickResult(convert(v, cat.id, cat.un[0].id, cat.un[1].id))
+    } else {
+      setQuickResult(null)
+    }
+  }
 
   return (
     <motion.div
@@ -23,19 +41,19 @@ function TiltCard({ cat, index, onClick }: { cat: any; index: number; onClick: (
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay: index * 0.03, type: 'spring', stiffness: 180, damping: 22 }}
-      className="glass rounded-2xl overflow-hidden cursor-pointer group will-change-transform"
+      className="glass rounded-2xl overflow-hidden cursor-pointer group will-change-transform relative"
       onClick={onClick}
     >
-      <div className="h-1.5" style={{ background: cat.cl || '#6c63ff' }} />
+      <div className="h-1.5" style={{ background: cat.cl || '#7c6fff' }} />
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-3xl group-hover:scale-110 transition-transform duration-300">{cat.ic}</span>
+          <span className="text-3xl group-hover:scale-110 transition-transform duration-300" aria-hidden="true">{cat.ic}</span>
           <span className="text-xs opacity-40">{cat.un.length} units</span>
         </div>
         <div className="font-semibold text-sm mb-1">{cat.lb}</div>
 
         <div className="text-[10px] opacity-50 space-y-0.5">
-          {cat.un.slice(0, 3).map((u: any, ui: number) => {
+          {cat.un.slice(0, 3).map(u => {
             const pv = convert(1, cat.id, cat.un[0]?.id || u.id, u.id)
             return (
               <div key={u.id} className="flex justify-between">
@@ -47,7 +65,7 @@ function TiltCard({ cat, index, onClick }: { cat: any; index: number; onClick: (
         </div>
 
         <div className="flex gap-1 flex-wrap mt-3">
-          {cat.un.slice(0, 4).map((u: any) => (
+          {cat.un.slice(0, 4).map(u => (
             <span key={u.id} className="px-1.5 py-0.5 rounded text-[9px] bg-[var(--border)] opacity-60">{u.lb}</span>
           ))}
           {cat.un.length > 4 && (
@@ -61,7 +79,28 @@ function TiltCard({ cat, index, onClick }: { cat: any; index: number; onClick: (
             <span>≈ {fmt(previewVal, 2)} {cat.un[1]?.lb}</span>
           </div>
         )}
+
+        {/* Quick convert preview on hover */}
+        {showQuick && (
+          <div ref={quickRef} className="mt-2 pt-2 border-t border-[var(--border)]" onClick={e => e.stopPropagation()}>
+            <input type="text" value={quickVal} onChange={e => handleQuick(e.target.value)}
+              placeholder="Type a value..."
+              className="w-full p-1.5 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors"
+              autoFocus
+            />
+            {quickResult !== null && (
+              <div className="text-[10px] mt-1 font-medium text-[var(--primary)] text-center">
+                {quickVal} {cat.un[0]?.lb} = {fmt(quickResult, 4)} {cat.un[1]?.lb}
+              </div>
+            )}
+          </div>
+        )}
       </div>
+      <button onClick={e => { e.stopPropagation(); setShowQuick(!showQuick) }}
+        className="absolute top-2 right-2 w-5 h-5 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition-opacity hover:bg-[var(--primary)] hover:text-white"
+        aria-label={showQuick ? 'Hide quick convert' : 'Quick convert'}>
+        {showQuick ? '✕' : '⚡'}
+      </button>
     </motion.div>
   )
 }

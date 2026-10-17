@@ -6,58 +6,81 @@
    THEME SYSTEM
    ============================== */
 :root {
-  --bg: #f0f2f8; --bg2: #e8eaf6; --card: #ffffff; --card2: #f8f9fe;
+  --bg: #f5f3f8; --bg2: #edeaf5; --card: #ffffff; --card2: #faf8fe;
   --text: #1a1a2e; --text2: #5a5a7a; --text3: #8a8aaa;
-  --border: #e2e4ef; --shadow: 0 4px 24px rgba(0,0,0,.06);
-  --primary: #6c63ff; --accent: #ff6584; --radius: 12px; --radius-sm: 8px;
-  --glow: rgba(108,99,255,0.3);
-  --glass-bg: rgba(255,255,255,0.5);
+  --border: #e4e1ef; --shadow: 0 4px 24px rgba(0,0,0,.06);
+  --primary: #7c6fff; --primary-muted: rgba(124,111,255,0.12);
+  --accent: #ff7a92; --accent-muted: rgba(255,122,146,0.12);
+  --success: #22c55e; --warning: #f59e0b; --error: #ef4444;
+  --radius: 12px; --radius-sm: 8px;
+  --glow: rgba(124,111,255,0.3);
+  --glow-accent: rgba(255,122,146,0.3);
+  --glass-bg: rgba(255,255,255,0.55);
   --depth-1: 0 1px 3px rgba(0,0,0,0.04);
   --depth-2: 0 4px 24px rgba(0,0,0,0.06);
   --depth-3: 0 8px 48px rgba(0,0,0,0.1);
   --font-xs: 0.625rem; --font-sm: 0.75rem; --font-base: 0.875rem;
   --font-lg: 1rem; --font-xl: 1.25rem; --font-2xl: 1.5rem; --font-3xl: 1.875rem;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
 }
 
 .dark, .theme-amoled {
-  --bg: #000000; --bg2: #0a0a0a; --card: #0d0d0d; --card2: #111111;
-  --text: #e0e0e0; --text2: #888888; --text3: #555555;
-  --border: #1a1a1a; --shadow: 0 4px 24px rgba(0,0,0,.5);
-  --glow: rgba(108,99,255,0.15);
-  --glass-bg: rgba(13,13,13,0.6);
+  --bg: #000000; --bg2: #0a0a0a; --card: #111111; --card2: #161616;
+  --text: #e8e8e8; --text2: #999999; --text3: #555555;
+  --border: #1e1e1e; --shadow: 0 4px 24px rgba(0,0,0,.5);
+  --primary: #8a7eff; --accent: #ff8a9e;
+  --primary-muted: rgba(138,126,255,0.15);
+  --accent-muted: rgba(255,138,158,0.15);
+  --success: #2dd86a; --warning: #f5b132; --error: #f0575a;
+  --glow: rgba(138,126,255,0.2);
+  --glow-accent: rgba(255,138,158,0.2);
+  --glass-bg: rgba(17,17,17,0.65);
 }
 
 .theme-cyberpunk {
   --bg: #0a0020; --bg2: #120030; --card: #1a0040; --card2: #220050;
-  --text: #00ffcc; --text2: #ff00ff; --text3: #8080ff;
+  --text: #00e5b5; --text2: #cc66ff; --text3: #8080ff;
   --border: #330066; --shadow: 0 0 20px rgba(255,0,255,.2);
-  --primary: #ff00ff; --accent: #00ffff;
+  --primary: #ff00ff; --primary-muted: rgba(255,0,255,0.15);
+  --accent: #00ffff; --accent-muted: rgba(0,255,255,0.15);
+  --success: #00ff88; --warning: #ffcc00; --error: #ff3366;
   --glow: rgba(255,0,255,0.4);
-  --glass-bg: rgba(26,0,64,0.6);
+  --glow-accent: rgba(0,255,255,0.4);
+  --glass-bg: rgba(26,0,64,0.65);
 }
 
 .theme-rgb {
-  --bg: #000000; --bg2: #0a000a; --card: #100010; --card2: #1a001a;
+  --bg: #000000; --bg2: #0a000a; --card: #111111; --card2: #161616;
   --text: #ffffff; --text2: #cccccc; --text3: #888888;
-  --border: #333333; --shadow: 0 0 30px rgba(255,0,0,.15);
-  --glass-bg: rgba(16,0,16,0.6);
+  --border: #222222; --shadow: 0 0 30px rgba(255,0,0,.15);
+  --primary: #ff0000; --primary-muted: rgba(255,0,0,0.15);
+  --accent: #00ff00; --accent-muted: rgba(0,255,0,0.15);
+  --success: #22c55e; --warning: #f59e0b; --error: #ef4444;
+  --glow: rgba(255,0,0,0.3);
+  --glow-accent: rgba(0,255,0,0.3);
+  --glass-bg: rgba(17,17,17,0.65);
+  animation: rgbShift 6s linear infinite;
 }
 
 .theme-holographic {
-  --bg: #f0f4ff; --bg2: #e8f0ff; --card: rgba(255,255,255,.6);
-  --card2: rgba(255,255,255,.4); --text: #1a2a4a; --text2: #4a6a9a;
+  --bg: #f0f4ff; --bg2: #e8f0ff; --card: rgba(255,255,255,.65);
+  --card2: rgba(255,255,255,.45); --text: #1a2a4a; --text2: #4a6a9a;
   --text3: #7a9aba; --border: rgba(100,150,255,.2);
   --shadow: 0 8px 32px rgba(100,150,255,.15);
-  --primary: #4a8aff; --accent: #ff6a9a;
+  --primary: #4a8aff; --primary-muted: rgba(74,138,255,0.15);
+  --accent: #ff6a9a; --accent-muted: rgba(255,106,154,0.15);
+  --success: #22c55e; --warning: #f59e0b; --error: #ef4444;
   --glow: rgba(74,138,255,0.3);
-  --glass-bg: rgba(255,255,255,0.3);
+  --glow-accent: rgba(255,106,154,0.3);
+  --glass-bg: rgba(255,255,255,0.35);
 }
 
 /* ==============================
    TYPOGRAPHY SYSTEM
    ============================== */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  font-family: var(--font-family);
   font-size: var(--font-base);
   line-height: 1.6;
   background: var(--bg); color: var(--text);
@@ -293,6 +316,36 @@ button:focus-visible, a:focus-visible {
 .interact-glow { transition: box-shadow 0.2s ease, transform 0.2s ease; }
 .interact-glow:hover { box-shadow: 0 0 20px var(--glow); }
 
+/* Micro-interactions */
+.interact-ripple {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.interact-ripple::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.25) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.interact-ripple:active::after {
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--card2) 25%, var(--border) 50%, var(--card2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
 .interact-press:active { transform: scale(0.94); transition: transform 0.08s ease; }
 
 /* ==============================
@@ -452,8 +505,14 @@ kbd {
 }
 
 /* ==============================
-   GRADIENT ACCENT BAR
+   GRADIENT UTILITY
    ============================== */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+}
+.gradient-horizontal {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
 .gradient-accent {
   height: 2px;
   background: linear-gradient(90deg, var(--primary), var(--accent), transparent);
@@ -642,6 +701,16 @@ kbd {
 .anim-float-x { animation: floatX 5s ease-in-out infinite; }
 
 /* ==============================
+   FONT UTILITY CLASSES
+   ============================== */
+.font-system { --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; }
+.font-inter { --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; }
+
+code, .font-mono, kbd, .mono {
+  font-family: var(--font-mono);
+}
+
+/* ==============================
    NOTIFICATION SWIPE
    ============================== */
 .toast-swipe {
@@ -661,6 +730,7 @@ kbd {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .theme-rgb { animation: none !important; }
 }
 
 /* ==============================

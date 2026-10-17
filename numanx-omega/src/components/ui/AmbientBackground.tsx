@@ -1,7 +1,5 @@
 import { useEffect, useRef } from 'react'
 
-const COLORS = ['#6c63ff', '#ff6584', '#00d4ff', '#ffcc00', '#00ff88']
-
 export default function AmbientBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -13,7 +11,22 @@ export default function AmbientBackground() {
 
     let animId: number
     let time = 0
+    let primaryColor = '124, 111, 255'
     const particles: { x: number; y: number; vx: number; vy: number; r: number; alpha: number }[] = []
+
+    const getCSSVar = (name: string) => {
+      try {
+        const val = getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+        if (val.startsWith('#')) {
+          const hex = val.slice(1)
+          const r = parseInt(hex.slice(0, 2), 16)
+          const g = parseInt(hex.slice(2, 4), 16)
+          const b = parseInt(hex.slice(4, 6), 16)
+          return `${r}, ${g}, ${b}`
+        }
+        return val || '124, 111, 255'
+      } catch { return '124, 111, 255' }
+    }
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -22,16 +35,15 @@ export default function AmbientBackground() {
     resize()
     window.addEventListener('resize', resize)
 
-    // Create particles
-    const count = Math.min(40, Math.floor((canvas.width * canvas.height) / 40000))
+    const count = Math.min(25, Math.floor((canvas.width * canvas.height) / 50000))
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 2 + 0.5,
-        alpha: Math.random() * 0.3 + 0.05,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 1.8 + 0.4,
+        alpha: Math.random() * 0.2 + 0.03,
       })
     }
 
@@ -39,7 +51,8 @@ export default function AmbientBackground() {
       time += 0.002
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Animated gradient background
+      primaryColor = getCSSVar('--primary')
+
       const hue1 = (Math.sin(time * 0.3) * 30 + 240) % 360
       const hue2 = (Math.sin(time * 0.3 + 2) * 30 + 320) % 360
       const grad = ctx.createRadialGradient(
@@ -56,7 +69,6 @@ export default function AmbientBackground() {
       ctx.fillStyle = grad
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Particles
       particles.forEach(p => {
         p.x += p.vx
         p.y += p.vy
@@ -67,11 +79,10 @@ export default function AmbientBackground() {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(108, 99, 255, ${p.alpha})`
+        ctx.fillStyle = `rgba(${primaryColor}, ${p.alpha})`
         ctx.fill()
       })
 
-      // Connection lines
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x
@@ -81,7 +92,7 @@ export default function AmbientBackground() {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(108, 99, 255, ${(1 - dist / 150) * 0.08})`
+            ctx.strokeStyle = `rgba(${primaryColor}, ${(1 - dist / 150) * 0.06})`
             ctx.stroke()
           }
         }
@@ -102,7 +113,7 @@ export default function AmbientBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 w-full h-full pointer-events-none z-0"
-      style={{ opacity: 0.5 }}
+      style={{ opacity: 0.4 }}
     />
   )
 }

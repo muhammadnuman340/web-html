@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, startTransition } from 'react'
 import type { CurrencyRate } from '../types'
 
 const CACHE_KEY = 'uc_currency_rates'
@@ -14,9 +14,8 @@ export function useCurrency() {
     if (cached) {
       try {
         const { rates: r, timestamp } = JSON.parse(cached)
-        setRates(r)
-        setLastUpdated(new Date(timestamp))
-        if (Date.now() - timestamp < CACHE_TIME) { setLoading(false); return }
+        startTransition(() => { setRates(r); setLastUpdated(new Date(timestamp)) })
+        if (Date.now() - timestamp < CACHE_TIME) { startTransition(() => setLoading(false)); return }
       } catch { /* ignore */ }
     }
     fetch('https://open.er-api.com/v6/latest/USD')

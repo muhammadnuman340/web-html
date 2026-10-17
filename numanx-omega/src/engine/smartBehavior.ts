@@ -1,5 +1,4 @@
 import { analytics } from './analytics'
-import { getAllCategories } from './converter'
 
 export interface BehaviorProfile {
   preferredCategory: string

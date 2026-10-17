@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const STEPS = [
@@ -11,12 +11,7 @@ const STEPS = [
 
 export default function OnboardingTour() {
   const [step, setStep] = useState(0)
-  const [dismissed, setDismissed] = useState(true)
-
-  useEffect(() => {
-    const seen = localStorage.getItem('uc_onboarded')
-    if (!seen) setDismissed(false)
-  }, [])
+  const [dismissed, setDismissed] = useState(() => !localStorage.getItem('uc_onboarded'))
 
   const finish = () => {
     setDismissed(true)

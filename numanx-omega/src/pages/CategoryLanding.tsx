@@ -1,10 +1,12 @@
 import { useParams, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import AdSense from '../components/widgets/AdSense'
+import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
+import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
+import CategorySpecialWidget from '../components/category/special/CategorySpecialWidget'
 
 export default function CategoryLanding() {
   const { category } = useParams<{ category: string }>()
@@ -27,6 +29,7 @@ export default function CategoryLanding() {
   return (
     <article className="space-y-6">
       <SEOHead title={content.title} description={content.metaDesc} path={`/convert/${category}`} />
+
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="text-xs opacity-50 flex gap-1">
         <Link to="/" className="hover:text-[var(--primary)]">Home</Link>
@@ -45,20 +48,29 @@ export default function CategoryLanding() {
         <p className="text-xs sm:text-sm opacity-60 leading-relaxed">{content.intro}</p>
       </header>
 
+      {/* Flagship Category Interactive Widget (if available) */}
+      <CategorySpecialWidget category={cat.id} />
+
       {/* Ad */}
       <div className="flex justify-center">
         <AdSense slot="2750064252" format="fluid" layout="in-article" />
       </div>
 
-      {/* Embedded converter */}
+      {/* Embedded Primary Universal Converter */}
       <section aria-labelledby="convert-heading">
         <h2 id="convert-heading" className="text-sm font-semibold uppercase tracking-wide opacity-60 mb-2">
-          {cat.ic} {cat.lb} Converter
+          {cat.ic} {cat.lb} Precision Calculator
         </h2>
         <div className="glass-liquid rounded-2xl p-4">
           <UniversalConverter category={cat.id} />
         </div>
       </section>
+
+      {/* Live Multi-Unit Matrix (Universal across all categories) */}
+      <CategoryLiveMatrix cat={cat} />
+
+      {/* Conversion Table & Cheat Sheet */}
+      <CategoryCheatSheet cat={cat} />
 
       {/* Popular conversion pairs */}
       <section aria-labelledby="pairs-heading">
@@ -81,14 +93,14 @@ export default function CategoryLanding() {
       {/* Formula */}
       {content.formula && (
         <section aria-labelledby="formula-heading" className="glass rounded-2xl p-4">
-          <h2 id="formula-heading" className="text-sm font-semibold mb-2">Conversion Formula</h2>
+          <h2 id="formula-heading" className="text-sm font-semibold mb-2">Conversion Formula & Ratio</h2>
           <p className="text-xs opacity-70 leading-relaxed font-mono">{content.formula}</p>
         </section>
       )}
 
       {/* Use cases */}
       <section aria-labelledby="uses-heading" className="glass rounded-2xl p-4">
-        <h2 id="uses-heading" className="text-sm font-semibold mb-2">Common Use Cases</h2>
+        <h2 id="uses-heading" className="text-sm font-semibold mb-2">Common Use Cases & Applications</h2>
         <ul className="grid gap-1.5 sm:grid-cols-2">
           {content.useCases.map(u => (
             <li key={u} className="text-xs opacity-70 flex items-center gap-2">

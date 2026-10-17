@@ -1,6 +1,4 @@
 const CURRENCY_CACHE_KEY = 'uc_currency_offline'
-const CONSTANTS_CACHE_KEY = 'uc_constants_cache'
-const FORMULA_CACHE_KEY = 'uc_formulas_cache'
 
 export interface CachedRates {
   rates: Record<string, number>

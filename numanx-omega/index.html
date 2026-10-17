@@ -23,6 +23,9 @@
     <link rel="canonical" href="https://numanx-omega.netlify.app/" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <title>Omega X Converter — Free Universal Unit Converter | 30+ Categories, Live Currency & Crypto</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9437859906171826" crossorigin="anonymous"></script>
@@ -31,10 +34,14 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Restore theme before paint
       (function() {
-        const t = localStorage.getItem('uc_theme_class');
-        if (t) document.body.className = t;
+        try {
+          var t = localStorage.getItem('uc_theme_class');
+          if (t) document.body.className = t;
+          var f = localStorage.getItem('uc_font') || 'inter';
+          if (f === 'system') document.body.classList.add('font-system');
+          else document.body.classList.add('font-inter');
+        } catch(e) {}
       })();
     </script>
   </body>

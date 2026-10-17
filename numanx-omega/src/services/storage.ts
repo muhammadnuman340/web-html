@@ -106,11 +106,11 @@ export async function setCurrencyCache(rates: Record<string, number>): Promise<v
 }
 
 // Analytics
-export async function getAnalyticsData(): Promise<{ events: any[]; dailyStats: Record<string, number> }> {
+export async function getAnalyticsData(): Promise<{ events: unknown[]; dailyStats: Record<string, number> }> {
   return getItem('analytics', { events: [], dailyStats: {} })
 }
 
-export async function saveAnalyticsData(data: { events: any[]; dailyStats: Record<string, number> }): Promise<void> {
+export async function saveAnalyticsData(data: { events: unknown[]; dailyStats: Record<string, number> }): Promise<void> {
   await setItem('analytics', data)
 }
 

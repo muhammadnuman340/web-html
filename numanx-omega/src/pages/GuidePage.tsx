@@ -1,5 +1,4 @@
 import { useParams, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import { guideContent } from '../engine/guideContent'
 import UniversalConverter from '../components/converter/UniversalConverter'

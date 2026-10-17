@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useRef } from 'react'
 
 type ShortcutHandler = (e: KeyboardEvent) => void
 
@@ -68,20 +68,25 @@ export function useGlobalShortcuts(handlers: {
   onHistory?: () => void
   onDarkMode?: () => void
 }) {
-  const shortcuts: Shortcut[] = []
+  const handlersRef = useRef(handlers)
 
-  if (handlers.onCommandBar) {
-    shortcuts.push({ key: 'k', ctrl: true, handler: () => handlers.onCommandBar!() })
-  }
-  if (handlers.onQuickConvert) {
-    shortcuts.push({ key: 'c', ctrl: true, shift: true, handler: () => handlers.onQuickConvert!() })
-  }
-  if (handlers.onHistory) {
-    shortcuts.push({ key: 'h', ctrl: true, handler: () => handlers.onHistory!() })
-  }
-  if (handlers.onDarkMode) {
-    shortcuts.push({ key: 'd', ctrl: true, handler: () => handlers.onDarkMode!() })
-  }
+  useEffect(() => {
+    handlersRef.current = handlers
+  })
 
-  useKeyboard(shortcuts)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const h = handlersRef.current
+      const ctrl = e.ctrlKey || e.metaKey
+      const shift = e.shiftKey
+
+      if (ctrl && !shift && e.key === 'k') { e.preventDefault(); h.onCommandBar?.(); return }
+      if (ctrl && shift && e.key === 'c') { e.preventDefault(); h.onQuickConvert?.(); return }
+      if (ctrl && !shift && e.key === 'h') { e.preventDefault(); h.onHistory?.(); return }
+      if (ctrl && !shift && e.key === 'd') { e.preventDefault(); h.onDarkMode?.(); return }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 }

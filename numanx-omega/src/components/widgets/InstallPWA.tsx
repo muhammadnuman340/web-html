@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function InstallPWA() {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
   const [show, setShow] = useState(false)
   const [dismissed, setDismissed] = useState(false)
 
@@ -39,7 +39,7 @@ export default function InstallPWA() {
             <button onClick={install}
               className="px-3 py-1 rounded-lg text-xs bg-[var(--primary)] text-white interact-lift font-medium">Install</button>
             <button onClick={() => setDismissed(true)}
-              className="text-xs opacity-30 hover:opacity-100 p-1 interact-lift">✕</button>
+              className="text-xs opacity-30 hover:opacity-100 p-1 interact-lift" aria-label="Dismiss install prompt">✕</button>
           </div>
         </motion.div>
       )}

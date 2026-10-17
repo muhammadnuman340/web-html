@@ -1,17 +1,22 @@
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useState, useCallback, useEffect, useMemo, useRef, startTransition } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getCategory, getAllCategories, convert, convertAll, getFormula } from '../../engine/converter'
 import { fmtSmart, fmtComma, parseSmart } from '../../utils/numbers'
-import { parseNaturalLanguage, parseMixedExpression, extractUnit, extractNumber, generateSteps } from '../../engine/smartParser'
+import { parseNaturalLanguage, parseMixedExpression } from '../../engine/smartParser'
 import { analytics } from '../../engine/analytics'
 import { getExplanations, getFormulaExplanation, getDetailedSteps } from '../../engine/learning'
 import { getAllChains, executeChain, suggestChain } from '../../engine/conversionChains'
-import { executeBatch, parseCSV, generateSequence, batchStats } from '../../engine/batchEngine'
+import { executeBatch, parseCSV, generateSequence } from '../../engine/batchEngine'
 import type { AppMode } from '../widgets/ModeSwitcher'
 import { useToast } from '../../hooks/useToast'
 import { useClipboardDetection } from '../../hooks/useClipboard'
+import { toggleFavorite, getFavorites } from '../../services/storage'
 import AdSense from '../widgets/AdSense'
 import { findVisualContext } from '../../engine/visualContext'
+import AIPredictions from '../widgets/AIPredictions'
+import AIQuickActions from '../widgets/AIQuickActions'
+import ConversionQuiz from '../widgets/ConversionQuiz'
+import ConversionStreaks from '../widgets/ConversionStreaks'
 
 interface Props {
   category?: string
@@ -47,9 +52,21 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null)
   const [pulseKey, setPulseKey] = useState(0)
   const [copyBtnIcon, setCopyBtnIcon] = useState('📋')
+  const [copyFormat, setCopyFormat] = useState<'plain' | 'md' | 'latex'>('plain')
   const [showAllCats, setShowAllCats] = useState(false)
+  const [showAllUnits, setShowAllUnits] = useState(false)
+  const [showAIExplain, setShowAIExplain] = useState(false)
+  const [showFavSuggestion, setShowFavSuggestion] = useState(false)
+  const [modeSuggestion, setModeSuggestion] = useState<{ mode: string; label: string; icon: string } | null>(null)
+  const [learningTip, setLearningTip] = useState<{ title: string; text: string } | null>(null)
+  const [showQuiz, setShowQuiz] = useState(false)
+  const [catFilter, setCatFilter] = useState('')
+  const [unitSuggestions, setUnitSuggestions] = useState<{ id: string; lb: string; cat: string; ic: string }[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const resultRef = useRef<HTMLDivElement>(null)
+  const inputHistory = useRef<string[]>([])
+  const historyIndex = useRef(-1)
+
 
   useEffect(() => { inputRef.current?.focus() }, [catId])
 
@@ -69,18 +86,22 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   useEffect(() => {
     if (cat) {
       const saved = loadDefaults(catId)
-      if (!fromUnit || !cat.un.find(u => u.id === fromUnit)) {
-        const first = saved.from && cat.un.find(u => u.id === saved.from) ? saved.from : (initialFrom && cat.un.find(u => u.id === initialFrom) ? initialFrom : cat.un[0]?.id)
-        setFromUnit(first || '')
-      }
-      if (!toUnit || !cat.un.find(u => u.id === toUnit)) {
-        const second = saved.to && cat.un.find(u => u.id === saved.to) ? saved.to : (initialTo && cat.un.find(u => u.id === initialTo) ? initialTo : cat.un[Math.min(1, cat.un.length - 1)]?.id)
-        setToUnit(second || '')
-      }
+      startTransition(() => {
+        if (!fromUnit || !cat.un.find(u => u.id === fromUnit)) {
+          const first = saved.from && cat.un.find(u => u.id === saved.from) ? saved.from : (initialFrom && cat.un.find(u => u.id === initialFrom) ? initialFrom : cat.un[0]?.id)
+          setFromUnit(first || '')
+        }
+        if (!toUnit || !cat.un.find(u => u.id === toUnit)) {
+          const second = saved.to && cat.un.find(u => u.id === saved.to) ? saved.to : (initialTo && cat.un.find(u => u.id === initialTo) ? initialTo : cat.un[Math.min(1, cat.un.length - 1)]?.id)
+          setToUnit(second || '')
+        }
+      })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catId])
 
   // Save defaults when units change
+
   useEffect(() => {
     if (fromUnit && toUnit) saveDefaults(catId, fromUnit, toUnit)
   }, [fromUnit, toUnit, catId])
@@ -90,22 +111,20 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       const val = parseSmart(fromVal)
       if (val !== null) {
         const res = executeChain(activeChain, val)
-        if (res) setChainResult(res.links)
+        if (res) startTransition(() => setChainResult(res.links))
       }
       return
     }
 
     if (cat && fromUnit && toUnit) {
       let rawVal: number | null = null
-
       const parsed = parseNaturalLanguage(fromVal)
       if (parsed.type === 'convert' && parsed.value !== undefined && parsed.fromUnit && parsed.toUnit) {
-        setIsNatural(true)
-        if (parsed.fromUnit !== fromUnit) setFromUnit(parsed.fromUnit)
-        if (parsed.toUnit !== toUnit) setToUnit(parsed.toUnit)
-        rawVal = parsed.value
+        startTransition(() => setIsNatural(true))
+        if (parsed.fromUnit !== fromUnit) startTransition(() => setFromUnit(parsed.fromUnit))
+        if (parsed.toUnit !== toUnit) startTransition(() => setToUnit(parsed.toUnit))
       } else {
-        setIsNatural(false)
+        startTransition(() => setIsNatural(false))
 
         const mixed = parseMixedExpression(fromVal)
         if (mixed) {
@@ -116,33 +135,50 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             if (v !== null) total += (mixed.ops[i - 1] === '-' ? -v : v)
           }
           rawVal = total
-          if (baseUnit !== fromUnit) setFromUnit(baseUnit)
+          if (baseUnit !== fromUnit) startTransition(() => setFromUnit(baseUnit))
         } else {
           rawVal = parseSmart(fromVal)
         }
       }
 
       if (rawVal !== null) {
+        if (fromVal && (inputHistory.current.length === 0 || inputHistory.current[inputHistory.current.length - 1] !== fromVal)) {
+          inputHistory.current.push(fromVal)
+          if (inputHistory.current.length > 20) inputHistory.current.shift()
+        }
+        historyIndex.current = -1
         const r = convert(rawVal, catId, fromUnit, toUnit)
-        setResult(r)
-        setPulseKey(k => k + 1)
-        setAllResults(convertAll(rawVal, catId, fromUnit))
         const f = getFormula(catId, fromUnit, toUnit)
-        setFormula(f)
-
         const fu = cat.un.find(u => u.id === fromUnit)
         const tu = cat.un.find(u => u.id === toUnit)
+        const expl = fu && tu && fu.r && tu.r ? getFormulaExplanation(fu.lb, tu.lb, fu.r / tu.r) : null
+        const st = fu && tu && fu.r && tu.r ? getDetailedSteps(fu.lb, tu.lb, rawVal, r || 0, fu.r / tu.r) : []
+        startTransition(() => {
+          setResult(r); setPulseKey(k => k + 1); setAllResults(convertAll(rawVal, catId, fromUnit))
+          setFormula(f); setExplanation(expl); setSteps(st)
+        })
         if (fu && tu && fu.r && tu.r) {
-          const factor = fu.r / tu.r
-          setExplanation(getFormulaExplanation(fu.lb, tu.lb, factor))
-          setSteps(getDetailedSteps(fu.lb, tu.lb, rawVal, r || 0, factor))
           analytics.track({ type: 'convert', category: catId, fromUnit, toUnit })
+          // Update conversion streak
+          try {
+            const streak = JSON.parse(localStorage.getItem('uc_streaks') || '{}')
+            const today = new Date().toISOString().slice(0, 10)
+            if (streak.lastActiveDate !== today) {
+              const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10)
+              if (streak.lastActiveDate === yesterday) streak.currentStreak = (streak.currentStreak || 0) + 1
+              else streak.currentStreak = 1
+              streak.lastActiveDate = today
+              streak.longestStreak = Math.max(streak.longestStreak || 0, streak.currentStreak)
+              streak.totalActiveDays = (streak.totalActiveDays || 0) + 1
+              localStorage.setItem('uc_streaks', JSON.stringify(streak))
+            }
+          } catch { /* ignore */ }
         }
       } else {
-        setResult(null); setAllResults([]); setFormula(''); setExplanation(null); setSteps([])
+        startTransition(() => { setResult(null); setAllResults([]); setFormula(''); setExplanation(null); setSteps([]) })
       }
     }
-  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain])
+  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat])
 
   const handleConvert = useCallback(() => {
     const v = parseSmart(fromVal)
@@ -154,6 +190,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   useEffect(() => {
     const timer = setTimeout(handleConvert, 1000)
     return () => clearTimeout(timer)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result])
 
   // Auto-scroll to result
@@ -162,6 +199,49 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   }, [result])
+
+  // Smart favorites suggestion — prompt after 3+ conversions of same pair
+  useEffect(() => {
+    if (!result || !fromUnit || !toUnit) { setShowFavSuggestion(false); return }
+    const pairKey = `${fromUnit}→${toUnit}`
+    const count = analytics.getSummary().unitPairs[pairKey] || 0
+    if (count >= 3) {
+      getFavorites().then(favs => {
+        const already = favs.some(f => f.cat === catId && f.from === fromUnit && f.to === toUnit)
+        setShowFavSuggestion(!already)
+      })
+    } else {
+      setShowFavSuggestion(false)
+    }
+  }, [result, fromUnit, toUnit, catId])
+
+  // AI mode suggestion — detect patterns and suggest mode switch
+  useEffect(() => {
+    if (!catId || !result) { setModeSuggestion(null); return }
+    const sciCats = ['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy']
+    const currencyCats = ['currency', 'crypto']
+    const basicCats = ['length', 'mass', 'volume', 'temp']
+    if (sciCats.includes(catId) && mode === 'pro') {
+      setModeSuggestion({ mode: 'scientist', label: 'Scientist mode', icon: '🔬' })
+    } else if (currencyCats.includes(catId) && mode === 'pro') {
+      setModeSuggestion({ mode: 'trader', label: 'Trader mode', icon: '💹' })
+    } else if (basicCats.includes(catId) && showExplanation && mode !== 'student') {
+      setModeSuggestion({ mode: 'student', label: 'Student mode', icon: '🎓' })
+    } else {
+      setModeSuggestion(null)
+    }
+  }, [catId, result, mode, showExplanation])
+
+  // AI learning tip — show a "Did you know?" after conversion
+  useEffect(() => {
+    if (!result) { setLearningTip(null); return }
+    const exps = getExplanations(catId)
+    if (exps.length > 0) {
+      const idx = Math.floor(Math.random() * exps.length)
+      const tip = exps[idx]
+      setLearningTip({ title: tip.title, text: tip.explanation.length > 120 ? tip.explanation.slice(0, 120) + '…' : tip.explanation })
+    }
+  }, [result, catId])
 
   // Close context menu on click outside
   useEffect(() => {
@@ -205,9 +285,13 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const explanations = getExplanations(catId)
   const quickValues = mode === 'fast' ? [] : [0.001, 0.01, 0.1, 1, 10, 100, 1000, 1e6]
 
-  const copyResult = useCallback(() => {
+  const copyResult = useCallback((fmt?: 'plain' | 'md' | 'latex') => {
     if (result !== null) {
-      const text = `${fromVal} ${fromUnit} = ${fmtR(result)} ${toUnit}`
+      const f = fmt || copyFormat
+      const val = fmtR(result)
+      const text = f === 'md' ? `| ${fromVal} ${fromUnit} | ${val} ${toUnit} |` :
+        f === 'latex' ? `${fromVal}\\,\\mathrm{${fromUnit}} = ${val}\\,\\mathrm{${toUnit}}` :
+        `${fromVal} ${fromUnit} = ${val} ${toUnit}`
       navigator.clipboard.writeText(text).then(() => {
         setCopyBtnIcon('✅')
         setTimeout(() => setCopyBtnIcon('📋'), 1200)
@@ -216,7 +300,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         addToast('Copy failed', 'error', '❌')
       })
     }
-  }, [result, fromVal, fromUnit, toUnit])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result, fromVal, fromUnit, toUnit, copyFormat])
 
   const shareResult = useCallback(() => {
     if (result === null) return
@@ -226,6 +311,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     } else {
       copyResult()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result, fromVal, fromUnit, toUnit, copyResult])
 
   const hasError = fromVal.trim() !== '' && parseSmart(fromVal) !== null && result === null && fromUnit && toUnit
@@ -233,9 +319,51 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   // Visual context — real-world comparisons
   const visualRef = useMemo(() => {
     if (result === null) return null
-    // Convert result to base unit for matching
     return findVisualContext(catId, result, toUnit)
   }, [result, catId, toUnit])
+
+  // AI: related conversion suggestions for current category
+  const alsoTry = useMemo(() => {
+    if (!result || fromVal === '' || !fromUnit || !toUnit) return []
+    const pairs: { from: string; to: string; label: string }[] = [
+      { from: 'km', to: 'mi', label: 'km → miles' },
+      { from: 'm', to: 'ft', label: 'm → feet' },
+      { from: 'cm', to: 'in', label: 'cm → inches' },
+      { from: 'mi', to: 'km', label: 'miles → km' },
+      { from: 'kg', to: 'lb', label: 'kg → pounds' },
+      { from: 'g', to: 'oz', label: 'g → ounces' },
+      { from: 'lb', to: 'kg', label: 'pounds → kg' },
+      { from: 'l', to: 'gal', label: 'L → gallons' },
+      { from: 'ml', to: 'fl_oz', label: 'mL → fl oz' },
+      { from: 'c', to: 'f', label: '°C → °F' },
+      { from: 'f', to: 'c', label: '°F → °C' },
+      { from: 'kmh', to: 'mph', label: 'km/h → mph' },
+      { from: 'sqm', to: 'sqft', label: 'm² → ft²' },
+      { from: 'mb', to: 'gb', label: 'MB → GB' },
+      { from: 'usd', to: 'eur', label: 'USD → EUR' },
+    ]
+    const catUnits = cat?.un.map(u => u.id) || []
+    const relevant = pairs.filter(p =>
+      p.from !== fromUnit && catUnits.includes(p.from) && catUnits.includes(p.to)
+    )
+    return relevant.slice(0, 3)
+  }, [result, fromVal, fromUnit, toUnit, cat])
+
+  // AI: did-you-mean unit suggestions when conversion fails
+  const didYouMean = useMemo(() => {
+    if (!hasError || !fromUnit && !toUnit) return []
+    const all = getAllCategories()
+    const suggestions: { cat: string; label: string; unit: string }[] = []
+    const query = (fromUnit || toUnit).toLowerCase()
+    all.forEach(c => {
+      c.un.forEach(u => {
+        if (u.id.toLowerCase().includes(query) || u.lb.toLowerCase().includes(query)) {
+          suggestions.push({ cat: c.id, label: u.lb, unit: u.id })
+        }
+      })
+    })
+    return suggestions.filter(s => s.cat !== catId).slice(0, 3)
+  }, [hasError, fromUnit, toUnit, catId])
 
   // Clipboard check on focus
   useEffect(() => {
@@ -251,7 +379,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* Chain mode indicator */}
       {chainMode && activeChain && (
         <div className="flex items-center gap-2 text-xs mb-2">
-          <span className="px-2 py-1 rounded-lg bg-gradient-to-r from-[var(--primary)] to-[var(--accent)] text-white">⛓ Chain</span>
+          <span className="px-2 py-1 rounded-lg gradient-horizontal text-white"><span aria-hidden="true">⛓</span> Chain</span>
           <span className="opacity-60">{chains.find(c => c.id === activeChain)?.label}</span>
           <button onClick={() => { setChainMode(false); setActiveChain(null); setChainResult(null) }}
             className="ml-auto px-2 py-1 rounded-lg bg-[var(--border)] text-xs">✕ Exit Chain</button>
@@ -271,10 +399,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     : 'glass opacity-60 hover:opacity-100'
                 }`}
                 style={catId === c.id ? {
-                  background: `linear-gradient(135deg, ${c.cl || '#6c63ff'}, ${c.cl || '#6c63ff'}cc)`,
-                  boxShadow: `0 4px 12px ${c.cl || '#6c63ff'}40`
+                  background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
+                  boxShadow: `0 4px 12px ${c.cl || '#7c6fff'}40`
                 } : {}}>
-                <span className="text-lg">{c.ic}</span>
+                <span className="text-lg" aria-hidden="true">{c.ic}</span>
                 <span className="truncate w-full text-center leading-tight">{c.lb}</span>
               </button>
             ))}
@@ -286,22 +414,33 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             </button>
           )}
         </div>
-        {/* Desktop: wrap-around pill grid */}
-        <div className="hidden lg:flex flex-wrap gap-1">
-          {cats.map(c => (
-            <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
-              className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-300 font-medium interact-lift ${
-                catId === c.id
-                  ? 'text-white shadow-lg scale-105'
-                  : 'glass opacity-60 hover:opacity-100'
-              }`}
-              style={catId === c.id ? {
-                background: `linear-gradient(135deg, ${c.cl || '#6c63ff'}, ${c.cl || '#6c63ff'}cc)`,
-                boxShadow: `0 4px 16px ${c.cl || '#6c63ff'}50`
-              } : {}}>
-              {c.ic} {c.lb}
-            </button>
-          ))}
+        {/* Desktop: search + wrap-around pill grid */}
+        <div className="hidden lg:flex flex-col gap-2">
+          <div className="relative">
+            <input type="text" value={catFilter} onChange={e => setCatFilter(e.target.value)}
+              placeholder="Filter categories..."
+              className="w-full px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors" />
+            {catFilter && (
+              <button onClick={() => setCatFilter('')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] opacity-40 hover:opacity-100" aria-label="Clear filter">✕</button>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-1">
+            {(catFilter ? cats.filter(c => c.lb.toLowerCase().includes(catFilter.toLowerCase()) || c.id.includes(catFilter.toLowerCase())) : cats).map(c => (
+              <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+                className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-300 font-medium interact-lift ${
+                  catId === c.id
+                    ? 'text-white shadow-lg scale-105'
+                    : 'glass opacity-60 hover:opacity-100'
+                }`}
+                style={catId === c.id ? {
+                  background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
+                  boxShadow: `0 4px 16px ${c.cl || '#7c6fff'}50`
+                } : {}}>
+                {c.ic} {c.lb}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -345,7 +484,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* Natural language indicator */}
       {isNatural && fromVal && (
         <div className="text-[10px] flex items-center gap-1 flex-wrap">
-          <span className="px-1.5 py-0.5 rounded bg-green-500/10 text-green-500 text-[9px]">🧠 AI</span>
+          <span className="px-1.5 py-0.5 rounded bg-green-500/10 text-green-500 text-[9px]"><span aria-hidden="true">🧠</span> AI</span>
           <span className="opacity-60">Detected: </span>
           <span className="font-mono opacity-70">{parseNaturalLanguage(fromVal).raw}</span>
           {parseNaturalLanguage(fromVal).intent && (
@@ -376,7 +515,34 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <div className="flex gap-2 items-center">
             <div className="flex-1 relative">
               <input ref={inputRef} type="text" value={fromVal}
-                onChange={e => setFromVal(e.target.value)}
+                onChange={e => {
+                  const v = e.target.value
+                  setFromVal(v)
+                  const m = v.match(/^\d+\.?\d*\s*([a-zA-Z°%]+)/)
+                  if (m && m[1].length >= 1) {
+                    const partial = m[1].toLowerCase()
+                    const matches: { id: string; lb: string; cat: string; ic: string }[] = []
+                    cats.forEach(c => {
+                      c.un.forEach(u => {
+                        if (u.id.toLowerCase().startsWith(partial) || u.lb.toLowerCase().startsWith(partial)) {
+                          matches.push({ id: u.id, lb: u.lb, cat: c.lb, ic: c.ic || '' })
+                        }
+                      })
+                    })
+                    setUnitSuggestions(matches.slice(0, 6))
+                  } else {
+                    setUnitSuggestions([])
+                  }
+                }}
+                onKeyDown={e => {
+                  if (e.key === 'ArrowUp' && inputHistory.current.length > 0 && historyIndex.current < inputHistory.current.length - 1) {
+                    historyIndex.current++; setFromVal(inputHistory.current[inputHistory.current.length - 1 - historyIndex.current])
+                  } else if (e.key === 'ArrowDown' && historyIndex.current >= 0) {
+                    historyIndex.current--
+                    setFromVal(historyIndex.current >= 0 ? inputHistory.current[inputHistory.current.length - 1 - historyIndex.current] : '')
+                  }
+                  if (e.key === 'Escape') setUnitSuggestions([])
+                }}
                 placeholder={mode === 'student' ? 'Type: "5 km in miles" or "(5km + 200m)"' : '0'}
                 className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow),0_0_30px_var(--glow)] transition-all placeholder:text-base"
                 onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
@@ -389,12 +555,33 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             {clipSuggestion && (
               <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
                 className="absolute -bottom-6 left-0 flex items-center gap-1 z-10">
-                <button onClick={() => { setFromVal(clipSuggestion.text); clearClip() }}
+                <button onClick={() => {
+                  setFromVal(clipSuggestion.text); clearClip()
+                  if (clipSuggestion.unit && cat?.un.some(u => u.id === clipSuggestion.unit)) setFromUnit(clipSuggestion.unit)
+                  if (clipSuggestion.targetUnit && cat?.un.some(u => u.id === clipSuggestion.targetUnit)) setToUnit(clipSuggestion.targetUnit)
+                }}
                   className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/20 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1 whitespace-nowrap">
                   📋 {clipSuggestion.label}
                 </button>
                 <button onClick={clearClip}
-                  className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100">✕</button>
+                  className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100" aria-label="Dismiss suggestion">✕</button>
+              </motion.div>
+            )}
+
+            {/* AI Unit Autocomplete */}
+            {unitSuggestions.length > 0 && (
+              <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                className="absolute top-full left-0 right-0 mt-1 z-20 glass rounded-xl overflow-hidden shadow-xl border border-[var(--border)]">
+                <div className="p-1 space-y-0.5">
+                  {unitSuggestions.map((s, i) => (
+                    <button key={i} onClick={() => { setFromUnit(s.id); setUnitSuggestions([]); inputRef.current?.focus() }}
+                      className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs hover:bg-[var(--primary)]/10 transition-all text-left">
+                      <span className="text-sm" aria-hidden="true">{s.ic}</span>
+                      <span className="font-medium">{s.lb}</span>
+                      <span className="text-[9px] opacity-30 ml-auto">{s.cat}</span>
+                    </button>
+                  ))}
+                </div>
               </motion.div>
             )}
           </div>
@@ -404,11 +591,39 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </select>
         </div>
 
-        <div className="flex justify-center gap-3">
+        <AIPredictions
+          categoryId={catId}
+          fromVal={fromVal}
+          fromUnit={fromUnit}
+          toUnit={toUnit}
+          onApply={(from, to) => { setFromUnit(from); setToUnit(to) }}
+        />
+
+        {/* Recent conversions awareness */}
+        {!fromVal && (() => {
+          const recent = analytics.getRecentConversions(5).filter(e => e.category === catId)
+          if (recent.length === 0) return null
+          return (
+            <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+              className="flex flex-wrap gap-1.5 items-center">
+              <span className="text-[8px] opacity-30 uppercase tracking-wider mr-0.5">Recent</span>
+              {recent.map((e, i) => (
+                <button key={i} onClick={() => { setFromUnit(e.fromUnit || ''); setToUnit(e.toUnit || '') }}
+                  className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+                  {e.fromUnit} → {e.toUnit}
+                </button>
+              ))}
+            </motion.div>
+          )
+        })()}
+
+        <div className="flex items-center justify-between">
+          <ConversionStreaks compact />
+          <div className="flex gap-3">
           <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
             animate={{ rotate: swapRotation }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="w-10 h-10 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-lg shadow-lg shadow-[var(--primary)]/30 interact-lift">⇅</motion.button>
+            className="w-10 h-10 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-lg shadow-lg shadow-[var(--glow)] interact-lift">⇅</motion.button>
           {mode !== 'fast' && (
             <>
               <button onClick={() => setFrac(!frac)}
@@ -417,26 +632,33 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${sci ? 'bg-[var(--primary)] text-white' : 'glass'}`}>sci</button>
               <button onClick={() => setShowExplanation(!showExplanation)}
                 className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showExplanation ? 'bg-[var(--accent)] text-white' : 'glass'}`}>
-                {mode === 'scientist' ? '🔬' : '📖'}
+                <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
               </button>
               <button onClick={() => setBatchMode(!batchMode)}
                 className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode ? 'bg-[var(--primary)] text-white' : 'glass'}`}>
-                📋 Batch
+                <span aria-hidden="true">📋</span> Batch
+              </button>
+              <button onClick={() => setShowAIExplain(!showAIExplain)}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showAIExplain ? 'bg-[var(--primary)] text-white shadow-[var(--glow)]' : 'glass'}`}
+                aria-label="AI explain conversion">
+                <span aria-hidden="true">🤖</span> AI
               </button>
             </>
           )}
+        </div>
         </div>
 
         <div className="flex gap-2 items-center">
           <div className="flex-1 relative group">
             <div ref={resultRef}
-              className={`w-full p-4 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl font-bold min-h-[56px] flex items-center cursor-pointer transition-all duration-300 ${
+              className={`w-full p-4 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl font-bold min-h-[56px] flex items-center cursor-pointer transition-all duration-300 border-l-4 ${
                 result !== null
                   ? 'border-[var(--primary)]/40 shadow-[0_0_30px_var(--glow)]'
                   : hasError
                     ? 'border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.2)]'
                     : 'border-[var(--border)]'
               } ${pulseKey > 0 ? 'result-pulse' : ''}`}
+              style={{ borderLeftColor: cat?.cl || 'var(--primary)' }}
               onClick={copyResult}
               draggable={result !== null}
               onDragStart={e => {
@@ -456,11 +678,28 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               </motion.span>
             </div>
 
-            {/* Error state */}
+            {/* Error state + Did you mean? */}
             {hasError && (
-              <div className="error-state text-[10px] text-red-500/60 mt-1 flex items-center gap-1">
-                <span>⚠️</span>
-                <span>Can't convert — incompatible units or missing conversion factor</span>
+              <div>
+                <div className="text-[10px] text-red-500/60 mt-1 flex items-center gap-1">
+                  <span aria-hidden="true">⚠️</span>
+                  <span>Can't convert — incompatible units or missing conversion factor</span>
+                </div>
+                {didYouMean.length > 0 && (
+                  <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-wrap gap-1.5 mt-1.5 items-center">
+                    <span className="text-[8px] opacity-30 uppercase tracking-wider">Did you mean</span>
+                    {didYouMean.map((d, i) => (
+                      <button key={i} onClick={() => {
+                        const c = getAllCategories().find(c => c.id === d.cat)
+                        if (c) { setCatId(d.cat); setFromUnit(d.unit); setToUnit(c.un[Math.min(1, c.un.length - 1)]?.id || d.unit) }
+                      }}
+                        className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+                        {d.label} ({d.cat})
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
               </div>
             )}
 
@@ -469,12 +708,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 <>
                   <button onClick={shareResult}
                     className="share-btn w-7 h-7 rounded-lg bg-[var(--card2)] border border-[var(--border)] flex items-center justify-center text-[10px] hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] transition-all"
-                    data-tooltip="Share">
+                    aria-label="Share result">
                     📤
                   </button>
                   <button onClick={copyResult}
-                    className="w-7 h-7 rounded-lg bg-[var(--primary)] text-white flex items-center justify-center text-[10px] hover:shadow-lg hover:shadow-[var(--primary)]/30 transition-all"
-                    data-tooltip="Copy">
+                    className="w-7 h-7 rounded-lg bg-[var(--primary)] text-white flex items-center justify-center text-[10px] hover:shadow-lg hover:shadow-[var(--glow)] transition-all"
+                    aria-label="Copy result">
                     {copyBtnIcon}
                   </button>
                 </>
@@ -493,10 +732,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   style={{ left: contextMenu.x, top: contextMenu.y }}
                   onClick={() => setContextMenu(null)}
                 >
-                  <button onClick={() => { copyResult(); setContextMenu(null) }}
-                    className="w-full text-left px-3 py-2 text-xs rounded-lg hover:bg-[var(--border)] transition-colors flex items-center gap-2">
-                    📋 Copy Result
-                  </button>
+                  {(['plain', 'md', 'latex'] as const).map(f => (
+                    <button key={f} onClick={() => { setCopyFormat(f); copyResult(f); setContextMenu(null) }}
+                      className={`w-full text-left px-3 py-2 text-xs rounded-lg hover:bg-[var(--border)] transition-colors flex items-center gap-2 ${copyFormat === f ? 'text-[var(--primary)]' : ''}`}>
+                      📋 {f === 'plain' ? 'Plain' : f === 'md' ? 'Markdown' : 'LaTeX'}
+                    </button>
+                  ))}
                   <button onClick={() => { swap(); setContextMenu(null) }}
                     className="w-full text-left px-3 py-2 text-xs rounded-lg hover:bg-[var(--border)] transition-colors flex items-center gap-2">
                     ⇅ Swap Units
@@ -522,13 +763,146 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {formula && <div className="text-xs text-center opacity-60 italic">{formula}</div>}
 
+      {/* AI Learning Tip — Did you know? */}
+      {learningTip && !showAIExplain && (
+        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+          className="flex items-start gap-2 px-3 py-2 rounded-xl glass border border-[var(--border)] text-xs">
+          <span className="text-sm mt-0.5 shrink-0" aria-hidden="true">💡</span>
+          <div>
+            <span className="font-semibold text-[11px]">{learningTip.title}</span>
+            <p className="opacity-60 mt-0.5">{learningTip.text}</p>
+          </div>
+          <button onClick={() => setLearningTip(null)}
+            className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100 shrink-0 ml-auto" aria-label="Dismiss tip">✕</button>
+        </motion.div>
+      )}
+
+      {/* AI Explain section */}
+      {showAIExplain && result !== null && (
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          className="glass rounded-xl p-3 space-y-2 border-l-4" style={{ borderLeftColor: 'var(--primary)' }}>
+          <div className="flex items-center gap-1.5 text-xs font-semibold">
+            <span aria-hidden="true">🤖</span> AI Explanation
+          </div>
+          <div className="text-xs space-y-1.5">
+            <p><span className="opacity-50">Conversion:</span> {fromVal} {fromUnit} = <strong>{fmtR(result)}</strong> {toUnit}</p>
+            {explanation && <p className="opacity-80">{explanation}</p>}
+            {steps.length > 0 && (
+              <div className="pt-1 space-y-1">
+                <div className="text-[10px] opacity-40 uppercase tracking-wide">Steps</div>
+                {steps.map((s, i) => (
+                  <div key={i} className="flex items-center gap-2 text-[11px]">
+                    <span className="w-4 h-4 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-[7px] font-bold">{i + 1}</span>
+                    <span className="opacity-70 w-16 shrink-0">{s.label}</span>
+                    <span className="opacity-60">{s.detail}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {visualRef && (
+              <p className="pt-1 text-[11px]">
+                <span className="opacity-50">Real-world:</span> {visualRef.emoji} {fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong>
+              </p>
+            )}
+          </div>
+        </motion.div>
+      )}
+
+      {/* AI: "Also try" related conversions */}
+      {alsoTry.length > 0 && !showAIExplain && (
+        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap gap-1.5 items-center">
+          <span className="text-[8px] opacity-30 uppercase tracking-wider mr-0.5">Also try</span>
+          {alsoTry.map((p, i) => (
+            <button key={i} onClick={() => { setFromUnit(p.from); setToUnit(p.to) }}
+              className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+              {p.label}
+            </button>
+          ))}
+        </motion.div>
+      )}
+
+      {/* AI Quick Actions */}
+      <AIQuickActions
+        categoryId={catId}
+        fromUnit={fromUnit}
+        toUnit={toUnit}
+        result={result}
+        onRepeatBatch={() => setBatchMode(true)}
+        onOpenQuiz={() => setShowQuiz(p => !p)}
+      />
+
+      {/* Conversion Quiz toggle */}
+      {showQuiz && (
+        <ConversionQuiz />
+      )}
+
+      {/* Smart favorites suggestion */}
+      {showFavSuggestion && (
+        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2">
+          <button onClick={async () => {
+            await toggleFavorite({ cat: catId, from: fromUnit, to: toUnit })
+            setShowFavSuggestion(false)
+            addToast('Added to favorites!', 'success', '⭐')
+          }}
+            className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium bg-yellow-500/10 text-yellow-600 border border-yellow-500/30 hover:bg-yellow-500 hover:text-white transition-all interact-lift flex items-center gap-1">
+            ⭐ Save to favorites
+          </button>
+          <button onClick={() => setShowFavSuggestion(false)}
+            className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100" aria-label="Dismiss favorites suggestion">✕</button>
+        </motion.div>
+      )}
+
+      {/* AI mode suggestion */}
+      {modeSuggestion && (
+        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2">
+          <button onClick={() => {
+            window.dispatchEvent(new CustomEvent('uc-mode-suggest', { detail: modeSuggestion.mode }))
+            setModeSuggestion(null)
+            addToast(`Switched to ${modeSuggestion.label}!`, 'success', modeSuggestion.icon)
+          }}
+            className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)]/30 hover:bg-[var(--primary)] hover:text-white transition-all interact-lift flex items-center gap-1">
+            {modeSuggestion.icon} Try {modeSuggestion.label}
+          </button>
+          <button onClick={() => setModeSuggestion(null)}
+            className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100" aria-label="Dismiss mode suggestion">✕</button>
+        </motion.div>
+      )}
+
       {/* Visual context — real-world comparison */}
       {visualRef && (
         <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
           className="glass rounded-xl px-3 py-2 flex items-center gap-2 text-xs">
-          <span className="text-sm">{visualRef.emoji}</span>
+          <span className="text-sm" aria-hidden="true">{visualRef.emoji}</span>
           <span className="opacity-70">{fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong></span>
         </motion.div>
+      )}
+
+      {/* Unit comparison panel */}
+      {result !== null && allResults.length > 0 && (
+        <div>
+          <button onClick={() => setShowAllUnits(!showAllUnits)}
+            className="text-[10px] opacity-40 hover:opacity-80 transition-opacity flex items-center gap-1 mt-1">
+            <span>{showAllUnits ? '▾' : '▸'}</span> Show in all {allResults.length} units
+          </button>
+          <AnimatePresence>
+            {showAllUnits && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                <div className="glass rounded-xl p-2 mt-1 grid grid-cols-2 gap-1 text-xs">
+                  {allResults.map(ar => (
+                    <div key={ar.id} className="flex justify-between p-1.5 rounded-lg hover:bg-[var(--border)] cursor-pointer transition-colors"
+                      onClick={() => setToUnit(ar.id)}>
+                      <span className="opacity-60">{ar.label}</span>
+                      <span className="font-mono font-medium">{ar.value !== null ? fmtR(ar.value) : '—'}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       )}
 
       {/* Step-by-step explanation */}
@@ -574,7 +948,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
           className="overflow-hidden">
           <div className="glass rounded-xl p-3 space-y-2">
-            <div className="text-xs font-semibold">📋 Batch Convert</div>
+            <div className="text-xs font-semibold"><span aria-hidden="true">📋</span> Batch Convert</div>
             <textarea value={batchInput} onChange={e => setBatchInput(e.target.value)}
               placeholder="Enter values (comma, newline, or semicolon separated)&#10;e.g.: 1, 2, 5, 10, 100&#10;or: 1&#10;2&#10;3"
               className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none min-h-[60px] resize-none" />
@@ -622,11 +996,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {/* Quick values */}
       {quickValues.length > 0 && !chainMode && !batchMode && (
-        <div className="flex gap-1 flex-wrap">
+        <div className="flex gap-1.5 flex-wrap">
           {quickValues.map(v => (
             <button key={v} onClick={() => setFromVal(String(v))}
-              className="px-2 py-1 rounded-lg text-xs border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
-              {v < 1 ? String(v) : v >= 1e6 ? '1M' : v >= 1e3 ? '1K' : String(v)}
+              className="px-3 py-1.5 rounded-xl text-xs font-medium glass hover:bg-[var(--primary)] hover:text-white hover:shadow-[var(--glow)] transition-all interact-lift"
+              style={{ fontSize: v >= 1e6 ? '10px' : '11px' }}>
+              {v < 1 ? String(v) : v >= 1e6 ? '1,000,000' : v >= 1e3 ? '1,000' : String(v)}
             </button>
           ))}
         </div>

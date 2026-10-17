@@ -98,7 +98,7 @@ export const VISUAL_CONTEXT: Record<string, VisualRef[]> = {
   ],
 }
 
-export function findVisualContext(catId: string, value: number, unitId: string): VisualRef | null {
+export function findVisualContext(catId: string, value: number, _unitId: string): VisualRef | null { // eslint-disable-line @typescript-eslint/no-unused-vars
   const refs = VISUAL_CONTEXT[catId]
   if (!refs) return null
 

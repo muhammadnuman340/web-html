@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo, startTransition } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { parseNaturalLanguage } from '../../engine/smartParser'
@@ -12,19 +12,20 @@ interface Props {
 
 export default function CommandBar({ open, onClose, onConvert }: Props) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<{ label: string; type: string; action: () => void }[]>([])
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     if (open) {
-      setQuery('')
+      startTransition(() => { setQuery(''); setSelectedIndex(0) })
       setTimeout(() => inputRef.current?.focus(), 50)
     }
   }, [open])
 
-  useEffect(() => {
-    if (!query.trim()) { setResults([]); return }
+  const results = useMemo(() => {
+    if (!query.trim()) return []
     const q = query.toLowerCase()
     const parsed = parseNaturalLanguage(query)
     const r: { label: string; type: string; action: () => void }[] = []
@@ -69,7 +70,6 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
       }
     })
 
-    // Quick math
     const mathMatch = query.match(/^(\d+\.?\d*)\s*([+\-*/])\s*(\d+\.?\d*)$/)
     if (mathMatch) {
       const v1 = parseFloat(mathMatch[1]), op = mathMatch[2], v2 = parseFloat(mathMatch[3])
@@ -87,8 +87,35 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
       })
     }
 
-    setResults(r.slice(0, 10))
+    return r.slice(0, 10)
   }, [query, navigate, onConvert, onClose])
+
+  const executeSelected = useCallback(() => {
+    if (results[selectedIndex]) {
+      results[selectedIndex].action()
+    }
+  }, [results, selectedIndex])
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (results.length === 0) return
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setSelectedIndex(i => (i + 1) % results.length)
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setSelectedIndex(i => (i - 1 + results.length) % results.length)
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      executeSelected()
+    }
+  }, [results.length, executeSelected])
+
+  // Scroll selected item into view
+  useEffect(() => {
+    if (!listRef.current) return
+    const item = listRef.current.children[selectedIndex] as HTMLElement
+    if (item) item.scrollIntoView({ block: 'nearest' })
+  }, [selectedIndex])
 
   return (
     <AnimatePresence>
@@ -108,11 +135,12 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
             className="w-full max-w-lg glass rounded-2xl shadow-2xl overflow-hidden border border-[var(--border)]"
           >
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)]">
-              <span className="text-lg opacity-50">⌘</span>
+              <span className="text-lg opacity-50" aria-hidden="true">⌘</span>
               <input
                 ref={inputRef}
                 value={query}
                 onChange={e => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Search, convert, or calculate... (e.g. '5 km in miles', '100+200')"
                 className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40"
               />
@@ -120,12 +148,15 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
             </div>
 
             {results.length > 0 && (
-              <div className="max-h-72 overflow-y-auto p-2 space-y-0.5">
+              <div ref={listRef} className="max-h-72 overflow-y-auto p-2 space-y-0.5">
                 {results.map((r, i) => (
                   <button
                     key={i}
                     onClick={r.action}
-                    className="w-full text-left px-3 py-2.5 rounded-xl text-sm hover:bg-[var(--border)] transition-colors flex items-center gap-2 interact-lift"
+                    onMouseEnter={() => setSelectedIndex(i)}
+                    className={`w-full text-left px-3 py-2.5 rounded-xl text-sm transition-colors flex items-center gap-2 interact-lift ${
+                      i === selectedIndex ? 'bg-[var(--border)]' : 'hover:bg-[var(--border)]'
+                    }`}
                   >
                     <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${
                       r.type === 'convert' ? 'text-green-500 bg-green-500/10' :
@@ -148,9 +179,6 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
               <span>↓↑ Navigate</span>
               <span>⏎ Select</span>
               <span>Esc Close</span>
-              <span>⌘⇧C Quick Convert</span>
-              <span>⌘H History</span>
-              <span>⌘D Dark Mode</span>
             </div>
           </motion.div>
         </motion.div>

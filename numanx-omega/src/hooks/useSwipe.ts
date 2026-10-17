@@ -12,39 +12,49 @@ export function useSwipe(
   handlers: SwipeHandlers,
   threshold = 60
 ) {
-  const startX = useRef(0)
-  const startY = useRef(0)
-  const distX = useRef(0)
-  const distY = useRef(0)
+  const handlersRef = useRef(handlers)
+  const thresholdRef = useRef(threshold)
+
+  useEffect(() => {
+    handlersRef.current = handlers
+    thresholdRef.current = threshold
+  })
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
 
+    let startX = 0
+    let startY = 0
+    let distX = 0
+    let distY = 0
+
     const onTouchStart = (e: TouchEvent) => {
-      startX.current = e.touches[0].clientX
-      startY.current = e.touches[0].clientY
+      startX = e.touches[0].clientX
+      startY = e.touches[0].clientY
     }
 
     const onTouchMove = (e: TouchEvent) => {
-      distX.current = e.touches[0].clientX - startX.current
-      distY.current = e.touches[0].clientY - startY.current
+      distX = e.touches[0].clientX - startX
+      distY = e.touches[0].clientY - startY
     }
 
     const onTouchEnd = () => {
-      const ax = Math.abs(distX.current)
-      const ay = Math.abs(distY.current)
+      const ax = Math.abs(distX)
+      const ay = Math.abs(distY)
+      const t = thresholdRef.current
+      const h = handlersRef.current
 
-      if (ax > threshold && ax > ay * 1.5) {
-        if (distX.current > 0 && handlers.onSwipeRight) handlers.onSwipeRight()
-        else if (distX.current < 0 && handlers.onSwipeLeft) handlers.onSwipeLeft()
-      } else if (ay > threshold && ay > ax * 1.5) {
-        if (distY.current > 0 && handlers.onSwipeDown) handlers.onSwipeDown()
-        else if (distY.current < 0 && handlers.onSwipeUp) handlers.onSwipeUp()
+      if (ax > t && ax > ay * 1.5) {
+        if (distX > 0 && h.onSwipeRight) h.onSwipeRight()
+        else if (distX < 0 && h.onSwipeLeft) h.onSwipeLeft()
+      } else if (ay > t && ay > ax * 1.5) {
+        if (distY > 0 && h.onSwipeDown) h.onSwipeDown()
+        else if (distY < 0 && h.onSwipeUp) h.onSwipeUp()
       }
 
-      distX.current = 0
-      distY.current = 0
+      distX = 0
+      distY = 0
     }
 
     el.addEventListener('touchstart', onTouchStart, { passive: true })
@@ -56,5 +66,5 @@ export function useSwipe(
       el.removeEventListener('touchmove', onTouchMove)
       el.removeEventListener('touchend', onTouchEnd)
     }
-  }, [ref.current, handlers.onSwipeLeft, handlers.onSwipeRight, handlers.onSwipeUp, handlers.onSwipeDown, threshold])
+  }, [ref])
 }

@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, getCategory } from '../engine/converter'
 import { addCustomUnit } from '../engine/converter'
@@ -55,9 +55,8 @@ export default function CustomUnits() {
     const next = customs.filter((_, i) => i !== idx)
     setCustoms(next)
     saveCustom(next)
-    // Reload page to reflect changes
-    window.location.reload()
-  }, [customs])
+    addToast('Unit removed — refresh categories to apply', 'info', '🔄')
+  }, [customs, addToast])
 
   const grouped = useMemo(() => {
     const g: Record<string, CustomUnit[]> = {}
@@ -76,7 +75,7 @@ export default function CustomUnits() {
     >
       <SEOHead title="Custom Unit Creator — Define Your Own Units" description="Create custom conversion units with your own symbols and conversion rates. Perfect for specialized industries, niche measurements, and personal use." path="/custom-units" />
       <div className="page-header">
-        <h2 className="text-lg font-bold">⚒️ Custom Unit Creator</h2>
+        <h2 className="text-lg font-bold"><span aria-hidden="true">⚒️</span> Custom Unit Creator</h2>
         <p className="text-xs opacity-40 mt-1">Define your own units and conversion factors</p>
       </div>
 
@@ -85,24 +84,24 @@ export default function CustomUnits() {
         <div className="text-xs font-semibold uppercase tracking-wide opacity-50">New Custom Unit</div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <select value={catId} onChange={e => setCatId(e.target.value)}
-            className="p-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)]">
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all">
             {cats.filter(c => !c.curr && !c.crypto).map(c => (
               <option key={c.id} value={c.id}>{c.ic} {c.lb}</option>
             ))}
           </select>
           <input type="text" value={name} onChange={e => setName(e.target.value)}
             placeholder="Unit name (e.g. MyToken)"
-            className="p-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)]" />
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           <input type="text" value={sym} onChange={e => setSym(e.target.value)}
             placeholder="Symbol (e.g. MTK)"
-            className="p-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)]" />
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           <input type="text" value={rate} onChange={e => setRate(e.target.value)}
             placeholder="1 of base = ?"
-            className="p-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)]" />
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
         </div>
         <div className="text-[10px] opacity-30">Rate: how many base units equal 1 of your unit (e.g., for length base is meters)</div>
         <button onClick={add}
-          className="w-full py-2 rounded-xl text-sm font-medium bg-[var(--primary)] text-white hover:shadow-lg hover:shadow-[var(--primary)]/30 transition-all interact-lift">
+          className="w-full py-2 rounded-xl text-sm font-medium bg-[var(--primary)] text-white hover:shadow-lg hover:shadow-[var(--glow)] transition-all interact-lift">
           + Add Custom Unit
         </button>
       </div>
@@ -120,7 +119,7 @@ export default function CustomUnits() {
                   <span className="opacity-30">· {units.length} units</span>
                 </div>
                 <div className="space-y-1">
-                  {units.map((u, i) => (
+                  {units.map(u => (
                     <div key={u.id}
                       className="glass rounded-xl px-3 py-2 flex items-center justify-between">
                       <div>
@@ -130,7 +129,7 @@ export default function CustomUnits() {
                       <div className="flex items-center gap-3">
                         <span className="text-[10px] opacity-40">1 = {u.r}</span>
                         <button onClick={() => remove(customs.indexOf(u))}
-                          className="p-1 rounded-lg text-[10px] opacity-30 hover:opacity-100 hover:bg-red-500/20 hover:text-red-500 transition-all">
+                          className="p-1 rounded-lg text-[10px] opacity-30 hover:opacity-100 hover:bg-red-500/20 hover:text-red-500 transition-all" aria-label="Remove custom unit">
                           ✕
                         </button>
                       </div>

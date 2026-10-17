@@ -30,7 +30,7 @@ export default class ErrorBoundary extends Component<Props, State> {
       return this.props.fallback || (
         <div className="flex items-center justify-center min-h-[50vh] p-8">
           <div className="glass rounded-2xl p-8 max-w-md text-center space-y-4">
-            <div className="text-5xl animate-float">⚠️</div>
+            <div className="text-5xl animate-float" aria-hidden="true">⚠️</div>
             <h2 className="text-lg font-bold">Something went wrong</h2>
             <p className="text-sm opacity-60">{this.state.error?.message || 'An unexpected error occurred'}</p>
             <button

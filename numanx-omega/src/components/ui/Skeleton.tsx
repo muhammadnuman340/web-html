@@ -10,7 +10,7 @@ export function SkeletonCard({ className = '' }: { className?: string }) {
 
 export function SkeletonPage() {
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-4">
       <div className="h-6 w-48 rounded bg-[var(--border)] animate-pulse" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}

@@ -28,7 +28,7 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
           onClick={() => setExpanded(!expanded)}
           className="w-full glass rounded-xl px-3 py-1.5 text-[11px] flex items-center gap-2 hover:bg-[var(--border)] transition-all"
         >
-          <span className="opacity-40">🤖</span>
+          <span className="opacity-40" aria-hidden="true">🤖</span>
           <span className="opacity-30 flex-1 text-left">Smart Insights — start converting to see analytics</span>
           <span className="text-[9px] opacity-20">{expanded ? '▲' : '▼'}</span>
         </button>
@@ -45,9 +45,9 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
                   Your conversion patterns, most-used categories, and productivity score will appear here once you start converting.
                 </div>
                 <div className="flex gap-1">
-                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]">📏 Length</span>
-                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]">⚖️ Mass</span>
-                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]">🌡️ Temp</span>
+                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">📏</span> Length</span>
+                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">⚖️</span> Mass</span>
+                  <span className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">🌡️</span> Temp</span>
                 </div>
               </div>
             </motion.div>
@@ -67,8 +67,8 @@ export default function SmartSuggestions({ visible, onApplyPair }: Props) {
       >
         <div className="glass rounded-2xl p-3 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold uppercase tracking-wide opacity-60">🤖 Smart Insights</span>
-            <button onClick={() => setDismissed(true)} className="text-xs opacity-30 hover:opacity-100">✕</button>
+            <span className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">🤖</span> Smart Insights</span>
+            <button onClick={() => setDismissed(true)} className="text-xs opacity-30 hover:opacity-100" aria-label="Dismiss insights">✕</button>
           </div>
 
           <div className="grid grid-cols-3 gap-2 text-center text-xs">

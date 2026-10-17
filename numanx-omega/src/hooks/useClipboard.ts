@@ -1,9 +1,10 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 
 export interface ClipboardSuggestion {
   text: string
   value: number | null
   unit?: string
+  targetUnit?: string
   label: string
 }
 
@@ -32,6 +33,20 @@ export function useClipboardDetection() {
       if (!text || text.length > 100) return
 
       const trimmed = text.trim()
+
+      // Detect conversion patterns like "5 km in miles" or "100 USD to EUR"
+      const convMatch = trimmed.match(/(\d+\.?\d*)\s*(\w+)\s+(?:in|to|as)\s+(\w+)/i)
+      if (convMatch) {
+        setSuggestion({
+          text: trimmed,
+          value: parseFloat(convMatch[1]),
+          unit: convMatch[2],
+          label: `Convert "${convMatch[1]} ${convMatch[2]} → ${convMatch[3]}"?`,
+          targetUnit: convMatch[3],
+        })
+        return
+      }
+
       const num = parseFloat(trimmed)
       if (!isNaN(num) && trimmed.length < 20) {
         setSuggestion({ text: trimmed, value: num, label: `Convert "${trimmed}"?` })

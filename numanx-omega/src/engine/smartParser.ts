@@ -58,7 +58,7 @@ const UNIT_PATTERNS: [RegExp, string, string[]][] = [
 
 export function correctUnit(input: string): string {
   const lower = input.toLowerCase()
-  for (const [_, id, misspellings] of UNIT_PATTERNS) {
+  for (const [, id, misspellings] of UNIT_PATTERNS) {
     for (const wrong of misspellings) {
       const regex = new RegExp(wrong.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')
       if (regex.test(lower)) return id
@@ -159,7 +159,7 @@ export function parseNaturalLanguage(input: string): ParsedExpression {
   if (mm) {
     const v1 = parseFloat(mm[1]), u1 = extractUnit(mm[2])
     const op = mm[3], v2 = parseFloat(mm[4]), u2 = extractUnit(mm[5])
-    const factor = mm[6] ? parseFloat(mm[6]) : 1
+    if (mm[6]) parseFloat(mm[6])
     const targetUnit = mm[7] ? extractUnit(mm[7]) : u1
     if (u1 && u2 && !isNaN(v1) && !isNaN(v2)) {
       return {
@@ -175,7 +175,7 @@ export function parseNaturalLanguage(input: string): ParsedExpression {
   }
 
   // Mixed expression: "5m + 20cm" or "1km + 500m"
-  const mixedParts = raw.split(/\s*([+\-])\s*/)
+  const mixedParts = raw.split(/\s*([+\x2d])\s*/)
   if (mixedParts.length >= 3) {
     const exprs: ParsedExpression[] = []
     for (let i = 0; i < mixedParts.length; i++) {
@@ -206,7 +206,7 @@ export function parseNaturalLanguage(input: string): ParsedExpression {
 }
 
 export function parseMixedExpression(input: string): { values: number[]; units: string[]; ops: string[] } | null {
-  const parts = input.split(/\s*([+\-])\s*/)
+  const parts = input.split(/\s*([+\x2d])\s*/)
   const values: number[] = []
   const units: string[] = []
   const ops: string[] = []

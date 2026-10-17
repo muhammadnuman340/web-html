@@ -1,7 +1,7 @@
 import type { CategoryDef } from '../types'
 import { Categories } from './categories'
 
-let customCategories: CategoryDef[] = []
+const customCategories: CategoryDef[] = []
 
 export function getCategory(id: string): CategoryDef | undefined {
   const found = Categories.find(c => c.id === id) || customCategories.find(c => c.id === id)
@@ -94,7 +94,7 @@ export function getFormula(catId: string, fromId: string, toId: string): string 
 }
 
 export function addCustomUnit(catId: string, id: string, label: string, rate: number) {
-  let cat = getCategory(catId)
+  const cat = getCategory(catId)
   if (!cat) return false
   if (cat.un.find(u => u.id === id)) return false
   cat.un.push({ id, lb: label, r: rate, s: 'C', custom: true })

@@ -1,4 +1,4 @@
-import { getAllCategories, addCustomUnit } from './converter'
+import { addCustomUnit } from './converter'
 import type { CategoryDef, UnitDef } from '../types'
 
 export interface PluginDefinition {

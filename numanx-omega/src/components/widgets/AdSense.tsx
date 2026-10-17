@@ -18,15 +18,15 @@ export default function AdSense({ slot, format = 'auto', layout, className = '',
   useEffect(() => {
     if (initialized.current) return
     try {
-      const win = window as any
+      const win = window as Record<string, unknown>
       if (win.adsbygoogle) {
         win.adsbygoogle.push({})
         initialized.current = true
       }
-    } catch {}
+    } catch { /* ad blocker may block */ }
   }, [])
 
-  const insStyle: Record<string, any> = format === 'fluid'
+  const insStyle: Record<string, string | number | boolean> = format === 'fluid'
     ? { display: 'block', textAlign: 'center' }
     : isFixed
       ? { display: 'inline-block', width, height }

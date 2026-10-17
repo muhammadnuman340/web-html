@@ -15,7 +15,7 @@ export default function ThemeCustomizer({ theme, setTheme }: { theme: string; se
           onClick={() => setTheme(t.id)}
           className={`p-2 rounded-xl text-center text-xs transition-all ${theme === t.id ? 'ring-2 ring-[var(--primary)] bg-[var(--card2)]' : 'hover:bg-[var(--border)]'}`}
         >
-          <div className="text-lg mb-1">{t.icon}</div>
+          <div className="text-lg mb-1" aria-hidden="true">{t.icon}</div>
           <div>{t.label}</div>
         </button>
       ))}

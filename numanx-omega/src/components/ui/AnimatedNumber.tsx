@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 
+function formatVal(v: number, d: number) {
+  return v.toFixed(d)
+}
+
 export default function AnimatedNumber({ value, duration = 300, decimals = 2 }: { value: number | null; duration?: number; decimals?: number }) {
   const ref = useRef<HTMLSpanElement>(null)
   const prevValue = useRef(value)
-  const [display, setDisplay] = useState('—')
+  const isInvalid = value === null || value === undefined || !isFinite(value)
+  const [display, setDisplay] = useState(isInvalid ? '—' : formatVal(value, decimals))
 
   useEffect(() => {
-    if (value === null || value === undefined || !isFinite(value)) {
-      setDisplay('—')
-      return
-    }
+    if (isInvalid) return
     const from = prevValue.current !== null && isFinite(prevValue.current) ? prevValue.current : value
-    const to = value
+    const to = value!
     prevValue.current = value
-    if (from === to) { setDisplay(formatVal(to, decimals)); return }
+    if (from === to) return
 
     const start = performance.now()
     const animate = (now: number) => {
@@ -24,7 +26,7 @@ export default function AnimatedNumber({ value, duration = 300, decimals = 2 }: 
       if (t < 1) requestAnimationFrame(animate)
     }
     requestAnimationFrame(animate)
-  }, [value, duration, decimals])
+  }, [value, duration, decimals, isInvalid])
 
   return <span ref={ref} className="tabular-nums">{display}</span>
 }

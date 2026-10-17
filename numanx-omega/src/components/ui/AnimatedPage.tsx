@@ -36,14 +36,14 @@ interface Props {
   stagger?: number
 }
 
-export default function AnimatedPage({ children, className, variant = 'fade', stagger = 0.04 }: Props) {
-  const vars = {
-    fade: item,
-    left: itemLeft,
-    up: itemUp,
-    scale: itemScale,
-  }
+const variants: Record<Variant, typeof item> = {
+  fade: item,
+  left: itemLeft,
+  up: itemUp,
+  scale: itemScale,
+}
 
+export default function AnimatedPage({ children, className, stagger = 0.04 }: Omit<Props, 'variant'>) {
   return (
     <motion.div
       variants={container}
@@ -58,15 +58,8 @@ export default function AnimatedPage({ children, className, variant = 'fade', st
 }
 
 export function AnimatedItem({ children, className, variant = 'fade' }: { children: React.ReactNode; className?: string; variant?: Variant }) {
-  const vars = {
-    fade: item,
-    left: itemLeft,
-    up: itemUp,
-    scale: itemScale,
-  }
-
   return (
-    <motion.div variants={vars[variant]} className={className}>
+    <motion.div variants={variants[variant]} className={className}>
       {children}
     </motion.div>
   )

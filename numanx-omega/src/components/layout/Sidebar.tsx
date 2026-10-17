@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import SmartSuggestions from '../widgets/SmartSuggestions'
-import ModeSwitcher, { MODES } from '../widgets/ModeSwitcher'
+import { MODES } from '../widgets/ModeSwitcher'
 import AdSense from '../widgets/AdSense'
 import type { AppMode } from '../widgets/ModeSwitcher'
 
@@ -33,8 +33,19 @@ const NAV_SECONDARY = [
   { path: '/history', icon: '📜', label: 'History' },
   { path: '/custom-units', icon: '⚒️', label: 'Custom Units' },
   { path: '/dashboard', icon: '📊', label: 'Analytics' },
+  { path: '/sitemap', icon: '🗺️', label: 'Sitemap' },
   { path: '/settings', icon: '⚙️', label: 'Settings' },
 ]
+
+const sidebarVariants = {
+  open: { x: 0, transition: { type: 'spring', damping: 28, stiffness: 260 } },
+  closed: { x: '-100%', transition: { type: 'spring', damping: 30, stiffness: 300 } },
+}
+
+const backdropVariants = {
+  open: { opacity: 1, transition: { duration: 0.2 } },
+  closed: { opacity: 0, transition: { duration: 0.2 } },
+}
 
 export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair }: Props) {
   const location = useLocation()
@@ -44,53 +55,87 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
   const navItem = (item: { path: string; icon: string; label: string }) => {
     const active = location.pathname === item.path
     return (
-      <button key={item.path} onClick={() => { navigate(item.path); onClose() }}
-        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${
+      <motion.button
+        key={item.path}
+        whileTap={{ scale: 0.97 }}
+        onClick={() => { navigate(item.path); onClose() }}
+        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all relative ${
           active ? 'bg-[var(--primary)] text-white shadow-md' : 'hover:bg-[var(--border)]'
-        }`}>
-        <span>{item.icon}</span>
+        }`}
+      >
+        <span className="text-base" aria-hidden="true">{item.icon}</span>
         <span>{item.label}</span>
-      </button>
+      </motion.button>
     )
   }
 
   return (
-    <>
-      {open && <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose} />}
-      <aside className={`fixed top-0 left-0 h-full w-64 z-50 glass p-4 transform transition-transform duration-300 ${
-        open ? 'translate-x-0' : '-translate-x-full'
-      } overflow-y-auto`}>
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="sidebar-backdrop"
+          variants={backdropVariants}
+          initial="closed"
+          animate="open"
+          exit="closed"
+          className="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm"
+          onClick={onClose}
+        />
+      )}
+
+      <motion.aside
+        key="sidebar-panel"
+        variants={sidebarVariants}
+        initial="closed"
+        animate={open ? 'open' : 'closed'}
+        exit="closed"
+        className="fixed top-0 left-0 h-full w-64 z-50 glass p-4 overflow-y-auto"
+      >
         {/* Logo + close */}
         <div className="flex items-center justify-between mb-6 mt-2">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] flex items-center justify-center text-white text-[10px] font-bold shadow-lg shadow-[var(--primary)]/30">NX</div>
+            <div className="w-8 h-8 rounded-xl gradient-primary flex items-center justify-center text-white text-[10px] font-bold shadow-lg shadow-[var(--glow)]">NX</div>
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-bold text-sm">NumanX</span>
-                <span className="px-1 py-0.5 rounded text-[7px] font-semibold uppercase tracking-wider bg-[var(--primary)]/20 text-[var(--primary)]">Studio</span>
+                <span className="px-1 py-0.5 rounded text-[7px] font-semibold uppercase tracking-wider bg-[var(--primary-muted)] text-[var(--primary)]">Studio</span>
               </div>
               <div className="text-[10px] opacity-40 tracking-wide">Omega X Converter</div>
             </div>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-xl hover:bg-[var(--border)] text-sm interact-lift">✕</button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={onClose}
+            className="p-1.5 rounded-xl hover:bg-[var(--border)] text-sm interact-lift"
+            aria-label="Close sidebar"
+          >
+            ✕
+          </motion.button>
         </div>
 
         {/* Mode selector */}
         <div className="relative mb-4">
-          <button onClick={() => setShowModePicker(!showModePicker)}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl glass hover:bg-[var(--border)] transition-all text-sm">
-            <span>{MODES.find(m => m.id === mode)?.icon}</span>
+          <motion.button
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setShowModePicker(!showModePicker)}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl glass hover:bg-[var(--border)] transition-all text-sm"
+          >
+            <span aria-hidden="true">{MODES.find(m => m.id === mode)?.icon}</span>
             <span className="flex-1 text-left font-medium">{MODES.find(m => m.id === mode)?.label}</span>
             <span className="text-[9px] opacity-40">{showModePicker ? '▲' : '▼'}</span>
-          </button>
+          </motion.button>
           <AnimatePresence>
             {showModePicker && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                className="overflow-hidden rounded-xl border border-[var(--border)] mt-1 bg-[var(--card2)]">
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden rounded-xl border border-[var(--border)] mt-1 bg-[var(--card2)]"
+              >
                 {MODES.filter(m => m.id !== mode).map(m => (
-                  <button key={m.id} onClick={() => { onModeChange(m.id); setShowModePicker(false); }}
+                  <button key={m.id} onClick={() => { onModeChange(m.id); setShowModePicker(false) }}
                     className="w-full text-left px-3 py-2 text-xs hover:bg-[var(--border)] transition-colors flex items-center gap-2">
-                    <span>{m.icon}</span>
+                    <span aria-hidden="true">{m.icon}</span>
                     <span>{m.label}</span>
                   </button>
                 ))}
@@ -117,7 +162,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           <nav className="space-y-0.5">{NAV_SECONDARY.map(navItem)}</nav>
         </div>
 
-        {/* Smart Insights in sidebar */}
+        {/* Smart Insights */}
         <div className="mb-3 px-3">
           <SmartSuggestions visible={true} onApplyPair={onApplyPair} />
         </div>
@@ -126,9 +171,9 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           <AdSense slot="3115913228" format="auto" />
         </div>
         <div className="mt-auto pt-4 text-center text-xs opacity-40">
-          NumanX Studios © 2026
+          NumanX Studios &copy; 2026
         </div>
-      </aside>
-    </>
+      </motion.aside>
+    </AnimatePresence>
   )
 }

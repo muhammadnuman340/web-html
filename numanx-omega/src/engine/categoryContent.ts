@@ -48,7 +48,7 @@ export const categoryContent: Record<string, CategoryContent> = {
       { q: 'How do I convert ounces to grams?', a: 'Multiply ounces by 28.3495 to get grams. For example, 8 oz × 28.3495 = 226.8 grams.' },
     ],
   },
-  temperature: {
+  temp: {
     title: 'Temperature Converter — Celsius, Fahrenheit, Kelvin & 5 Scales',
     metaDesc: 'Free online temperature converter. Convert between Celsius, Fahrenheit, Kelvin, Rankine, and Réaumur. Includes formula explanations and real-world reference points.',
     h1: 'Temperature Conversion',
@@ -65,42 +65,6 @@ export const categoryContent: Record<string, CategoryContent> = {
     faq: [
       { q: 'How do I convert Celsius to Fahrenheit?', a: 'Multiply Celsius by 9/5 (1.8) then add 32. For example, 25°C × 1.8 + 32 = 77°F.' },
       { q: 'What is absolute zero in Celsius?', a: 'Absolute zero is 0 Kelvin, which equals -273.15°C or -459.67°F.' },
-    ],
-  },
-  currency: {
-    title: 'Currency Converter — Live Exchange Rates for 40+ World Currencies',
-    metaDesc: 'Free live currency converter with real-time exchange rates. Convert USD, EUR, GBP, JPY, and 40+ world currencies. Auto-updates every 60 seconds.',
-    h1: 'Currency Conversion',
-    intro: 'Convert between 40+ world currencies with live exchange rates. The currency converter fetches real-time rates from reliable financial APIs and auto-updates every 60 seconds. Supports major currencies including USD, EUR, GBP, JPY, CAD, AUD, CHF, CNY, INR, and many more. Historical rate charts help you track trends over time.',
-    popularPairs: [
-      { from: 'USD', to: 'EUR', desc: 'USD → EUR — most traded forex pair' },
-      { from: 'EUR', to: 'USD', desc: 'EUR → USD — international transactions' },
-      { from: 'GBP', to: 'USD', desc: 'GBP → USD — GBP/USD cable rate' },
-      { from: 'USD', to: 'JPY', desc: 'USD → JPY — Asian market conversion' },
-      { from: 'USD', to: 'INR', desc: 'USD → INR — remittance & travel' },
-    ],
-    useCases: ['Travel & vacation budgeting', 'International business & remittance', 'E-commerce & cross-border shopping', 'Forex trading & analysis', 'Investment & portfolio management'],
-    faq: [
-      { q: 'How often are currency rates updated?', a: 'Exchange rates are fetched in real-time from financial APIs and refresh every 60 seconds while you are on the page.' },
-      { q: 'Does the currency converter work offline?', a: 'Cached rates are available offline. The converter saves the last fetched rates so you can still convert even without internet.' },
-    ],
-  },
-  crypto: {
-    title: 'Crypto Converter — Bitcoin, Ethereum, Solana & Top Cryptocurrencies',
-    metaDesc: 'Free live cryptocurrency converter. Real-time prices for Bitcoin, Ethereum, Solana, XRP, Dogecoin, and 50+ cryptocurrencies via CoinGecko.',
-    h1: 'Cryptocurrency Conversion',
-    intro: 'Convert between major cryptocurrencies and fiat currencies with live prices from CoinGecko. Track Bitcoin (BTC), Ethereum (ETH), Solana (SOL), XRP, Dogecoin (DOGE), Cardano (ADA), and 50+ altcoins. Prices update automatically every 60 seconds. The built-in sparkline chart shows price trends for each cryptocurrency.',
-    popularPairs: [
-      { from: 'Bitcoin', to: 'USD', desc: 'BTC → USD — leading crypto pair' },
-      { from: 'Ethereum', to: 'USD', desc: 'ETH → USD — smart contract platform' },
-      { from: 'Solana', to: 'USD', desc: 'SOL → USD — high-performance blockchain' },
-      { from: 'XRP', to: 'USD', desc: 'XRP → USD — cross-border payments' },
-      { from: 'Dogecoin', to: 'USD', desc: 'DOGE → USD — meme coin tracker' },
-    ],
-    useCases: ['Crypto trading & investment tracking', 'Portfolio valuation (BTC↔USD)', 'Crypto-to-crypto conversions', 'Real-time price monitoring', 'Tax calculation & reporting'],
-    faq: [
-      { q: 'Where do crypto prices come from?', a: 'Prices are sourced from CoinGecko API, which aggregates data from hundreds of cryptocurrency exchanges worldwide.' },
-      { q: 'How often do crypto prices update?', a: 'Crypto prices refresh every 60 seconds, giving you near-real-time market data.' },
     ],
   },
   area: {
@@ -329,6 +293,158 @@ export const categoryContent: Record<string, CategoryContent> = {
     faq: [
       { q: 'How do I convert MHz to GHz?', a: 'Divide MHz by 1,000 to get GHz. For example, 2,400 MHz ÷ 1,000 = 2.4 GHz.' },
       { q: 'What is the difference between Hz and RPM?', a: 'Hz measures cycles per second, while RPM measures rotations per minute. 1 Hz = 60 RPM. To convert RPM to Hz, divide by 60.' },
+    ],
+  },
+  acceleration: {
+    title: 'Acceleration Converter — m/s², G-Force, ft/s² & More',
+    metaDesc: 'Convert acceleration units instantly: meters per second squared (m/s²), standard gravity (g-force), feet per second squared (ft/s²), and Gal. Free online tool for physics and engineering.',
+    h1: 'Acceleration Conversion',
+    intro: 'Convert between linear acceleration and gravitational acceleration units. Supports meters per second squared (m/s²), standard gravitational acceleration (g-force, 9.80665 m/s²), feet per second squared (ft/s²), and Galileo (Gal). Essential for physics students, automotive engineers, and aerospace calculations.',
+    popularPairs: [
+      { from: 'm/s²', to: 'g-force', desc: 'm/s² → g — convert acceleration into gravitational multiples' },
+      { from: 'g-force', to: 'm/s²', desc: 'g → m/s² — calculate real-world physical acceleration from g-load' },
+      { from: 'ft/s²', to: 'm/s²', desc: 'ft/s² → m/s² — imperial to metric engineering acceleration' },
+    ],
+    useCases: ['Automotive performance (0-60 mph g-forces)', 'Aerospace flight load analysis', 'Civil engineering & seismic calculations', 'Physics kinematics problem-solving'],
+    formula: '1 g = 9.80665 m/s². 1 m/s² ≈ 3.28084 ft/s².',
+    faq: [
+      { q: 'What is 1 g of acceleration in m/s²?', a: '1 standard g-force equals 9.80665 meters per second squared (m/s²).' },
+      { q: 'How do I convert m/s² to g-force?', a: 'Divide your acceleration in m/s² by 9.80665 to get the load in g-force.' },
+    ],
+  },
+  electricity: {
+    title: 'Electricity Converter — Volts, Amperes, Ohms, Farads & Coulombs',
+    metaDesc: 'Free online electrical units converter. Convert between Volts, Amperes, Milliamperes, Ohms, Kilohms, Microfarads, and Coulombs for circuit design and electronics.',
+    h1: 'Electrical Units Conversion',
+    intro: 'Convert between electrical potential, current, resistance, capacitance, and charge units. Supports Volts (V, kV), Amperes (A, mA), Ohms (Ω, kΩ, MΩ), Farads (F, µF), and Coulombs (C). Designed for electronics hobbyists, electrical engineers, and students.',
+    popularPairs: [
+      { from: 'Volt', to: 'Kilovolt', desc: 'V → kV — electrical grid & power supplies' },
+      { from: 'Milliampere', to: 'Ampere', desc: 'mA → A — microelectronics & battery consumption' },
+      { from: 'Kilo-ohm', to: 'Ohm', desc: 'kΩ → Ω — resistor ratings & circuit design' },
+      { from: 'Microfarad', to: 'Farad', desc: 'µF → F — capacitor capacitance ratings' },
+    ],
+    useCases: ['Circuit prototyping and breadboarding', 'Power supply sizing and solar calculations', 'Audio equipment impedance matching', 'Battery discharge analysis'],
+    formula: 'Ohm\'s Law: V = I × R. 1 kV = 1,000 V. 1 A = 1,000 mA. 1 kΩ = 1,000 Ω.',
+    faq: [
+      { q: 'How many milliamperes are in an ampere?', a: 'There are exactly 1,000 milliamperes (mA) in one ampere (A).' },
+      { q: 'How do I convert kilohms to ohms?', a: 'Multiply the value in kilohms (kΩ) by 1,000 to get ohms (Ω).' },
+    ],
+  },
+  magnetism: {
+    title: 'Magnetism Converter — Tesla, Gauss, Weber & Field Units',
+    metaDesc: 'Convert magnetic flux density and flux units online: Tesla (T), Gauss (G), and Weber (Wb). Fast and precise calculator for physics and MRI magnetism.',
+    h1: 'Magnetic Units Conversion',
+    intro: 'Convert between magnetic flux density and total magnetic field units. Supports Tesla (T, SI unit), Gauss (G, CGS unit), and Weber (Wb, magnetic flux). Essential for MRI physics, magnet manufacturing, speaker drivers, and electromagnetism.',
+    popularPairs: [
+      { from: 'Tesla', to: 'Gauss', desc: 'T → G — convert high-field magnets (1 T = 10,000 G)' },
+      { from: 'Gauss', to: 'Tesla', desc: 'G → T — convert geomagnetic and surface field readings' },
+    ],
+    useCases: ['MRI medical scanner field strength analysis', 'Permanent neodymium magnet grading (N42, N52)', 'Geomagnetic Earth field measurements', 'Sensor calibration (Hall effect sensors)'],
+    formula: '1 Tesla (T) = 10,000 Gauss (G). 1 Gauss = 0.0001 Tesla.',
+    faq: [
+      { q: 'How many Gauss are in one Tesla?', a: '1 Tesla equals exactly 10,000 Gauss.' },
+      { q: 'What is the Earth\'s magnetic field in Gauss?', a: 'The Earth\'s surface magnetic field is relatively weak, typically between 0.25 and 0.65 Gauss (25 to 65 microteslas).' },
+    ],
+  },
+  datatransfer: {
+    title: 'Data Transfer Rate Converter — Mbps, Gbps, KB/s, MB/s',
+    metaDesc: 'Convert network transfer speeds instantly between bps, Kbps, Mbps, Gbps, and Tbps. Calculate internet speed, fiber optics bandwidth, and download capabilities.',
+    h1: 'Data Transfer Rate Conversion',
+    intro: 'Convert between network speed and bandwidth throughput units: bits per second (bps), Kilobits per second (Kbps), Megabits per second (Mbps), Gigabits per second (Gbps), and Terabits per second (Tbps). Understand true connection performance and file download speed.',
+    popularPairs: [
+      { from: 'Mbps', to: 'Gbps', desc: 'Mbps → Gbps — broadband speed to fiber gigabit speed' },
+      { from: 'Gbps', to: 'Mbps', desc: 'Gbps → Mbps — data center and enterprise uplink bandwidth' },
+      { from: 'Kbps', to: 'Mbps', desc: 'Kbps → Mbps — audio streaming and low-bandwidth connections' },
+    ],
+    useCases: ['Internet service provider (ISP) speed testing', 'Network router and switch throughput verification', 'Live video streaming bitrate configuration', 'Data backup bandwidth planning'],
+    formula: '1 Gbps = 1,000 Mbps = 1,000,000 Kbps. Note: 8 bits (b) = 1 Byte (B).',
+    faq: [
+      { q: 'What is the difference between Mbps and MB/s?', a: 'Mbps is Megabits per second (used by ISPs), while MB/s is MegaBytes per second (used for file sizes). Since 8 bits equal 1 Byte, 100 Mbps equals approximately 12.5 MB/s of actual download speed.' },
+      { q: 'How many Mbps is 1 Gbps?', a: '1 Gigabit per second (Gbps) equals 1,000 Megabits per second (Mbps).' },
+    ],
+  },
+  torque: {
+    title: 'Torque Converter — Newton-Meters (N·m) to Foot-Pounds (lb-ft)',
+    metaDesc: 'Convert torque units instantly between Newton-meters (N·m) and foot-pounds (lb-ft). Accurate tool for automotive mechanics, wrench torque specs, and engine tuning.',
+    h1: 'Torque Conversion',
+    intro: 'Convert between metric and imperial rotational torque units: Newton-meters (N·m) and pound-feet / foot-pounds (lb-ft). Crucial for automotive repair, lug nut tightening specs, bicycle maintenance, and engine dyno readouts.',
+    popularPairs: [
+      { from: 'Newton-meter', to: 'Foot-pound', desc: 'N·m → lb-ft — metric automotive specs to US wrench torque' },
+      { from: 'Foot-pound', to: 'Newton-meter', desc: 'lb-ft → N·m — torque wrench calibration and import vehicle service' },
+    ],
+    useCases: ['Wheel lug nut torque specifications', 'Engine cylinder head and manifold bolt tightening', 'Bicycle bottom bracket and pedal servicing', 'Industrial machinery shaft calibration'],
+    formula: '1 N·m ≈ 0.737562 lb-ft. 1 lb-ft ≈ 1.355818 N·m.',
+    faq: [
+      { q: 'How do I convert Newton-meters to foot-pounds?', a: 'Multiply the torque in Newton-meters (N·m) by 0.737562. For example, 100 N·m × 0.737562 = 73.76 lb-ft.' },
+      { q: 'What torque is typical for car wheel lug nuts?', a: 'Most passenger cars require lug nuts torqued to between 110 N·m and 140 N·m (approximately 80 to 100 lb-ft).' },
+    ],
+  },
+  density: {
+    title: 'Density Converter — kg/m³, g/cm³, lb/ft³ & Material Density',
+    metaDesc: 'Convert density units online: kilograms per cubic meter (kg/m³), grams per cubic centimeter (g/cm³), and pounds per cubic foot (lb/ft³). Free engineering calculator.',
+    h1: 'Density Conversion',
+    intro: 'Convert material density and specific gravity units between metric and imperial standards: kilograms per cubic meter (kg/m³), grams per cubic centimeter (g/cm³), and pounds per cubic foot (lb/ft³). Essential for fluid mechanics, material science, shipping freight classification, and civil engineering.',
+    popularPairs: [
+      { from: 'g/cm³', to: 'kg/m³', desc: 'g/cm³ → kg/m³ — standard lab density to SI bulk density' },
+      { from: 'kg/m³', to: 'lb/ft³', desc: 'kg/m³ → lb/ft³ — metric structural materials to imperial shipping density' },
+    ],
+    useCases: ['Material identification and buoyancy calculations', 'Concrete, steel, and timber structural design', 'Freight packaging dimensional weight density', 'Chemistry solution concentration analysis'],
+    formula: '1 g/cm³ = 1,000 kg/m³. 1 kg/m³ ≈ 0.062428 lb/ft³. 1 lb/ft³ ≈ 16.0185 kg/m³.',
+    faq: [
+      { q: 'What is the density of pure water?', a: 'At 4°C, pure water has a density of exactly 1 g/cm³ or 1,000 kg/m³ (about 62.4 lb/ft³).' },
+      { q: 'How do I convert g/cm³ to kg/m³?', a: 'Multiply the density in g/cm³ by 1,000 to get kg/m³.' },
+    ],
+  },
+  cooking: {
+    title: 'Cooking Converter — Cups, Tablespoons, Teaspoons, mL & Fluid Ounces',
+    metaDesc: 'Free online kitchen and cooking converter. Easily convert cups, tablespoons, teaspoons, fluid ounces, milliliters, dashes, and pinches for perfect recipes.',
+    h1: 'Kitchen & Cooking Conversion',
+    intro: 'Convert culinary volume measurements between US recipe standards and metric kitchen measures: cups, tablespoons (tbsp), teaspoons (tsp), fluid ounces (fl oz), milliliters (mL), pinches, and dashes. Perfect for baking, doubling dinner recipes, and converting international cookbooks.',
+    popularPairs: [
+      { from: 'Cup', to: 'Tablespoon', desc: 'cup → tbsp — recipe subdivision (1 cup = 16 tbsp)' },
+      { from: 'Tablespoon', to: 'Teaspoon', desc: 'tbsp → tsp — seasoning and spice adjustments (1 tbsp = 3 tsp)' },
+      { from: 'Cup', to: 'Milliliter', desc: 'cup → mL — US cups to metric liquid volume (1 cup ≈ 240 mL)' },
+      { from: 'Fluid Ounce', to: 'Milliliter', desc: 'fl oz → mL — liquid measuring cups (1 fl oz ≈ 29.57 mL)' },
+    ],
+    useCases: ['Scaling baking and culinary recipes', 'Converting US customary recipes to metric grams/milliliters', 'Bartending and cocktail liquid measurement', 'Dietary portion control and nutrition tracking'],
+    formula: '1 US Cup = 16 tablespoons = 48 teaspoons = 240 mL = 8 fl oz. 1 tablespoon = 3 teaspoons = 15 mL.',
+    faq: [
+      { q: 'How many tablespoons are in one cup?', a: 'There are exactly 16 tablespoons in 1 US customary cup.' },
+      { q: 'How many teaspoons are in a tablespoon?', a: 'There are 3 teaspoons in 1 tablespoon (15 mL).' },
+      { q: 'How many mL is one cup?', a: 'In standard US cooking, 1 cup is considered 240 mL (or 250 mL in the metric cup standard used in Australia and the UK).' },
+    ],
+  },
+  textile: {
+    title: 'Textile Fabric Converter — GSM, Thread Count & Yarn Count',
+    metaDesc: 'Convert fabric weight and textile specifications online: Grams per Square Meter (GSM), Thread Count (TC), and Yarn Count (YC) for bedding, apparel, and canvas.',
+    h1: 'Textile & Fabric Units Conversion',
+    intro: 'Convert textile density and quality metrics: Grams per Square Meter (GSM, fabric weight), Thread Count (TC, bedsheet weave density), and Yarn Count (YC). Essential for fashion designers, clothing manufacturers, bedding shoppers, and textile importers.',
+    popularPairs: [
+      { from: 'GSM', to: 'Thread Count', desc: 'GSM ↔ TC — evaluate fabric heaviness vs weave tightness' },
+    ],
+    useCases: ['T-shirt and hoodie weight selection (e.g. 180 GSM vs 350 GSM)', 'Bedding and sheet thread count quality evaluation', 'Towel absorbency assessment (400-600 GSM)', 'Industrial canvas and denim specification'],
+    formula: 'GSM = weight in grams / area in square meters. Thread count = warp threads + weft threads per square inch.',
+    faq: [
+      { q: 'What does GSM mean in fabric?', a: 'GSM stands for "Grams per Square Meter" and measures the physical weight and density of fabric. Higher GSM generally means thicker, heavier material (e.g. 400+ GSM fleece vs 150 GSM summer t-shirt).' },
+      { q: 'What is a good thread count for bed sheets?', a: 'For quality cotton bed sheets, a thread count between 300 and 500 is considered ideal for softness, breathability, and durability.' },
+    ],
+  },
+  astronomy: {
+    title: 'Astronomy Distance & Mass Converter — Light Years, AU, Parsecs, Solar Masses',
+    metaDesc: 'Convert cosmic distances and stellar masses: Astronomical Units (AU), Light Years, Parsecs, Solar Masses, and Earth Masses. Free astronomical calculator.',
+    h1: 'Astronomical Units Conversion',
+    intro: 'Convert cosmic scale distances and celestial masses: Astronomical Units (AU, distance from Earth to Sun), Light Years (distance light travels in a Julian year), Parsecs (pc), Solar Mass (mass of our Sun), and Earth Mass. Created for stargazers, astrophysics enthusiasts, and planetary science.',
+    popularPairs: [
+      { from: 'Light Year', to: 'AU', desc: 'ly → AU — stellar distances to solar system scale (1 ly ≈ 63,241 AU)' },
+      { from: 'Parsec', to: 'Light Year', desc: 'pc → ly — professional astrophysics units (1 pc ≈ 3.26 ly)' },
+      { from: 'Solar Mass', to: 'Earth Mass', desc: 'M☉ → M⊕ — compare star masses to planet Earth (1 M☉ ≈ 333,000 Earths)' },
+    ],
+    useCases: ['Interstellar mission travel distance estimation', 'Exoplanet orbital distance comparisons', 'Stellar evolution and black hole mass calculations', 'Solar system planetary distance charting'],
+    formula: '1 Light Year ≈ 9.461 × 10¹⁵ meters ≈ 63,241.1 AU. 1 Parsec ≈ 3.26156 Light Years ≈ 206,265 AU. 1 Solar Mass ≈ 333,000 Earth Masses.',
+    faq: [
+      { q: 'How far is one Astronomical Unit (AU)?', a: 'One Astronomical Unit (AU) is approximately 149.6 million kilometers (92.96 million miles), roughly the mean distance from the Earth to the Sun.' },
+      { q: 'How many light years are in one parsec?', a: 'One parsec (pc) equals approximately 3.26156 light years (or 206,265 AU).' },
+      { q: 'How heavy is the Sun compared to the Earth?', a: 'One Solar Mass is equal to approximately 333,000 Earth Masses.' },
     ],
   },
 }
