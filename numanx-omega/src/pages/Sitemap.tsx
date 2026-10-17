@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
+import { categoryContent } from '../engine/categoryContent'
 import { guideContent } from '../engine/guideContent'
 
 const CORE_ROUTES = [
@@ -26,6 +27,26 @@ export default function Sitemap() {
   const categories = useMemo(() => getAllCategories(), [])
   const guides = useMemo(() => Object.values(guideContent), [])
 
+  const allPairs = useMemo(() => {
+    const list: { catId: string; catName: string; from: string; to: string; desc: string; url: string }[] = []
+    for (const cat of categories) {
+      const content = categoryContent[cat.id]
+      if (content?.popularPairs) {
+        for (const p of content.popularPairs) {
+          list.push({
+            catId: cat.id,
+            catName: cat.lb,
+            from: p.from,
+            to: p.to,
+            desc: p.desc,
+            url: `/convert/${cat.id}/${p.from.toLowerCase()}-to-${p.to.toLowerCase()}`,
+          })
+        }
+      }
+    }
+    return list
+  }, [categories])
+
   const filteredCore = useMemo(() => {
     if (!filter) return CORE_ROUTES
     const q = filter.toLowerCase()
@@ -42,6 +63,17 @@ export default function Sitemap() {
     )
   }, [filter, categories])
 
+  const filteredPairs = useMemo(() => {
+    if (!filter) return allPairs
+    const q = filter.toLowerCase()
+    return allPairs.filter(p =>
+      p.from.toLowerCase().includes(q) ||
+      p.to.toLowerCase().includes(q) ||
+      p.catName.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q)
+    )
+  }, [filter, allPairs])
+
   const filteredGuides = useMemo(() => {
     if (!filter) return guides
     const q = filter.toLowerCase()
@@ -55,37 +87,39 @@ export default function Sitemap() {
   return (
     <article className="space-y-8 max-w-5xl mx-auto pb-12">
       <SEOHead
-        title="Site Map — Complete Directory of Calculators, Units & Guides | NumanX Omega"
-        description="Explore the complete site map of NumanX Omega: 24 unit conversion categories, live currency and crypto hubs, detailed conversion guides, and offline tools."
+        title="Site Map — Complete Directory of Calculators, Units & Guides"
+        description="Explore the complete site map of NumanX Omega: 24 unit conversion categories, dedicated pair calculators, live currency and crypto hubs, and offline tools."
         path="/sitemap"
       />
 
       {/* Header & Search */}
       <header className="space-y-3">
-        <nav aria-label="Breadcrumb" className="text-xs opacity-50 flex gap-1">
-          <Link to="/" className="hover:text-[var(--primary)]">Home</Link>
-          <span>/</span>
-          <span className="text-[var(--primary)]">Sitemap</span>
+        <nav aria-label="Breadcrumb" className="text-xs text-[var(--text2)] opacity-85 flex gap-1">
+          <Link to="/" className="hover:text-[var(--primary)] transition-colors">Home</Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-[var(--primary)] font-medium">Sitemap</span>
         </nav>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">Platform Sitemap</h1>
-            <p className="text-xs sm:text-sm opacity-60 mt-1">
-              Complete index of all {categories.length} conversion categories, tools, and educational guides.
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--text)]">Platform Directory & Sitemap</h1>
+            <p className="text-xs sm:text-sm text-[var(--text2)] opacity-85 mt-1">
+              Index of all {categories.length} conversion categories, {allPairs.length} pair calculators, core tools, and guides.
             </p>
           </div>
           <div className="w-full sm:w-72 relative">
             <input
-              type="text"
+              type="search"
               value={filter}
               onChange={e => setFilter(e.target.value)}
               placeholder="Search sitemap pages..."
-              className="w-full px-4 py-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs sm:text-sm outline-none focus:border-[var(--primary)] transition-all"
+              className="w-full px-4 py-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs sm:text-sm text-[var(--text)] outline-none focus:border-[var(--primary)] transition-all"
+              aria-label="Filter sitemap pages"
             />
             {filter && (
               <button
                 onClick={() => setFilter('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-50 hover:opacity-100"
+                aria-label="Clear sitemap filter"
               >
                 ✕
               </button>
@@ -97,8 +131,8 @@ export default function Sitemap() {
       {/* Section 1: Core Pages & Tools */}
       <section aria-labelledby="core-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="core-heading" className="text-base font-semibold flex items-center gap-2">
-            <span>🛠️</span> Core Platform & Specialized Tools ({filteredCore.length})
+          <h2 id="core-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
+            <span role="img" aria-hidden="true">🛠️</span> Core Platform & Specialized Tools ({filteredCore.length})
           </h2>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -106,18 +140,18 @@ export default function Sitemap() {
             <Link
               key={item.path}
               to={item.path}
-              className="glass p-3.5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift flex flex-col justify-between group"
+              className="glass p-3.5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift flex flex-col justify-between group border border-transparent"
             >
               <div>
                 <div className="flex items-center gap-2.5 mb-1.5">
-                  <span className="text-xl group-hover:scale-110 transition-transform">{item.icon}</span>
-                  <span className="font-semibold text-sm group-hover:text-[var(--primary)] transition-colors">{item.label}</span>
+                  <span className="text-xl group-hover:scale-110 transition-transform" role="img" aria-hidden="true">{item.icon}</span>
+                  <span className="font-semibold text-sm text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">{item.label}</span>
                 </div>
-                <p className="text-[11px] opacity-60 line-clamp-2 leading-relaxed">{item.desc}</p>
+                <p className="text-[11px] text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">{item.desc}</p>
               </div>
-              <div className="mt-3 text-[10px] font-mono text-[var(--primary)] opacity-70 flex items-center justify-between">
+              <div className="mt-3 text-[10px] font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>{item.path}</span>
-                <span>→</span>
+                <span aria-hidden="true">→</span>
               </div>
             </Link>
           ))}
@@ -127,97 +161,107 @@ export default function Sitemap() {
       {/* Section 2: All 24 Conversion Categories */}
       <section aria-labelledby="categories-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="categories-heading" className="text-base font-semibold flex items-center gap-2">
-            <span>📂</span> Unit Conversion Categories ({filteredCategories.length})
+          <h2 id="categories-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
+            <span role="img" aria-hidden="true">📂</span> Unit Conversion Categories ({filteredCategories.length})
           </h2>
-          <span className="text-xs opacity-50">Direct Hub Links</span>
+          <span className="text-xs text-[var(--text2)] opacity-70">Dedicated Pages</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredCategories.map(cat => (
             <Link
               key={cat.id}
               to={`/convert/${cat.id}`}
-              className="glass p-3.5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between"
+              className="glass p-3.5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between border border-transparent"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-2xl group-hover:scale-110 transition-transform">{cat.ic}</span>
+                  <span className="text-2xl group-hover:scale-110 transition-transform" role="img" aria-hidden="true">{cat.ic}</span>
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[var(--primary-muted)] text-[var(--primary)]">
                     {cat.un.length} units
                   </span>
                 </div>
-                <h3 className="font-semibold text-sm mb-1 group-hover:text-[var(--primary)] transition-colors">
+                <h3 className="font-semibold text-sm mb-1 text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
                   {cat.lb}
                 </h3>
-                <div className="text-[11px] opacity-50 truncate">
+                <div className="text-[11px] text-[var(--text2)] opacity-75 truncate">
                   {cat.un.slice(0, 3).map(u => u.lb).join(', ')}...
                 </div>
               </div>
-              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-[10px] font-mono text-[var(--primary)] flex items-center justify-between">
+              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-[10px] font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>/convert/{cat.id}</span>
-                <span>→</span>
+                <span aria-hidden="true">→</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Section 3: In-Depth Guides */}
+      {/* Section 3: Popular Single-Pair Micro Calculators */}
+      <section aria-labelledby="pairs-heading" className="space-y-4">
+        <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+          <h2 id="pairs-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
+            <span role="img" aria-hidden="true">⚡</span> Popular Conversion Pairs ({filteredPairs.length})
+          </h2>
+          <span className="text-xs text-[var(--text2)] opacity-70">Direct Calculators</span>
+        </div>
+        <div className="grid gap-2.5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {filteredPairs.slice(0, 48).map(p => (
+            <Link
+              key={p.url}
+              to={p.url}
+              className="glass p-3 rounded-xl hover:border-[var(--primary)] transition-all interact-lift group border border-transparent flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between text-xs font-semibold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
+                  <span>{p.from} → {p.to}</span>
+                  <span className="text-[10px] font-normal text-[var(--text2)] opacity-70">{p.catName}</span>
+                </div>
+                <p className="text-[10px] text-[var(--text2)] opacity-75 truncate mt-1">{p.desc}</p>
+              </div>
+              <div className="mt-2 text-[9px] font-mono text-[var(--primary)] opacity-80 flex items-center justify-between">
+                <span className="truncate">{p.url}</span>
+                <span aria-hidden="true">→</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Section 4: In-Depth Guides */}
       <section aria-labelledby="guides-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="guides-heading" className="text-base font-semibold flex items-center gap-2">
-            <span>📖</span> Conversion Guides & Cheat Sheets ({filteredGuides.length})
+          <h2 id="guides-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
+            <span role="img" aria-hidden="true">📖</span> Conversion Guides & Math Articles ({filteredGuides.length})
           </h2>
-          <span className="text-xs opacity-50">Step-by-step math</span>
+          <span className="text-xs text-[var(--text2)] opacity-70">Step-by-step math</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filteredGuides.map(guide => (
             <Link
               key={guide.slug}
               to={`/guides/${guide.slug}`}
-              className="glass p-4 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between"
+              className="glass p-4 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between border border-transparent"
             >
               <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="text-base">📝</span>
-                  <h3 className="font-semibold text-xs sm:text-sm group-hover:text-[var(--primary)] transition-colors line-clamp-1">
-                    {guide.h1}
-                  </h3>
+                <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[var(--primary)]">
+                  <span role="img" aria-hidden="true">📚</span>
+                  <span>{guide.category.toUpperCase()} GUIDE</span>
                 </div>
-                <p className="text-[11px] opacity-60 line-clamp-2 leading-relaxed mb-2">
+                <h3 className="font-semibold text-sm text-[var(--text)] mb-1 group-hover:text-[var(--primary)] transition-colors">
+                  {guide.h1}
+                </h3>
+                <p className="text-[11px] text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">
                   {guide.intro}
                 </p>
-                <div className="text-[10px] font-mono px-2 py-1 rounded-lg bg-[var(--card2)] text-[var(--text2)] inline-block">
-                  {guide.formula}
-                </div>
               </div>
-              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-[10px] font-mono text-[var(--primary)] flex items-center justify-between">
+              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-[10px] font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>/guides/{guide.slug}</span>
-                <span>→</span>
+                <span aria-hidden="true">→</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
-
-      {/* Crawl Meta Info Box */}
-      <footer className="glass rounded-2xl p-4 text-xs opacity-60 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div>
-          <span>XML Sitemap available at </span>
-          <a
-            href="/sitemap.xml"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--primary)] hover:underline font-mono"
-          >
-            /sitemap.xml
-          </a>
-        </div>
-        <div>
-          <span>Platform Version: </span>
-          <span className="font-mono font-medium">NumanX Omega v2.0</span>
-        </div>
-      </footer>
     </article>
   )
 }
