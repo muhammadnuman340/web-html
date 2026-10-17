@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface TimeBenchmark {
@@ -70,35 +70,35 @@ export default function TimeVisualizer() {
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Seconds</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono tabular-nums">
             {fmt(seconds, 0)} <span className="text-xs font-sans">sec</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Minutes</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(minutes, 2)} <span className="text-xs font-sans">min</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Hours</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(hours, 2)} <span className="text-xs font-sans">hrs</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Days</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(days, 2)} <span className="text-xs font-sans">days</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Years</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(years, 3)} <span className="text-xs font-sans">yrs</span>
           </div>
         </div>
@@ -115,16 +115,17 @@ export default function TimeVisualizer() {
               id="time-input"
               type="number"
               min="1"
+              inputMode="decimal"
               value={seconds || ''}
               onChange={e => setSeconds(Math.max(0.1, parseFloat(e.target.value) || 0))}
-              className="w-40 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] font-mono outline-none focus:border-[var(--primary)]"
+              className="w-40 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] font-mono tabular-nums outline-none focus:border-[var(--primary)]"
               aria-label="Time in seconds"
             />
             <span className="text-xs text-[var(--text2)]">seconds</span>
           </div>
         </div>
 
-        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono tabular-nums">
           <span>60s (1 min)</span>
           <span>3,600s (1 hour)</span>
           <span>86,400s (1 day)</span>

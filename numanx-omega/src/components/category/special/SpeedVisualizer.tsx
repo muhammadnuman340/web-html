@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { fmt } from '../../../utils/numbers'
 
@@ -71,35 +71,35 @@ export default function SpeedVisualizer() {
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilometers / Hour</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono tabular-nums">
             {fmt(speedKmh, 2)} <span className="text-xs font-sans">km/h</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Miles / Hour</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(mph, 2)} <span className="text-xs font-sans">mph</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Meters / Second</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(ms, 2)} <span className="text-xs font-sans">m/s</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Knots (Nautical)</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(knots, 2)} <span className="text-xs font-sans">kn</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Mach Scale</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(mach, 3)} <span className="text-xs font-sans">Mach</span>
           </div>
         </div>
@@ -109,10 +109,10 @@ export default function SpeedVisualizer() {
       <div className="space-y-2 pt-1">
         <div className="flex justify-between items-center text-xs font-medium text-[var(--text)]">
           <label htmlFor="speed-slider" className="cursor-pointer">
-            Adjust Speed: <span className="text-[var(--primary)] font-bold font-mono">{fmt(speedKmh, 1)} km/h</span> ({fmt(mph, 1)} mph)
+            Adjust Speed: <span className="text-[var(--primary)] font-bold font-mono tabular-nums">{fmt(speedKmh, 1)} km/h</span> ({fmt(mph, 1)} mph)
           </label>
           <span className="text-xs text-[var(--text2)] opacity-80">
-            100 km Travel Time: <strong className="text-[var(--text)]">{timeFor100km}</strong>
+            100 km Travel Time: <strong className="text-[var(--text)] font-mono tabular-nums">{timeFor100km}</strong>
           </span>
         </div>
 
@@ -128,7 +128,7 @@ export default function SpeedVisualizer() {
           aria-label="Speed slider in kilometers per hour"
         />
 
-        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono tabular-nums">
           <span>1 km/h</span>
           <span>120 km/h (Highway)</span>
           <span>500 km/h</span>

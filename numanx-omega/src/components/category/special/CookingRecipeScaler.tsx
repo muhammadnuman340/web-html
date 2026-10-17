@@ -120,7 +120,7 @@ export default function CookingRecipeScaler() {
                   <span className="font-medium text-[var(--text)]">{item.name}</span>
                 </div>
 
-                <div className="flex items-center gap-8 font-mono">
+                <div className="flex items-center gap-8 font-mono tabular-nums">
                   <span className="text-xs opacity-60 w-20 text-right">
                     {formatFraction(item.amount)} {item.unit}
                   </span>
@@ -142,19 +142,23 @@ export default function CookingRecipeScaler() {
           onChange={e => setNewIngredientName(e.target.value)}
           placeholder="Add ingredient (e.g., Brown Sugar)..."
           className="flex-1 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] outline-none focus:border-[var(--primary)]"
+          aria-label="Ingredient name"
         />
         <input
           type="number"
           step={0.25}
           min={0.1}
+          inputMode="decimal"
           value={newAmount}
           onChange={e => setNewAmount(parseFloat(e.target.value) || 1)}
-          className="w-20 px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] outline-none font-mono text-right"
+          className="w-20 px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] outline-none font-mono tabular-nums text-right"
+          aria-label="Ingredient quantity"
         />
         <select
           value={newUnit}
           onChange={e => setNewUnit(e.target.value)}
           className="px-2.5 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] outline-none cursor-pointer"
+          aria-label="Ingredient unit"
         >
           <option value="cup">cup</option>
           <option value="tbsp">tbsp</option>

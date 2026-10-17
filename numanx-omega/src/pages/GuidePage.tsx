@@ -1,4 +1,4 @@
-﻿import { useParams, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { guideContent } from '../engine/guideContent'
 import UniversalConverter from '../components/converter/UniversalConverter'
@@ -99,17 +99,18 @@ export default function GuidePage() {
         <h2 id="table-heading" className="text-sm font-semibold mb-3">Quick Conversion Table</h2>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
+            <caption className="sr-only">{content.h1} Quick Conversion Table</caption>
             <thead>
               <tr className="border-b border-[var(--border)]">
-                <th className="text-left py-2 font-medium">Value</th>
-                <th className="text-left py-2 font-medium">Exact</th>
-                <th className="text-left py-2 font-medium">Rounded</th>
+                <th scope="col" className="text-left py-2 font-medium">Value</th>
+                <th scope="col" className="text-left py-2 font-medium">Exact</th>
+                <th scope="col" className="text-left py-2 font-medium">Rounded</th>
               </tr>
             </thead>
             <tbody>
               {content.table.map(row => (
                 <tr key={row.from} className="border-b border-[var(--border)]/50 hover:bg-[var(--border)]/30 transition-colors">
-                  <td className="py-1.5 font-medium">{row.from}</td>
+                  <th scope="row" className="py-1.5 font-medium text-left font-normal">{row.from}</th>
                   <td className="py-1.5 opacity-70">{row.to}</td>
                   <td className="py-1.5 opacity-50">{row.rounded}</td>
                 </tr>

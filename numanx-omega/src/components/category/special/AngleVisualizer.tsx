@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface AnglePreset {
@@ -90,24 +90,24 @@ export default function AngleVisualizer() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
               <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Degrees</div>
-              <div className="text-base font-bold text-[var(--primary)] font-mono mt-0.5">{fmt(deg, 1)}°</div>
+              <div className="text-base font-bold text-[var(--primary)] font-mono tabular-nums mt-0.5">{fmt(deg, 1)}°</div>
             </div>
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
               <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Radians</div>
-              <div className="text-base font-bold text-[var(--text)] font-mono mt-0.5">{fmt(rad, 4)}</div>
+              <div className="text-base font-bold text-[var(--text)] font-mono tabular-nums mt-0.5">{fmt(rad, 4)}</div>
             </div>
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
               <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Gradians</div>
-              <div className="text-base font-bold text-[var(--text)] font-mono mt-0.5">{fmt(grad, 1)} gon</div>
+              <div className="text-base font-bold text-[var(--text)] font-mono tabular-nums mt-0.5">{fmt(grad, 1)} gon</div>
             </div>
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
               <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Arcminutes</div>
-              <div className="text-base font-bold text-[var(--text)] font-mono mt-0.5">{fmt(arcmin, 0)}'</div>
+              <div className="text-base font-bold text-[var(--text)] font-mono tabular-nums mt-0.5">{fmt(arcmin, 0)}'</div>
             </div>
           </div>
 
           {/* Real-time Trigonometry Strip */}
-          <div className="p-2.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] grid grid-cols-3 gap-2 text-center text-xs font-mono">
+          <div className="p-2.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] grid grid-cols-3 gap-2 text-center text-xs font-mono tabular-nums">
             <div>
               <span className="text-[var(--text2)] opacity-70">sin(θ): </span>
               <strong className="text-[var(--text)]">{fmt(sin, 4)}</strong>
@@ -134,7 +134,7 @@ export default function AngleVisualizer() {
               className="w-full accent-[var(--primary)] cursor-pointer h-2 bg-[var(--border)] rounded-lg outline-none"
               aria-label="Angle in degrees"
             />
-            <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
+            <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono tabular-nums">
               <span>0°</span>
               <span>90°</span>
               <span>180°</span>

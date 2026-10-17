@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface PressureBenchmark {
@@ -49,35 +49,35 @@ export default function PressureVisualizer() {
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Bar</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono tabular-nums">
             {fmt(bar, 3)} <span className="text-xs font-sans">bar</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">PSI</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(psi, 1)} <span className="text-xs font-sans">psi</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilopascal</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(kpa, 1)} <span className="text-xs font-sans">kPa</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Atmospheres</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(atm, 2)} <span className="text-xs font-sans">atm</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">mmHg / Torr</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(mmhg, 0)} <span className="text-xs font-sans">mmHg</span>
           </div>
         </div>
@@ -87,10 +87,10 @@ export default function PressureVisualizer() {
       <div className="space-y-2 pt-1">
         <div className="flex justify-between items-center text-xs font-medium text-[var(--text)]">
           <label htmlFor="pressure-slider" className="cursor-pointer">
-            Adjust Pressure: <span className="text-[var(--primary)] font-bold font-mono">{fmt(bar, 2)} bar</span> ({fmt(psi, 1)} psi)
+            Adjust Pressure: <span className="text-[var(--primary)] font-bold font-mono tabular-nums">{fmt(bar, 2)} bar</span> ({fmt(psi, 1)} psi)
           </label>
           <span className="text-xs text-[var(--text2)] opacity-80">
-            Absolute Pascals: <strong className="text-[var(--text)] font-mono">{fmt(pa, 0)} Pa</strong>
+            Absolute Pascals: <strong className="text-[var(--text)] font-mono tabular-nums">{fmt(pa, 0)} Pa</strong>
           </span>
         </div>
 
@@ -106,7 +106,7 @@ export default function PressureVisualizer() {
           aria-label="Pressure slider in bar"
         />
 
-        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono tabular-nums">
           <span>0.1 bar</span>
           <span>1.0 bar (Atmosphere)</span>
           <span>2.2 bar (Tire)</span>

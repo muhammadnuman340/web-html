@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface PowerBenchmark {
@@ -51,28 +51,28 @@ export default function PowerVisualizer() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilowatts</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono tabular-nums">
             {fmt(kilowatts, 3)} <span className="text-xs font-sans">kW</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Mechanical Horsepower</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(horsepower, 2)} <span className="text-xs font-sans">hp</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Watts</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(watts, 0)} <span className="text-xs font-sans">W</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Thermal BTU/hr</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(btuPerHour, 0)} <span className="text-xs font-sans">BTU/h</span>
           </div>
         </div>
@@ -82,10 +82,10 @@ export default function PowerVisualizer() {
       <div className="space-y-2 pt-1">
         <div className="flex justify-between items-center text-xs font-medium text-[var(--text)]">
           <label htmlFor="power-slider" className="cursor-pointer">
-            Power Rating: <span className="text-[var(--primary)] font-bold font-mono">{fmt(watts, 0)} W</span> ({fmt(horsepower, 2)} hp)
+            Power Rating: <span className="text-[var(--primary)] font-bold font-mono tabular-nums">{fmt(watts, 0)} W</span> ({fmt(horsepower, 2)} hp)
           </label>
           <span className="text-xs text-[var(--text2)] opacity-80">
-            Running 1 hour consumes: <strong className="text-[var(--text)] font-mono">{fmt(hourlyKwh, 2)} kWh</strong>
+            Running 1 hour consumes: <strong className="text-[var(--text)] font-mono tabular-nums">{fmt(hourlyKwh, 2)} kWh</strong>
           </span>
         </div>
 
@@ -101,7 +101,7 @@ export default function PowerVisualizer() {
           aria-label="Power slider in watts"
         />
 
-        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono tabular-nums">
           <span>10 W (LED)</span>
           <span>1,500 W (Toaster)</span>
           <span>3,500 W (Oven)</span>

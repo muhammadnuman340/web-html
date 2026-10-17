@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface CelestialBody {
@@ -47,28 +47,28 @@ export default function ForceVisualizer() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Newtons (Earth)</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono tabular-nums">
             {fmt(earthNewtons, 1)} <span className="text-xs font-sans">N</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Pound-Force (lbf)</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(earthLbf, 1)} <span className="text-xs font-sans">lbf</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilonewtons (kN)</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(earthKiloNewtons, 3)} <span className="text-xs font-sans">kN</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilogram-Force (kgf)</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(massKg, 1)} <span className="text-xs font-sans">kgf</span>
           </div>
         </div>
@@ -78,10 +78,10 @@ export default function ForceVisualizer() {
       <div className="space-y-2 pt-1">
         <div className="flex justify-between items-center text-xs font-medium text-[var(--text)]">
           <label htmlFor="mass-slider" className="cursor-pointer">
-            Object Mass: <span className="text-[var(--primary)] font-bold font-mono">{massKg} kg</span> ({fmt(massKg * 2.20462, 1)} lbs)
+            Object Mass: <span className="text-[var(--primary)] font-bold font-mono tabular-nums">{massKg} kg</span> ({fmt(massKg * 2.20462, 1)} lbs)
           </label>
           <span className="text-xs text-[var(--text2)] opacity-80">
-            Dynes: <strong className="text-[var(--text)] font-mono">{fmt(dynes, 0)} dyn</strong>
+            Dynes: <strong className="text-[var(--text)] font-mono tabular-nums">{fmt(dynes, 0)} dyn</strong>
           </span>
         </div>
 

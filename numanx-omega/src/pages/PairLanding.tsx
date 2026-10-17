@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
-import { fmt } from '../utils/numbers'
+import { fmt, parseSmart } from '../utils/numbers'
 import { useToast } from '../hooks/useToast'
 import type { CategoryDef, UnitDef } from '../types'
 
@@ -66,7 +66,11 @@ export default function PairLanding() {
 
   const [fromValue, setFromValue] = useState<string>('1')
 
-  const numFrom = parseFloat(fromValue) || 0
+  const numFrom = useMemo(() => {
+    if (!resolution) return 0
+    const parsed = parseSmart(fromValue, resolution.u1.r)
+    return parsed !== null ? parsed : 0
+  }, [fromValue, resolution])
   const convertedValue = useMemo(() => {
     if (!resolution) return null
     return convert(numFrom, resolution.cat.id, resolution.u1.id, resolution.u2.id)
@@ -190,13 +194,47 @@ export default function PairLanding() {
     showToast('Downloaded CSV Table!', 'success')
   }
 
+  useEffect(() => {
+    if (!cat || !u1 || !u2) return
+
+    const pageUrl = `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}`
+    document.title = `${pageTitle} | Omega X Converter`
+
+    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta')
+      metaDesc.name = 'description'
+      document.head.appendChild(metaDesc)
+    }
+    metaDesc.content = metaDescription
+
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
+    }
+    canonical.href = pageUrl
+
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove())
+
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'omega-unified-schema'
+    script.textContent = JSON.stringify(schema)
+    document.head.appendChild(script)
+
+    return () => {
+      script.remove()
+    }
+  }, [cat, u1, u2, pairParam, pageTitle, metaDescription, schema])
+
   return (
     <article className="space-y-6">
       <SEOHead
         title={pageTitle}
         description={metaDescription}
         path={`/convert/${cat.id}/${pairParam}`}
-        schema={schema}
       />
 
       {/* Breadcrumb */}
@@ -236,10 +274,11 @@ export default function PairLanding() {
             </label>
             <input
               id="from-val"
-              type="number"
+              type="text"
+              inputMode="decimal"
               value={fromValue}
               onChange={e => setFromValue(e.target.value)}
-              className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--text)] font-mono outline-none focus:border-[var(--primary)] transition-colors"
+              className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--text)] font-mono outline-none focus:border-[var(--primary)] transition-colors tabular-nums"
               aria-label={`Value in ${u1.lb}`}
             />
           </div>
@@ -262,7 +301,12 @@ export default function PairLanding() {
               <span>{u2.lb}</span>
               <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({u2.id})</span>
             </div>
-            <div className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--primary)] font-mono flex items-center justify-between">
+            <div
+              role="region"
+              aria-live="polite"
+              aria-atomic="true"
+              className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--primary)] font-mono flex items-center justify-between tabular-nums"
+            >
               <span>{convertedValue !== null ? fmt(convertedValue, 6) : '—'}</span>
               <button
                 onClick={handleCopy}
@@ -350,13 +394,16 @@ export default function PairLanding() {
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
-          <table className="w-full text-xs text-left">
+          <table className="w-full text-xs text-left border-collapse">
+            <caption className="sr-only">
+              {u1.lb} to {u2.lb} Conversion Table and Multi-Unit Equivalence Matrix
+            </caption>
             <thead className="bg-[var(--card2)] text-[var(--text)] font-semibold border-b border-[var(--border)]">
               <tr>
-                <th className="p-2.5">{u1.lb} ({u1.id})</th>
-                <th className="p-2.5 text-[var(--primary)]">{u2.lb} ({u2.id})</th>
-                <th className="p-2.5 hidden sm:table-cell">{u2.lb} ({u2.id})</th>
-                <th className="p-2.5 hidden sm:table-cell text-[var(--text)]">{u1.lb} ({u1.id})</th>
+                <th scope="col" className="p-2.5 font-bold text-[var(--text)]">{u1.lb} ({u1.id})</th>
+                <th scope="col" className="p-2.5 text-[var(--primary)] font-bold">{u2.lb} ({u2.id})</th>
+                <th scope="col" className="p-2.5 hidden sm:table-cell font-bold text-[var(--text)]">{u2.lb} ({u2.id})</th>
+                <th scope="col" className="p-2.5 hidden sm:table-cell text-[var(--text)] font-bold">{u1.lb} ({u1.id})</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--border)]/60 font-mono text-xs">
@@ -365,10 +412,10 @@ export default function PairLanding() {
                 const resBackward = convert(v, cat.id, u2.id, u1.id)
                 return (
                   <tr key={v} className="hover:bg-[var(--border)]/30 transition-colors">
-                    <td className="p-2.5 font-semibold text-[var(--text)]">{v} {u1.id}</td>
-                    <td className="p-2.5 text-[var(--primary)] font-bold">{resForward !== null ? fmt(resForward, 4) : '—'} {u2.id}</td>
-                    <td className="p-2.5 hidden sm:table-cell text-[var(--text2)]">{v} {u2.id}</td>
-                    <td className="p-2.5 hidden sm:table-cell text-[var(--text)]">{resBackward !== null ? fmt(resBackward, 4) : '—'} {u1.id}</td>
+                    <th scope="row" className="p-2.5 font-semibold text-[var(--text)] text-left font-mono">{v} {u1.id}</th>
+                    <td className="p-2.5 text-[var(--primary)] font-bold font-mono">{resForward !== null ? fmt(resForward, 4) : '—'} {u2.id}</td>
+                    <td className="p-2.5 hidden sm:table-cell text-[var(--text2)] font-mono">{v} {u2.id}</td>
+                    <td className="p-2.5 hidden sm:table-cell text-[var(--text)] font-mono">{resBackward !== null ? fmt(resBackward, 4) : '—'} {u1.id}</td>
                   </tr>
                 )
               })}

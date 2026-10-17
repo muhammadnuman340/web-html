@@ -51,17 +51,19 @@ export default function MassWeightReference() {
               <label className="text-xs font-semibold opacity-60 block mb-1">Kilograms (kg)</label>
               <input
                 type="number"
+                inputMode="decimal"
                 min={0.1}
                 step={0.5}
                 value={kg}
                 onChange={e => setKg(Math.max(0.1, parseFloat(e.target.value) || 0.1))}
-                className="w-full bg-transparent font-bold font-mono text-lg outline-none text-[var(--text)]"
+                className="w-full bg-transparent font-bold font-mono text-lg outline-none text-[var(--text)] tabular-nums"
               />
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)]">
               <label className="text-xs font-semibold opacity-60 block mb-1">Pounds (lb)</label>
               <input
                 type="number"
+                inputMode="decimal"
                 min={0.2}
                 step={1}
                 value={parseFloat(lb.toFixed(1))}
@@ -69,7 +71,7 @@ export default function MassWeightReference() {
                   const val = parseFloat(e.target.value)
                   if (!isNaN(val) && val > 0) setKg(val / 2.20462)
                 }}
-                className="w-full bg-transparent font-bold font-mono text-lg outline-none text-[var(--primary)]"
+                className="w-full bg-transparent font-bold font-mono text-lg outline-none text-[var(--primary)] tabular-nums"
               />
             </div>
           </div>

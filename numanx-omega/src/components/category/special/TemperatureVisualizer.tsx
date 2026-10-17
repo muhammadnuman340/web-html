@@ -33,10 +33,10 @@ export default function TemperatureVisualizer() {
   ]
 
   return (
-    <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
+    <section aria-labelledby="temp-tool-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+          <h2 id="temp-tool-heading" className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
             <span aria-hidden="true">🌡️</span> Interactive Visual Thermometer
           </h2>
           <p className="text-xs opacity-60 mt-0.5">
@@ -57,7 +57,7 @@ export default function TemperatureVisualizer() {
         <div className="md:col-span-4 flex items-center justify-center p-2">
           <div className="relative flex items-end justify-center w-20 h-56 bg-[var(--card2)] rounded-full border-2 border-[var(--border)] p-1 overflow-hidden shadow-inner">
             {/* Markers */}
-            <div className="absolute left-2 top-0 bottom-0 flex flex-col justify-between py-6 text-xs font-mono opacity-40 pointer-events-none">
+            <div className="absolute left-2 top-0 bottom-0 flex flex-col justify-between py-6 text-xs font-mono tabular-nums opacity-40 pointer-events-none">
               <span>100°C</span>
               <span>75°C</span>
               <span>50°C</span>
@@ -91,15 +91,15 @@ export default function TemperatureVisualizer() {
           <div className="grid grid-cols-3 gap-2">
             <div className="glass p-3 rounded-xl border border-[var(--border)] text-center">
               <div className="text-xs font-semibold opacity-60">Celsius</div>
-              <div className="text-lg sm:text-xl font-bold font-mono text-[var(--text)]">{celsius.toFixed(1)}°C</div>
+              <div className="text-lg sm:text-xl font-bold font-mono tabular-nums text-[var(--text)]">{celsius.toFixed(1)}°C</div>
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)] text-center">
               <div className="text-xs font-semibold opacity-60">Fahrenheit</div>
-              <div className="text-lg sm:text-xl font-bold font-mono text-[var(--primary)]">{fahrenheit.toFixed(1)}°F</div>
+              <div className="text-lg sm:text-xl font-bold font-mono tabular-nums text-[var(--primary)]">{fahrenheit.toFixed(1)}°F</div>
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)] text-center">
               <div className="text-xs font-semibold opacity-60">Kelvin</div>
-              <div className="text-lg sm:text-xl font-bold font-mono text-purple-400">{kelvin.toFixed(1)} K</div>
+              <div className="text-lg sm:text-xl font-bold font-mono tabular-nums text-purple-400">{kelvin.toFixed(1)} K</div>
             </div>
           </div>
 
@@ -140,6 +140,6 @@ export default function TemperatureVisualizer() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

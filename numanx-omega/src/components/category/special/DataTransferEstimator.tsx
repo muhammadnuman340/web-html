@@ -77,10 +77,11 @@ export default function DataTransferEstimator() {
             <div className="flex items-center gap-2">
               <input
                 type="number"
+                inputMode="decimal"
                 min={1}
                 value={fileSize}
                 onChange={e => setFileSize(Math.max(1, parseFloat(e.target.value) || 1))}
-                className="w-28 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-sm font-bold font-mono outline-none focus:border-[var(--primary)]"
+                className="w-28 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-sm font-bold font-mono outline-none focus:border-[var(--primary)] tabular-nums"
               />
               <select
                 value={sizeUnit}
@@ -110,10 +111,11 @@ export default function DataTransferEstimator() {
             <div className="flex items-center gap-2">
               <input
                 type="number"
+                inputMode="decimal"
                 min={1}
                 value={speedMbps}
                 onChange={e => setSpeedMbps(Math.max(1, parseFloat(e.target.value) || 1))}
-                className="w-28 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-sm font-bold font-mono outline-none focus:border-[var(--primary)]"
+                className="w-28 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-sm font-bold font-mono outline-none focus:border-[var(--primary)] tabular-nums"
               />
               <span className="text-xs font-semibold opacity-70">Mbps (Megabits/sec)</span>
             </div>

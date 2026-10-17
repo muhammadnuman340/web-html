@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface VehiclePreset {
@@ -79,10 +79,11 @@ export default function FuelTripCalculator() {
             <input
               id="trip-distance"
               type="number"
+              inputMode="decimal"
               min="1"
               value={distanceKm || ''}
               onChange={e => setDistanceKm(Math.max(0, parseFloat(e.target.value) || 0))}
-              className="w-full px-3 py-2 pr-12 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono"
+              className="w-full px-3 py-2 pr-12 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono tabular-nums"
             />
             <span className="absolute right-3 top-2 text-xs text-[var(--text2)] opacity-70 font-medium">km</span>
           </div>
@@ -98,11 +99,12 @@ export default function FuelTripCalculator() {
             <input
               id="fuel-efficiency"
               type="number"
+              inputMode="decimal"
               step="0.1"
               min="0.1"
               value={efficiencyL100km || ''}
               onChange={e => setEfficiencyL100km(Math.max(0.1, parseFloat(e.target.value) || 0))}
-              className="w-full px-3 py-2 pr-16 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono"
+              className="w-full px-3 py-2 pr-16 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono tabular-nums"
             />
             <span className="absolute right-3 top-2 text-xs text-[var(--text2)] opacity-70 font-medium">L/100km</span>
           </div>
@@ -118,11 +120,12 @@ export default function FuelTripCalculator() {
             <input
               id="fuel-price"
               type="number"
+              inputMode="decimal"
               step="0.01"
               min="0"
               value={fuelPricePerLiter || ''}
               onChange={e => setFuelPricePerLiter(Math.max(0, parseFloat(e.target.value) || 0))}
-              className="w-full px-3 py-2 pr-12 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono"
+              className="w-full px-3 py-2 pr-12 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono tabular-nums"
             />
             <span className="absolute right-3 top-2 text-xs text-[var(--text2)] opacity-70 font-medium">{currencySymbol}/L</span>
           </div>

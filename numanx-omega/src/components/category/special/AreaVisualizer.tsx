@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface AreaBenchmark {
@@ -87,10 +87,11 @@ export default function AreaVisualizer() {
             <input
               id="area-input"
               type="number"
+              inputMode="decimal"
               min="1"
               value={sqm || ''}
               onChange={e => setSqm(Math.max(1, parseFloat(e.target.value) || 0))}
-              className="w-32 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] font-mono outline-none focus:border-[var(--primary)]"
+              className="w-32 px-2.5 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] font-mono outline-none focus:border-[var(--primary)] tabular-nums"
               aria-label="Area value in square meters"
             />
             <span className="text-xs text-[var(--text2)]">m²</span>

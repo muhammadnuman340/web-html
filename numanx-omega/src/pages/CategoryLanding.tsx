@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
+import { getCategoryStandards } from '../engine/categoryStandards'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import AdSense from '../components/widgets/AdSense'
 import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
@@ -21,6 +22,11 @@ export default function CategoryLanding({ categorySlug }: Props) {
   const cat = category ? getAllCategories().find(c => c.id === category) : null
 
   const allCats = useMemo(() => getAllCategories(), [])
+
+  const stdInfo = useMemo(() => {
+    if (!cat) return null
+    return getCategoryStandards(cat.id, cat.lb, cat.un.map(u => u.lb))
+  }, [cat])
 
   useEffect(() => {
     if (!cat) return
@@ -188,11 +194,11 @@ export default function CategoryLanding({ categorySlug }: Props) {
           </div>
         </div>
 
-        {/* AEO Position-Zero Answer Capsule */}
-        {cat.id === 'length' && (
+        {/* AEO Position-Zero Answer Capsule (Active across ALL categories) */}
+        {stdInfo && (
           <aside role="note" aria-label="Quick Answer Summary" className="glass rounded-xl p-4 border border-[var(--border)] text-xs sm:text-sm text-[var(--text2)] space-y-2 my-3">
             <p className="text-[var(--text)] leading-relaxed">
-              <strong>Length conversion</strong> calculates equivalent linear distance across metric, imperial, and astronomical systems. Defined by the <strong>1959 International Yard and Pound Agreement</strong> and <strong>NIST Special Publication 811</strong>, <strong>1 inch equals exactly 25.4 millimeters (2.54 cm)</strong>, <strong>1 foot equals exactly 0.3048 meters</strong>, and <strong>1 meter equals approximately 3.2808399 feet</strong>.
+              {stdInfo.aeoCapsule}
             </p>
           </aside>
         )}
@@ -206,15 +212,15 @@ export default function CategoryLanding({ categorySlug }: Props) {
       {/* Length Pro Toolkit (Tape Snap, Blueprint Scale Multiplier, Nominal Lumber & Sockets) */}
       {cat.id === 'length' && <LengthProToolkit baseMeters={1.75} />}
 
-      {/* Metrological Authority & Standards Callout */}
-      {cat.id === 'length' && (
+      {/* Metrological Authority & Standards Callout (Active across ALL categories) */}
+      {stdInfo && (
         <section aria-labelledby="authority-heading" className="glass rounded-xl p-4 border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
           <div className="flex items-center gap-2 font-bold text-[var(--text)]">
             <span aria-hidden="true">🏛️</span>
             <span id="authority-heading">Metrological Authority & Standards Compliance</span>
           </div>
           <p className="leading-relaxed">
-            All linear conversion factors on this platform strictly comply with <strong>NIST Special Publication 811</strong> (Guide for the Use of the International System of Units), the <strong>BIPM SI Brochure (9th Edition)</strong>, and the <strong>1959 International Yard and Pound Agreement</strong> (codifying 1 yard = 0.9144 m and 1 inch = 25.4 mm). Astronomical distances are grounded in the <strong>International Astronomical Union (IAU 2012)</strong> resolution defining 1 AU = 149,597,870,700 m.
+            {stdInfo.standardsStatement}
           </p>
         </section>
       )}

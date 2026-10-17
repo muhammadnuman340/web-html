@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface VolumeBenchmark {
@@ -49,35 +49,35 @@ export default function VolumeVisualizer() {
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Liters</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono tabular-nums">
             {fmt(liters, 2)} <span className="text-xs font-sans">L</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Milliliters</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(milliliters, 0)} <span className="text-xs font-sans">mL</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">US Gallons</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(gallonsUS, 2)} <span className="text-xs font-sans">gal</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Fluid Ounces</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(fluidOunces, 1)} <span className="text-xs font-sans">fl oz</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Standard Cups</div>
-          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
+          <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono tabular-nums">
             {fmt(cups, 1)} <span className="text-xs font-sans">cups</span>
           </div>
         </div>
@@ -87,10 +87,10 @@ export default function VolumeVisualizer() {
       <div className="space-y-2 pt-1">
         <div className="flex justify-between items-center text-xs font-medium text-[var(--text)]">
           <label htmlFor="volume-slider" className="cursor-pointer">
-            Adjust Volume: <span className="text-[var(--primary)] font-bold font-mono">{fmt(liters, 2)} Liters</span>
+            Adjust Volume: <span className="text-[var(--primary)] font-bold font-mono tabular-nums">{fmt(liters, 2)} Liters</span>
           </label>
           <span className="text-xs text-[var(--text2)] opacity-80">
-            Cubic Meters: <strong className="text-[var(--text)] font-mono">{fmt(cubicMeters, 4)} m³</strong>
+            Cubic Meters: <strong className="text-[var(--text)] font-mono tabular-nums">{fmt(cubicMeters, 4)} m³</strong>
           </span>
         </div>
 
@@ -106,7 +106,7 @@ export default function VolumeVisualizer() {
           aria-label="Volume slider in liters"
         />
 
-        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono tabular-nums">
           <span>0.1 L (Glass)</span>
           <span>3.8 L (Gallon)</span>
           <span>50 L (Fuel Tank)</span>

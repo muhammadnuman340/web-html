@@ -77,9 +77,10 @@ export default function CategoryLiveMatrix({ cat }: Props) {
             <span className="text-xs text-[var(--text2)] mr-1.5 font-medium">Input:</span>
             <input
               type="number"
+              inputMode="decimal"
               value={val}
               onChange={e => setVal(e.target.value)}
-              className="w-20 bg-transparent text-sm font-semibold outline-none text-right font-mono"
+              className="w-20 bg-transparent text-sm font-semibold outline-none text-right font-mono tabular-nums"
               placeholder="1"
               aria-label={`Input amount in ${currentBaseUnit?.lb || 'base unit'}`}
             />
