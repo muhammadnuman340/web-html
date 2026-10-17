@@ -48,7 +48,7 @@ export default function Crypto() {
   return (
     <div className="space-y-4">
       <SEOHead title="Crypto Converter — Bitcoin, Ethereum & Altcoin Prices" description="Free live cryptocurrency converter. Real-time prices for Bitcoin, Ethereum, Solana, XRP, Dogecoin, and 50+ cryptocurrencies via CoinGecko." path="/crypto" />
-      <h2 className="text-lg font-bold"><span aria-hidden="true">₿</span> Crypto Converter</h2>
+      <h1 className="text-lg font-bold"><span aria-hidden="true">₿</span> Crypto Converter</h1>
       {loading && <div className="text-sm opacity-60 animate-pulse">Loading prices from CoinGecko...</div>}
 
       <GlassCard>
@@ -89,7 +89,7 @@ export default function Crypto() {
       <GlassCard>
         <div className="text-xs font-semibold uppercase mb-2 opacity-60 flex items-center gap-2">
           Live Prices (USD)
-          <span className="inline-flex items-center gap-1 text-[9px] opacity-40"><span className="w-1.5 h-1.5 rounded-full bg-[var(--success)] animate-pulse" /> live</span>
+          <span className="inline-flex items-center gap-1 text-xs opacity-40"><span className="w-1.5 h-1.5 rounded-full bg-[var(--success)] animate-pulse" /> live</span>
         </div>
         <div className="space-y-1">
           {CRYPTO_LIST.map(c => (

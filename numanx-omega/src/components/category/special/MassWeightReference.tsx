@@ -27,9 +27,9 @@ export default function MassWeightReference() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h3 className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>⚖️</span> Weight Benchmark & Luggage Allowance Tool
-          </h3>
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+            <span aria-hidden="true">⚖️</span> Weight Benchmark & Luggage Allowance Tool
+          </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Check real-world weight equivalents across kg, lb, oz, and airline limits.
           </p>
@@ -48,7 +48,7 @@ export default function MassWeightReference() {
         <div className="md:col-span-6 space-y-3">
           <div className="grid grid-cols-2 gap-2">
             <div className="glass p-3 rounded-xl border border-[var(--border)]">
-              <label className="text-[10px] font-semibold opacity-50 uppercase block mb-1">Kilograms (kg)</label>
+              <label className="text-xs font-semibold opacity-60 block mb-1">Kilograms (kg)</label>
               <input
                 type="number"
                 min={0.1}
@@ -59,7 +59,7 @@ export default function MassWeightReference() {
               />
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)]">
-              <label className="text-[10px] font-semibold opacity-50 uppercase block mb-1">Pounds (lb)</label>
+              <label className="text-xs font-semibold opacity-60 block mb-1">Pounds (lb)</label>
               <input
                 type="number"
                 min={0.2}
@@ -76,18 +76,18 @@ export default function MassWeightReference() {
 
           <div className="flex gap-2 text-xs">
             <div className="flex-1 bg-[var(--card2)] p-2 rounded-lg border border-[var(--border)]">
-              <span className="opacity-50 text-[10px] block">Ounces (oz):</span>
+              <span className="opacity-60 text-xs block">Ounces (oz):</span>
               <span className="font-mono font-semibold">{oz.toFixed(1)} oz</span>
             </div>
             <div className="flex-1 bg-[var(--card2)] p-2 rounded-lg border border-[var(--border)]">
-              <span className="opacity-50 text-[10px] block">UK Stone:</span>
+              <span className="opacity-60 text-xs block">UK Stone:</span>
               <span className="font-mono font-semibold">{stone}</span>
             </div>
           </div>
 
           {/* Quick presets */}
           <div className="space-y-1.5 pt-1">
-            <span className="text-[10px] font-semibold opacity-50 uppercase">Luggage & Fitness Presets:</span>
+            <span className="text-xs font-semibold opacity-60">Luggage & Fitness Presets:</span>
             <div className="flex flex-wrap gap-1.5">
               {[
                 { l: 'Cabin Bag (7 kg)', k: 7 },
@@ -99,9 +99,7 @@ export default function MassWeightReference() {
                 <button
                   key={p.l}
                   onClick={() => setKg(p.k)}
-                  className={`text-[11px] px-2 py-1 rounded-lg border transition-all ${
-                    kg === p.k ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-[var(--card2)] border-[var(--border)]'
-                  }`}
+                  className={`btn-chip text-xs ${kg === p.k ? 'active' : ''}`}
                 >
                   {p.l}
                 </button>
@@ -114,7 +112,7 @@ export default function MassWeightReference() {
         <div className="md:col-span-6 bg-[var(--card2)]/50 p-4 rounded-xl border border-[var(--border)] space-y-3">
           <div className="flex justify-between items-center text-xs">
             <span className="font-semibold">Airline Baggage Meter</span>
-            <span className="font-mono text-[11px]" style={{ color: baggageStatus.color }}>
+            <span className="font-mono text-xs" style={{ color: baggageStatus.color }}>
               {kg.toFixed(1)} kg / {lb.toFixed(1)} lb
             </span>
           </div>
@@ -130,7 +128,7 @@ export default function MassWeightReference() {
                 }}
               />
             </div>
-            <div className="flex justify-between text-[9px] font-mono opacity-40 px-0.5">
+            <div className="flex justify-between text-xs font-mono opacity-40 px-0.5">
               <span>0 kg</span>
               <span>7 kg (Cabin)</span>
               <span>23 kg (Checked)</span>
@@ -138,7 +136,7 @@ export default function MassWeightReference() {
             </div>
           </div>
 
-          <p className="text-[11px] opacity-70 leading-relaxed bg-[var(--border)]/20 p-2.5 rounded-lg border border-[var(--border)]/50">
+          <p className="text-xs opacity-75 leading-relaxed bg-[var(--border)]/20 p-2.5 rounded-lg border border-[var(--border)]/50">
             {baggageStatus.desc}
           </p>
         </div>

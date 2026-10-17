@@ -141,7 +141,7 @@ export default function CategoryLiveMatrix({ cat }: Props) {
                     {unit.lb}
                   </span>
                   <span
-                    className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md flex-shrink-0"
+                    className="text-xs font-semibold px-1.5 py-0.5 rounded-md flex-shrink-0"
                     style={{ background: badge.bg, color: badge.color }}
                   >
                     {badge.label}
@@ -152,12 +152,12 @@ export default function CategoryLiveMatrix({ cat }: Props) {
                   <div className="font-mono text-sm sm:text-base font-bold text-[var(--text)] truncate" title={String(result)}>
                     {formatted}
                   </div>
-                  <span className="text-[10px] opacity-40 font-mono font-medium flex-shrink-0">
+                  <span className="text-xs opacity-50 font-mono font-medium flex-shrink-0">
                     {unit.id}
                   </span>
                 </div>
 
-                <div className="mt-2 pt-2 border-t border-[var(--border)]/40 flex items-center justify-between text-[10px]">
+                <div className="mt-2 pt-2 border-t border-[var(--border)]/40 flex items-center justify-between text-xs">
                   <Link
                     to={`/converter?cat=${cat.id}&from=${currentBaseUnit?.id}&to=${unit.id}&val=${numVal}`}
                     className="text-[var(--primary)] hover:underline opacity-80 hover:opacity-100 flex items-center gap-1"
@@ -168,10 +168,10 @@ export default function CategoryLiveMatrix({ cat }: Props) {
 
                   <button
                     onClick={() => handleCopy(`${formatted} ${unit.id}`, unit.lb)}
-                    className="opacity-50 hover:opacity-100 px-2 py-0.5 rounded hover:bg-[var(--border)] transition-all flex items-center gap-1"
+                    className="btn-chip text-xs gap-1 py-0.5 px-2"
                     title="Copy value"
                   >
-                    <span>📋</span>
+                    <span aria-hidden="true">📋</span>
                     <span>Copy</span>
                   </button>
                 </div>

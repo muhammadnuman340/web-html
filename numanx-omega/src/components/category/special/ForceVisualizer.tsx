@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface CelestialBody {
@@ -46,28 +46,28 @@ export default function ForceVisualizer() {
       {/* Main Multi-Unit Display Grid on Earth */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Newtons (Earth)</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Newtons (Earth)</div>
           <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {fmt(earthNewtons, 1)} <span className="text-xs font-sans">N</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Pound-Force (lbf)</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Pound-Force (lbf)</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(earthLbf, 1)} <span className="text-xs font-sans">lbf</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Kilonewtons (kN)</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilonewtons (kN)</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(earthKiloNewtons, 3)} <span className="text-xs font-sans">kN</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Kilogram-Force (kgf)</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilogram-Force (kgf)</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(massKg, 1)} <span className="text-xs font-sans">kgf</span>
           </div>
@@ -80,7 +80,7 @@ export default function ForceVisualizer() {
           <label htmlFor="mass-slider" className="cursor-pointer">
             Object Mass: <span className="text-[var(--primary)] font-bold font-mono">{massKg} kg</span> ({fmt(massKg * 2.20462, 1)} lbs)
           </label>
-          <span className="text-[11px] text-[var(--text2)] opacity-80">
+          <span className="text-xs text-[var(--text2)] opacity-80">
             Dynes: <strong className="text-[var(--text)] font-mono">{fmt(dynes, 0)} dyn</strong>
           </span>
         </div>
@@ -113,12 +113,12 @@ export default function ForceVisualizer() {
                     <span role="img" aria-hidden="true">{b.icon}</span>
                     <span>{b.name}</span>
                   </span>
-                  <span className="text-[10px] font-mono opacity-70">{fmt(ratio, 0)}% of Earth</span>
+                  <span className="text-xs font-mono opacity-70">{fmt(ratio, 0)}% of Earth</span>
                 </div>
                 <div className="text-sm font-bold text-[var(--primary)] font-mono">
-                  {fmt(planetNewtons, 1)} N <span className="text-[11px] text-[var(--text2)] font-normal font-sans">({fmt(planetLbf, 1)} lbf)</span>
+                  {fmt(planetNewtons, 1)} N <span className="text-xs text-[var(--text2)] font-normal font-sans">({fmt(planetLbf, 1)} lbf)</span>
                 </div>
-                <div className="text-[10px] text-[var(--text2)] opacity-60 truncate">{b.desc}</div>
+                <div className="text-xs text-[var(--text2)] opacity-60 truncate">{b.desc}</div>
               </div>
             )
           })}

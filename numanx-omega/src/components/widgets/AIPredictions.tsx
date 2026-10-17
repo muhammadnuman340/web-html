@@ -102,7 +102,7 @@ export default function AIPredictions({ categoryId, fromVal, fromUnit, toUnit, o
           exit={{ opacity: 0, y: -4 }}
           className="flex flex-wrap gap-1.5 mt-1"
         >
-          <span className="text-[8px] opacity-30 uppercase tracking-wider self-center mr-0.5">AI</span>
+          <span className="text-xs opacity-50 uppercase tracking-wider self-center mr-0.5">AI</span>
           {predictions.map((p, i) => (
             <motion.button
               key={i}
@@ -110,10 +110,10 @@ export default function AIPredictions({ categoryId, fromVal, fromUnit, toUnit, o
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.05 }}
               onClick={() => onApply(p.from, p.to)}
-              className="group relative px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--primary)]/30 bg-[var(--primary)]/5 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift"
+              className="group relative btn-chip text-xs border-[var(--primary)]/30 bg-[var(--primary)]/5 text-[var(--primary)]"
             >
               {p.label}
-              <span className="absolute -top-5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-[var(--text)] text-[var(--bg)] text-[7px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="absolute -top-5 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded bg-[var(--text)] text-[var(--bg)] text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 {p.reason}
               </span>
             </motion.button>

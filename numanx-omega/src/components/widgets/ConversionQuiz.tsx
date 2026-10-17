@@ -76,7 +76,7 @@ export default function ConversionQuiz() {
           <span className="text-lg" aria-hidden="true">🧠</span>
           <span className="text-sm font-semibold">Conversion Quiz</span>
         </div>
-        <div className="flex items-center gap-3 text-[10px]">
+        <div className="flex items-center gap-3 text-xs">
           {streak >= 3 && <span className="px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-500">🔥 {streak} streak</span>}
           <span className="opacity-60">{score.correct}/{score.total} ({accuracy}%)</span>
         </div>

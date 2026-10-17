@@ -103,13 +103,13 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         {/* Logo + close */}
         <div className="flex items-center justify-between mb-6 mt-2">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl gradient-primary flex items-center justify-center text-white text-[10px] font-bold shadow-lg shadow-[var(--glow)]">NX</div>
+            <div className="w-8 h-8 rounded-xl gradient-primary flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-[var(--glow)]">NX</div>
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="font-bold text-sm">NumanX</span>
-                <span className="px-1 py-0.5 rounded text-[7px] font-semibold uppercase tracking-wider bg-[var(--primary-muted)] text-[var(--primary)]">Studio</span>
+                <span className="px-1 py-0.5 rounded text-xs font-semibold uppercase tracking-wider bg-[var(--primary-muted)] text-[var(--primary)]">Studio</span>
               </div>
-              <div className="text-[10px] opacity-40 tracking-wide">Omega X Converter</div>
+              <div className="text-xs opacity-50 tracking-wide">Omega X Converter</div>
             </div>
           </div>
           <motion.button
@@ -134,7 +134,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           >
             <span aria-hidden="true">{MODES.find(m => m.id === mode)?.icon}</span>
             <span className="flex-1 text-left font-medium">{MODES.find(m => m.id === mode)?.label}</span>
-            <span className="text-[9px] opacity-40">{showModePicker ? '▲' : '▼'}</span>
+            <span className="text-xs opacity-50">{showModePicker ? '▲' : '▼'}</span>
           </motion.button>
           <AnimatePresence>
             {showModePicker && (
@@ -158,17 +158,17 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
 
         {/* Main nav */}
         <div className="mb-3">
-          <div className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Main</div>
+          <div className="text-xs uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Main</div>
           <nav aria-label="Main navigation" className="space-y-0.5">{NAV_MAIN.map(navItem)}</nav>
         </div>
 
         {/* Top Categories */}
         <div className="mb-3">
           <div className="flex items-center justify-between px-3 mb-1.5">
-            <span className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 font-semibold">Top Categories</span>
+            <span className="text-xs uppercase tracking-wider text-[var(--text2)] opacity-70 font-semibold">Top Categories</span>
             <button
               onClick={() => { navigate('/categories'); onClose() }}
-              className="text-[10px] text-[var(--primary)] hover:underline font-medium"
+              className="text-xs text-[var(--primary)] hover:underline font-medium"
               aria-label="View all categories"
             >
               All →
@@ -181,13 +181,13 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
 
         {/* Features */}
         <div className="mb-3">
-          <div className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Features</div>
+          <div className="text-xs uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Features</div>
           <nav aria-label="Feature shortcuts" className="space-y-0.5">{NAV_FEATURES.map(navItem)}</nav>
         </div>
 
         {/* Tools */}
         <div className="mb-3">
-          <div className="text-[9px] uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Tools</div>
+          <div className="text-xs uppercase tracking-wider text-[var(--text2)] opacity-70 px-3 mb-1.5 font-semibold">Tools</div>
           <nav aria-label="Utility and secondary tools" className="space-y-0.5">{NAV_SECONDARY.map(navItem)}</nav>
         </div>
 

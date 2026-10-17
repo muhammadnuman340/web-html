@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface EnergyBenchmark {
@@ -53,35 +53,35 @@ export default function EnergyVisualizer() {
       {/* Main Multi-Unit Display Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Kilowatt-hours</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilowatt-hours</div>
           <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {fmt(kwh, 3)} <span className="text-xs font-sans">kWh</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Food Calories</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Food Calories</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(kcal, 1)} <span className="text-xs font-sans">kcal</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Kilojoules</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilojoules</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(kj, 1)} <span className="text-xs font-sans">kJ</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Watt-hours</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Watt-hours</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(wh, 1)} <span className="text-xs font-sans">Wh</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">BTU (Thermal)</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">BTU (Thermal)</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(btu, 1)} <span className="text-xs font-sans">BTU</span>
           </div>
@@ -120,8 +120,8 @@ export default function EnergyVisualizer() {
                 <span role="img" aria-hidden="true">{b.icon}</span>
                 <span className="truncate">{b.name}</span>
               </div>
-              <div className="text-[10px] opacity-75 font-mono mt-0.5">{fmt(b.joules / 3600000, 3)} kWh</div>
-              <div className="text-[10px] opacity-60 truncate">{b.desc}</div>
+              <div className="text-xs opacity-75 font-mono mt-0.5">{fmt(b.joules / 3600000, 3)} kWh</div>
+              <div className="text-xs opacity-60 truncate">{b.desc}</div>
             </button>
           ))}
         </div>

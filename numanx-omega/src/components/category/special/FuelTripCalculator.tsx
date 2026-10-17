@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface VehiclePreset {
@@ -73,7 +73,7 @@ export default function FuelTripCalculator() {
         <div className="space-y-1.5">
           <label htmlFor="trip-distance" className="text-xs font-medium text-[var(--text)] flex justify-between">
             <span>Trip Distance</span>
-            <span className="text-[11px] text-[var(--text2)] opacity-80">{fmt(distanceMiles, 1)} mi</span>
+            <span className="text-xs text-[var(--text2)] opacity-80">{fmt(distanceMiles, 1)} mi</span>
           </label>
           <div className="relative">
             <input
@@ -92,7 +92,7 @@ export default function FuelTripCalculator() {
         <div className="space-y-1.5">
           <label htmlFor="fuel-efficiency" className="text-xs font-medium text-[var(--text)] flex justify-between">
             <span>Fuel Consumption</span>
-            <span className="text-[11px] text-[var(--text2)] opacity-80">{fmt(mpgUS, 1)} MPG US</span>
+            <span className="text-xs text-[var(--text2)] opacity-80">{fmt(mpgUS, 1)} MPG US</span>
           </label>
           <div className="relative">
             <input
@@ -112,7 +112,7 @@ export default function FuelTripCalculator() {
         <div className="space-y-1.5">
           <label htmlFor="fuel-price" className="text-xs font-medium text-[var(--text)] flex justify-between">
             <span>Fuel Price</span>
-            <span className="text-[11px] text-[var(--text2)] opacity-80">≈ {currencySymbol}{fmt(fuelPricePerLiter * 3.78541, 2)}/gal</span>
+            <span className="text-xs text-[var(--text2)] opacity-80">≈ {currencySymbol}{fmt(fuelPricePerLiter * 3.78541, 2)}/gal</span>
           </label>
           <div className="relative">
             <input
@@ -132,41 +132,41 @@ export default function FuelTripCalculator() {
       {/* Output summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
         <div className="glass rounded-xl p-3 border border-[var(--border)] text-center">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Estimated Trip Cost</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Estimated Trip Cost</div>
           <div className="text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {currencySymbol}{fmt(totalTripCost, 2)}
           </div>
-          <div className="text-[10px] text-[var(--text2)] opacity-70 mt-0.5">
+          <div className="text-xs text-[var(--text2)] opacity-70 mt-0.5">
             {currencySymbol}{fmt(costPerKm, 2)}/km · {currencySymbol}{fmt(costPerMile, 2)}/mi
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] text-center">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Fuel Required</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Fuel Required</div>
           <div className="text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(totalFuelLiters, 1)} <span className="text-xs font-sans">Liters</span>
           </div>
-          <div className="text-[10px] text-[var(--text2)] opacity-70 mt-0.5">
+          <div className="text-xs text-[var(--text2)] opacity-70 mt-0.5">
             {fmt(totalFuelGallonsUS, 1)} Gallons (US)
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] text-center">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Imperial Economy</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Imperial Economy</div>
           <div className="text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(mpgUS, 1)} <span className="text-xs font-sans">MPG (US)</span>
           </div>
-          <div className="text-[10px] text-[var(--text2)] opacity-70 mt-0.5">
+          <div className="text-xs text-[var(--text2)] opacity-70 mt-0.5">
             {fmt(mpgUK, 1)} MPG (UK / Imp)
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] text-center">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">CO₂ Emissions</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">CO₂ Emissions</div>
           <div className="text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(estCO2Kg, 1)} <span className="text-xs font-sans">kg</span>
           </div>
-          <div className="text-[10px] text-[var(--text2)] opacity-70 mt-0.5">
+          <div className="text-xs text-[var(--text2)] opacity-70 mt-0.5">
             Gasoline combustion est.
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function FuelTripCalculator() {
                 <span role="img" aria-hidden="true">{v.icon}</span>
                 <span>{v.name}</span>
               </div>
-              <div className="text-[10px] opacity-75 font-mono mt-0.5">{v.l100km} L/100km · {v.mpgUS} MPG</div>
+              <div className="text-xs opacity-75 font-mono mt-0.5">{v.l100km} L/100km · {v.mpgUS} MPG</div>
             </button>
           ))}
         </div>

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
@@ -147,9 +147,9 @@ export default function Sitemap() {
                   <span className="text-xl group-hover:scale-110 transition-transform" role="img" aria-hidden="true">{item.icon}</span>
                   <span className="font-semibold text-sm text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">{item.label}</span>
                 </div>
-                <p className="text-[11px] text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">{item.desc}</p>
               </div>
-              <div className="mt-3 text-[10px] font-mono text-[var(--primary)] font-medium flex items-center justify-between">
+              <div className="mt-3 text-xs font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>{item.path}</span>
                 <span aria-hidden="true">→</span>
               </div>
@@ -176,18 +176,18 @@ export default function Sitemap() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-2xl group-hover:scale-110 transition-transform" role="img" aria-hidden="true">{cat.ic}</span>
-                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[var(--primary-muted)] text-[var(--primary)]">
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[var(--primary-muted)] text-[var(--primary)]">
                     {cat.un.length} units
                   </span>
                 </div>
                 <h3 className="font-semibold text-sm mb-1 text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
                   {cat.lb}
                 </h3>
-                <div className="text-[11px] text-[var(--text2)] opacity-75 truncate">
+                <div className="text-xs text-[var(--text2)] opacity-75 truncate">
                   {cat.un.slice(0, 3).map(u => u.lb).join(', ')}...
                 </div>
               </div>
-              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-[10px] font-mono text-[var(--primary)] font-medium flex items-center justify-between">
+              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-xs font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>/convert/{cat.id}</span>
                 <span aria-hidden="true">→</span>
               </div>
@@ -214,11 +214,11 @@ export default function Sitemap() {
               <div>
                 <div className="flex items-center justify-between text-xs font-semibold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
                   <span>{p.from} → {p.to}</span>
-                  <span className="text-[10px] font-normal text-[var(--text2)] opacity-70">{p.catName}</span>
+                  <span className="text-xs font-normal text-[var(--text2)] opacity-70">{p.catName}</span>
                 </div>
-                <p className="text-[10px] text-[var(--text2)] opacity-75 truncate mt-1">{p.desc}</p>
+                <p className="text-xs text-[var(--text2)] opacity-75 truncate mt-1">{p.desc}</p>
               </div>
-              <div className="mt-2 text-[9px] font-mono text-[var(--primary)] opacity-80 flex items-center justify-between">
+              <div className="mt-2 text-xs font-mono text-[var(--primary)] opacity-80 flex items-center justify-between">
                 <span className="truncate">{p.url}</span>
                 <span aria-hidden="true">→</span>
               </div>
@@ -250,11 +250,11 @@ export default function Sitemap() {
                 <h3 className="font-semibold text-sm text-[var(--text)] mb-1 group-hover:text-[var(--primary)] transition-colors">
                   {guide.h1}
                 </h3>
-                <p className="text-[11px] text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">
                   {guide.intro}
                 </p>
               </div>
-              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-[10px] font-mono text-[var(--primary)] font-medium flex items-center justify-between">
+              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-xs font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>/guides/{guide.slug}</span>
                 <span aria-hidden="true">→</span>
               </div>

@@ -77,9 +77,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               <span className="text-sm">{toast.icon || typeIcons[toast.type]}</span>
               <span>{toast.message}</span>
               <motion.span
-                className="ml-2 text-[9px] opacity-30"
+                className="ml-2 text-xs opacity-40"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.3 }}
+                animate={{ opacity: 0.4 }}
               >
                 ← swipe
               </motion.span>

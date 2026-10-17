@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { fmt } from '../../../utils/numbers'
 
@@ -70,35 +70,35 @@ export default function SpeedVisualizer() {
       {/* Main Conversion Gauge Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Kilometers / Hour</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilometers / Hour</div>
           <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {fmt(speedKmh, 2)} <span className="text-xs font-sans">km/h</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Miles / Hour</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Miles / Hour</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(mph, 2)} <span className="text-xs font-sans">mph</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Meters / Second</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Meters / Second</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(ms, 2)} <span className="text-xs font-sans">m/s</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Knots (Nautical)</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Knots (Nautical)</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(knots, 2)} <span className="text-xs font-sans">kn</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Mach Scale</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Mach Scale</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(mach, 3)} <span className="text-xs font-sans">Mach</span>
           </div>
@@ -111,7 +111,7 @@ export default function SpeedVisualizer() {
           <label htmlFor="speed-slider" className="cursor-pointer">
             Adjust Speed: <span className="text-[var(--primary)] font-bold font-mono">{fmt(speedKmh, 1)} km/h</span> ({fmt(mph, 1)} mph)
           </label>
-          <span className="text-[11px] text-[var(--text2)] opacity-80">
+          <span className="text-xs text-[var(--text2)] opacity-80">
             100 km Travel Time: <strong className="text-[var(--text)]">{timeFor100km}</strong>
           </span>
         </div>
@@ -128,7 +128,7 @@ export default function SpeedVisualizer() {
           aria-label="Speed slider in kilometers per hour"
         />
 
-        <div className="flex justify-between text-[10px] text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
           <span>1 km/h</span>
           <span>120 km/h (Highway)</span>
           <span>500 km/h</span>
@@ -156,7 +156,7 @@ export default function SpeedVisualizer() {
                 <span role="img" aria-hidden="true">{b.icon}</span>
                 <span>{b.label}</span>
               </div>
-              <div className="text-[10px] opacity-75 font-mono mt-0.5">{b.kmh.toLocaleString()} km/h · {Math.round(b.kmh * 0.621371)} mph</div>
+              <div className="text-xs opacity-75 font-mono mt-0.5">{b.kmh.toLocaleString()} km/h · {Math.round(b.kmh * 0.621371)} mph</div>
             </button>
           ))}
         </div>

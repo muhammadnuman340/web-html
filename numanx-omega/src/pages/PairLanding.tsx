@@ -232,7 +232,7 @@ export default function PairLanding() {
           <div className="sm:col-span-5 space-y-1.5">
             <label htmlFor="from-val" className="text-xs font-semibold text-[var(--text)] flex justify-between">
               <span>{u1.lb}</span>
-              <span className="text-[11px] text-[var(--text2)] opacity-70 font-mono">({u1.id})</span>
+              <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({u1.id})</span>
             </label>
             <input
               id="from-val"
@@ -248,7 +248,7 @@ export default function PairLanding() {
           <div className="sm:col-span-1 flex justify-center py-1 sm:py-0">
             <button
               onClick={handleSwap}
-              className="w-10 h-10 rounded-full border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all flex items-center justify-center text-sm interact-lift"
+              className="btn-icon w-10 h-10 rounded-full border border-[var(--border)] glass text-sm"
               aria-label="Swap conversion units"
               title="Swap units"
             >
@@ -260,13 +260,13 @@ export default function PairLanding() {
           <div className="sm:col-span-5 space-y-1.5">
             <div className="text-xs font-semibold text-[var(--text)] flex justify-between">
               <span>{u2.lb}</span>
-              <span className="text-[11px] text-[var(--text2)] opacity-70 font-mono">({u2.id})</span>
+              <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({u2.id})</span>
             </div>
             <div className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--primary)] font-mono flex items-center justify-between">
               <span>{convertedValue !== null ? fmt(convertedValue, 6) : '—'}</span>
               <button
                 onClick={handleCopy}
-                className="text-xs px-2 py-1 rounded bg-[var(--border)] hover:bg-[var(--primary)] hover:text-white text-[var(--text2)] transition-colors"
+                className="btn-chip text-xs py-0.5 px-2"
                 aria-label="Copy result"
                 title="Copy result"
               >
@@ -318,13 +318,13 @@ export default function PairLanding() {
             <h2 id="table-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
               <span role="img" aria-hidden="true">📊</span> {u1.lb} to {u2.lb} Conversion Table
             </h2>
-            <span className="text-[11px] text-[var(--text2)] opacity-70">1 to 1,000 reference values</span>
+            <span className="text-xs text-[var(--text2)] opacity-70">1 to 1,000 reference values</span>
           </div>
 
           <div className="flex items-center gap-1.5 no-print">
             <button
               onClick={handlePrint}
-              className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+              className="btn-secondary text-xs gap-1.5"
               title="Print or Save as PDF"
               aria-label="Print or save conversion table as PDF"
             >
@@ -333,7 +333,7 @@ export default function PairLanding() {
             </button>
             <button
               onClick={handleDownloadCSV}
-              className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+              className="btn-secondary text-xs gap-1.5"
               title="Download Excel / CSV"
               aria-label="Download conversion table as CSV"
             >
@@ -345,7 +345,7 @@ export default function PairLanding() {
 
         {/* Printable Title visible during print */}
         <div className="hidden print:block text-center py-2 border-b border-gray-300">
-          <h3 className="text-lg font-bold">NumanX Omega — {u1.lb} to {u2.lb} Conversion Sheet</h3>
+          <h2 className="text-lg font-bold text-[var(--text)]">NumanX Omega — {u1.lb} to {u2.lb} Conversion Sheet</h2>
           <p className="text-xs text-gray-600">Formula: 1 {u1.id} = {unitRatio !== null ? fmt(unitRatio, 6) : ''} {u2.id}</p>
         </div>
 
@@ -359,7 +359,7 @@ export default function PairLanding() {
                 <th className="p-2.5 hidden sm:table-cell text-[var(--text)]">{u1.lb} ({u1.id})</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]/60 font-mono text-[11px]">
+            <tbody className="divide-y divide-[var(--border)]/60 font-mono text-xs">
               {tableValues.map(v => {
                 const resForward = convert(v, cat.id, u1.id, u2.id)
                 const resBackward = convert(v, cat.id, u2.id, u1.id)
@@ -390,7 +390,7 @@ export default function PairLanding() {
               className="p-2.5 rounded-xl glass border border-transparent hover:border-[var(--border)] text-xs transition-all interact-lift flex items-center justify-between"
             >
               <span className="font-medium text-[var(--text)]">{u1.id} → {other.id}</span>
-              <span className="text-[10px] text-[var(--text2)] opacity-70 truncate">{other.lb}</span>
+              <span className="text-xs text-[var(--text2)] opacity-70 truncate">{other.lb}</span>
             </Link>
           ))}
         </div>

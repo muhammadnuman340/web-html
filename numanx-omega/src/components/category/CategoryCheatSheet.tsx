@@ -79,7 +79,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
         <div className="flex items-center gap-1.5 flex-wrap self-start sm:self-auto no-print">
           <button
             onClick={handlePrint}
-            className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+            className="btn-secondary text-xs gap-1.5"
             title="Print or Save as PDF"
             aria-label="Print or save reference sheet as PDF"
           >
@@ -89,7 +89,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
           <button
             onClick={handleDownloadCSV}
-            className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+            className="btn-secondary text-xs gap-1.5"
             title="Download Excel / CSV"
             aria-label="Download conversion table as CSV"
           >
@@ -99,7 +99,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
           <button
             onClick={handleCopyTable}
-            className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium hover:border-[var(--primary)] hover:text-[var(--primary)] transition-all flex items-center gap-1.5 interact-lift"
+            className="btn-secondary text-xs gap-1.5"
             title="Copy table to clipboard"
             aria-label="Copy reference table to clipboard"
           >
@@ -127,7 +127,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
         <button
           onClick={handleSwap}
-          className="p-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] hover:bg-[var(--primary)] hover:text-white transition-colors text-xs"
+          className="btn-icon w-8 h-8 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs"
           title="Swap units"
           aria-label="Swap units"
         >
@@ -151,26 +151,26 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
       {/* Printable Title visible during print */}
       <div className="hidden print:block text-center py-2 border-b border-gray-300">
-        <h3 className="text-lg font-bold">NumanX Omega — {cat.lb} Cheat Sheet</h3>
+        <h2 className="text-lg font-bold text-[var(--text)]">NumanX Omega — {cat.lb} Cheat Sheet</h2>
         <p className="text-xs text-gray-600">Reference: {fromDef?.lb} ({fromDef?.id}) to {toDef?.lb} ({toDef?.id})</p>
       </div>
 
       {/* Table view */}
       <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--card2)]/40">
         <table className="w-full text-xs text-left">
-          <thead className="bg-[var(--border)]/40 text-[11px] uppercase tracking-wider text-[var(--text)] font-semibold">
+          <thead className="bg-[var(--border)]/40 text-xs uppercase tracking-wider text-[var(--text)] font-semibold">
             <tr>
               <th className="py-2.5 px-4">{fromDef?.lb} ({fromDef?.id})</th>
               <th className="py-2.5 px-4 text-[var(--primary)]">{toDef?.lb} ({toDef?.id})</th>
               <th className="py-2.5 px-4 text-right">Formula Ratio</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[var(--border)]/30 font-mono text-[11px]">
+          <tbody className="divide-y divide-[var(--border)]/30 font-mono text-xs">
             {tableRows.map(({ input, result }) => (
               <tr key={input} className="hover:bg-[var(--border)]/20 transition-colors">
                 <td className="py-2 px-4 font-semibold text-[var(--text)]">{input} {fromDef?.id}</td>
                 <td className="py-2 px-4 text-[var(--primary)] font-bold">{result} {toDef?.id}</td>
-                <td className="py-2 px-4 text-right text-[var(--text2)] opacity-70 text-[10px]">
+                <td className="py-2 px-4 text-right text-[var(--text2)] opacity-70 text-xs">
                   {input === 1 ? `1 : ${result}` : `× ${input}`}
                 </td>
               </tr>

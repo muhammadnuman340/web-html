@@ -125,7 +125,7 @@ export default function ContextBar() {
           <span className="text-sm flex-shrink-0" aria-hidden="true">{tip.icon}</span>
           <span className="opacity-80 text-[var(--text)] leading-normal">{tip.message}</span>
           {tip.action && (
-            <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-[11px] font-semibold tracking-wide ml-1">
+            <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-xs font-semibold tracking-wide ml-1">
               {tip.action.label}{tip.action.shortcut ? ` (${tip.action.shortcut})` : ''}
             </span>
           )}

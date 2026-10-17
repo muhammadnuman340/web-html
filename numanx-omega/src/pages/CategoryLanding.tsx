@@ -128,7 +128,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
 
       {/* Embedded Primary Universal Converter */}
       <section aria-labelledby="convert-heading">
-        <h2 id="convert-heading" className="text-sm font-semibold uppercase tracking-wide opacity-70 mb-2 text-[var(--text)]">
+        <h2 id="convert-heading" className="text-sm font-bold opacity-90 mb-2 text-[var(--text)] flex items-center gap-1.5">
           <span aria-hidden="true">{cat.ic}</span> {cat.lb} Precision Calculator
         </h2>
         <div className="glass-liquid rounded-2xl p-4">
@@ -197,7 +197,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
               <details key={f.q} className="group glass rounded-xl border border-[var(--border)] overflow-hidden" open={idx === 0}>
                 <summary className="flex items-center justify-between p-3.5 text-xs font-semibold cursor-pointer select-none text-[var(--text)] hover:text-[var(--primary)] transition-colors list-none [&::-webkit-details-marker]:hidden">
                   <span className="flex items-center gap-2 pr-2">
-                    <span className="w-5 h-5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-[10px] font-bold flex-shrink-0" aria-hidden="true">Q</span>
+                    <span className="w-5 h-5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs font-bold flex-shrink-0" aria-hidden="true">Q</span>
                     <span>{f.q}</span>
                   </span>
                   <span className="text-xs opacity-50 group-open:rotate-180 transition-transform duration-200 flex-shrink-0" aria-hidden="true">▼</span>
@@ -215,7 +215,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
       <nav aria-label="Category pagination" className="glass rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border border-[var(--border)]">
         <Link
           to={`/convert/${prevCat.id}`}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--border)] glass hover:bg-[var(--border)] transition-all interact-lift text-xs font-medium text-[var(--text)]"
+          className="btn-secondary w-full sm:w-auto text-xs font-semibold gap-2 px-4 py-2"
           aria-label={`Previous category: ${prevCat.lb}`}
         >
           <span aria-hidden="true">←</span>
@@ -230,7 +230,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </Link>
         <Link
           to={`/convert/${nextCat.id}`}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--border)] glass hover:bg-[var(--border)] transition-all interact-lift text-xs font-medium text-[var(--text)]"
+          className="btn-secondary w-full sm:w-auto text-xs font-semibold gap-2 px-4 py-2"
           aria-label={`Next category: ${nextCat.lb}`}
         >
           <span>{nextCat.lb}</span>

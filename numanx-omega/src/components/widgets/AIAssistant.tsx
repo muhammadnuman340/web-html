@@ -574,9 +574,9 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
               <span className="font-semibold text-sm">NX-COS AI</span>
             </div>
             <div className="flex items-center gap-1.5">
-              {messages.length > 2 && <span className="text-[8px] opacity-30">{messages.length}</span>}
+              {messages.length > 2 && <span className="text-xs opacity-40">{messages.length}</span>}
               <button onClick={() => { setMessages([]); localStorage.removeItem(CHAT_STORAGE_KEY); msgId.current = 1 }}
-                className="text-[8px] opacity-30 hover:opacity-100 p-1" aria-label="Clear chat">🗑</button>
+                className="text-xs opacity-40 hover:opacity-100 p-1" aria-label="Clear chat">🗑</button>
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <button onClick={onClose} className="text-xs opacity-40 hover:opacity-100 p-1" aria-label="Close AI assistant">✕</button>
             </div>
@@ -602,7 +602,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
                 }`}>
                   {msg.type !== 'user' && (
                     <button onClick={() => { navigator.clipboard.writeText(msg.text) }}
-                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-[9px] p-0.5 rounded hover:bg-[var(--border)] transition-all" aria-label="Copy message">
+                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs p-0.5 rounded hover:bg-[var(--border)] transition-all" aria-label="Copy message">
                       📋
                     </button>
                   )}
@@ -613,7 +613,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
                       const action = navMatch[1].toLowerCase()
                       return (
                         <button key={i} onClick={() => executeAction(action)}
-                          className="mt-1 px-2 py-1 rounded-lg text-[9px] font-medium bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all inline-flex items-center gap-1">
+                          className="mt-1 px-2 py-1 rounded-lg text-xs font-medium bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all inline-flex items-center gap-1">
                           Go to {action.charAt(0).toUpperCase() + action.slice(1)} →
                         </button>
                       )
@@ -630,11 +630,11 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
             {/* Smart Reply Chips */}
             {messages.length > 1 && replyChips.length > 0 && (
               <div className="pt-1 space-y-1">
-                <div className="text-[10px] opacity-40 uppercase tracking-wide">Quick replies</div>
+                <div className="text-xs opacity-50 uppercase tracking-wide">Quick replies</div>
                 <div className="flex flex-wrap gap-1">
                   {replyChips.map((chip, i) => (
                     <button key={i} onClick={() => { setInput(chip.query); setTimeout(() => handleSendRef.current?.(), 100) }}
-                      className="text-[10px] px-2 py-1 rounded-full glass border border-[var(--border)] hover:border-[var(--primary)] hover:bg-[var(--primary)]/5 transition-all">
+                      className="btn-chip text-xs">
                       {chip.label}
                     </button>
                   ))}
@@ -645,7 +645,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
             {/* Suggestions */}
             {suggestions.length > 0 && messages.length < 4 && (
               <div className="pt-2 space-y-1">
-                <div className="text-[10px] opacity-40 uppercase tracking-wide">Suggestions</div>
+                <div className="text-xs opacity-50 uppercase tracking-wide">Suggestions</div>
                 {suggestions.slice(0, 3).map((s, i) => (
                   <button key={i} onClick={() => { setInput(s.label); setTimeout(() => handleSendRef.current?.(), 100) }}
                     className="block w-full text-left text-xs p-2 rounded-lg hover:bg-[var(--border)] transition-colors">
@@ -658,11 +658,11 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
             {/* Suggested questions (shown when no messages or scrolled to bottom) */}
             {messages.length < 4 && (
               <div className="pt-2">
-                <div className="text-[10px] opacity-40 uppercase tracking-wide mb-1">Quick questions</div>
+                <div className="text-xs opacity-50 uppercase tracking-wide mb-1">Quick questions</div>
                 <div className="grid grid-cols-2 gap-1">
                   {SUGGESTED_QUESTIONS.map((q, i) => (
                     <button key={i} onClick={() => { setInput(q.label); setTimeout(() => handleSendRef.current?.(), 100) }}
-                      className="text-left text-[10px] p-1.5 rounded-lg glass border border-[var(--border)] hover:border-[var(--primary)] transition-colors truncate">
+                      className="text-left text-xs p-1.5 rounded-lg glass border border-[var(--border)] hover:border-[var(--primary)] transition-colors truncate">
                       {q.label}
                     </button>
                   ))}
@@ -682,8 +682,8 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
                   className="absolute bottom-full left-3 right-3 mb-1 glass rounded-xl overflow-hidden shadow-lg border border-[var(--border)]">
                   {liveSuggestions.map((s, i) => (
                     <button key={i} onClick={() => { setInput(s.label); setLiveSuggestions([]); setTimeout(() => handleSendRef.current?.(), 100) }}
-                      className="w-full text-left px-3 py-2 text-[11px] hover:bg-[var(--border)] transition-colors flex items-center gap-2">
-                      <span className="text-[9px] opacity-40">💡</span>
+                      className="w-full text-left px-3 py-2 text-xs hover:bg-[var(--border)] transition-colors flex items-center gap-2">
+                      <span className="text-xs opacity-40">💡</span>
                       {s.label}
                     </button>
                   ))}

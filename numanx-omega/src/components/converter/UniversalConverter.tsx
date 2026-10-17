@@ -409,7 +409,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
           {cats.length > 9 && (
             <button onClick={() => setShowAllCats(!showAllCats)}
-              className="w-full mt-1.5 px-3 py-1.5 rounded-xl glass text-xs text-center hover:bg-[var(--border)] transition-all interact-lift font-medium">
+              className="btn-secondary w-full mt-1.5 text-xs text-center py-1.5 font-medium">
               {showAllCats ? '▲ Show Less' : `▼ See All Categories (${cats.length})`}
             </button>
           )}
@@ -422,7 +422,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               className="w-full px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors" />
             {catFilter && (
               <button onClick={() => setCatFilter('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] opacity-40 hover:opacity-100" aria-label="Clear filter">✕</button>
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-xs opacity-50 hover:opacity-100" aria-label="Clear filter">✕</button>
             )}
           </div>
           <div className="flex flex-wrap gap-1" role="tablist" aria-label="Unit categories">
@@ -430,10 +430,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
                 role="tab"
                 aria-selected={catId === c.id}
-                className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-300 font-medium interact-lift ${
+                className={`btn-chip text-xs whitespace-nowrap transition-all duration-300 font-medium ${
                   catId === c.id
-                    ? 'text-white shadow-lg scale-105'
-                    : 'glass text-[var(--text)] opacity-85 hover:opacity-100 hover:border-[var(--primary)]'
+                    ? 'active text-white shadow-lg scale-105'
+                    : ''
                 }`}
                 style={catId === c.id ? {
                   background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
@@ -450,12 +450,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {mode !== 'fast' && !chainMode && (
         <div className="flex gap-1 overflow-x-auto py-1">
           <button onClick={() => autoSuggestChain()}
-            className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1 shrink-0">
+            className="btn-chip text-xs flex items-center gap-1 shrink-0">
             <span aria-hidden="true">⛓</span> Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
           </button>
           {chains.map(chain => (
             <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all shrink-0">
+              className="btn-chip text-xs shrink-0">
               <span aria-hidden="true">{chain.icon}</span> {chain.label}
             </button>
           ))}
@@ -469,7 +469,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           <div className="text-xs font-semibold uppercase tracking-wide opacity-60">Chain Result</div>
           {chainResult.map((link, i) => (
             <div key={i} className="flex items-center gap-2 text-sm">
-              <span className="w-6 h-6 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
+              <span className="w-6 h-6 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xs font-bold">{i + 1}</span>
               <span className="opacity-60 w-24 text-xs">{link.label}</span>
               <span className="font-mono font-bold">{fmtR(link.value)}</span>
               <span className="text-xs opacity-50">{link.unit}</span>
@@ -485,12 +485,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {/* Natural language indicator */}
       {isNatural && fromVal && (
-        <div className="text-[10px] flex items-center gap-1 flex-wrap">
-          <span className="px-1.5 py-0.5 rounded bg-green-500/10 text-green-500 text-[9px]"><span aria-hidden="true">🧠</span> AI</span>
+        <div className="text-xs flex items-center gap-1 flex-wrap">
+          <span className="px-1.5 py-0.5 rounded bg-green-500/10 text-green-500 text-xs"><span aria-hidden="true">🧠</span> AI</span>
           <span className="opacity-60">Detected: </span>
           <span className="font-mono opacity-70">{parseNaturalLanguage(fromVal).raw}</span>
           {parseNaturalLanguage(fromVal).intent && (
-            <span className="px-1.5 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)] text-[9px]">
+            <span className="px-1.5 py-0.5 rounded bg-[var(--primary)]/10 text-[var(--primary)] text-xs">
               Intent: {parseNaturalLanguage(fromVal).intent}
             </span>
           )}
@@ -551,7 +551,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 onDrop={e => { e.preventDefault(); const v = e.dataTransfer.getData('text/plain'); if (v) setFromVal(v) }}
               />
             {mode === 'student' && !fromVal && (
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] opacity-30">try "5 km in miles"</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-40">try "5 km in miles"</span>
             )}
             {/* Clipboard detection badge */}
             {clipSuggestion && (
@@ -562,11 +562,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   if (clipSuggestion.unit && cat?.un.some(u => u.id === clipSuggestion.unit)) setFromUnit(clipSuggestion.unit)
                   if (clipSuggestion.targetUnit && cat?.un.some(u => u.id === clipSuggestion.targetUnit)) setToUnit(clipSuggestion.targetUnit)
                 }}
-                  className="px-2 py-0.5 rounded-lg text-[9px] bg-[var(--primary)]/20 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1 whitespace-nowrap">
+                  className="btn-chip text-xs py-0.5 px-2">
                   📋 {clipSuggestion.label}
                 </button>
                 <button onClick={clearClip}
-                  className="p-0.5 rounded text-[8px] opacity-30 hover:opacity-100" aria-label="Dismiss suggestion">✕</button>
+                  className="btn-icon w-5 h-5 text-xs opacity-50 hover:opacity-100" aria-label="Dismiss suggestion">✕</button>
               </motion.div>
             )}
 
@@ -580,7 +580,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                       className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs hover:bg-[var(--primary)]/10 transition-all text-left">
                       <span className="text-sm" aria-hidden="true">{s.ic}</span>
                       <span className="font-medium">{s.lb}</span>
-                      <span className="text-[9px] opacity-30 ml-auto">{s.cat}</span>
+                      <span className="text-xs opacity-40 ml-auto">{s.cat}</span>
                     </button>
                   ))}
                 </div>
@@ -612,7 +612,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <span className="text-xs text-[var(--text2)] opacity-70 uppercase tracking-wider mr-0.5">Recent</span>
               {recent.map((e, i) => (
                 <button key={i} onClick={() => { setFromUnit(e.fromUnit || ''); setToUnit(e.toUnit || '') }}
-                  className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+                  className="btn-chip text-xs">
                   {e.fromUnit} → {e.toUnit}
                 </button>
               ))}
@@ -622,36 +622,36 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
         <div className="flex items-center justify-between">
           <ConversionStreaks compact />
-          <div className="flex gap-3">
+          <div className="flex gap-2 items-center">
           <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
             animate={{ rotate: swapRotation }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             aria-label="Swap source and target units"
-            className="w-10 h-10 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-lg shadow-lg shadow-[var(--glow)] interact-lift">⇅</motion.button>
+            className="w-9 h-9 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] interact-lift">⇅</motion.button>
           {mode !== 'fast' && (
             <>
               <button onClick={() => setFrac(!frac)}
                 aria-label="Toggle fraction display"
                 aria-pressed={frac}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${frac ? 'bg-[var(--primary)] text-white' : 'glass text-[var(--text)]'}`}>frac</button>
+                className={`btn-chip text-xs rounded-full ${frac ? 'active' : ''}`}>frac</button>
               <button onClick={() => setSci(!sci)}
                 aria-label="Toggle scientific notation"
                 aria-pressed={sci}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${sci ? 'bg-[var(--primary)] text-white' : 'glass text-[var(--text)]'}`}>sci</button>
+                className={`btn-chip text-xs rounded-full ${sci ? 'active' : ''}`}>sci</button>
               <button onClick={() => setShowExplanation(!showExplanation)}
                 aria-label={showExplanation ? 'Hide calculation steps' : 'Show calculation steps'}
                 aria-expanded={showExplanation}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all interact-lift ${showExplanation ? 'bg-[var(--primary)] text-white shadow-md' : 'glass text-[var(--text)]'}`}>
+                className={`btn-chip text-xs rounded-full ${showExplanation ? 'active' : ''}`}>
                 <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
               </button>
               <button onClick={() => setBatchMode(!batchMode)}
                 aria-label="Toggle batch conversion mode"
                 aria-pressed={batchMode}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode ? 'bg-[var(--primary)] text-white' : 'glass text-[var(--text)]'}`}>
+                className={`btn-chip text-xs rounded-full ${batchMode ? 'active' : ''}`}>
                 <span aria-hidden="true">📋</span> Batch
               </button>
               <button onClick={() => setShowAIExplain(!showAIExplain)}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showAIExplain ? 'bg-[var(--primary)] text-white shadow-[var(--glow)]' : 'glass text-[var(--text)]'}`}
+                className={`btn-chip text-xs rounded-full ${showAIExplain ? 'active' : ''}`}
                 aria-label="AI explain conversion">
                 <span aria-hidden="true">🤖</span> AI
               </button>
@@ -693,7 +693,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             {/* Error state + Did you mean? */}
             {hasError && (
               <div>
-                <div className="text-[10px] text-red-500/60 mt-1 flex items-center gap-1">
+                <div className="text-xs text-red-500/80 mt-1 flex items-center gap-1">
                   <span aria-hidden="true">⚠️</span>
                   <span>Can't convert — incompatible units or missing conversion factor</span>
                 </div>
@@ -706,7 +706,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                         const c = getAllCategories().find(c => c.id === d.cat)
                         if (c) { setCatId(d.cat); setFromUnit(d.unit); setToUnit(c.un[Math.min(1, c.un.length - 1)]?.id || d.unit) }
                       }}
-                        className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+                        className="btn-chip text-xs">
                         {d.label} ({d.cat})
                       </button>
                     ))}
@@ -719,12 +719,12 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               {result !== null && (
                 <>
                   <button onClick={shareResult}
-                    className="share-btn w-7 h-7 rounded-lg bg-[var(--card2)] border border-[var(--border)] flex items-center justify-center text-[10px] hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] transition-all"
+                    className="share-btn btn-icon w-8 h-8 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs"
                     aria-label="Share result">
                     📤
                   </button>
                   <button onClick={copyResult}
-                    className="w-7 h-7 rounded-lg bg-[var(--primary)] text-white flex items-center justify-center text-[10px] hover:shadow-lg hover:shadow-[var(--glow)] transition-all"
+                    className="btn-icon w-8 h-8 rounded-xl bg-[var(--primary)] text-white text-xs shadow-sm"
                     aria-label="Copy result">
                     {copyBtnIcon}
                   </button>
@@ -802,10 +802,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             {explanation && <p className="text-[var(--text)] opacity-90 leading-relaxed">{explanation}</p>}
             {steps.length > 0 && (
               <div className="pt-1 space-y-1">
-                <div className="text-[10px] text-[var(--text2)] opacity-85 uppercase tracking-wide">Steps</div>
+                <div className="text-xs text-[var(--text2)] opacity-85 uppercase tracking-wide">Steps</div>
                 {steps.map((s, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs">
-                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[9px] font-bold shrink-0">{i + 1}</span>
+                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</span>
                     <span className="text-[var(--text2)] opacity-85 w-24 shrink-0 font-medium">{s.label}</span>
                     <span className="text-[var(--text)] opacity-90">{s.detail}</span>
                   </div>
@@ -824,10 +824,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* AI: "Also try" related conversions */}
       {alsoTry.length > 0 && !showAIExplain && (
         <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap gap-1.5 items-center">
-          <span className="text-[8px] opacity-30 uppercase tracking-wider mr-0.5">Also try</span>
+          <span className="text-xs opacity-50 uppercase tracking-wider mr-0.5">Also try</span>
           {alsoTry.map((p, i) => (
             <button key={i} onClick={() => { setFromUnit(p.from); setToUnit(p.to) }}
-              className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+              className="btn-chip text-xs">
               {p.label}
             </button>
           ))}
@@ -858,11 +858,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             setShowFavSuggestion(false)
             addToast('Added to favorites!', 'success', '⭐')
           }}
-            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500 hover:text-white transition-all interact-lift flex items-center gap-1">
+            className="btn-secondary text-xs gap-1 border-amber-500/30 text-amber-600 dark:text-amber-400">
             ⭐ Save to favorites
           </button>
           <button onClick={() => setShowFavSuggestion(false)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] text-[var(--text)] transition-all" aria-label="Dismiss favorites suggestion">✕</button>
+            className="btn-icon w-6 h-6 text-xs" aria-label="Dismiss favorites suggestion">✕</button>
         </motion.div>
       )}
 
@@ -875,11 +875,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             setModeSuggestion(null)
             addToast(`Switched to ${modeSuggestion.label}!`, 'success', modeSuggestion.icon)
           }}
-            className="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary-muted)] text-[var(--primary)] border border-[var(--primary)]/30 hover:bg-[var(--primary)] hover:text-white transition-all interact-lift flex items-center gap-1">
+            className="btn-secondary text-xs gap-1 border-[var(--primary)]/30 text-[var(--primary)]">
             {modeSuggestion.icon} Try {modeSuggestion.label}
           </button>
           <button onClick={() => setModeSuggestion(null)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] text-[var(--text)] transition-all" aria-label="Dismiss mode suggestion">✕</button>
+            className="btn-icon w-6 h-6 text-xs" aria-label="Dismiss mode suggestion">✕</button>
         </motion.div>
       )}
 
@@ -929,7 +929,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <div className="space-y-1">
                 {steps.map((s, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs py-1">
-                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[9px] font-bold shrink-0">{i + 1}</span>
+                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</span>
                     <span className="font-medium w-24 text-[var(--text2)] opacity-85">{s.label}</span>
                     <span className="text-xs text-[var(--text)] opacity-90">{s.detail}</span>
                   </div>
@@ -939,7 +939,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             {explanation && <div className="text-xs text-[var(--text)] opacity-90 mt-2 p-2 rounded-lg bg-[var(--card2)] border border-[var(--border)]">{explanation}</div>}
             {explanations.length > 0 && (
               <div className="mt-2 pt-2 border-t border-[var(--border)]">
-                <div className="text-[10px] font-semibold uppercase tracking-wide text-[var(--text2)] opacity-85">Learn more</div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-[var(--text2)] opacity-85">Learn more</div>
                 {explanations.slice(0, 2).map((ex, i) => (
                   <div key={i} className="mt-1 text-xs">
                     <div className="font-medium text-[var(--text)]">{ex.title}</div>
@@ -969,11 +969,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none min-h-[60px] resize-none" />
             <div className="flex gap-2">
               <button onClick={handleBatchConvert}
-                className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary)] text-white shadow-sm hover:brightness-110 interact-lift">Convert All</button>
+                className="btn-primary text-xs">Convert All</button>
               <button onClick={() => setBatchInput(generateSequence(1, 100, 10).join('\n'))}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">1-100</button>
+                className="btn-secondary text-xs">1-100</button>
               <button onClick={() => setBatchInput(generateSequence(0, 1000, 100).join('\n'))}
-                className="px-3 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">0-1000</button>
+                className="btn-secondary text-xs">0-1000</button>
             </div>
             {batchResults.length > 0 && (
               <div className="max-h-32 overflow-y-auto space-y-0.5" tabIndex={0} role="region" aria-label="Batch conversion results">
@@ -984,7 +984,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     <span className="font-medium">{fmtR(r.result)} {toUnit}</span>
                   </div>
                 ))}
-                <div className="pt-1 border-t border-[var(--border)] text-[10px] opacity-50">
+                <div className="pt-1 border-t border-[var(--border)] text-xs opacity-60">
                   {batchResults.filter(r => r.result !== null).length} results
                 </div>
                 <div className="flex gap-1 pt-1">
@@ -994,14 +994,14 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     const url = URL.createObjectURL(blob)
                     const a = document.createElement('a'); a.href = url; a.download = 'conversion-results.csv'
                     a.click(); URL.revokeObjectURL(url); addToast('CSV downloaded', 'success', '📥')
-                  }} className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all">📥 CSV</button>
+                  }} className="btn-secondary text-xs">📥 CSV</button>
                   <button onClick={() => {
                     const json = JSON.stringify(batchResults, null, 2)
                     const blob = new Blob([json], { type: 'application/json' })
                     const url = URL.createObjectURL(blob)
                     const a = document.createElement('a'); a.href = url; a.download = 'conversion-results.json'
                     a.click(); URL.revokeObjectURL(url); addToast('JSON downloaded', 'success', '📥')
-                  }} className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all">📥 JSON</button>
+                  }} className="btn-secondary text-xs">📥 JSON</button>
                 </div>
               </div>
             )}
@@ -1014,7 +1014,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <div className="flex gap-1.5 flex-wrap">
           {quickValues.map(v => (
             <button key={v} onClick={() => setFromVal(String(v))}
-              className="btn-chip px-3 py-1.5 rounded-xl text-xs font-medium text-[var(--text)] glass hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] hover:shadow-[var(--glow)] transition-all interact-lift">
+              className="btn-chip text-xs">
               {v < 1 ? String(v) : v >= 1e6 ? '1,000,000' : v >= 1e3 ? '1,000' : String(v)}
             </button>
           ))}

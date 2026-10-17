@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface PowerBenchmark {
@@ -50,28 +50,28 @@ export default function PowerVisualizer() {
       {/* Main Multi-Unit Display Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Kilowatts</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Kilowatts</div>
           <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {fmt(kilowatts, 3)} <span className="text-xs font-sans">kW</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Mechanical Horsepower</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Mechanical Horsepower</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(horsepower, 2)} <span className="text-xs font-sans">hp</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Watts</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Watts</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(watts, 0)} <span className="text-xs font-sans">W</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Thermal BTU/hr</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Thermal BTU/hr</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(btuPerHour, 0)} <span className="text-xs font-sans">BTU/h</span>
           </div>
@@ -84,7 +84,7 @@ export default function PowerVisualizer() {
           <label htmlFor="power-slider" className="cursor-pointer">
             Power Rating: <span className="text-[var(--primary)] font-bold font-mono">{fmt(watts, 0)} W</span> ({fmt(horsepower, 2)} hp)
           </label>
-          <span className="text-[11px] text-[var(--text2)] opacity-80">
+          <span className="text-xs text-[var(--text2)] opacity-80">
             Running 1 hour consumes: <strong className="text-[var(--text)] font-mono">{fmt(hourlyKwh, 2)} kWh</strong>
           </span>
         </div>
@@ -101,7 +101,7 @@ export default function PowerVisualizer() {
           aria-label="Power slider in watts"
         />
 
-        <div className="flex justify-between text-[10px] text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
           <span>10 W (LED)</span>
           <span>1,500 W (Toaster)</span>
           <span>3,500 W (Oven)</span>
@@ -129,8 +129,8 @@ export default function PowerVisualizer() {
                 <span role="img" aria-hidden="true">{b.icon}</span>
                 <span className="truncate">{b.name}</span>
               </div>
-              <div className="text-[10px] opacity-75 font-mono mt-0.5">{fmt(b.watts >= 1e6 ? b.watts / 1e6 : b.watts >= 1e3 ? b.watts / 1e3 : b.watts, 1)} {b.watts >= 1e6 ? 'MW' : b.watts >= 1e3 ? 'kW' : 'W'}</div>
-              <div className="text-[10px] opacity-60 truncate">{b.desc}</div>
+              <div className="text-xs opacity-75 font-mono mt-0.5">{fmt(b.watts >= 1e6 ? b.watts / 1e6 : b.watts >= 1e3 ? b.watts / 1e3 : b.watts, 1)} {b.watts >= 1e6 ? 'MW' : b.watts >= 1e3 ? 'kW' : 'W'}</div>
+              <div className="text-xs opacity-60 truncate">{b.desc}</div>
             </button>
           ))}
         </div>

@@ -68,7 +68,7 @@ export default function AIDashboardInsights() {
               className="glass rounded-xl p-2 text-center">
               <span className="text-xs" aria-hidden="true">{stat.icon}</span>
               <div className="text-sm font-bold mt-0.5">{stat.value}</div>
-              <div className="text-[8px] opacity-40 uppercase tracking-wider">{stat.label}</div>
+              <div className="text-xs opacity-50 uppercase tracking-wider">{stat.label}</div>
             </motion.div>
           ))}
         </div>
@@ -76,7 +76,7 @@ export default function AIDashboardInsights() {
         {/* Activity sparkline */}
         {insights.dailyData.length > 1 && (
           <div>
-            <div className="text-[10px] opacity-40 uppercase tracking-wide mb-1">14-Day Activity</div>
+            <div className="text-xs opacity-50 uppercase tracking-wide mb-1">14-Day Activity</div>
             <Sparkline data={insights.dailyData.map(d => d.value)} height={32} />
           </div>
         )}
@@ -84,7 +84,7 @@ export default function AIDashboardInsights() {
         {/* Suggestions */}
         {insights.suggestions.length > 0 && (
           <div className="space-y-1">
-            <div className="text-[10px] opacity-40 uppercase tracking-wide">Suggestions</div>
+            <div className="text-xs opacity-50 uppercase tracking-wide">Suggestions</div>
             {insights.suggestions.map((s, i) => (
               <div key={i} className="text-xs opacity-70 flex items-start gap-1.5">
                 <span className="text-[var(--primary)] mt-0.5">•</span>
@@ -96,8 +96,8 @@ export default function AIDashboardInsights() {
 
         {/* Mode recommendation */}
         {insights.summary.totalConversions > 3 && (
-          <div className="text-[10px] pt-1 border-t border-[var(--border)]">
-            <span className="opacity-40">💡 Tip: </span>
+          <div className="text-xs pt-1 border-t border-[var(--border)]">
+            <span className="opacity-50">💡 Tip: </span>
             <span className="opacity-70">
               Based on your activity, try switching modes in Settings to match your workflow
             </span>

@@ -72,9 +72,9 @@ export default function CookingRecipeScaler() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h3 className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>🍳</span> Interactive Kitchen Recipe Portion Scaler
-          </h3>
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+            <span aria-hidden="true">🍳</span> Interactive Kitchen Recipe Portion Scaler
+          </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Multiply recipe quantities for baking and dinner parties without messy fraction math.
           </p>
@@ -85,11 +85,7 @@ export default function CookingRecipeScaler() {
             <button
               key={m.label}
               onClick={() => setMultiplier(m.val)}
-              className={`text-xs px-2.5 py-1 rounded-lg border font-medium transition-all ${
-                multiplier === m.val
-                  ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm'
-                  : 'bg-[var(--card2)] border-[var(--border)] hover:border-[var(--primary)]/60'
-              }`}
+              className={`btn-chip text-xs ${multiplier === m.val ? 'active' : ''}`}
             >
               {m.label}
             </button>
@@ -100,10 +96,10 @@ export default function CookingRecipeScaler() {
       {/* Ingredient Table */}
       <div className="space-y-2">
         <div className="flex justify-between items-center text-xs opacity-60 px-1">
-          <span className="font-semibold uppercase tracking-wider text-[10px]">Ingredient Name</span>
+          <span className="font-semibold uppercase tracking-wider text-xs">Ingredient Name</span>
           <div className="flex gap-8">
-            <span className="font-semibold uppercase tracking-wider text-[10px] w-20 text-right">Base</span>
-            <span className="font-semibold uppercase tracking-wider text-[10px] w-24 text-right text-[var(--primary)]">Scaled ({multiplier}×)</span>
+            <span className="font-semibold uppercase tracking-wider text-xs w-20 text-right">Base</span>
+            <span className="font-semibold uppercase tracking-wider text-xs w-24 text-right text-[var(--primary)]">Scaled ({multiplier}×)</span>
           </div>
         </div>
 
@@ -115,7 +111,7 @@ export default function CookingRecipeScaler() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="opacity-30 hover:opacity-100 text-[10px] text-red-400"
+                    className="opacity-40 hover:opacity-100 text-xs text-red-400"
                     title="Remove item"
                     aria-label={`Remove ${item.name}`}
                   >
@@ -125,7 +121,7 @@ export default function CookingRecipeScaler() {
                 </div>
 
                 <div className="flex items-center gap-8 font-mono">
-                  <span className="text-[11px] opacity-50 w-20 text-right">
+                  <span className="text-xs opacity-60 w-20 text-right">
                     {formatFraction(item.amount)} {item.unit}
                   </span>
                   <span className="text-xs font-bold text-[var(--primary)] w-24 text-right">
@@ -169,7 +165,7 @@ export default function CookingRecipeScaler() {
         </select>
         <button
           type="submit"
-          className="px-3 py-1.5 rounded-xl bg-[var(--primary)] text-white font-medium hover:opacity-90 transition-opacity"
+          className="btn-primary text-xs"
         >
           + Add
         </button>

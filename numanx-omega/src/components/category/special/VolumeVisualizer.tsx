@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface VolumeBenchmark {
@@ -48,35 +48,35 @@ export default function VolumeVisualizer() {
       {/* Main Multi-Unit Display Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Liters</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Liters</div>
           <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {fmt(liters, 2)} <span className="text-xs font-sans">L</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Milliliters</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Milliliters</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(milliliters, 0)} <span className="text-xs font-sans">mL</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">US Gallons</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">US Gallons</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(gallonsUS, 2)} <span className="text-xs font-sans">gal</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Fluid Ounces</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Fluid Ounces</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(fluidOunces, 1)} <span className="text-xs font-sans">fl oz</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)] col-span-2 sm:col-span-1">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Standard Cups</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Standard Cups</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(cups, 1)} <span className="text-xs font-sans">cups</span>
           </div>
@@ -89,7 +89,7 @@ export default function VolumeVisualizer() {
           <label htmlFor="volume-slider" className="cursor-pointer">
             Adjust Volume: <span className="text-[var(--primary)] font-bold font-mono">{fmt(liters, 2)} Liters</span>
           </label>
-          <span className="text-[11px] text-[var(--text2)] opacity-80">
+          <span className="text-xs text-[var(--text2)] opacity-80">
             Cubic Meters: <strong className="text-[var(--text)] font-mono">{fmt(cubicMeters, 4)} m³</strong>
           </span>
         </div>
@@ -106,7 +106,7 @@ export default function VolumeVisualizer() {
           aria-label="Volume slider in liters"
         />
 
-        <div className="flex justify-between text-[10px] text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
           <span>0.1 L (Glass)</span>
           <span>3.8 L (Gallon)</span>
           <span>50 L (Fuel Tank)</span>
@@ -134,8 +134,8 @@ export default function VolumeVisualizer() {
                 <span role="img" aria-hidden="true">{b.icon}</span>
                 <span className="truncate">{b.name}</span>
               </div>
-              <div className="text-[10px] opacity-75 font-mono mt-0.5">{fmt(b.liters, b.liters < 1 ? 3 : 1)} L</div>
-              <div className="text-[10px] opacity-60 truncate">{b.desc}</div>
+              <div className="text-xs opacity-75 font-mono mt-0.5">{fmt(b.liters, b.liters < 1 ? 3 : 1)} L</div>
+              <div className="text-xs opacity-60 truncate">{b.desc}</div>
             </button>
           ))}
         </div>

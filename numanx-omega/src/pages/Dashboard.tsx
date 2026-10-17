@@ -39,10 +39,10 @@ export default function Dashboard() {
     <div className="space-y-4">
       <SEOHead title="Dashboard — Analytics & Insights" description="View your conversion analytics, usage statistics, trending categories, and activity heatmap. Track your most-used conversions and productivity." path="/dashboard" />
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold"><span aria-hidden="true">📊</span> OS Control Center</h2>
+        <h1 className="text-lg font-bold"><span aria-hidden="true">📊</span> OS Control Center</h1>
         <div className="flex items-center gap-2 text-xs">
           <span className="opacity-40">{summary.totalConversions} total</span>
-          <span className="px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-[10px]">
+          <span className="px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-xs">
             Score: {analytics.getProductivityScore()}%
           </span>
         </div>
@@ -117,7 +117,7 @@ export default function Dashboard() {
             <div className="h-full rounded-full gradient-horizontal transition-all duration-500"
               style={{ width: `${Math.min(100, analytics.getProductivityScore())}%` }} />
           </div>
-          <div className="flex justify-between text-[10px] opacity-40 mt-1">
+          <div className="flex justify-between text-xs opacity-40 mt-1">
             <span>Most used: {summary.mostUsedCategory}</span>
             <span>Peak day: {summary.peakDay}</span>
             <span>Pairs: {Object.keys(summary.unitPairs).length}</span>
@@ -132,7 +132,7 @@ export default function Dashboard() {
             <span className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">📜</span> Live Conversion Stream</span>
             <span className="flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[10px] opacity-40">live</span>
+              <span className="text-xs opacity-40">live</span>
             </span>
           </div>
           <div className="space-y-0.5 max-h-48 overflow-y-auto">
@@ -143,7 +143,7 @@ export default function Dashboard() {
                 <span>{fmt(h.fv)} {h.fu}</span>
                 <span className="opacity-40 mx-1">→</span>
                 <span className="font-medium">{fmt(h.tv)} {h.tu}</span>
-                <span className="text-[10px] opacity-30 ml-auto">{new Date(h.t).toLocaleTimeString()}</span>
+                <span className="text-xs opacity-30 ml-auto">{new Date(h.t).toLocaleTimeString()}</span>
               </motion.div>
             ))}
           </div>
@@ -305,8 +305,8 @@ function InsightsTab({ summary, analytics: _a }: { summary: ReturnType<typeof an
                     minHeight: d.count > 0 ? '4px' : '2px'
                   }}
                 />
-                <span className="text-[7px] opacity-40">{d.day.slice(5)}</span>
-                <span className="text-[7px] font-bold">{d.count}</span>
+                <span className="text-xs opacity-40">{d.day.slice(5)}</span>
+                <span className="text-xs font-bold">{d.count}</span>
               </div>
             ))}
           </div>
@@ -372,10 +372,10 @@ function InsightsTab({ summary, analytics: _a }: { summary: ReturnType<typeof an
                       background: 'var(--primary)',
                       opacity: 0.3 + (count / maxDay) * 0.7
                     }} />
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[var(--text)] text-[var(--bg)] text-[8px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity">
+                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-[var(--text)] text-[var(--bg)] text-xs px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity">
                     {count} on {day.slice(5)}
                   </div>
-                  <span className="text-[7px] opacity-40">{day.slice(5)}</span>
+                  <span className="text-xs opacity-40">{day.slice(5)}</span>
                 </div>
               )
             })}

@@ -59,7 +59,7 @@ export default function ConversionStreaks({ compact }: { compact?: boolean }) {
         <span className="font-semibold">{data.currentStreak}</span>
         <span className="text-xs text-[var(--text2)] opacity-80">day streak</span>
         {data.currentStreak > 0 && data.currentStreak >= data.longestStreak && data.currentStreak >= 3 && (
-          <span className="px-1 py-0.5 rounded bg-orange-500/10 text-orange-500 text-[8px]">BEST</span>
+          <span className="px-1 py-0.5 rounded bg-orange-500/10 text-orange-500 text-xs font-bold">BEST</span>
         )}
       </div>
     )
@@ -74,7 +74,7 @@ export default function ConversionStreaks({ compact }: { compact?: boolean }) {
           <span className="text-lg" aria-hidden="true">🔥</span>
           <span className="text-sm font-semibold">Conversion Streak</span>
         </div>
-        <div className="text-[10px] opacity-40">{data.totalActiveDays} total active days</div>
+        <div className="text-xs opacity-50">{data.totalActiveDays} total active days</div>
       </div>
 
       <div className="text-center py-2">
@@ -84,7 +84,7 @@ export default function ConversionStreaks({ compact }: { compact?: boolean }) {
 
       {/* Progress to next milestone */}
       <div className="space-y-1">
-        <div className="flex justify-between text-[10px]">
+        <div className="flex justify-between text-xs">
           <span className="opacity-50">Next milestone: {nextMilestone} days</span>
           <span className="font-medium">{Math.round(progress)}%</span>
         </div>
@@ -103,7 +103,7 @@ export default function ConversionStreaks({ compact }: { compact?: boolean }) {
       <div className="flex flex-wrap gap-1.5">
         {MILESTONES.map(m => (
           <span key={m}
-            className={`px-2 py-0.5 rounded-full text-[9px] border ${
+            className={`px-2 py-0.5 rounded-full text-xs border ${
               data.longestStreak >= m
                 ? 'border-green-500/30 bg-green-500/10 text-green-500'
                 : 'border-[var(--border)] opacity-30'
@@ -114,7 +114,7 @@ export default function ConversionStreaks({ compact }: { compact?: boolean }) {
         ))}
       </div>
 
-      <div className="text-[10px] opacity-40 text-center">
+      <div className="text-xs opacity-50 text-center">
         Longest streak: <strong>{data.longestStreak}</strong> day{data.longestStreak !== 1 ? 's' : ''}
       </div>
     </motion.div>

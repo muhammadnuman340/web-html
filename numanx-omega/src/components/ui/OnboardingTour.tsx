@@ -50,17 +50,17 @@ export default function OnboardingTour() {
           <div className="flex gap-2 justify-center pt-2">
             {step > 0 && (
               <button onClick={() => setStep(s => s - 1)}
-                className="px-4 py-2 rounded-xl text-xs bg-[var(--border)] interact-lift">Back</button>
+                className="btn-secondary text-xs px-4 py-2">Back</button>
             )}
             {step < STEPS.length - 1 ? (
               <button onClick={() => setStep(s => s + 1)}
-                className="px-6 py-2 rounded-xl text-xs bg-[var(--primary)] text-white interact-lift">Next</button>
+                className="btn-primary text-xs px-6 py-2">Next</button>
             ) : (
               <button onClick={finish}
-                className="px-6 py-2 rounded-xl text-xs bg-[var(--primary)] text-white interact-lift">Get Started 🚀</button>
+                className="btn-primary text-xs px-6 py-2">Get Started 🚀</button>
             )}
           </div>
-          <button onClick={finish} className="text-[10px] opacity-30 hover:opacity-100">Skip tour</button>
+          <button onClick={finish} className="text-xs opacity-40 hover:opacity-100 transition-opacity">Skip tour</button>
         </motion.div>
       </motion.div>
     </AnimatePresence>

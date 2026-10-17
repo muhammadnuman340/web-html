@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface AnglePreset {
@@ -80,7 +80,7 @@ export default function AngleVisualizer() {
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span className="text-sm font-bold font-mono text-[var(--text)]">{Math.round(deg)}°</span>
-              <span className="text-[10px] text-[var(--text2)] font-mono">{fmt(rad, 2)} rad</span>
+              <span className="text-xs text-[var(--text2)] font-mono">{fmt(rad, 2)} rad</span>
             </div>
           </div>
         </div>
@@ -89,19 +89,19 @@ export default function AngleVisualizer() {
         <div className="md:col-span-8 space-y-3">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
-              <div className="text-[10px] text-[var(--text2)] opacity-80 font-medium">Degrees</div>
+              <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Degrees</div>
               <div className="text-base font-bold text-[var(--primary)] font-mono mt-0.5">{fmt(deg, 1)}°</div>
             </div>
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
-              <div className="text-[10px] text-[var(--text2)] opacity-80 font-medium">Radians</div>
+              <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Radians</div>
               <div className="text-base font-bold text-[var(--text)] font-mono mt-0.5">{fmt(rad, 4)}</div>
             </div>
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
-              <div className="text-[10px] text-[var(--text2)] opacity-80 font-medium">Gradians</div>
+              <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Gradians</div>
               <div className="text-base font-bold text-[var(--text)] font-mono mt-0.5">{fmt(grad, 1)} gon</div>
             </div>
             <div className="glass rounded-xl p-2.5 border border-[var(--border)]">
-              <div className="text-[10px] text-[var(--text2)] opacity-80 font-medium">Arcminutes</div>
+              <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Arcminutes</div>
               <div className="text-base font-bold text-[var(--text)] font-mono mt-0.5">{fmt(arcmin, 0)}'</div>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function AngleVisualizer() {
               className="w-full accent-[var(--primary)] cursor-pointer h-2 bg-[var(--border)] rounded-lg outline-none"
               aria-label="Angle in degrees"
             />
-            <div className="flex justify-between text-[10px] text-[var(--text2)] opacity-70 font-mono">
+            <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
               <span>0°</span>
               <span>90°</span>
               <span>180°</span>
@@ -161,7 +161,7 @@ export default function AngleVisualizer() {
               aria-label={`Set angle to ${p.name}`}
             >
               <div className="font-semibold text-[var(--text)]">{p.name}</div>
-              <div className="text-[10px] opacity-70 truncate mt-0.5">{p.desc}</div>
+              <div className="text-xs opacity-70 truncate mt-0.5">{p.desc}</div>
             </button>
           ))}
         </div>

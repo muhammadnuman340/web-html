@@ -35,10 +35,10 @@ export default function AIQuickActions({ categoryId, result, onRepeatBatch, onOp
   return (
     <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
       className="flex flex-wrap gap-1.5 items-center">
-      <span className="text-[8px] opacity-30 uppercase tracking-wider mr-0.5">Actions</span>
+      <span className="text-xs opacity-50 uppercase tracking-wider mr-0.5">Actions</span>
       {actions.map((a, i) => (
         <button key={i} onClick={a.onClick}
-          className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift flex items-center gap-1">
+          className="btn-chip text-xs gap-1">
           <span aria-hidden="true">{a.icon}</span>
           {a.label}
         </button>

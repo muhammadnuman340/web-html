@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+﻿import { motion } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UniversalConverter from '../components/converter/UniversalConverter'
@@ -229,7 +229,7 @@ export default function Home({ mode = 'pro' }: Props) {
         </section>
 
         <footer className="text-center text-xs text-[var(--text2)] opacity-80 py-4">
-          NumanX Omega X · NumanX Studios · Frontend-Only · PWA · Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-[11px]">⌘K</kbd> for commands
+          NumanX Omega X · NumanX Studios · Frontend-Only · PWA · Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands
         </footer>
       </div>
     </div>

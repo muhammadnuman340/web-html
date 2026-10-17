@@ -55,21 +55,21 @@ export default function Settings() {
     <article className="space-y-4">
       <SEOHead title="Settings — Theme, Precision & Data" description="Customize your converter experience: choose from 5 themes (AMOLED, Light, Cyberpunk, RGB, Holographic), adjust precision, and manage your data." path="/settings" />
       <header>
-        <h2 className="text-lg font-bold"><span aria-hidden="true">⚙️</span> Settings</h2>
+        <h1 className="text-lg font-bold"><span aria-hidden="true">⚙️</span> Settings</h1>
       </header>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
         {/* Appearance */}
         <section className="glass rounded-2xl p-4 space-y-4">
-          <h3 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> Appearance</h3>
+          <h2 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> Appearance</h2>
           
           <div>
-            <h4 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🎨</span> Theme</h4>
+            <h3 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🎨</span> Theme</h3>
             <ThemeCustomizer theme={theme} setTheme={setTheme} />
           </div>
 
           <div>
-            <h4 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🔤</span> Font</h4>
+            <h3 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🔤</span> Font</h3>
             <div className="grid grid-cols-3 gap-2">
               {FONTS.map(f => (
                 <button key={f.id} onClick={() => handleFont(f.id)}
@@ -85,9 +85,9 @@ export default function Settings() {
 
         {/* Behavior */}
         <section className="glass rounded-2xl p-4 space-y-4">
-          <h3 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> Behavior</h3>
+          <h2 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> Behavior</h2>
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-medium opacity-70"><span aria-hidden="true">📳</span> Haptic Feedback</h4>
+            <h3 className="text-xs font-medium opacity-70"><span aria-hidden="true">📳</span> Haptic Feedback</h3>
             <button onClick={() => { const next = !haptic; setHaptic(next); localStorage.setItem('uc_haptic', next ? 'on' : 'off') }}
               className={`w-10 h-6 rounded-full transition-colors ${haptic ? 'bg-[var(--primary)]' : 'bg-[var(--border)]'}`}
               aria-label={haptic ? 'Disable haptic feedback' : 'Enable haptic feedback'}>
@@ -95,7 +95,7 @@ export default function Settings() {
             </button>
           </div>
           <div>
-            <h4 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🎯</span> Default Precision: {prec}</h4>
+            <h3 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🎯</span> Default Precision: {prec}</h3>
             <div className="flex items-center gap-3">
               <input type="range" min="0" max="12" value={prec} onChange={e => handlePrec(Number(e.target.value))}
                 className="flex-1 accent-[var(--primary)]" />
@@ -106,17 +106,17 @@ export default function Settings() {
 
         {/* Data */}
         <section className="glass rounded-2xl p-4 space-y-3">
-          <h3 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> Data</h3>
+          <h2 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> Data</h2>
           <button onClick={handleClearAll}
-            className="px-4 py-2 rounded-xl text-sm bg-red-500/20 text-red-500 hover:bg-red-500/30 transition-colors interact-lift">
+            className="btn-secondary text-sm !bg-red-500/20 !text-red-500 hover:!bg-red-500/30 px-4 py-2">
             {clearHist ? '✅ Cleared!' : 'Clear All Data'}
           </button>
-          <p className="text-[10px] opacity-30">Removes history, favorites, custom units, and saved preferences.</p>
+          <p className="text-xs opacity-30">Removes history, favorites, custom units, and saved preferences.</p>
         </section>
 
         {/* About */}
         <section className="glass rounded-2xl p-4 space-y-3">
-          <h3 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> About</h3>
+          <h2 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> About</h2>
           <div className="text-xs opacity-60 space-y-1">
             <p>Omega X Converter v2.0</p>
             <p>NumanX Studios</p>

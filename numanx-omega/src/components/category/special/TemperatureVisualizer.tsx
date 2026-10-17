@@ -36,9 +36,9 @@ export default function TemperatureVisualizer() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h3 className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>🌡️</span> Interactive Visual Thermometer
-          </h3>
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+            <span aria-hidden="true">🌡️</span> Interactive Visual Thermometer
+          </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Slide or pick a benchmark to visualize how temperature scales relate.
           </p>
@@ -57,7 +57,7 @@ export default function TemperatureVisualizer() {
         <div className="md:col-span-4 flex items-center justify-center p-2">
           <div className="relative flex items-end justify-center w-20 h-56 bg-[var(--card2)] rounded-full border-2 border-[var(--border)] p-1 overflow-hidden shadow-inner">
             {/* Markers */}
-            <div className="absolute left-2 top-0 bottom-0 flex flex-col justify-between py-6 text-[9px] font-mono opacity-40 pointer-events-none">
+            <div className="absolute left-2 top-0 bottom-0 flex flex-col justify-between py-6 text-xs font-mono opacity-40 pointer-events-none">
               <span>100°C</span>
               <span>75°C</span>
               <span>50°C</span>
@@ -90,15 +90,15 @@ export default function TemperatureVisualizer() {
         <div className="md:col-span-8 space-y-4">
           <div className="grid grid-cols-3 gap-2">
             <div className="glass p-3 rounded-xl border border-[var(--border)] text-center">
-              <div className="text-[10px] uppercase font-semibold opacity-50">Celsius</div>
+              <div className="text-xs font-semibold opacity-60">Celsius</div>
               <div className="text-lg sm:text-xl font-bold font-mono text-[var(--text)]">{celsius.toFixed(1)}°C</div>
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)] text-center">
-              <div className="text-[10px] uppercase font-semibold opacity-50">Fahrenheit</div>
+              <div className="text-xs font-semibold opacity-60">Fahrenheit</div>
               <div className="text-lg sm:text-xl font-bold font-mono text-[var(--primary)]">{fahrenheit.toFixed(1)}°F</div>
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)] text-center">
-              <div className="text-[10px] uppercase font-semibold opacity-50">Kelvin</div>
+              <div className="text-xs font-semibold opacity-60">Kelvin</div>
               <div className="text-lg sm:text-xl font-bold font-mono text-purple-400">{kelvin.toFixed(1)} K</div>
             </div>
           </div>
@@ -124,17 +124,13 @@ export default function TemperatureVisualizer() {
 
           {/* Preset Buttons */}
           <div className="space-y-1.5">
-            <div className="text-[11px] font-semibold opacity-60 uppercase tracking-wide">Quick Environmental Presets:</div>
+            <div className="text-xs font-semibold opacity-60">Quick Environmental Presets:</div>
             <div className="flex flex-wrap gap-1.5">
               {presets.map(p => (
                 <button
                   key={p.label}
                   onClick={() => setCelsius(p.c)}
-                  className={`text-xs px-2.5 py-1 rounded-lg border transition-all ${
-                    celsius === p.c
-                      ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm'
-                      : 'bg-[var(--card2)] border-[var(--border)] hover:border-[var(--primary)]/60'
-                  }`}
+                  className={`btn-chip text-xs ${celsius === p.c ? 'active' : ''}`}
                   title={p.desc}
                 >
                   {p.label} ({p.c}°C)

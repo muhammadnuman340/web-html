@@ -32,9 +32,9 @@ export default function LengthComparisonBar() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h3 className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>📏</span> Visual Scale & Height Comparison
-          </h3>
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+            <span aria-hidden="true">📏</span> Visual Scale & Height Comparison
+          </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Switch between metric height and feet+inches, with real-world reference scale.
           </p>
@@ -49,7 +49,7 @@ export default function LengthComparisonBar() {
         {/* Dual Input Controls */}
         <div className="space-y-3">
           <div className="space-y-1">
-            <label className="text-[11px] font-semibold opacity-60 uppercase">Metric (Centimeters / Meters):</label>
+            <label className="text-xs font-semibold opacity-60">Metric (Centimeters / Meters):</label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -65,7 +65,7 @@ export default function LengthComparisonBar() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-[11px] font-semibold opacity-60 uppercase">Imperial (Feet & Inches):</label>
+            <label className="text-xs font-semibold opacity-60">Imperial (Feet & Inches):</label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -91,7 +91,7 @@ export default function LengthComparisonBar() {
 
           {/* Quick preset heights */}
           <div className="space-y-1.5 pt-1">
-            <span className="text-[10px] font-semibold opacity-50 uppercase">Common Heights:</span>
+            <span className="text-xs font-semibold opacity-60">Common Heights:</span>
             <div className="flex flex-wrap gap-1.5">
               {[
                 { l: "5'4\" (163 cm)", c: 163 },
@@ -103,9 +103,7 @@ export default function LengthComparisonBar() {
                 <button
                   key={h.l}
                   onClick={() => setCm(h.c)}
-                  className={`text-[11px] px-2 py-0.5 rounded-lg border transition-all ${
-                    cm === h.c ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-[var(--card2)] border-[var(--border)]'
-                  }`}
+                  className={`btn-chip text-xs ${cm === h.c ? 'active' : ''}`}
                 >
                   {h.l}
                 </button>
@@ -118,7 +116,7 @@ export default function LengthComparisonBar() {
         <div className="space-y-2.5 bg-[var(--card2)]/40 p-3 rounded-xl border border-[var(--border)]">
           <div className="text-xs font-semibold opacity-70 flex justify-between">
             <span>Everyday Landmark Comparisons</span>
-            <span className="font-mono text-[10px] text-[var(--primary)]">Target: {cm} cm</span>
+            <span className="font-mono text-xs text-[var(--primary)]">Target: {cm} cm</span>
           </div>
 
           <div className="space-y-2 text-xs">
@@ -127,13 +125,13 @@ export default function LengthComparisonBar() {
               const pct = Math.min(100, Math.max(5, (cm / (b.sizeCm * 1.5)) * 100))
               return (
                 <div key={b.label} className="space-y-0.5">
-                  <div className="flex justify-between items-center text-[11px]">
+                  <div className="flex justify-between items-center text-xs">
                     <span className="flex items-center gap-1.5">
                       <span>{b.icon}</span>
                       <span className="font-medium">{b.label}</span>
                       <span className="opacity-40">({b.sizeCm} cm)</span>
                     </span>
-                    <span className="font-mono text-[10px] opacity-75">
+                    <span className="font-mono text-xs opacity-75">
                       {ratio >= 1 ? `${ratio.toFixed(1)}× larger` : `${(1 / ratio).toFixed(1)}× smaller`}
                     </span>
                   </div>

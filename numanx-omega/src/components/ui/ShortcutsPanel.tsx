@@ -81,7 +81,7 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
             <div className="space-y-4">
               {GROUPS.map(group => (
                 <div key={group.label}>
-                  <div className="text-[10px] font-semibold uppercase tracking-wider opacity-40 mb-2">{group.label}</div>
+                  <div className="text-xs font-semibold uppercase tracking-wider opacity-50 mb-2">{group.label}</div>
                   <div className="space-y-1">
                     {group.items.map(item => (
                       <div key={item.desc} className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-[var(--border)] transition-colors">
@@ -90,7 +90,7 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
                           {item.keys.map((k, i) => (
                             <span key={i}>
                               <kbd>{k}</kbd>
-                              {i < item.keys.length - 1 && <span className="text-[9px] opacity-30 mx-0.5">+</span>}
+                              {i < item.keys.length - 1 && <span className="text-xs opacity-40 mx-0.5">+</span>}
                             </span>
                           ))}
                         </span>
@@ -101,7 +101,7 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
               ))}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-[var(--border)] text-[10px] opacity-30 text-center">
+            <div className="mt-4 pt-3 border-t border-[var(--border)] text-xs opacity-40 text-center">
               Press <kbd>?</kbd> anytime to open this panel
             </div>
           </motion.div>

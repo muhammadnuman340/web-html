@@ -26,11 +26,11 @@ function HistoryItem({ h, onRemove }: { h: HistoryEntry; onRemove: (t: number) =
       className="flex items-center justify-between p-2.5 rounded-xl glass hover:shadow-md cursor-pointer transition-all interact-lift group"
       onClick={() => navigate(`/converter?cat=${h.cat}`)}>
       <div className="flex items-center gap-2 text-sm min-w-0">
-        <span className="text-[10px] opacity-40 font-mono shrink-0 w-10 text-right">{timeAgo(h.t)}</span>
+        <span className="text-xs opacity-40 font-mono shrink-0 w-10 text-right">{timeAgo(h.t)}</span>
         <span className="font-medium truncate">{fmt(h.fv)} {h.fu}</span>
         <span className="opacity-40 shrink-0">→</span>
         <span className="font-medium truncate">{fmt(h.tv)} {h.tu}</span>
-        <span className="text-[10px] px-1.5 py-0.5 rounded bg-[var(--border)] opacity-60 shrink-0">{h.cat}</span>
+        <span className="text-xs px-1.5 py-0.5 rounded bg-[var(--border)] opacity-60 shrink-0">{h.cat}</span>
       </div>
       <button onClick={e => { e.stopPropagation(); onRemove(h.t) }}
         className="text-xs opacity-0 group-hover:opacity-100 hover:text-red-500 p-1 transition-all" aria-label="Remove history entry">✕</button>
@@ -92,18 +92,18 @@ export default function History() {
     <div className="space-y-4">
       <SEOHead title="History — Conversion Timeline" description="View your unit conversion history with day-wise grouping, search, and export. Track all your past conversions with replay and JSON export." path="/history" />
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <h2 className="text-lg font-bold"><span aria-hidden="true">📜</span> History Timeline</h2>
+        <h1 className="text-lg font-bold"><span aria-hidden="true">📜</span> History Timeline</h1>
         <div className="flex gap-1">
           <button onClick={() => setViewMode(viewMode === 'timeline' ? 'list' : 'timeline')}
-            className="px-3 py-1.5 rounded-xl text-xs bg-[var(--card2)] hover:bg-[var(--border)] interact-lift">
+            className="btn-secondary text-xs px-3 py-1.5">
             {viewMode === 'timeline' ? <><span aria-hidden="true">📋</span> List</> : <><span aria-hidden="true">⏱</span> Timeline</>}
           </button>
           <button onClick={handleExport}
-            className="px-3 py-1.5 rounded-xl text-xs bg-[var(--card2)] hover:bg-[var(--border)] interact-lift">
+            className="btn-secondary text-xs px-3 py-1.5">
             <span aria-hidden="true">📤</span> Export
           </button>
           {history.length > 0 && (
-            <button onClick={clear} className="px-3 py-1.5 rounded-xl text-xs text-[var(--error)] hover:bg-[var(--error)]/10 interact-lift">
+            <button onClick={clear} className="btn-secondary text-xs px-3 py-1.5 !text-[var(--error)] hover:!bg-[var(--error)]/10">
               <span aria-hidden="true">🗑</span> Clear
             </button>
           )}

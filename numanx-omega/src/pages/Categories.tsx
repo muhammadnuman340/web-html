@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
+﻿import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
@@ -58,7 +58,7 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
           {cat.lb}
         </div>
 
-        <div className="text-[11px] text-[var(--text2)] opacity-80 space-y-0.5">
+        <div className="text-xs text-[var(--text2)] opacity-80 space-y-0.5">
           {cat.un.slice(0, 3).map(u => {
             const pv = convert(1, cat.id, cat.un[0]?.id || u.id, u.id)
             return (
@@ -72,19 +72,19 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
 
         <div className="flex gap-1 flex-wrap mt-3">
           {cat.un.slice(0, 4).map(u => (
-            <span key={u.id} className="px-1.5 py-0.5 rounded text-[10px] bg-[var(--border)] text-[var(--text2)] font-medium">
+            <span key={u.id} className="px-1.5 py-0.5 rounded text-xs bg-[var(--border)] text-[var(--text2)] font-medium">
               {u.lb}
             </span>
           ))}
           {cat.un.length > 4 && (
-            <span className="px-1.5 py-0.5 rounded text-[10px] bg-[var(--border)] text-[var(--text2)] opacity-70">
+            <span className="px-1.5 py-0.5 rounded text-xs bg-[var(--border)] text-[var(--text2)] opacity-70">
               +{cat.un.length - 4}
             </span>
           )}
         </div>
 
         {previewVal !== null && (
-          <div className="mt-2 pt-2 border-t border-[var(--border)] text-[11px] text-[var(--text2)] opacity-80 flex items-center justify-between">
+          <div className="mt-2 pt-2 border-t border-[var(--border)] text-xs text-[var(--text2)] opacity-80 flex items-center justify-between">
             <span>1 {cat.un[0]?.lb}</span>
             <span>≈ {fmt(previewVal, 2)} {cat.un[1]?.lb}</span>
           </div>
@@ -217,19 +217,19 @@ export default function Categories() {
       >
         <div className="glass rounded-xl p-2.5">
           <div className="font-bold text-lg text-[var(--primary)]">{cats.length}</div>
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Categories</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Categories</div>
         </div>
         <div className="glass rounded-xl p-2.5">
           <div className="font-bold text-lg text-[var(--primary)]">{totalUnits}</div>
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Units</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Units</div>
         </div>
         <div className="glass rounded-xl p-2.5">
           <div className="font-bold text-lg text-[var(--primary)]">{cats.filter(c => c.sp).length}</div>
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Interactive Tools</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Interactive Tools</div>
         </div>
         <div className="glass rounded-xl p-2.5">
           <div className="font-bold text-lg text-[var(--primary)]">100%</div>
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Client-Side</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Client-Side</div>
         </div>
       </motion.div>
     </motion.div>

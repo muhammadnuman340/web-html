@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+﻿import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { guideContent } from '../engine/guideContent'
 import UniversalConverter from '../components/converter/UniversalConverter'
@@ -87,7 +87,7 @@ export default function GuidePage() {
         <ol className="mt-3 space-y-1.5">
           {content.steps.map((s, i) => (
             <li key={i} className="text-xs opacity-70 flex items-start gap-2">
-              <span className="w-5 h-5 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-[9px] font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
+              <span className="w-5 h-5 rounded-full bg-[var(--primary)]/20 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
               <span>{s}</span>
             </li>
           ))}

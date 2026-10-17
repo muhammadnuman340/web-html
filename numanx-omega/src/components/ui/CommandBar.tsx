@@ -144,7 +144,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
                 placeholder="Search, convert, or calculate... (e.g. '5 km in miles', '100+200')"
                 className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40"
               />
-              <kbd className="text-[10px] px-1.5 py-0.5 rounded border border-[var(--border)] opacity-40">Esc</kbd>
+              <kbd className="text-xs px-1.5 py-0.5 rounded border border-[var(--border)] opacity-50">Esc</kbd>
             </div>
 
             {results.length > 0 && (
@@ -174,7 +174,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
               <div className="p-6 text-center text-sm opacity-40">No results found</div>
             )}
 
-            <div className="px-4 py-2 border-t border-[var(--border)] text-[10px] opacity-30 flex gap-4 flex-wrap">
+            <div className="px-4 py-2 border-t border-[var(--border)] text-xs opacity-50 flex gap-4 flex-wrap">
               <span>⌘K Open</span>
               <span>↓↑ Navigate</span>
               <span>⏎ Select</span>

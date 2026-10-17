@@ -45,14 +45,14 @@ export default function Favorites() {
     <div className="space-y-4">
       <SEOHead title="Favorites — Saved Conversions" description="Access your saved unit conversions organized by category. Star your most-used conversions for quick access." path="/favorites" />
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold"><span aria-hidden="true">⭐</span> Personal Library</h2>
+        <h1 className="text-lg font-bold"><span aria-hidden="true">⭐</span> Personal Library</h1>
         <div className="flex gap-1">
           <button onClick={() => setViewMode('grid')}
-            className={`px-3 py-1.5 rounded-xl text-xs interact-lift ${viewMode === 'grid' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card2)]'}`}>
+            className={`btn-chip text-xs ${viewMode === 'grid' ? 'active' : ''}`}>
             📱 Grid
           </button>
           <button onClick={() => setViewMode('list')}
-            className={`px-3 py-1.5 rounded-xl text-xs interact-lift ${viewMode === 'list' ? 'bg-[var(--primary)] text-white' : 'bg-[var(--card2)]'}`}>
+            className={`btn-chip text-xs ${viewMode === 'list' ? 'active' : ''}`}>
             📋 List
           </button>
         </div>
@@ -93,7 +93,7 @@ export default function Favorites() {
                       <span className="opacity-40 mx-1 text-xs">→</span>
                       <span className="font-medium text-sm">{f.to}</span>
                     </div>
-                    <div className="text-[10px] opacity-40 mt-1">{f.cat}</div>
+                    <div className="text-xs opacity-40 mt-1">{f.cat}</div>
                   </motion.div>
                 ))}
               </div>

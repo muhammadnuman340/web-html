@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { fmt } from '../../../utils/numbers'
 
 interface AreaBenchmark {
@@ -49,28 +49,28 @@ export default function AreaVisualizer() {
       {/* Main Multi-Unit Display Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Square Meters</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Square Meters</div>
           <div className="text-base sm:text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
             {fmt(sqm, 2)} <span className="text-xs font-sans">m²</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Square Feet</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Square Feet</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(sqft, 1)} <span className="text-xs font-sans">sq ft</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Acres</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Acres</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(acres, 4)} <span className="text-xs font-sans">ac</span>
           </div>
         </div>
 
         <div className="glass rounded-xl p-3 border border-[var(--border)]">
-          <div className="text-[11px] text-[var(--text2)] opacity-80 font-medium">Hectares</div>
+          <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Hectares</div>
           <div className="text-base sm:text-lg font-bold text-[var(--text)] mt-0.5 font-mono">
             {fmt(hectares, 4)} <span className="text-xs font-sans">ha</span>
           </div>
@@ -108,7 +108,7 @@ export default function AreaVisualizer() {
           aria-label="Area slider"
         />
 
-        <div className="flex justify-between text-[10px] text-[var(--text2)] opacity-70 font-mono">
+        <div className="flex justify-between text-xs text-[var(--text2)] opacity-70 font-mono">
           <span>10 m² (Studio)</span>
           <span>436 m² (Court)</span>
           <span>7,140 m² (Soccer)</span>
@@ -138,10 +138,10 @@ export default function AreaVisualizer() {
                   <span role="img" aria-hidden="true">{b.icon}</span>
                   <span className="truncate">{b.name}</span>
                 </div>
-                <div className="text-[11px] font-mono font-medium text-[var(--primary)] mt-1">
+                <div className="text-xs font-mono font-medium text-[var(--primary)] mt-1">
                   ≈ {fmt(count, count < 1 ? 2 : 1)}x of this
                 </div>
-                <div className="text-[10px] opacity-70 truncate mt-0.5">{b.desc}</div>
+                <div className="text-xs opacity-70 truncate mt-0.5">{b.desc}</div>
               </button>
             )
           })}

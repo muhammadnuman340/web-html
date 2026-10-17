@@ -44,7 +44,7 @@ export default function FormulaExplorer() {
   return (
     <div className="space-y-4">
       <SEOHead title="Formula Explorer — Physics, Chemistry & Engineering Formulas" description="Explore conversion formulas for physics, chemistry, engineering, and health. Includes step-by-step explanations and real-world examples." path="/formulas" />
-      <h2 className="text-lg font-bold"><span aria-hidden="true">📐</span> Formula Explorer</h2>
+      <h1 className="text-lg font-bold"><span aria-hidden="true">📐</span> Formula Explorer</h1>
       <p className="text-xs opacity-60">Click a section to expand · Click any formula to copy</p>
 
       {FORMULA_DATA.map(section => {
@@ -57,7 +57,7 @@ export default function FormulaExplorer() {
               <div className="flex items-center gap-2">
                 <span className="text-lg" aria-hidden="true">{section.icon}</span>
                 <span className="font-semibold text-sm">{section.field}</span>
-                <span className="text-[10px] opacity-40">({section.items.length} formulas)</span>
+                <span className="text-xs opacity-40">({section.items.length} formulas)</span>
               </div>
               <motion.span animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}
                 className="text-xs opacity-40">▼</motion.span>
@@ -77,7 +77,7 @@ export default function FormulaExplorer() {
                         data-tooltip="Copy formula">
                         <div className="flex items-center justify-between">
                           <div className="font-mono text-sm font-bold" style={{ color: colors[0] }}>{item.name}</div>
-                          <span className="text-[9px] opacity-0 group-hover:opacity-40 transition-opacity">📋</span>
+                          <span className="text-xs opacity-0 group-hover:opacity-40 transition-opacity">📋</span>
                         </div>
                         <div className="text-xs opacity-50 mt-0.5">{item.desc}</div>
                       </motion.div>

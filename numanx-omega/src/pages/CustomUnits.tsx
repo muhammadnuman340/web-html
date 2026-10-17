@@ -75,13 +75,13 @@ export default function CustomUnits() {
     >
       <SEOHead title="Custom Unit Creator — Define Your Own Units" description="Create custom conversion units with your own symbols and conversion rates. Perfect for specialized industries, niche measurements, and personal use." path="/custom-units" />
       <div className="page-header">
-        <h2 className="text-lg font-bold"><span aria-hidden="true">⚒️</span> Custom Unit Creator</h2>
+        <h1 className="text-lg font-bold"><span aria-hidden="true">⚒️</span> Custom Unit Creator</h1>
         <p className="text-xs opacity-40 mt-1">Define your own units and conversion factors</p>
       </div>
 
       {/* Add form */}
       <div className="glass rounded-2xl p-4 space-y-3">
-        <div className="text-xs font-semibold uppercase tracking-wide opacity-50">New Custom Unit</div>
+        <h2 className="text-xs font-semibold opacity-70">New Custom Unit</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <select value={catId} onChange={e => setCatId(e.target.value)}
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all">
@@ -99,9 +99,9 @@ export default function CustomUnits() {
             placeholder="1 of base = ?"
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
         </div>
-        <div className="text-[10px] opacity-30">Rate: how many base units equal 1 of your unit (e.g., for length base is meters)</div>
+        <div className="text-xs opacity-30">Rate: how many base units equal 1 of your unit (e.g., for length base is meters)</div>
         <button onClick={add}
-          className="w-full py-2 rounded-xl text-sm font-medium bg-[var(--primary)] text-white hover:shadow-lg hover:shadow-[var(--glow)] transition-all interact-lift">
+          className="btn-primary w-full py-2 text-sm font-medium">
           + Add Custom Unit
         </button>
       </div>
@@ -127,9 +127,9 @@ export default function CustomUnits() {
                         <span className="text-xs opacity-40 ml-2">({u.id})</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="text-[10px] opacity-40">1 = {u.r}</span>
+                        <span className="text-xs opacity-40">1 = {u.r}</span>
                         <button onClick={() => remove(customs.indexOf(u))}
-                          className="p-1 rounded-lg text-[10px] opacity-30 hover:opacity-100 hover:bg-red-500/20 hover:text-red-500 transition-all" aria-label="Remove custom unit">
+                          className="p-1 rounded-lg text-xs opacity-30 hover:opacity-100 hover:bg-red-500/20 hover:text-red-500 transition-all" aria-label="Remove custom unit">
                           ✕
                         </button>
                       </div>
@@ -146,7 +146,7 @@ export default function CustomUnits() {
         </div>
       )}
 
-      <div className="text-[10px] opacity-20 text-center">
+      <div className="text-xs opacity-20 text-center">
         Custom units are stored locally in your browser and will be available in the converter.
       </div>
     </motion.div>

@@ -35,11 +35,11 @@ export default function Help() {
   return (
     <div className="space-y-4">
       <SEOHead title="Help Center — Shortcuts, Features & Tips" description="Learn how to use Omega X Converter with keyboard shortcuts, feature overview, theme guide, and pro tips for getting the most out of the platform." path="/help" />
-      <h2 className="text-lg font-bold"><span aria-hidden="true">ℹ️</span> Help Center</h2>
+      <h1 className="text-lg font-bold"><span aria-hidden="true">ℹ️</span> Help Center</h1>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-4 space-y-4">
         <div>
-          <div className="text-sm font-semibold mb-2"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</div>
+          <h2 className="text-sm font-semibold mb-2"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</h2>
           <div className="space-y-1">
             {shortcuts.map(([key, desc]) => (
               <div key={key} className="flex justify-between text-sm p-1.5 rounded-lg hover:bg-[var(--border)]">
@@ -51,7 +51,7 @@ export default function Help() {
         </div>
 
         <div>
-          <div className="text-sm font-semibold mb-3"><span aria-hidden="true">🎯</span> Features</div>
+          <h2 className="text-sm font-semibold mb-3"><span aria-hidden="true">🎯</span> Features</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {FEATURES.map((f, i) => (
               <motion.button key={f.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
@@ -67,7 +67,7 @@ export default function Help() {
         </div>
 
         <div>
-          <div className="text-sm font-semibold mb-2"><span aria-hidden="true">🎨</span> Themes</div>
+          <h2 className="text-sm font-semibold mb-2"><span aria-hidden="true">🎨</span> Themes</h2>
           <div className="text-xs opacity-60 space-y-1">
             <p><strong>AMOLED</strong> — Pure black background, perfect for OLED screens, battery saving</p>
             <p><strong>Light</strong> — Clean light mode for daytime use</p>
@@ -78,7 +78,7 @@ export default function Help() {
         </div>
 
         <div>
-          <div className="text-sm font-semibold mb-2"><span aria-hidden="true">📖</span> Tips</div>
+          <h2 className="text-sm font-semibold mb-2"><span aria-hidden="true">📖</span> Tips</h2>
           <div className="text-xs opacity-60 space-y-1">
             <p>• Use the search bar to quickly find categories or units</p>
             <p>• Click any row in "All Conversions" to set it as your target unit</p>

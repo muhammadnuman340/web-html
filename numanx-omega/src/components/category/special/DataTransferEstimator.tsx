@@ -56,9 +56,9 @@ export default function DataTransferEstimator() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h3 className="text-sm sm:text-base font-bold flex items-center gap-2">
-            <span>💾</span> Download & Upload Transfer Time Calculator
-          </h3>
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
+            <span aria-hidden="true">💾</span> Download & Upload Transfer Time Calculator
+          </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Estimate real-world transfer duration based on data size and network connection bandwidth.
           </p>
@@ -73,7 +73,7 @@ export default function DataTransferEstimator() {
         {/* Inputs */}
         <div className="space-y-3">
           <div className="space-y-1">
-            <label className="text-[11px] font-semibold opacity-60 uppercase">File / Data Size:</label>
+            <label className="text-xs font-semibold opacity-60">File / Data Size:</label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -97,7 +97,7 @@ export default function DataTransferEstimator() {
                 <button
                   key={p.label}
                   onClick={() => { setFileSize(p.size); setSizeUnit(p.unit) }}
-                  className="text-[10px] px-2 py-0.5 rounded border border-[var(--border)] bg-[var(--card2)] hover:border-[var(--primary)] transition-all"
+                  className="btn-chip text-xs"
                 >
                   {p.label}
                 </button>
@@ -106,7 +106,7 @@ export default function DataTransferEstimator() {
           </div>
 
           <div className="space-y-1 pt-1">
-            <label className="text-[11px] font-semibold opacity-60 uppercase">Internet Speed (Bandwidth):</label>
+            <label className="text-xs font-semibold opacity-60">Internet Speed (Bandwidth):</label>
             <div className="flex items-center gap-2">
               <input
                 type="number"
@@ -122,9 +122,7 @@ export default function DataTransferEstimator() {
                 <button
                   key={p.label}
                   onClick={() => setSpeedMbps(p.s)}
-                  className={`text-[10px] px-2 py-0.5 rounded border transition-all ${
-                    speedMbps === p.s ? 'bg-[var(--primary)] text-white border-[var(--primary)]' : 'bg-[var(--card2)] border-[var(--border)]'
-                  }`}
+                  className={`btn-chip text-xs ${speedMbps === p.s ? 'active' : ''}`}
                 >
                   {p.label}
                 </button>
@@ -136,7 +134,7 @@ export default function DataTransferEstimator() {
         {/* Calculated Result Card */}
         <div className="bg-[var(--card2)]/50 p-4 rounded-xl border border-[var(--border)] flex flex-col justify-between space-y-3">
           <div>
-            <span className="text-[10px] uppercase font-bold opacity-50 block tracking-wider">Estimated Time Required</span>
+            <span className="text-xs font-semibold opacity-60 block">Estimated Time Required</span>
             <div className="text-2xl sm:text-3xl font-extrabold font-mono text-[var(--primary)] mt-1">
               {duration}
             </div>

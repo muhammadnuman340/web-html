@@ -186,10 +186,10 @@ function AppContent() {
 
               {/* Logo */}
               <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center text-white text-[9px] font-bold shadow-sm shadow-[var(--glow)]">NX</div>
+                <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center text-white text-xs font-bold shadow-sm shadow-[var(--glow)]">NX</div>
                 <div className="hidden sm:flex items-center gap-1.5">
                   <span className="font-semibold text-sm">NumanX</span>
-                  <span className="px-1.5 py-0.5 rounded text-[7px] font-semibold uppercase tracking-widest bg-[var(--primary-muted)] text-[var(--primary)]">Omega</span>
+                  <span className="px-1.5 py-0.5 rounded text-xs font-semibold uppercase tracking-widest bg-[var(--primary-muted)] text-[var(--primary)]">Omega</span>
                 </div>
               </div>
 
@@ -203,7 +203,7 @@ function AppContent() {
                   aria-label="Search"
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                  <kbd className="text-[10px] px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card2)] text-[var(--text2)] opacity-85 font-mono">⌘K</kbd>
+                  <kbd className="text-xs px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card2)] text-[var(--text2)] opacity-85 font-mono">⌘K</kbd>
                   {searchQuery && (
                     <button onClick={() => { setSearchQuery(''); setSearchResults([]) }}
                       className="w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-75 hover:opacity-100 transition-opacity" aria-label="Clear search">
@@ -352,7 +352,7 @@ function AppContent() {
             <div className="flex gap-4 items-center">
               <Link to="/sitemap" className="hover:underline hover:text-[var(--text)] transition-colors">Sitemap</Link>
               <span aria-hidden="true" className="opacity-40 select-none">·</span>
-              <span>Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-[11px]">⌘K</kbd> for commands</span>
+              <span>Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
               <span aria-hidden="true" className="opacity-40 select-none">·</span>
               <span>PWA · Offline-ready</span>
             </div>
@@ -373,7 +373,7 @@ function AppContent() {
                     }`}
                     aria-label={item.label}>
                     <span className={`text-lg transition-all duration-200 ${isActive ? 'scale-110' : ''}`}>{item.icon}</span>
-                    <span className={`text-[8px] font-medium leading-tight ${isActive ? 'opacity-100' : 'opacity-50'}`}>{item.label}</span>
+                    <span className={`text-xs font-medium leading-tight ${isActive ? 'opacity-100' : 'opacity-50'}`}>{item.label}</span>
                   </NavLink>
                 )
               })}
