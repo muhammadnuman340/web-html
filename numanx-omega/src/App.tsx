@@ -47,14 +47,27 @@ function AppContent() {
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [isDark, setIsDark] = useState(() => localStorage.getItem('uc_theme_class') === 'dark')
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('uc_theme_class')
+    return saved === null || saved === 'dark' || saved === 'theme-cosmic' || saved === 'theme-amoled' || saved === 'theme-cyberpunk' || saved === 'theme-rgb'
+  })
   const [focusMode, setFocusMode] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('uc_theme_class')
-    if (savedTheme) document.body.className = savedTheme
+    if (savedTheme === null) {
+      document.body.className = 'dark'
+      localStorage.setItem('uc_theme_class', 'dark')
+      setIsDark(true)
+    } else if (savedTheme) {
+      document.body.className = savedTheme
+      setIsDark(savedTheme === 'dark' || savedTheme === 'theme-cosmic' || savedTheme === 'theme-amoled' || savedTheme === 'theme-cyberpunk' || savedTheme === 'theme-rgb')
+    } else {
+      document.body.className = ''
+      setIsDark(false)
+    }
     const savedFont = localStorage.getItem('uc_font') || 'inter'
     const classes = ['font-system', 'font-inter']
     document.body.classList.remove(...classes)
@@ -63,7 +76,9 @@ function AppContent() {
   }, [])
 
   const toggleDark = useCallback(() => {
-    const next = document.body.className === 'dark' ? '' : 'dark'
+    const current = document.body.className
+    const isCurrentlyDark = current === 'dark' || current === 'theme-cosmic' || current === 'theme-amoled' || current === 'theme-cyberpunk' || current === 'theme-rgb'
+    const next = isCurrentlyDark ? '' : 'dark'
     document.body.className = next
     localStorage.setItem('uc_theme_class', next)
     setIsDark(next === 'dark')

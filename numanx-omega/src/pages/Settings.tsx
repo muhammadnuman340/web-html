@@ -53,7 +53,7 @@ export default function Settings() {
 
   return (
     <article className="space-y-4">
-      <SEOHead title="Settings — Theme, Precision & Data" description="Customize your converter experience: choose from 5 themes (AMOLED, Light, Cyberpunk, RGB, Holographic), adjust precision, and manage your data." path="/settings" />
+      <SEOHead title="Settings — Theme, Precision & Data" description="Customize your converter experience: choose from 6 themes (Cosmic, AMOLED, Light, Cyberpunk, RGB, Holographic), adjust precision, and manage your data." path="/settings" />
       <header>
         <h1 className="text-lg font-bold"><span aria-hidden="true">⚙️</span> Settings</h1>
       </header>

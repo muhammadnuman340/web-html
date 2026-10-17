@@ -25,7 +25,23 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
 }
 
-.dark, .theme-amoled {
+.dark, .theme-cosmic {
+  --bg: #060919; --bg2: #0b132b; --card: rgba(13, 22, 48, 0.75); --card2: rgba(18, 30, 66, 0.65);
+  --text: #f1f5f9; --text2: #94a3b8; --text3: #64748b;
+  --border: rgba(99, 130, 210, 0.16); --shadow: 0 8px 32px rgba(0, 5, 20, 0.55);
+  --primary: #6366f1; --accent: #38bdf8;
+  --primary-muted: rgba(99, 102, 241, 0.18);
+  --accent-muted: rgba(56, 189, 248, 0.16);
+  --success: #2dd86a; --warning: #f5b132; --error: #f0575a;
+  --glow: rgba(99, 102, 241, 0.35);
+  --glow-accent: rgba(56, 189, 248, 0.3);
+  --glass-bg: rgba(10, 17, 38, 0.72);
+  --depth-1: 0 1px 3px rgba(0,0,0,0.4);
+  --depth-2: 0 4px 24px rgba(0, 5, 20, 0.5);
+  --depth-3: 0 8px 48px rgba(0, 5, 20, 0.7);
+}
+
+.theme-amoled {
   --bg: #000000; --bg2: #0a0a0a; --card: #111111; --card2: #161616;
   --text: #e8e8e8; --text2: #b3b3b3; --text3: #8e8e9e;
   --border: #1e1e1e; --shadow: 0 4px 24px rgba(0,0,0,.5);

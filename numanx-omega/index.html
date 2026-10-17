@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0d0d0d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#060919" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#f0f2f8" media="(prefers-color-scheme: light)" />
     <meta name="description" data-rh="true" content="Omega X Converter: Free universal unit converter with 30+ categories, live currency rates, crypto prices, formula charts, and offline PWA support." />
     <meta name="keywords" content="unit converter, currency converter, crypto converter, length converter, weight converter, temperature converter, free online converter, universal converter, metric converter, PWA, offline converter, batch conversion, natural language converter, NumanX Studio" />
@@ -37,6 +37,10 @@
       (function() {
         try {
           var t = localStorage.getItem('uc_theme_class');
+          if (t === null) {
+            t = 'dark';
+            localStorage.setItem('uc_theme_class', 'dark');
+          }
           if (t) document.body.className = t;
           var f = localStorage.getItem('uc_font') || 'inter';
           if (f === 'system') document.body.classList.add('font-system');
