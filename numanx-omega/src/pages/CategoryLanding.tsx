@@ -128,11 +128,12 @@ export default function CategoryLanding({ categorySlug }: Props) {
 
       {/* Embedded Primary Universal Converter */}
       <section aria-labelledby="convert-heading">
-        <h2 id="convert-heading" className="text-sm font-bold opacity-90 mb-2 text-[var(--text)] flex items-center gap-1.5">
-          <span aria-hidden="true">{cat.ic}</span> {cat.lb} Precision Calculator
+        <h2 id="convert-heading" className="text-sm font-bold mb-2 text-[var(--text)] flex items-center gap-2">
+          <span className="p-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)]" aria-hidden="true">{cat.ic}</span>
+          <span>{cat.lb} Precision Calculator</span>
         </h2>
-        <div className="glass-liquid rounded-2xl p-4">
-          <UniversalConverter category={cat.id} />
+        <div className="glass-liquid rounded-2xl p-4 sm:p-5 border border-[var(--border)]">
+          <UniversalConverter category={cat.id} hideCategoryPicker={true} />
         </div>
       </section>
 

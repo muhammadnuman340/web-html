@@ -24,11 +24,13 @@ interface Props {
   initialFrom?: string
   initialTo?: string
   initialValue?: number
+  hideCategoryPicker?: boolean
   onHistoryAdd?: (cat: string, fv: number, fu: string, tv: number, tu: string) => void
 }
 
-export default function UniversalConverter({ category: initialCat, mode = 'pro', initialFrom, initialTo, initialValue, onHistoryAdd }: Props) {
+export default function UniversalConverter({ category: initialCat, mode = 'pro', initialFrom, initialTo, initialValue, hideCategoryPicker = false, onHistoryAdd }: Props) {
   const [catId, setCatId] = useState(initialCat || 'length')
+  const [unitFamily, setUnitFamily] = useState<string>('all')
   const [fromVal, setFromVal] = useState(initialValue !== undefined ? String(initialValue) : '')
   const [fromUnit, setFromUnit] = useState(initialFrom || '')
   const [toUnit, setToUnit] = useState(initialTo || '')
@@ -82,6 +84,39 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const cat = useMemo(() => getCategory(catId), [catId])
   const cats = useMemo(() => getAllCategories(), [])
   const chains = useMemo(() => getAllChains(), [])
+
+  const unitFamilies = useMemo(() => {
+    if (!cat) return []
+    const fams = [
+      { id: 'all', label: 'All Units', count: cat.un.length },
+      { id: 'M', label: 'Metric (SI)', count: cat.un.filter(u => u.s === 'M').length },
+      { id: 'I', label: 'Imperial / US', count: cat.un.filter(u => u.s === 'I').length },
+      { id: 'S', label: 'Scientific', count: cat.un.filter(u => u.s === 'S').length },
+      { id: 'O', label: 'Traditional / Other', count: cat.un.filter(u => u.s === 'O').length },
+    ].filter(f => f.count > 0)
+    return fams
+  }, [cat])
+
+  const availableUnits = useMemo(() => {
+    if (!cat) return []
+    if (!hideCategoryPicker || unitFamily === 'all') return cat.un
+    const filtered = cat.un.filter(u => u.s === unitFamily)
+    return filtered.length > 0 ? filtered : cat.un
+  }, [cat, hideCategoryPicker, unitFamily])
+
+  const handleUnitFamilyChange = (famId: string) => {
+    setUnitFamily(famId)
+    if (!cat) return
+    const matching = famId === 'all' ? cat.un : cat.un.filter(u => u.s === famId)
+    if (matching.length > 0) {
+      if (!matching.some(u => u.id === fromUnit)) {
+        setFromUnit(matching[0].id)
+      }
+      if (!matching.some(u => u.id === toUnit)) {
+        setToUnit(matching[Math.min(1, matching.length - 1)].id)
+      }
+    }
+  }
 
   useEffect(() => {
     if (cat) {
@@ -386,80 +421,107 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
-      {/* Responsive category selector */}
-      <div className="relative">
-        {/* Mobile: collapsible icon grid */}
-        <div className="lg:hidden">
-          <div className="grid grid-cols-3 gap-1.5">
-            {cats.slice(0, showAllCats ? cats.length : 9).map(c => (
-              <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
-                className={`px-2 py-2.5 rounded-xl text-xs font-medium transition-all flex flex-col items-center gap-1 interact-lift ${
-                  catId === c.id
-                    ? 'text-white shadow-md'
-                    : 'glass opacity-60 hover:opacity-100'
-                }`}
-                style={catId === c.id ? {
-                  background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
-                  boxShadow: `0 4px 12px ${c.cl || '#7c6fff'}40`
-                } : {}}>
-                <span className="text-lg" aria-hidden="true">{c.ic}</span>
-                <span className="truncate w-full text-center leading-tight">{c.lb}</span>
-              </button>
-            ))}
-          </div>
-          {cats.length > 9 && (
-            <button onClick={() => setShowAllCats(!showAllCats)}
-              className="btn-secondary w-full mt-1.5 text-xs text-center py-1.5 font-medium">
-              {showAllCats ? '▲ Show Less' : `▼ See All Categories (${cats.length})`}
-            </button>
-          )}
-        </div>
-        {/* Desktop: search + wrap-around pill grid */}
-        <div className="hidden lg:flex flex-col gap-2">
-          <div className="relative">
-            <input type="text" value={catFilter} onChange={e => setCatFilter(e.target.value)}
-              placeholder="Filter categories..."
-              className="w-full px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors" />
-            {catFilter && (
-              <button onClick={() => setCatFilter('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-xs opacity-50 hover:opacity-100" aria-label="Clear filter">✕</button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-1" role="tablist" aria-label="Unit categories">
-            {(catFilter ? cats.filter(c => c.lb.toLowerCase().includes(catFilter.toLowerCase()) || c.id.includes(catFilter.toLowerCase())) : cats).map(c => (
-              <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+      {hideCategoryPicker ? (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 mb-2 border-b border-[var(--border)]">
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1" role="tablist" aria-label="Unit families">
+            <span className="text-xs font-bold text-[var(--text2)] mr-1 whitespace-nowrap">Filter Units:</span>
+            {unitFamilies.map(fam => (
+              <button
+                key={fam.id}
+                type="button"
                 role="tab"
-                aria-selected={catId === c.id}
-                className={`btn-chip text-xs whitespace-nowrap transition-all duration-300 font-medium ${
-                  catId === c.id
-                    ? 'active text-white shadow-lg scale-105'
-                    : ''
+                aria-selected={unitFamily === fam.id}
+                onClick={() => handleUnitFamilyChange(fam.id)}
+                className={`btn-chip text-xs py-1 px-2.5 transition-all whitespace-nowrap ${
+                  unitFamily === fam.id ? 'active font-bold' : ''
                 }`}
-                style={catId === c.id ? {
-                  background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
-                  boxShadow: `0 4px 16px ${c.cl || '#7c6fff'}50`
-                } : {}}>
-                <span aria-hidden="true">{c.ic}</span> <span>{c.lb}</span>
+              >
+                {fam.label} <span className="opacity-70 font-mono">({fam.count})</span>
               </button>
             ))}
           </div>
+          <div className="text-xs text-[var(--text2)] flex items-center gap-1.5 shrink-0">
+            <span className="font-mono font-bold text-[var(--primary)]">{availableUnits.length}</span> units available
+          </div>
         </div>
-      </div>
+      ) : (
+        <>
+          {/* Responsive category selector */}
+          <div className="relative">
+            {/* Mobile: collapsible icon grid */}
+            <div className="lg:hidden">
+              <div className="grid grid-cols-3 gap-1.5">
+                {cats.slice(0, showAllCats ? cats.length : 9).map(c => (
+                  <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+                    className={`px-2 py-2.5 rounded-xl text-xs font-medium transition-all flex flex-col items-center gap-1 interact-lift ${
+                      catId === c.id
+                        ? 'text-white shadow-md'
+                        : 'glass opacity-60 hover:opacity-100'
+                    }`}
+                    style={catId === c.id ? {
+                      background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
+                      boxShadow: `0 4px 12px ${c.cl || '#7c6fff'}40`
+                    } : {}}>
+                    <span className="text-lg" aria-hidden="true">{c.ic}</span>
+                    <span className="truncate w-full text-center leading-tight">{c.lb}</span>
+                  </button>
+                ))}
+              </div>
+              {cats.length > 9 && (
+                <button onClick={() => setShowAllCats(!showAllCats)}
+                  className="btn-secondary w-full mt-1.5 text-xs text-center py-1.5 font-medium">
+                  {showAllCats ? '▲ Show Less' : `▼ See All Categories (${cats.length})`}
+                </button>
+              )}
+            </div>
+            {/* Desktop: search + wrap-around pill grid */}
+            <div className="hidden lg:flex flex-col gap-2">
+              <div className="relative">
+                <input type="text" value={catFilter} onChange={e => setCatFilter(e.target.value)}
+                  placeholder="Filter categories..."
+                  className="w-full px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors" />
+                {catFilter && (
+                  <button onClick={() => setCatFilter('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-xs opacity-50 hover:opacity-100" aria-label="Clear filter">✕</button>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-1" role="tablist" aria-label="Unit categories">
+                {(catFilter ? cats.filter(c => c.lb.toLowerCase().includes(catFilter.toLowerCase()) || c.id.includes(catFilter.toLowerCase())) : cats).map(c => (
+                  <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+                    role="tab"
+                    aria-selected={catId === c.id}
+                    className={`btn-chip text-xs whitespace-nowrap transition-all duration-300 font-medium ${
+                      catId === c.id
+                        ? 'active text-white shadow-lg scale-105'
+                        : ''
+                    }`}
+                    style={catId === c.id ? {
+                      background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
+                      boxShadow: `0 4px 16px ${c.cl || '#7c6fff'}50`
+                    } : {}}>
+                    <span aria-hidden="true">{c.ic}</span> <span>{c.lb}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
 
-      {/* Chain selector (when chain mode is off) */}
-      {mode !== 'fast' && !chainMode && (
-        <div className="flex gap-1 overflow-x-auto py-1">
-          <button onClick={() => autoSuggestChain()}
-            className="btn-chip text-xs flex items-center gap-1 shrink-0">
-            <span aria-hidden="true">⛓</span> Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
-          </button>
-          {chains.map(chain => (
-            <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
-              className="btn-chip text-xs shrink-0">
-              <span aria-hidden="true">{chain.icon}</span> {chain.label}
-            </button>
-          ))}
-        </div>
+          {/* Chain selector (when chain mode is off) */}
+          {mode !== 'fast' && !chainMode && (
+            <div className="flex gap-1 overflow-x-auto py-1">
+              <button onClick={() => autoSuggestChain()}
+                className="btn-chip text-xs flex items-center gap-1 shrink-0">
+                <span aria-hidden="true">⛓</span> Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
+              </button>
+              {chains.map(chain => (
+                <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
+                  className="btn-chip text-xs shrink-0">
+                  <span aria-hidden="true">{chain.icon}</span> {chain.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
       {/* Chain result */}
@@ -546,7 +608,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   if (e.key === 'Escape') setUnitSuggestions([])
                 }}
                 placeholder={mode === 'student' ? 'Type: "5 km in miles" or "(5km + 200m)"' : '0'}
-                className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow),0_0_30px_var(--glow)] transition-all placeholder:text-base"
+                className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow),0_0_30px_var(--glow)] transition-all placeholder:text-base tabular-nums"
                 onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
                 onDrop={e => { e.preventDefault(); const v = e.dataTransfer.getData('text/plain'); if (v) setFromVal(v) }}
               />
@@ -590,8 +652,32 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           <select value={fromUnit} onChange={e => setFromUnit(e.target.value)}
             aria-label="Source unit"
             className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
-            {cat?.un.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
+            {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
+        </div>
+
+        {/* Quick numeric adjustment steppers */}
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+          <span className="text-[11px] font-bold text-[var(--text2)] mr-1">Step:</span>
+          {[
+            { label: '-10', fn: () => setFromVal(prev => String(Math.max(0, (parseSmart(prev) || 0) - 10))) },
+            { label: '-1', fn: () => setFromVal(prev => String(Math.max(0, (parseSmart(prev) || 0) - 1))) },
+            { label: '+1', fn: () => setFromVal(prev => String((parseSmart(prev) || 0) + 1)) },
+            { label: '+10', fn: () => setFromVal(prev => String((parseSmart(prev) || 0) + 10)) },
+            { label: '×2', fn: () => setFromVal(prev => String((parseSmart(prev) || 0) * 2)) },
+            { label: '÷2', fn: () => setFromVal(prev => String(Math.round(((parseSmart(prev) || 0) / 2) * 1000) / 1000)) },
+            { label: '0', fn: () => setFromVal('0') },
+            { label: 'Clear', fn: () => setFromVal('') },
+          ].map(st => (
+            <button
+              key={st.label}
+              type="button"
+              onClick={st.fn}
+              className="btn-chip text-[11px] py-0.5 px-2 font-mono hover:text-[var(--primary)]"
+            >
+              {st.label}
+            </button>
+          ))}
         </div>
 
         <AIPredictions
@@ -769,7 +855,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           <select value={toUnit} onChange={e => setToUnit(e.target.value)}
             aria-label="Target unit"
             className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
-            {cat?.un.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
+            {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
       </div>
