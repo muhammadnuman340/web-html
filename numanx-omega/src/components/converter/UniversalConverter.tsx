@@ -480,6 +480,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <div className="relative">
                 <input type="text" value={catFilter} onChange={e => setCatFilter(e.target.value)}
                   placeholder="Filter categories..."
+                  aria-label="Filter categories"
                   className="w-full px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors" />
                 {catFilter && (
                   <button onClick={() => setCatFilter('')}
@@ -609,6 +610,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   if (e.key === 'Escape') setUnitSuggestions([])
                 }}
                 placeholder={mode === 'student' ? 'Type: "5 km in miles" or "(5km + 200m)"' : '0'}
+                aria-label="Value to convert"
                 inputMode="decimal"
                 autoComplete="off"
                 autoCorrect="off"

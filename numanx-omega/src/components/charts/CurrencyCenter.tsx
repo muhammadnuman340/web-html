@@ -34,15 +34,19 @@ export default function CurrencyCenter() {
     <div className="space-y-4">
       <div className="flex gap-2 items-center">
         <input type="number" value={amount} onChange={e => setAmount(e.target.value)}
+          aria-label="Currency amount"
           className="flex-1 p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-lg font-medium" />
         <select value={from} onChange={e => setFrom(e.target.value)}
+          aria-label="Source currency"
           className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none min-w-[80px]">
           {CURRENCY_LIST.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
         <motion.button whileTap={{ scale: 0.9 }}
           onClick={() => { const f = from; setFrom(to); setTo(f) }}
+          aria-label="Swap currencies"
           className="text-xl px-2">⇄</motion.button>
         <select value={to} onChange={e => setTo(e.target.value)}
+          aria-label="Target currency"
           className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none min-w-[80px]">
           {CURRENCY_LIST.map(c => <option key={c} value={c}>{c}</option>)}
         </select>

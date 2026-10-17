@@ -1,4 +1,4 @@
-﻿import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
@@ -155,15 +155,13 @@ export default function Categories() {
     >
       <SEOHead
         title="All Conversion Categories — 30+ Dedicated Calculators"
-        description="Browse 30+ dedicated conversion calculators. From length, mass, and temperature to currency, pressure, and energy. Each category features precision tools and live cheat sheets."
+        description="Browse 30+ dedicated unit calculators across length, mass, temperature, currency, pressure, and energy with live cheat sheets and formulas."
         path="/categories"
       />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold page-header text-[var(--text)] flex items-center gap-2">
-            <span role="img" aria-hidden="true">📂</span> All Conversion Categories
-          </h1>
+          <h1 className="text-xl font-bold page-header text-[var(--text)] flex items-center gap-2"><span role="img" aria-hidden="true">📂</span> All Conversion Categories</h1>
           <p className="text-xs text-[var(--text2)] opacity-80 mt-0.5">
             {cats.length} dedicated calculators · {totalUnits} precision units · Offline-ready
           </p>

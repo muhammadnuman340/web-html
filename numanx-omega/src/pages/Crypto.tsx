@@ -55,15 +55,19 @@ export default function Crypto() {
         <div className="space-y-3">
           <div className="flex flex-wrap gap-2">
             <input type="number" value={amount} onChange={e => setAmount(e.target.value)}
+              aria-label="Cryptocurrency amount"
               className="flex-[2] min-w-[100px] p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] text-lg font-medium transition-all" />
             <select value={from} onChange={e => setFrom(e.target.value)}
+              aria-label="Source cryptocurrency"
               className="flex-1 min-w-[60px] p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-sm transition-all appearance-none cursor-pointer">
               {CRYPTO_LIST.map(c => <option key={c.symbol} value={c.symbol}>{c.symbol}</option>)}
             </select>
             <motion.button whileTap={{ scale: 0.85 }}
               onClick={() => { const f = from; setFrom(to); setTo(f) }}
+              aria-label="Swap cryptocurrency pair"
               className="p-3 rounded-xl bg-[var(--primary)] text-white text-lg flex items-center justify-center w-12 shadow-md shadow-[var(--glow)] interact-lift">⇄</motion.button>
             <select value={to} onChange={e => setTo(e.target.value)}
+              aria-label="Target cryptocurrency"
               className="flex-1 min-w-[60px] p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-sm transition-all appearance-none cursor-pointer">
               {CRYPTO_LIST.map(c => <option key={c.symbol} value={c.symbol}>{c.symbol}</option>)}
             </select>

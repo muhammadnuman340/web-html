@@ -1,4 +1,4 @@
-﻿import { motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UniversalConverter from '../components/converter/UniversalConverter'
@@ -108,7 +108,7 @@ export default function Home({ mode = 'pro' }: Props) {
 
   return (
     <div className="relative">
-      <SEOHead title="Free Universal Unit Converter" description="Convert between 200+ units across 30+ categories. Free online unit converter with live currency rates, crypto prices, natural language input, batch mode, and PWA offline support." path="/" />
+      <SEOHead title="Free Universal Unit Converter" description="Free online unit converter with 200+ units, 30+ categories, live currency rates, crypto prices, formula charts, and offline PWA support." path="/" />
       <div className="relative z-10 space-y-6">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center py-8">
           <AnimatedLogo />

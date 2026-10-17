@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
@@ -245,7 +245,7 @@ export default function Sitemap() {
               <div>
                 <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[var(--primary)]">
                   <span role="img" aria-hidden="true">📚</span>
-                  <span>{guide.category.toUpperCase()} GUIDE</span>
+                  <span>{(guide.category || 'conversion').toUpperCase()} GUIDE</span>
                 </div>
                 <h3 className="font-semibold text-sm text-[var(--text)] mb-1 group-hover:text-[var(--primary)] transition-colors">
                   {guide.h1}

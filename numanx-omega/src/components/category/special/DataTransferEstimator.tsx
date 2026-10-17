@@ -80,11 +80,13 @@ export default function DataTransferEstimator() {
                 inputMode="decimal"
                 min={1}
                 value={fileSize}
+                aria-label="File or data size"
                 onChange={e => setFileSize(Math.max(1, parseFloat(e.target.value) || 1))}
                 className="w-28 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-sm font-bold font-mono outline-none focus:border-[var(--primary)] tabular-nums"
               />
               <select
                 value={sizeUnit}
+                aria-label="File size unit"
                 onChange={e => setSizeUnit(e.target.value as 'MB' | 'GB' | 'TB')}
                 className="px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs font-semibold outline-none cursor-pointer"
               >
@@ -114,6 +116,7 @@ export default function DataTransferEstimator() {
                 inputMode="decimal"
                 min={1}
                 value={speedMbps}
+                aria-label="Internet connection speed in Megabits per second"
                 onChange={e => setSpeedMbps(Math.max(1, parseFloat(e.target.value) || 1))}
                 className="w-28 px-3 py-1.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-sm font-bold font-mono outline-none focus:border-[var(--primary)] tabular-nums"
               />

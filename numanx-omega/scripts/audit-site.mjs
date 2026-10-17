@@ -38,7 +38,7 @@ const RETRIES = intEnv('AUDIT_RETRIES', 1, 0, 5);
 const OUTPUT_DIR = path.resolve(process.env.AUDIT_OUTPUT_DIR || 'audit-reports');
 const DISCOVERY = String(process.env.AUDIT_DISCOVERY || 'auto').toLowerCase(); // auto | sitemap | crawl | routes
 const ROUTES_FILE = process.env.AUDIT_ROUTES_FILE || '';
-const WAIT_AFTER_LOAD_MS = intEnv('AUDIT_SETTLE_MS', 200, 0, 5000);
+const WAIT_AFTER_LOAD_MS = intEnv('AUDIT_SETTLE_MS', 350, 0, 5000);
 const USER_AGENT = process.env.AUDIT_USER_AGENT || `OmegaSiteAuditPro/${VERSION} (read-only quality audit)`;
 const BASE_HOSTNAME = new URL(SITE_URL).hostname;
 
@@ -192,6 +192,8 @@ async function auditOne(browser, route) {
     try {
       await page.setUserAgent(USER_AGENT);
       const response = await page.goto(requestedUrl, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS });
+      // In Single-Page Applications (React/Vue/Astro SPA), wait for route component to mount
+      await page.waitForSelector('main h1, h1', { timeout: 4500 }).catch(() => {});
       if (WAIT_AFTER_LOAD_MS) await delay(WAIT_AFTER_LOAD_MS);
       const httpStatus = response?.status() ?? null;
       const finalUrl = page.url();

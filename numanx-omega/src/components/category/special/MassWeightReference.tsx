@@ -48,8 +48,10 @@ export default function MassWeightReference() {
         <div className="md:col-span-6 space-y-3">
           <div className="grid grid-cols-2 gap-2">
             <div className="glass p-3 rounded-xl border border-[var(--border)]">
-              <label className="text-xs font-semibold opacity-60 block mb-1">Kilograms (kg)</label>
+              <label htmlFor="mass-kg-input" className="text-xs font-semibold opacity-60 block mb-1">Kilograms (kg)</label>
               <input
+                id="mass-kg-input"
+                aria-label="Weight in Kilograms"
                 type="number"
                 inputMode="decimal"
                 min={0.1}
@@ -60,8 +62,10 @@ export default function MassWeightReference() {
               />
             </div>
             <div className="glass p-3 rounded-xl border border-[var(--border)]">
-              <label className="text-xs font-semibold opacity-60 block mb-1">Pounds (lb)</label>
+              <label htmlFor="mass-lb-input" className="text-xs font-semibold opacity-60 block mb-1">Pounds (lb)</label>
               <input
+                id="mass-lb-input"
+                aria-label="Weight in Pounds"
                 type="number"
                 inputMode="decimal"
                 min={0.2}
