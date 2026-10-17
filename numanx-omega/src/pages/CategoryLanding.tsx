@@ -96,10 +96,24 @@ export default function CategoryLanding({ categorySlug }: Props) {
       </nav>
 
       {/* Header */}
-      <header>
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-2xl" role="img" aria-hidden="true">{cat.ic}</span>
-          <h1 className="text-xl sm:text-2xl font-bold">{content.h1}</h1>
+      <header className="glass rounded-2xl p-5 border border-[var(--border)] overflow-hidden relative">
+        <div className="absolute top-0 left-0 right-0 h-1.5" style={{ background: cat.cl || 'var(--primary)' }} />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl p-2 rounded-xl bg-[var(--card2)] border border-[var(--border)]" role="img" aria-hidden="true">{cat.ic}</span>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">{content.h1}</h1>
+              <div className="flex items-center gap-2 mt-0.5 text-xs text-[var(--text2)]">
+                <span className="font-semibold text-[var(--primary)]">{cat.un.length} Precision Units</span>
+                <span aria-hidden="true">·</span>
+                <span>Instant Offline PWA</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] self-start sm:self-auto text-[var(--text)]">
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: cat.cl || 'var(--primary)' }} aria-hidden="true" />
+            <span>Dedicated Page</span>
+          </div>
         </div>
         <p className="text-xs sm:text-sm text-[var(--text2)] opacity-85 leading-relaxed">{content.intro}</p>
       </header>

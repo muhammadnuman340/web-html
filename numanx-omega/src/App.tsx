@@ -266,24 +266,61 @@ function AppContent() {
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/categories" element={<Categories />} />
                       <Route path="/convert/:category" element={<CategoryLanding />} />
+                      <Route path="/category/:category" element={<CategoryLanding />} />
                       <Route path="/convert/:category/:pair" element={<PairLanding />} />
                       <Route path="/pair/:pair" element={<PairLanding />} />
+
+                      {/* Dedicated Direct Category Slugs */}
                       <Route path="/length-converter" element={<CategoryLanding categorySlug="length" />} />
+                      <Route path="/length" element={<CategoryLanding categorySlug="length" />} />
                       <Route path="/temperature-converter" element={<CategoryLanding categorySlug="temp" />} />
+                      <Route path="/temperature" element={<CategoryLanding categorySlug="temp" />} />
+                      <Route path="/temp" element={<CategoryLanding categorySlug="temp" />} />
                       <Route path="/mass-converter" element={<CategoryLanding categorySlug="mass" />} />
+                      <Route path="/mass" element={<CategoryLanding categorySlug="mass" />} />
                       <Route path="/weight-converter" element={<CategoryLanding categorySlug="mass" />} />
+                      <Route path="/weight" element={<CategoryLanding categorySlug="mass" />} />
                       <Route path="/speed-converter" element={<CategoryLanding categorySlug="speed" />} />
-                      <Route path="/volume-converter" element={<CategoryLanding categorySlug="vol" />} />
+                      <Route path="/speed" element={<CategoryLanding categorySlug="speed" />} />
+                      <Route path="/volume-converter" element={<CategoryLanding categorySlug="volume" />} />
+                      <Route path="/volume" element={<CategoryLanding categorySlug="volume" />} />
                       <Route path="/area-converter" element={<CategoryLanding categorySlug="area" />} />
+                      <Route path="/area" element={<CategoryLanding categorySlug="area" />} />
                       <Route path="/time-converter" element={<CategoryLanding categorySlug="time" />} />
-                      <Route path="/pressure-converter" element={<CategoryLanding categorySlug="press" />} />
+                      <Route path="/time" element={<CategoryLanding categorySlug="time" />} />
+                      <Route path="/pressure-converter" element={<CategoryLanding categorySlug="pressure" />} />
+                      <Route path="/pressure" element={<CategoryLanding categorySlug="pressure" />} />
                       <Route path="/energy-converter" element={<CategoryLanding categorySlug="energy" />} />
-                      <Route path="/power-converter" element={<CategoryLanding categorySlug="pwr" />} />
+                      <Route path="/energy" element={<CategoryLanding categorySlug="energy" />} />
+                      <Route path="/power-converter" element={<CategoryLanding categorySlug="power" />} />
+                      <Route path="/power" element={<CategoryLanding categorySlug="power" />} />
                       <Route path="/data-converter" element={<CategoryLanding categorySlug="data" />} />
                       <Route path="/fuel-converter" element={<CategoryLanding categorySlug="fuel" />} />
+                      <Route path="/fuel" element={<CategoryLanding categorySlug="fuel" />} />
                       <Route path="/cooking-converter" element={<CategoryLanding categorySlug="cooking" />} />
+                      <Route path="/cooking" element={<CategoryLanding categorySlug="cooking" />} />
                       <Route path="/angle-converter" element={<CategoryLanding categorySlug="angle" />} />
+                      <Route path="/angle" element={<CategoryLanding categorySlug="angle" />} />
                       <Route path="/force-converter" element={<CategoryLanding categorySlug="force" />} />
+                      <Route path="/force" element={<CategoryLanding categorySlug="force" />} />
+                      <Route path="/acceleration-converter" element={<CategoryLanding categorySlug="acceleration" />} />
+                      <Route path="/acceleration" element={<CategoryLanding categorySlug="acceleration" />} />
+                      <Route path="/electricity-converter" element={<CategoryLanding categorySlug="electricity" />} />
+                      <Route path="/electricity" element={<CategoryLanding categorySlug="electricity" />} />
+                      <Route path="/magnetism-converter" element={<CategoryLanding categorySlug="magnetism" />} />
+                      <Route path="/magnetism" element={<CategoryLanding categorySlug="magnetism" />} />
+                      <Route path="/frequency-converter" element={<CategoryLanding categorySlug="frequency" />} />
+                      <Route path="/frequency" element={<CategoryLanding categorySlug="frequency" />} />
+                      <Route path="/datatransfer-converter" element={<CategoryLanding categorySlug="datatransfer" />} />
+                      <Route path="/datatransfer" element={<CategoryLanding categorySlug="datatransfer" />} />
+                      <Route path="/torque-converter" element={<CategoryLanding categorySlug="torque" />} />
+                      <Route path="/torque" element={<CategoryLanding categorySlug="torque" />} />
+                      <Route path="/density-converter" element={<CategoryLanding categorySlug="density" />} />
+                      <Route path="/density" element={<CategoryLanding categorySlug="density" />} />
+                      <Route path="/textile-converter" element={<CategoryLanding categorySlug="textile" />} />
+                      <Route path="/textile" element={<CategoryLanding categorySlug="textile" />} />
+                      <Route path="/astronomy-converter" element={<CategoryLanding categorySlug="astronomy" />} />
+                      <Route path="/astronomy" element={<CategoryLanding categorySlug="astronomy" />} />
                       <Route path="/converter" element={<ConverterPage mode={mode} />} />
                       <Route path="/currency" element={<Currency />} />
                       <Route path="/crypto" element={<Crypto />} />
