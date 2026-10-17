@@ -8,6 +8,7 @@ import AdSense from '../components/widgets/AdSense'
 import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
 import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
 import CategorySpecialWidget from '../components/category/special/CategorySpecialWidget'
+import LengthProToolkit from '../components/category/special/LengthProToolkit'
 
 interface Props {
   categorySlug?: string
@@ -46,6 +47,50 @@ export default function CategoryLanding({ categorySlug }: Props) {
             { '@type': 'ListItem', position: 3, name: cat.lb, item: `https://numanx-omega.netlify.app/convert/${cat.id}` },
           ],
         },
+        ...(cat.id === 'length' ? [
+          {
+            '@type': 'Dataset',
+            '@id': `https://numanx-omega.netlify.app/convert/${cat.id}#dataset`,
+            name: 'NIST SP 811 Linear & Fractional Conversion Reference Matrix',
+            description: 'Standardized conversion factors across metric, imperial, machinist fractional, and astronomical length units.',
+            license: 'https://creativecommons.org/licenses/by/4.0/',
+            isAccessibleForFree: true,
+            variableMeasured: cat.un.map(u => u.lb),
+            measurementTechnique: '1959 International Yard and Pound Agreement & NIST Special Publication 811'
+          },
+          {
+            '@type': 'HowTo',
+            '@id': `https://numanx-omega.netlify.app/convert/${cat.id}#howto`,
+            name: 'How to Convert Meters to Feet and Inches Manually',
+            description: 'Step-by-step mathematical guide to convert metric meters into imperial feet and fractional inches.',
+            step: [
+              {
+                '@type': 'HowToStep',
+                position: 1,
+                name: 'Multiply meters by 3.28084 to find total decimal feet',
+                text: 'Take your length in meters and multiply by 3.2808399. For example, 1.75 m × 3.2808399 = 5.74147 feet.'
+              },
+              {
+                '@type': 'HowToStep',
+                position: 2,
+                name: 'Extract the whole feet',
+                text: 'The integer before the decimal is your whole feet measurement (5 feet).'
+              },
+              {
+                '@type': 'HowToStep',
+                position: 3,
+                name: 'Convert the decimal remainder to inches',
+                text: 'Multiply the remaining decimal by 12. For example, 0.74147 × 12 = 8.8976 inches.'
+              },
+              {
+                '@type': 'HowToStep',
+                position: 4,
+                name: 'Round or convert to nearest fraction',
+                text: 'Round to the nearest whole inch or multiply decimal by 16 to find 1/16th inch (e.g. 5′ 8-7/8″).'
+              }
+            ]
+          }
+        ] : []),
         ...(content.faq && content.faq.length > 0 ? [{
           '@type': 'FAQPage',
           '@id': `https://numanx-omega.netlify.app/convert/${cat.id}#faq`,
@@ -118,8 +163,33 @@ export default function CategoryLanding({ categorySlug }: Props) {
         <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed">{content.intro}</p>
       </header>
 
+      {/* AEO Position-Zero Answer Capsule */}
+      {cat.id === 'length' && (
+        <aside role="note" aria-label="Quick Answer Summary" className="glass rounded-xl p-3.5 border-l-4 border-l-[var(--primary)] border-[var(--border)] text-xs text-[var(--text2)] leading-relaxed">
+          <p>
+            <strong className="text-[var(--text)]">Length conversion</strong> calculates equivalent distance across metric, imperial, and astronomical systems using fixed international standards. Defined by the <strong className="text-[var(--text)]">1959 International Yard Agreement</strong> and <strong className="text-[var(--text)]">NIST SP 811</strong>, <strong className="text-[var(--primary)]">1 inch = exactly 25.4 mm (2.54 cm)</strong>, and <strong className="text-[var(--primary)]">1 meter = approx. 3.2808399 feet</strong>.
+          </p>
+        </aside>
+      )}
+
       {/* Flagship Category Interactive Widget (if available) */}
       <CategorySpecialWidget category={cat.id} />
+
+      {/* Length Pro Toolkit (Tape Snap, Blueprint Scale Multiplier, Nominal Lumber & Sockets) */}
+      {cat.id === 'length' && <LengthProToolkit baseMeters={1.75} />}
+
+      {/* Metrological Authority & Standards Callout */}
+      {cat.id === 'length' && (
+        <section aria-labelledby="authority-heading" className="glass rounded-xl p-4 border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
+          <div className="flex items-center gap-2 font-bold text-[var(--text)]">
+            <span aria-hidden="true">🏛️</span>
+            <span id="authority-heading">Metrological Authority & Standards Compliance</span>
+          </div>
+          <p className="leading-relaxed">
+            All linear conversion factors on this platform strictly comply with <strong>NIST Special Publication 811</strong> (Guide for the Use of the International System of Units), the <strong>BIPM SI Brochure (9th Edition)</strong>, and the <strong>1959 International Yard and Pound Agreement</strong> (codifying 1 yard = 0.9144 m and 1 inch = 25.4 mm). Astronomical distances are grounded in the <strong>International Astronomical Union (IAU 2012)</strong> resolution defining 1 AU = 149,597,870,700 m.
+          </p>
+        </section>
+      )}
 
       {/* Ad */}
       <div className="flex justify-center">

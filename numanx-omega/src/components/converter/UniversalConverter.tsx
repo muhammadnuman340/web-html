@@ -172,7 +172,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           rawVal = total
           if (baseUnit !== fromUnit) startTransition(() => setFromUnit(baseUnit))
         } else {
-          rawVal = parseSmart(fromVal)
+          const currentFu = cat?.un.find(u => u.id === fromUnit)
+          rawVal = parseSmart(fromVal, currentFu?.r || 1)
         }
       }
 
@@ -608,6 +609,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   if (e.key === 'Escape') setUnitSuggestions([])
                 }}
                 placeholder={mode === 'student' ? 'Type: "5 km in miles" or "(5km + 200m)"' : '0'}
+                inputMode="decimal"
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck={false}
                 className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow),0_0_30px_var(--glow)] transition-all placeholder:text-base tabular-nums"
                 onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
                 onDrop={e => { e.preventDefault(); const v = e.dataTransfer.getData('text/plain'); if (v) setFromVal(v) }}
@@ -749,7 +754,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <div className="flex gap-2 items-center">
           <div className="flex-1 relative group">
             <div ref={resultRef}
-              className={`w-full p-4 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl font-bold min-h-[56px] flex items-center cursor-pointer transition-all duration-300 border-l-4 ${
+              role="region"
+              aria-live="polite"
+              aria-atomic="true"
+              aria-label="Converted calculation result"
+              className={`w-full p-4 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl font-bold min-h-[64px] flex items-center cursor-pointer transition-all duration-300 border-l-4 tabular-nums ${
                 result !== null
                   ? 'border-[var(--primary)]/40 shadow-[0_0_30px_var(--glow)]'
                   : hasError
@@ -769,9 +778,13 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 e.preventDefault()
                 setContextMenu({ x: e.clientX, y: e.clientY })
               }}>
+              <span className="sr-only">
+                {fromVal && result !== null ? `${fromVal} ${fromUnit} equals ${fmtR(result)} ${toUnit}` : 'No calculation'}
+              </span>
               <motion.span key={result} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-                className="number-roll inline-block">
+                className="number-roll inline-block"
+                aria-hidden="true">
                 {fmtR(result)}
               </motion.span>
             </div>

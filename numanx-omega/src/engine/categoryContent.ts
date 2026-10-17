@@ -11,10 +11,10 @@ export interface CategoryContent {
 
 export const categoryContent: Record<string, CategoryContent> = {
   length: {
-    title: 'Length Converter — Convert Meters, Feet, Inches, Kilometers & More',
-    metaDesc: 'Free online length converter. Convert between meters, feet, inches, kilometers, miles, centimeters, and 20+ length units instantly. Natural language input supported.',
-    h1: 'Length Conversion',
-    intro: 'Convert between any length units instantly — from nanometers to parsecs. The length converter supports all common metric and imperial units including meters (m), kilometers (km), centimeters (cm), inches (in), feet (ft), yards (yd), miles (mi), and scientific units like light years and astronomical units. Type natural phrases like "5 feet 3 inches in cm" or "convert 10 km to miles" and the smart parser handles it automatically.',
+    title: 'Length Converter (Decimal & Fractional) — Instant NIST Chart | Omega',
+    metaDesc: 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.',
+    h1: 'Length Precision Converter & Architectural Scale',
+    intro: 'Convert between any length units instantly — from nanometers to parsecs. Supports metric, imperial, architectural tape fractions (1/64"), and astronomical units. Meets NIST SP 811 and the 1959 International Yard Agreement standards. Natural language phrases like "5 feet 10 inches in cm" and compound expressions are handled automatically.',
     popularPairs: [
       { from: 'Meter', to: 'Feet', desc: 'm → ft — standard construction & height conversion' },
       { from: 'Kilometer', to: 'Miles', desc: 'km → mi — road distance & travel planning' },
@@ -23,10 +23,11 @@ export const categoryContent: Record<string, CategoryContent> = {
       { from: 'Centimeter', to: 'Inches', desc: 'cm → in — product dimensions & body measurements' },
     ],
     useCases: ['Construction & architecture (ft↔m)', 'Travel & navigation (km↔mi)', 'Clothing & body measurements (in↔cm)', 'Scientific research (nm, μm, ly)', 'Real estate & property (ft↔m, ac↔ha)'],
-    formula: 'Multiply by the conversion factor. For example: 1 meter = 3.28084 feet, 1 kilometer = 0.621371 miles.',
+    formula: '1 meter = 3.2808399 feet. 1 inch = exactly 25.4 millimeters (1959 International Yard Agreement). 1 kilometer = 0.6213712 miles.',
     faq: [
-      { q: 'How do I convert meters to feet?', a: 'Multiply the length in meters by 3.28084 to get feet. For example, 10 meters × 3.28084 = 32.81 feet.' },
-      { q: 'How many inches in a centimeter?', a: 'One centimeter equals 0.393701 inches. To convert cm to inches, multiply by 0.393701.' },
+      { q: 'How do I convert meters to feet?', a: 'Multiply the length in meters by 3.2808399 to calculate decimal feet. For example, 10 meters × 3.2808399 = 32.81 feet. To convert into feet and inches, multiply the decimal remainder by 12.' },
+      { q: 'How many inches are in a centimeter?', a: 'One centimeter equals exactly 0.393700787 inches. Conversely, one inch is internationally defined as exactly 2.54 centimeters (25.4 millimeters).' },
+      { q: 'What is the difference between an international foot and a US survey foot?', a: 'An international foot is defined as exactly 0.3048 meters. The historic US survey foot equals 1200/3937 meters (approx. 0.30480061 meters). NIST officially deprecated the US survey foot on January 1, 2023, standardizing all US mapping on the international foot.' },
     ],
   },
   mass: {

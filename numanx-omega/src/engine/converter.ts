@@ -1,5 +1,6 @@
 import type { CategoryDef } from '../types'
 import { Categories } from './categories'
+import { cleanFloat } from '../utils/numbers'
 
 const customCategories: CategoryDef[] = []
 
@@ -61,7 +62,7 @@ export function convert(v: number, catId: string, fromId: string, toId: string):
   const tu = getUnit(cat, toId)
   if (!fu || !tu || !fu.r || !tu.r) return null
 
-  return v * fu.r / tu.r
+  return cleanFloat((v * fu.r) / tu.r)
 }
 
 export function convertAll(v: number, catId: string, fromId: string): { id: string; label: string; value: number | null }[] {
