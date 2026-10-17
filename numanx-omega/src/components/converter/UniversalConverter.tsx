@@ -425,19 +425,21 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] opacity-40 hover:opacity-100" aria-label="Clear filter">✕</button>
             )}
           </div>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1" role="tablist" aria-label="Unit categories">
             {(catFilter ? cats.filter(c => c.lb.toLowerCase().includes(catFilter.toLowerCase()) || c.id.includes(catFilter.toLowerCase())) : cats).map(c => (
               <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
+                role="tab"
+                aria-selected={catId === c.id}
                 className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-300 font-medium interact-lift ${
                   catId === c.id
                     ? 'text-white shadow-lg scale-105'
-                    : 'glass opacity-60 hover:opacity-100'
+                    : 'glass text-[var(--text)] opacity-85 hover:opacity-100 hover:border-[var(--primary)]'
                 }`}
                 style={catId === c.id ? {
                   background: `linear-gradient(135deg, ${c.cl || '#7c6fff'}, ${c.cl || '#7c6fff'}cc)`,
                   boxShadow: `0 4px 16px ${c.cl || '#7c6fff'}50`
                 } : {}}>
-                {c.ic} {c.lb}
+                <span aria-hidden="true">{c.ic}</span> <span>{c.lb}</span>
               </button>
             ))}
           </div>
@@ -446,15 +448,15 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {/* Chain selector (when chain mode is off) */}
       {mode !== 'fast' && !chainMode && (
-        <div className="flex gap-1 overflow-x-auto">
+        <div className="flex gap-1 overflow-x-auto py-1">
           <button onClick={() => autoSuggestChain()}
-            className="px-2.5 py-1 rounded-lg text-[10px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1">
-            ⛓ Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
+            className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all flex items-center gap-1 shrink-0">
+            <span aria-hidden="true">⛓</span> Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
           </button>
           {chains.map(chain => (
             <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
-              className="px-2.5 py-1 rounded-lg text-[10px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all">
-              {chain.icon} {chain.label}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all shrink-0">
+              <span aria-hidden="true">{chain.icon}</span> {chain.label}
             </button>
           ))}
         </div>
@@ -586,6 +588,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             )}
           </div>
           <select value={fromUnit} onChange={e => setFromUnit(e.target.value)}
+            aria-label="Source unit"
             className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
             {cat?.un.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
@@ -606,10 +609,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           return (
             <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
               className="flex flex-wrap gap-1.5 items-center">
-              <span className="text-[8px] opacity-30 uppercase tracking-wider mr-0.5">Recent</span>
+              <span className="text-xs text-[var(--text2)] opacity-70 uppercase tracking-wider mr-0.5">Recent</span>
               {recent.map((e, i) => (
                 <button key={i} onClick={() => { setFromUnit(e.fromUnit || ''); setToUnit(e.toUnit || '') }}
-                  className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+                  className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
                   {e.fromUnit} → {e.toUnit}
                 </button>
               ))}
@@ -623,23 +626,32 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
             animate={{ rotate: swapRotation }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            aria-label="Swap source and target units"
             className="w-10 h-10 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-lg shadow-lg shadow-[var(--glow)] interact-lift">⇅</motion.button>
           {mode !== 'fast' && (
             <>
               <button onClick={() => setFrac(!frac)}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${frac ? 'bg-[var(--primary)] text-white' : 'glass'}`}>frac</button>
+                aria-label="Toggle fraction display"
+                aria-pressed={frac}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${frac ? 'bg-[var(--primary)] text-white' : 'glass text-[var(--text)]'}`}>frac</button>
               <button onClick={() => setSci(!sci)}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${sci ? 'bg-[var(--primary)] text-white' : 'glass'}`}>sci</button>
+                aria-label="Toggle scientific notation"
+                aria-pressed={sci}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${sci ? 'bg-[var(--primary)] text-white' : 'glass text-[var(--text)]'}`}>sci</button>
               <button onClick={() => setShowExplanation(!showExplanation)}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showExplanation ? 'bg-[var(--accent)] text-white' : 'glass'}`}>
+                aria-label={showExplanation ? 'Hide calculation steps' : 'Show calculation steps'}
+                aria-expanded={showExplanation}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showExplanation ? 'bg-[var(--accent)] text-white' : 'glass text-[var(--text)]'}`}>
                 <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
               </button>
               <button onClick={() => setBatchMode(!batchMode)}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode ? 'bg-[var(--primary)] text-white' : 'glass'}`}>
+                aria-label="Toggle batch conversion mode"
+                aria-pressed={batchMode}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${batchMode ? 'bg-[var(--primary)] text-white' : 'glass text-[var(--text)]'}`}>
                 <span aria-hidden="true">📋</span> Batch
               </button>
               <button onClick={() => setShowAIExplain(!showAIExplain)}
-                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showAIExplain ? 'bg-[var(--primary)] text-white shadow-[var(--glow)]' : 'glass'}`}
+                className={`px-3 py-1 rounded-full text-xs transition-all interact-lift ${showAIExplain ? 'bg-[var(--primary)] text-white shadow-[var(--glow)]' : 'glass text-[var(--text)]'}`}
                 aria-label="AI explain conversion">
                 <span aria-hidden="true">🤖</span> AI
               </button>
@@ -688,13 +700,13 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 {didYouMean.length > 0 && (
                   <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
                     className="flex flex-wrap gap-1.5 mt-1.5 items-center">
-                    <span className="text-[8px] opacity-30 uppercase tracking-wider">Did you mean</span>
+                    <span className="text-xs text-[var(--text2)] opacity-70 uppercase tracking-wider">Did you mean</span>
                     {didYouMean.map((d, i) => (
                       <button key={i} onClick={() => {
                         const c = getAllCategories().find(c => c.id === d.cat)
                         if (c) { setCatId(d.cat); setFromUnit(d.unit); setToUnit(c.un[Math.min(1, c.un.length - 1)]?.id || d.unit) }
                       }}
-                        className="px-2 py-1 rounded-lg text-[10px] font-medium border border-[var(--border)] glass hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
+                        className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all interact-lift">
                         {d.label} ({d.cat})
                       </button>
                     ))}
@@ -755,6 +767,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             </AnimatePresence>
           </div>
           <select value={toUnit} onChange={e => setToUnit(e.target.value)}
+            aria-label="Target unit"
             className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
             {cat?.un.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
@@ -979,14 +992,14 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     const url = URL.createObjectURL(blob)
                     const a = document.createElement('a'); a.href = url; a.download = 'conversion-results.csv'
                     a.click(); URL.revokeObjectURL(url); addToast('CSV downloaded', 'success', '📥')
-                  }} className="px-2 py-1 rounded-lg text-[9px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all">📥 CSV</button>
+                  }} className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all">📥 CSV</button>
                   <button onClick={() => {
                     const json = JSON.stringify(batchResults, null, 2)
                     const blob = new Blob([json], { type: 'application/json' })
                     const url = URL.createObjectURL(blob)
                     const a = document.createElement('a'); a.href = url; a.download = 'conversion-results.json'
                     a.click(); URL.revokeObjectURL(url); addToast('JSON downloaded', 'success', '📥')
-                  }} className="px-2 py-1 rounded-lg text-[9px] border border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-all">📥 JSON</button>
+                  }} className="px-2.5 py-1 rounded-lg text-xs font-medium border border-[var(--border)] bg-[var(--card2)] text-[var(--text)] hover:bg-[var(--primary)] hover:text-white transition-all">📥 JSON</button>
                 </div>
               </div>
             )}
@@ -999,8 +1012,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <div className="flex gap-1.5 flex-wrap">
           {quickValues.map(v => (
             <button key={v} onClick={() => setFromVal(String(v))}
-              className="px-3 py-1.5 rounded-xl text-xs font-medium glass hover:bg-[var(--primary)] hover:text-white hover:shadow-[var(--glow)] transition-all interact-lift"
-              style={{ fontSize: v >= 1e6 ? '10px' : '11px' }}>
+              className="btn-chip px-3 py-1.5 rounded-xl text-xs font-medium text-[var(--text)] glass hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] hover:shadow-[var(--glow)] transition-all interact-lift">
               {v < 1 ? String(v) : v >= 1e6 ? '1,000,000' : v >= 1e3 ? '1,000' : String(v)}
             </button>
           ))}
@@ -1015,9 +1027,20 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* Precision */}
       {mode !== 'fast' && !chainMode && (
         <div className="flex items-center gap-3">
-          <span className="text-xs opacity-60">Precision: {prec}</span>
-          <input type="range" min="0" max="12" value={prec} onChange={e => setPrec(Number(e.target.value))}
-            className="flex-1 accent-[var(--primary)]" />
+          <label htmlFor="precision-slider" className="text-xs text-[var(--text2)] opacity-80">Precision: {prec}</label>
+          <input
+            id="precision-slider"
+            type="range"
+            min="0"
+            max="12"
+            value={prec}
+            onChange={e => setPrec(Number(e.target.value))}
+            aria-label="Calculation precision in decimal places"
+            aria-valuemin={0}
+            aria-valuemax={12}
+            aria-valuenow={prec}
+            className="flex-1 accent-[var(--primary)]"
+          />
         </div>
       )}
 

@@ -66,8 +66,8 @@ function AnimatedStat({ value, label, delay }: { value: number | string; label: 
   return (
     <motion.div ref={ref} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.3 + delay * 0.1 }} className="glass rounded-2xl p-3">
-      <div className="text-xl font-bold">{typeof value === 'number' ? display : value}</div>
-      <div className="text-xs opacity-50">{label}</div>
+      <div className="text-xl font-bold">{typeof value === 'number' ? display : <span aria-label="Infinite">{value}</span>}</div>
+      <div className="text-xs text-[var(--text2)] opacity-80">{label}</div>
     </motion.div>
   )
 }
@@ -222,14 +222,14 @@ export default function Home({ mode = 'pro' }: Props) {
               'Tap the result area to copy the value',
             ].filter(Boolean).map((tip, i) => (
               <div key={i} className="flex items-start gap-2 p-1.5" dangerouslySetInnerHTML={{
-                __html: `<span class="text-[var(--primary)] opacity-60 mt-0.5">•</span><span class="opacity-60">${tip}</span>`
+                __html: `<span class="text-[var(--primary)] mt-0.5" aria-hidden="true">•</span><span class="text-[var(--text)] opacity-85">${tip}</span>`
               }} />
             ))}
           </div>
         </section>
 
-        <footer className="text-center text-xs opacity-30 py-4">
-          NumanX Omega X · NumanX Studios · Frontend-Only · PWA · Press ⌘K for commands
+        <footer className="text-center text-xs text-[var(--text2)] opacity-80 py-4">
+          NumanX Omega X · NumanX Studios · Frontend-Only · PWA · Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-[11px]">⌘K</kbd> for commands
         </footer>
       </div>
     </div>

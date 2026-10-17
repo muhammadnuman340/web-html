@@ -291,19 +291,19 @@ function AppContent() {
           </div>
 
           {/* Desktop footer */}
-          <footer className="hidden lg:flex items-center justify-between px-5 py-3 text-[10px] opacity-30 border-t border-[var(--border)] distraction">
+          <footer className="hidden lg:flex items-center justify-between px-5 py-3 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction">
             <span>NumanX Omega X v2.0</span>
             <div className="flex gap-4 items-center">
-              <Link to="/sitemap" className="hover:underline hover:opacity-100 transition-opacity">Sitemap</Link>
-              <span>·</span>
-              <span>Press <kbd className="px-1">⌘K</kbd> for commands</span>
-              <span>·</span>
+              <Link to="/sitemap" className="hover:underline hover:text-[var(--text)] transition-colors">Sitemap</Link>
+              <span aria-hidden="true" className="opacity-40 select-none">·</span>
+              <span>Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-[11px]">⌘K</kbd> for commands</span>
+              <span aria-hidden="true" className="opacity-40 select-none">·</span>
               <span>PWA · Offline-ready</span>
             </div>
           </footer>
 
           {/* Mobile bottom nav */}
-          <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-30 glass border-t border-[var(--border)] safe-area-bottom">
+          <nav aria-label="Mobile navigation" className="lg:hidden fixed bottom-0 left-0 right-0 z-30 glass border-t border-[var(--border)] safe-area-bottom">
             <div className="flex justify-around items-center px-1 py-1">
               {navItems.map(item => {
                 const isActive = location.pathname === item.path ||

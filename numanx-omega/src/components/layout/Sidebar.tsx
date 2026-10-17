@@ -118,6 +118,9 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           <motion.button
             whileTap={{ scale: 0.98 }}
             onClick={() => setShowModePicker(!showModePicker)}
+            aria-expanded={showModePicker}
+            aria-haspopup="listbox"
+            aria-label="Select converter mode"
             className="w-full flex items-center gap-2 px-3 py-2 rounded-xl glass hover:bg-[var(--border)] transition-all text-sm"
           >
             <span aria-hidden="true">{MODES.find(m => m.id === mode)?.icon}</span>
@@ -147,19 +150,19 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         {/* Main nav */}
         <div className="mb-3">
           <div className="text-[9px] uppercase tracking-wider opacity-30 px-3 mb-1.5">Main</div>
-          <nav className="space-y-0.5">{NAV_MAIN.map(navItem)}</nav>
+          <nav aria-label="Main navigation" className="space-y-0.5">{NAV_MAIN.map(navItem)}</nav>
         </div>
 
         {/* Features */}
         <div className="mb-3">
           <div className="text-[9px] uppercase tracking-wider opacity-30 px-3 mb-1.5">Features</div>
-          <nav className="space-y-0.5">{NAV_FEATURES.map(navItem)}</nav>
+          <nav aria-label="Feature shortcuts" className="space-y-0.5">{NAV_FEATURES.map(navItem)}</nav>
         </div>
 
         {/* Tools */}
         <div className="mb-3">
           <div className="text-[9px] uppercase tracking-wider opacity-30 px-3 mb-1.5">Tools</div>
-          <nav className="space-y-0.5">{NAV_SECONDARY.map(navItem)}</nav>
+          <nav aria-label="Utility and secondary tools" className="space-y-0.5">{NAV_SECONDARY.map(navItem)}</nav>
         </div>
 
         {/* Smart Insights */}
@@ -170,7 +173,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         <div className="mt-4 px-3">
           <AdSense slot="3115913228" format="auto" />
         </div>
-        <div className="mt-auto pt-4 text-center text-xs opacity-40">
+        <div className="mt-auto pt-4 text-center text-xs text-[var(--text2)] opacity-70">
           NumanX Studios &copy; 2026
         </div>
       </motion.aside>

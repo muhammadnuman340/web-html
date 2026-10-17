@@ -130,21 +130,31 @@ export default function ContextBar() {
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {pageTips.length > 1 && (
-            <div className="flex gap-1">
+            <div className="flex items-center gap-0.5">
               {pageTips.map((_, i) => (
-                <button key={i} onClick={() => setCurrentTipIndex(i)}
-                  className={`w-1.5 h-1.5 rounded-full transition-all ${
-                    i === currentTipIndex % pageTips.length ? 'bg-[var(--primary)] w-3' : 'bg-[var(--border)]'
-                  }`}
-                  aria-label={`Tip ${i + 1}`}
-                />
+                <button
+                  key={i}
+                  onClick={() => setCurrentTipIndex(i)}
+                  className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-[var(--border)] transition-colors"
+                  aria-label={`Show tip ${i + 1} of ${pageTips.length}`}
+                  aria-current={i === currentTipIndex % pageTips.length ? 'true' : undefined}
+                >
+                  <span className={`block rounded-full transition-all ${
+                    i === currentTipIndex % pageTips.length ? 'bg-[var(--primary)] w-3 h-1.5' : 'bg-[var(--text2)] opacity-40 w-1.5 h-1.5'
+                  }`} />
+                </button>
               ))}
             </div>
           )}
-          <button onClick={() => setDismissed(true)}
-            className="p-0.5 opacity-30 hover:opacity-100 transition-opacity" aria-label="Dismiss tip">✕</button>
+          <button
+            onClick={() => setDismissed(true)}
+            className="w-6 h-6 flex items-center justify-center rounded-lg opacity-75 hover:opacity-100 hover:bg-[var(--border)] text-[var(--text)] transition-all"
+            aria-label="Dismiss tip"
+          >
+            ✕
+          </button>
         </div>
       </motion.div>
     </AnimatePresence>

@@ -34,7 +34,7 @@ export default function AdSense({ slot, format = 'auto', layout, className = '',
 
   return (
     <div className={`omega-ad-wrapper ${className}`} ref={ref}>
-      <div className="text-[9px] uppercase tracking-wider opacity-20 text-center mb-1">— Sponsored —</div>
+      <div className="text-xs uppercase tracking-wider text-[var(--text2)] opacity-70 text-center mb-1">— Sponsored —</div>
       <ins
         className="adsbygoogle"
         style={insStyle}
