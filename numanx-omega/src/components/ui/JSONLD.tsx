@@ -4,9 +4,9 @@ export default function JSONLD() {
     '@graph': [
       {
         '@type': 'WebApplication',
-        '@id': 'https://numanx-omega.netlify.app/#webapp',
+        '@id': 'https://numanx-studio-omega-converter.netlify.app/#webapp',
         name: 'Omega X Converter',
-        url: 'https://numanx-omega.netlify.app/',
+        url: 'https://numanx-studio-omega-converter.netlify.app/',
         description: 'Free universal unit converter platform with 30+ categories, 200+ units, live currency rates, crypto prices, natural language input, batch conversion, cross-category chains, and PWA offline support.',
         applicationCategory: 'Utilities',
         operatingSystem: 'Web',
@@ -29,18 +29,18 @@ export default function JSONLD() {
       },
       {
         '@type': 'BreadcrumbList',
-        '@id': 'https://numanx-omega.netlify.app/#breadcrumb',
+        '@id': 'https://numanx-studio-omega-converter.netlify.app/#breadcrumb',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-omega.netlify.app/' },
-          { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://numanx-omega.netlify.app/converter' },
-          { '@type': 'ListItem', position: 3, name: 'Currency', item: 'https://numanx-omega.netlify.app/currency' },
-          { '@type': 'ListItem', position: 4, name: 'Crypto', item: 'https://numanx-omega.netlify.app/crypto' },
-          { '@type': 'ListItem', position: 5, name: 'Categories', item: 'https://numanx-omega.netlify.app/categories' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
+          { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://numanx-studio-omega-converter.netlify.app/converter' },
+          { '@type': 'ListItem', position: 3, name: 'Currency', item: 'https://numanx-studio-omega-converter.netlify.app/currency' },
+          { '@type': 'ListItem', position: 4, name: 'Crypto', item: 'https://numanx-studio-omega-converter.netlify.app/crypto' },
+          { '@type': 'ListItem', position: 5, name: 'Categories', item: 'https://numanx-studio-omega-converter.netlify.app/categories' },
         ],
       },
       {
         '@type': 'ItemList',
-        '@id': 'https://numanx-omega.netlify.app/#categories',
+        '@id': 'https://numanx-studio-omega-converter.netlify.app/#categories',
         name: 'Unit Converter Categories',
         description: 'All conversion categories available in Omega X Converter',
         itemListElement: [
@@ -65,7 +65,7 @@ export default function JSONLD() {
       },
       {
         '@type': 'FAQPage',
-        '@id': 'https://numanx-omega.netlify.app/#faq',
+        '@id': 'https://numanx-studio-omega-converter.netlify.app/#faq',
         mainEntity: [
           {
             '@type': 'Question',

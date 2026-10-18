@@ -19,5 +19,7 @@ dist-ssr
 .DS_Store
 *.sw?
 
-# Audit reports
+# Audit reports and private audit credentials
 audit-reports/
+audit-headers*.json
+audit.env

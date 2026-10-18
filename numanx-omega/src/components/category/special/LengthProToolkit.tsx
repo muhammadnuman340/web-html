@@ -44,7 +44,7 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
   const scaledMm = ((baseMeters * 1000) / scaleRatio).toFixed(2)
   const scaledIn = (totalInches / scaleRatio).toFixed(3)
 
-  const embedCode = `<iframe src="https://numanx-omega.netlify.app/convert/length?embed=1" width="100%" height="420" style="border:0;border-radius:12px;" loading="lazy" title="Omega Length Converter"></iframe><p style="font-size:12px;">Powered by <a href="https://numanx-omega.netlify.app/convert/length">Omega Length Converter</a></p>`
+  const embedCode = `<iframe src="https://numanx-studio-omega-converter.netlify.app/convert/length?embed=1" width="100%" height="420" style="border:0;border-radius:12px;" loading="lazy" title="Omega Length Converter"></iframe><p style="font-size:12px;">Powered by <a href="https://numanx-studio-omega-converter.netlify.app/convert/length">Omega Length Converter</a></p>`
 
   const copyEmbed = () => {
     navigator.clipboard.writeText(embedCode)

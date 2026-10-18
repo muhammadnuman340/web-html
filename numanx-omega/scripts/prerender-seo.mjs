@@ -251,7 +251,7 @@ const categoryConfigs = [
 
 function generateRouteHtml(catConfig) {
   let html = baseHtml
-  const pageUrl = `https://numanx-omega.netlify.app/convert/${catConfig.id}`
+  const pageUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${catConfig.id}`
 
   // 1. Replace <title>
   html = html.replace(/<title.*?>.*?<\/title>/i, `<title data-rh="true">${catConfig.title}</title>`)
@@ -292,8 +292,8 @@ function generateRouteHtml(catConfig) {
         '@type': 'BreadcrumbList',
         '@id': `${pageUrl}#breadcrumb`,
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-omega.netlify.app/' },
-          { '@type': 'ListItem', position: 2, name: 'Categories', item: 'https://numanx-omega.netlify.app/categories' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
+          { '@type': 'ListItem', position: 2, name: 'Categories', item: 'https://numanx-studio-omega-converter.netlify.app/categories' },
           { '@type': 'ListItem', position: 3, name: catConfig.name, item: pageUrl }
         ]
       },
@@ -395,3 +395,56 @@ function generateRouteHtml(catConfig) {
 for (const config of categoryConfigs) {
   generateRouteHtml(config)
 }
+
+// Pre-render /about
+const aboutDir = path.join(distDir, 'about')
+fs.mkdirSync(aboutDir, { recursive: true })
+let aboutHtml = baseHtml
+  .replace(/<title[^>]*>.*?<\/title>/i, '<title>About NumanX Omega — Universal Unit Conversion Platform</title>')
+  .replace(/<meta name="description"[^>]*content=".*?"[^>]*>/i, '<meta name="description" content="Learn about NumanX Omega: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine.">')
+  .replace(/<link rel="canonical"[^>]*href=".*?"[^>]*>/i, '<link rel="canonical" href="https://numanx-studio-omega-converter.netlify.app/about">')
+
+const aboutStatic = `
+  <main style="max-width:800px;margin:40px auto;padding:0 20px;font-family:sans-serif;">
+    <nav><a href="/">Home</a> &gt; <span>About</span></nav>
+    <h1>About NumanX Omega</h1>
+    <p>NumanX Omega is an open, high-precision, zero-latency unit conversion and calculation engine built for engineers, researchers, students, and everyday power users.</p>
+    <h2>Core Pillars</h2>
+    <ul>
+      <li><strong>100% Client-Side Privacy:</strong> All calculations run directly in your browser without telemetry or tracking.</li>
+      <li><strong>NIST & BIPM Standards:</strong> Rigorously calibrated against NIST Special Publication 811 and BIPM SI definitions.</li>
+      <li><strong>Sub-Nanometer Precision:</strong> 14 significant digits floating point engine.</li>
+      <li><strong>Offline PWA:</strong> Fully functioning progressive web app.</li>
+    </ul>
+  </main>
+`
+aboutHtml = aboutHtml.replace(/<div id="root">\s*<\/div>/i, `<div id="root">\n${aboutStatic}\n    </div>`)
+fs.writeFileSync(path.join(aboutDir, 'index.html'), aboutHtml, 'utf-8')
+console.log('✅ Pre-rendered static SEO/AEO HTML for /about')
+
+// Pre-render /blog
+const blogDir = path.join(distDir, 'blog')
+fs.mkdirSync(blogDir, { recursive: true })
+let blogHtml = baseHtml
+  .replace(/<title[^>]*>.*?<\/title>/i, '<title>Blog — Unit Conversion Guides, Metrology & Precision Tips | NumanX</title>')
+  .replace(/<meta name="description"[^>]*content=".*?"[^>]*>/i, '<meta name="description" content="Comprehensive guides, tutorials, formulas, and cheat sheets for length, weight, temperature, data, and precision conversions by NumanX.">')
+  .replace(/<link rel="canonical"[^>]*href=".*?"[^>]*>/i, '<link rel="canonical" href="https://numanx-studio-omega-converter.netlify.app/blog">')
+
+const blogStatic = `
+  <main style="max-width:800px;margin:40px auto;padding:0 20px;font-family:sans-serif;">
+    <nav><a href="/">Home</a> &gt; <span>Blog</span></nav>
+    <h1>Blog</h1>
+    <p>Tips, guides, and tutorials for working with measurements, conversions, and calculations.</p>
+    <ul>
+      <li><a href="/blog/compound-length-units-guide">How to Convert Compound Units: Feet, Inches & Fractions Guide</a></li>
+      <li><a href="/blog/fractional-inches-to-mm-best-practices">Fractional Inches to Millimeters: Machinist & Woodworking Best Practices</a></li>
+      <li><a href="/blog/metric-vs-imperial-engineering-guide">Metric vs Imperial: The Ultimate Engineering & Scientific Comparison</a></li>
+      <li><a href="/blog/temperature-scales-celsius-fahrenheit-kelvin">Temperature Scales Demystified: Celsius, Fahrenheit, and Kelvin</a></li>
+      <li><a href="/blog/digital-data-storage-units-guide">Digital Data Units: Megabytes, Mebibytes, and Transfer Speeds</a></li>
+      <li><a href="/blog/ai-powered-unit-conversions-in-2026">AI-Powered Unit Conversions in 2026: Natural Language Calculations</a></li>
+    </ul>
+  </main>
+`
+blogHtml = blogHtml.replace(/<div id="root">\s*<\/div>/i, `<div id="root">\n${blogStatic}\n    </div>`)
+fs.writeFileSync(path.join(blogDir, 'index.html'), blogHtml, 'utf-8')
+console.log('✅ Pre-rendered static SEO/AEO HTML for /blog')

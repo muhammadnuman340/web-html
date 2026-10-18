@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt, parseSmart } from '../utils/numbers'
+import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useToast } from '../hooks/useToast'
 import type { CategoryDef, UnitDef } from '../types'
 
@@ -128,9 +129,9 @@ export default function PairLanding() {
     '@graph': [
       {
         '@type': 'WebApplication',
-        '@id': `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}#software`,
+        '@id': `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}#software`,
         name: `${u1.lb} to ${u2.lb} Precision Calculator`,
-        url: `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}`,
+        url: `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}`,
         description: metaDescription,
         applicationCategory: 'UtilitiesApplication',
         operatingSystem: 'All',
@@ -138,17 +139,17 @@ export default function PairLanding() {
       },
       {
         '@type': 'BreadcrumbList',
-        '@id': `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}#breadcrumb`,
+        '@id': `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}#breadcrumb`,
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-omega.netlify.app/' },
-          { '@type': 'ListItem', position: 2, name: 'Categories', item: 'https://numanx-omega.netlify.app/categories' },
-          { '@type': 'ListItem', position: 3, name: cat.lb, item: `https://numanx-omega.netlify.app/convert/${cat.id}` },
-          { '@type': 'ListItem', position: 4, name: `${u1.lb} to ${u2.lb}`, item: `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}` },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
+          { '@type': 'ListItem', position: 2, name: 'Categories', item: 'https://numanx-studio-omega-converter.netlify.app/categories' },
+          { '@type': 'ListItem', position: 3, name: cat.lb, item: `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}` },
+          { '@type': 'ListItem', position: 4, name: `${u1.lb} to ${u2.lb}`, item: `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}` },
         ],
       },
       {
         '@type': 'FAQPage',
-        '@id': `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}#faq`,
+        '@id': `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}#faq`,
         mainEntity: [
           {
             '@type': 'Question',
@@ -197,7 +198,7 @@ export default function PairLanding() {
   useEffect(() => {
     if (!cat || !u1 || !u2) return
 
-    const pageUrl = `https://numanx-omega.netlify.app/convert/${cat.id}/${pairParam}`
+    const pageUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}`
     document.title = `${pageTitle} | Omega X Converter`
 
     let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
@@ -237,16 +238,15 @@ export default function PairLanding() {
         path={`/convert/${cat.id}/${pairParam}`}
       />
 
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="text-xs text-[var(--text2)] opacity-85 flex gap-1 items-center flex-wrap">
-        <Link to="/" className="hover:text-[var(--primary)] transition-colors">Home</Link>
-        <span aria-hidden="true">/</span>
-        <Link to="/categories" className="hover:text-[var(--primary)] transition-colors">Categories</Link>
-        <span aria-hidden="true">/</span>
-        <Link to={`/convert/${cat.id}`} className="hover:text-[var(--primary)] transition-colors">{cat.lb}</Link>
-        <span aria-hidden="true">/</span>
-        <span className="text-[var(--primary)] font-medium">{u1.id} to {u2.id}</span>
-      </nav>
+      {/* Breadcrumb matching Image 2 */}
+      <Breadcrumbs
+        items={[
+          { label: 'Tools', path: '/categories' },
+          { label: cat.lb, path: `/convert/${cat.id}` },
+          { label: `${u1.lb} to ${u2.lb}` }
+        ]}
+        backTo={{ label: `All ${cat.lb} Tools`, path: `/convert/${cat.id}` }}
+      />
 
       {/* Header */}
       <header className="space-y-1">

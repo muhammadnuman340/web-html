@@ -1,123 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Core Platform Routes -->
-  <url><loc>https://numanx-omega.netlify.app/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/converter</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/categories</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/sitemap</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/currency</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/crypto</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/dashboard</loc><priority>0.6</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/formulas</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/calculator</loc><priority>0.7</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/health</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/favorites</loc><priority>0.5</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/history</loc><priority>0.4</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/custom-units</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/help</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/settings</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/</loc><priority>1.0</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/converter</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/categories</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/sitemap</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/currency</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/crypto</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/dashboard</loc><priority>0.6</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/formulas</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/calculator</loc><priority>0.7</priority><changefreq>daily</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/health</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/favorites</loc><priority>0.5</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/history</loc><priority>0.4</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/custom-units</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/help</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/settings</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
 
   <!-- 24 Dedicated Category Landing Pages -->
-  <url><loc>https://numanx-omega.netlify.app/convert/length</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/mass</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/temp</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/area</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/volume</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/speed</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/time</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/pressure</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/energy</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/power</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/force</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/fuel</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/data</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/datatransfer</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/cooking</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/angle</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/acceleration</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/electricity</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/magnetism</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/frequency</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/torque</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/density</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/textile</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/astronomy</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/length</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/mass</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/temp</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/speed</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/time</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/pressure</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/energy</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/power</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/force</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/data</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/datatransfer</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/cooking</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/angle</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/acceleration</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/electricity</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/magnetism</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/frequency</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/torque</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/density</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/textile</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/astronomy</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
 
   <!-- Semantic Category Aliases -->
-  <url><loc>https://numanx-omega.netlify.app/length-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/temperature-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/mass-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/weight-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/speed-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/volume-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/area-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/time-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/pressure-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/energy-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/power-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/data-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/fuel-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/cooking-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/angle-converter</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/force-converter</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/length-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/temperature-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/mass-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/weight-converter</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/speed-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/volume-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/area-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/time-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/pressure-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/energy-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/power-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/data-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/fuel-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/cooking-converter</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/angle-converter</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/force-converter</loc><priority>0.75</priority><changefreq>weekly</changefreq></url>
 
   <!-- Popular High-Volume Unit Pair Converters -->
   <!-- Length Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/length/meter-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/length/kilometer-to-miles</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/length/inches-to-centimeter</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/length/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/length/centimeter-to-inches</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/length/meter-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/length/kilometer-to-miles</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/length/inches-to-centimeter</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/length/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/length/centimeter-to-inches</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 
   <!-- Mass & Weight Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/mass/kilogram-to-pounds</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/mass/pounds-to-kilogram</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/mass/ounces-to-grams</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/mass/stone-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/mass/grams-to-ounces</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/mass/kilogram-to-pounds</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/mass/pounds-to-kilogram</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/mass/ounces-to-grams</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/mass/stone-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/mass/grams-to-ounces</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 
   <!-- Temperature Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/temp/celsius-to-fahrenheit</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/temp/fahrenheit-to-celsius</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/temp/celsius-to-kelvin</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/temp/kelvin-to-celsius</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/temp/celsius-to-fahrenheit</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/temp/fahrenheit-to-celsius</loc><priority>0.85</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/temp/celsius-to-kelvin</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/temp/kelvin-to-celsius</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Area & Volume Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/area/square meters-to-square feet</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/area/acres-to-hectares</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/area/hectares-to-acres</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/volume/liters-to-gallons</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/volume/gallons-to-liters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/volume/milliliters-to-fluid ounces</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/square meters-to-square feet</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/acres-to-hectares</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/hectares-to-acres</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/liters-to-gallons</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/gallons-to-liters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/milliliters-to-fluid ounces</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Speed & Time Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/speed/kmh-to-mph</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/speed/mph-to-kmh</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/speed/knots-to-mph</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/time/hours-to-minutes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/time/days-to-hours</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/speed/kmh-to-mph</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/speed/mph-to-kmh</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/speed/knots-to-mph</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/time/hours-to-minutes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/time/days-to-hours</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Pressure & Energy Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/pressure/bar-to-psi</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/pressure/psi-to-bar</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/pressure/atm-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/energy/joules-to-calories</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/energy/kilowatt-hour-to-joules</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/pressure/bar-to-psi</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/pressure/psi-to-bar</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/pressure/atm-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/energy/joules-to-calories</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/energy/kilowatt-hour-to-joules</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Cooking, Fuel & Power Pairs -->
-  <url><loc>https://numanx-omega.netlify.app/convert/cooking/cup-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/fuel/mpg-to-l100km</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/fuel/l100km-to-mpg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/power/watts-to-horsepower</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/power/horsepower-to-kilowatts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/convert/data/gigabytes-to-megabytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/cooking/cup-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel/mpg-to-l100km</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel/l100km-to-mpg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/power/watts-to-horsepower</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/power/horsepower-to-kilowatts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/data/gigabytes-to-megabytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Educational Guides -->
-  <url><loc>https://numanx-omega.netlify.app/guides/lbs-to-kg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/guides/meters-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/guides/kg-to-lbs</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/guides/fahrenheit-to-celsius</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-omega.netlify.app/guides/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/guides/lbs-to-kg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/guides/meters-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/guides/kg-to-lbs</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/guides/fahrenheit-to-celsius</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/guides/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 </urlset>

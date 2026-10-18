@@ -10,6 +10,7 @@ import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
 import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
 import CategorySpecialWidget from '../components/category/special/CategorySpecialWidget'
 import LengthProToolkit from '../components/category/special/LengthProToolkit'
+import Breadcrumbs from '../components/ui/Breadcrumbs'
 
 interface Props {
   categorySlug?: string
@@ -32,7 +33,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
     if (!cat) return
 
     const isLength = cat.id === 'length'
-    const pageUrl = `https://numanx-omega.netlify.app/convert/${cat.id}`
+    const pageUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}`
 
     // 1. Fix Empty Title (58 chars - optimal 50-65 char range)
     const pageTitle = isLength
@@ -91,7 +92,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
           '@type': 'BreadcrumbList',
           '@id': `${pageUrl}#breadcrumb`,
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-omega.netlify.app/' },
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
             { '@type': 'ListItem', position: 2, name: `${cat.lb} Converter`, item: pageUrl }
           ]
         },
@@ -164,14 +165,14 @@ export default function CategoryLanding({ categorySlug }: Props) {
         path={`/convert/${category}`}
       />
 
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="text-xs text-[var(--text2)] flex gap-1 items-center">
-        <Link to="/" className="hover:text-[var(--primary)] transition-colors">Home</Link>
-        <span aria-hidden="true">/</span>
-        <Link to="/categories" className="hover:text-[var(--primary)] transition-colors">Categories</Link>
-        <span aria-hidden="true">/</span>
-        <span className="text-[var(--primary)] font-bold">{cat.lb}</span>
-      </nav>
+      {/* Breadcrumb matching Image 2 */}
+      <Breadcrumbs
+        items={[
+          { label: 'Tools', path: '/categories' },
+          { label: cat.lb }
+        ]}
+        backTo={{ label: 'All Tools', path: '/categories' }}
+      />
 
       {/* Header */}
       <header className="glass rounded-2xl p-5 border border-[var(--border)] overflow-hidden relative">

@@ -10,7 +10,10 @@
     "preview": "vite preview",
     "start": "node server.js",
     "prod": "vite build && node server.js",
-    "audit:site:pro": "node scripts/audit-site.mjs"
+    "audit:site:pro": "node scripts/audit-site.mjs",
+    "audit:site:v4": "node scripts/audit-site.mjs",
+    "audit:history": "node scripts/manage-history.mjs",
+    "test:audit": "node --test tests/core.test.mjs tests/report.test.mjs"
   },
   "dependencies": {
     "animejs": "^4.4.1",

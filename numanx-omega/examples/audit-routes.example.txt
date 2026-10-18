@@ -1,0 +1,5 @@
+# Example only. Replace these with routes that actually exist on your site.
+/
+/about
+/contact
+/tools

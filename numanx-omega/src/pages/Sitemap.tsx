@@ -4,11 +4,14 @@ import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
 import { guideContent } from '../engine/guideContent'
+import { BLOG_POSTS } from '../data/blogPosts'
 
 const CORE_ROUTES = [
   { path: '/', label: 'Home Page', icon: '🏠', desc: 'Main converter dashboard with instant input and quick pairs' },
   { path: '/converter', label: 'Universal Converter', icon: '🔄', desc: 'Precision conversion engine supporting chains & batch processing' },
   { path: '/categories', label: 'Browse Categories', icon: '📂', desc: 'Interactive directory of all 24 scientific and everyday unit systems' },
+  { path: '/blog', label: 'Blog & Articles Hub', icon: '📰', desc: 'Expert guides, tutorials, precision formulas, and cheat sheets' },
+  { path: '/about', label: 'About NumanX Omega', icon: 'ℹ️', desc: 'Mission, NIST metrology compliance, privacy, and scientific engine' },
   { path: '/calculator', label: 'Smart Calculator', icon: '🧮', desc: 'Instant calculation and conversion hybrid tool' },
   { path: '/formulas', label: 'Formula Explorer', icon: '📐', desc: 'Interactive mathematical formulas and conversion steps' },
   { path: '/health', label: 'Health & Fitness Hub', icon: '❤️', desc: 'BMI, body mass, and fitness unit conversion utilities' },
@@ -83,6 +86,17 @@ export default function Sitemap() {
       g.intro.toLowerCase().includes(q)
     )
   }, [filter, guides])
+
+  const filteredBlogPosts = useMemo(() => {
+    if (!filter) return BLOG_POSTS
+    const q = filter.toLowerCase()
+    return BLOG_POSTS.filter(b =>
+      b.title.toLowerCase().includes(q) ||
+      b.slug.toLowerCase().includes(q) ||
+      b.excerpt.toLowerCase().includes(q) ||
+      b.category.toLowerCase().includes(q)
+    )
+  }, [filter])
 
   return (
     <article className="space-y-8 max-w-5xl mx-auto pb-12">
@@ -256,6 +270,44 @@ export default function Sitemap() {
               </div>
               <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-xs font-mono text-[var(--primary)] font-medium flex items-center justify-between">
                 <span>/guides/{guide.slug}</span>
+                <span aria-hidden="true">→</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Section 5: Blog Articles & In-Depth Tutorials */}
+      <section aria-labelledby="blog-heading" className="space-y-4">
+        <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
+          <h2 id="blog-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
+            <span role="img" aria-hidden="true">📰</span> Blog Articles & Educational Guides ({filteredBlogPosts.length})
+          </h2>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {filteredBlogPosts.map(post => (
+            <Link
+              key={post.slug}
+              to={`/blog/${post.slug}`}
+              className="glass p-5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between border border-transparent shadow-sm"
+            >
+              <div>
+                <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[var(--primary)]">
+                  <span className="px-2 py-0.5 rounded-md bg-[var(--primary-muted)] text-[11px]">{post.category}</span>
+                  <span className="text-[var(--text3)]">·</span>
+                  <span className="text-[var(--text3)]">{post.date}</span>
+                  <span className="text-[var(--text3)]">·</span>
+                  <span className="text-[var(--text3)]">{post.readTime}</span>
+                </div>
+                <h3 className="font-bold text-sm sm:text-base text-[var(--text)] mb-1 group-hover:text-[var(--primary)] transition-colors">
+                  {post.title}
+                </h3>
+                <p className="text-xs text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">
+                  {post.excerpt}
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-[var(--border)]/50 text-xs font-mono text-[var(--primary)] font-medium flex items-center justify-between">
+                <span>/blog/{post.slug}</span>
                 <span aria-hidden="true">→</span>
               </div>
             </Link>

@@ -15,6 +15,7 @@ import InstallPWA from './components/widgets/InstallPWA'
 import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
 import AmbientBackground from './components/ui/AmbientBackground'
+import Navbar from './components/layout/Navbar'
 import JSONLD from './components/ui/JSONLD'
 import { getAllCategories } from './engine/converter'
 import { useLocalStorage } from './hooks/useLocalStorage'
@@ -37,6 +38,9 @@ const CategoryLanding = lazy(() => import('./pages/CategoryLanding'))
 const PairLanding = lazy(() => import('./pages/PairLanding'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
 const Sitemap = lazy(() => import('./pages/Sitemap'))
+const Blog = lazy(() => import('./pages/Blog'))
+const BlogPost = lazy(() => import('./pages/BlogPost'))
+const About = lazy(() => import('./pages/About'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -169,9 +173,9 @@ function AppContent() {
 
   const navItems = [
     { path: '/', icon: '🏠', label: 'Home' },
-    { path: '/dashboard', icon: '📊', label: 'Dashboard' },
-    { path: '/converter', icon: '🔄', label: 'Convert' },
-    { path: '/categories', icon: '📂', label: 'Browse' },
+    { path: '/categories', icon: '🛠️', label: 'Tools' },
+    { path: '/blog', icon: '📰', label: 'Blog' },
+    { path: '/about', icon: 'ℹ️', label: 'About' },
     { path: '/settings', icon: '⚙️', label: 'Settings' },
   ]
 
@@ -191,70 +195,14 @@ function AppContent() {
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} mode={mode} onModeChange={setMode} onApplyPair={handleApplyPair} />
 
         <div className="flex-1 flex flex-col min-h-screen">
-          {/* Redesigned header */}
-          <header className={`sticky top-0 z-30 glass border-b border-[var(--border)] transition-shadow duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
-            <div className="flex items-center gap-2 px-3 sm:px-5 py-2.5 max-w-5xl mx-auto">
-              <button onClick={() => setSidebarOpen(true)}
-                className="p-2 rounded-xl hover:bg-[var(--border)] interact-lift text-sm" aria-label="Open sidebar">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-              </button>
-
-              {/* Logo */}
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center text-white text-xs font-bold shadow-sm shadow-[var(--glow)]">NX</div>
-                <div className="hidden sm:flex items-center gap-1.5">
-                  <span className="font-semibold text-sm">NumanX</span>
-                  <span className="px-1.5 py-0.5 rounded text-xs font-semibold uppercase tracking-widest bg-[var(--primary-muted)] text-[var(--primary)]">Omega</span>
-                </div>
-              </div>
-
-              {/* Search bar */}
-              <div className="flex-1 relative max-w-sm">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 opacity-40 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
-                <input type="text" value={searchQuery}
-                  onChange={e => handleSearch(e.target.value)}
-                  placeholder="Search categories & units..."
-                  className="w-full pl-8 pr-16 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] transition-all focus:shadow-[0_0_0_3px_var(--glow)]"
-                  aria-label="Search"
-                />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                  <kbd className="text-xs px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card2)] text-[var(--text2)] opacity-85 font-mono">⌘K</kbd>
-                  {searchQuery && (
-                    <button onClick={() => { setSearchQuery(''); setSearchResults([]) }}
-                      className="w-6 h-6 rounded-full flex items-center justify-center text-xs opacity-75 hover:opacity-100 transition-opacity" aria-label="Clear search">
-                      ✕
-                    </button>
-                  )}
-                </div>
-                {searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 glass rounded-xl overflow-hidden shadow-lg z-50 max-h-60 overflow-y-auto" role="listbox" tabIndex={0} aria-label="Search suggestions">
-                    {searchResults.map((r, i) => (
-                      <button key={i} role="option"
-                        onClick={() => { navigate(r.unit ? `/converter?cat=${r.cat}` : '/categories'); setSearchQuery('') }}
-                        className="block w-full text-left px-3 py-2 text-sm hover:bg-[var(--border)] transition-colors interact-lift">
-                        {r.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Right side actions */}
-              <div className="flex items-center gap-1">
-                <button onClick={toggleFocus}
-                  className={`p-2 rounded-xl hover:bg-[var(--border)] interact-lift text-sm transition-colors ${focusMode ? 'bg-[var(--primary-muted)]' : ''}`}
-                  aria-label={focusMode ? 'Disable focus mode' : 'Enable focus mode'}
-                  data-tooltip={focusMode ? 'Exit focus mode' : 'Focus mode'}>
-                  🎯
-                </button>
-                <button onClick={toggleDark}
-                  className="p-2 rounded-xl hover:bg-[var(--border)] interact-lift text-sm"
-                  aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}>
-                  {isDark ? '☀️' : '🌙'}
-                </button>
-              </div>
-            </div>
-          </header>
+          {/* Proper Nav matching user Image 1 */}
+          <Navbar
+            isDark={isDark}
+            onToggleDark={toggleDark}
+            onOpenCommandBar={() => setCommandBarOpen(true)}
+            onOpenSidebar={() => setSidebarOpen(true)}
+            scrolled={scrolled}
+          />
 
           {/* Gradient accent bar below header */}
           <div className="gradient-accent" />
@@ -348,6 +296,9 @@ function AppContent() {
                       <Route path="/calculator" element={<ConverterPage mode={mode} />} />
                       <Route path="/health" element={<Dashboard />} />
                       <Route path="/guides/:slug" element={<GuidePage />} />
+                      <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:slug" element={<BlogPost />} />
+                      <Route path="/about" element={<About />} />
                       <Route path="/sitemap" element={<Sitemap />} />
                     </Routes>
                   </motion.div>

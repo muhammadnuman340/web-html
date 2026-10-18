@@ -8,7 +8,7 @@ interface Props {
   schema?: Record<string, unknown>
 }
 
-const SITE = 'https://numanx-omega.netlify.app'
+const SITE = 'https://numanx-studio-omega-converter.netlify.app'
 
 const REGIONS = [
   'en', 'x-default',
