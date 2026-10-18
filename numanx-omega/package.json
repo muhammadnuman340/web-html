@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "bin": {
+    "omega-audit": "./scripts/audit-site.mjs",
+    "omega-history": "./scripts/manage-history.mjs"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/prerender-seo.mjs",
