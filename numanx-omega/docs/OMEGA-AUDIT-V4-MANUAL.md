@@ -75,12 +75,12 @@ flowchart TD
     N --> Q
     O --> Q
     P --> Q
-    Q --> R["Multi-Format Deliverables (audit-reports/)"]
-    R --> S["HTML Dashboard (Interactive)"]
-    R --> T["Branded PDF Report"]
-    R --> U["CSV Spreadsheet Export"]
-    R --> V["JSON Diagnostic Tree"]
-    R --> W["Append to history.jsonl"]
+    Q --> R["Multi-Format Deliverables in Dedicated Run Folder (audit-reports/omega-audit-<timestamp>/)"]
+    R --> S["HTML Dashboard (omega-audit-*.html & index.html)"]
+    R --> T["Branded PDF Report (omega-audit-*.pdf)"]
+    R --> U["CSV Spreadsheet Export (omega-audit-*.csv)"]
+    R --> V["JSON Diagnostic Tree (omega-audit-*.json)"]
+    R --> W["Master Run Index (audit-reports/history.jsonl)"]
 ```
 
 ---
