@@ -122,7 +122,9 @@ async function hostIsPublic(hostname) {
     if (net.isIP(hostname)) result = isPublicIp(hostname);
     else if (isLocalHostname(hostname)) result = false;
     else {
-      const rows = await dns.lookup(hostname, { all: true, verbatim: true });
+      const lookupPromise = dns.lookup(hostname, { all: true, verbatim: true });
+      const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('DNS lookup timeout')), 2500));
+      const rows = await Promise.race([lookupPromise, timeoutPromise]);
       result = rows.length > 0 && rows.every(row => isPublicIp(row.address));
     }
   } catch { result = false; }
@@ -1004,8 +1006,12 @@ async function main() {
     }));
     console.warn('⚠️ Auth headers loaded for the target origin only. Ensure the file is private; header values will not be added to reports.');
   }
-  attachInteractiveControls();
-  const browserArgs = ['--disable-dev-shm-usage', ...(CHROME_NO_SANDBOX ? ['--no-sandbox', '--disable-setuid-sandbox'] : [])];
+  const browserArgs = [
+    '--disable-dev-shm-usage',
+    '--no-proxy-server',
+    '--proxy-bypass-list=*',
+    ...(CHROME_NO_SANDBOX ? ['--no-sandbox', '--disable-setuid-sandbox'] : []),
+  ];
   const browser = await puppeteer.launch({ headless: true, args: browserArgs, ...(CHROME_PATH ? { executablePath: CHROME_PATH } : {}) });
   let report;
   try {
@@ -1079,7 +1085,7 @@ async function main() {
     }
     const files = await writeReports(report, { outputDir: OUTPUT_DIR, browser, branding: process.env.AUDIT_BRAND || 'NumanX / Omega Site Audit Pro' });
     console.log('\n✅ Audit run finished.');
-    console.log(`JSON: ${files.json}\nCSV:  ${files.csv}\nHTML: ${files.html}\nPDF:  ${files.pdf || `not generated${files.pdfError ? ` (${files.pdfError})` : ''}`}\nHistory: ${files.history}`);
+    console.log(`Folder:  ${files.folder}\nJSON:    ${files.json}\nCSV:     ${files.csv}\nHTML:    ${files.html}\nPDF:     ${files.pdf || `not generated${files.pdfError ? ` (${files.pdfError})` : ''}`}\nHistory: ${files.history}`);
     console.log(`Summary: ${pages.length} page(s), ${findings.length} findings, ${report.summary.failedPages} failed page(s), site health ${avg}/100 (heuristic).`);
     if (cancelRequested) process.exitCode = 2;
     else if (report.summary.failedPages > 0) process.exitCode = 1;

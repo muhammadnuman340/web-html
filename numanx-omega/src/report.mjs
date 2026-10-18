@@ -45,11 +45,14 @@ export async function writeReports(report, { outputDir, browser, branding = 'Num
   await fs.mkdir(outputDir, { recursive: true });
   const stamp = new Date().toISOString().replaceAll(':', '-');
   const base = `omega-audit-${stamp}`;
+  const runDir = path.join(outputDir, base);
+  await fs.mkdir(runDir, { recursive: true });
   const files = {
-    json: path.join(outputDir, `${base}.json`),
-    csv: path.join(outputDir, `${base}.csv`),
-    html: path.join(outputDir, `${base}.html`),
-    pdf: path.join(outputDir, `${base}.pdf`),
+    folder: runDir,
+    json: path.join(runDir, `${base}.json`),
+    csv: path.join(runDir, `${base}.csv`),
+    html: path.join(runDir, `${base}.html`),
+    pdf: path.join(runDir, `${base}.pdf`),
     history: path.join(outputDir, 'history.jsonl'),
   };
   const html = makeHtml(report, branding);
@@ -57,11 +60,13 @@ export async function writeReports(report, { outputDir, browser, branding = 'Num
     fs.writeFile(files.json, JSON.stringify(report, null, 2), 'utf8'),
     fs.writeFile(files.csv, makeCsv(report), 'utf8'),
     fs.writeFile(files.html, html, 'utf8'),
-    fs.appendFile(files.history, `${JSON.stringify({ timestamp: report.timestamp, siteUrl: report.siteUrl, version: report.version, summary: report.summary, jsonFile: path.basename(files.json), htmlFile: path.basename(files.html) })}\n`, 'utf8'),
+    fs.writeFile(path.join(runDir, 'index.html'), html, 'utf8'),
+    fs.appendFile(files.history, `${JSON.stringify({ timestamp: report.timestamp, siteUrl: report.siteUrl, version: report.version, summary: report.summary, folder: base, jsonFile: path.join(base, `${base}.json`), htmlFile: path.join(base, `${base}.html`) })}\n`, 'utf8'),
   ]);
-  if (browser) {
-    const page = await browser.newPage();
+  if (browser && typeof browser.newPage === 'function') {
+    let page;
     try {
+      page = await browser.newPage();
       const pdfPages = [...(report.pages || [])].sort((a, b) => {
         const rank = page => (page.issues || []).reduce((sum, issue) => sum + ({ critical: 100, high: 30, medium: 8, low: 2, info: 0 }[issue.severity] || 0), 0);
         return rank(b) - rank(a);
@@ -75,7 +80,9 @@ export async function writeReports(report, { outputDir, browser, branding = 'Num
     } catch (error) {
       files.pdf = null;
       files.pdfError = error.message;
-    } finally { await page.close().catch(() => {}); }
+    } finally {
+      if (page) await page.close().catch(() => {});
+    }
   }
   return files;
 }

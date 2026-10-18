@@ -91,12 +91,22 @@ try {
     else {
       const sourceDir = path.resolve(folder);
       const output = path.resolve(outputPath);
-      const names = (await fs.readdir(sourceDir)).filter(name => name.endsWith('.json') && !name.startsWith('omega-comparison-'));
       const reports = [];
-      for (const name of names) {
-        try { const value = JSON.parse(await fs.readFile(path.join(sourceDir, name), 'utf8')); if (Array.isArray(value.pages) && typeof value.siteUrl === 'string') reports.push(value); }
-        catch { /* ignore malformed/non-report JSON files; index separately */ }
+      async function collectReports(dir) {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            await collectReports(fullPath);
+          } else if (entry.isFile() && entry.name.endsWith('.json') && !entry.name.startsWith('omega-comparison-') && !entry.name.startsWith('history-bundle')) {
+            try {
+              const value = JSON.parse(await fs.readFile(fullPath, 'utf8'));
+              if (Array.isArray(value.pages) && typeof value.siteUrl === 'string') reports.push(value);
+            } catch { /* ignore non-report JSON */ }
+          }
+        }
       }
+      await collectReports(sourceDir);
       const bundle = { format: 'omega-site-audit-history-bundle', version: 1, exportedAt: new Date().toISOString(), reportCount: reports.length, reports };
       await fs.writeFile(output, JSON.stringify(bundle), 'utf8');
       console.log(`Exported ${reports.length} full report(s) to ${output}`);
