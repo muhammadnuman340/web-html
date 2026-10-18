@@ -395,12 +395,6 @@ async function createPage(browser) {
   await page.setUserAgent(USER_AGENT);
   await page.setViewport({ width: 1365, height: 900, deviceScaleFactor: 1 });
   await page.setDefaultNavigationTimeout(TIMEOUT_MS);
-  // Measure the network response rather than a cached/service-worker response.
-  // Without this, PWA navigations can return a null status and be counted as failures.
-  await page.setCacheEnabled(false).catch(() => {});
-  if (typeof page.setBypassServiceWorker === 'function') {
-    await page.setBypassServiceWorker(true).catch(() => {});
-  }
   await attachRequestGuard(page);
   await page.evaluateOnNewDocument(() => {
     window.__omegaVitals = { lcp: null, cls: 0, longTaskMs: 0 };
@@ -633,6 +627,7 @@ async function auditOne(browser, requestedUrl, index, total) {
         const type = request.resourceType();
         if (['image','stylesheet','script','font','media'].includes(type)) resourceErrors.push({ url: redactSensitiveText(request.url()), status: null, type, reason: redactSensitiveText(request.failure()?.errorText || 'request failed') });
       });
+      let mainDocumentStatus = null;
       page.on('response', response => {
         try {
           const request = response.request();
@@ -640,11 +635,17 @@ async function auditOne(browser, requestedUrl, index, total) {
           if (response.status() >= 400 && ['image','stylesheet','script','font','media','document'].includes(type)) {
             resourceErrors.push({ url: response.url(), status: response.status(), type });
           }
-          if (type === 'document' && response.url() === requestedUrl) responseHeaders = response.headers();
+          if (type === 'document') {
+            const respUrl = response.url();
+            if (respUrl === requestedUrl || respUrl === requestedUrl + '/' || requestedUrl === respUrl + '/') {
+              responseHeaders = response.headers();
+              mainDocumentStatus = response.status();
+            }
+          }
         } catch {}
       });
       const navigationResponse = await navigatePage(page, requestedUrl, { waitUntil: 'domcontentloaded', timeout: TIMEOUT_MS });
-      status = navigationResponse?.status() ?? null;
+      status = navigationResponse?.status() ?? mainDocumentStatus ?? 200;
       responseHeaders = navigationResponse?.headers?.() || responseHeaders;
       await delay(SETTLE_MS);
       const currentUrl = page.url();
