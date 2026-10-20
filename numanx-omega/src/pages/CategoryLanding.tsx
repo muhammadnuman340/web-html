@@ -5,7 +5,6 @@ import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
 import { getCategoryStandards } from '../engine/categoryStandards'
 import UniversalConverter from '../components/converter/UniversalConverter'
-import AdSense from '../components/widgets/AdSense'
 import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
 import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
 import CategorySpecialWidget from '../components/category/special/CategorySpecialWidget'
@@ -172,11 +171,6 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </section>
       )}
 
-      {/* Ad */}
-      <div className="flex justify-center">
-        <AdSense slot="2750064252" format="fluid" layout="in-article" />
-      </div>
-
       {/* Embedded Primary Universal Converter */}
       <section aria-labelledby="convert-heading">
         <h2 id="convert-heading" className="text-sm font-bold mb-2 text-[var(--text)] flex items-center gap-2">
@@ -232,11 +226,6 @@ export default function CategoryLanding({ categorySlug }: Props) {
           ))}
         </ul>
       </section>
-
-      {/* Ad */}
-      <div className="flex justify-center">
-        <AdSense slot="6553577897" width={320} height={100} />
-      </div>
 
       {/* Accessible Interactive FAQ Accordion */}
       {content.faq && content.faq.length > 0 && (
@@ -304,11 +293,6 @@ export default function CategoryLanding({ categorySlug }: Props) {
           ))}
         </div>
       </section>
-
-      {/* Matched content */}
-      <div className="pt-2">
-        <AdSense slot="9262290267" format="autorelaxed" />
-      </div>
     </article>
   )
 }

@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import SmartSuggestions from '../widgets/SmartSuggestions'
 import { MODES } from '../widgets/ModeSwitcher'
-import AdSense from '../widgets/AdSense'
 import type { AppMode } from '../widgets/ModeSwitcher'
 
 interface Props {
@@ -196,9 +195,6 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           <SmartSuggestions visible={true} onApplyPair={onApplyPair} />
         </div>
 
-        <div className="mt-4 px-3">
-          <AdSense slot="3115913228" format="auto" />
-        </div>
         <div className="mt-auto pt-4 text-center text-xs text-[var(--text2)] opacity-70">
           NumanX Studios &copy; 2026
         </div>

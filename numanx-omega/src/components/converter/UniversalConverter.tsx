@@ -11,7 +11,6 @@ import type { AppMode } from '../widgets/ModeSwitcher'
 import { useToast } from '../../hooks/useToast'
 import { useClipboardDetection } from '../../hooks/useClipboard'
 import { toggleFavorite, getFavorites } from '../../services/storage'
-import AdSense from '../widgets/AdSense'
 import { findVisualContext } from '../../engine/visualContext'
 import AIPredictions from '../widgets/AIPredictions'
 import AIQuickActions from '../widgets/AIQuickActions'
@@ -1063,11 +1062,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </motion.div>
       )}
 
-      {/* In-article fluid ad */}
-      <div className="flex justify-center my-2">
-        <AdSense slot="2750064252" format="fluid" layout="in-article" />
-      </div>
-
       {/* Batch mode */}
       {batchMode && (
         <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
@@ -1132,11 +1126,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
-      {/* Below multipliers ad */}
-      <div className="flex justify-center">
-        <AdSense slot="6553577897" width={320} height={100} />
-      </div>
-
       {/* Precision */}
       {mode !== 'fast' && !chainMode && (
         <div className="flex items-center gap-3">
@@ -1180,11 +1169,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
         </div>
       )}
-
-      {/* Matched content / autorelaxed */}
-      <div className="pt-4">
-        <AdSense slot="9262290267" format="autorelaxed" />
-      </div>
     </div>
   )
 }

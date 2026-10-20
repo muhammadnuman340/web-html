@@ -2,7 +2,6 @@ import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { guideContent } from '../engine/guideContent'
 import UniversalConverter from '../components/converter/UniversalConverter'
-import AdSense from '../components/widgets/AdSense'
 
 export default function GuidePage() {
   const { slug } = useParams<{ slug: string }>()
@@ -75,11 +74,6 @@ export default function GuidePage() {
         </div>
       </section>
 
-      {/* Ad */}
-      <div className="flex justify-center">
-        <AdSense slot="2750064252" format="fluid" layout="in-article" />
-      </div>
-
       {/* Formula */}
       <section aria-labelledby="formula-heading" className="glass rounded-2xl p-4">
         <h2 id="formula-heading" className="text-sm font-semibold mb-2">Conversion Formula</h2>
@@ -133,11 +127,6 @@ export default function GuidePage() {
         </ul>
       </section>
 
-      {/* Ad */}
-      <div className="flex justify-center">
-        <AdSense slot="6553577897" width={320} height={100} />
-      </div>
-
       {/* FAQ */}
       <section aria-labelledby="faq-heading" className="glass rounded-2xl p-4">
         <h2 id="faq-heading" className="text-sm font-semibold mb-3">Frequently Asked Questions</h2>
@@ -167,11 +156,6 @@ export default function GuidePage() {
           </Link>
         </div>
       </section>
-
-      {/* Matched content */}
-      <div className="pt-2">
-        <AdSense slot="9262290267" format="autorelaxed" />
-      </div>
     </article>
   )
 }
