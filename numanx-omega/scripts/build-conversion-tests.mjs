@@ -31,6 +31,16 @@ await esbuild.build({
 console.log('✅ Built tests/seo.test.mjs successfully.')
 
 await esbuild.build({
+  entryPoints: ['tests/pwa.test.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'tests/pwa.test.mjs'
+})
+console.log('✅ Built tests/pwa.test.mjs successfully.')
+
+await esbuild.build({
   entryPoints: ['scripts/generate-sitemap.ts'],
   bundle: true,
   platform: 'node',
@@ -39,4 +49,3 @@ await esbuild.build({
   outfile: 'scripts/generate-sitemap.mjs'
 })
 console.log('✅ Built scripts/generate-sitemap.mjs successfully.')
-

@@ -17,10 +17,11 @@
     "audit": "node scripts/audit-site.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",
-    "test": "node --test tests/core.test.mjs tests/report.test.mjs && node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs tests/routing.test.mjs tests/seo.test.mjs",
+    "test": "node --test tests/core.test.mjs tests/report.test.mjs && node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs tests/routing.test.mjs tests/seo.test.mjs tests/pwa.test.mjs",
     "test:conversion": "node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs",
     "test:routing": "node scripts/build-conversion-tests.mjs && node --test tests/routing.test.mjs",
     "test:seo": "node scripts/build-conversion-tests.mjs && node --test tests/seo.test.mjs",
+    "test:pwa": "node scripts/build-conversion-tests.mjs && node --test tests/pwa.test.mjs",
     "test:audit": "node --test tests/core.test.mjs tests/report.test.mjs"
   },
   "dependencies": {

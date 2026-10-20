@@ -1,27 +1,67 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+export interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[]
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed'
+    platform: string
+  }>
+  prompt(): Promise<void>
+}
+
 export default function InstallPWA() {
-  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [show, setShow] = useState(false)
-  const [dismissed, setDismissed] = useState(false)
+  const [dismissed, setDismissed] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true
+    )
+  })
 
   useEffect(() => {
+    if (dismissed) return
+
+    let timerId: ReturnType<typeof setTimeout> | undefined
+
     const handler = (e: Event) => {
       e.preventDefault()
-      setDeferredPrompt(e)
-      setTimeout(() => setShow(true), 5000)
+      setDeferredPrompt(e as BeforeInstallPromptEvent)
+      timerId = setTimeout(() => setShow(true), 5000)
     }
+
+    const appInstalledHandler = () => {
+      setShow(false)
+      setDismissed(true)
+      setDeferredPrompt(null)
+    }
+
     window.addEventListener('beforeinstallprompt', handler)
-    return () => window.removeEventListener('beforeinstallprompt', handler)
-  }, [])
+    window.addEventListener('appinstalled', appInstalledHandler)
+
+    return () => {
+      if (timerId) clearTimeout(timerId)
+      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', appInstalledHandler)
+    }
+  }, [dismissed])
 
   const install = async () => {
     if (!deferredPrompt) return
-    deferredPrompt.prompt()
-    const result = await deferredPrompt.userChoice
-    if (result.outcome === 'accepted') { setShow(false); setDismissed(true) }
-    setDeferredPrompt(null)
+    try {
+      await deferredPrompt.prompt()
+      const result = await deferredPrompt.userChoice
+      if (result.outcome === 'accepted') {
+        setShow(false)
+        setDismissed(true)
+      }
+    } catch (err) {
+      console.warn('PWA install prompt failed:', err)
+    } finally {
+      setDeferredPrompt(null)
+    }
   }
 
   return (
