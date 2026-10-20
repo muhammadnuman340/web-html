@@ -31,23 +31,23 @@ export const SITE = {
   name: 'Omega X',
   fullName: 'Omega X Converter',
   organization: 'NumanX Studio',
-  url: getSiteUrl(),
+  url: `${getSiteUrl()}/`,
   defaultTitle: 'Omega X Converter — Universal Unit & Currency Calculator',
   defaultDescription:
     'Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.',
-  twitterHandle: '@numanx',
   license: 'https://creativecommons.org/licenses/by/4.0/',
 }
 
 /**
  * Normalizes a path into a clean, URL-safe path with a leading slash.
+ * Returns '/' for the root route.
  */
 export function normalizePath(path = ''): string {
-  if (!path || path === '/') return ''
+  if (!path || path.trim() === '' || path.trim() === '/') return '/'
   const trimmed = path.trim()
   const withLeading = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
   const collapsed = withLeading.replace(/\/+/g, '/')
-  return collapsed === '/' ? '' : collapsed.replace(/\/+$/, '')
+  return collapsed === '/' ? '/' : collapsed.replace(/\/+$/, '')
 }
 
 /**
@@ -57,7 +57,7 @@ export function normalizePath(path = ''): string {
 export function absoluteUrl(path = ''): string {
   const base = getSiteUrl()
   const normalized = normalizePath(path)
-  return `${base}${normalized}`
+  return normalized === '/' ? `${base}/` : `${base}${normalized}`
 }
 
 /**

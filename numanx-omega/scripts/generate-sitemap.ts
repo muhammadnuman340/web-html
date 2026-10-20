@@ -61,10 +61,13 @@ export function generateSitemapEntries(): SitemapEntry[] {
     const content = categoryContent[cat.id]
     if (content?.popularPairs) {
       for (const pair of content.popularPairs) {
-        const fromSlug = pair.from.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-')
-        const toSlug = pair.to.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-')
-        const pairParam = `${fromSlug}-to-${toSlug}`
-        add(`/convert/${cat.id}/${pairParam}`, '0.75', 'monthly')
+        const cleanSlug = (s: string) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+        const fromSlug = cleanSlug(pair.from)
+        const toSlug = cleanSlug(pair.to)
+        if (fromSlug && toSlug) {
+          const pairParam = `${fromSlug}-to-${toSlug}`
+          add(`/convert/${cat.id}/${pairParam}`, '0.75', 'monthly')
+        }
       }
     }
   }

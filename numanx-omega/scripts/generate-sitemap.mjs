@@ -437,23 +437,22 @@ var SITE = {
   name: "Omega X",
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
-  url: getSiteUrl(),
+  url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
   defaultDescription: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
-  twitterHandle: "@numanx",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
-  if (!path2 || path2 === "/") return "";
+  if (!path2 || path2.trim() === "" || path2.trim() === "/") return "/";
   const trimmed = path2.trim();
   const withLeading = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
   const collapsed = withLeading.replace(/\/+/g, "/");
-  return collapsed === "/" ? "" : collapsed.replace(/\/+$/, "");
+  return collapsed === "/" ? "/" : collapsed.replace(/\/+$/, "");
 }
 function absoluteUrl(path2 = "") {
   const base = getSiteUrl();
   const normalized = normalizePath(path2);
-  return `${base}${normalized}`;
+  return normalized === "/" ? `${base}/` : `${base}${normalized}`;
 }
 function canonicalUrl(path2 = "") {
   const normalized = normalizePath(path2);
@@ -1532,10 +1531,13 @@ function generateSitemapEntries() {
     const content = categoryContent[cat.id];
     if (content?.popularPairs) {
       for (const pair of content.popularPairs) {
-        const fromSlug = pair.from.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        const toSlug = pair.to.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        const pairParam = `${fromSlug}-to-${toSlug}`;
-        add(`/convert/${cat.id}/${pairParam}`, "0.75", "monthly");
+        const cleanSlug = (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        const fromSlug = cleanSlug(pair.from);
+        const toSlug = cleanSlug(pair.to);
+        if (fromSlug && toSlug) {
+          const pairParam = `${fromSlug}-to-${toSlug}`;
+          add(`/convert/${cat.id}/${pairParam}`, "0.75", "monthly");
+        }
       }
     }
   }

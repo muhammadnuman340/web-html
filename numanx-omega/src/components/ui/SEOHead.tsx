@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { SITE, canonicalUrl } from '../../config/site'
+import { SITE, canonicalUrl, isIndexablePath } from '../../config/site'
 
 interface Props {
   title: string
@@ -9,9 +9,10 @@ interface Props {
   schema?: Record<string, unknown> | null
 }
 
-export default function SEOHead({ title, description, path = '', noindex = false, schema }: Props) {
+export default function SEOHead({ title, description, path = '', noindex, schema }: Props) {
   const fullTitle = title.includes('—') || title.includes('|') ? title : `${title} | Omega X Converter`
   const targetCanonical = canonicalUrl(path)
+  const isNoindex = noindex !== undefined ? noindex : !isIndexablePath(path)
 
   useEffect(() => {
     // 1. Document Title
@@ -42,7 +43,7 @@ export default function SEOHead({ title, description, path = '', noindex = false
       metaRobots.name = 'robots'
       document.head.appendChild(metaRobots)
     }
-    metaRobots.content = noindex ? 'noindex, follow' : 'index, follow'
+    metaRobots.content = isNoindex ? 'noindex, follow' : 'index, follow'
 
     // 5. OpenGraph Tags
     const setMeta = (property: string, content: string) => {
@@ -94,7 +95,7 @@ export default function SEOHead({ title, description, path = '', noindex = false
       const existingScript = document.getElementById('omega-page-schema')
       if (existingScript) existingScript.remove()
     }
-  }, [fullTitle, targetCanonical, description, noindex, schema])
+  }, [fullTitle, targetCanonical, description, isNoindex, schema])
 
   return null
 }

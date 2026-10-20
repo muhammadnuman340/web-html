@@ -1,12 +1,8 @@
 User-agent: *
 Allow: /
 
-# Private / Local User State
+# Prevent crawling of internal infrastructure configuration
 Disallow: /_redirects
-Disallow: /dashboard
-Disallow: /favorites
-Disallow: /history
-Disallow: /settings
-Disallow: /custom-units
 
 Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
+

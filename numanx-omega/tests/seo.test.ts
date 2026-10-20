@@ -31,31 +31,41 @@ import { generateSitemapEntries, buildSitemapXml } from '../scripts/generate-sit
 describe('SEO Architecture: Site Identity & Authoritative Origin', () => {
   it('enforces live Netlify domain as authoritative origin', () => {
     assert.equal(DEFAULT_SITE_URL, 'https://numanx-studio-omega-converter.netlify.app')
-    assert.equal(SITE.url, 'https://numanx-studio-omega-converter.netlify.app')
+    assert.equal(SITE.url, 'https://numanx-studio-omega-converter.netlify.app/')
     assert.equal(getSiteUrl(), 'https://numanx-studio-omega-converter.netlify.app')
   })
 
-  it('normalizes paths without double slashes or trailing slashes', () => {
-    assert.equal(normalizePath(''), '')
-    assert.equal(normalizePath('/'), '')
+  it('normalizes paths without double slashes or trailing slashes, preserving root /', () => {
+    assert.equal(normalizePath(''), '/')
+    assert.equal(normalizePath('/'), '/')
     assert.equal(normalizePath('converter'), '/converter')
     assert.equal(normalizePath('/converter/'), '/converter')
     assert.equal(normalizePath('//convert//length//'), '/convert/length')
   })
 
-  it('generates pristine absolute URLs', () => {
-    assert.equal(absoluteUrl('/'), 'https://numanx-studio-omega-converter.netlify.app')
-    assert.equal(absoluteUrl(''), 'https://numanx-studio-omega-converter.netlify.app')
+  it('generates pristine absolute URLs with proper trailing slash on root', () => {
+    assert.equal(absoluteUrl('/'), 'https://numanx-studio-omega-converter.netlify.app/')
+    assert.equal(absoluteUrl(''), 'https://numanx-studio-omega-converter.netlify.app/')
     assert.equal(absoluteUrl('/converter'), 'https://numanx-studio-omega-converter.netlify.app/converter')
     assert.equal(absoluteUrl('categories'), 'https://numanx-studio-omega-converter.netlify.app/categories')
   })
 })
 
 describe('SEO Architecture: Canonical URL & Alias Resolution', () => {
-  it('resolves home and static core routes to themselves', () => {
-    assert.equal(canonicalUrl('/'), 'https://numanx-studio-omega-converter.netlify.app')
+  it('resolves home to trailing slash origin and static core routes without double slashes', () => {
+    assert.equal(canonicalUrl('/'), 'https://numanx-studio-omega-converter.netlify.app/')
+    assert.equal(canonicalUrl(''), 'https://numanx-studio-omega-converter.netlify.app/')
     assert.equal(canonicalUrl('/categories'), 'https://numanx-studio-omega-converter.netlify.app/categories')
     assert.equal(canonicalUrl('/blog'), 'https://numanx-studio-omega-converter.netlify.app/blog')
+  })
+
+  it('verifies explicit canonical examples specified in Step 4 specification', () => {
+    assert.equal(canonicalUrl('/'), 'https://numanx-studio-omega-converter.netlify.app/')
+    assert.equal(canonicalUrl('/length'), 'https://numanx-studio-omega-converter.netlify.app/convert/length')
+    assert.equal(canonicalUrl('/length-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/length')
+    assert.equal(canonicalUrl('/temperature'), 'https://numanx-studio-omega-converter.netlify.app/convert/temp')
+    assert.equal(canonicalUrl('/weight'), 'https://numanx-studio-omega-converter.netlify.app/convert/mass')
+    assert.equal(canonicalUrl('/convert/length/meter-to-feet'), 'https://numanx-studio-omega-converter.netlify.app/convert/length/meter-to-feet')
   })
 
   it('resolves canonical category routes to /convert/:id for all 24 categories', () => {
@@ -125,17 +135,20 @@ describe('SEO Architecture: Indexability & Robots Policy', () => {
     assert.equal(isIndexablePath('/help'), false)
   })
 
-  it('matches public/robots.txt disallow rules with noindex policy', () => {
+  it('allows crawling of application pages so noindex, follow can be observed by search engines', () => {
     const robotsPath = path.resolve(process.cwd(), 'public/robots.txt')
     assert.ok(fs.existsSync(robotsPath), 'public/robots.txt must exist')
     const content = fs.readFileSync(robotsPath, 'utf-8')
 
     assert.ok(content.includes('Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml'))
-    assert.ok(content.includes('Disallow: /dashboard'))
-    assert.ok(content.includes('Disallow: /favorites'))
-    assert.ok(content.includes('Disallow: /history'))
-    assert.ok(content.includes('Disallow: /settings'))
-    assert.ok(content.includes('Disallow: /custom-units'))
+    assert.ok(content.includes('Disallow: /_redirects'))
+
+    // App routes with noindex must NOT be disallowed in robots.txt so crawlers can read the noindex tag
+    assert.ok(!content.includes('Disallow: /dashboard'))
+    assert.ok(!content.includes('Disallow: /favorites'))
+    assert.ok(!content.includes('Disallow: /history'))
+    assert.ok(!content.includes('Disallow: /settings'))
+    assert.ok(!content.includes('Disallow: /custom-units'))
   })
 })
 
@@ -149,8 +162,8 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
       assert.ok(!seen.has(e.loc), `Duplicate loc found in sitemap: ${e.loc}`)
       seen.add(e.loc)
       assert.ok(
-        e.loc.startsWith('https://numanx-studio-omega-converter.netlify.app'),
-        `Loc must use authoritative origin: ${e.loc}`
+        e.loc.startsWith('https://numanx-studio-omega-converter.netlify.app/'),
+        `Loc must begin with authoritative origin with trailing slash: ${e.loc}`
       )
     }
 

@@ -439,23 +439,22 @@ var SITE = {
   name: "Omega X",
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
-  url: getSiteUrl(),
+  url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
   defaultDescription: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
-  twitterHandle: "@numanx",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path3 = "") {
-  if (!path3 || path3 === "/") return "";
+  if (!path3 || path3.trim() === "" || path3.trim() === "/") return "/";
   const trimmed = path3.trim();
   const withLeading = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
   const collapsed = withLeading.replace(/\/+/g, "/");
-  return collapsed === "/" ? "" : collapsed.replace(/\/+$/, "");
+  return collapsed === "/" ? "/" : collapsed.replace(/\/+$/, "");
 }
 function absoluteUrl(path3 = "") {
   const base = getSiteUrl();
   const normalized = normalizePath(path3);
-  return `${base}${normalized}`;
+  return normalized === "/" ? `${base}/` : `${base}${normalized}`;
 }
 function canonicalUrl(path3 = "") {
   const normalized = normalizePath(path3);
@@ -1538,10 +1537,13 @@ function generateSitemapEntries() {
     const content = categoryContent[cat.id];
     if (content?.popularPairs) {
       for (const pair of content.popularPairs) {
-        const fromSlug = pair.from.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        const toSlug = pair.to.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        const pairParam = `${fromSlug}-to-${toSlug}`;
-        add(`/convert/${cat.id}/${pairParam}`, "0.75", "monthly");
+        const cleanSlug = (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        const fromSlug = cleanSlug(pair.from);
+        const toSlug = cleanSlug(pair.to);
+        if (fromSlug && toSlug) {
+          const pairParam = `${fromSlug}-to-${toSlug}`;
+          add(`/convert/${cat.id}/${pairParam}`, "0.75", "monthly");
+        }
       }
     }
   }
@@ -1590,28 +1592,37 @@ run();
 describe("SEO Architecture: Site Identity & Authoritative Origin", () => {
   it("enforces live Netlify domain as authoritative origin", () => {
     assert.equal(DEFAULT_SITE_URL, "https://numanx-studio-omega-converter.netlify.app");
-    assert.equal(SITE.url, "https://numanx-studio-omega-converter.netlify.app");
+    assert.equal(SITE.url, "https://numanx-studio-omega-converter.netlify.app/");
     assert.equal(getSiteUrl(), "https://numanx-studio-omega-converter.netlify.app");
   });
-  it("normalizes paths without double slashes or trailing slashes", () => {
-    assert.equal(normalizePath(""), "");
-    assert.equal(normalizePath("/"), "");
+  it("normalizes paths without double slashes or trailing slashes, preserving root /", () => {
+    assert.equal(normalizePath(""), "/");
+    assert.equal(normalizePath("/"), "/");
     assert.equal(normalizePath("converter"), "/converter");
     assert.equal(normalizePath("/converter/"), "/converter");
     assert.equal(normalizePath("//convert//length//"), "/convert/length");
   });
-  it("generates pristine absolute URLs", () => {
-    assert.equal(absoluteUrl("/"), "https://numanx-studio-omega-converter.netlify.app");
-    assert.equal(absoluteUrl(""), "https://numanx-studio-omega-converter.netlify.app");
+  it("generates pristine absolute URLs with proper trailing slash on root", () => {
+    assert.equal(absoluteUrl("/"), "https://numanx-studio-omega-converter.netlify.app/");
+    assert.equal(absoluteUrl(""), "https://numanx-studio-omega-converter.netlify.app/");
     assert.equal(absoluteUrl("/converter"), "https://numanx-studio-omega-converter.netlify.app/converter");
     assert.equal(absoluteUrl("categories"), "https://numanx-studio-omega-converter.netlify.app/categories");
   });
 });
 describe("SEO Architecture: Canonical URL & Alias Resolution", () => {
-  it("resolves home and static core routes to themselves", () => {
-    assert.equal(canonicalUrl("/"), "https://numanx-studio-omega-converter.netlify.app");
+  it("resolves home to trailing slash origin and static core routes without double slashes", () => {
+    assert.equal(canonicalUrl("/"), "https://numanx-studio-omega-converter.netlify.app/");
+    assert.equal(canonicalUrl(""), "https://numanx-studio-omega-converter.netlify.app/");
     assert.equal(canonicalUrl("/categories"), "https://numanx-studio-omega-converter.netlify.app/categories");
     assert.equal(canonicalUrl("/blog"), "https://numanx-studio-omega-converter.netlify.app/blog");
+  });
+  it("verifies explicit canonical examples specified in Step 4 specification", () => {
+    assert.equal(canonicalUrl("/"), "https://numanx-studio-omega-converter.netlify.app/");
+    assert.equal(canonicalUrl("/length"), "https://numanx-studio-omega-converter.netlify.app/convert/length");
+    assert.equal(canonicalUrl("/length-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/length");
+    assert.equal(canonicalUrl("/temperature"), "https://numanx-studio-omega-converter.netlify.app/convert/temp");
+    assert.equal(canonicalUrl("/weight"), "https://numanx-studio-omega-converter.netlify.app/convert/mass");
+    assert.equal(canonicalUrl("/convert/length/meter-to-feet"), "https://numanx-studio-omega-converter.netlify.app/convert/length/meter-to-feet");
   });
   it("resolves canonical category routes to /convert/:id for all 24 categories", () => {
     const categories = getAllCategories();
@@ -1664,16 +1675,17 @@ describe("SEO Architecture: Indexability & Robots Policy", () => {
     assert.equal(isIndexablePath("/custom-units"), false);
     assert.equal(isIndexablePath("/help"), false);
   });
-  it("matches public/robots.txt disallow rules with noindex policy", () => {
+  it("allows crawling of application pages so noindex, follow can be observed by search engines", () => {
     const robotsPath = path2.resolve(process.cwd(), "public/robots.txt");
     assert.ok(fs2.existsSync(robotsPath), "public/robots.txt must exist");
     const content = fs2.readFileSync(robotsPath, "utf-8");
     assert.ok(content.includes("Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml"));
-    assert.ok(content.includes("Disallow: /dashboard"));
-    assert.ok(content.includes("Disallow: /favorites"));
-    assert.ok(content.includes("Disallow: /history"));
-    assert.ok(content.includes("Disallow: /settings"));
-    assert.ok(content.includes("Disallow: /custom-units"));
+    assert.ok(content.includes("Disallow: /_redirects"));
+    assert.ok(!content.includes("Disallow: /dashboard"));
+    assert.ok(!content.includes("Disallow: /favorites"));
+    assert.ok(!content.includes("Disallow: /history"));
+    assert.ok(!content.includes("Disallow: /settings"));
+    assert.ok(!content.includes("Disallow: /custom-units"));
   });
 });
 describe("SEO Architecture: XML Sitemap Generator", () => {
@@ -1685,8 +1697,8 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
       assert.ok(!seen.has(e.loc), `Duplicate loc found in sitemap: ${e.loc}`);
       seen.add(e.loc);
       assert.ok(
-        e.loc.startsWith("https://numanx-studio-omega-converter.netlify.app"),
-        `Loc must use authoritative origin: ${e.loc}`
+        e.loc.startsWith("https://numanx-studio-omega-converter.netlify.app/"),
+        `Loc must begin with authoritative origin with trailing slash: ${e.loc}`
       );
     }
     const xml = buildSitemapXml(entries);
