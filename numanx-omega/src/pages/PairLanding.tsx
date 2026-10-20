@@ -1,25 +1,34 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt, parseSmart } from '../utils/numbers'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useToast } from '../hooks/useToast'
+import { resolveCategoryId } from '../engine/routes'
+import { canonicalUrl } from '../config/site'
 import type { CategoryDef, UnitDef } from '../types'
 
 function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
   const q = raw.trim().toLowerCase()
+  const qSpaced = q.replace(/-/g, ' ')
   // Clean plural 's' or 'es'
   const singular = q.endsWith('ies') ? q.slice(0, -3) + 'y' :
                    q.endsWith('es') ? q.slice(0, -2) :
                    q.endsWith('s') ? q.slice(0, -1) : q
+  const singularSpaced = qSpaced.endsWith('ies') ? qSpaced.slice(0, -3) + 'y' :
+                         qSpaced.endsWith('es') ? qSpaced.slice(0, -2) :
+                         qSpaced.endsWith('s') ? qSpaced.slice(0, -1) : qSpaced
 
   return cat.un.find(u => {
     const uid = u.id.toLowerCase()
     const ulb = u.lb.toLowerCase()
-    if (uid === q || ulb === q) return true
-    if (uid === singular || ulb === singular) return true
-    if (u.al?.some(a => a.toLowerCase() === q || a.toLowerCase() === singular)) return true
+    if (uid === q || ulb === q || uid === qSpaced || ulb === qSpaced) return true
+    if (uid === singular || ulb === singular || uid === singularSpaced || ulb === singularSpaced) return true
+    if (u.al?.some(a => {
+      const alLower = a.toLowerCase()
+      return alLower === q || alLower === qSpaced || alLower === singular || alLower === singularSpaced
+    })) return true
     return false
   })
 }
@@ -47,7 +56,8 @@ export default function PairLanding() {
 
     // If category was specified in URL, check that first
     if (catParam) {
-      const cat = allCats.find(c => c.id.toLowerCase() === catParam.toLowerCase())
+      const resolvedCatId = resolveCategoryId(catParam) || catParam.toLowerCase()
+      const cat = allCats.find(c => c.id.toLowerCase() === resolvedCatId)
       if (cat) {
         const u1 = findUnit(cat, fromSlug)
         const u2 = findUnit(cat, toSlug)
@@ -87,96 +97,86 @@ export default function PairLanding() {
     return convert(1, resolution.cat.id, resolution.u2.id, resolution.u1.id)
   }, [resolution])
 
-  if (!resolution) {
-    return (
-      <div className="text-center py-16 space-y-4">
-        <div className="text-4xl" role="img" aria-hidden="true">🔍</div>
-        <h1 className="text-xl font-bold text-[var(--text)]">Conversion Pair Not Found</h1>
-        <p className="text-xs text-[var(--text2)] max-w-md mx-auto">
-          We couldn't resolve the pair "{pairParam}". Please select a category to find your units.
-        </p>
-        <Link
-          to="/categories"
-          className="inline-block px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all"
-        >
-          Browse All Categories
-        </Link>
-      </div>
-    )
-  }
-
-  const { cat, u1, u2 } = resolution
+  const cat = resolution?.cat
+  const u1 = resolution?.u1
+  const u2 = resolution?.u2
 
   // Table increments
   const tableValues = [1, 2, 3, 5, 10, 15, 20, 25, 50, 75, 100, 250, 500, 1000]
 
   const handleSwap = () => {
+    if (!cat || !u1 || !u2) return
     navigate(`/convert/${cat.id}/${u2.id.toLowerCase()}-to-${u1.id.toLowerCase()}`)
   }
 
   const handleCopy = () => {
-    if (convertedValue === null) return
+    if (convertedValue === null || !u1 || !u2) return
     const text = `${fromValue} ${u1.lb} = ${fmt(convertedValue, 6)} ${u2.lb}`
     navigator.clipboard.writeText(text)
     showToast('Copied to clipboard!', 'success')
   }
 
-  const pageTitle = `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})`
-  const metaDescription = `Free online ${u1.lb} to ${u2.lb} converter. 1 ${u1.lb} = ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${u2.lb}. Includes live calculator, exact formula, and 1 to 100 conversion chart.`
+  const pageTitle = u1 && u2 ? `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})` : ''
+  const metaDescription = u1 && u2 ? `Free online ${u1.lb} to ${u2.lb} converter. 1 ${u1.lb} = ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${u2.lb}. Includes live calculator, exact formula, and 1 to 100 conversion chart.` : ''
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'WebApplication',
-        '@id': `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}#software`,
-        name: `${u1.lb} to ${u2.lb} Precision Calculator`,
-        url: `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}`,
-        description: metaDescription,
-        applicationCategory: 'UtilitiesApplication',
-        operatingSystem: 'All',
-        offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        '@id': `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}#breadcrumb`,
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
-          { '@type': 'ListItem', position: 2, name: 'Categories', item: 'https://numanx-studio-omega-converter.netlify.app/categories' },
-          { '@type': 'ListItem', position: 3, name: cat.lb, item: `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}` },
-          { '@type': 'ListItem', position: 4, name: `${u1.lb} to ${u2.lb}`, item: `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}` },
-        ],
-      },
-      {
-        '@type': 'FAQPage',
-        '@id': `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}#faq`,
-        mainEntity: [
-          {
-            '@type': 'Question',
-            name: `How many ${u2.lb} in 1 ${u1.lb}?`,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: `1 ${u1.lb} (${u1.id}) is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ''} ${u2.lb} (${u2.id}).`,
+  const schema = useMemo(() => {
+    if (!cat || !u1 || !u2) return null
+    const pageUrl = canonicalUrl(`/convert/${cat.id}/${pairParam}`)
+    return {
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebApplication',
+          '@id': `${pageUrl}#software`,
+          name: `${u1.lb} to ${u2.lb} Precision Calculator`,
+          url: pageUrl,
+          description: metaDescription,
+          applicationCategory: 'UtilitiesApplication',
+          operatingSystem: 'All',
+          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          '@id': `${pageUrl}#breadcrumb`,
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'Categories', item: canonicalUrl('/categories') },
+            { '@type': 'ListItem', position: 3, name: cat.lb, item: canonicalUrl(`/convert/${cat.id}`) },
+            { '@type': 'ListItem', position: 4, name: `${u1.lb} to ${u2.lb}`, item: pageUrl },
+          ],
+        },
+        {
+          '@type': 'FAQPage',
+          '@id': `${pageUrl}#faq`,
+          mainEntity: [
+            {
+              '@type': 'Question',
+              name: `How many ${u2.lb} in 1 ${u1.lb}?`,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: `1 ${u1.lb} (${u1.id}) is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ''} ${u2.lb} (${u2.id}).`,
+              },
             },
-          },
-          {
-            '@type': 'Question',
-            name: `How to convert ${u1.lb} to ${u2.lb}?`,
-            acceptedAnswer: {
-              '@type': 'Answer',
-              text: `To convert from ${u1.lb} to ${u2.lb}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : 'the conversion factor'}.`,
+            {
+              '@type': 'Question',
+              name: `How to convert ${u1.lb} to ${u2.lb}?`,
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: `To convert from ${u1.lb} to ${u2.lb}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : 'the conversion factor'}.`,
+              },
             },
-          },
-        ],
-      },
-    ],
-  }
+          ],
+        },
+      ],
+    }
+  }, [cat, u1, u2, pairParam, metaDescription, unitRatio])
 
   const handlePrint = () => {
     window.print()
   }
 
   const handleDownloadCSV = () => {
+    if (!cat || !u1 || !u2) return
     const header = `"${u1.lb} (${u1.id})","${u2.lb} (${u2.id})","Reciprocal ${u2.id}","Reciprocal ${u1.id}"\n`
     const body = tableValues.map(v => {
       const resFwd = convert(v, cat.id, u1.id, u2.id)
@@ -195,40 +195,23 @@ export default function PairLanding() {
     showToast('Downloaded CSV Table!', 'success')
   }
 
-  useEffect(() => {
-    if (!cat || !u1 || !u2) return
-
-    const pageUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}/${pairParam}`
-    document.title = `${pageTitle} | Omega X Converter`
-
-    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta')
-      metaDesc.name = 'description'
-      document.head.appendChild(metaDesc)
-    }
-    metaDesc.content = metaDescription
-
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
-    if (!canonical) {
-      canonical = document.createElement('link')
-      canonical.rel = 'canonical'
-      document.head.appendChild(canonical)
-    }
-    canonical.href = pageUrl
-
-    document.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove())
-
-    const script = document.createElement('script')
-    script.type = 'application/ld+json'
-    script.id = 'omega-unified-schema'
-    script.textContent = JSON.stringify(schema)
-    document.head.appendChild(script)
-
-    return () => {
-      script.remove()
-    }
-  }, [cat, u1, u2, pairParam, pageTitle, metaDescription, schema])
+  if (!resolution || !cat || !u1 || !u2) {
+    return (
+      <div className="text-center py-16 space-y-4">
+        <div className="text-4xl" role="img" aria-hidden="true">🔍</div>
+        <h1 className="text-xl font-bold text-[var(--text)]">Conversion Pair Not Found</h1>
+        <p className="text-xs text-[var(--text2)] max-w-md mx-auto">
+          We couldn't resolve the pair "{pairParam}". Please select a category to find your units.
+        </p>
+        <Link
+          to="/categories"
+          className="inline-block px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all"
+        >
+          Browse All Categories
+        </Link>
+      </div>
+    )
+  }
 
   return (
     <article className="space-y-6">
@@ -236,6 +219,7 @@ export default function PairLanding() {
         title={pageTitle}
         description={metaDescription}
         path={`/convert/${cat.id}/${pairParam}`}
+        schema={schema as Record<string, unknown>}
       />
 
       {/* Breadcrumb matching Image 2 */}

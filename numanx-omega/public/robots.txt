@@ -1,6 +1,12 @@
 User-agent: *
 Allow: /
-Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
 
-# Disallow admin-like paths
+# Private / Local User State
 Disallow: /_redirects
+Disallow: /dashboard
+Disallow: /favorites
+Disallow: /history
+Disallow: /settings
+Disallow: /custom-units
+
+Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml

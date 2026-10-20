@@ -18,6 +18,10 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
+# Audit output and private audit credentials
+audit-reports/
+audit-headers*.json
+
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json

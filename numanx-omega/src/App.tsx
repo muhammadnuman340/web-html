@@ -18,6 +18,7 @@ import AmbientBackground from './components/ui/AmbientBackground'
 import Navbar from './components/layout/Navbar'
 import JSONLD from './components/ui/JSONLD'
 import { getAllCategories } from './engine/converter'
+import { CATEGORY_ROUTES } from './engine/routes'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useGlobalShortcuts } from './hooks/useKeyboard'
 import { useSwipe } from './hooks/useSwipe'
@@ -45,8 +46,6 @@ const About = lazy(() => import('./pages/About'))
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [commandBarOpen, setCommandBarOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState<{ cat: string; label: string; unit: boolean }[]>([])
   const [mode, setMode] = useLocalStorage<AppMode>('uc_mode', 'pro')
   const [aiAssistantOpen, setAiAssistantOpen] = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
@@ -55,7 +54,6 @@ function AppContent() {
     const saved = localStorage.getItem('uc_theme_class')
     return saved === null || saved === 'dark' || saved === 'theme-cosmic' || saved === 'theme-amoled' || saved === 'theme-cyberpunk' || saved === 'theme-rgb'
   })
-  const [focusMode, setFocusMode] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -88,11 +86,6 @@ function AppContent() {
     setIsDark(next === 'dark')
   }, [])
 
-  const toggleFocus = useCallback(() => {
-    document.body.classList.toggle('focus-mode')
-    setFocusMode(p => !p)
-  }, [])
-
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 8)
     window.addEventListener('scroll', handler, { passive: true })
@@ -108,21 +101,6 @@ function AppContent() {
     onSwipeRight: () => setSidebarOpen(true),
     onSwipeLeft: () => setSidebarOpen(false),
   })
-
-  const handleSearch = useCallback((q: string) => {
-    setSearchQuery(q)
-    if (!q.trim()) { setSearchResults([]); return }
-    const cats = getAllCategories()
-    const results: { cat: string; label: string; unit: boolean }[] = []
-    cats.forEach(c => {
-      if (c.lb.toLowerCase().includes(q.toLowerCase())) results.push({ cat: c.id, label: c.ic + ' ' + c.lb, unit: false })
-      c.un.forEach(u => {
-        if (u.lb.toLowerCase().includes(q.toLowerCase()) || u.id.toLowerCase().includes(q.toLowerCase()))
-          results.push({ cat: c.id, label: u.lb + ' (' + c.lb + ')', unit: true })
-      })
-    })
-    setSearchResults(results.slice(0, 12))
-  }, [])
 
   const handleCommandConvert = useCallback((val: number, from: string, to: string) => {
     const cat = getAllCategories().find(c => c.un.some(u => u.id === from))
@@ -188,7 +166,6 @@ function AppContent() {
       {aiAssistantOpen && <AIAssistant onClose={() => setAiAssistantOpen(false)} currentPage={location.pathname} />}
       <AIFloatingButton open={aiAssistantOpen} onToggle={() => setAiAssistantOpen(p => !p)} />
       <OnboardingTour />
-      <InstallPWA />
 
       <AmbientBackground />
       <div className="flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
@@ -228,63 +205,23 @@ function AppContent() {
                       <Route path="/" element={<Home mode={mode} />} />
                       <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/categories" element={<Categories />} />
+                      <Route path="/converter" element={<ConverterPage mode={mode} />} />
+                      <Route path="/convert" element={<ConverterPage mode={mode} />} />
                       <Route path="/convert/:category" element={<CategoryLanding />} />
                       <Route path="/category/:category" element={<CategoryLanding />} />
                       <Route path="/convert/:category/:pair" element={<PairLanding />} />
                       <Route path="/pair/:pair" element={<PairLanding />} />
 
-                      {/* Dedicated Direct Category Slugs */}
-                      <Route path="/length-converter" element={<CategoryLanding categorySlug="length" />} />
-                      <Route path="/length" element={<CategoryLanding categorySlug="length" />} />
-                      <Route path="/temperature-converter" element={<CategoryLanding categorySlug="temp" />} />
-                      <Route path="/temperature" element={<CategoryLanding categorySlug="temp" />} />
-                      <Route path="/temp" element={<CategoryLanding categorySlug="temp" />} />
-                      <Route path="/mass-converter" element={<CategoryLanding categorySlug="mass" />} />
-                      <Route path="/mass" element={<CategoryLanding categorySlug="mass" />} />
-                      <Route path="/weight-converter" element={<CategoryLanding categorySlug="mass" />} />
-                      <Route path="/weight" element={<CategoryLanding categorySlug="mass" />} />
-                      <Route path="/speed-converter" element={<CategoryLanding categorySlug="speed" />} />
-                      <Route path="/speed" element={<CategoryLanding categorySlug="speed" />} />
-                      <Route path="/volume-converter" element={<CategoryLanding categorySlug="volume" />} />
-                      <Route path="/volume" element={<CategoryLanding categorySlug="volume" />} />
-                      <Route path="/area-converter" element={<CategoryLanding categorySlug="area" />} />
-                      <Route path="/area" element={<CategoryLanding categorySlug="area" />} />
-                      <Route path="/time-converter" element={<CategoryLanding categorySlug="time" />} />
-                      <Route path="/time" element={<CategoryLanding categorySlug="time" />} />
-                      <Route path="/pressure-converter" element={<CategoryLanding categorySlug="pressure" />} />
-                      <Route path="/pressure" element={<CategoryLanding categorySlug="pressure" />} />
-                      <Route path="/energy-converter" element={<CategoryLanding categorySlug="energy" />} />
-                      <Route path="/energy" element={<CategoryLanding categorySlug="energy" />} />
-                      <Route path="/power-converter" element={<CategoryLanding categorySlug="power" />} />
-                      <Route path="/power" element={<CategoryLanding categorySlug="power" />} />
-                      <Route path="/data-converter" element={<CategoryLanding categorySlug="data" />} />
-                      <Route path="/fuel-converter" element={<CategoryLanding categorySlug="fuel" />} />
-                      <Route path="/fuel" element={<CategoryLanding categorySlug="fuel" />} />
-                      <Route path="/cooking-converter" element={<CategoryLanding categorySlug="cooking" />} />
-                      <Route path="/cooking" element={<CategoryLanding categorySlug="cooking" />} />
-                      <Route path="/angle-converter" element={<CategoryLanding categorySlug="angle" />} />
-                      <Route path="/angle" element={<CategoryLanding categorySlug="angle" />} />
-                      <Route path="/force-converter" element={<CategoryLanding categorySlug="force" />} />
-                      <Route path="/force" element={<CategoryLanding categorySlug="force" />} />
-                      <Route path="/acceleration-converter" element={<CategoryLanding categorySlug="acceleration" />} />
-                      <Route path="/acceleration" element={<CategoryLanding categorySlug="acceleration" />} />
-                      <Route path="/electricity-converter" element={<CategoryLanding categorySlug="electricity" />} />
-                      <Route path="/electricity" element={<CategoryLanding categorySlug="electricity" />} />
-                      <Route path="/magnetism-converter" element={<CategoryLanding categorySlug="magnetism" />} />
-                      <Route path="/magnetism" element={<CategoryLanding categorySlug="magnetism" />} />
-                      <Route path="/frequency-converter" element={<CategoryLanding categorySlug="frequency" />} />
-                      <Route path="/frequency" element={<CategoryLanding categorySlug="frequency" />} />
-                      <Route path="/datatransfer-converter" element={<CategoryLanding categorySlug="datatransfer" />} />
-                      <Route path="/datatransfer" element={<CategoryLanding categorySlug="datatransfer" />} />
-                      <Route path="/torque-converter" element={<CategoryLanding categorySlug="torque" />} />
-                      <Route path="/torque" element={<CategoryLanding categorySlug="torque" />} />
-                      <Route path="/density-converter" element={<CategoryLanding categorySlug="density" />} />
-                      <Route path="/density" element={<CategoryLanding categorySlug="density" />} />
-                      <Route path="/textile-converter" element={<CategoryLanding categorySlug="textile" />} />
-                      <Route path="/textile" element={<CategoryLanding categorySlug="textile" />} />
-                      <Route path="/astronomy-converter" element={<CategoryLanding categorySlug="astronomy" />} />
-                      <Route path="/astronomy" element={<CategoryLanding categorySlug="astronomy" />} />
-                      <Route path="/converter" element={<ConverterPage mode={mode} />} />
+                      {/* Authoritative Data-Driven Category Route Compatibility Aliases */}
+                      {CATEGORY_ROUTES.flatMap(cat =>
+                        cat.aliases.map(alias => (
+                          <Route
+                            key={alias}
+                            path={alias}
+                            element={<CategoryLanding categorySlug={cat.categoryId} />}
+                          />
+                        ))
+                      )}
                       <Route path="/currency" element={<Currency />} />
                       <Route path="/crypto" element={<Crypto />} />
                       <Route path="/formulas" element={<FormulaExplorer />} />

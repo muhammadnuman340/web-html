@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { analytics } from '../../engine/analytics'
 import { smartBehavior } from '../../engine/smartBehavior'
 
 const CATEGORY_COMMON_PAIRS: Record<string, { from: string; to: string; label: string }[]> = {
@@ -55,7 +54,6 @@ export default function AIPredictions({ categoryId, fromVal, fromUnit, toUnit, o
     if (!fromVal) return []
 
     const suggestions: { label: string; from: string; to: string; reason: string }[] = []
-    const summary = analytics.getSummary()
     const profile = smartBehavior.getProfile()
 
     // 1. User's frequent pairs matching current fromUnit

@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { smartBehavior } from '../../engine/smartBehavior'
-import { analytics } from '../../engine/analytics'
 
 interface ContextTip {
   icon: string

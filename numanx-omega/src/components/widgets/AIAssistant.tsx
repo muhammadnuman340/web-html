@@ -6,7 +6,7 @@ import { getExplanations } from '../../engine/learning'
 import { analytics } from '../../engine/analytics'
 import { aiEngine } from '../../engine/aiEngine'
 import type { Suggestion } from '../../engine/aiEngine'
-import { findKnowledge, getPageHelp, getRandomTip } from '../../engine/appKnowledge'
+import { findKnowledge, getRandomTip } from '../../engine/appKnowledge'
 import { parseNaturalLanguage, extractUnit } from '../../engine/smartParser'
 
 interface Message {

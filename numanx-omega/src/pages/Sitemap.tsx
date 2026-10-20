@@ -42,7 +42,7 @@ export default function Sitemap() {
             from: p.from,
             to: p.to,
             desc: p.desc,
-            url: `/convert/${cat.id}/${p.from.toLowerCase()}-to-${p.to.toLowerCase()}`,
+            url: `/convert/${cat.id}/${p.from.toLowerCase().replace(/\s+/g, '-')}-to-${p.to.toLowerCase().replace(/\s+/g, '-')}`,
           })
         }
       }

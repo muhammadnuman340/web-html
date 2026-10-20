@@ -39,7 +39,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
     }
 
     getAllCategories().forEach(c => {
-      if (c.lb.toLowerCase().includes(q) || c.id.includes(q)) {
+      if (c.lb.toLowerCase().includes(q) || c.id.includes(q) || c.al?.some(a => a.toLowerCase().includes(q))) {
         r.push({
           label: `${c.ic} ${c.lb}`,
           type: 'category',

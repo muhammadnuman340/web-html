@@ -281,39 +281,12 @@ function generateRouteHtml(catConfig) {
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
       },
       {
-        '@type': 'Dataset',
-        '@id': `${pageUrl}#dataset`,
-        name: `${catConfig.name} Conversion Matrix & Metrology Standards`,
-        description: catConfig.description,
-        license: 'https://creativecommons.org/licenses/by/4.0/',
-        isAccessibleForFree: true
-      },
-      {
         '@type': 'BreadcrumbList',
         '@id': `${pageUrl}#breadcrumb`,
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
           { '@type': 'ListItem', position: 2, name: 'Categories', item: 'https://numanx-studio-omega-converter.netlify.app/categories' },
           { '@type': 'ListItem', position: 3, name: catConfig.name, item: pageUrl }
-        ]
-      },
-      {
-        '@type': 'HowTo',
-        '@id': `${pageUrl}#howto`,
-        name: `How to Convert ${catConfig.name} Units`,
-        step: [
-          {
-            '@type': 'HowToStep',
-            position: 1,
-            name: 'Enter measurement value',
-            text: 'Type your numerical or fractional value in the input field.'
-          },
-          {
-            '@type': 'HowToStep',
-            position: 2,
-            name: 'Read standardized conversion',
-            text: 'The converted value updates instantly based on official NIST and BIPM SI conversion ratios.'
-          }
         ]
       },
       {
@@ -329,7 +302,7 @@ function generateRouteHtml(catConfig) {
   }
 
   // Inject JSON-LD before </head>
-  const headInjection = `  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>\n  </head>`
+  const headInjection = `  <script id="omega-page-schema" type="application/ld+json">${JSON.stringify(jsonLd)}</script>\n  </head>`
   html = html.replace('</head>', headInjection)
 
   // Construct crawlable static fallback HTML inside <div id="root">

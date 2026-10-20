@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
@@ -11,6 +11,8 @@ import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
 import CategorySpecialWidget from '../components/category/special/CategorySpecialWidget'
 import LengthProToolkit from '../components/category/special/LengthProToolkit'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
+import { resolveCategoryId } from '../engine/routes'
+import { canonicalUrl } from '../config/site'
 
 interface Props {
   categorySlug?: string
@@ -18,7 +20,8 @@ interface Props {
 
 export default function CategoryLanding({ categorySlug }: Props) {
   const { category: paramCategory } = useParams<{ category: string }>()
-  const category = categorySlug || paramCategory
+  const rawCategory = categorySlug || paramCategory
+  const category = rawCategory ? (resolveCategoryId(rawCategory) || rawCategory.toLowerCase()) : undefined
   const content = category ? categoryContent[category] : null
   const cat = category ? getAllCategories().find(c => c.id === category) : null
 
@@ -29,44 +32,24 @@ export default function CategoryLanding({ categorySlug }: Props) {
     return getCategoryStandards(cat.id, cat.lb, cat.un.map(u => u.lb))
   }, [cat])
 
-  useEffect(() => {
-    if (!cat) return
+  const pageTitle = useMemo(() => {
+    if (!cat) return ''
+    if (cat.id === 'length') return 'Length Converter (Decimal & Fractional) — Instant NIST Chart'
+    return content?.title || `${cat.lb} Converter — Instant Precision Calculator | Omega X`
+  }, [cat, content])
 
-    const isLength = cat.id === 'length'
-    const pageUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}`
-
-    // 1. Fix Empty Title (58 chars - optimal 50-65 char range)
-    const pageTitle = isLength
-      ? 'Length Converter (Decimal & Fractional) — Instant NIST Chart'
-      : `${cat.lb} Converter — Instant Precision Calculator | Omega X`
-    document.title = pageTitle
-
-    // 2. Fix Meta Description dynamically
-    const pageDesc = isLength
-      ? 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.'
-      : `Free online ${cat.lb.toLowerCase()} unit converter. Convert ${cat.un.slice(0, 5).map(u => u.lb).join(', ')} instantly with formulas and printable cheat sheets.`
-
-    let metaDesc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta')
-      metaDesc.name = 'description'
-      document.head.appendChild(metaDesc)
+  const pageDesc = useMemo(() => {
+    if (!cat) return ''
+    if (cat.id === 'length') {
+      return 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.'
     }
-    metaDesc.content = pageDesc
+    return content?.metaDesc || `Free online ${cat.lb.toLowerCase()} unit converter. Convert ${cat.un.slice(0, 5).map(u => u.lb).join(', ')} instantly with formulas and printable cheat sheets.`
+  }, [cat, content])
 
-    // 3. Fix Canonical Tag Bug (Stops pointing to homepage!)
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
-    if (!canonical) {
-      canonical = document.createElement('link')
-      canonical.rel = 'canonical'
-      document.head.appendChild(canonical)
-    }
-    canonical.href = pageUrl
-
-    // 4. Deduplicate ALL existing JSON-LD scripts and inject ONE unified @graph Stack
-    document.querySelectorAll('script[type="application/ld+json"]').forEach(el => el.remove())
-
-    const unifiedGraphSchema = {
+  const categorySchema = useMemo(() => {
+    if (!cat) return null
+    const pageUrl = canonicalUrl(`/convert/${cat.id}`)
+    return {
       '@context': 'https://schema.org',
       '@graph': [
         {
@@ -79,40 +62,12 @@ export default function CategoryLanding({ categorySlug }: Props) {
           offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
         },
         {
-          '@type': 'Dataset',
-          '@id': `${pageUrl}#dataset`,
-          name: `${cat.lb} Standardized Conversion Matrix (NIST SP 811)`,
-          description: pageDesc,
-          license: 'https://creativecommons.org/licenses/by/4.0/',
-          isAccessibleForFree: true,
-          variableMeasured: cat.un.map(u => u.lb),
-          measurementTechnique: '1959 International Yard and Pound Agreement & NIST Special Publication 811'
-        },
-        {
           '@type': 'BreadcrumbList',
           '@id': `${pageUrl}#breadcrumb`,
           itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
-            { '@type': 'ListItem', position: 2, name: `${cat.lb} Converter`, item: pageUrl }
-          ]
-        },
-        {
-          '@type': 'HowTo',
-          '@id': `${pageUrl}#howto`,
-          name: isLength ? 'How to Convert Meters to Feet and Fractional Inches' : `How to Convert ${cat.lb} Units`,
-          step: [
-            {
-              '@type': 'HowToStep',
-              position: 1,
-              name: 'Enter source measurement',
-              text: 'Enter your decimal, fractional (e.g., 3/8), or compound (e.g., 5 ft 10 in) length value.'
-            },
-            {
-              '@type': 'HowToStep',
-              position: 2,
-              name: 'Apply NIST SP 811 conversion factor',
-              text: 'Multiply by the exact SI base meter ratio (1 inch = 0.0254 m exact; 1 foot = 0.3048 m exact).'
-            }
+            { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalUrl('/') },
+            { '@type': 'ListItem', position: 2, name: 'Categories', item: canonicalUrl('/categories') },
+            { '@type': 'ListItem', position: 3, name: `${cat.lb} Converter`, item: pageUrl }
           ]
         },
         ...(content?.faq?.length
@@ -130,17 +85,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
           : [])
       ]
     }
-
-    const script = document.createElement('script')
-    script.type = 'application/ld+json'
-    script.id = 'omega-unified-schema'
-    script.textContent = JSON.stringify(unifiedGraphSchema)
-    document.head.appendChild(script)
-
-    return () => {
-      script.remove()
-    }
-  }, [cat, content])
+  }, [cat, content, pageTitle])
 
   if (!content || !cat) {
     return (
@@ -160,9 +105,10 @@ export default function CategoryLanding({ categorySlug }: Props) {
   return (
     <article className="space-y-6">
       <SEOHead
-        title={cat.id === 'length' ? 'Length Converter (Decimal & Fractional) — Instant NIST Chart' : content.title}
-        description={cat.id === 'length' ? 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.' : content.metaDesc}
-        path={`/convert/${category}`}
+        title={pageTitle}
+        description={pageDesc}
+        path={`/convert/${cat.id}`}
+        schema={categorySchema}
       />
 
       {/* Breadcrumb matching Image 2 */}

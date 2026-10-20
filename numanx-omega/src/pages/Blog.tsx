@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
-import { BLOG_POSTS, type BlogPost } from '../data/blogPosts'
+import { BLOG_POSTS } from '../data/blogPosts'
 
 const CATEGORIES = ['All', 'Guides', 'Tutorials', 'Tips', 'Resources', 'Productivity', 'Engineering', 'AI'] as const
 

@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { convert } from '../../engine/converter'
-import { fmtComma, fmtSmart } from '../../utils/numbers'
+import { fmtSmart } from '../../utils/numbers'
 import { useToast } from '../../hooks/useToast'
 import type { CategoryDef, UnitDef } from '../../types'
 

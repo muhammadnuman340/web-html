@@ -1,18 +1,22 @@
+import { SITE } from '../../config/site'
+
 export default function JSONLD() {
+  const siteUrl = SITE.url
+
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'WebApplication',
-        '@id': 'https://numanx-studio-omega-converter.netlify.app/#webapp',
+        '@id': `${siteUrl}/#webapp`,
         name: 'Omega X Converter',
-        url: 'https://numanx-studio-omega-converter.netlify.app/',
-        description: 'Free universal unit converter platform with 30+ categories, 200+ units, live currency rates, crypto prices, natural language input, batch conversion, cross-category chains, and PWA offline support.',
+        url: `${siteUrl}/`,
+        description: 'Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, natural language input, batch conversion, cross-category chains, and PWA offline support.',
         applicationCategory: 'Utilities',
         operatingSystem: 'Web',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         featureList: [
-          '30+ unit categories including length, mass, volume, temperature, currency, crypto',
+          '24 unit categories including length, mass, volume, temperature, currency, crypto',
           '200+ units from metric, imperial, and scientific systems',
           'Live currency rates for 40+ world currencies',
           'Real-time cryptocurrency prices via CoinGecko',
@@ -29,20 +33,20 @@ export default function JSONLD() {
       },
       {
         '@type': 'BreadcrumbList',
-        '@id': 'https://numanx-studio-omega-converter.netlify.app/#breadcrumb',
+        '@id': `${siteUrl}/#breadcrumb`,
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://numanx-studio-omega-converter.netlify.app/' },
-          { '@type': 'ListItem', position: 2, name: 'Converter', item: 'https://numanx-studio-omega-converter.netlify.app/converter' },
-          { '@type': 'ListItem', position: 3, name: 'Currency', item: 'https://numanx-studio-omega-converter.netlify.app/currency' },
-          { '@type': 'ListItem', position: 4, name: 'Crypto', item: 'https://numanx-studio-omega-converter.netlify.app/crypto' },
-          { '@type': 'ListItem', position: 5, name: 'Categories', item: 'https://numanx-studio-omega-converter.netlify.app/categories' },
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+          { '@type': 'ListItem', position: 2, name: 'Converter', item: `${siteUrl}/converter` },
+          { '@type': 'ListItem', position: 3, name: 'Currency', item: `${siteUrl}/currency` },
+          { '@type': 'ListItem', position: 4, name: 'Crypto', item: `${siteUrl}/crypto` },
+          { '@type': 'ListItem', position: 5, name: 'Categories', item: `${siteUrl}/categories` },
         ],
       },
       {
         '@type': 'ItemList',
-        '@id': 'https://numanx-studio-omega-converter.netlify.app/#categories',
+        '@id': `${siteUrl}/#categories`,
         name: 'Unit Converter Categories',
-        description: 'All conversion categories available in Omega X Converter',
+        description: 'All 24 conversion categories available in Omega X Converter',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Length Converter' },
           { '@type': 'ListItem', position: 2, name: 'Area Converter' },
@@ -65,14 +69,14 @@ export default function JSONLD() {
       },
       {
         '@type': 'FAQPage',
-        '@id': 'https://numanx-studio-omega-converter.netlify.app/#faq',
+        '@id': `${siteUrl}/#faq`,
         mainEntity: [
           {
             '@type': 'Question',
             name: 'What is Omega X Converter?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Omega X Converter is a free universal unit converter platform supporting 30+ categories including length, mass, volume, temperature, currency, crypto, and more. It features natural language input, batch conversion, cross-category chains, and works offline as a PWA.',
+              text: 'Omega X Converter is a free universal unit converter platform supporting 24 categories including length, mass, volume, temperature, currency, crypto, and more. It features natural language input, batch conversion, cross-category chains, and works offline as a PWA.',
             },
           },
           {
@@ -96,7 +100,7 @@ export default function JSONLD() {
             name: 'What categories does Omega X Converter support?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'Omega X Converter supports length, area, volume, mass, temperature, speed, time, currency (40+ live forex), cryptocurrency, energy, pressure, power, force, data storage, fuel economy, angle, and frequency. Each category includes multiple units from metric, imperial, and scientific systems.',
+              text: 'Omega X Converter supports length, area, volume, mass, temperature, speed, time, currency (40+ live forex), cryptocurrency, energy, pressure, power, force, data storage, fuel economy, angle, frequency, torque, density, cooking, textile, and astronomy.',
             },
           },
           {
@@ -121,6 +125,10 @@ export default function JSONLD() {
   }
 
   return (
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+    <script
+      id="omega-global-schema"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
   )
 }
