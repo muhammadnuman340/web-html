@@ -23,7 +23,6 @@ export default function AngleVisualizer() {
   const rad = useMemo(() => (deg * Math.PI) / 180, [deg])
   const grad = useMemo(() => deg * (10 / 9), [deg])
   const arcmin = useMemo(() => deg * 60, [deg])
-  const arcsec = useMemo(() => deg * 3600, [deg])
 
   // Trig values
   const sin = useMemo(() => Math.sin(rad), [rad])

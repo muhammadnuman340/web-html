@@ -25,7 +25,6 @@ export default function TimeVisualizer() {
   const minutes = useMemo(() => seconds / 60, [seconds])
   const hours = useMemo(() => seconds / 3600, [seconds])
   const days = useMemo(() => seconds / 86400, [seconds])
-  const weeks = useMemo(() => seconds / 604800, [seconds])
   const years = useMemo(() => seconds / 31557600, [seconds])
 
   // Duration decomposition

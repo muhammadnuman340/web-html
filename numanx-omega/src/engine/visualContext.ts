@@ -98,21 +98,49 @@ export const VISUAL_CONTEXT: Record<string, VisualRef[]> = {
   ],
 }
 
-export function findVisualContext(catId: string, value: number, _unitId: string): VisualRef | null { // eslint-disable-line @typescript-eslint/no-unused-vars
-  const refs = VISUAL_CONTEXT[catId]
-  if (!refs) return null
+import { convert } from './converter'
 
-  // Find the closest reference
+const BASE_UNIT_BY_CAT: Record<string, string> = {
+  length: 'm',
+  mass: 'kg',
+  area: 'm2',
+  volume: 'm3',
+  temp: 'C',
+  speed: 'mps',
+}
+
+export function findVisualContext(catId: string, value: number, unitId: string): VisualRef | null {
+  const refs = VISUAL_CONTEXT[catId]
+  const baseUnit = BASE_UNIT_BY_CAT[catId]
+  if (!refs || !baseUnit || !Number.isFinite(value)) return null
+
+  const baseValue = unitId === baseUnit ? value : convert(value, catId, unitId, baseUnit)
+  if (baseValue === null || !Number.isFinite(baseValue)) return null
+
+  if (catId === 'temp') {
+    let best: VisualRef | null = null
+    let bestDiff = Infinity
+    for (const ref of refs) {
+      const diff = Math.abs(baseValue - ref.value)
+      if (diff < bestDiff) {
+        bestDiff = diff
+        best = ref
+      }
+    }
+    return bestDiff <= 25 ? best : null
+  }
+
+  if (baseValue <= 0) return null
   let best: VisualRef | null = null
   let bestDiff = Infinity
   for (const ref of refs) {
-    const diff = Math.abs(Math.log10(value) - Math.log10(ref.value))
+    if (ref.value <= 0) continue
+    const diff = Math.abs(Math.log10(baseValue) - Math.log10(ref.value))
     if (diff < bestDiff) {
       bestDiff = diff
       best = ref
     }
   }
-  // Only show if within reasonable range (within 2 orders of magnitude)
   if (bestDiff > 1.5) return null
   return best
 }

@@ -24,7 +24,7 @@ export default function CurrencyCenter() {
     labels: CURRENCY_LIST.slice(0, 10),
     datasets: [{
       label: `Rates vs ${from}`,
-      data: CURRENCY_LIST.slice(0, 10).map(c => rates[c] ? rates[from] / rates[c] : 0),
+      data: CURRENCY_LIST.slice(0, 10).map(c => rates[c] && rates[from] ? rates[c] / rates[from] : 0),
       borderColor: '#6c63ff', backgroundColor: 'rgba(108,99,255,0.1)',
       fill: true, tension: 0.4, pointRadius: 3
     }]

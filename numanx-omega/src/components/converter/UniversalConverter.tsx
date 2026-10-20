@@ -155,9 +155,19 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       let rawVal: number | null = null
       const parsed = parseNaturalLanguage(fromVal)
       if (parsed.type === 'convert' && parsed.value !== undefined && parsed.fromUnit && parsed.toUnit) {
+        rawVal = parsed.value
+        const targetCat = cats.find(c => c.un.some(u => u.id === parsed.fromUnit) && c.un.some(u => u.id === parsed.toUnit))
+        if (targetCat && targetCat.id !== catId) {
+          startTransition(() => {
+            setCatId(targetCat.id)
+            setFromUnit(parsed.fromUnit!)
+            setToUnit(parsed.toUnit!)
+          })
+          return
+        }
         startTransition(() => setIsNatural(true))
-        if (parsed.fromUnit !== fromUnit) startTransition(() => setFromUnit(parsed.fromUnit))
-        if (parsed.toUnit !== toUnit) startTransition(() => setToUnit(parsed.toUnit))
+        if (parsed.fromUnit !== fromUnit) startTransition(() => setFromUnit(parsed.fromUnit!))
+        if (parsed.toUnit !== toUnit) startTransition(() => setToUnit(parsed.toUnit!))
       } else {
         startTransition(() => setIsNatural(false))
 
@@ -369,13 +379,13 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       { from: 'kg', to: 'lb', label: 'kg → pounds' },
       { from: 'g', to: 'oz', label: 'g → ounces' },
       { from: 'lb', to: 'kg', label: 'pounds → kg' },
-      { from: 'l', to: 'gal', label: 'L → gallons' },
-      { from: 'ml', to: 'fl_oz', label: 'mL → fl oz' },
-      { from: 'c', to: 'f', label: '°C → °F' },
-      { from: 'f', to: 'c', label: '°F → °C' },
+      { from: 'L', to: 'gal', label: 'L → gallons' },
+      { from: 'mL', to: 'floz', label: 'mL → fl oz' },
+      { from: 'C', to: 'F', label: '°C → °F' },
+      { from: 'F', to: 'C', label: '°F → °C' },
       { from: 'kmh', to: 'mph', label: 'km/h → mph' },
-      { from: 'sqm', to: 'sqft', label: 'm² → ft²' },
-      { from: 'mb', to: 'gb', label: 'MB → GB' },
+      { from: 'm2', to: 'ft2', label: 'm² → ft²' },
+      { from: 'MB', to: 'GB', label: 'MB → GB' },
       { from: 'usd', to: 'eur', label: 'USD → EUR' },
     ]
     const catUnits = cat?.un.map(u => u.id) || []

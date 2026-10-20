@@ -11,32 +11,32 @@ export default function LengthComparisonBar() {
   // Computed feet, inches and fractional breakdown
   const { feet, inches, totalInches, fraction16, fraction32, fraction64 } = useMemo(() => {
     const totalIn = cm / 2.54
-    const ft = Math.floor(totalIn / 12)
-    const inch = Math.round(totalIn % 12)
-    
-    // Fractional helper
+    const roundedTotalIn = Math.round(totalIn)
+    const ft = Math.floor(roundedTotalIn / 12)
+    const inch = roundedTotalIn % 12
+
     const getFraction = (denominator: number) => {
-      const remainingInches = totalIn % 12
-      const wholeInches = Math.floor(remainingInches)
-      const fractionalPart = remainingInches - wholeInches
-      const numer = Math.round(fractionalPart * denominator)
-      
-      if (numer === 0) return { ft, wholeInches, numer: 0, denom: denominator, str: `${ft}′ ${wholeInches}″` }
-      if (numer === denominator) return { ft, wholeInches: wholeInches + 1, numer: 0, denom: denominator, str: `${ft}′ ${wholeInches + 1}″` }
-      
-      // Simplify fraction
-      let n = numer
+      const totalSteps = Math.round(totalIn * denominator)
+      const totalWholeIn = Math.floor(totalSteps / denominator)
+      const remSteps = totalSteps % denominator
+      const fFt = Math.floor(totalWholeIn / 12)
+      const wholeInches = totalWholeIn % 12
+
+      if (remSteps === 0) {
+        return { ft: fFt, wholeInches, numer: 0, denom: denominator, str: `${fFt}′ ${wholeInches}″` }
+      }
+      let n = remSteps
       let d = denominator
       while (n % 2 === 0 && d % 2 === 0) {
         n /= 2
         d /= 2
       }
-      return { ft, wholeInches, numer: n, denom: d, str: `${ft}′ ${wholeInches} ${n}/${d}″` }
+      return { ft: fFt, wholeInches, numer: n, denom: d, str: `${fFt}′ ${wholeInches} ${n}/${d}″` }
     }
 
     return {
       feet: ft,
-      inches: inch === 12 ? 0 : inch,
+      inches: inch,
       totalInches: totalIn,
       fraction16: getFraction(16),
       fraction32: getFraction(32),

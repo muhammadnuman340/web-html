@@ -65,7 +65,7 @@ export const guideContent: Record<string, {
       { label: 'Celsius to Fahrenheit Converter', slug: 'celsius-to-fahrenheit' },
       { label: 'Meters to Feet Converter', slug: 'meters-to-feet' },
     ],
-    relatedCat: 'length',
+    relatedCat: 'mass',
   },
   'celsius-to-fahrenheit': {
     title: 'Celsius to Fahrenheit Converter — °C to °F Instantly',
@@ -119,7 +119,7 @@ export const guideContent: Record<string, {
       { label: 'Pounds to Kilograms Converter', slug: 'lbs-to-kg' },
       { label: 'Meters to Feet Converter', slug: 'meters-to-feet' },
     ],
-    relatedCat: 'temperature',
+    relatedCat: 'temp',
   },
   'meters-to-feet': {
     title: 'Meters to Feet Converter — Convert m to ft Instantly',
@@ -169,7 +169,7 @@ export const guideContent: Record<string, {
     ],
     relatedCat: 'mass',
   },
-  'celsius-to-fahrenheit': {
+  'kg-to-lbs': {
     title: 'Kilograms to Pounds Converter — Convert kg to lb Instantly',
     metaDesc: 'Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.',
     h1: 'Kilograms to Pounds Converter (kg → lb)',
@@ -267,7 +267,7 @@ export const guideContent: Record<string, {
       { label: 'Pounds to Kilograms Converter', slug: 'lbs-to-kg' },
       { label: 'Feet to Meters Converter', slug: 'feet-to-meters' },
     ],
-    relatedCat: 'temperature',
+    relatedCat: 'temp',
   },
   'feet-to-meters': {
     title: 'Feet to Meters Converter — Convert ft to m Instantly',

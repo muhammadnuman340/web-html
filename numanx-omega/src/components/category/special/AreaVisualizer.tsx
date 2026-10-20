@@ -26,8 +26,6 @@ export default function AreaVisualizer() {
   const sqft = useMemo(() => sqm * 10.7639, [sqm])
   const acres = useMemo(() => sqm * 0.000247105, [sqm])
   const hectares = useMemo(() => sqm * 0.0001, [sqm])
-  const sqyd = useMemo(() => sqm * 1.19599, [sqm])
-  const sqkm = useMemo(() => sqm / 1000000, [sqm])
 
   return (
     <section aria-labelledby="area-tool-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">

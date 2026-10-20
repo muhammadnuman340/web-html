@@ -83,12 +83,12 @@
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/temp/kelvin-to-celsius</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Area & Volume Pairs -->
-  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/square meters-to-square feet</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/m2-to-ft2</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/acres-to-hectares</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/area/hectares-to-acres</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/liters-to-gallons</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/gallons-to-liters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/milliliters-to-fluid ounces</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/volume/ml-to-floz</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
 
   <!-- Speed & Time Pairs -->
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/speed/kmh-to-mph</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
@@ -107,8 +107,8 @@
   <!-- Cooking, Fuel & Power Pairs -->
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/cooking/cup-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel/mpg-to-l100km</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel/l100km-to-mpg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel/mpgus-to-l100km</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/fuel/l100km-to-mpgus</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/power/watts-to-horsepower</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/power/horsepower-to-kilowatts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://numanx-studio-omega-converter.netlify.app/convert/data/gigabytes-to-megabytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>

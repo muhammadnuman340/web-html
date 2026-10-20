@@ -86,7 +86,7 @@ export default function Home({ mode = 'pro' }: Props) {
     { icon: '₿', label: 'Crypto', desc: 'Bitcoin, Ethereum, Solana...', path: '/crypto' },
     { icon: '🧮', label: 'Scientific', desc: 'Constants & formulas', path: '/formulas' },
     { icon: '❤️', label: 'Health', desc: 'BMI, BMR, body fat', path: '/health' },
-    { icon: '📐', label: 'Engineering', desc: 'Physics & mechanics', path: '/convert/press' },
+    { icon: '📐', label: 'Engineering', desc: 'Physics & mechanics', path: '/convert/pressure' },
     { icon: '⛓', label: 'Conversion Chains', desc: 'Energy→Cost, Fuel→Cost', path: '/converter' },
     { icon: '📋', label: 'Batch Convert', desc: '1000+ values at once', path: '/converter' },
   ]

@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server.js",
-    "prod": "vite build && node server.js",
+    "prod": "vite build && node scripts/prerender-seo.mjs && node server.js",
     "audit": "node scripts/audit-site.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",

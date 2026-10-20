@@ -36,9 +36,13 @@ export function parseCSV(input: string): number[] {
 }
 
 export function generateSequence(start: number, end: number, step: number): number[] {
+  if (!Number.isFinite(start) || !Number.isFinite(end) || !Number.isFinite(step) || step <= 0 || start > end) {
+    return []
+  }
   const values: number[] = []
-  for (let v = start; v <= end; v += step) {
-    values.push(v)
+  const maxItems = 10000
+  for (let v = start; v <= end && values.length < maxItems; v += step) {
+    values.push(Number(v.toFixed(8)))
   }
   return values
 }

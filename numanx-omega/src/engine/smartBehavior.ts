@@ -66,8 +66,8 @@ export class SmartBehaviorEngine {
       peakUsageHour: this.detectPeakHour(),
       totalConversions: summary.totalConversions,
       averagePrecision: 6,
-      usesScientific: this.patterns.get('sci_on') || 0 > this.patterns.get('sci_off') || 0,
-      usesFractions: this.patterns.get('frac_on') || 0 > this.patterns.get('frac_off') || 0,
+      usesScientific: (this.patterns.get('sci_on') || 0) > (this.patterns.get('sci_off') || 0),
+      usesFractions: (this.patterns.get('frac_on') || 0) > (this.patterns.get('frac_off') || 0),
     }
   }
 

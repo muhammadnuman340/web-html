@@ -6,9 +6,9 @@ export default function MassWeightReference() {
   const lb = useMemo(() => kg * 2.20462, [kg])
   const oz = useMemo(() => kg * 35.274, [kg])
   const stone = useMemo(() => {
-    const totalSt = lb / 14
-    const st = Math.floor(totalSt)
-    const remLb = Math.round(lb % 14)
+    const totalRoundedLb = Math.round(lb)
+    const st = Math.floor(totalRoundedLb / 14)
+    const remLb = totalRoundedLb % 14
     return `${st} st ${remLb} lb`
   }, [lb])
 

@@ -16,25 +16,25 @@ const CATEGORY_COMMON_PAIRS: Record<string, { from: string; to: string; label: s
     { from: 'lb', to: 'kg', label: 'pounds → kg' },
   ],
   volume: [
-    { from: 'l', to: 'gal', label: 'L → gallons' },
-    { from: 'ml', to: 'fl_oz', label: 'mL → fl oz' },
-    { from: 'cup', to: 'ml', label: 'cups → mL' },
+    { from: 'L', to: 'gal', label: 'L → gallons' },
+    { from: 'mL', to: 'floz', label: 'mL → fl oz' },
+    { from: 'cup', to: 'mL', label: 'cups → mL' },
   ],
-  temperature: [
-    { from: 'c', to: 'f', label: '°C → °F' },
-    { from: 'f', to: 'c', label: '°F → °C' },
+  temp: [
+    { from: 'C', to: 'F', label: '°C → °F' },
+    { from: 'F', to: 'C', label: '°F → °C' },
   ],
   speed: [
     { from: 'kmh', to: 'mph', label: 'km/h → mph' },
-    { from: 'ms', to: 'kmh', label: 'm/s → km/h' },
+    { from: 'mps', to: 'kmh', label: 'm/s → km/h' },
   ],
   area: [
-    { from: 'sqm', to: 'sqft', label: 'm² → ft²' },
-    { from: 'ha', to: 'acre', label: 'ha → acres' },
+    { from: 'm2', to: 'ft2', label: 'm² → ft²' },
+    { from: 'ha', to: 'ac', label: 'ha → acres' },
   ],
-  digital: [
-    { from: 'mb', to: 'gb', label: 'MB → GB' },
-    { from: 'gb', to: 'tb', label: 'GB → TB' },
+  data: [
+    { from: 'MB', to: 'GB', label: 'MB → GB' },
+    { from: 'GB', to: 'TB', label: 'GB → TB' },
   ],
   currency: [
     { from: 'usd', to: 'eur', label: 'USD → EUR' },

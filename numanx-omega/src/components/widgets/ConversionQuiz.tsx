@@ -15,23 +15,35 @@ interface QuizQuestion {
 }
 
 function generateQuestion(): QuizQuestion {
-  const cats = getAllCategories()
-  const cat = cats[Math.floor(Math.random() * cats.length)]
+  const validCats = getAllCategories().filter(
+    c => c.un.length >= 2 && !['textile', 'electricity', 'magnetism', 'astronomy'].includes(c.id)
+  )
+  const cat = validCats[Math.floor(Math.random() * validCats.length)]
   const fromIdx = Math.floor(Math.random() * cat.un.length)
   let toIdx = Math.floor(Math.random() * cat.un.length)
   while (toIdx === fromIdx) toIdx = Math.floor(Math.random() * cat.un.length)
   const fromUnit = cat.un[fromIdx]
   const toUnit = cat.un[toIdx]
-  const values = [0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500, 1000]
+  const values = [1, 2, 5, 10, 25, 50, 100]
   const value = values[Math.floor(Math.random() * values.length)]
-  const result = convert(value, cat.id, fromUnit.id, toUnit.id)
-  const correct = result !== null ? parseFloat(result.toFixed(4)) : 0
+  const rawResult = convert(value, cat.id, fromUnit.id, toUnit.id) ?? 1
+  const correct = Math.abs(rawResult) < 1e-3 && rawResult !== 0
+    ? Number(rawResult.toPrecision(4))
+    : parseFloat(rawResult.toFixed(4))
 
   const options = new Set<number>([correct])
+  const multipliers = [0.5, 2, 10, 0.1, 1.25, 0.8]
+  for (const m of multipliers) {
+    if (options.size >= 4) break
+    const candidate = correct === 0
+      ? options.size * 5
+      : Number((correct * m).toPrecision(4))
+    if (candidate !== correct && Number.isFinite(candidate)) {
+      options.add(candidate)
+    }
+  }
   while (options.size < 4) {
-    const offset = (Math.random() > 0.5 ? 1 : -1) * Math.max(correct * 0.1, 1) * (Math.floor(Math.random() * 5) + 1)
-    const alt = parseFloat((correct + offset).toFixed(4))
-    if (alt > 0 && alt !== correct) options.add(alt)
+    options.add(Number((correct + options.size * 2.5).toFixed(4)))
   }
   const shuffled = Array.from(options).sort(() => Math.random() - 0.5)
 

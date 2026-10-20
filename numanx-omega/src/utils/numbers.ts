@@ -9,12 +9,22 @@ export function cleanFloat(value: number, sigFigs: number = 14): number {
 
 export function fmt(v: number | null | undefined, prec = 6): string {
   if (v === null || v === undefined || !isFinite(v)) return '—'
+  if (v === 0) return '0'
+  const abs = Math.abs(v)
+  if ((abs > 0 && abs < Math.pow(10, -Math.max(prec, 4))) || abs >= 1e12) {
+    return cleanFloat(v, Math.max(prec, 4)).toExponential(Math.min(prec, 6))
+  }
   return cleanFloat(Number(v.toFixed(prec))).toString()
 }
 
 export function fmtComma(v: number | null | undefined, prec = 2): string {
   if (v === null || v === undefined || !isFinite(v)) return '—'
-  return Number(v.toFixed(prec)).toLocaleString('en-US', {
+  if (v === 0) return '0'
+  const abs = Math.abs(v)
+  if ((abs > 0 && abs < Math.pow(10, -Math.max(prec, 4))) || abs >= 1e12) {
+    return cleanFloat(v, Math.max(prec, 4)).toExponential(Math.min(prec, 6))
+  }
+  return cleanFloat(Number(v.toFixed(prec))).toLocaleString('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: prec,
   })

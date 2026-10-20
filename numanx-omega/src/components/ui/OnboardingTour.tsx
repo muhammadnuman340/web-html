@@ -11,7 +11,7 @@ const STEPS = [
 
 export default function OnboardingTour() {
   const [step, setStep] = useState(0)
-  const [dismissed, setDismissed] = useState(() => !localStorage.getItem('uc_onboarded'))
+  const [dismissed, setDismissed] = useState(() => Boolean(localStorage.getItem('uc_onboarded')))
 
   const finish = () => {
     setDismissed(true)

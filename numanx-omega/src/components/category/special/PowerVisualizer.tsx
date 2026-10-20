@@ -24,7 +24,6 @@ export default function PowerVisualizer() {
 
   const kilowatts = useMemo(() => watts / 1000, [watts])
   const horsepower = useMemo(() => watts / 745.7, [watts])
-  const megawatts = useMemo(() => watts / 1000000, [watts])
   const btuPerHour = useMemo(() => watts * 3.41214, [watts])
 
   // Hourly energy production in kWh

@@ -4,4 +4,3 @@ Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
 
 # Disallow admin-like paths
 Disallow: /_redirects
-Disallow: /icons/
