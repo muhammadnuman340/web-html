@@ -69,10 +69,13 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             onClick={e => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="shortcuts-title"
             className="relative glass rounded-2xl p-5 max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl border border-[var(--border)]"
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-bold"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</h2>
+              <h2 id="shortcuts-title" className="text-sm font-bold"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</h2>
               <button onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--border)] text-xs opacity-50 hover:opacity-100 transition-all" aria-label="Close shortcuts panel">
                 ✕
               </button>

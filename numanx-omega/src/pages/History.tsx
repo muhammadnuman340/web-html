@@ -114,6 +114,7 @@ export default function History() {
       <div className="relative">
         <input value={search} onChange={e => handleSearch(e.target.value)}
           placeholder="Search history..."
+          aria-label="Search conversion history"
           className="w-full px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] transition-colors"
         />
       </div>

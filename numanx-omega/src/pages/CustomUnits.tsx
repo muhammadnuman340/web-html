@@ -84,22 +84,27 @@ export default function CustomUnits() {
         <h2 className="text-xs font-semibold opacity-70">New Custom Unit</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <select value={catId} onChange={e => setCatId(e.target.value)}
+            aria-label="Target category for custom unit"
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all">
             {cats.filter(c => !c.curr && !c.crypto).map(c => (
               <option key={c.id} value={c.id}>{c.ic} {c.lb}</option>
             ))}
           </select>
           <input type="text" value={name} onChange={e => setName(e.target.value)}
+            aria-label="Custom unit name"
             placeholder="Unit name (e.g. MyToken)"
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           <input type="text" value={sym} onChange={e => setSym(e.target.value)}
+            aria-label="Custom unit symbol"
             placeholder="Symbol (e.g. MTK)"
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           <input type="text" value={rate} onChange={e => setRate(e.target.value)}
+            aria-label="Conversion rate relative to base unit"
+            aria-describedby="custom-unit-rate-hint"
             placeholder="1 of base = ?"
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
         </div>
-        <div className="text-xs opacity-30">Rate: how many base units equal 1 of your unit (e.g., for length base is meters)</div>
+        <div id="custom-unit-rate-hint" className="text-xs opacity-30">Rate: how many base units equal 1 of your unit (e.g., for length base is meters)</div>
         <button onClick={add}
           className="btn-primary w-full py-2 text-sm font-medium">
           + Add Custom Unit

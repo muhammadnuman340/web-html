@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SmartSuggestions from '../widgets/SmartSuggestions'
 import { MODES } from '../widgets/ModeSwitcher'
 import type { AppMode } from '../widgets/ModeSwitcher'
@@ -60,6 +60,15 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
   const navigate = useNavigate()
   const [showModePicker, setShowModePicker] = useState(false)
 
+  useEffect(() => {
+    if (!open) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [open, onClose])
+
   const navItem = (item: { path: string; icon: string; label: string }) => {
     const active = location.pathname === item.path
     return (
@@ -67,6 +76,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         key={item.path}
         whileTap={{ scale: 0.97 }}
         onClick={() => { navigate(item.path); onClose() }}
+        aria-current={active ? 'page' : undefined}
         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all relative ${
           active ? 'bg-[var(--primary)] text-white shadow-md' : 'hover:bg-[var(--border)]'
         }`}
@@ -97,6 +107,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         initial="closed"
         animate={open ? 'open' : 'closed'}
         exit="closed"
+        aria-label="Navigation sidebar"
         className="fixed top-0 left-0 h-full w-64 z-50 glass p-4 overflow-y-auto"
       >
         {/* Logo + close */}

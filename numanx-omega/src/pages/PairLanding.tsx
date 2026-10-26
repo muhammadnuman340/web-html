@@ -198,6 +198,12 @@ export default function PairLanding() {
   if (!resolution || !cat || !u1 || !u2) {
     return (
       <div className="text-center py-16 space-y-4">
+        <SEOHead
+          title="Conversion Pair Not Found — Omega X"
+          description={`The requested conversion pair "${pairParam || ''}" could not be resolved. Browse all unit categories.`}
+          path={location.pathname}
+          noindex={true}
+        />
         <div className="text-4xl" role="img" aria-hidden="true">🔍</div>
         <h1 className="text-xl font-bold text-[var(--text)]">Conversion Pair Not Found</h1>
         <p className="text-xs text-[var(--text2)] max-w-md mx-auto">

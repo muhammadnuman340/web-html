@@ -154,8 +154,8 @@ export default function Categories() {
       className="space-y-5"
     >
       <SEOHead
-        title="All Conversion Categories — 30+ Dedicated Calculators"
-        description="Browse 30+ dedicated unit calculators across length, mass, temperature, currency, pressure, and energy with live cheat sheets and formulas."
+        title="All Conversion Categories — 24 Dedicated Calculators"
+        description="Browse 24 dedicated unit calculators across length, mass, temperature, currency, pressure, and energy with live cheat sheets and formulas."
         path="/categories"
       />
 

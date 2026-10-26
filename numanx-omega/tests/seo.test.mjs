@@ -484,7 +484,8 @@ var INDEXABILITY_POLICY = {
     "/history",
     "/settings",
     "/custom-units",
-    "/help"
+    "/help",
+    "/404"
   ]
 };
 function isIndexablePath(path3) {

@@ -177,27 +177,30 @@ function HealthTab() {
         <div className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">❤️</span> Health Calculator</div>
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <label className="text-xs opacity-50 mb-1 block">Weight (kg)</label>
-            <input type="number" value={weight} onChange={e => setWeight(e.target.value)}
+            <label htmlFor="health-weight" className="text-xs opacity-50 mb-1 block">Weight (kg)</label>
+            <input id="health-weight" type="number" value={weight} onChange={e => setWeight(e.target.value)}
+              aria-label="Weight in kilograms"
               className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           </div>
           <div>
-            <label className="text-xs opacity-50 mb-1 block">Height (cm)</label>
-            <input type="number" value={height} onChange={e => setHeight(e.target.value)}
+            <label htmlFor="health-height" className="text-xs opacity-50 mb-1 block">Height (cm)</label>
+            <input id="health-height" type="number" value={height} onChange={e => setHeight(e.target.value)}
+              aria-label="Height in centimeters"
               className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           </div>
           <div>
-            <label className="text-xs opacity-50 mb-1 block">Age</label>
-            <input type="number" value={age} onChange={e => setAge(e.target.value)}
+            <label htmlFor="health-age" className="text-xs opacity-50 mb-1 block">Age</label>
+            <input id="health-age" type="number" value={age} onChange={e => setAge(e.target.value)}
+              aria-label="Age in years"
               className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
           </div>
         </div>
-        <div className="flex gap-2">
-          <button onClick={() => setGender('male')}
+        <div role="radiogroup" aria-label="Biological sex for metabolic rate calculation" className="flex gap-2">
+          <button type="button" role="radio" aria-checked={gender === 'male'} onClick={() => setGender('male')}
             className={`px-5 py-2 rounded-xl text-xs font-medium interact-lift transition-all ${
               gender === 'male' ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]' : 'glass hover:bg-[var(--border)]'
             }`}>Male</button>
-          <button onClick={() => setGender('female')}
+          <button type="button" role="radio" aria-checked={gender === 'female'} onClick={() => setGender('female')}
             className={`px-5 py-2 rounded-xl text-xs font-medium interact-lift transition-all ${
               gender === 'female' ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]' : 'glass hover:bg-[var(--border)]'
             }`}>Female</button>

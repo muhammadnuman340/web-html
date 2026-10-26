@@ -9,18 +9,20 @@ import { fmt } from '../../utils/numbers'
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler)
 
 export default function CurrencyCenter() {
-  const { rates, loading, lastUpdated, convert: convCurrency } = useCurrency()
+  const { rates, loading, lastUpdated, status, statusMessage, refresh, convert: convCurrency } = useCurrency()
   const [amount, setAmount] = useState('1')
   const [from, setFrom] = useState('USD')
   const [to, setTo] = useState('EUR')
   const [favorites] = useState<string[]>(['USD', 'EUR', 'GBP', 'PKR', 'INR', 'AED'])
+
+  const v = parseFloat(amount)
+  const isNegative = !isNaN(v) && v < 0
   const result = useMemo(() => {
     if (!convCurrency || !amount) return null
-    const v = parseFloat(amount)
-    return !isNaN(v) ? convCurrency(v, from, to) : null
-  }, [amount, from, to, convCurrency])
+    return !isNaN(v) && v >= 0 ? convCurrency(v, from, to) : null
+  }, [amount, v, from, to, convCurrency])
 
-  const chartData = rates ? {
+  const chartData = rates && rates[from] ? {
     labels: CURRENCY_LIST.slice(0, 10),
     datasets: [{
       label: `Rates vs ${from}`,
@@ -32,8 +34,14 @@ export default function CurrencyCenter() {
 
   return (
     <div className="space-y-4">
+      {statusMessage && (
+        <div role="status" aria-live="polite" className="text-xs px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300">
+          {statusMessage}
+        </div>
+      )}
+
       <div className="flex gap-2 items-center">
-        <input type="number" value={amount} onChange={e => setAmount(e.target.value)}
+        <input type="number" min="0" value={amount} onChange={e => setAmount(e.target.value)}
           aria-label="Currency amount"
           className="flex-1 p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] outline-none focus:border-[var(--primary)] text-lg font-medium" />
         <select value={from} onChange={e => setFrom(e.target.value)}
@@ -52,6 +60,10 @@ export default function CurrencyCenter() {
         </select>
       </div>
 
+      {isNegative && (
+        <div className="text-xs text-red-400">Please enter a non-negative currency amount.</div>
+      )}
+
       {result !== null && (
         <div className="text-center py-4">
           <div className="text-3xl font-bold">{fmt(result)}</div>
@@ -59,8 +71,33 @@ export default function CurrencyCenter() {
         </div>
       )}
 
-      {loading && <div className="text-center text-sm opacity-60 animate-pulse">Loading live rates...</div>}
-      {lastUpdated && <div className="text-xs text-center opacity-40">Updated: {lastUpdated.toLocaleTimeString()}</div>}
+      {result === null && !loading && !isNegative && (
+        <div className="text-center py-4 text-xs opacity-50">
+          {status === 'unavailable' || status === 'error'
+            ? 'Exchange rates currently unavailable. Click Refresh below to retry.'
+            : 'Enter a valid amount to calculate conversion.'}
+        </div>
+      )}
+
+      <div className="flex flex-wrap items-center justify-between text-xs gap-2 px-1">
+        <div className="flex items-center gap-1.5 opacity-75 capitalize">
+          <span className={`w-2 h-2 rounded-full ${
+            status === 'live' ? 'bg-[var(--success)] animate-pulse' :
+            status === 'cached' ? 'bg-blue-400' :
+            status === 'stale' ? 'bg-amber-400' : 'bg-red-400'
+          }`} />
+          <span>{status} rates</span>
+          {lastUpdated && <span className="opacity-60 font-normal">· Updated {lastUpdated.toLocaleTimeString()}</span>}
+        </div>
+        <button
+          onClick={() => refresh()}
+          disabled={loading}
+          aria-label="Refresh currency exchange rates"
+          className="text-xs px-2.5 py-1 rounded-lg border border-[var(--border)] hover:bg-[var(--card2)] disabled:opacity-40 transition-all cursor-pointer font-normal"
+        >
+          {loading ? 'Refreshing...' : '↻ Refresh'}
+        </button>
+      </div>
 
       {/* Quick favorites */}
       <div className="flex gap-1 flex-wrap">
@@ -90,7 +127,7 @@ export default function CurrencyCenter() {
           {CURRENCY_LIST.filter(c => c !== from).slice(0, 30).map(c => (
             <div key={c} className="flex justify-between p-1.5 rounded-lg text-xs hover:bg-[var(--border)]">
               <span className="font-medium">{c}</span>
-              <span className="opacity-60">{rates ? fmt(rates[c] / rates[from], 4) : '—'}</span>
+              <span className="opacity-60">{rates && rates[c] && rates[from] ? fmt(rates[c] / rates[from], 4) : '—'}</span>
             </div>
           ))}
         </div>

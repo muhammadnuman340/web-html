@@ -15,14 +15,32 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
+  const previousActiveElement = useRef<HTMLElement | null>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     if (open) {
+      previousActiveElement.current = document.activeElement as HTMLElement | null
       startTransition(() => { setQuery(''); setSelectedIndex(0) })
-      setTimeout(() => inputRef.current?.focus(), 50)
+      const timer = setTimeout(() => inputRef.current?.focus(), 50)
+      return () => clearTimeout(timer)
+    } else if (previousActiveElement.current) {
+      previousActiveElement.current.focus?.()
+      previousActiveElement.current = null
     }
   }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        onClose()
+      }
+    }
+    window.addEventListener('keydown', handleGlobalKeyDown)
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown)
+  }, [open, onClose])
 
   const results = useMemo(() => {
     if (!query.trim()) return []
@@ -97,6 +115,22 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
   }, [results, selectedIndex])
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      e.preventDefault()
+      onClose()
+      return
+    }
+    if (e.key === 'Tab') {
+      e.preventDefault()
+      if (results.length > 0) {
+        if (e.shiftKey) {
+          setSelectedIndex(i => (i - 1 + results.length) % results.length)
+        } else {
+          setSelectedIndex(i => (i + 1) % results.length)
+        }
+      }
+      return
+    }
     if (results.length === 0) return
     if (e.key === 'ArrowDown') {
       e.preventDefault()
@@ -108,7 +142,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
       e.preventDefault()
       executeSelected()
     }
-  }, [results.length, executeSelected])
+  }, [results.length, executeSelected, onClose])
 
   // Scroll selected item into view
   useEffect(() => {
@@ -132,6 +166,9 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Command palette"
             className="w-full max-w-lg glass rounded-2xl shadow-2xl overflow-hidden border border-[var(--border)]"
           >
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)]">
@@ -142,6 +179,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
                 onChange={e => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Search, convert, or calculate... (e.g. '5 km in miles', '100+200')"
+                aria-label="Search, convert, or calculate"
                 className="flex-1 bg-transparent text-sm outline-none placeholder:opacity-40"
               />
               <kbd className="text-xs px-1.5 py-0.5 rounded border border-[var(--border)] opacity-50">Esc</kbd>

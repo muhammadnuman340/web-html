@@ -107,12 +107,26 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
   const [isOpen] = useState(true)
   const [liveSuggestions, setLiveSuggestions] = useState<{ label: string; action?: string }[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const msgId = useRef(messages.length + 1)
-  const conversationContext = useRef<{ lastCat?: string; lastAction?: string; lastFormula?: string }>({})
+  const [conversationContext, setConversationContext] = useState<{ lastCat?: string; lastAction?: string; lastFormula?: string }>({})
 
   const cats = useMemo(() => getAllCategories(), [])
   const summary = analytics.getSummary()
-  const handleSendRef = useRef<((q?: string) => void) | null>(null)
+
+  // Auto-focus input on mount
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
 
   // Save chat on message change
   useEffect(() => {
@@ -143,9 +157,8 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
 
   const replyChips = useMemo(() => {
     const last = [...messages].reverse().find(m => m.type === 'assistant')
-    const ctx = conversationContext.current
-    return last ? getReplyChips(last, ctx) : []
-  }, [messages])
+    return last ? getReplyChips(last, conversationContext) : []
+  }, [messages, conversationContext])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -176,15 +189,15 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     if (path) { navigate(path); onClose() }
   }, [navigate, onClose])
 
-  const handleSend = useCallback(() => {
-    const q = input.trim()
+  const handleSend = useCallback((overrideQuery?: string) => {
+    const q = (overrideQuery !== undefined ? overrideQuery : input).trim()
     if (!q) return
     setInput('')
     setLiveSuggestions([])
     addMessage(q, 'user', '👤')
 
     const lower = q.toLowerCase()
-    const ctx = conversationContext.current
+    const ctx = { ...conversationContext }
     const isFollowUp = ['tell me more', 'more', 'explain further', 'what else', 'another', 'also', 'and', 'go on', 'continue'].some(p => lower.includes(p))
 
     // Slash commands
@@ -209,10 +222,12 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
           return
         case 'help':
           ctx.lastAction = 'help'
+          setConversationContext(prev => ({ ...prev, lastAction: 'help' }))
           addMessage('I can help with:\n• Converting units (try "5 km in miles")\n• Explaining formulas\n• Showing your usage stats\n• Finding categories & units\n• Guiding you through modes\n\n**Slash commands:** /go, /help, /clear, /stats, /modes, /theme', 'assistant')
           return
         case 'stats':
           ctx.lastAction = 'stats'
+          setConversationContext(prev => ({ ...prev, lastAction: 'stats' }))
           addMessage(`📊 **Your Stats** — Total: ${summary.totalConversions} | Top: ${summary.mostUsedCategory} | Peak: ${summary.peakDay} | Score: ${analytics.getProductivityScore()}%`, 'assistant')
           if (summary.totalConversions > 0) {
             addMessage(`🔄 **Recent**: ${analytics.getRecentConversions(5).filter(e => e.fromUnit).map(e => `${e.fromUnit}→${e.toUnit}`).join(', ') || 'None'}`, 'assistant')
@@ -220,6 +235,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
           return
         case 'modes':
           ctx.lastAction = 'mode'
+          setConversationContext(prev => ({ ...prev, lastAction: 'mode' }))
           addMessage('🎓 **Student** — Simplified + explanations\n🔧 **Engineer** — Precision + advanced\n🔬 **Scientist** — Constants + math\n💹 **Trader** — Currency + crypto\n⚡ **Fast** — Minimal instant\n🚀 **Pro** — Full analytics + AI', 'assistant')
           return
         case 'theme':
@@ -269,6 +285,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
               const validResults = results.filter(r => r.result != null)
               if (validResults.length > 0) {
                 ctx.lastCat = bFromCat.id
+                setConversationContext(prev => ({ ...prev, lastCat: bFromCat.id }))
                 addMessage(`📦 **Batch** — ${bFromLabel} → ${bToLabel}`, 'assistant')
                 addMessage(validResults.map(r => `${r.from} → **${roundSmart(r.result!)}**`).join('\n'), 'assistant')
                 const formula = getFormula(bFromCat.id, batchFromUnit, batchToUnit)
@@ -317,6 +334,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
         const allResults = convertAll(val, fromCat.id, fromUnit)
         const others = allResults.filter(r => r.id !== toUnit && r.value != null).slice(0, 4)
         ctx.lastCat = fromCat.id
+        setConversationContext(prev => ({ ...prev, lastCat: fromCat.id }))
         const catIcon = fromCat.ic || '📐'
 
         addMessage(`${catIcon} ${fromCat.lb} — ${val} ${fromLabel} → ${toLabel}`, 'assistant')
@@ -364,6 +382,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
           if (valid.length > 0) {
             analytics.track({ type: 'convert', category: fromCat.id, fromUnit: parsed.fromUnit })
             ctx.lastCat = fromCat.id
+            setConversationContext(prev => ({ ...prev, lastCat: fromCat.id }))
             addMessage(`${fromCat.ic || '📐'} ${fromCat.lb} — ${effectiveValue} ${fromLabel}`, 'assistant')
             const lines = valid.map((r, i) => {
               const val = r.value as number
@@ -448,6 +467,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
         addMessage(nextExp.explanation, 'assistant')
         if (nextExp.formula) addMessage(`Formula: ${nextExp.formula}`, 'assistant')
         ctx.lastFormula = nextExp.title
+        setConversationContext(prev => ({ ...prev, lastFormula: nextExp.title }))
         return
       }
     }
@@ -461,6 +481,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
       if (exps.length > 0) {
         ctx.lastCat = catMatch.id
         ctx.lastFormula = exps[0].title
+        setConversationContext(prev => ({ ...prev, lastCat: catMatch.id, lastFormula: exps[0].title }))
         addMessage(`📖 **${catMatch.lb}** — ${exps[0].title}`, 'assistant')
         addMessage(exps[0].explanation, 'assistant')
         if (exps[0].formula) addMessage(`Formula: ${exps[0].formula}`, 'assistant')
@@ -472,6 +493,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Check for help/about
     if (lower.includes('help') || lower.includes('feature') || lower.includes('what can')) {
       ctx.lastAction = 'help'
+      setConversationContext(prev => ({ ...prev, lastAction: 'help' }))
       addMessage('I can help with:\n• Converting units (try "5 km in miles")\n• Explaining formulas\n• Showing your usage stats\n• Finding categories & units\n• Guiding you through modes', 'assistant')
       return
     }
@@ -479,6 +501,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Stats check
     if (lower.includes('stat') || lower.includes('usage') || lower.includes('analytics')) {
       ctx.lastAction = 'stats'
+      setConversationContext(prev => ({ ...prev, lastAction: 'stats' }))
       addMessage(`📊 **Your Stats** — Total: ${summary.totalConversions} | Top: ${summary.mostUsedCategory} | Peak: ${summary.peakDay} | Score: ${analytics.getProductivityScore()}%`, 'assistant')
       if (summary.totalConversions > 0) {
         addMessage(`🔄 **Recent conversions**: ${analytics.getRecentConversions(5).filter(e => e.fromUnit).map(e => `${e.fromUnit}→${e.toUnit}`).join(', ') || 'None yet'}`, 'assistant')
@@ -489,6 +512,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Mode explanation
     if (lower.includes('mode') || lower.includes('student') || lower.includes('engineer') || lower.includes('trader') || lower.includes('scientist')) {
       ctx.lastAction = 'mode'
+      setConversationContext(prev => ({ ...prev, lastAction: 'mode' }))
       addMessage('🎓 **Student** — Simplified UI + explanations\n🔧 **Engineer** — Precision + advanced units\n🔬 **Scientist** — Constants + math\n💹 **Trader** — Currency + crypto focus\n⚡ **Fast** — Minimal instant mode\n🚀 **Pro** — Full analytics + AI', 'assistant')
       addMessage('💡 Ask "tell me more" about any mode for details', 'assistant')
       return
@@ -497,6 +521,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Conversion format explanation
     if (lower.includes('convert') || lower.includes('format') || lower.includes('how to')) {
       ctx.lastAction = 'convert'
+      setConversationContext(prev => ({ ...prev, lastAction: 'convert' }))
       addMessage('You can type conversions naturally like:\n• "5 km in miles"\n• "100 USD to EUR"\n• "(5m + 20cm) × 2"\n• "convert 30C to F"\n\nTry it in the converter panel!', 'assistant')
       return
     }
@@ -504,6 +529,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Suggestions based on usage
     if (lower.includes('suggest') || lower.includes('recommend')) {
       ctx.lastAction = 'suggest'
+      setConversationContext(prev => ({ ...prev, lastAction: 'suggest' }))
       if (suggestions.length > 0) {
         addMessage(`💡 **Suggestions** — ${suggestions.slice(0, 3).map(s => s.label).join(' • ')}`, 'assistant')
       } else {
@@ -515,6 +541,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Shortcuts
     if (lower.includes('shortcut') || lower.includes('key')) {
       ctx.lastAction = 'shortcut'
+      setConversationContext(prev => ({ ...prev, lastAction: 'shortcut' }))
       addMessage('⌘K — Command bar\n⌘⇧C — Quick convert\n⌘H — History\n⌘D — Dark mode\n⌘⇧A — AI Assistant\nEsc — Close/clear', 'assistant')
       return
     }
@@ -538,6 +565,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     if (kbResults.length > 0) {
       const top = kbResults[0]
       ctx.lastAction = top.category
+      setConversationContext(prev => ({ ...prev, lastAction: top.category }))
       addMessage(`📚 **${top.title}**`, 'assistant')
       addMessage(top.content, 'assistant')
       if (kbResults.length > 1) {
@@ -553,9 +581,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     // Random tip fallback
     const randomTip = getRandomTip()
     addMessage(`💡 **Tip** — ${randomTip.title}\n${randomTip.content}`, 'assistant')
-  }, [input, cats, suggestions, summary, addMessage, navigate, onClose])
-
-  handleSendRef.current = handleSend
+  }, [input, cats, suggestions, summary, addMessage, navigate, onClose, conversationContext])
 
   return (
     <AnimatePresence>
@@ -565,6 +591,8 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 300 }}
           transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          role="dialog"
+          aria-label="NX-COS AI Assistant"
           className="fixed right-0 top-0 h-full w-80 z-50 glass border-l border-[var(--border)] flex flex-col shadow-2xl"
         >
           {/* Header */}
@@ -633,7 +661,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
                 <div className="text-xs opacity-50 uppercase tracking-wide">Quick replies</div>
                 <div className="flex flex-wrap gap-1">
                   {replyChips.map((chip, i) => (
-                    <button key={i} onClick={() => { setInput(chip.query); setTimeout(() => handleSendRef.current?.(), 100) }}
+                    <button key={i} onClick={() => handleSend(chip.query)}
                       className="btn-chip text-xs">
                       {chip.label}
                     </button>
@@ -647,7 +675,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
               <div className="pt-2 space-y-1">
                 <div className="text-xs opacity-50 uppercase tracking-wide">Suggestions</div>
                 {suggestions.slice(0, 3).map((s, i) => (
-                  <button key={i} onClick={() => { setInput(s.label); setTimeout(() => handleSendRef.current?.(), 100) }}
+                  <button key={i} onClick={() => handleSend(s.label)}
                     className="block w-full text-left text-xs p-2 rounded-lg hover:bg-[var(--border)] transition-colors">
                     {s.label}
                   </button>
@@ -661,7 +689,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
                 <div className="text-xs opacity-50 uppercase tracking-wide mb-1">Quick questions</div>
                 <div className="grid grid-cols-2 gap-1">
                   {SUGGESTED_QUESTIONS.map((q, i) => (
-                    <button key={i} onClick={() => { setInput(q.label); setTimeout(() => handleSendRef.current?.(), 100) }}
+                    <button key={i} onClick={() => handleSend(q.label)}
                       className="text-left text-xs p-1.5 rounded-lg glass border border-[var(--border)] hover:border-[var(--primary)] transition-colors truncate">
                       {q.label}
                     </button>
@@ -681,7 +709,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
                 <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 4 }}
                   className="absolute bottom-full left-3 right-3 mb-1 glass rounded-xl overflow-hidden shadow-lg border border-[var(--border)]">
                   {liveSuggestions.map((s, i) => (
-                    <button key={i} onClick={() => { setInput(s.label); setLiveSuggestions([]); setTimeout(() => handleSendRef.current?.(), 100) }}
+                    <button key={i} onClick={() => { setLiveSuggestions([]); handleSend(s.label) }}
                       className="w-full text-left px-3 py-2 text-xs hover:bg-[var(--border)] transition-colors flex items-center gap-2">
                       <span className="text-xs opacity-40">💡</span>
                       {s.label}
@@ -692,15 +720,16 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
             </AnimatePresence>
 
             <div className="flex gap-2">
-              <input value={input} onChange={e => { setInput(e.target.value); handleLiveSuggest(e.target.value) }}
+              <input ref={inputRef} value={input} onChange={e => { setInput(e.target.value); handleLiveSuggest(e.target.value) }}
                 onKeyDown={e => {
                   if (e.key === 'Enter') handleSend()
                   if (e.key === 'Escape') setLiveSuggestions([])
                 }}
                 placeholder="Ask anything..."
+                aria-label="Ask Omega X AI assistant"
                 className="flex-1 px-3 py-2 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] transition-colors"
               />
-              <button onClick={handleSend}
+              <button onClick={() => handleSend()}
                 className="px-3 py-2 rounded-xl bg-[var(--primary)] text-white text-xs interact-lift" aria-label="Send message">→</button>
             </div>
           </div>

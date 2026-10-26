@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 
 const FEATURES = [
-  { icon: '📏', label: '30+ Conversion Categories', desc: '200+ units across length, mass, temp, and more' },
+  { icon: '📏', label: '24 Conversion Categories', desc: '176+ units across length, mass, temp, and more' },
   { icon: '💵', label: 'Live Currency Rates', desc: '40+ world currencies with auto-refresh' },
   { icon: '₿', label: 'Crypto Prices', desc: 'Real-time BTC, ETH, SOL & more from CoinGecko' },
   { icon: '🧠', label: 'Natural Language Input', desc: 'Try "5 km in miles" or "(5m + 20cm) × 2"' },

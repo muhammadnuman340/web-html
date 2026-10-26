@@ -825,7 +825,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               </div>
             )}
 
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-within:opacity-100 transition-all duration-200">
               {result !== null && (
                 <>
                   <button onClick={shareResult}

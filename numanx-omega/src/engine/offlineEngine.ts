@@ -1,3 +1,5 @@
+import { convertCurrencyAmount } from '../services/financialData'
+
 const CURRENCY_CACHE_KEY = 'uc_currency_offline'
 
 export interface CachedRates {
@@ -37,11 +39,7 @@ export class OfflineEngine {
 
   convertOfflineCurrency(amount: number, from: string, to: string): number | null {
     if (!this.currencyCache?.rates) return null
-    const r = this.currencyCache.rates
-    if (from === 'USD') return amount * (r[to] || 1)
-    if (to === 'USD') return amount / (r[from] || 1)
-    const inUSD = amount / (r[from] || 1)
-    return inUSD * (r[to] || 1)
+    return convertCurrencyAmount(amount, from, to, this.currencyCache.rates, this.currencyCache.base)
   }
 
   getCacheAge(): number | null {

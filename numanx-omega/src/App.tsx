@@ -5,12 +5,9 @@ import Sidebar from './components/layout/Sidebar'
 import CommandBar from './components/ui/CommandBar'
 import type { AppMode } from './components/widgets/ModeSwitcher'
 import FloatingTools from './components/widgets/FloatingTools'
-import AIAssistant from './components/widgets/AIAssistant'
 import AIFloatingButton from './components/widgets/AIFloatingButton'
 import ContextBar from './components/widgets/ContextBar'
 import ErrorBoundary from './components/ui/ErrorBoundary'
-import OnboardingTour from './components/ui/OnboardingTour'
-import ShortcutsPanel from './components/ui/ShortcutsPanel'
 import InstallPWA from './components/widgets/InstallPWA'
 import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
@@ -42,6 +39,10 @@ const Sitemap = lazy(() => import('./pages/Sitemap'))
 const Blog = lazy(() => import('./pages/Blog'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const About = lazy(() => import('./pages/About'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))
+const OnboardingTour = lazy(() => import('./components/ui/OnboardingTour'))
+const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -159,13 +160,29 @@ function AppContent() {
 
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-white focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white text-sm font-semibold transition-all"
+      >
+        Skip to main content
+      </a>
       <JSONLD />
       <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
-      <ShortcutsPanel open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      {shortcutsOpen && (
+        <Suspense fallback={null}>
+          <ShortcutsPanel open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+        </Suspense>
+      )}
       <div className="distraction"><FloatingTools /></div>
-      {aiAssistantOpen && <AIAssistant onClose={() => setAiAssistantOpen(false)} currentPage={location.pathname} />}
+      {aiAssistantOpen && (
+        <Suspense fallback={null}>
+          <AIAssistant onClose={() => setAiAssistantOpen(false)} currentPage={location.pathname} />
+        </Suspense>
+      )}
       <AIFloatingButton open={aiAssistantOpen} onToggle={() => setAiAssistantOpen(p => !p)} />
-      <OnboardingTour />
+      <Suspense fallback={null}>
+        <OnboardingTour />
+      </Suspense>
 
       <AmbientBackground />
       <div className="flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
@@ -190,7 +207,7 @@ function AppContent() {
           </div>
 
           {/* Main content */}
-          <main className={`flex-1 px-3 sm:px-5 py-4 sm:py-6 max-w-5xl mx-auto w-full ${mode === 'fast' ? 'pt-8' : ''}`}>
+          <main id="main-content" tabIndex={-1} className={`flex-1 px-3 sm:px-5 py-4 sm:py-6 max-w-5xl mx-auto w-full outline-none ${mode === 'fast' ? 'pt-8' : ''}`}>
             <ErrorBoundary>
               <AnimatePresence mode="wait">
                 <Suspense fallback={<SkeletonPage />}>
@@ -237,6 +254,7 @@ function AppContent() {
                       <Route path="/blog/:slug" element={<BlogPost />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/sitemap" element={<Sitemap />} />
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                   </motion.div>
                 </Suspense>

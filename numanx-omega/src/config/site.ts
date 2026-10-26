@@ -101,6 +101,7 @@ export const INDEXABILITY_POLICY = {
     '/settings',
     '/custom-units',
     '/help',
+    '/404',
   ],
 } as const
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const STEPS = [
@@ -17,6 +17,15 @@ export default function OnboardingTour() {
     setDismissed(true)
     localStorage.setItem('uc_onboarded', 'true')
   }
+
+  useEffect(() => {
+    if (dismissed) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') finish()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [dismissed])
 
   if (dismissed) return null
 
@@ -37,10 +46,13 @@ export default function OnboardingTour() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: -20 }}
           transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="tour-heading"
           className="glass rounded-3xl p-8 max-w-sm w-full text-center space-y-4 shadow-2xl"
         >
           <div className="text-6xl animate-float">{s.icon}</div>
-          <h2 className="text-xl font-bold">{s.title}</h2>
+          <h2 id="tour-heading" className="text-xl font-bold">{s.title}</h2>
           <p className="text-sm opacity-60">{s.desc}</p>
           <div className="flex justify-center gap-1.5 pt-2">
             {STEPS.map((_, i) => (

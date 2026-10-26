@@ -27,18 +27,44 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      const isChunkError = Boolean(
+        this.state.error?.message && (
+          this.state.error.message.includes('dynamically imported module') ||
+          this.state.error.message.includes('Loading chunk') ||
+          this.state.error.message.includes('Failed to fetch')
+        )
+      )
+
       return this.props.fallback || (
-        <div className="flex items-center justify-center min-h-[50vh] p-8">
-          <div className="glass rounded-2xl p-8 max-w-md text-center space-y-4">
-            <div className="text-5xl animate-float" aria-hidden="true">⚠️</div>
-            <h2 className="text-lg font-bold">Something went wrong</h2>
-            <p className="text-sm opacity-60">{this.state.error?.message || 'An unexpected error occurred'}</p>
-            <button
-              onClick={() => { this.setState({ hasError: false, error: null }); window.location.reload() }}
-              className="px-5 py-2 rounded-xl bg-[var(--primary)] text-white text-sm interact-lift"
-            >
-              Reload App
-            </button>
+        <div className="flex items-center justify-center min-h-[50vh] p-8" role="alert" aria-live="assertive">
+          <div className="glass rounded-2xl p-8 max-w-md w-full text-center space-y-4 border border-[var(--border)] shadow-xl">
+            <div className="text-5xl" aria-hidden="true">
+              {isChunkError ? '🔄' : '⚠️'}
+            </div>
+            <h2 className="text-lg font-bold text-[var(--text)]">
+              {isChunkError ? 'Application Update Available' : 'Something went wrong'}
+            </h2>
+            <p className="text-sm opacity-70 text-[var(--text2)] leading-relaxed">
+              {isChunkError
+                ? 'A new version of Omega X Converter was published. Please reload to activate the updated components.'
+                : (this.state.error?.message || 'An unexpected error occurred while rendering this page.')}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-2 justify-center pt-2">
+              <button
+                type="button"
+                onClick={() => { this.setState({ hasError: false, error: null }); window.location.reload() }}
+                className="px-5 py-2 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold interact-lift"
+              >
+                {isChunkError ? 'Update & Reload' : 'Reload Page'}
+              </button>
+              <button
+                type="button"
+                onClick={() => { this.setState({ hasError: false, error: null }); window.location.href = '/' }}
+                className="px-5 py-2 rounded-xl glass border border-[var(--border)] text-sm font-semibold text-[var(--text)] hover:border-[var(--primary)] interact-lift"
+              >
+                Return Home
+              </button>
+            </div>
           </div>
         </div>
       )

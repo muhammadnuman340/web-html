@@ -97,8 +97,16 @@ export default function Settings() {
           <div>
             <h3 className="text-xs font-medium mb-2 opacity-70"><span aria-hidden="true">🎯</span> Default Precision: {prec}</h3>
             <div className="flex items-center gap-3">
-              <input type="range" min="0" max="12" value={prec} onChange={e => handlePrec(Number(e.target.value))}
-                className="flex-1 accent-[var(--primary)]" />
+              <input
+                type="range"
+                min="0"
+                max="12"
+                value={prec}
+                onChange={e => handlePrec(Number(e.target.value))}
+                aria-label="Default conversion precision in decimal places"
+                aria-valuetext={`${prec} decimal places`}
+                className="flex-1 accent-[var(--primary)]"
+              />
               <span className="text-xs font-mono font-bold w-6 text-center">{prec}</span>
             </div>
           </div>

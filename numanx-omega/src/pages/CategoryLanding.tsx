@@ -89,6 +89,12 @@ export default function CategoryLanding({ categorySlug }: Props) {
   if (!content || !cat) {
     return (
       <div className="text-center py-12">
+        <SEOHead
+          title="Category Not Found — Omega X"
+          description={`The conversion category "${category || ''}" does not exist.`}
+          path={`/convert/${category || ''}`}
+          noindex={true}
+        />
         <div className="text-4xl mb-4" role="img" aria-hidden="true">🔍</div>
         <h1 className="text-xl font-bold mb-2">Category not found</h1>
         <p className="text-sm opacity-70 mb-4">The conversion category "{category}" does not exist.</p>

@@ -32,3 +32,5 @@ export interface AppState {
 }
 
 export interface CurrencyRate { [key: string]: number }
+
+export type { FinancialDataStatus } from '../services/financialData'

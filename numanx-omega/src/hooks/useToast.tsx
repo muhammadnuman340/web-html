@@ -54,11 +54,17 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ addToast, showToast: addToast, toast: addToast }}>
       {children}
-      <div className="fixed bottom-20 lg:bottom-6 right-4 z-[200] flex flex-col gap-2 pointer-events-none">
+      <div
+        role="region"
+        aria-label="Notifications"
+        className="fixed bottom-20 lg:bottom-6 right-4 z-[200] flex flex-col gap-2 pointer-events-none"
+      >
         <AnimatePresence>
           {toasts.map(toast => (
             <motion.div
               key={toast.id}
+              role={toast.type === 'error' ? 'alert' : 'status'}
+              aria-live={toast.type === 'error' ? 'assertive' : 'polite'}
               initial={{ opacity: 0, x: 100, scale: 0.8 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: 100, scale: 0.8 }}
