@@ -207,7 +207,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         </div>
 
         <div className="mt-auto pt-4 text-center text-xs text-[var(--text2)] opacity-70">
-          NumanX Studios &copy; 2026
+          NumanX Studio &copy; 2026
         </div>
       </motion.aside>
     </AnimatePresence>

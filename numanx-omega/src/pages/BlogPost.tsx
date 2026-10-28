@@ -3,6 +3,7 @@ import SEOHead from '../components/ui/SEOHead'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import { BLOG_POSTS } from '../data/blogPosts'
+import { buildBlogPostSchema } from '../config/schema'
 import { useState } from 'react'
 
 export default function BlogPost() {
@@ -34,44 +35,7 @@ export default function BlogPost() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.date,
-    author: {
-      '@type': 'Organization',
-      name: post.author,
-      url: 'https://numanx-studio-omega-converter.netlify.app/about'
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'NumanX Omega',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://numanx-studio-omega-converter.netlify.app/favicon.svg'
-      }
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `https://numanx-studio-omega-converter.netlify.app/blog/${post.slug}`
-    }
-  }
-
-  const faqSchema = post.content.faq.length > 0 ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: post.content.faq.map(f => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: f.a
-      }
-    }))
-  } : null
+  const blogPostSchema = buildBlogPostSchema(post)
 
   return (
     <article className="space-y-8 max-w-3xl mx-auto py-2">
@@ -79,12 +43,8 @@ export default function BlogPost() {
         title={`${post.title} — NumanX Blog`}
         description={post.excerpt}
         path={`/blog/${post.slug}`}
+        schema={blogPostSchema}
       />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
-      {faqSchema && (
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      )}
 
       {/* Breadcrumbs & Back Navigation matching user Image 2 */}
       <Breadcrumbs
@@ -238,6 +198,17 @@ export default function BlogPost() {
           </div>
         </section>
       )}
+
+      {/* Standards Provenance & Editorial Standards */}
+      <section aria-labelledby="editorial-standards-heading" className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
+        <div className="flex items-center gap-2 font-semibold text-[var(--text)]">
+          <span aria-hidden="true">🏛️</span>
+          <span id="editorial-standards-heading">Standards & Provenance Note</span>
+        </div>
+        <p className="leading-relaxed text-[11px]">
+          Editorial content published by {post.author} on behalf of NumanX Studio. Conversion constants referenced in this article adhere to NIST SP 811 and the BIPM SI brochure. For complete metrological documentation, consult our <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">metrology standards directory</Link>.
+        </p>
+      </section>
 
       {/* Related Articles Footer */}
       {relatedPosts.length > 0 && (

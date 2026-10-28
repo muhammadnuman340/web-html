@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { analytics } from '../engine/analytics'
+import { buildHomeSchema } from '../config/schema'
 import type { AppMode } from '../components/widgets/ModeSwitcher'
 
 interface Props { mode?: AppMode }
@@ -105,10 +106,16 @@ export default function Home({ mode = 'pro' }: Props) {
   }
 
   const displayFeatures = modeFeatures[mode] || FEATURES.slice(0, 8)
+  const homeSchema = useMemo(() => buildHomeSchema(), [])
 
   return (
     <div className="relative">
-      <SEOHead title="Free Universal Unit Converter" description="Free online unit converter with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support." path="/" />
+      <SEOHead
+        title="Free Universal Unit Converter"
+        description="Free online unit converter with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support."
+        path="/"
+        schema={homeSchema}
+      />
       <div className="relative z-10 space-y-6">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center py-8">
           <AnimatedLogo />
@@ -229,7 +236,7 @@ export default function Home({ mode = 'pro' }: Props) {
         </section>
 
         <footer className="text-center text-xs text-[var(--text2)] opacity-80 py-4">
-          NumanX Omega X · NumanX Studios · Frontend-Only · PWA · Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands
+          Omega X Converter · NumanX Studio · Frontend-Only · PWA · Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands
         </footer>
       </div>
     </div>

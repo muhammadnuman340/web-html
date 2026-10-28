@@ -2,10 +2,17 @@ import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { guideContent } from '../engine/guideContent'
 import UniversalConverter from '../components/converter/UniversalConverter'
+import { buildGuideSchema } from '../config/schema'
+import { getGuideRelationship } from '../config/guideRelations'
+import { BLOG_POSTS } from '../data/blogPosts'
 
 export default function GuidePage() {
   const { slug } = useParams<{ slug: string }>()
   const content = slug ? guideContent[slug] : null
+  const rel = slug ? getGuideRelationship(slug) : undefined
+  const relatedPosts = (rel && rel.relatedPostSlugs.length)
+    ? BLOG_POSTS.filter(p => rel.relatedPostSlugs.includes(p.slug))
+    : []
 
   if (!content) {
     return (
@@ -18,34 +25,16 @@ export default function GuidePage() {
     )
   }
 
-  const howToSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'HowTo',
-    name: content.h1,
-    description: content.metaDesc,
-    step: content.steps.map((s, i) => ({
-      '@type': 'HowToStep',
-      position: i + 1,
-      text: s,
-    })),
-  }
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: content.faq.map(f => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  }
+  const guideSchema = buildGuideSchema(content)
 
   return (
     <article className="space-y-6">
-      <SEOHead title={content.title} description={content.metaDesc} path={`/guides/${content.slug}`} />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <SEOHead
+        title={content.title}
+        description={content.metaDesc}
+        path={`/guides/${content.slug}`}
+        schema={guideSchema}
+      />
 
       {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="text-xs opacity-50 flex gap-1 flex-wrap">
@@ -155,6 +144,82 @@ export default function GuidePage() {
             All {content.relatedCat} converters →
           </Link>
         </div>
+      </section>
+      {/* Interactive Pair Converter & Category Directory */}
+      {rel && (
+        <section aria-labelledby="interactive-pair-heading" className="glass rounded-2xl p-4 border border-[var(--border)]">
+          <h2 id="interactive-pair-heading" className="text-sm font-semibold mb-3">Interactive Pair Converter & Category Directory</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Link
+              to={rel.pairPath}
+              className="p-3.5 rounded-xl bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] transition-colors group flex flex-col justify-between"
+            >
+              <div>
+                <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors flex items-center justify-between">
+                  <span>Convert {rel.title} Interactively</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </div>
+                <div className="text-[11px] opacity-60 mt-1">
+                  Open the full two-way interactive converter with real-time calculations and copyable results.
+                </div>
+              </div>
+              <div className="text-[11px] text-[var(--primary)] font-medium mt-2">
+                Launch interactive pair tool &rarr;
+              </div>
+            </Link>
+            <Link
+              to={rel.categoryPath}
+              className="p-3.5 rounded-xl bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] transition-colors group flex flex-col justify-between"
+            >
+              <div>
+                <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors flex items-center justify-between">
+                  <span>Explore All {rel.categoryName} Conversions</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </div>
+                <div className="text-[11px] opacity-60 mt-1">
+                  Browse the comprehensive directory of all units, reference charts, and live matrices in {rel.categoryName.toLowerCase()}.
+                </div>
+              </div>
+              <div className="text-[11px] text-[var(--primary)] font-medium mt-2">
+                View {rel.categoryName} directory &rarr;
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* Related Technical Articles */}
+      {relatedPosts.length > 0 && (
+        <section aria-labelledby="related-articles-heading" className="glass rounded-2xl p-4 border border-[var(--border)]">
+          <h2 id="related-articles-heading" className="text-sm font-semibold mb-3">Related Technical Articles</h2>
+          <div className="space-y-2">
+            {relatedPosts.map(post => (
+              <Link
+                key={post.slug}
+                to={`/blog/${post.slug}`}
+                className="block p-3 rounded-xl bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] transition-colors group"
+              >
+                <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors flex items-center justify-between">
+                  <span>{post.title}</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </div>
+                <div className="text-[11px] opacity-60 mt-0.5 line-clamp-1">
+                  {post.excerpt}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+      {/* Standards & Metrological Grounding */}
+      <section aria-labelledby="standards-grounding-heading" className="glass rounded-2xl p-4 border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
+        <div className="flex items-center gap-2 font-semibold text-[var(--text)]">
+          <span aria-hidden="true">🏛️</span>
+          <span id="standards-grounding-heading">Standards Reference & Metrological Grounding</span>
+        </div>
+        <p className="leading-relaxed text-[11px]">
+          Calculations and conversion factors in this guide adhere to NIST Special Publication 811 and BIPM SI brochure definitions. Review our complete <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">institutional standards and sources directory</Link>.
+        </p>
       </section>
     </article>
   )

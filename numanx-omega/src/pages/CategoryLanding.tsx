@@ -11,7 +11,9 @@ import CategorySpecialWidget from '../components/category/special/CategorySpecia
 import LengthProToolkit from '../components/category/special/LengthProToolkit'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { resolveCategoryId } from '../engine/routes'
-import { canonicalUrl } from '../config/site'
+import { buildCategorySchema } from '../config/schema'
+import { getGuidesForCategory } from '../config/guideRelations'
+import { getCategoryAuthoritySources } from '../config/authoritySources'
 
 interface Props {
   categorySlug?: string
@@ -25,11 +27,14 @@ export default function CategoryLanding({ categorySlug }: Props) {
   const cat = category ? getAllCategories().find(c => c.id === category) : null
 
   const allCats = useMemo(() => getAllCategories(), [])
+  const categoryGuides = useMemo(() => (cat ? getGuidesForCategory(cat.id) : []), [cat])
 
   const stdInfo = useMemo(() => {
     if (!cat) return null
     return getCategoryStandards(cat.id, cat.lb, cat.un.map(u => u.lb))
   }, [cat])
+
+  const catAuthSources = useMemo(() => (cat ? getCategoryAuthoritySources(cat.id) : []), [cat])
 
   const pageTitle = useMemo(() => {
     if (!cat) return ''
@@ -47,44 +52,12 @@ export default function CategoryLanding({ categorySlug }: Props) {
 
   const categorySchema = useMemo(() => {
     if (!cat) return null
-    const pageUrl = canonicalUrl(`/convert/${cat.id}`)
-    return {
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'WebApplication',
-          '@id': `${pageUrl}#software`,
-          name: pageTitle,
-          url: pageUrl,
-          applicationCategory: 'UtilitiesApplication',
-          operatingSystem: 'All',
-          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
-        },
-        {
-          '@type': 'BreadcrumbList',
-          '@id': `${pageUrl}#breadcrumb`,
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'Categories', item: canonicalUrl('/categories') },
-            { '@type': 'ListItem', position: 3, name: `${cat.lb} Converter`, item: pageUrl }
-          ]
-        },
-        ...(content?.faq?.length
-          ? [
-              {
-                '@type': 'FAQPage',
-                '@id': `${pageUrl}#faq`,
-                mainEntity: content.faq.map((f: { q: string; a: string }) => ({
-                  '@type': 'Question',
-                  name: f.q,
-                  acceptedAnswer: { '@type': 'Answer', text: f.a }
-                }))
-              }
-            ]
-          : [])
-      ]
-    }
-  }, [cat, content, pageTitle])
+    return buildCategorySchema(cat, {
+      title: pageTitle,
+      metaDesc: pageDesc,
+      faq: content?.faq,
+    })
+  }, [cat, content, pageTitle, pageDesc])
 
   if (!content || !cat) {
     return (
@@ -174,6 +147,30 @@ export default function CategoryLanding({ categorySlug }: Props) {
           <p className="leading-relaxed">
             {stdInfo.standardsStatement}
           </p>
+          <div className="pt-1 text-[11px] text-[var(--text2)]">
+            {catAuthSources.length > 0 ? (
+              <>
+                Primary References:{' '}
+                {catAuthSources.map((src, i) => (
+                  <span key={src.id}>
+                    {i > 0 && ' · '}
+                    <a href={src.url} target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] underline hover:opacity-80">
+                      {src.documentRef}
+                    </a>
+                  </span>
+                ))}{' '}
+                · <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">All Standards</Link>
+              </>
+            ) : (
+              <>
+                Standards & Data Source Note: Consult our{' '}
+                <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">
+                  standards and methodology directory
+                </Link>{' '}
+                for data source provenance.
+              </>
+            )}
+          </div>
         </section>
       )}
 
@@ -211,6 +208,37 @@ export default function CategoryLanding({ categorySlug }: Props) {
           ))}
         </div>
       </section>
+
+      {/* Educational Guides & Reference Formulas */}
+      {categoryGuides.length > 0 && (
+        <section aria-labelledby="guides-heading" className="glass rounded-2xl p-4 border border-[var(--border)]">
+          <h2 id="guides-heading" className="text-sm font-semibold mb-3 text-[var(--text)] flex items-center gap-2">
+            <span>Conversion Guides & Step-by-Step Formulas</span>
+          </h2>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {categoryGuides.map(g => (
+              <Link
+                key={g.guideSlug}
+                to={`/guides/${g.guideSlug}`}
+                className="glass rounded-xl p-3 hover:shadow-md transition-all interact-lift border border-[var(--border)] group flex flex-col justify-between"
+              >
+                <div>
+                  <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
+                    {g.title} Conversion Guide
+                  </div>
+                  <div className="text-[11px] text-[var(--text2)] mt-1">
+                    Step-by-step formula derivation, worked examples, and quick lookup tables.
+                  </div>
+                </div>
+                <div className="text-[11px] text-[var(--primary)] font-medium mt-2 flex items-center gap-1">
+                  <span>Read educational guide</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Formula */}
       {content.formula && (

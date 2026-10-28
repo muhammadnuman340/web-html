@@ -1,40 +1,24 @@
 import { useState, useMemo } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt, parseSmart } from '../utils/numbers'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useToast } from '../hooks/useToast'
 import { resolveCategoryId } from '../engine/routes'
-import { canonicalUrl } from '../config/site'
-import type { CategoryDef, UnitDef } from '../types'
+import { buildPairSchema } from '../config/schema'
+import { parsePairQueryVal, getGuideForPair } from '../config/guideRelations'
+import { findUnit, getPairEditorial } from '../config/pairEditorial'
 
-function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
-  const q = raw.trim().toLowerCase()
-  const qSpaced = q.replace(/-/g, ' ')
-  // Clean plural 's' or 'es'
-  const singular = q.endsWith('ies') ? q.slice(0, -3) + 'y' :
-                   q.endsWith('es') ? q.slice(0, -2) :
-                   q.endsWith('s') ? q.slice(0, -1) : q
-  const singularSpaced = qSpaced.endsWith('ies') ? qSpaced.slice(0, -3) + 'y' :
-                         qSpaced.endsWith('es') ? qSpaced.slice(0, -2) :
-                         qSpaced.endsWith('s') ? qSpaced.slice(0, -1) : qSpaced
-
-  return cat.un.find(u => {
-    const uid = u.id.toLowerCase()
-    const ulb = u.lb.toLowerCase()
-    if (uid === q || ulb === q || uid === qSpaced || ulb === qSpaced) return true
-    if (uid === singular || ulb === singular || uid === singularSpaced || ulb === singularSpaced) return true
-    if (u.al?.some(a => {
-      const alLower = a.toLowerCase()
-      return alLower === q || alLower === qSpaced || alLower === singular || alLower === singularSpaced
-    })) return true
-    return false
-  })
-}
-
-export default function PairLanding() {
-  const { category: catParam, pair: pairParam } = useParams<{ category?: string; pair: string }>()
+function PairLandingInner({
+  catParam,
+  pairParam,
+  initialVal,
+}: {
+  catParam?: string
+  pairParam: string
+  initialVal: string
+}) {
   const navigate = useNavigate()
   const { showToast } = useToast()
 
@@ -51,7 +35,7 @@ export default function PairLanding() {
   }, [pairParam])
 
   // Resolve category and units
-  const resolution = useMemo(() => {
+  const resolution = (() => {
     if (!fromSlug || !toSlug) return null
 
     // If category was specified in URL, check that first
@@ -73,9 +57,9 @@ export default function PairLanding() {
     }
 
     return null
-  }, [allCats, catParam, fromSlug, toSlug])
+  })()
 
-  const [fromValue, setFromValue] = useState<string>('1')
+  const [fromValue, setFromValue] = useState(initialVal)
 
   const numFrom = useMemo(() => {
     if (!resolution) return 0
@@ -116,60 +100,23 @@ export default function PairLanding() {
     showToast('Copied to clipboard!', 'success')
   }
 
+  const editorial = useMemo(() => {
+    if (!cat || !u1 || !u2) return null
+    return getPairEditorial(cat, u1, u2, pairParam)
+  }, [cat, u1, u2, pairParam])
+
   const pageTitle = u1 && u2 ? `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})` : ''
-  const metaDescription = u1 && u2 ? `Free online ${u1.lb} to ${u2.lb} converter. 1 ${u1.lb} = ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${u2.lb}. Includes live calculator, exact formula, and 1 to 100 conversion chart.` : ''
+  const metaDescription = u1 && u2 && editorial ? `Free online ${u1.lb} to ${u2.lb} converter. ${editorial.directAnswer.summary} Includes live calculator, exact formula, and 1 to 1000 conversion chart.` : ''
+
+  const relatedGuide = useMemo(() => {
+    if (!cat || !pairParam) return undefined
+    return getGuideForPair(cat.id, pairParam)
+  }, [cat, pairParam])
 
   const schema = useMemo(() => {
     if (!cat || !u1 || !u2) return null
-    const pageUrl = canonicalUrl(`/convert/${cat.id}/${pairParam}`)
-    return {
-      '@context': 'https://schema.org',
-      '@graph': [
-        {
-          '@type': 'WebApplication',
-          '@id': `${pageUrl}#software`,
-          name: `${u1.lb} to ${u2.lb} Precision Calculator`,
-          url: pageUrl,
-          description: metaDescription,
-          applicationCategory: 'UtilitiesApplication',
-          operatingSystem: 'All',
-          offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        },
-        {
-          '@type': 'BreadcrumbList',
-          '@id': `${pageUrl}#breadcrumb`,
-          itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalUrl('/') },
-            { '@type': 'ListItem', position: 2, name: 'Categories', item: canonicalUrl('/categories') },
-            { '@type': 'ListItem', position: 3, name: cat.lb, item: canonicalUrl(`/convert/${cat.id}`) },
-            { '@type': 'ListItem', position: 4, name: `${u1.lb} to ${u2.lb}`, item: pageUrl },
-          ],
-        },
-        {
-          '@type': 'FAQPage',
-          '@id': `${pageUrl}#faq`,
-          mainEntity: [
-            {
-              '@type': 'Question',
-              name: `How many ${u2.lb} in 1 ${u1.lb}?`,
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: `1 ${u1.lb} (${u1.id}) is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ''} ${u2.lb} (${u2.id}).`,
-              },
-            },
-            {
-              '@type': 'Question',
-              name: `How to convert ${u1.lb} to ${u2.lb}?`,
-              acceptedAnswer: {
-                '@type': 'Answer',
-                text: `To convert from ${u1.lb} to ${u2.lb}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : 'the conversion factor'}.`,
-              },
-            },
-          ],
-        },
-      ],
-    }
-  }, [cat, u1, u2, pairParam, metaDescription, unitRatio])
+    return buildPairSchema(cat, u1, u2, unitRatio, inverseUnitRatio, pairParam, editorial?.faqs, editorial?.directAnswer.summary)
+  }, [cat, u1, u2, pairParam, unitRatio, inverseUnitRatio, editorial])
 
   const handlePrint = () => {
     window.print()
@@ -318,32 +265,112 @@ export default function PairLanding() {
         </div>
       </section>
 
-      {/* Formula & Explanation */}
-      <section aria-labelledby="formula-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
-        <h2 id="formula-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
-          <span role="img" aria-hidden="true">📐</span> How to Convert {u1.lb} to {u2.lb}
-        </h2>
-        <div className="p-3.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] font-mono text-xs text-[var(--primary)] font-semibold">
-          {cat.id === 'temp'
-            ? u1.id === 'C' && u2.id === 'F'
-              ? '°F = (°C × 9/5) + 32'
-              : u1.id === 'F' && u2.id === 'C'
-              ? '°C = (°F - 32) × 5/9'
-              : `${u2.id} = formula(${u1.id})`
-            : `${u2.id} = ${u1.id} × ${unitRatio !== null ? fmt(unitRatio, 8) : ''}`}
-        </div>
-        <div className="text-xs text-[var(--text2)] opacity-85 leading-relaxed space-y-1">
-          <p>
-            <strong>Step 1:</strong> Take the number of {u1.lb} you want to convert (for example, 10 {u1.id}).
+      {/* AEO Direct-Answer Block */}
+      {editorial && (
+        <section aria-labelledby="aeo-answer-heading" className="glass-liquid rounded-2xl p-4 sm:p-5 border border-[var(--primary)]/30 bg-[var(--primary)]/5 space-y-2.5">
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 rounded-lg bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center" aria-hidden="true">⚡</span>
+            <h2 id="aeo-answer-heading" className="text-sm font-bold text-[var(--text)]">
+              {editorial.directAnswer.heading}
+            </h2>
+          </div>
+          <p className="text-sm font-semibold text-[var(--text)] leading-relaxed">
+            {editorial.directAnswer.summary}
           </p>
-          <p>
-            <strong>Step 2:</strong> {cat.id === 'temp' ? 'Apply the scale temperature formula.' : `Multiply by the conversion factor (${unitRatio !== null ? fmt(unitRatio, 6) : ''}).`}
+          <div className="p-3 rounded-xl bg-[var(--card2)] border border-[var(--border)] font-mono text-xs text-[var(--primary)] font-bold">
+            Formula: {editorial.directAnswer.formulaDisplay}
+          </div>
+          <p className="text-xs text-[var(--text2)] opacity-85 leading-relaxed">
+            {editorial.directAnswer.calculationRule}
           </p>
-          <p>
-            <strong>Result:</strong> 10 {u1.id} = {convert(10, cat.id, u1.id, u2.id) !== null ? fmt(convert(10, cat.id, u1.id, u2.id)!, 4) : ''} {u2.id}.
-          </p>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Pair-Specific Metrological Explanation */}
+      {editorial && (
+        <section aria-labelledby="explanation-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
+          <h2 id="explanation-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
+            <span role="img" aria-hidden="true">📐</span> {editorial.explanation.heading}
+          </h2>
+          <div className="space-y-2 text-xs text-[var(--text2)] opacity-90 leading-relaxed">
+            {editorial.explanation.paragraphs.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+          <div className="text-xs text-[var(--text2)] opacity-75 pt-1 border-t border-[var(--border)]/40 flex items-center gap-1.5 font-mono">
+            <span className="font-semibold text-[var(--text)]">Standard Metrology:</span> {editorial.explanation.systemContext}
+          </div>
+        </section>
+      )}
+
+      {/* Practical Real-World Use Cases */}
+      {editorial && editorial.useCases.length > 0 && (
+        <section aria-labelledby="usecases-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
+          <h2 id="usecases-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
+            <span role="img" aria-hidden="true">🎯</span> Common Practical Applications
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {editorial.useCases.map((uc, i) => (
+              <div key={i} className="p-3 rounded-xl bg-[var(--card2)] border border-[var(--border)] space-y-1">
+                <h3 className="text-xs font-bold text-[var(--text)] flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)]" aria-hidden="true" />
+                  {uc.domain}
+                </h3>
+                <p className="text-xs text-[var(--text2)] opacity-85 leading-relaxed">
+                  {uc.context}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Reciprocal Relationship & Cross-Linking */}
+      {editorial && (
+        <section aria-labelledby="reciprocal-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">
+                {editorial.reciprocal.badgeText}
+              </span>
+              <h2 id="reciprocal-heading" className="text-xs font-bold text-[var(--text)]">
+                Reverse Conversion Option
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--text2)] opacity-85">
+              {editorial.reciprocal.description}
+            </p>
+          </div>
+          <Link
+            to={editorial.reciprocal.url}
+            className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all whitespace-nowrap self-start sm:self-center"
+          >
+            {editorial.reciprocal.anchorText} &rarr;
+          </Link>
+        </section>
+      )}
+
+      {/* Contextual Educational Guide Callout */}
+      {relatedGuide && (
+        <section aria-labelledby="guide-callout-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--primary)]/30 bg-[var(--primary)]/5 space-y-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h2 id="guide-callout-heading" className="text-sm font-bold text-[var(--text)]">
+                Need detailed formula derivations or worked calculation steps?
+              </h2>
+              <p className="text-xs text-[var(--text2)] opacity-85 mt-1">
+                Read our in-depth {relatedGuide.title} Conversion Guide with step-by-step mathematical proofs, lookup tables, and worked examples.
+              </p>
+            </div>
+            <Link
+              to={`/guides/${relatedGuide.guideSlug}`}
+              className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 transition-opacity whitespace-nowrap self-start sm:self-center"
+            >
+              Read {relatedGuide.title} Guide &rarr;
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* 1 to 100 Precomputed Conversion Reference Table */}
       <section aria-labelledby="table-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
@@ -433,6 +460,29 @@ export default function PairLanding() {
         </div>
       </section>
 
+      {/* Frequently Asked Questions — Visible FAQ Parity */}
+      <section aria-labelledby="pair-faq-heading" className="space-y-3">
+        <h2 id="pair-faq-heading" className="text-sm font-semibold flex items-center gap-2 text-[var(--text)]">
+          <span aria-hidden="true">❓</span> Frequently Asked Questions
+        </h2>
+        <div className="space-y-2">
+          {editorial?.faqs.map((f, i) => (
+            <details key={i} className="group glass rounded-xl border border-[var(--border)] overflow-hidden" open={i === 0}>
+              <summary className="flex items-center justify-between p-3.5 text-xs font-semibold cursor-pointer select-none text-[var(--text)] hover:text-[var(--primary)] transition-colors list-none [&::-webkit-details-marker]:hidden">
+                <span className="flex items-center gap-2 pr-2">
+                  <span className="w-5 h-5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs font-bold flex-shrink-0" aria-hidden="true">Q</span>
+                  <span>{f.question}</span>
+                </span>
+                <span className="text-xs opacity-70 group-open:rotate-180 transition-transform duration-200 flex-shrink-0" aria-hidden="true">▼</span>
+              </summary>
+              <div className="px-3.5 pb-3.5 pt-1 text-xs text-[var(--text2)] opacity-90 leading-relaxed border-t border-[var(--border)]/40">
+                {f.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
       {/* Return to Category */}
       <div className="pt-2 text-center">
         <Link
@@ -443,5 +493,22 @@ export default function PairLanding() {
         </Link>
       </div>
     </article>
+  )
+}
+
+export default function PairLanding() {
+  const { category: catParam, pair: pairParam = '' } = useParams<{ category?: string; pair: string }>()
+  const [searchParams] = useSearchParams()
+  const rawVal = searchParams.get('val')
+  const initialVal = parsePairQueryVal(rawVal)
+  const routeKey = `${catParam ?? ''}/${pairParam}?val=${rawVal ?? ''}`
+
+  return (
+    <PairLandingInner
+      key={routeKey}
+      catParam={catParam}
+      pairParam={pairParam}
+      initialVal={initialVal}
+    />
   )
 }

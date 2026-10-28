@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { SITE, canonicalUrl, isIndexablePath } from '../../config/site'
+import { SITE, canonicalUrl, isIndexablePath, getSiteUrl } from '../../config/site'
 
 interface Props {
   title: string
@@ -61,6 +61,11 @@ export default function SEOHead({ title, description, path = '', noindex, schema
     setMeta('og:url', targetCanonical)
     setMeta('og:type', 'website')
     setMeta('og:site_name', SITE.fullName)
+    const ogImage = `${getSiteUrl()}/og-image.png`
+    setMeta('og:image', ogImage)
+    setMeta('og:image:width', '1200')
+    setMeta('og:image:height', '630')
+    setMeta('og:image:alt', `${SITE.fullName} — Universal Unit & Currency Calculator`)
 
     // 6. Twitter Card Tags
     const setTwitter = (name: string, content: string) => {
@@ -76,6 +81,8 @@ export default function SEOHead({ title, description, path = '', noindex, schema
     setTwitter('twitter:card', 'summary_large_image')
     setTwitter('twitter:title', fullTitle)
     setTwitter('twitter:description', description)
+    setTwitter('twitter:image', ogImage)
+    setTwitter('twitter:image:alt', `${SITE.fullName} — Universal Unit & Currency Calculator`)
 
     // 7. Page-level JSON-LD (isolated to id="omega-page-schema")
     let schemaScript = document.getElementById('omega-page-schema') as HTMLScriptElement | null

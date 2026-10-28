@@ -444,8 +444,9 @@ var SITE = {
 };
 function normalizePath(path2 = "") {
   if (!path2 || path2.trim() === "" || path2.trim() === "/") return "/";
-  const trimmed = path2.trim();
-  const withLeading = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  const withoutQuery = path2.trim().split("?")[0].split("#")[0];
+  if (!withoutQuery || withoutQuery === "/") return "/";
+  const withLeading = withoutQuery.startsWith("/") ? withoutQuery : `/${withoutQuery}`;
   const collapsed = withLeading.replace(/\/+/g, "/");
   return collapsed === "/" ? "/" : collapsed.replace(/\/+$/, "");
 }
@@ -1310,7 +1311,7 @@ var BLOG_POSTS = [
     category: "Tutorials",
     date: "2025-01-10",
     readTime: "6 min read",
-    author: "Precision Machining Lab",
+    author: "NumanX Engineering Editorial Staff",
     relatedCat: "length",
     coverIcon: "\u{1F4D0}",
     tags: ["Machining", "Fractions", "Woodworking", "Millimeters"],
@@ -1353,7 +1354,7 @@ var BLOG_POSTS = [
     category: "Engineering",
     date: "2025-05-01",
     readTime: "7 min read",
-    author: "Dr. Evelyn Vance",
+    author: "NumanX Engineering Editorial Staff",
     relatedCat: "length",
     coverIcon: "\u2696\uFE0F",
     tags: ["Engineering", "SI Units", "Imperial", "Science"],
@@ -1429,7 +1430,7 @@ var BLOG_POSTS = [
     category: "Productivity",
     date: "2025-06-10",
     readTime: "6 min read",
-    author: "Alex Turner",
+    author: "NumanX Technology Editorial Team",
     relatedCat: "data",
     coverIcon: "\u{1F4BE}",
     tags: ["Data Storage", "Mebibytes", "Gigabytes", "Networking"],

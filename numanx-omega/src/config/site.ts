@@ -44,8 +44,9 @@ export const SITE = {
  */
 export function normalizePath(path = ''): string {
   if (!path || path.trim() === '' || path.trim() === '/') return '/'
-  const trimmed = path.trim()
-  const withLeading = trimmed.startsWith('/') ? trimmed : `/${trimmed}`
+  const withoutQuery = path.trim().split('?')[0].split('#')[0]
+  if (!withoutQuery || withoutQuery === '/') return '/'
+  const withLeading = withoutQuery.startsWith('/') ? withoutQuery : `/${withoutQuery}`
   const collapsed = withLeading.replace(/\/+/g, '/')
   return collapsed === '/' ? '/' : collapsed.replace(/\/+$/, '')
 }

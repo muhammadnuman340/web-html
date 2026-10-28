@@ -5,6 +5,7 @@ import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt } from '../utils/numbers'
 import { useTilt } from '../hooks/useTilt'
+import { buildCategoriesDirectorySchema } from '../config/schema'
 import type { CategoryDef } from '../types'
 
 function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
@@ -145,6 +146,7 @@ export default function Categories() {
   }, [cats, filter])
 
   const totalUnits = cats.reduce((a, c) => a + c.un.length, 0)
+  const categoriesSchema = useMemo(() => buildCategoriesDirectorySchema(cats), [cats])
 
   return (
     <motion.div
@@ -157,6 +159,7 @@ export default function Categories() {
         title="All Conversion Categories — 24 Dedicated Calculators"
         description="Browse 24 dedicated unit calculators across length, mass, temperature, currency, pressure, and energy with live cheat sheets and formulas."
         path="/categories"
+        schema={categoriesSchema}
       />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">

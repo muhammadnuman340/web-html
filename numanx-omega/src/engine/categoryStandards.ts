@@ -23,9 +23,9 @@ export const CATEGORY_STANDARDS: Record<string, CategoryStandardInfo> = {
   },
   temp: {
     aeoCapsule:
-      'Temperature conversion calculates thermal equilibrium across Celsius (°C), Fahrenheit (°F), and Kelvin (K). Governed by the International Temperature Scale (ITS-90) and the 2019 SI redefinition of the Boltzmann constant: absolute zero is 0 K (−273.15 °C), water freezes at 0 °C (32 °F) and boils at 100 °C (212 °F). The exact conversion formulas are °F = (°C × 9/5) + 32 and K = °C + 273.15.',
+      'Temperature conversion calculates thermal equilibrium across Celsius (°C), Fahrenheit (°F), and Kelvin (K). The kelvin and degree Celsius share the exact same interval size, with 0 °C defined as 273.15 K, while 0 °C corresponds exactly to 32 °F by scale conversion relationship. Absolute zero corresponds to 0 K (−273.15 °C). The exact affine formulas are °F = (°C × 9/5) + 32 and K = °C + 273.15.',
     standardsStatement:
-      'Thermal conversion algorithms adhere to the International Temperature Scale of 1990 (ITS-90) and the BIPM 2019 redefinition of the kelvin via the Boltzmann constant (k = 1.380649 × 10⁻²³ J/K). Fahrenheit and Rankine calculations use exact rational fractions without intermediary rounding.',
+      'Thermal conversion algorithms adhere to SI base unit definitions (with the kelvin defined via the Boltzmann constant k = 1.380649 × 10⁻²³ J/K), NIST Special Publication 811, and the BIPM SI Brochure (9th Edition). Fahrenheit and Rankine calculations use exact rational fractions without intermediary rounding.',
   },
   area: {
     aeoCapsule:

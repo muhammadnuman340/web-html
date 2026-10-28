@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { BLOG_POSTS } from '../data/blogPosts'
+import { buildBlogIndexSchema } from '../config/schema'
 
 const CATEGORIES = ['All', 'Guides', 'Tutorials', 'Tips', 'Resources', 'Productivity', 'Engineering', 'AI'] as const
 
@@ -23,21 +24,7 @@ export default function Blog() {
     })
   }, [selectedCat, searchQuery])
 
-  const blogSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    name: 'NumanX Omega Blog — Precision Metrology & Unit Conversion Guides',
-    description: 'Expert tips, mathematical formulas, cheat sheets, and tutorials for engineering and scientific unit conversions.',
-    url: 'https://numanx-studio-omega-converter.netlify.app/blog',
-    blogPost: BLOG_POSTS.map(post => ({
-      '@type': 'BlogPosting',
-      headline: post.title,
-      description: post.excerpt,
-      datePublished: post.date,
-      author: { '@type': 'Organization', name: post.author },
-      url: `https://numanx-studio-omega-converter.netlify.app/blog/${post.slug}`
-    }))
-  }
+  const blogSchema = useMemo(() => buildBlogIndexSchema(BLOG_POSTS), [])
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto py-2">
@@ -45,9 +32,8 @@ export default function Blog() {
         title="Blog — Unit Conversion Guides, Metrology & Precision Tips"
         description="Comprehensive guides, tutorials, formulas, and cheat sheets for length, weight, temperature, data, and precision conversions by NumanX."
         path="/blog"
+        schema={blogSchema}
       />
-
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }} />
 
       {/* Breadcrumb Navigation */}
       <Breadcrumbs

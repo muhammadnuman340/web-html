@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
+import { AUTHORITY_SOURCES_LIST } from '../config/authoritySources'
 
 export default function About() {
   return (
     <article className="space-y-8 max-w-3xl mx-auto py-2">
       <SEOHead
-        title="About NumanX Omega — Universal Unit Conversion Platform"
-        description="Learn about NumanX Omega: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine."
+        title="About Omega X Converter — Universal Unit Conversion Platform"
+        description="Learn about Omega X Converter by NumanX Studio: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine."
         path="/about"
       />
 
@@ -23,10 +24,10 @@ export default function About() {
           <span>🔬 Metrology Standards & Engineering Mission</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--text)] tracking-tight">
-          About NumanX Omega
+          About Omega X Converter
         </h1>
         <p className="text-sm sm:text-base text-[var(--text2)] leading-relaxed">
-          NumanX Omega is an open, high-precision, zero-latency unit conversion and calculation engine built for engineers, researchers, students, and everyday power users.
+          Omega X Converter by NumanX Studio is an open, high-precision, zero-latency unit conversion and calculation engine built for engineers, researchers, students, and everyday power users.
         </p>
       </header>
 
@@ -64,6 +65,53 @@ export default function About() {
           </p>
         </div>
       </div>
+
+      {/* Authoritative Standards & Primary References */}
+      <section aria-labelledby="standards-heading" className="space-y-4 pt-2">
+        <div className="space-y-1">
+          <h2 id="standards-heading" className="text-xl font-bold text-[var(--text)] flex items-center gap-2">
+            <span>🏛️ Authoritative Standards & Primary References</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed">
+            Omega X Converter relies exclusively on primary institutional metrological sources to ensure mathematical correctness, exact definitions, and transparent scientific grounding across all 24 categories.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {AUTHORITY_SOURCES_LIST.map((src) => (
+            <div key={src.id} className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] space-y-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <div>
+                  <h3 className="text-xs sm:text-sm font-bold text-[var(--text)]">
+                    <a
+                      href={src.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[var(--primary)] hover:underline inline-flex items-center gap-1"
+                    >
+                      <span>{src.title}</span>
+                      <span aria-hidden="true" className="text-xs">↗</span>
+                    </a>
+                  </h3>
+                  <p className="text-[11px] text-[var(--text2)]">{src.organization} &middot; <span className="font-mono">{src.documentRef}</span></p>
+                </div>
+                <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[var(--primary-muted)] text-[var(--primary)] self-start sm:self-auto">
+                  {src.domain}
+                </span>
+              </div>
+              <ul className="text-xs text-[var(--text2)] list-disc list-inside space-y-0.5 pl-1">
+                {src.supports.map((item, idx) => (
+                  <li key={idx} className="leading-relaxed">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="p-3.5 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-[11px] text-[var(--text2)] leading-relaxed">
+          <strong className="text-[var(--text)]">Institutional Non-Affiliation Notice:</strong> Omega X Converter by NumanX Studio references official standards documentation from BIPM, NIST, and CODATA to verify conversion formulas and coefficients. These references do not constitute an endorsement, certification, or official partnership by NIST, BIPM, CODATA, or any government agency.
+        </div>
+      </section>
 
       {/* Explore Links */}
       <section className="p-6 rounded-2xl bg-[var(--card2)] border border-[var(--border)] space-y-4 text-center">

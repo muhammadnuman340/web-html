@@ -127,10 +127,10 @@ export default function Settings() {
           <h2 className="text-sm font-semibold flex items-center gap-2"><span className="w-1 h-4 rounded-full gradient-primary" /> About</h2>
           <div className="text-xs opacity-60 space-y-1">
             <p>Omega X Converter v2.0</p>
-            <p>NumanX Studios</p>
+            <p>NumanX Studio</p>
             <p>Frontend-Only · PWA · Offline-Ready</p>
             <p>React + TypeScript + Vite + Tailwind CSS</p>
-            <p className="pt-2">© 2026 NumanX Studios. All rights reserved.</p>
+            <p className="pt-2">© 2026 NumanX Studio. All rights reserved.</p>
           </div>
         </section>
 
