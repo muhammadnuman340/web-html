@@ -101,6 +101,16 @@ await esbuild.build({
 console.log('✅ Built tests/authority-entity.test.mjs successfully.')
 
 await esbuild.build({
+  entryPoints: ['tests/ai-discovery.test.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'tests/ai-discovery.test.mjs'
+})
+console.log('✅ Built tests/ai-discovery.test.mjs successfully.')
+
+await esbuild.build({
   entryPoints: ['scripts/generate-sitemap.ts'],
   bundle: true,
   platform: 'node',
@@ -119,3 +129,13 @@ await esbuild.build({
   outfile: 'scripts/prerender-seo.mjs'
 })
 console.log('✅ Built scripts/prerender-seo.mjs successfully.')
+
+await esbuild.build({
+  entryPoints: ['scripts/generate-llms-full.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'scripts/generate-llms-full.mjs'
+})
+console.log('✅ Built scripts/generate-llms-full.mjs successfully.')
