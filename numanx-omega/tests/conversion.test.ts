@@ -599,3 +599,61 @@ describe('Task 14: Contract & Error Handling Behavior', () => {
     assert.equal(f3, '1 Meter = 100 Centimeter')
   })
 })
+
+describe('Pinned exact conversion factors and category integrity', () => {
+  it('pins exact NIST and mathematical conversion factors using real convert()', () => {
+    function assertRelative(actual: number | null, expected: number, msg: string) {
+      assert.notEqual(actual, null, `${msg}: actual is null`)
+      const relDiff = Math.abs((actual as number) - expected) / Math.abs(expected)
+      assert.ok(
+        relDiff < 1e-9,
+        `${msg}: actual ${actual} not within 1e-9 of expected ${expected} (relDiff: ${relDiff})`
+      )
+    }
+
+    // 1 lbf = 4.4482216152605 N
+    assertRelative(convert(1, 'force', 'lbf', 'N'), 4.4482216152605, '1 lbf = 4.4482216152605 N')
+
+    // 1 rad = 57.29577951308232 deg (180/Math.PI)
+    assertRelative(convert(1, 'angle', 'rad', 'deg'), 180 / Math.PI, '1 rad = 57.29577951308232 deg')
+
+    // 1 mrad = 0.001 rad
+    assertRelative(convert(1, 'angle', 'mrad', 'rad'), 0.001, '1 mrad = 0.001 rad')
+
+    // 1 ft/s² = 0.3048 m/s²
+    assertRelative(convert(1, 'acceleration', 'ftps2', 'mps2'), 0.3048, '1 ft/s² = 0.3048 m/s²')
+
+    // 1 kN = 1000 N
+    assertRelative(convert(1, 'force', 'kN', 'N'), 1000, '1 kN = 1000 N')
+
+    // 1 BTU/h = 0.29307107 W
+    assertRelative(convert(1, 'power', 'BTUh', 'W'), 0.29307107, '1 BTU/h = 0.29307107 W')
+
+    // 60 RPM = 1 Hz
+    assertRelative(convert(60, 'frequency', 'rpm', 'Hz'), 1, '60 RPM = 1 Hz')
+  })
+
+  it('guarantees unit ids are unique within every category', () => {
+    for (const cat of Categories) {
+      const ids = cat.un.map(u => u.id)
+      const uniqueIds = new Set(ids)
+      assert.equal(
+        uniqueIds.size,
+        ids.length,
+        `Duplicate unit id found in category "${cat.id}"`
+      )
+    }
+  })
+
+  it('guarantees unit labels are unique within every category', () => {
+    for (const cat of Categories) {
+      const labels = cat.un.map(u => u.lb)
+      const uniqueLabels = new Set(labels)
+      assert.equal(
+        uniqueLabels.size,
+        labels.length,
+        `Duplicate unit label found in category "${cat.id}"`
+      )
+    }
+  })
+})
