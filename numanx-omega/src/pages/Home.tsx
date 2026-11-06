@@ -1,244 +1,215 @@
-import { motion } from 'framer-motion'
-import { useEffect, useState, useRef, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+// Canonical entity: Omega X Converter · NumanX Studio
+/* Anti-Slop Gate · P5 H5 E5 S5 R5 V5 · Silhouette: Spatial Bento Workbench */
+
+import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import SEOHead from '../components/ui/SEOHead'
-import { getAllCategories } from '../engine/converter'
-import { analytics } from '../engine/analytics'
+import { PAGE_META } from '../config/pageMeta'
+import { Categories } from '../engine/categories'
 import { buildHomeSchema } from '../config/schema'
 import type { AppMode } from '../components/widgets/ModeSwitcher'
 
-interface Props { mode?: AppMode }
-
-function AnimatedLogo() {
-  return (
-    <motion.div
-      animate={{ rotate: [0, 5, -5, 0], scale: [1, 1.08, 1] }}
-      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      className="inline-flex mb-4"
-      role="img"
-      aria-label="Omega X Converter"
-    >
-      <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-        <defs>
-          <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="var(--primary)" />
-            <stop offset="100%" stopColor="var(--accent)" />
-          </linearGradient>
-        </defs>
-        <rect x="2" y="2" width="52" height="52" rx="14" fill="url(#logo-grad)" fillOpacity="0.12" stroke="url(#logo-grad)" strokeWidth="2" />
-        <motion.circle cx="28" cy="28" r="14" stroke="url(#logo-grad)" strokeWidth="2" fill="none"
-          animate={{ pathLength: [0, 1, 1, 0], opacity: [0.4, 1, 1, 0.4] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} />
-        <text x="28" y="33" textAnchor="middle" fill="url(#logo-grad)" fontSize="18" fontWeight="700" fontFamily="Inter, sans-serif">NΩ</text>
-      </svg>
-    </motion.div>
-  )
+interface Props {
+  mode?: AppMode
 }
 
-function AnimatedStat({ value, label, delay }: { value: number | string; label: string; delay: number }) {
-  const [display, setDisplay] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const counted = useRef(false)
+const POPULAR_PAIRS = [
+  { label: 'Meter to Feet', from: 'm', to: 'ft', cat: 'length', path: '/convert/length/meter-to-feet', formula: '1 m = 3.28084 ft' },
+  { label: 'Kilometer to Miles', from: 'km', to: 'mi', cat: 'length', path: '/convert/length/kilometer-to-miles', formula: '1 km = 0.621371 mi' },
+  { label: 'Kilogram to Pounds', from: 'kg', to: 'lb', cat: 'mass', path: '/convert/mass/kilogram-to-pounds', formula: '1 kg = 2.20462 lb' },
+  { label: 'Ounces to Grams', from: 'oz', to: 'g', cat: 'mass', path: '/convert/mass/ounces-to-grams', formula: '1 oz = 28.3495 g' },
+  { label: 'Celsius to Fahrenheit', from: '°C', to: '°F', cat: 'temp', path: '/convert/temp/celsius-to-fahrenheit', formula: '°F = (°C × 9/5) + 32' },
+  { label: 'Liters to Gallons', from: 'L', to: 'gal', cat: 'volume', path: '/convert/volume/liters-to-gallons', formula: '1 L = 0.264172 gal' },
+  { label: 'km/h to mph', from: 'km/h', to: 'mph', cat: 'speed', path: '/convert/speed/km-h-to-mph', formula: '1 km/h = 0.621371 mph' },
+  { label: 'Bar to PSI', from: 'bar', to: 'psi', cat: 'pressure', path: '/convert/pressure/bar-to-psi', formula: '1 bar = 14.5038 psi' },
+]
 
-  useEffect(() => {
-    if (typeof value !== 'number' || counted.current) return
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !counted.current) {
-        counted.current = true
-        const target = value
-        const duration = 800
-        const start = performance.now()
-        const raf = () => {
-          const t = Math.min((performance.now() - start) / duration, 1)
-          const eased = 1 - Math.pow(1 - t, 3)
-          setDisplay(Math.floor(eased * target))
-          if (t < 1) requestAnimationFrame(raf)
-        }
-        requestAnimationFrame(raf)
-      }
-    }, { threshold: 0.3 })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [value])
-
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.3 + delay * 0.1 }} className="glass rounded-2xl p-3">
-      <div className="text-xl font-bold">{typeof value === 'number' ? display : <span aria-label="Infinite">{value}</span>}</div>
-      <div className="text-xs text-[var(--text2)] opacity-80">{label}</div>
-    </motion.div>
-  )
-}
+const GUIDES_AND_EDITORIAL = [
+  { title: 'Meters to Feet Conversion Guide', path: '/guides/meters-to-feet', desc: 'Precision conversion factors, architectural scale, and NIST formulas.' },
+  { title: 'Pounds to Kilograms Reference', path: '/guides/lbs-to-kg', desc: 'International avoirdupois pound conversion and SI mass traceability.' },
+  { title: 'Celsius to Fahrenheit Scale Guide', path: '/guides/celsius-to-fahrenheit', desc: 'Thermodynamic zero, freezing points, and temperature conversion.' },
+  { title: 'Metric vs Imperial: Engineering Guide', path: '/blog/metric-vs-imperial-engineering-guide', desc: 'Historical origins, industrial standardization, and dual-unit drafting.' },
+  { title: 'Temperature Scales & Thermodynamic Zero', path: '/blog/temperature-scales-celsius-fahrenheit-kelvin', desc: 'Comparative metrology across Celsius, Fahrenheit, Kelvin, and Rankine.' },
+  { title: 'Fractional Inches to Millimeters', path: '/blog/fractional-inches-to-mm-best-practices', desc: 'Machinist tolerances, 1/64 tape fraction lookup, and metric offsets.' },
+]
 
 export default function Home({ mode = 'pro' }: Props) {
-  const navigate = useNavigate()
-  const [visitors] = useState(() => Math.floor(Math.random() * 10000) + 42000)
-  const cats = getAllCategories()
-  const summary = analytics.getSummary()
-
-  const FEATURES = [
-    { icon: '📏', label: 'Length & Distance', desc: 'Nanometers to parsecs', path: '/convert/length' },
-    { icon: '⚖️', label: 'Mass & Weight', desc: 'AMU to metric tons', path: '/convert/mass' },
-    { icon: '🌡️', label: 'Temperature', desc: '5 scales including Rankine', path: '/convert/temp' },
-    { icon: '💵', label: 'Currency', desc: '40+ world currencies live', path: '/currency' },
-    { icon: '₿', label: 'Crypto', desc: 'Bitcoin, Ethereum, Solana...', path: '/crypto' },
-    { icon: '🧮', label: 'Scientific', desc: 'Constants & formulas', path: '/formulas' },
-    { icon: '❤️', label: 'Health', desc: 'BMI, BMR, body fat', path: '/health' },
-    { icon: '📐', label: 'Engineering', desc: 'Physics & mechanics', path: '/convert/pressure' },
-    { icon: '⛓', label: 'Conversion Chains', desc: 'Energy→Cost, Fuel→Cost', path: '/converter' },
-    { icon: '📋', label: 'Batch Convert', desc: '1000+ values at once', path: '/converter' },
-  ]
-
-  const modeFeatures: Partial<Record<AppMode, { icon: string; label: string; desc: string; path?: string }[]>> = {
-    trader: [
-      { icon: '💵', label: 'Currency', desc: '40+ live forex pairs', path: '/currency' },
-      { icon: '₿', label: 'Crypto', desc: 'Real-time CoinGecko prices', path: '/crypto' },
-      { icon: '📊', label: 'Dashboard', desc: 'Trader analytics', path: '/dashboard' },
-    ],
-    scientist: [
-      { icon: '🔬', label: 'Scientific Constants', desc: 'c, h, G, Nₐ, k, e⁻', path: '/formulas' },
-      { icon: '📐', label: 'Formulas', desc: 'Physics & chemistry', path: '/formulas' },
-      { icon: '⚛️', label: 'Advanced Units', desc: 'AMU, eV, light years', path: '/convert/energy' },
-    ],
-  }
-
-  const displayFeatures = modeFeatures[mode] || FEATURES.slice(0, 8)
   const homeSchema = useMemo(() => buildHomeSchema(), [])
+  const totalUnits = useMemo(() => Categories.reduce((acc, cat) => acc + cat.un.length, 0), [])
 
   return (
-    <div className="relative">
+    <article className="space-y-6 max-w-6xl mx-auto w-full min-w-0">
       <SEOHead
-        title="Free Universal Unit Converter"
-        description="Free online unit converter with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support."
+        {...PAGE_META['/']}
         path="/"
         schema={homeSchema}
       />
-      <div className="relative z-10 space-y-6">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="text-center py-8">
-          <AnimatedLogo />
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2 leading-tight">
-            <span className="gradient-horizontal bg-clip-text text-transparent">Omega X</span> Converter
+
+      {/* 1. Compact Masthead (< 80px vertical footprint) */}
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-1 pb-1">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text)] flex items-center gap-2">
+            <span aria-hidden="true" className="font-mono text-sm px-2 py-0.5 rounded-lg bg-[var(--surface-2)] text-[var(--accent)] border border-[var(--border-subtle)] font-bold">
+              NΩ
+            </span>
+            <span>Omega X Converter</span>
           </h1>
-          <p className="text-sm text-[var(--text2)] opacity-85 max-w-md mx-auto">{cats.length} categories · {cats.reduce((a, c) => a + c.un.length, 0)}+ units · Zero backend · Free for everyone</p>
-          <div className="flex gap-2 justify-center mt-3 text-xs text-[var(--text2)] opacity-80 flex-wrap">
-            <span><span aria-hidden="true">⚡</span> {cats.reduce((a, c) => a + c.un.length, 0)}+ units</span>
-            <span><span aria-hidden="true">🌐</span> {visitors.toLocaleString()} users</span>
-            <span><span aria-hidden="true">📊</span> {summary.totalConversions} conversions today</span>
-            <span><span aria-hidden="true">⛓</span> {cats.length * (cats.length - 1)} chain combinations</span>
-          </div>
-          {mode && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-2 text-xs flex gap-2 justify-center flex-wrap">
-              {mode === 'student' && <span className="px-2 py-0.5 rounded-full bg-[var(--success)]/10 text-[var(--success)]"><span aria-hidden="true">🎓</span> Explanations enabled</span>}
-              {mode === 'engineer' && <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500"><span aria-hidden="true">🔧</span> Precision mode</span>}
-              {mode === 'scientist' && <span className="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-500"><span aria-hidden="true">🔬</span> Constants & formulas</span>}
-              {mode === 'trader' && <span className="px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-500"><span aria-hidden="true">💹</span> Currency & crypto focus</span>}
-              {mode === 'fast' && <span className="px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-500"><span aria-hidden="true">⚡</span> Minimal mode</span>}
-              {mode === 'pro' && <span className="px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)]"><span aria-hidden="true">🚀</span> Full intelligence</span>}
-            </motion.div>
-          )}
-        </motion.div>
+          <p className="text-xs text-[var(--text2)] mt-0.5">
+            Precision metrology suite · 24 scientific domains · {totalUnits} category unit listings · Deterministic decimal engine
+          </p>
+        </div>
+        {mode !== 'pro' && (
+          <span className="self-start sm:self-auto text-xs px-2.5 py-1 rounded-full bg-[var(--surface-3)] border border-[var(--border-control)] text-[var(--link-text)] font-medium">
+            Active Mode: {mode.charAt(0).toUpperCase() + mode.slice(1)}
+          </span>
+        )}
+      </header>
 
-        {/* AI Quick Actions */}
-        {(mode === 'pro' || mode === 'scientist') && summary.totalConversions > 0 && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            className="glass-liquid rounded-2xl p-3 flex items-center gap-3">
-            <span className="text-lg" aria-hidden="true">🤖</span>
-            <div className="flex-1">
-              <div className="text-xs font-medium text-[var(--text)]">Smart Suggestion</div>
-              <div className="text-xs text-[var(--text2)] opacity-85">Top: {summary.mostUsedCategory} · Frequent: {summary.mostUsedPair}</div>
+      {/* 2. Dominant Primary Conversion Instrument (Above-the-Fold Centerpiece) */}
+      <section aria-labelledby="workbench-heading" className="w-full min-w-0">
+        <h2 id="workbench-heading" className="sr-only">
+          Primary Conversion Instrument
+        </h2>
+        <div className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-2xl p-3.5 sm:p-5 shadow-sm space-y-3">
+          <div className="flex items-center justify-between gap-2 pb-1 border-b border-[var(--border-subtle)]">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+              <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text2)]">
+                Conversion Workbench
+              </span>
             </div>
-            <button onClick={() => navigate('/dashboard')}
-              className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-[var(--primary)] text-white shadow-sm hover:brightness-110 interact-lift">View Insights</button>
-          </motion.div>
-        )}
-
-        {/* Quick actions for trader */}
-        {mode === 'trader' && (
-          <div className="grid grid-cols-2 gap-2">
-            <motion.button initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-              onClick={() => navigate('/currency')}
-              className="glass-liquid rounded-2xl p-4 text-center hover:shadow-lg transition-all interact-lift">
-              <div className="text-3xl mb-2" aria-hidden="true">💵</div>
-              <div className="font-semibold text-sm">Currency</div>
-              <div className="text-xs text-[var(--text2)] opacity-80 mt-0.5">40+ live pairs</div>
-            </motion.button>
-            <motion.button initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-              onClick={() => navigate('/crypto')}
-              className="glass-liquid rounded-2xl p-4 text-center hover:shadow-lg transition-all interact-lift">
-              <div className="text-3xl mb-2" aria-hidden="true">₿</div>
-              <div className="font-semibold text-sm">Crypto</div>
-              <div className="text-xs text-[var(--text2)] opacity-80 mt-0.5">Live CoinGecko rates</div>
-            </motion.button>
+            <Link
+              to="/converter"
+              className="text-xs font-medium text-[var(--link-text)] hover:underline flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded min-h-[44px] px-2"
+            >
+              Full Workbench Grid →
+            </Link>
           </div>
-        )}
+          <UniversalConverter mode={mode} variant="embedded" />
+        </div>
+      </section>
 
-        {/* Live Converter */}
-        <div className="glass-liquid rounded-2xl p-4">
-          <div className="text-xs font-semibold uppercase tracking-wide mb-3 opacity-60">
-            {mode === 'trader' ? <><span aria-hidden="true">💹</span> Quick Trade Convert</> :
-             mode === 'scientist' ? <><span aria-hidden="true">🔬</span> Precision Convert</> :
-             mode === 'fast' ? <><span aria-hidden="true">⚡</span> Instant Convert</> : 'Quick Convert'}
-          </div>
-          <UniversalConverter mode={mode} />
+      {/* 3. Canonical Metrology Domains (All 24 Categories) */}
+      <section aria-labelledby="domains-heading" className="space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <h2 id="domains-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+            24 Metrological Domains
+          </h2>
+          <Link
+            to="/categories"
+            className="text-xs font-medium text-[var(--link-text)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded min-h-[44px] px-2 flex items-center"
+          >
+            Directory View →
+          </Link>
         </div>
 
-        {/* Feature Grid */}
-        <section aria-labelledby="feature-heading">
-          <h2 id="feature-heading" className="sr-only">Conversion Features</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {displayFeatures.map((f, i) => (
-              <motion.button key={f.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }} whileHover={{ y: -4, scale: 1.02 }}
-                onClick={() => navigate(f.path || '/converter')}
-                className="glass rounded-2xl p-4 text-left hover:shadow-lg transition-all interact-lift group border border-transparent hover:border-[var(--border)]"
-                aria-label={`${f.label}: ${f.desc}`}>
-                <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-300" role="img" aria-hidden="true">{f.icon}</div>
-                <div className="font-semibold text-sm text-[var(--text)]">{f.label}</div>
-                <div className="text-xs text-[var(--text2)] opacity-75 mt-0.5 group-hover:opacity-100 transition-opacity">{f.desc}</div>
-              </motion.button>
-            ))}
-          </div>
-        </section>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
+          {Categories.map(cat => (
+            <Link
+              key={cat.id}
+              to={`/convert/${cat.id}`}
+              className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex items-center justify-between gap-2 min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="text-lg flex-shrink-0" aria-hidden="true">
+                  {cat.ic}
+                </span>
+                <span className="text-xs font-semibold text-[var(--text)] group-hover:text-[var(--link-text)] truncate">
+                  {cat.lb}
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-[var(--text2)] opacity-70 flex-shrink-0">
+                {cat.un.length}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-        {/* Stats */}
-        <section aria-labelledby="stats-heading">
-          <h2 id="stats-heading" className="sr-only">Platform Statistics</h2>
-          <div className="grid grid-cols-4 gap-3 text-center">
-            <AnimatedStat value={cats.length} label="Categories" delay={0} />
-            <AnimatedStat value={cats.reduce((a, c) => a + c.un.length, 0)} label="Units" delay={1} />
-            <AnimatedStat value="∞" label="Combinations" delay={2} />
-            <AnimatedStat value={summary.totalConversions || 0} label="Your Conversions" delay={3} />
-          </div>
-        </section>
+      {/* 4. Popular Conversion Pairs */}
+      <section aria-labelledby="popular-heading" className="space-y-3">
+        <h2 id="popular-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+          Popular Conversion Pairs
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          {POPULAR_PAIRS.map(pair => (
+            <Link
+              key={pair.path}
+              to={pair.path}
+              className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1 block min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
+                  {pair.label}
+                </span>
+                <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)]">
+                  {pair.from} → {pair.to}
+                </span>
+              </div>
+              <div className="text-[11px] font-mono text-[var(--text2)] truncate">
+                {pair.formula}
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-        {/* Quick tips */}
-        <section aria-labelledby="tips-heading" className="glass rounded-2xl p-4 text-xs space-y-2">
-          <h2 id="tips-heading" className="font-semibold flex items-center gap-1.5 text-sm opacity-80">
-            <span className="text-base" aria-hidden="true">💡</span> Tips & Shortcuts
+      {/* 5. Metrological Guides & Engineering Reference */}
+      <section aria-labelledby="guides-heading" className="space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <h2 id="guides-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+            Metrological Guides & Editorial Reference
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-            {[
-              'Press <kbd>⌘K</kbd> for command palette',
-              'Try "5 km in miles" or "(5m + 20cm) × 2" in the converter',
-              mode === 'pro' && 'Click ⛓ for cross-category conversion chains (Energy → Cost)',
-              mode === 'pro' && 'Use 📋 Batch mode to convert multiple values at once',
-              'Click ☆ to save a conversion to your favorites',
-              'Tap the result area to copy the value',
-            ].filter(Boolean).map((tip, i) => (
-              <div key={i} className="flex items-start gap-2 p-1.5" dangerouslySetInnerHTML={{
-                __html: `<span class="text-[var(--primary)] mt-0.5" aria-hidden="true">•</span><span class="text-[var(--text)] opacity-85">${tip}</span>`
-              }} />
-            ))}
-          </div>
-        </section>
+          <Link
+            to="/blog"
+            className="text-xs font-medium text-[var(--link-text)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded min-h-[44px] px-2 flex items-center"
+          >
+            All Articles →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {GUIDES_AND_EDITORIAL.map(item => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className="p-3.5 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1.5 block min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+            >
+              <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
+                {item.title}
+              </div>
+              <p className="text-[11px] text-[var(--text2)] leading-relaxed line-clamp-2">
+                {item.desc}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-        <footer className="text-center text-xs text-[var(--text2)] opacity-80 py-4">
-          Omega X Converter · NumanX Studio · Frontend-Only · PWA · Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands
-        </footer>
-      </div>
-    </div>
+      {/* 6. Factual Platform Architecture Metrics (Data-Driven, Zero Fake Stats) */}
+      <section aria-labelledby="metrics-heading" className="pt-2">
+        <h2 id="metrics-heading" className="sr-only">
+          Platform Architecture Metrics
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
+            <div className="text-lg font-mono font-bold text-[var(--text)]">24</div>
+            <div className="text-[11px] text-[var(--text2)]">Canonical Domains</div>
+          </div>
+          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
+            <div className="text-lg font-mono font-bold text-[var(--text)]">{totalUnits}</div>
+            <div className="text-[11px] text-[var(--text2)]">Category Unit Listings</div>
+          </div>
+          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
+            <div className="text-lg font-mono font-bold text-[var(--text)]">99</div>
+            <div className="text-[11px] text-[var(--text2)]">Published Pair Guides</div>
+          </div>
+          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
+            <div className="text-lg font-mono font-bold text-[var(--text)]">0</div>
+            <div className="text-[11px] text-[var(--text2)]">Third-Party Trackers</div>
+          </div>
+        </div>
+      </section>
+    </article>
   )
 }

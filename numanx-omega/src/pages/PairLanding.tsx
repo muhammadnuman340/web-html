@@ -8,7 +8,10 @@ import { useToast } from '../hooks/useToast'
 import { resolveCategoryId } from '../engine/routes'
 import { buildPairSchema } from '../config/schema'
 import { parsePairQueryVal, getGuideForPair } from '../config/guideRelations'
-import { findUnit, getPairEditorial } from '../config/pairEditorial'
+import { findUnit, getPairEditorial, isCanonicalPair, cleanSlug } from '../config/pairEditorial'
+import { categoryContent } from '../engine/categoryContent'
+import { getRelatedCategoryIds } from '../config/relatedCategories'
+import { unitSymbol, unitName, unitLabel, pairTitle, pairMetaDescription } from '../engine/unitSymbols'
 
 function PairLandingInner({
   catParam,
@@ -88,14 +91,9 @@ function PairLandingInner({
   // Table increments
   const tableValues = [1, 2, 3, 5, 10, 15, 20, 25, 50, 75, 100, 250, 500, 1000]
 
-  const handleSwap = () => {
-    if (!cat || !u1 || !u2) return
-    navigate(`/convert/${cat.id}/${u2.id.toLowerCase()}-to-${u1.id.toLowerCase()}`)
-  }
-
   const handleCopy = () => {
-    if (convertedValue === null || !u1 || !u2) return
-    const text = `${fromValue} ${u1.lb} = ${fmt(convertedValue, 6)} ${u2.lb}`
+    if (convertedValue === null || !u1 || !u2 || !cat) return
+    const text = `${fromValue} ${unitName(u1, cat.id)} = ${fmt(convertedValue, 6)} ${unitName(u2, cat.id)}`
     navigator.clipboard.writeText(text)
     showToast('Copied to clipboard!', 'success')
   }
@@ -105,8 +103,27 @@ function PairLandingInner({
     return getPairEditorial(cat, u1, u2, pairParam)
   }, [cat, u1, u2, pairParam])
 
-  const pageTitle = u1 && u2 ? `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})` : ''
-  const metaDescription = u1 && u2 && editorial ? `Free online ${u1.lb} to ${u2.lb} converter. ${editorial.directAnswer.summary} Includes live calculator, exact formula, and 1 to 1000 conversion chart.` : ''
+  const handleSwap = () => {
+    if (!cat || !u1 || !u2) return
+    // Prefer the canonical reverse page (e.g. /feet-to-meters) over an id-based URL
+    if (editorial?.reciprocal.hasCanonicalPair) {
+      navigate(editorial.reciprocal.url)
+      return
+    }
+    navigate(`/convert/${cat.id}/${u2.id.toLowerCase()}-to-${u1.id.toLowerCase()}`)
+  }
+
+  const pageTitle =u1 && u2 && cat ? pairTitle(u1, u2, cat.id) : ''
+  const isCanonical = cat ? isCanonicalPair(cat.id, pairParam.toLowerCase()) : false
+  const relatedPairs = cat
+    ? (categoryContent[cat.id]?.popularPairs ?? [])
+        .map(p => ({ ...p, slug: `${cleanSlug(p.from)}-to-${cleanSlug(p.to)}` }))
+        .filter(p => p.slug !== pairParam)
+    : []
+  const relatedCats = cat
+    ? getRelatedCategoryIds(cat.id).map(id => allCats.find(c => c.id === id)).filter(c => c !== undefined)
+    : []
+  const metaDescription = u1 && u2 && cat && editorial ? pairMetaDescription(u1, u2, cat.id, editorial.directAnswer.summary) : ''
 
   const relatedGuide = useMemo(() => {
     if (!cat || !pairParam) return undefined
@@ -124,7 +141,7 @@ function PairLandingInner({
 
   const handleDownloadCSV = () => {
     if (!cat || !u1 || !u2) return
-    const header = `"${u1.lb} (${u1.id})","${u2.lb} (${u2.id})","Reciprocal ${u2.id}","Reciprocal ${u1.id}"\n`
+    const header = `"${unitLabel(u1, cat.id)}","${unitLabel(u2, cat.id)}","Reciprocal ${unitSymbol(u2, cat.id)}","Reciprocal ${unitSymbol(u1, cat.id)}"\n`
     const body = tableValues.map(v => {
       const resFwd = convert(v, cat.id, u1.id, u2.id)
       const resBwd = convert(v, cat.id, u2.id, u1.id)
@@ -172,6 +189,8 @@ function PairLandingInner({
         title={pageTitle}
         description={metaDescription}
         path={`/convert/${cat.id}/${pairParam}`}
+        // Only the 99 canonical pairs are indexable; other unit combinations still work for visitors
+        noindex={!isCanonical}
         schema={schema as Record<string, unknown>}
       />
 
@@ -180,7 +199,7 @@ function PairLandingInner({
         items={[
           { label: 'Tools', path: '/categories' },
           { label: cat.lb, path: `/convert/${cat.id}` },
-          { label: `${u1.lb} to ${u2.lb}` }
+          { label: `${unitName(u1, cat.id)} to ${unitName(u2, cat.id)}` }
         ]}
         backTo={{ label: `All ${cat.lb} Tools`, path: `/convert/${cat.id}` }}
       />
@@ -190,24 +209,24 @@ function PairLandingInner({
         <div className="flex items-center gap-2">
           <span className="text-2xl" role="img" aria-hidden="true">{cat.ic}</span>
           <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">
-            Convert {u1.lb} to {u2.lb}
+            Convert {unitName(u1, cat.id)} to {unitName(u2, cat.id)}
           </h1>
         </div>
         <p className="text-xs sm:text-sm text-[var(--text2)] opacity-85">
-          Fast, precise online conversion tool from {u1.lb} ({u1.id}) to {u2.lb} ({u2.id}) with formula and cheat sheet table.
+          Fast, precise online conversion tool from {unitLabel(u1, cat.id)} to {unitLabel(u2, cat.id)} with formula and cheat sheet table.
         </p>
       </header>
 
       {/* Interactive Two-Way Converter Card */}
       <section aria-labelledby="live-calc-heading" className="glass-liquid rounded-2xl p-4 sm:p-6 border border-[var(--border)] space-y-4">
-        <h2 id="live-calc-heading" className="sr-only">Live {u1.lb} to {u2.lb} Converter</h2>
+        <h2 id="live-calc-heading" className="sr-only">Live {unitName(u1, cat.id)} to {unitName(u2, cat.id)} Converter</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-11 gap-3 items-center">
           {/* From Box */}
           <div className="sm:col-span-5 space-y-1.5">
             <label htmlFor="from-val" className="text-xs font-semibold text-[var(--text)] flex justify-between">
-              <span>{u1.lb}</span>
-              <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({u1.id})</span>
+              <span>{unitName(u1, cat.id)}</span>
+              <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({unitSymbol(u1, cat.id)})</span>
             </label>
             <input
               id="from-val"
@@ -216,7 +235,7 @@ function PairLandingInner({
               value={fromValue}
               onChange={e => setFromValue(e.target.value)}
               className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--text)] font-mono outline-none focus:border-[var(--primary)] transition-colors tabular-nums"
-              aria-label={`Value in ${u1.lb}`}
+              aria-label={`Value in ${unitName(u1, cat.id)}`}
             />
           </div>
 
@@ -224,7 +243,7 @@ function PairLandingInner({
           <div className="sm:col-span-1 flex justify-center py-1 sm:py-0">
             <button
               onClick={handleSwap}
-              className="btn-icon w-10 h-10 rounded-full border border-[var(--border)] glass text-sm"
+              className="btn-icon w-11 h-11 min-w-[44px] min-h-[44px] rounded-full border border-[var(--border-control)] glass text-sm flex items-center justify-center"
               aria-label="Swap conversion units"
               title="Swap units"
             >
@@ -235,19 +254,19 @@ function PairLandingInner({
           {/* To Box */}
           <div className="sm:col-span-5 space-y-1.5">
             <div className="text-xs font-semibold text-[var(--text)] flex justify-between">
-              <span>{u2.lb}</span>
-              <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({u2.id})</span>
+              <span>{unitName(u2, cat.id)}</span>
+              <span className="text-xs text-[var(--text2)] opacity-70 font-mono">({unitSymbol(u2, cat.id)})</span>
             </div>
             <div
               role="region"
               aria-live="polite"
               aria-atomic="true"
-              className="w-full p-3 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-base font-bold text-[var(--primary)] font-mono flex items-center justify-between tabular-nums"
+              className="w-full p-3 min-h-[48px] rounded-xl border border-[var(--border-control)] bg-[var(--card2)] text-base font-bold text-[var(--link-text)] font-mono flex items-center justify-between tabular-nums"
             >
               <span>{convertedValue !== null ? fmt(convertedValue, 6) : '—'}</span>
               <button
                 onClick={handleCopy}
-                className="btn-chip text-xs py-0.5 px-2"
+                className="btn-chip text-xs py-2 px-3 min-h-[44px] flex items-center"
                 aria-label="Copy result"
                 title="Copy result"
               >
@@ -259,9 +278,9 @@ function PairLandingInner({
 
         {/* Quick Equality Statement */}
         <div className="text-center pt-2 border-t border-[var(--border)]/60 text-xs text-[var(--text2)] font-mono">
-          1 {u1.id} = <strong className="text-[var(--text)] font-semibold">{unitRatio !== null ? fmt(unitRatio, 6) : '—'} {u2.id}</strong>
+          1 {unitSymbol(u1, cat.id)} = <strong className="text-[var(--text)] font-semibold">{unitRatio !== null ? fmt(unitRatio, 6) : '—'} {unitSymbol(u2, cat.id)}</strong>
           <span className="mx-2 opacity-40 select-none">·</span>
-          1 {u2.id} = <strong className="text-[var(--text)] font-semibold">{inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : '—'} {u1.id}</strong>
+          1 {unitSymbol(u2, cat.id)} = <strong className="text-[var(--text)] font-semibold">{inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : '—'} {unitSymbol(u1, cat.id)}</strong>
         </div>
       </section>
 
@@ -343,7 +362,7 @@ function PairLandingInner({
           </div>
           <Link
             to={editorial.reciprocal.url}
-            className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all whitespace-nowrap self-start sm:self-center"
+            className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all whitespace-nowrap self-start sm:self-center"
           >
             {editorial.reciprocal.anchorText} &rarr;
           </Link>
@@ -364,7 +383,7 @@ function PairLandingInner({
             </div>
             <Link
               to={`/guides/${relatedGuide.guideSlug}`}
-              className="px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 transition-opacity whitespace-nowrap self-start sm:self-center"
+              className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 transition-opacity whitespace-nowrap self-start sm:self-center"
             >
               Read {relatedGuide.title} Guide &rarr;
             </Link>
@@ -377,7 +396,7 @@ function PairLandingInner({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 id="table-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
-              <span role="img" aria-hidden="true">📊</span> {u1.lb} to {u2.lb} Conversion Table
+              <span role="img" aria-hidden="true">📊</span> {unitName(u1, cat.id)} to {unitName(u2, cat.id)} Conversion Table
             </h2>
             <span className="text-xs text-[var(--text2)] opacity-70">1 to 1,000 reference values</span>
           </div>
@@ -385,7 +404,7 @@ function PairLandingInner({
           <div className="flex items-center gap-1.5 no-print">
             <button
               onClick={handlePrint}
-              className="btn-secondary text-xs gap-1.5"
+              className="btn-secondary text-xs gap-1.5 min-h-[44px] flex items-center px-3 py-2"
               title="Print or Save as PDF"
               aria-label="Print or save conversion table as PDF"
             >
@@ -394,7 +413,7 @@ function PairLandingInner({
             </button>
             <button
               onClick={handleDownloadCSV}
-              className="btn-secondary text-xs gap-1.5"
+              className="btn-secondary text-xs gap-1.5 min-h-[44px] flex items-center px-3 py-2"
               title="Download Excel / CSV"
               aria-label="Download conversion table as CSV"
             >
@@ -406,21 +425,21 @@ function PairLandingInner({
 
         {/* Printable Title visible during print */}
         <div className="hidden print:block text-center py-2 border-b border-gray-300">
-          <h2 className="text-lg font-bold text-[var(--text)]">NumanX Omega — {u1.lb} to {u2.lb} Conversion Sheet</h2>
-          <p className="text-xs text-gray-600">Formula: 1 {u1.id} = {unitRatio !== null ? fmt(unitRatio, 6) : ''} {u2.id}</p>
+          <h2 className="text-lg font-bold text-[var(--text)]">NumanX Omega — {unitName(u1, cat.id)} to {unitName(u2, cat.id)} Conversion Sheet</h2>
+          <p className="text-xs text-gray-600">Formula: 1 {unitSymbol(u1, cat.id)} = {unitRatio !== null ? fmt(unitRatio, 6) : ''} {unitSymbol(u2, cat.id)}</p>
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
           <table className="w-full text-xs text-left border-collapse">
             <caption className="sr-only">
-              {u1.lb} to {u2.lb} Conversion Table and Multi-Unit Equivalence Matrix
+              {unitName(u1, cat.id)} to {unitName(u2, cat.id)} Conversion Table and Multi-Unit Equivalence Matrix
             </caption>
             <thead className="bg-[var(--card2)] text-[var(--text)] font-semibold border-b border-[var(--border)]">
               <tr>
-                <th scope="col" className="p-2.5 font-bold text-[var(--text)]">{u1.lb} ({u1.id})</th>
-                <th scope="col" className="p-2.5 text-[var(--primary)] font-bold">{u2.lb} ({u2.id})</th>
-                <th scope="col" className="p-2.5 hidden sm:table-cell font-bold text-[var(--text)]">{u2.lb} ({u2.id})</th>
-                <th scope="col" className="p-2.5 hidden sm:table-cell text-[var(--text)] font-bold">{u1.lb} ({u1.id})</th>
+                <th scope="col" className="p-2.5 font-bold text-[var(--text)]">{unitLabel(u1, cat.id)}</th>
+                <th scope="col" className="p-2.5 text-[var(--primary)] font-bold">{unitLabel(u2, cat.id)}</th>
+                <th scope="col" className="p-2.5 hidden sm:table-cell font-bold text-[var(--text)]">{unitLabel(u2, cat.id)}</th>
+                <th scope="col" className="p-2.5 hidden sm:table-cell text-[var(--text)] font-bold">{unitLabel(u1, cat.id)}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[var(--border)]/60 font-mono text-xs">
@@ -429,10 +448,10 @@ function PairLandingInner({
                 const resBackward = convert(v, cat.id, u2.id, u1.id)
                 return (
                   <tr key={v} className="hover:bg-[var(--border)]/30 transition-colors">
-                    <th scope="row" className="p-2.5 font-semibold text-[var(--text)] text-left font-mono">{v} {u1.id}</th>
-                    <td className="p-2.5 text-[var(--primary)] font-bold font-mono">{resForward !== null ? fmt(resForward, 4) : '—'} {u2.id}</td>
-                    <td className="p-2.5 hidden sm:table-cell text-[var(--text2)] font-mono">{v} {u2.id}</td>
-                    <td className="p-2.5 hidden sm:table-cell text-[var(--text)] font-mono">{resBackward !== null ? fmt(resBackward, 4) : '—'} {u1.id}</td>
+                    <th scope="row" className="p-2.5 font-semibold text-[var(--text)] text-left font-mono">{v} {unitSymbol(u1, cat.id)}</th>
+                    <td className="p-2.5 text-[var(--primary)] font-bold font-mono">{resForward !== null ? fmt(resForward, 4) : '—'} {unitSymbol(u2, cat.id)}</td>
+                    <td className="p-2.5 hidden sm:table-cell text-[var(--text2)] font-mono">{v} {unitSymbol(u2, cat.id)}</td>
+                    <td className="p-2.5 hidden sm:table-cell text-[var(--text)] font-mono">{resBackward !== null ? fmt(resBackward, 4) : '—'} {unitSymbol(u1, cat.id)}</td>
                   </tr>
                 )
               })}
@@ -444,20 +463,30 @@ function PairLandingInner({
       {/* Related Pairs in Category */}
       <section aria-labelledby="related-pairs-heading" className="glass rounded-2xl p-4 border border-[var(--border)] space-y-3">
         <h2 id="related-pairs-heading" className="text-sm font-bold text-[var(--text)]">
-          Other Popular {cat.lb} Conversions
+          Related {cat.lb} Conversion Pairs
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {cat.un.slice(0, 6).filter(u => u.id !== u1.id).map(other => (
+          {relatedPairs.map(p => (
             <Link
-              key={other.id}
-              to={`/convert/${cat.id}/${u1.id.toLowerCase()}-to-${other.id.toLowerCase()}`}
+              key={p.slug}
+              to={`/convert/${cat.id}/${p.slug}`}
               className="p-2.5 rounded-xl glass border border-transparent hover:border-[var(--border)] text-xs transition-all interact-lift flex items-center justify-between"
             >
-              <span className="font-medium text-[var(--text)]">{u1.id} → {other.id}</span>
-              <span className="text-xs text-[var(--text2)] opacity-70 truncate">{other.lb}</span>
+              <span className="font-medium text-[var(--text)]">{p.from} → {p.to}</span>
             </Link>
           ))}
         </div>
+        {relatedCats.length > 0 && (
+          <p className="text-xs text-[var(--text2)]">
+            More converters:{' '}
+            {relatedCats.map((c, i) => (
+              <span key={c.id}>
+                {i > 0 && ' · '}
+                <Link to={`/convert/${c.id}`} className="text-[var(--link-text)] hover:text-[var(--link-hover)] hover:underline">{c.lb}</Link>
+              </span>
+            ))}
+          </p>
+        )}
       </section>
 
       {/* Frequently Asked Questions — Visible FAQ Parity */}
@@ -487,7 +516,7 @@ function PairLandingInner({
       <div className="pt-2 text-center">
         <Link
           to={`/convert/${cat.id}`}
-          className="text-xs text-[var(--primary)] hover:underline font-semibold"
+          className="text-xs text-[var(--link-text)] hover:text-[var(--link-hover)] hover:underline font-semibold py-2.5 inline-flex items-center min-h-[44px]"
         >
           ← Return to All {cat.lb} Units & Interactive Tools
         </Link>

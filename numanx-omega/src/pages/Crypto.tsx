@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import GlassCard from '../components/ui/GlassCard'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
+import Disclaimer from '../components/ui/Disclaimer'
 import { fmt } from '../utils/numbers'
 import { useCrypto } from '../hooks/useCrypto'
 import { SUPPORTED_CRYPTO_ASSETS } from '../services/financialData'
@@ -18,7 +20,7 @@ export default function Crypto() {
 
   return (
     <div className="space-y-4">
-      <SEOHead title="Crypto Converter — Bitcoin, Ethereum & Altcoin Prices" description="Free live cryptocurrency converter. Real-time prices for Bitcoin, Ethereum, Solana, XRP, Dogecoin, and 50+ cryptocurrencies via CoinGecko." path="/crypto" />
+      <SEOHead {...PAGE_META['/crypto']} path="/crypto" />
       <h1 className="text-lg font-bold"><span aria-hidden="true">₿</span> Crypto Converter</h1>
 
       {statusMessage && (
@@ -110,6 +112,7 @@ export default function Crypto() {
           ))}
         </div>
       </GlassCard>
+      <Disclaimer kind="finance" />
     </div>
   )
 }

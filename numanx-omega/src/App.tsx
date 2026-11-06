@@ -39,6 +39,7 @@ const Sitemap = lazy(() => import('./pages/Sitemap'))
 const Blog = lazy(() => import('./pages/Blog'))
 const BlogPost = lazy(() => import('./pages/BlogPost'))
 const About = lazy(() => import('./pages/About'))
+const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))
 const OnboardingTour = lazy(() => import('./components/ui/OnboardingTour'))
@@ -185,10 +186,10 @@ function AppContent() {
       </Suspense>
 
       <AmbientBackground />
-      <div className="flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
+      <div className="relative z-10 flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} mode={mode} onModeChange={setMode} onApplyPair={handleApplyPair} />
 
-        <div className="flex-1 flex flex-col min-h-screen">
+        <div className="flex-1 flex flex-col min-h-screen min-w-0 max-w-full w-full">
           {/* Proper Nav matching user Image 1 */}
           <Navbar
             isDark={isDark}
@@ -207,7 +208,7 @@ function AppContent() {
           </div>
 
           {/* Main content */}
-          <main id="main-content" tabIndex={-1} className={`flex-1 px-3 sm:px-5 py-4 sm:py-6 max-w-5xl mx-auto w-full outline-none ${mode === 'fast' ? 'pt-8' : ''}`}>
+          <main id="main-content" tabIndex={-1} className={`flex-1 px-3 sm:px-5 py-4 sm:py-6 max-w-5xl mx-auto w-full min-w-0 outline-none ${mode === 'fast' ? 'pt-8' : ''}`}>
             <ErrorBoundary>
               <AnimatePresence mode="wait">
                 <Suspense fallback={<SkeletonPage />}>
@@ -217,6 +218,7 @@ function AppContent() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -12, scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                    className="w-full min-w-0"
                   >
                     <Routes location={location}>
                       <Route path="/" element={<Home mode={mode} />} />
@@ -254,6 +256,9 @@ function AppContent() {
                       <Route path="/blog/:slug" element={<BlogPost />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/sitemap" element={<Sitemap />} />
+                      <Route path="/privacy" element={<LegalPage doc="privacy" />} />
+                      <Route path="/terms" element={<LegalPage doc="terms" />} />
+                      <Route path="/contact" element={<LegalPage doc="contact" />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </motion.div>
@@ -267,34 +272,35 @@ function AppContent() {
             <ContextBar />
           </div>
 
-          {/* Desktop footer */}
-          <footer className="hidden lg:flex items-center justify-between px-5 py-3 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction">
-            <span>NumanX Omega X v2.0</span>
-            <div className="flex gap-4 items-center">
-              <Link to="/sitemap" className="hover:underline hover:text-[var(--text)] transition-colors">Sitemap</Link>
-              <span aria-hidden="true" className="opacity-80 select-none">·</span>
-              <span>Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
-              <span aria-hidden="true" className="opacity-80 select-none">·</span>
-              <span>PWA · Offline-ready</span>
-            </div>
+          {/* Footer (mobile keeps space for the fixed bottom nav) */}
+          <footer className="flex flex-col lg:flex-row gap-2 items-center justify-between px-5 py-3 mb-20 lg:mb-4 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction">
+            <span>© {new Date().getFullYear()} NumanX Studio · Omega X v2.0</span>
+            <nav aria-label="Site" className="flex flex-wrap justify-center gap-1 sm:gap-2 items-center">
+              <Link to="/about" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">About</Link>
+              <Link to="/contact" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Contact</Link>
+              <Link to="/privacy" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Privacy</Link>
+              <Link to="/terms" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Terms</Link>
+              <Link to="/sitemap" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Sitemap</Link>
+              <span className="hidden lg:inline ml-2 text-[var(--text2)] opacity-70">Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
+            </nav>
           </footer>
 
           {/* Mobile bottom nav */}
           <nav aria-label="Mobile navigation" className="lg:hidden fixed bottom-0 left-0 right-0 z-30 glass border-t border-[var(--border)] safe-area-bottom">
-            <div className="flex justify-around items-center px-1 py-1">
+            <div className="grid grid-cols-5 items-center gap-0.5 max-w-lg mx-auto px-1 py-1">
               {navItems.map(item => {
                 const isActive = location.pathname === item.path ||
                   (item.path !== '/' && location.pathname.startsWith(item.path))
                 return (
                   <NavLink key={item.path} to={item.path}
-                    className={`relative flex flex-col items-center gap-0.5 px-3 sm:px-4 py-1.5 rounded-xl transition-all duration-200 ${
+                    className={`relative flex flex-col items-center justify-center gap-0.5 px-1 py-2 min-h-[48px] min-w-[44px] rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-1 ${
                       isActive
-                        ? 'text-[var(--primary)] bg-[var(--primary-muted)]'
+                        ? 'text-[var(--link-text)] bg-[var(--primary-muted)] font-semibold'
                         : 'text-[var(--text3)] hover:text-[var(--text2)] hover:bg-[var(--border)]'
                     }`}
                     aria-label={item.label}>
-                    <span className={`text-lg transition-all duration-200 ${isActive ? 'scale-110' : ''}`}>{item.icon}</span>
-                    <span className={`text-xs font-medium leading-tight ${isActive ? 'opacity-100' : 'opacity-50'}`}>{item.label}</span>
+                    <span className={`text-lg transition-all duration-200 ${isActive ? 'scale-110' : ''}`} aria-hidden="true">{item.icon}</span>
+                    <span className={`text-xs font-medium leading-tight truncate ${isActive ? 'opacity-100' : 'opacity-70'}`}>{item.label}</span>
                   </NavLink>
                 )
               })}

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
 import { guideContent } from '../engine/guideContent'
@@ -17,6 +18,9 @@ const CORE_ROUTES = [
   { path: '/health', label: 'Health & Fitness Hub', icon: '❤️', desc: 'BMI, body mass, and fitness unit conversion utilities' },
   { path: '/currency', label: 'Live Currency Center', icon: '💵', desc: 'Real-time global foreign exchange rates with interactive historical charts' },
   { path: '/crypto', label: 'Cryptocurrency Hub', icon: '₿', desc: 'Live market prices and conversions for Bitcoin, Ethereum, and crypto tokens' },
+  { path: '/contact', label: 'Contact', icon: '✉️', desc: 'Report a wrong conversion, a security issue or a privacy question' },
+  { path: '/privacy', label: 'Privacy Policy', icon: '🔒', desc: 'What stays in your browser and which outside services the app uses' },
+  { path: '/terms', label: 'Terms of Use', icon: '📄', desc: 'Accuracy, price data, health calculator limits and content licensing' },
   { path: '/dashboard', label: 'Analytics Dashboard', icon: '📊', desc: 'Personal conversion history, learning streaks, and usage insights' },
   { path: '/favorites', label: 'Saved Favorites', icon: '⭐', desc: 'Quick-access bookmarked conversion pairs' },
   { path: '/history', label: 'Conversion History', icon: '📜', desc: 'Log of recent calculations with search and export features' },
@@ -101,8 +105,7 @@ export default function Sitemap() {
   return (
     <article className="space-y-8 max-w-5xl mx-auto pb-12">
       <SEOHead
-        title="Site Map — Complete Directory of Calculators, Units & Guides"
-        description="Explore the complete site map of NumanX Omega: 24 unit conversion categories, dedicated pair calculators, live currency and crypto hubs, and offline tools."
+        {...PAGE_META['/sitemap']}
         path="/sitemap"
       />
 

@@ -1,9 +1,13 @@
-import { useMemo } from 'react'
+// Canonical entity: Omega X Converter · NumanX Studio
+/* Anti-Slop Gate · P5 H5 E5 S5 R5 V5 · Silhouette: Spatial Bento Workbench */
+
+import { useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
 import { getCategoryStandards } from '../engine/categoryStandards'
+import { getRelatedCategoryIds } from '../config/relatedCategories'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
 import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
@@ -14,6 +18,10 @@ import { resolveCategoryId } from '../engine/routes'
 import { buildCategorySchema } from '../config/schema'
 import { getGuidesForCategory } from '../config/guideRelations'
 import { getCategoryAuthoritySources } from '../config/authoritySources'
+import { cleanSlug } from '../config/pairEditorial'
+import { SystemLabels, type UnitSystem } from '../types'
+
+const SI_BASE_UNIT_IDS = new Set(['m', 'kg', 's', 'A', 'K'])
 
 interface Props {
   categorySlug?: string
@@ -38,16 +46,12 @@ export default function CategoryLanding({ categorySlug }: Props) {
 
   const pageTitle = useMemo(() => {
     if (!cat) return ''
-    if (cat.id === 'length') return 'Length Converter (Decimal & Fractional) — Instant NIST Chart'
-    return content?.title || `${cat.lb} Converter — Instant Precision Calculator | Omega X`
+    return content?.title || `${cat.lb} Precision Converter | Omega X`
   }, [cat, content])
 
   const pageDesc = useMemo(() => {
     if (!cat) return ''
-    if (cat.id === 'length') {
-      return 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.'
-    }
-    return content?.metaDesc || `Free online ${cat.lb.toLowerCase()} unit converter. Convert ${cat.un.slice(0, 5).map(u => u.lb).join(', ')} instantly with formulas and printable cheat sheets.`
+    return content?.metaDesc || `Precision ${cat.lb} converter with NIST/BIPM metrology standards.`
   }, [cat, content])
 
   const categorySchema = useMemo(() => {
@@ -59,19 +63,53 @@ export default function CategoryLanding({ categorySlug }: Props) {
     })
   }, [cat, content, pageTitle, pageDesc])
 
+  // Unit Directory system filter state
+  const [systemFilter, setSystemFilter] = useState<string>('ALL')
+
+  // Identify base reference units in category
+  const baseUnits = useMemo(() => {
+    if (!cat) return []
+    return cat.un.filter(u => u.r === 1)
+  }, [cat])
+
+  const isCompositeCategory = baseUnits.length > 1
+  const singleBaseUnit = baseUnits.length === 1 ? baseUnits[0] : null
+
+  const availableSystems = useMemo(() => {
+    if (!cat) return []
+    const set = new Set<UnitSystem>()
+    for (const u of cat.un) {
+      if (u.s) set.add(u.s)
+    }
+    return Array.from(set)
+  }, [cat])
+
+  const filteredUnits = useMemo(() => {
+    if (!cat) return []
+    if (systemFilter === 'ALL') return cat.un
+    return cat.un.filter(u => u.s === systemFilter)
+  }, [cat, systemFilter])
+
   if (!content || !cat) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-16 space-y-4">
         <SEOHead
           title="Category Not Found — Omega X"
           description={`The conversion category "${category || ''}" does not exist.`}
           path={`/convert/${category || ''}`}
           noindex={true}
         />
-        <div className="text-4xl mb-4" role="img" aria-hidden="true">🔍</div>
-        <h1 className="text-xl font-bold mb-2">Category not found</h1>
-        <p className="text-sm opacity-70 mb-4">The conversion category "{category}" does not exist.</p>
-        <Link to="/categories" className="text-sm text-[var(--primary)] hover:underline font-medium">Browse all categories →</Link>
+        <div className="text-4xl" role="img" aria-hidden="true">🔍</div>
+        <h1 className="text-xl font-bold text-[var(--text)]">Category Not Found</h1>
+        <p className="text-xs text-[var(--text2)] max-w-md mx-auto">
+          The conversion category &ldquo;{category}&rdquo; does not exist. Browse our complete metrology directory.
+        </p>
+        <Link
+          to="/categories"
+          className="inline-flex items-center justify-center px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all min-h-[44px] min-w-[44px]"
+        >
+          Browse All Categories →
+        </Link>
       </div>
     )
   }
@@ -81,156 +119,404 @@ export default function CategoryLanding({ categorySlug }: Props) {
   const nextCat = currentIndex < allCats.length - 1 ? allCats[currentIndex + 1] : allCats[0]
 
   return (
-    <article className="space-y-6">
+    <article className="space-y-4 sm:space-y-6">
       <SEOHead
         title={pageTitle}
         description={pageDesc}
         path={`/convert/${cat.id}`}
-        schema={categorySchema}
+        schema={categorySchema as Record<string, unknown>}
       />
 
-      {/* Breadcrumb matching Image 2 */}
+      {/* Breadcrumb Navigation */}
       <Breadcrumbs
         items={[
-          { label: 'Tools', path: '/categories' },
+          { label: 'Categories', path: '/categories' },
           { label: cat.lb }
         ]}
-        backTo={{ label: 'All Tools', path: '/categories' }}
+        backTo={{ label: 'All Categories', path: '/categories' }}
       />
 
-      {/* Header */}
-      <header className="glass rounded-2xl p-5 border border-[var(--border)] overflow-hidden relative">
-        <div className="absolute top-0 left-0 right-0 h-1.5" style={{ background: cat.cl || 'var(--primary)' }} />
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
-          <div className="flex items-center gap-3">
-            <span className="text-3xl p-2 rounded-xl bg-[var(--card2)] border border-[var(--border)]" role="img" aria-hidden="true">{cat.ic}</span>
+      {/* 1. Category Masthead (Compact Spatial Bento Header) */}
+      <header className="rounded-2xl bg-[var(--surface-1)] border border-[var(--border-subtle)] p-3 sm:p-5 overflow-hidden relative space-y-2.5 sm:space-y-3">
+        {/* Canonical Category Accent Stripe */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1.5"
+          style={{ background: cat.cl || 'var(--primary)' }}
+          aria-hidden="true"
+        />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-0.5 sm:pt-1">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span
+              className="text-xl sm:text-3xl p-2 sm:p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border-subtle)] shadow-xs flex-shrink-0"
+              role="img"
+              aria-hidden="true"
+            >
+              {cat.ic}
+            </span>
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">{content.h1}</h1>
-              <div className="flex items-center gap-2 mt-0.5 text-xs text-[var(--text2)]">
-                <span className="font-bold text-[var(--primary)]">{cat.un.length} Precision Units</span>
-                <span aria-hidden="true">·</span>
-                <span>Instant Offline PWA</span>
+              <h1 className="text-lg sm:text-2xl font-bold text-[var(--text)] tracking-tight">
+                {content.h1}
+              </h1>
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1 text-xs text-[var(--text2)]">
+                <span className="font-semibold text-[var(--link-text)]">
+                  {cat.un.length} Precision Units
+                </span>
+                {singleBaseUnit && (
+                  <>
+                    <span aria-hidden="true" className="opacity-50">·</span>
+                    <span>{SI_BASE_UNIT_IDS.has(singleBaseUnit.id) ? 'SI Base Unit' : 'Reference Standard'}: <strong className="text-[var(--text)] font-mono">{singleBaseUnit.lb} ({singleBaseUnit.id})</strong></span>
+                  </>
+                )}
+                {isCompositeCategory && (
+                  <>
+                    <span aria-hidden="true" className="opacity-50">·</span>
+                    <span><strong className="text-[var(--text)] font-mono">{baseUnits.length} Reference Standards</strong></span>
+                  </>
+                )}
+                {cat.id === 'temp' && (
+                  <>
+                    <span aria-hidden="true" className="opacity-50">·</span>
+                    <span>SI Base Unit: <strong className="text-[var(--text)] font-mono">Kelvin (K)</strong></span>
+                  </>
+                )}
+                {cat.id === 'fuel' && (
+                  <>
+                    <span aria-hidden="true" className="opacity-50">·</span>
+                    <span><strong className="text-[var(--text)] font-mono">Fuel Economy Standards</strong></span>
+                  </>
+                )}
+                <span aria-hidden="true" className="opacity-50 hidden sm:inline">·</span>
+                <span className="hidden sm:inline">Deterministic Decimal Engine</span>
+                <span aria-hidden="true" className="opacity-50 hidden sm:inline">·</span>
+                <span className="hidden sm:inline">PWA Offline</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] self-start sm:self-auto text-[var(--text)]">
-            <span className="w-2.5 h-2.5 rounded-full" style={{ background: cat.cl || 'var(--primary)' }} aria-hidden="true" />
-            <span>Dedicated Page</span>
-          </div>
         </div>
 
-        {/* AEO Position-Zero Answer Capsule (Active across ALL categories) */}
+        <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed max-w-3xl line-clamp-2 sm:line-clamp-none">
+          {content.intro}
+        </p>
+      </header>
+
+      {/* 2. Primary Conversion Instrument (Dominant Above-The-Fold Centerpiece) */}
+      <section aria-labelledby="convert-heading" className="space-y-1.5 sm:space-y-2 min-w-0 max-w-full overflow-hidden">
+        <div className="flex items-center justify-between gap-2">
+          <h2 id="convert-heading" className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full" style={{ background: cat.cl || 'var(--primary)' }} aria-hidden="true" />
+            <span>{cat.lb} Conversion Workbench</span>
+          </h2>
+          <span className="text-[11px] sm:text-xs font-mono text-[var(--text2)] hidden xs:inline">
+            Precision Metrology
+          </span>
+        </div>
+        <div className="rounded-2xl bg-[var(--surface-2)] border border-[var(--border-subtle)] p-2.5 sm:p-5 shadow-xs min-w-0 max-w-full overflow-hidden">
+          <UniversalConverter category={cat.id} hideCategoryPicker={true} compactOnMobile={true} initialValue={1} />
+        </div>
+      </section>
+
+      {/* 3. Category Unit Discovery Directory (Swiss Technical Grid) */}
+      <section aria-labelledby="units-heading" className="space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 id="units-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-2">
+              <span>{cat.lb} Unit Directory & Supported Standards</span>
+              <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded-md bg-[var(--surface-3)] text-[var(--text)] border border-[var(--border-subtle)]">
+                {filteredUnits.length} {filteredUnits.length === 1 ? 'Unit' : 'Units'}
+              </span>
+            </h2>
+            <p className="text-xs text-[var(--text2)] mt-0.5">
+              Authoritative metrological registry of all units defined within the {cat.lb.toLowerCase()} domain.
+            </p>
+          </div>
+
+          {/* System Filter Pills if category spans >1 system */}
+          {availableSystems.length > 1 && (
+            <div role="tablist" aria-label="Filter units by measurement system" className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] self-start sm:self-auto">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={systemFilter === 'ALL'}
+                onClick={() => setSystemFilter('ALL')}
+                className={`min-h-[44px] px-3 py-1.5 text-xs font-semibold rounded-lg transition-all focus-visible:outline-2 focus-visible:outline-[var(--accent)] ${
+                  systemFilter === 'ALL'
+                    ? 'bg-[var(--primary)] text-white shadow-xs'
+                    : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]'
+                }`}
+              >
+                All ({cat.un.length})
+              </button>
+              {availableSystems.map(sys => {
+                const count = cat.un.filter(u => u.s === sys).length
+                const label = SystemLabels[sys] || sys
+                return (
+                  <button
+                    key={sys}
+                    type="button"
+                    role="tab"
+                    aria-selected={systemFilter === sys}
+                    onClick={() => setSystemFilter(sys)}
+                    className={`min-h-[44px] px-3 py-1.5 text-xs font-semibold rounded-lg transition-all focus-visible:outline-2 focus-visible:outline-[var(--accent)] ${
+                      systemFilter === sys
+                        ? 'bg-[var(--primary)] text-white shadow-xs'
+                        : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--surface-2)]'
+                    }`}
+                  >
+                    {label} ({count})
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Units Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5">
+          {filteredUnits.map(unit => {
+            const isSiBase = (unit.r === 1 || unit.id === 'K') && SI_BASE_UNIT_IDS.has(unit.id)
+            const isReference = unit.r === 1 && !isSiBase
+            const sysLabel = unit.s ? SystemLabels[unit.s] : undefined
+
+            let ratioStr: string | undefined = undefined
+            if (isSiBase) {
+              ratioStr = 'SI Base Unit'
+            } else if (isReference) {
+              ratioStr = isCompositeCategory ? 'Reference Standard' : 'Category Reference Standard'
+            } else if (unit.r !== undefined && singleBaseUnit) {
+              // Only calculate ratio if category has a single homogeneous base unit
+              const formattedRatio = unit.r >= 1e4 || unit.r <= 1e-4
+                ? unit.r.toExponential(3)
+                : String(unit.r)
+              ratioStr = `1 ${unit.id} = ${formattedRatio} ${singleBaseUnit.id}`
+            }
+
+            return (
+              <div
+                key={unit.id}
+                className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex flex-col justify-between gap-1.5 min-h-[56px] group"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-baseline gap-1.5 min-w-0">
+                    <span className="font-mono text-sm font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
+                      {unit.id}
+                    </span>
+                    <span className="text-xs font-medium text-[var(--text)] truncate">
+                      {unit.lb}
+                    </span>
+                  </div>
+                  {sysLabel && (
+                    <span className="text-[10px] uppercase tracking-wider font-semibold px-1.5 py-0.5 rounded bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)] flex-shrink-0">
+                      {sysLabel}
+                    </span>
+                  )}
+                </div>
+                {ratioStr && (
+                  <div className="text-[11px] font-mono text-[var(--text2)] truncate opacity-85">
+                    {ratioStr}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* 4. Popular Conversion Pairs (Canonical Routes) */}
+      <section aria-labelledby="pairs-heading" className="space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <h2 id="pairs-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+            Popular {cat.lb} Conversions
+          </h2>
+          <span className="text-xs text-[var(--text2)]">
+            {content.popularPairs.length} Curated Guides
+          </span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          {content.popularPairs.map(p => {
+            const fromSlug = cleanSlug(p.from)
+            const toSlug = cleanSlug(p.to)
+            const pairPath = `/convert/${cat.id}/${fromSlug}-to-${toSlug}`
+            return (
+              <Link
+                key={`${p.from}-${p.to}`}
+                to={pairPath}
+                className="p-3.5 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1 block min-h-[52px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+              >
+                <div className="flex items-center justify-between text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
+                  <span className="flex items-center gap-1.5">
+                    <span>{p.from}</span>
+                    <span className="text-[var(--primary)]" aria-hidden="true">→</span>
+                    <span>{p.to}</span>
+                  </span>
+                  <span className="text-[11px] font-mono text-[var(--text2)] opacity-70 group-hover:opacity-100">
+                    Guide →
+                  </span>
+                </div>
+                <p className="text-[11px] text-[var(--text2)] leading-relaxed line-clamp-2">
+                  {p.desc}
+                </p>
+              </Link>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* 5. Flagship Category Interactive Widgets */}
+      {cat.id === 'length' && (
+        <section aria-labelledby="length-pro-heading" className="min-w-0 max-w-full overflow-hidden">
+          <LengthProToolkit baseMeters={1.75} />
+        </section>
+      )}
+      <div className="min-w-0 max-w-full overflow-hidden">
+        <CategorySpecialWidget category={cat.id} />
+      </div>
+
+      {/* 6. Editorial Broadsheet — Technical & Metrological Reference */}
+      <section aria-labelledby="reference-heading" className="space-y-3">
+        <h2 id="reference-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+          Technical & Metrological Reference
+        </h2>
+
+        {/* Domain Metrology Overview (Complete Unabridged Prose) */}
+        <div className="p-4 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] space-y-2">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text)] flex items-center gap-1.5">
+            <span aria-hidden="true">📖</span>
+            <span>{cat.lb} Metrological Domain Overview</span>
+          </h3>
+          <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed">
+            {content.intro}
+          </p>
+        </div>
+
+        {/* AEO Position-Zero Answer Capsule */}
         {stdInfo && (
-          <aside role="note" aria-label="Quick Answer Summary" className="glass rounded-xl p-4 border border-[var(--border)] text-xs sm:text-sm text-[var(--text2)] space-y-2 my-3">
-            <p className="text-[var(--text)] leading-relaxed">
+          <aside role="note" aria-label="Quick Answer Summary" className="p-4 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--primary)]">
+              <span aria-hidden="true">📋</span>
+              <span>Position-Zero Answer Summary</span>
+            </div>
+            <p className="text-xs sm:text-sm text-[var(--text)] leading-relaxed">
               {stdInfo.aeoCapsule}
             </p>
           </aside>
         )}
 
-        <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed">{content.intro}</p>
-      </header>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Conversion Formula & Ratio */}
+          {content.formula && (
+            <div className="p-4 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text)] flex items-center gap-1.5">
+                <span aria-hidden="true">📐</span>
+                <span>Conversion Formula & Ratio</span>
+              </h3>
+              <div className="p-2.5 rounded-lg bg-[var(--surface-2)] border border-[var(--border-subtle)] font-mono text-xs text-[var(--text)] leading-relaxed overflow-x-auto">
+                {content.formula}
+              </div>
+              <p className="text-[11px] text-[var(--text2)] leading-relaxed">
+                Calculations are computed using arbitrary-precision rational fractions with zero intermediate rounding error.
+              </p>
+            </div>
+          )}
 
-      {/* Flagship Category Interactive Widget (if available) */}
-      <CategorySpecialWidget category={cat.id} />
-
-      {/* Length Pro Toolkit (Tape Snap, Blueprint Scale Multiplier, Nominal Lumber & Sockets) */}
-      {cat.id === 'length' && <LengthProToolkit baseMeters={1.75} />}
-
-      {/* Metrological Authority & Standards Callout (Active across ALL categories) */}
-      {stdInfo && (
-        <section aria-labelledby="authority-heading" className="glass rounded-xl p-4 border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
-          <div className="flex items-center gap-2 font-bold text-[var(--text)]">
-            <span aria-hidden="true">🏛️</span>
-            <span id="authority-heading">Metrological Authority & Standards Compliance</span>
-          </div>
-          <p className="leading-relaxed">
-            {stdInfo.standardsStatement}
-          </p>
-          <div className="pt-1 text-[11px] text-[var(--text2)]">
-            {catAuthSources.length > 0 ? (
-              <>
-                Primary References:{' '}
-                {catAuthSources.map((src, i) => (
-                  <span key={src.id}>
-                    {i > 0 && ' · '}
-                    <a href={src.url} target="_blank" rel="noopener noreferrer" className="text-[var(--primary)] underline hover:opacity-80">
-                      {src.documentRef}
-                    </a>
-                  </span>
-                ))}{' '}
-                · <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">All Standards</Link>
-              </>
-            ) : (
-              <>
-                Standards & Data Source Note: Consult our{' '}
-                <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">
-                  standards and methodology directory
-                </Link>{' '}
-                for data source provenance.
-              </>
-            )}
-          </div>
-        </section>
-      )}
-
-      {/* Embedded Primary Universal Converter */}
-      <section aria-labelledby="convert-heading">
-        <h2 id="convert-heading" className="text-sm font-bold mb-2 text-[var(--text)] flex items-center gap-2">
-          <span className="p-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)]" aria-hidden="true">{cat.ic}</span>
-          <span>{cat.lb} Precision Calculator</span>
-        </h2>
-        <div className="glass-liquid rounded-2xl p-4 sm:p-5 border border-[var(--border)]">
-          <UniversalConverter category={cat.id} hideCategoryPicker={true} />
+          {/* Standards & Authority Compliance */}
+          {stdInfo && (
+            <div className="p-4 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] space-y-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text)] flex items-center gap-1.5">
+                <span aria-hidden="true">🏛️</span>
+                <span>Metrological Authority & Standards</span>
+              </h3>
+              <p className="text-xs text-[var(--text2)] leading-relaxed">
+                {stdInfo.standardsStatement}
+              </p>
+              <div className="pt-1 text-[11px] text-[var(--text2)]">
+                {catAuthSources.length > 0 ? (
+                  <>
+                    Primary References:{' '}
+                    {catAuthSources.map((src, i) => (
+                      <span key={src.id}>
+                        {i > 0 && ' · '}
+                        <a
+                          href={src.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[var(--link-text)] underline hover:opacity-80"
+                        >
+                          {src.documentRef}
+                        </a>
+                      </span>
+                    ))}{' '}
+                    · <Link to="/about" className="text-[var(--link-text)] underline hover:opacity-80">All Standards</Link>
+                  </>
+                ) : (
+                  <>
+                    Standards & Data Source Note: Consult our{' '}
+                    <Link to="/about" className="text-[var(--link-text)] underline hover:opacity-80">
+                      standards and methodology directory
+                    </Link>{' '}
+                    for data source provenance.
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
+
+        {/* Common Use Cases & Applications */}
+        {content.useCases && content.useCases.length > 0 && (
+          <div className="p-4 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] space-y-2.5">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text)] flex items-center gap-1.5">
+              <span aria-hidden="true">⚙️</span>
+              <span>Common Engineering & Practical Applications</span>
+            </h3>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--text2)]">
+              {content.useCases.map(u => (
+                <li key={u} className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] mt-1.5 flex-shrink-0" aria-hidden="true" />
+                  <span className="leading-relaxed">{u}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
 
-      {/* Live Multi-Unit Matrix (Universal across all categories) */}
+      {/* 7. Live Multi-Unit Projection Matrix */}
       <CategoryLiveMatrix cat={cat} />
 
-      {/* Conversion Table & Cheat Sheet */}
+      {/* 8. Conversion Table & Printable Reference Cheat Sheet */}
       <CategoryCheatSheet cat={cat} />
 
-      {/* Popular conversion pairs */}
-      <section aria-labelledby="pairs-heading">
-        <h2 id="pairs-heading" className="text-sm font-semibold mb-3 text-[var(--text)]">Popular {cat.lb} Conversions</h2>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {content.popularPairs.map(p => (
-            <Link key={p.from + p.to} to={`/convert/${cat.id}/${p.from.toLowerCase()}-to-${p.to.toLowerCase()}`}
-              className="glass rounded-xl p-3 hover:shadow-md transition-all interact-lift border border-transparent hover:border-[var(--border)]">
-              <div className="flex items-center gap-2 text-sm font-medium text-[var(--text)]">
-                <span>{p.from}</span>
-                <span className="opacity-50" aria-hidden="true">→</span>
-                <span>{p.to}</span>
-              </div>
-              <div className="text-xs text-[var(--text2)] mt-0.5">{p.desc}</div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Educational Guides & Reference Formulas */}
+      {/* 9. Educational Guides & Reference Articles */}
       {categoryGuides.length > 0 && (
-        <section aria-labelledby="guides-heading" className="glass rounded-2xl p-4 border border-[var(--border)]">
-          <h2 id="guides-heading" className="text-sm font-semibold mb-3 text-[var(--text)] flex items-center gap-2">
-            <span>Conversion Guides & Step-by-Step Formulas</span>
-          </h2>
-          <div className="grid gap-2 sm:grid-cols-2">
+        <section aria-labelledby="guides-heading" className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <h2 id="guides-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+              Conversion Guides & Editorial Reference
+            </h2>
+            <Link
+              to="/blog"
+              className="text-xs font-medium text-[var(--link-text)] hover:underline min-h-[44px] px-2 flex items-center"
+            >
+              All Articles →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {categoryGuides.map(g => (
               <Link
                 key={g.guideSlug}
                 to={`/guides/${g.guideSlug}`}
-                className="glass rounded-xl p-3 hover:shadow-md transition-all interact-lift border border-[var(--border)] group flex flex-col justify-between"
+                className="p-3.5 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex flex-col justify-between min-h-[64px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
               >
-                <div>
-                  <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
+                <div className="space-y-1">
+                  <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
                     {g.title} Conversion Guide
                   </div>
-                  <div className="text-[11px] text-[var(--text2)] mt-1">
-                    Step-by-step formula derivation, worked examples, and quick lookup tables.
-                  </div>
+                  <p className="text-[11px] text-[var(--text2)] leading-relaxed line-clamp-2">
+                    Step-by-step formula derivation, worked engineering examples, and quick lookup tables.
+                  </p>
                 </div>
-                <div className="text-[11px] text-[var(--primary)] font-medium mt-2 flex items-center gap-1">
+                <div className="text-[11px] text-[var(--link-text)] font-semibold mt-2.5 flex items-center gap-1">
                   <span>Read educational guide</span>
                   <span aria-hidden="true">&rarr;</span>
                 </div>
@@ -240,44 +526,32 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </section>
       )}
 
-      {/* Formula */}
-      {content.formula && (
-        <section aria-labelledby="formula-heading" className="glass rounded-2xl p-4 border border-[var(--border)]">
-          <h2 id="formula-heading" className="text-sm font-semibold mb-2 text-[var(--text)]">Conversion Formula & Ratio</h2>
-          <p className="text-xs text-[var(--text2)] opacity-90 leading-relaxed font-mono">{content.formula}</p>
-        </section>
-      )}
-
-      {/* Use cases */}
-      <section aria-labelledby="uses-heading" className="glass rounded-2xl p-4">
-        <h2 id="uses-heading" className="text-sm font-semibold mb-2 text-[var(--text)]">Common Use Cases & Applications</h2>
-        <ul className="grid gap-1.5 sm:grid-cols-2">
-          {content.useCases.map(u => (
-            <li key={u} className="text-xs text-[var(--text2)] flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] flex-shrink-0" aria-hidden="true" />
-              <span>{u}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Accessible Interactive FAQ Accordion */}
+      {/* 10. Accessible Structured FAQ Accordion */}
       {content.faq && content.faq.length > 0 && (
-        <section aria-labelledby="faq-heading" className="glass rounded-2xl p-4">
-          <h2 id="faq-heading" className="text-sm font-semibold mb-3 flex items-center gap-2 text-[var(--text)]">
-            <span aria-hidden="true">❓</span> Frequently Asked Questions
+        <section aria-labelledby="faq-heading" className="space-y-3">
+          <h2 id="faq-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-2">
+            <span aria-hidden="true">❓</span>
+            <span>Frequently Asked Questions</span>
           </h2>
           <div className="space-y-2">
             {content.faq.map((f, idx) => (
-              <details key={f.q} className="group glass rounded-xl border border-[var(--border)] overflow-hidden" open={idx === 0}>
-                <summary className="flex items-center justify-between p-3.5 text-xs font-semibold cursor-pointer select-none text-[var(--text)] hover:text-[var(--primary)] transition-colors list-none [&::-webkit-details-marker]:hidden">
+              <details
+                key={f.q}
+                className="group rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] overflow-hidden transition-colors"
+                open={idx === 0}
+              >
+                <summary className="flex items-center justify-between p-3.5 text-xs font-bold cursor-pointer select-none text-[var(--text)] hover:text-[var(--link-text)] transition-colors list-none [&::-webkit-details-marker]:hidden min-h-[44px]">
                   <span className="flex items-center gap-2 pr-2">
-                    <span className="w-5 h-5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs font-bold flex-shrink-0" aria-hidden="true">Q</span>
+                    <span className="w-5 h-5 rounded-md bg-[var(--primary)]/15 text-[var(--primary)] flex items-center justify-center text-xs font-bold flex-shrink-0" aria-hidden="true">
+                      Q
+                    </span>
                     <span>{f.q}</span>
                   </span>
-                  <span className="text-xs opacity-70 group-open:rotate-180 transition-transform duration-200 flex-shrink-0" aria-hidden="true">▼</span>
+                  <span className="text-xs opacity-70 group-open:rotate-180 transition-transform duration-200 flex-shrink-0" aria-hidden="true">
+                    ▼
+                  </span>
                 </summary>
-                <div className="px-3.5 pb-3.5 pt-1 text-xs text-[var(--text2)] opacity-90 leading-relaxed border-t border-[var(--border)]/40">
+                <div className="px-3.5 pb-3.5 pt-1 text-xs text-[var(--text2)] leading-relaxed border-t border-[var(--border-subtle)]">
                   {f.a}
                 </div>
               </details>
@@ -286,11 +560,11 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </section>
       )}
 
-      {/* Cyclical Category Navigation Strip */}
-      <nav aria-label="Category pagination" className="glass rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border border-[var(--border)]">
+      {/* 11. Cyclical Category Navigation Strip */}
+      <nav aria-label="Category pagination" className="p-3.5 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-2.5">
         <Link
           to={`/convert/${prevCat.id}`}
-          className="btn-secondary w-full sm:w-auto text-xs font-semibold gap-2 px-4 py-2"
+          className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg bg-[var(--surface-2)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-3)] text-xs font-semibold text-[var(--text)] transition-all min-h-[44px] min-w-[44px] w-full sm:w-auto focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           aria-label={`Previous category: ${prevCat.lb}`}
         >
           <span aria-hidden="true">←</span>
@@ -299,13 +573,13 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </Link>
         <Link
           to="/categories"
-          className="w-full sm:w-auto text-center px-4 py-2 text-xs font-bold text-[var(--primary)] hover:underline"
+          className="inline-flex items-center justify-center px-4 py-2 text-xs font-bold text-[var(--link-text)] hover:underline min-h-[44px] min-w-[44px] text-center focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
         >
           Browse All {allCats.length} Categories
         </Link>
         <Link
           to={`/convert/${nextCat.id}`}
-          className="btn-secondary w-full sm:w-auto text-xs font-semibold gap-2 px-4 py-2"
+          className="inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg bg-[var(--surface-2)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-3)] text-xs font-semibold text-[var(--text)] transition-all min-h-[44px] min-w-[44px] w-full sm:w-auto focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           aria-label={`Next category: ${nextCat.lb}`}
         >
           <span>{nextCat.lb}</span>
@@ -314,13 +588,18 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </Link>
       </nav>
 
-      {/* Related categories */}
-      <section aria-labelledby="related-heading">
-        <h2 id="related-heading" className="text-sm font-semibold mb-3 text-[var(--text)]">Related Conversion Categories</h2>
+      {/* 12. Related Conversion Categories */}
+      <section aria-labelledby="related-heading" className="space-y-2.5">
+        <h2 id="related-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
+          Related Metrological Domains
+        </h2>
         <div className="flex gap-2 flex-wrap">
-          {allCats.filter(c => c.id !== cat.id).slice(0, 10).map(c => (
-            <Link key={c.id} to={`/convert/${c.id}`}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass text-xs hover:bg-[var(--border)] transition-all interact-lift border border-transparent hover:border-[var(--border)] text-[var(--text)]">
+          {getRelatedCategoryIds(cat.id).map(id => allCats.find(c => c.id === id)).filter((c): c is typeof allCats[0] => Boolean(c)).map(c => (
+            <Link
+              key={c.id}
+              to={`/convert/${c.id}`}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] text-xs font-medium text-[var(--text)] transition-all min-h-[44px] focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+            >
               <span aria-hidden="true">{c.ic}</span>
               <span>{c.lb}</span>
             </Link>

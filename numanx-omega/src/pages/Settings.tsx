@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
+import { STORAGE_KEYS } from '../config/legal'
 import ThemeCustomizer from '../components/widgets/ThemeCustomizer'
 
 const FONTS = [
@@ -42,11 +43,9 @@ export default function Settings() {
     applyFont(id)
   }
 
+  // Removes all personal data listed in the Privacy Policy; display preferences (theme, font, precision, mode) are kept
   const handleClearAll = () => {
-    localStorage.removeItem('uc_hist')
-    localStorage.removeItem('uc_fav')
-    localStorage.removeItem('uc_custom')
-    localStorage.removeItem('uc_unit_defaults')
+    for (const key of STORAGE_KEYS.personal) localStorage.removeItem(key)
     setClearHist(true)
     setTimeout(() => setClearHist(false), 2000)
   }

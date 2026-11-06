@@ -1,7 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useState, useCallback, useMemo } from 'react'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
+import Disclaimer from '../components/ui/Disclaimer'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import CurrencyCenter from '../components/charts/CurrencyCenter'
 import CryptoConverter from '../pages/Crypto'
@@ -24,7 +26,9 @@ const TABS = [
 ]
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('convert')
+  // /health renders this page too; it must keep its own indexable title and canonical URL, and open on the health tab
+  const isHealthRoute = useLocation().pathname === '/health'
+  const [activeTab, setActiveTab] = useState(isHealthRoute ? 'health' : 'convert')
   const { history, addEntry } = useHistory()
   const navigate = useNavigate()
   const cats = getAllCategories()
@@ -37,9 +41,11 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-4">
-      <SEOHead title="Dashboard — Analytics & Insights" description="View your conversion analytics, usage statistics, trending categories, and activity heatmap. Track your most-used conversions and productivity." path="/dashboard" />
+      {isHealthRoute
+        ? <SEOHead {...PAGE_META['/health']} path="/health" />
+        : <SEOHead title="Dashboard — Analytics & Insights" description="View your conversion analytics, usage statistics, trending categories, and activity heatmap. Track your most-used conversions and productivity." path="/dashboard" />}
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-bold"><span aria-hidden="true">📊</span> OS Control Center</h1>
+        <h1 className="text-lg font-bold">{isHealthRoute ? <><span aria-hidden="true">❤️</span> Health Calculators</> : <><span aria-hidden="true">📊</span> OS Control Center</>}</h1>
         <div className="flex items-center gap-2 text-xs">
           <span className="opacity-40">{summary.totalConversions} total</span>
           <span className="px-2 py-0.5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] text-xs">
@@ -109,7 +115,7 @@ export default function Dashboard() {
         <GlassCard>
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">📈</span> Productivity Score</span>
-            <span className="text-xs font-bold" style={{ color: analytics.getProductivityScore() > 80 ? 'var(--primary)' : analytics.getProductivityScore() > 50 ? 'var(--accent)' : 'inherit' }}>
+            <span className="text-xs font-bold" style={{ color: analytics.getProductivityScore() > 80 ? 'var(--primary)' : analytics.getProductivityScore() > 50 ? 'var(--accent-focal)' : 'inherit' }}>
               {analytics.getProductivityScore()}%
             </span>
           </div>
@@ -213,6 +219,7 @@ function HealthTab() {
           </div>
         )}
         {bmr && <div className="text-center"><span className="text-2xl font-bold">{fmt(bmr, 0)}</span><span className="text-sm opacity-60 ml-2">kcal/day BMR</span></div>}
+        <Disclaimer kind="health" />
       </div>
     </GlassCard>
   )
@@ -303,7 +310,7 @@ function InsightsTab({ summary, analytics: _a }: { summary: ReturnType<typeof an
                   style={{
                     height: `${(d.count / maxHeat) * 100}%`,
                     background: d.count === 0 ? 'var(--border)' :
-                      `linear-gradient(to top, var(--primary), var(--accent))`,
+                      `linear-gradient(to top, var(--primary), var(--accent-focal))`,
                     opacity: 0.3 + (d.count / maxHeat) * 0.7,
                     minHeight: d.count > 0 ? '4px' : '2px'
                   }}

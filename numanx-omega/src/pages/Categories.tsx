@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
 import { getAllCategories, convert } from '../engine/converter'
 import { fmt } from '../utils/numbers'
 import { useTilt } from '../hooks/useTilt'
@@ -156,8 +157,7 @@ export default function Categories() {
       className="space-y-5"
     >
       <SEOHead
-        title="All Conversion Categories — 24 Dedicated Calculators"
-        description="Browse 24 dedicated unit calculators across length, mass, temperature, currency, pressure, and energy with live cheat sheets and formulas."
+        {...PAGE_META['/categories']}
         path="/categories"
         schema={categoriesSchema}
       />

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { AUTHORITY_SOURCES_LIST } from '../config/authoritySources'
 
@@ -7,8 +8,7 @@ export default function About() {
   return (
     <article className="space-y-8 max-w-3xl mx-auto py-2">
       <SEOHead
-        title="About Omega X Converter — Universal Unit Conversion Platform"
-        description="Learn about Omega X Converter by NumanX Studio: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine."
+        {...PAGE_META['/about']}
         path="/about"
       />
 

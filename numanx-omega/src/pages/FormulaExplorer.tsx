@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
 
 const FORMULA_DATA = [
   { field: 'Physics', icon: '⚛️', color: '#7c6fff', items: [
@@ -43,7 +44,7 @@ export default function FormulaExplorer() {
 
   return (
     <div className="space-y-4">
-      <SEOHead title="Formula Explorer — Physics, Chemistry & Engineering Formulas" description="Explore conversion formulas for physics, chemistry, engineering, and health. Includes step-by-step explanations and real-world examples." path="/formulas" />
+      <SEOHead {...PAGE_META['/formulas']} path="/formulas" />
       <h1 className="text-lg font-bold"><span aria-hidden="true">📐</span> Formula Explorer</h1>
       <p className="text-xs opacity-60">Click a section to expand · Click any formula to copy</p>
 

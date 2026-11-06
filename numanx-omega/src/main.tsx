@@ -2,6 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
+// Fonts are self-hosted (bundled) so no visitor data is sent to Google Fonts
+import '@fontsource-variable/inter'
+import '@fontsource-variable/jetbrains-mono'
 import './index.css'
 
 // System theme detection — auto dark/light if no saved preference
