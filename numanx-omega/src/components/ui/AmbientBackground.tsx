@@ -247,8 +247,7 @@ export default function AmbientBackground() {
       className="fixed inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
       aria-hidden="true"
       style={{
-        backgroundColor: isDarkTheme ? '#060919' : 'transparent',
-        transition: 'background-color 0.4s ease',
+        backgroundColor: 'transparent',
       }}
     >
       {/* Layer 1: Ambient Cosmic Space Glows */}

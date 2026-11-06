@@ -1,96 +1,13 @@
 @import "tailwindcss";
+@import "../design-system/tokens.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ==============================
-   THEME SYSTEM
+   THEME SYSTEM & OKLCH TOKENS
+   Governed by UI/UX Ultra Pro Max Specification
+   Tokens and semantic bindings imported above from design-system/tokens.css
    ============================== */
-:root {
-  --bg: #f5f3f8; --bg2: #edeaf5; --card: #ffffff; --card2: #faf8fe;
-  --text: #1a1a2e; --text2: #5a5a7a; --text3: #8a8aaa;
-  --border: #e4e1ef; --shadow: 0 4px 24px rgba(0,0,0,.06);
-  --primary: #5c4cf2; --primary-muted: rgba(92,76,242,0.12);
-  --accent: #ff7a92; --accent-muted: rgba(255,122,146,0.12);
-  --success: #22c55e; --warning: #f59e0b; --error: #ef4444;
-  --radius: 12px; --radius-sm: 8px;
-  --glow: rgba(92,76,242,0.3);
-  --glow-accent: rgba(255,122,146,0.3);
-  --glass-bg: rgba(255,255,255,0.55);
-  --depth-1: 0 1px 3px rgba(0,0,0,0.04);
-  --depth-2: 0 4px 24px rgba(0,0,0,0.06);
-  --depth-3: 0 8px 48px rgba(0,0,0,0.1);
-  --font-xs: 0.625rem; --font-sm: 0.75rem; --font-base: 0.875rem;
-  --font-lg: 1rem; --font-xl: 1.25rem; --font-2xl: 1.5rem; --font-3xl: 1.875rem;
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
-}
-
-.dark, .theme-cosmic {
-  --bg: #060919; --bg2: #0b132b; --card: rgba(13, 22, 48, 0.75); --card2: rgba(18, 30, 66, 0.65);
-  --text: #f1f5f9; --text2: #94a3b8; --text3: #64748b;
-  --border: rgba(99, 130, 210, 0.16); --shadow: 0 8px 32px rgba(0, 5, 20, 0.55);
-  --primary: #6366f1; --accent: #38bdf8;
-  --primary-muted: rgba(99, 102, 241, 0.18);
-  --accent-muted: rgba(56, 189, 248, 0.16);
-  --success: #2dd86a; --warning: #f5b132; --error: #f0575a;
-  --glow: rgba(99, 102, 241, 0.35);
-  --glow-accent: rgba(56, 189, 248, 0.3);
-  --glass-bg: rgba(10, 17, 38, 0.72);
-  --depth-1: 0 1px 3px rgba(0,0,0,0.4);
-  --depth-2: 0 4px 24px rgba(0, 5, 20, 0.5);
-  --depth-3: 0 8px 48px rgba(0, 5, 20, 0.7);
-}
-
-.theme-amoled {
-  --bg: #000000; --bg2: #0a0a0a; --card: #111111; --card2: #161616;
-  --text: #e8e8e8; --text2: #b3b3b3; --text3: #8e8e9e;
-  --border: #1e1e1e; --shadow: 0 4px 24px rgba(0,0,0,.5);
-  --primary: #8c7dff; --accent: #ff8a9e;
-  --primary-muted: rgba(140,125,255,0.18);
-  --accent-muted: rgba(255,138,158,0.15);
-  --success: #2dd86a; --warning: #f5b132; --error: #f0575a;
-  --glow: rgba(140,125,255,0.25);
-  --glow-accent: rgba(255,138,158,0.2);
-  --glass-bg: rgba(17,17,17,0.65);
-}
-
-.theme-cyberpunk {
-  --bg: #0a0020; --bg2: #120030; --card: #1a0040; --card2: #220050;
-  --text: #00e5b5; --text2: #cc66ff; --text3: #8080ff;
-  --border: #330066; --shadow: 0 0 20px rgba(255,0,255,.2);
-  --primary: #ff00ff; --primary-muted: rgba(255,0,255,0.15);
-  --accent: #00ffff; --accent-muted: rgba(0,255,255,0.15);
-  --success: #00ff88; --warning: #ffcc00; --error: #ff3366;
-  --glow: rgba(255,0,255,0.4);
-  --glow-accent: rgba(0,255,255,0.4);
-  --glass-bg: rgba(26,0,64,0.65);
-}
-
-.theme-rgb {
-  --bg: #000000; --bg2: #0a000a; --card: #111111; --card2: #161616;
-  --text: #ffffff; --text2: #cccccc; --text3: #888888;
-  --border: #222222; --shadow: 0 0 30px rgba(255,0,0,.15);
-  --primary: #ff0000; --primary-muted: rgba(255,0,0,0.15);
-  --accent: #00ff00; --accent-muted: rgba(0,255,0,0.15);
-  --success: #22c55e; --warning: #f59e0b; --error: #ef4444;
-  --glow: rgba(255,0,0,0.3);
-  --glow-accent: rgba(0,255,0,0.3);
-  --glass-bg: rgba(17,17,17,0.65);
-  animation: rgbShift 6s linear infinite;
-}
-
-.theme-holographic {
-  --bg: #f0f4ff; --bg2: #e8f0ff; --card: rgba(255,255,255,.65);
-  --card2: rgba(255,255,255,.45); --text: #1a2a4a; --text2: #4a6a9a;
-  --text3: #7a9aba; --border: rgba(100,150,255,.2);
-  --shadow: 0 8px 32px rgba(100,150,255,.15);
-  --primary: #4a8aff; --primary-muted: rgba(74,138,255,0.15);
-  --accent: #ff6a9a; --accent-muted: rgba(255,106,154,0.15);
-  --success: #22c55e; --warning: #f59e0b; --error: #ef4444;
-  --glow: rgba(74,138,255,0.3);
-  --glow-accent: rgba(255,106,154,0.3);
-  --glass-bg: rgba(255,255,255,0.35);
-}
 
 /* ==============================
    TYPOGRAPHY SYSTEM
@@ -218,6 +135,26 @@ button:focus-visible, a:focus-visible {
 }
 
 /* ==============================
+   FORM CONTROL BOUNDARIES & TEXT LINKS
+   Governed by WCAG 2.2 Non-Text (3:1) & Text (4.5:1) Contrast
+   ============================== */
+input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  border-color: var(--border-control);
+}
+
+a.text-link,
+.text-link {
+  color: var(--link-text);
+  transition: color 0.2s ease;
+}
+a.text-link:hover,
+.text-link:hover {
+  color: var(--link-hover);
+}
+
+/* ==============================
    ANIMATION SYSTEM
    ============================== */
 @keyframes float {
@@ -248,10 +185,6 @@ button:focus-visible, a:focus-visible {
   from { opacity: 0; transform: scale(0.92); }
   to { opacity: 1; transform: scale(1); }
 }
-@keyframes rgbShift {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
-}
 @keyframes elasticIn {
   0% { opacity: 0; transform: scale(0.5) translateY(-20px); }
   70% { transform: scale(1.05) translateY(2px); }
@@ -271,7 +204,7 @@ button:focus-visible, a:focus-visible {
 }
 @keyframes neonPulse {
   0%, 100% { border-color: var(--primary); box-shadow: 0 0 10px var(--glow); }
-  50% { border-color: var(--accent); box-shadow: 0 0 25px var(--glow); }
+  50% { border-color: var(--accent-focal); box-shadow: 0 0 25px var(--glow); }
 }
 @keyframes numberRoll {
   0% { transform: translateY(12px); opacity: 0; }
@@ -294,8 +227,8 @@ button:focus-visible, a:focus-visible {
   to { transform: rotate(360deg); }
 }
 @keyframes borderGlow {
-  0%, 100% { border-image: linear-gradient(135deg, var(--primary), var(--accent)) 1; }
-  50% { border-image: linear-gradient(135deg, var(--accent), var(--primary)) 1; }
+  0%, 100% { border-image: linear-gradient(135deg, var(--primary), var(--accent-focal)) 1; }
+  50% { border-image: linear-gradient(135deg, var(--accent-focal), var(--primary)) 1; }
 }
 
 .animate-float { animation: float 3s ease-in-out infinite; }
@@ -317,7 +250,6 @@ button:focus-visible, a:focus-visible {
 .animate-spin-slow { animation: spin-slow 8s linear infinite; }
 .animate-border-glow { border: 2px solid; animation: borderGlow 3s ease infinite; }
 .number-roll { animation: numberRoll 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-.rgb-shift { animation: rgbShift 3s linear infinite; }
 
 /* ==============================
    INTERACTION SYSTEM
@@ -392,7 +324,7 @@ button:focus-visible, a:focus-visible {
 .badge-pulse::after {
   content: ''; position: absolute; top: -2px; right: -2px;
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent); animation: pulse-glow 2s infinite;
+  background: var(--accent-focal); animation: pulse-glow 2s infinite;
 }
 
 /* ==============================
@@ -525,14 +457,14 @@ kbd {
    GRADIENT UTILITY
    ============================== */
 .gradient-primary {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
+  background: linear-gradient(135deg, var(--primary), var(--accent-focal));
 }
 .gradient-horizontal {
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  background: linear-gradient(90deg, var(--primary), var(--accent-focal));
 }
 .gradient-accent {
   height: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--accent), transparent);
+  background: linear-gradient(90deg, var(--primary), var(--accent-focal), transparent);
   opacity: 0.6;
   width: 100%;
 }
@@ -553,7 +485,7 @@ kbd {
   width: 48px;
   height: 3px;
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  background: linear-gradient(90deg, var(--primary), var(--accent-focal));
 }
 
 /* ==============================
@@ -721,7 +653,7 @@ kbd {
    FONT UTILITY CLASSES
    ============================== */
 .font-system { --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; }
-.font-inter { --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; }
+.font-inter { --font-family: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif; }
 
 code, .font-mono, kbd, .mono {
   font-family: var(--font-mono);
@@ -747,7 +679,6 @@ code, .font-mono, kbd, .mono {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .theme-rgb { animation: none !important; }
 }
 
 /* ==============================
@@ -1006,6 +937,14 @@ code, .font-mono, kbd, .mono {
   color: var(--text2);
   transition: all 0.15s ease-in-out;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .btn-chip {
+    min-height: 44px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 }
 
 .btn-chip:hover {

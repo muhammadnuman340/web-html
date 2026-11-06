@@ -1,0 +1,369 @@
+/* ==========================================================================
+   OMEGA X CONVERTER — OKLCH SEMANTIC DESIGN TOKENS
+   Governed by UI/UX Ultra Pro Max Specification & 60/30/10 Architecture
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     60% DOMINANT TECHNICAL BASE SURFACES (Light Mode - Calibrated Slate)
+     ------------------------------------------------------------------------ */
+  --surface-0: oklch(0.985 0.004 260);    /* Pure base canvas ground */
+  --surface-1: oklch(0.965 0.008 260);    /* Recessed structural panels & toolbars */
+
+  /* ------------------------------------------------------------------------
+     30% STRUCTURAL WORKBENCH SURFACES
+     ------------------------------------------------------------------------ */
+  --surface-2: oklch(1.000 0.000 0);      /* Elevated workbench tile & bento cells */
+  --surface-3: oklch(0.940 0.012 260);    /* Input wells, controls, dropdown triggers */
+
+  /* ------------------------------------------------------------------------
+     SEMANTIC TYPOGRAPHY & TEXT CONTRAST (WCAG 2.2 AA / AAA Compliant)
+     ------------------------------------------------------------------------ */
+  --text-primary:   oklch(0.180 0.020 260); /* 18.0:1 contrast on surface-0 */
+  --text-secondary: oklch(0.420 0.025 260); /* 8.1:1 contrast on surface-0 */
+  --text-muted:     oklch(0.520 0.020 260); /* 5.3:1 contrast on surface-0 (replaces low-contrast opacity) */
+  --text-disabled:  oklch(0.680 0.012 260); /* For disabled control labels */
+
+  /* ------------------------------------------------------------------------
+     STRUCTURAL BORDERS & SEPARATORS
+     ------------------------------------------------------------------------ */
+  --border-subtle:  oklch(0.920 0.008 260); /* Hairline partition lines (1px) */
+  --border-default: oklch(0.860 0.015 260); /* Standard control perimeters */
+  --border-control: oklch(0.550 0.015 260); /* Form control boundaries (>= 3:1 WCAG non-text contrast) */
+  --border-active:  oklch(0.500 0.220 265); /* Engaged, hovered, active borders */
+
+  --link-text:      oklch(0.420 0.220 265); /* High-legibility text links (>= 4.5:1 WCAG text contrast) */
+  --link-hover:     oklch(0.340 0.240 265); /* High-intent link hover state */
+
+  /* ------------------------------------------------------------------------
+     10% HIGH-INTENT FOCAL ACCENTS & ACTION STATES
+     ------------------------------------------------------------------------ */
+  --accent:         oklch(0.500 0.220 265); /* Authoritative precision indigo (6.4:1 contrast with white) */
+  --accent-hover:   oklch(0.440 0.240 265); /* High-intent press/hover state */
+  --accent-focal:   oklch(0.600 0.160 215); /* Laser cyan telemetry highlight */
+  --accent-subtle:  oklch(0.500 0.220 265 / 0.12); /* Subtle accent tint for active pills */
+
+  /* ------------------------------------------------------------------------
+     METROLOGICAL STATUS TOKENS
+     ------------------------------------------------------------------------ */
+  --status-success: oklch(0.500 0.180 145); /* Affirmation / copy confirmation */
+  --status-warning: oklch(0.520 0.160 75);  /* Stale exchange rates / boundary warning (4.5:1+ on every light surface) */
+  --status-danger:  oklch(0.520 0.220 25);  /* Error / incompatible unit pair */
+  --status-info:    oklch(0.500 0.220 265); /* Mathematical explanations */
+
+  /* ------------------------------------------------------------------------
+     ACCESSIBILITY FOCUS RING
+     ------------------------------------------------------------------------ */
+  --focus-ring:     oklch(0.500 0.220 265 / 0.40);
+
+  /* ------------------------------------------------------------------------
+     3-TIER TYPOGRAPHY ROLES
+     ------------------------------------------------------------------------ */
+  --font-display:   'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-ui:        'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-telemetry: 'JetBrains Mono Variable', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+
+  --font-xs:   0.625rem;
+  --font-sm:   0.75rem;
+  --font-base: 0.875rem;
+  --font-lg:   1rem;
+  --font-xl:   1.25rem;
+  --font-2xl:  1.5rem;
+  --font-3xl:  1.875rem;
+
+  /* ------------------------------------------------------------------------
+     RADIUS & DEPTH ELEVATION TOKENS
+     ------------------------------------------------------------------------ */
+  --radius-sm: 8px;
+  --radius:    12px;
+  --radius-lg: 16px;
+
+  --depth-1: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --depth-2: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --depth-3: 0 8px 48px rgba(0, 0, 0, 0.10);
+  --shadow:  var(--depth-2);
+
+  /* ------------------------------------------------------------------------
+     COMPATIBILITY MAPPINGS (Preserves existing component CSS variable bindings)
+     ------------------------------------------------------------------------ */
+  --bg:             var(--surface-0);
+  --bg2:            var(--surface-1);
+  --card:           var(--surface-2);
+  --card2:          var(--surface-3);
+  --text:           var(--text-primary);
+  --text2:          var(--text-secondary);
+  --text3:          var(--text-muted);
+  --border:         var(--border-default);
+  --border-control: oklch(0.550 0.015 260);
+  --border-ctrl:    var(--border-control);
+  --text-link:      var(--link-text);
+  --text-link-hover: var(--link-hover);
+  --primary:        var(--accent);
+  --primary-muted:  var(--accent-subtle);
+  --success:        var(--status-success);
+  --warning:        var(--status-warning);
+  --error:          var(--status-danger);
+  --glow:           oklch(0.500 0.220 265 / 0.20);
+  --glow-accent:    oklch(0.600 0.160 215 / 0.25);
+  --glass-bg:       oklch(1.000 0.000 0 / 0.70);
+  --font-family:    var(--font-ui);
+  --font-mono:      var(--font-telemetry);
+}
+
+/* ==========================================================================
+   DARK THEME FOUNDATION (Cosmic / High-Density Instrument Console)
+   ========================================================================== */
+.dark, .theme-cosmic {
+  /* 60% Dominant Base Surfaces (Charcoal Slate, strictly not pure #000000) */
+  --surface-0: oklch(0.150 0.015 260);    /* Deep calibrated dark slate */
+  --surface-1: oklch(0.180 0.018 260);    /* Recessed structural panels */
+
+  /* 30% Structural Workbench Surfaces */
+  --surface-2: oklch(0.220 0.022 260);    /* Elevated workbench tiles */
+  --surface-3: oklch(0.260 0.025 260);    /* Control receptacles & input wells */
+
+  /* Typography Contrast (WCAG 2.2 AA / AAA Compliant) */
+  --text-primary:   oklch(0.960 0.008 260); /* 17.5:1 contrast on surface-0 */
+  --text-secondary: oklch(0.800 0.015 260); /* 10.5:1 contrast on surface-0 */
+  --text-muted:     oklch(0.680 0.015 260); /* 6.8:1 contrast on surface-0 */
+  --text-disabled:  oklch(0.450 0.015 260);
+
+  /* Structural Borders */
+  --border-subtle:  oklch(0.250 0.020 260);
+  --border-default: oklch(0.320 0.025 260);
+  --border-control: oklch(0.580 0.025 260);
+  --border-active:  oklch(0.650 0.180 260);
+
+  --link-text:      oklch(0.750 0.150 260);
+  --link-hover:     oklch(0.820 0.140 260);
+
+  /* 10% High-Intent Focal Accents */
+  --accent:         oklch(0.550 0.200 265); /* 5.1:1 contrast with white text, 3.8:1 on dark surface */
+  --accent-hover:   oklch(0.620 0.200 265);
+  --accent-focal:   oklch(0.720 0.150 215); /* Laser cyan telemetry highlight */
+  --accent-subtle:  oklch(0.550 0.200 265 / 0.20);
+
+  /* Metrological Status */
+  --status-success: oklch(0.720 0.160 145);
+  --status-warning: oklch(0.780 0.150 75);
+  --status-danger:  oklch(0.680 0.200 25);
+  --status-info:    oklch(0.650 0.180 260);
+
+  /* Focus Ring */
+  --focus-ring:     oklch(0.550 0.200 265 / 0.50);
+
+  /* Depth Elevation */
+  --depth-1: 0 1px 3px rgba(0, 0, 0, 0.40);
+  --depth-2: 0 4px 24px rgba(0, 5, 20, 0.50);
+  --depth-3: 0 8px 48px rgba(0, 5, 20, 0.70);
+  --shadow:  var(--depth-2);
+
+  /* Compatibility Mappings */
+  --bg:             var(--surface-0);
+  --bg2:            var(--surface-1);
+  --card:           var(--surface-2);
+  --card2:          var(--surface-3);
+  --text:           var(--text-primary);
+  --text2:          var(--text-secondary);
+  --text3:          var(--text-muted);
+  --border:         var(--border-default);
+  --border-control: oklch(0.580 0.025 260);
+  --border-ctrl:    var(--border-control);
+  --text-link:      var(--link-text);
+  --text-link-hover: var(--link-hover);
+  --primary:        var(--accent);
+  --primary-muted:  var(--accent-subtle);
+  --success:        var(--status-success);
+  --warning:        var(--status-warning);
+  --error:          var(--status-danger);
+  --glow:           oklch(0.550 0.200 265 / 0.25);
+  --glow-accent:    oklch(0.720 0.150 215 / 0.30);
+  --glass-bg:       oklch(0.180 0.018 260 / 0.75);
+}
+
+/* ==========================================================================
+   LEGACY THEME COMPATIBILITY SELECTORS (Calibrated & Anti-Slop Tempering)
+   ========================================================================== */
+
+/* AMOLED: Calibrated deep charcoal black without eye fatigue */
+.theme-amoled {
+  --surface-0: oklch(0.080 0.005 260);
+  --surface-1: oklch(0.110 0.008 260);
+  --surface-2: oklch(0.140 0.010 260);
+  --surface-3: oklch(0.180 0.015 260);
+  --text-primary: oklch(0.960 0.005 260);
+  --text-secondary: oklch(0.780 0.010 260);
+  --text-muted: oklch(0.620 0.010 260);
+  --border-subtle: oklch(0.180 0.010 260);
+  --border-default: oklch(0.240 0.015 260);
+  --border-control: oklch(0.520 0.015 260);
+  --border-active: oklch(0.600 0.180 265);
+  --link-text: oklch(0.760 0.140 260);
+  --link-hover: oklch(0.840 0.120 260);
+  --accent: oklch(0.580 0.190 265);
+  --accent-hover: oklch(0.650 0.190 265);
+  --accent-focal: oklch(0.720 0.140 215);
+  --accent-subtle: oklch(0.580 0.190 265 / 0.20);
+  --bg: var(--surface-0);
+  --bg2: var(--surface-1);
+  --card: var(--surface-2);
+  --card2: var(--surface-3);
+  --text: var(--text-primary);
+  --text2: var(--text-secondary);
+  --text3: var(--text-muted);
+  --border: var(--border-default);
+  --border-ctrl: var(--border-control);
+  --text-link: var(--link-text);
+  --text-link-hover: var(--link-hover);
+  --primary: var(--accent);
+  --primary-muted: var(--accent-subtle);
+  --success: oklch(0.720 0.160 145);
+  --warning: oklch(0.780 0.150 75);
+  --error: oklch(0.680 0.200 25);
+  --glow: oklch(0.580 0.190 265 / 0.20);
+  --glass-bg: oklch(0.110 0.008 260 / 0.80);
+}
+
+/* Cyberpunk: Tempered technical terminal palette (eliminates garish magenta noise) */
+.theme-cyberpunk {
+  --surface-0: oklch(0.120 0.030 290);
+  --surface-1: oklch(0.150 0.035 290);
+  --surface-2: oklch(0.190 0.040 290);
+  --surface-3: oklch(0.230 0.045 290);
+  --text-primary: oklch(0.920 0.120 170); /* High-legibility terminal cyan */
+  --text-secondary: oklch(0.800 0.080 290);
+  --text-muted: oklch(0.650 0.060 290);
+  --border-subtle: oklch(0.250 0.050 290);
+  --border-default: oklch(0.340 0.070 290);
+  --border-control: oklch(0.560 0.060 290);
+  --border-active: oklch(0.750 0.180 170);
+  --link-text: oklch(0.850 0.140 180);
+  --link-hover: oklch(0.920 0.120 180);
+  --accent: oklch(0.620 0.220 320);
+  --accent-hover: oklch(0.680 0.220 320);
+  --accent-focal: oklch(0.850 0.160 170);
+  --accent-subtle: oklch(0.620 0.220 320 / 0.20);
+  --bg: var(--surface-0);
+  --bg2: var(--surface-1);
+  --card: var(--surface-2);
+  --card2: var(--surface-3);
+  --text: var(--text-primary);
+  --text2: var(--text-secondary);
+  --text3: var(--text-muted);
+  --border: var(--border-default);
+  --border-ctrl: var(--border-control);
+  --text-link: var(--link-text);
+  --text-link-hover: var(--link-hover);
+  --primary: var(--accent);
+  --primary-muted: var(--accent-subtle);
+  --success: oklch(0.750 0.180 150);
+  --warning: oklch(0.800 0.160 80);
+  --error: oklch(0.700 0.220 25);
+  --glow: oklch(0.620 0.220 320 / 0.25);
+  --glass-bg: oklch(0.150 0.035 290 / 0.75);
+}
+
+/* RGB: High-contrast dark gaming console (Infinite hue rotation loop removed) */
+.theme-rgb {
+  --surface-0: oklch(0.120 0.015 260);
+  --surface-1: oklch(0.150 0.020 260);
+  --surface-2: oklch(0.190 0.025 260);
+  --surface-3: oklch(0.230 0.030 260);
+  --text-primary: oklch(0.960 0.008 260);
+  --text-secondary: oklch(0.800 0.015 260);
+  --text-muted: oklch(0.650 0.015 260);
+  --border-subtle: oklch(0.240 0.020 260);
+  --border-default: oklch(0.320 0.025 260);
+  --border-control: oklch(0.550 0.025 260);
+  --border-active: oklch(0.650 0.220 25);
+  --link-text: oklch(0.760 0.180 25);
+  --link-hover: oklch(0.840 0.160 25);
+  --accent: oklch(0.600 0.220 25);       /* High-energy crimson/coral accent */
+  --accent-hover: oklch(0.660 0.220 25);
+  --accent-focal: oklch(0.720 0.180 145);  /* Vivid emerald telemetry readout */
+  --accent-subtle: oklch(0.600 0.220 25 / 0.20);
+  --bg: var(--surface-0);
+  --bg2: var(--surface-1);
+  --card: var(--surface-2);
+  --card2: var(--surface-3);
+  --text: var(--text-primary);
+  --text2: var(--text-secondary);
+  --text3: var(--text-muted);
+  --border: var(--border-default);
+  --border-ctrl: var(--border-control);
+  --text-link: var(--link-text);
+  --text-link-hover: var(--link-hover);
+  --primary: var(--accent);
+  --primary-muted: var(--accent-subtle);
+  --success: oklch(0.720 0.180 145);
+  --warning: oklch(0.780 0.150 75);
+  --error: oklch(0.680 0.220 25);
+  --glow: oklch(0.600 0.220 25 / 0.25);
+  --glass-bg: oklch(0.150 0.020 260 / 0.75);
+}
+
+/* Holographic: Crisp crystalline ice palette */
+.theme-holographic {
+  --surface-0: oklch(0.970 0.015 240);
+  --surface-1: oklch(0.940 0.020 240);
+  --surface-2: oklch(0.990 0.010 240);
+  --surface-3: oklch(0.920 0.025 240);
+  --text-primary: oklch(0.200 0.040 250);
+  --text-secondary: oklch(0.420 0.045 250);
+  --text-muted: oklch(0.500 0.035 250);
+  --border-subtle: oklch(0.900 0.020 240);
+  --border-default: oklch(0.840 0.030 240);
+  --border-control: oklch(0.550 0.025 240);
+  --border-active: oklch(0.580 0.180 250);
+  --link-text: oklch(0.420 0.200 250);
+  --link-hover: oklch(0.350 0.220 250);
+  --accent: oklch(0.500 0.200 250);
+  --accent-hover: oklch(0.480 0.220 250);
+  --accent-focal: oklch(0.620 0.180 340);
+  --accent-subtle: oklch(0.540 0.200 250 / 0.15);
+  --bg: var(--surface-0);
+  --bg2: var(--surface-1);
+  --card: var(--surface-2);
+  --card2: var(--surface-3);
+  --text: var(--text-primary);
+  --text2: var(--text-secondary);
+  --text3: var(--text-muted);
+  --border: var(--border-default);
+  --border-ctrl: var(--border-control);
+  --text-link: var(--link-text);
+  --text-link-hover: var(--link-hover);
+  --primary: var(--accent);
+  --primary-muted: var(--accent-subtle);
+  --success: oklch(0.480 0.180 145);
+  --warning: oklch(0.510 0.160 75);
+  --error: oklch(0.520 0.220 25);
+  --glow: oklch(0.540 0.200 250 / 0.20);
+  --glass-bg: oklch(0.990 0.010 240 / 0.65);
+}
+
+/* ==========================================================================
+   TELEMETRY & TABULAR NUMERAL RULES
+   ========================================================================== */
+.font-telemetry,
+.tabular-nums,
+input[type="text"],
+input[type="number"],
+.number-roll {
+  font-variant-numeric: tabular-nums lining-nums;
+  -webkit-font-feature-settings: "tnum" 1, "lnum" 1;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-ui {
+  font-family: var(--font-ui);
+}
+
+/* Placeholder text: Tailwind's preflight default (currentColor at 50%) measured
+   3.3-3.4:1 on input wells in the light themes; the muted text token reaches 4.5:1+. */
+::placeholder {
+  color: var(--text-muted);
+}
