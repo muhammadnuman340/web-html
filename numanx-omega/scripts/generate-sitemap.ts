@@ -49,6 +49,9 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add('/blog', '0.7', 'weekly')
   add('/about', '0.6', 'monthly')
   add('/sitemap', '0.5', 'weekly')
+  add('/contact', '0.4', 'yearly')
+  add('/privacy', '0.3', 'yearly')
+  add('/terms', '0.3', 'yearly')
 
   // 2. 24 Canonical Category Landing Routes
   const categories = getAllCategories()

@@ -2,7 +2,10 @@ import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import UniversalConverter from '../components/converter/UniversalConverter'
-import { BLOG_POSTS } from '../data/blogPosts'
+import { BLOG_POSTS, getRelatedPosts } from '../data/blogPosts'
+import { categoryContent } from '../engine/categoryContent'
+import { Categories } from '../engine/categories'
+import { cleanSlug } from '../config/pairEditorial'
 import { buildBlogPostSchema } from '../config/schema'
 import { useState } from 'react'
 
@@ -27,7 +30,9 @@ export default function BlogPost() {
     )
   }
 
-  const relatedPosts = BLOG_POSTS.filter(p => p.slug !== post.slug).slice(0, 2)
+  const relatedPosts = getRelatedPosts(post)
+  const relatedPairs = categoryContent[post.relatedCat]?.popularPairs ?? []
+  const relatedCatLabel = Categories.find(c => c.id === post.relatedCat)?.lb ?? post.relatedCat
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -40,7 +45,7 @@ export default function BlogPost() {
   return (
     <article className="space-y-8 max-w-3xl mx-auto py-2">
       <SEOHead
-        title={`${post.title} — NumanX Blog`}
+        title={post.seoTitle ?? post.title}
         description={post.excerpt}
         path={`/blog/${post.slug}`}
         schema={blogPostSchema}
@@ -209,6 +214,29 @@ export default function BlogPost() {
           Editorial content published by {post.author} on behalf of NumanX Studio. Conversion constants referenced in this article adhere to NIST SP 811 and the BIPM SI brochure. For complete metrological documentation, consult our <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">metrology standards directory</Link>.
         </p>
       </section>
+
+      {/* Related converters */}
+      {relatedPairs.length > 0 && (
+        <section aria-labelledby="related-converters-heading" className="space-y-3 border-t border-[var(--border)] pt-8">
+          <h2 id="related-converters-heading" className="text-base font-bold text-[var(--text)]">
+            Related Converters
+          </h2>
+          <ul className="flex flex-wrap gap-2 text-xs">
+            <li>
+              <Link to={`/convert/${post.relatedCat}`} className="inline-block px-3 py-1.5 rounded-xl bg-[var(--primary-muted)] text-[var(--primary)] font-semibold hover:opacity-80">
+                All {relatedCatLabel} conversions
+              </Link>
+            </li>
+            {relatedPairs.map(p => (
+              <li key={`${p.from}-${p.to}`}>
+                <Link to={`/convert/${post.relatedCat}/${cleanSlug(p.from)}-to-${cleanSlug(p.to)}`} className="inline-block px-3 py-1.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-[var(--text)] hover:border-[var(--primary)]">
+                  {p.from} to {p.to}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Related Articles Footer */}
       {relatedPosts.length > 0 && (

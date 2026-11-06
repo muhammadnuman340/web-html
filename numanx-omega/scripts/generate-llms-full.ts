@@ -12,6 +12,10 @@ import { BLOG_POSTS } from '../src/data/blogPosts'
 import { canonicalUrl, DEFAULT_SITE_URL } from '../src/config/site'
 import { getPairEditorial, findUnit } from '../src/config/pairEditorial'
 
+// Count canonical URLs from the sitemap generated earlier in the build
+const sitemapXml = fs.readFileSync(path.resolve(process.cwd(), 'public/sitemap.xml'), 'utf-8')
+const canonicalUrlCount = (sitemapXml.match(/<loc>/g) || []).length
+
 export function generateLlmsFullText(): string {
   const sections: string[] = []
 
@@ -24,7 +28,7 @@ export function generateLlmsFullText(): string {
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: ${DEFAULT_SITE_URL}/sitemap.xml
 - Concise Agent Guide: ${DEFAULT_SITE_URL}/llms.txt
-- Total Canonical Indexable Inventory: 146 URLs
+- Total Canonical Indexable Inventory: ${canonicalUrlCount} URLs
 `)
 
   sections.push(`## 1. System Architecture & Metrology Standards
@@ -67,6 +71,12 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Editorial governance, source citations, privacy statement, and conversion engine architecture.
 - **XML Sitemap:** ${canonicalUrl('/sitemap')}
   Human-navigable sitemap page mirroring the authoritative machine-readable XML sitemap.
+- **Contact:** ${canonicalUrl('/contact')}
+  How to report a wrong conversion, a security issue or a privacy question.
+- **Privacy Policy:** ${canonicalUrl('/privacy')}
+  No accounts, ads, cookies or analytics; history and settings stay in the browser's local storage.
+- **Terms of Use:** ${canonicalUrl('/terms')}
+  Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 `)
 
   sections.push(`## 3. Supported Measurement Categories (24 Categories)

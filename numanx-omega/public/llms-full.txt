@@ -7,7 +7,7 @@
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
 - Concise Agent Guide: https://numanx-studio-omega-converter.netlify.app/llms.txt
-- Total Canonical Indexable Inventory: 146 URLs
+- Total Canonical Indexable Inventory: 149 URLs
 
 ## 1. System Architecture & Metrology Standards
 
@@ -48,6 +48,12 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Editorial governance, source citations, privacy statement, and conversion engine architecture.
 - **XML Sitemap:** https://numanx-studio-omega-converter.netlify.app/sitemap
   Human-navigable sitemap page mirroring the authoritative machine-readable XML sitemap.
+- **Contact:** https://numanx-studio-omega-converter.netlify.app/contact
+  How to report a wrong conversion, a security issue or a privacy question.
+- **Privacy Policy:** https://numanx-studio-omega-converter.netlify.app/privacy
+  No accounts, ads, cookies or analytics; history and settings stay in the browser's local storage.
+- **Terms of Use:** https://numanx-studio-omega-converter.netlify.app/terms
+  Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 
 ## 3. Supported Measurement Categories (24 Categories)
 
@@ -98,13 +104,13 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 ### Acceleration (`acceleration`)
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/acceleration
 - **Base Reference Unit:** m/s²
-- **Registered Units (3):** m/s² (mps2), Gal (gal), g-force (gforce)
+- **Registered Units (4):** m/s² (mps2), Gal (gal), ft/s² (ftps2), g-force (gforce)
 - **Description:** Deterministic measurement conversions for acceleration.
 
 ### Force (`force`)
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/force
 - **Base Reference Unit:** Newton
-- **Registered Units (4):** Newton (N), Dyne (dyn), Pound-force (lbf), Kilogram-force (kgf)
+- **Registered Units (5):** Newton (N), Kilonewton (kN), Dyne (dyn), Pound-force (lbf), Kilogram-force (kgf)
 - **Description:** Deterministic measurement conversions for force.
 
 ### Pressure (`pressure`)
@@ -122,7 +128,7 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 ### Power (`power`)
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/power
 - **Base Reference Unit:** Watt
-- **Registered Units (4):** Watt (W), Kilowatt (kW), Megawatt (MW), Horsepower (hp)
+- **Registered Units (5):** Watt (W), Kilowatt (kW), Megawatt (MW), Horsepower (hp), BTU/h (BTUh)
 - **Description:** Deterministic measurement conversions for power.
 
 ### Electricity (`electricity`)
@@ -140,7 +146,7 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 ### Frequency (`frequency`)
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/frequency
 - **Base Reference Unit:** Hertz
-- **Registered Units (5):** Hertz (Hz), kHz (kHz), MHz (MHz), GHz (GHz), THz (THz)
+- **Registered Units (6):** Hertz (Hz), kHz (kHz), MHz (MHz), GHz (GHz), THz (THz), RPM (rpm)
 - **Description:** Deterministic measurement conversions for frequency.
 
 ### Data Storage (`data`)
@@ -158,7 +164,7 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 ### Angle (`angle`)
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/angle
 - **Base Reference Unit:** Degree
-- **Registered Units (5):** Degree (deg), Radian (rad), Gradian (grad), Arcminute (arcmin), Arcsecond (arcsec)
+- **Registered Units (6):** Degree (deg), Radian (rad), Milliradian (mrad), Gradian (grad), Arcminute (arcmin), Arcsecond (arcsec)
 - **Description:** Deterministic measurement conversions for angle.
 
 ### Torque (`torque`)
@@ -604,32 +610,32 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
 ### Pounds to Kilograms Converter — Convert lb to kg Instantly
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/lbs-to-kg
 - **Category:** undefined
-- **Target Measurement System:** Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.
+- **Target Measurement System:** Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1–300 lb table, step-by-step guide and real-world examples.
 
 ### Celsius to Fahrenheit Converter — °C to °F Instantly
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/celsius-to-fahrenheit
 - **Category:** undefined
-- **Target Measurement System:** Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40°C to 100°C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.
+- **Target Measurement System:** Convert Celsius to Fahrenheit with °F = °C × 9/5 + 32. Free converter with a −40°C to 100°C reference table, step-by-step guide and examples.
 
 ### Meters to Feet Converter — Convert m to ft Instantly
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/meters-to-feet
 - **Category:** undefined
-- **Target Measurement System:** Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.
+- **Target Measurement System:** Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1–100 m table, step-by-step guide and real-world examples.
 
 ### Kilograms to Pounds Converter — Convert kg to lb Instantly
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/kg-to-lbs
 - **Category:** undefined
-- **Target Measurement System:** Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.
+- **Target Measurement System:** Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1–150 kg table, step-by-step guide and real-world examples.
 
 ### Fahrenheit to Celsius Converter — °F to °C Instantly
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/fahrenheit-to-celsius
 - **Category:** undefined
-- **Target Measurement System:** Convert Fahrenheit to Celsius instantly. Free online temperature converter with formula, reference table (-40°F to 212°F), step-by-step guide, and real-world examples. Perfect for travel and science.
+- **Target Measurement System:** Convert Fahrenheit to Celsius with °C = (°F − 32) × 5/9. Free converter with a −40°F to 212°F reference table, step-by-step guide and examples.
 
 ### Feet to Meters Converter — Convert ft to m Instantly
 - **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/feet-to-meters
 - **Category:** undefined
-- **Target Measurement System:** Convert feet to meters instantly. Free online length converter with formula, conversion table (1-100 ft), step-by-step guide, and real-world examples. Essential for construction, real estate, and aviation.
+- **Target Measurement System:** Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1–100 ft table, step-by-step guide and real-world examples.
 
 ## 6. Technical Blog Articles (6 Articles)
 

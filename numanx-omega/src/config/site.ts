@@ -34,7 +34,7 @@ export const SITE = {
   url: `${getSiteUrl()}/`,
   defaultTitle: 'Omega X Converter — Universal Unit & Currency Calculator',
   defaultDescription:
-    'Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.',
+    'Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.',
   license: 'https://creativecommons.org/licenses/by/4.0/',
 }
 
@@ -94,6 +94,9 @@ export const INDEXABILITY_POLICY = {
     '/blog',
     '/about',
     '/sitemap',
+    '/privacy',
+    '/terms',
+    '/contact',
   ],
   noindex: [
     '/dashboard',

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
+import { PAGE_META } from '../config/pageMeta'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { BLOG_POSTS } from '../data/blogPosts'
 import { buildBlogIndexSchema } from '../config/schema'
@@ -29,8 +30,7 @@ export default function Blog() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto py-2">
       <SEOHead
-        title="Blog — Unit Conversion Guides, Metrology & Precision Tips"
-        description="Comprehensive guides, tutorials, formulas, and cheat sheets for length, weight, temperature, data, and precision conversions by NumanX."
+        {...PAGE_META['/blog']}
         path="/blog"
         schema={blogSchema}
       />

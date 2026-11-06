@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { SITE, canonicalUrl, isIndexablePath, getSiteUrl } from '../../config/site'
+import { withBrand } from '../../config/pageMeta'
 
 interface Props {
   title: string
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export default function SEOHead({ title, description, path = '', noindex, schema }: Props) {
-  const fullTitle = title.includes('—') || title.includes('|') ? title : `${title} | Omega X Converter`
+  const fullTitle = withBrand(title)
   const targetCanonical = canonicalUrl(path)
   const isNoindex = noindex !== undefined ? noindex : !isIndexablePath(path)
 

@@ -1,6 +1,8 @@
 export interface BlogPost {
   slug: string
   title: string
+  /** Shorter <title> for search results when `title` is over ~60 characters */
+  seoTitle?: string
   excerpt: string
   category: 'Guides' | 'Tutorials' | 'Tips' | 'Resources' | 'Productivity' | 'Engineering' | 'AI'
   date: string
@@ -77,6 +79,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'fractional-inches-to-mm-best-practices',
     title: 'Fractional Inches to Millimeters: Machinist & Woodworking Best Practices',
+    seoTitle: 'Fractional Inches to mm: Machinist & Woodworking Guide',
     excerpt: 'Everything you need to know about converting fractional inch drill bits and timber stock to metric with tolerance thresholds.',
     category: 'Tutorials',
     date: '2025-01-10',
@@ -120,6 +123,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'metric-vs-imperial-engineering-guide',
     title: 'Metric vs Imperial: The Ultimate Engineering & Scientific Comparison',
+    seoTitle: 'Metric vs Imperial Units: Engineering Comparison',
     excerpt: 'Explore the history, mathematical elegance, and costly historical failures that define the battle between SI and Customary units.',
     category: 'Engineering',
     date: '2025-05-01',
@@ -234,6 +238,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'ai-powered-unit-conversions-in-2026',
     title: 'AI-Powered Unit Conversions in 2026: Natural Language Calculations',
+    seoTitle: 'AI Unit Conversions in 2026: Natural Language Math',
     excerpt: 'How modern neural parsers and LLM tool-calling engines translate ambiguous human prompts like "3 cups of milk in grams" into precise physical quantities.',
     category: 'AI',
     date: '2026-01-05',
@@ -271,3 +276,15 @@ export const BLOG_POSTS: BlogPost[] = [
     }
   }
 ]
+
+/** Other posts ranked by topic: same converter category first, then shared tags. */
+export function getRelatedPosts(post: BlogPost, limit = 3): BlogPost[] {
+  const score = (p: BlogPost) =>
+    (p.relatedCat === post.relatedCat ? 10 : 0) + p.tags.filter(t => post.tags.includes(t)).length
+  return BLOG_POSTS
+    .filter(p => p.slug !== post.slug)
+    .map((p, i) => ({ p, s: score(p), i }))
+    .sort((a, b) => b.s - a.s || a.i - b.i)
+    .slice(0, limit)
+    .map(x => x.p)
+}

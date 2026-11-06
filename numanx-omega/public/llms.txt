@@ -22,7 +22,10 @@ Full Agent Documentation: https://numanx-studio-omega-converter.netlify.app/llms
 - [Health & Fitness Metrics](https://numanx-studio-omega-converter.netlify.app/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](https://numanx-studio-omega-converter.netlify.app/blog): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
 - [About & Standards Methodology](https://numanx-studio-omega-converter.netlify.app/about): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
-- [HTML Sitemap](https://numanx-studio-omega-converter.netlify.app/sitemap): Authoritative index of all 146 canonical public routes.
+- [HTML Sitemap](https://numanx-studio-omega-converter.netlify.app/sitemap): Authoritative index of every canonical public page.
+- [Contact](https://numanx-studio-omega-converter.netlify.app/contact): How to report a wrong conversion, a security issue or a privacy question.
+- [Privacy Policy](https://numanx-studio-omega-converter.netlify.app/privacy): No accounts, ads, cookies or analytics; history and settings stay in the browser.
+- [Terms of Use](https://numanx-studio-omega-converter.netlify.app/terms): Accuracy, third-party price data, health calculator limits and content licensing.
 
 ## Category Landings
 

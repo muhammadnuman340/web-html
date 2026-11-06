@@ -3,7 +3,7 @@
  * Build-time Full Prerender Engine for Omega X Converter
  *
  * Generates meaningful, crawlable, route-specific static HTML and metadata
- * for all 146 public indexable routes in the XML sitemap:
+ * for every public indexable route in the XML sitemap:
  * - 1 Home route (dist/index.html)
  * - 10 Core public pages (/about, /blog, /calculator, /categories, /converter, /crypto, /currency, /formulas, /health, /sitemap)
  * - 24 Canonical Category Landing pages (/convert/:category)
@@ -23,6 +23,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { canonicalUrl, getSiteUrl } from '../src/config/site'
+import { PAGE_META, withBrand } from '../src/config/pageMeta'
+import { getPrivacyPolicy, getTerms, getContactPage, buildSecurityTxt, DISCLAIMERS, LEGAL, type LegalDoc } from '../src/config/legal'
 import {
   buildGlobalSiteSchema,
   buildHomeSchema,
@@ -37,7 +39,7 @@ import {
 import { Categories } from '../src/engine/categories'
 import { categoryContent } from '../src/engine/categoryContent'
 import { guideContent } from '../src/engine/guideContent'
-import { BLOG_POSTS } from '../src/data/blogPosts'
+import { BLOG_POSTS, getRelatedPosts } from '../src/data/blogPosts'
 import { convert } from '../src/engine/converter'
 import { fmt } from '../src/utils/numbers'
 import {
@@ -46,7 +48,10 @@ import {
   getGuideRelationship,
 } from '../src/config/guideRelations'
 import { getPairEditorial, findUnit } from '../src/config/pairEditorial'
+import { unitSymbol, unitName, unitLabel, pairTitle, pairMetaDescription } from '../src/engine/unitSymbols'
 import { getCategoryAuthoritySources } from '../src/config/authoritySources'
+import { getCategoryStandards } from '../src/engine/categoryStandards'
+import { getRelatedCategoryIds } from '../src/config/relatedCategories'
 
 const distDir = path.resolve(process.cwd(), 'dist')
 const baseHtmlPath = path.join(distDir, 'index.html')
@@ -78,12 +83,40 @@ interface PrerenderPageConfig {
   staticBodyHtml: string
 }
 
+// Site-wide footer for prerendered HTML (mirrors the React app footer)
+const STATIC_FOOTER_HTML = `
+    <footer style="font-family:system-ui,sans-serif;max-width:64rem;margin:2rem auto 0;padding:1rem 1.5rem;border-top:1px solid #ddd;font-size:0.85rem;color:#666;">
+      <nav aria-label="Site">
+        <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Use</a> · <a href="/sitemap">Sitemap</a>
+      </nav>
+      <p style="margin:0.5rem 0 0;">© ${new Date().getFullYear()} ${LEGAL.operator} · Omega X Converter</p>
+    </footer>`
+
+function renderLegalBody(doc: LegalDoc): string {
+  return `
+    <main class="max-w-3xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
+      <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
+        <a href="/">Home</a> / <strong>${escapeHtml(doc.h1)}</strong>
+      </nav>
+      <header>
+        <h1 style="font-size:2rem;font-weight:700;">${escapeHtml(doc.h1)}</h1>
+        ${doc.path !== '/contact' ? `<p style="font-size:0.85rem;color:#777;">Last updated: ${LEGAL.lastUpdated}</p>` : ''}
+        <p style="font-size:1.05rem;color:#444;line-height:1.6;">${escapeHtml(doc.intro)}</p>
+      </header>
+      ${doc.sections.map(sec => `
+        <section>
+          <h2 style="font-size:1.25rem;">${escapeHtml(sec.heading)}</h2>
+          ${sec.paragraphs.map(p => `<p style="color:#444;line-height:1.6;">${escapeHtml(p)}</p>`).join('')}
+          ${sec.bullets ? `<ul style="line-height:1.6;">${sec.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('')}</ul>` : ''}
+        </section>
+      `).join('')}
+    </main>`
+}
+
 function renderAndWritePage(config: PrerenderPageConfig) {
   let html = baseHtml
   const pageCanonical = canonicalUrl(config.routePath)
-  const fullTitle = config.title.includes('—') || config.title.includes('|')
-    ? config.title
-    : `${config.title} | Omega X Converter`
+  const fullTitle = withBrand(config.title)
 
   // 1. Replace <title>
   html = html.replace(/<title.*?>.*?<\/title>/i, `<title data-rh="true">${escapeHtml(fullTitle)}</title>`)
@@ -117,7 +150,7 @@ function renderAndWritePage(config: PrerenderPageConfig) {
   // 7. Inject static HTML inside <div id="root">
   html = html.replace(
     /<div id="root">\s*<\/div>/i,
-    `<div id="root">\n${config.staticBodyHtml}\n    </div>`
+    `<div id="root">\n${config.staticBodyHtml}\n${STATIC_FOOTER_HTML}\n    </div>`
   )
 
   // 8. Write to disk
@@ -208,8 +241,8 @@ const homeStaticHtml = `
 
 renderAndWritePage({
   routePath: '/',
-  title: 'Omega X Converter — Universal Unit & Currency Calculator',
-  description: 'Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.',
+  title: PAGE_META['/'].title,
+  description: PAGE_META['/'].description,
   schema: homeSchema,
   staticBodyHtml: homeStaticHtml,
 })
@@ -223,12 +256,12 @@ console.log('⚡ Prerendering Core Public Pages (10 pages) ...')
 const corePages: PrerenderPageConfig[] = [
   {
     routePath: '/about',
-    title: 'About Omega X Converter — Universal Unit Conversion Platform',
-    description: 'Learn about Omega X Converter by NumanX Studio: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine.',
+    title: PAGE_META['/about'].title,
+    description: PAGE_META['/about'].description,
     schema: buildCorePageSchema(
       '/about',
-      'About Omega X Converter — Universal Unit Conversion Platform',
-      'Learn about Omega X Converter by NumanX Studio: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine.',
+      PAGE_META['/about'].title,
+      PAGE_META['/about'].description,
       { pageType: 'AboutPage' }
     ),
     staticBodyHtml: `
@@ -271,8 +304,8 @@ const corePages: PrerenderPageConfig[] = [
   },
   {
     routePath: '/blog',
-    title: 'Blog — Unit Conversion Guides, Metrology & Precision Tips | NumanX',
-    description: 'Comprehensive guides, tutorials, formulas, and cheat sheets for length, weight, temperature, data, and precision conversions by NumanX.',
+    title: PAGE_META['/blog'].title,
+    description: PAGE_META['/blog'].description,
     schema: buildBlogIndexSchema(BLOG_POSTS),
     staticBodyHtml: `
       <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
@@ -291,7 +324,7 @@ const corePages: PrerenderPageConfig[] = [
             ${BLOG_POSTS.map(post => `
               <article style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;">
                 <h3 style="margin:0 0 0.5rem 0;font-size:1.25rem;">
-                  <a href="/blog/${post.slug}" style="color:#0066cc;text-decoration:none;">${post.title}</a>
+                  <a href="/blog/${post.slug}" style="color:#0066cc;text-decoration:none;">${escapeHtml(post.title)}</a>
                 </h3>
                 <div style="font-size:0.85rem;color:#777;margin-bottom:0.5rem;">
                   Published on ${post.date} · By ${post.author} · ${post.readTime}
@@ -306,12 +339,12 @@ const corePages: PrerenderPageConfig[] = [
   },
   {
     routePath: '/calculator',
-    title: 'Engineering & Scientific Calculator — Precision Math Engine | Omega X',
-    description: 'Free online scientific and engineering calculator with high precision, trigonometric functions, memory storage, formula history, and unit calculation integration.',
+    title: PAGE_META['/calculator'].title,
+    description: PAGE_META['/calculator'].description,
     schema: buildCorePageSchema(
       '/calculator',
-      'Engineering & Scientific Calculator — Precision Math Engine | Omega X',
-      'Free online scientific and engineering calculator with high precision, trigonometric functions, memory storage, formula history, and unit calculation integration.',
+      PAGE_META['/calculator'].title,
+      PAGE_META['/calculator'].description,
       { applicationCategory: 'UtilitiesApplication' }
     ),
     staticBodyHtml: `
@@ -344,8 +377,8 @@ const corePages: PrerenderPageConfig[] = [
   },
   {
     routePath: '/categories',
-    title: 'Unit Categories Directory — 24 Measurement Systems | Omega X',
-    description: 'Browse all 24 measurement categories in Omega X: length, mass, temperature, area, volume, pressure, data, energy, and more with instant conversion tools.',
+    title: PAGE_META['/categories'].title,
+    description: PAGE_META['/categories'].description,
     schema: buildCategoriesDirectorySchema(Categories),
     staticBodyHtml: `
       <main class="max-w-5xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
@@ -380,12 +413,12 @@ const corePages: PrerenderPageConfig[] = [
   },
   {
     routePath: '/converter',
-    title: 'Universal Unit Converter — 24 Categories & Instant Search | Omega X',
-    description: 'Universal unit conversion platform supporting metric, imperial, astronomical, and scientific units across 24 categories with natural language input.',
+    title: PAGE_META['/converter'].title,
+    description: PAGE_META['/converter'].description,
     schema: buildCorePageSchema(
       '/converter',
-      'Universal Unit Converter — 24 Categories & Instant Search | Omega X',
-      'Universal unit conversion platform supporting metric, imperial, astronomical, and scientific units across 24 categories with natural language input.',
+      PAGE_META['/converter'].title,
+      PAGE_META['/converter'].description,
       { applicationCategory: 'UtilitiesApplication' }
     ),
     staticBodyHtml: `
@@ -428,12 +461,12 @@ const corePages: PrerenderPageConfig[] = [
   },
   {
     routePath: '/crypto',
-    title: 'Cryptocurrency Converter & Live Market Prices — BTC, ETH, SOL | Omega X',
-    description: 'Real-time cryptocurrency converter and live price tracker for Bitcoin, Ethereum, Solana, and top digital assets with fiat currency pairs and caching.',
+    title: PAGE_META['/crypto'].title,
+    description: PAGE_META['/crypto'].description,
     schema: buildCorePageSchema(
       '/crypto',
-      'Cryptocurrency Converter & Live Market Prices — BTC, ETH, SOL | Omega X',
-      'Real-time cryptocurrency converter and live price tracker for Bitcoin, Ethereum, Solana, and top digital assets with fiat currency pairs and caching.',
+      PAGE_META['/crypto'].title,
+      PAGE_META['/crypto'].description,
       { applicationCategory: 'FinanceApplication' }
     ),
     staticBodyHtml: `
@@ -462,17 +495,18 @@ const corePages: PrerenderPageConfig[] = [
             Omega X automatically caches cryptocurrency price snapshots in browser storage. If network connectivity is lost or upstream rate limits are encountered, conversion operations fall back seamlessly to cached valuations with explicit status indicators.
           </p>
         </section>
+        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `,
   },
   {
     routePath: '/currency',
-    title: 'Currency Converter — Real-Time Fiat Exchange Rates | Omega X',
-    description: 'Live currency converter with mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD, and 160+ world currencies. Cached and offline-resilient.',
+    title: PAGE_META['/currency'].title,
+    description: PAGE_META['/currency'].description,
     schema: buildCorePageSchema(
       '/currency',
-      'Currency Converter — Real-Time Fiat Exchange Rates | Omega X',
-      'Live currency converter with mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD, and 160+ world currencies. Cached and offline-resilient.',
+      PAGE_META['/currency'].title,
+      PAGE_META['/currency'].description,
       { applicationCategory: 'FinanceApplication' }
     ),
     staticBodyHtml: `
@@ -496,17 +530,18 @@ const corePages: PrerenderPageConfig[] = [
             Financial conversions are computed entirely on your device. Your financial inquiries, amounts, and currency pairings are never logged or sold to third-party ad networks.
           </p>
         </section>
+        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `,
   },
   {
     routePath: '/formulas',
-    title: 'Unit Conversion Formulas & Metrology Reference Library | Omega X',
-    description: 'Authoritative reference library of conversion formulas, mathematical constants, and derivation equations across all 24 measurement categories.',
+    title: PAGE_META['/formulas'].title,
+    description: PAGE_META['/formulas'].description,
     schema: buildCorePageSchema(
       '/formulas',
-      'Unit Conversion Formulas & Metrology Reference Library | Omega X',
-      'Authoritative reference library of conversion formulas, mathematical constants, and derivation equations across all 24 measurement categories.',
+      PAGE_META['/formulas'].title,
+      PAGE_META['/formulas'].description,
       { pageType: 'ItemPage', applicationCategory: 'UtilitiesApplication' }
     ),
     staticBodyHtml: `
@@ -539,12 +574,12 @@ const corePages: PrerenderPageConfig[] = [
   },
   {
     routePath: '/health',
-    title: 'Health & Biometric Calculators — BMI, BMR & Body Metrics | Omega X',
-    description: 'Precision health and biometric calculation suite: BMI, Basal Metabolic Rate (BMR), Ideal Body Weight (IBW), daily water intake, and body surface area.',
+    title: PAGE_META['/health'].title,
+    description: PAGE_META['/health'].description,
     schema: buildCorePageSchema(
       '/health',
-      'Health & Biometric Calculators — BMI, BMR & Body Metrics | Omega X',
-      'Precision health and biometric calculation suite: BMI, Basal Metabolic Rate (BMR), Ideal Body Weight (IBW), daily water intake, and body surface area.',
+      PAGE_META['/health'].title,
+      PAGE_META['/health'].description,
       { applicationCategory: 'HealthApplication' }
     ),
     staticBodyHtml: `
@@ -563,22 +598,28 @@ const corePages: PrerenderPageConfig[] = [
           <ul>
             <li><strong>Body Mass Index (BMI):</strong> Calculates ratio of weight to height according to standard WHO weight classifications.</li>
             <li><strong>Basal Metabolic Rate (BMR):</strong> Estimates daily resting calorie expenditure using the Mifflin-St Jeor equation.</li>
-            <li><strong>Ideal Body Weight (IBW):</strong> Evaluated via the published Devine formula for health and fitness baselines.</li>
-            <li><strong>Body Surface Area (BSA):</strong> Computes surface area based on the Mosteller physiological formula.</li>
-            <li><strong>Daily Hydration Needs:</strong> Calculates recommended daily water intake based on body weight and activity levels.</li>
           </ul>
         </section>
+        <section>
+          <h2>How BMI is calculated</h2>
+          <p>BMI = weight (kg) ÷ height (m)². Adult categories follow the World Health Organization: under 18.5 is underweight, 18.5 to 24.9 is normal, 25 to 29.9 is overweight and 30 or more is obese. For example, 70 kg at 1.75 m gives a BMI of 22.9 (normal).</p>
+        </section>
+        <section>
+          <h2>How BMR is calculated</h2>
+          <p>The Mifflin-St Jeor equation estimates calories burned at rest, using weight in kg, height in cm and age in years: men = 10 × weight + 6.25 × height − 5 × age + 5; women = 10 × weight + 6.25 × height − 5 × age − 161. A 30-year-old man at 70 kg and 175 cm has a BMR of about 1,649 kcal per day.</p>
+        </section>
+        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.health} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `,
   },
   {
     routePath: '/sitemap',
-    title: 'HTML Sitemap — Complete Navigation & Conversion Directory | Omega X',
-    description: 'Complete HTML directory of all 146 public indexable routes on Omega X: core tools, 24 conversion categories, popular pairs, guides, and blog articles.',
+    title: PAGE_META['/sitemap'].title,
+    description: PAGE_META['/sitemap'].description,
     schema: buildCorePageSchema(
       '/sitemap',
-      'HTML Sitemap — Complete Navigation & Conversion Directory | Omega X',
-      'Complete HTML directory of all 146 public indexable routes on Omega X: core tools, 24 conversion categories, popular pairs, guides, and blog articles.',
+      PAGE_META['/sitemap'].title,
+      PAGE_META['/sitemap'].description,
       { pageType: 'CollectionPage' }
     ),
     staticBodyHtml: `
@@ -589,7 +630,7 @@ const corePages: PrerenderPageConfig[] = [
         <header>
           <h1 style="font-size:2rem;font-weight:700;">Omega X HTML Sitemap</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Complete index of all 146 canonical public routes available on the Omega X Converter platform.
+            Complete index of every canonical public page on the Omega X Converter platform.
           </p>
         </header>
 
@@ -607,6 +648,9 @@ const corePages: PrerenderPageConfig[] = [
             <li><a href="/blog">Metrology Blog</a></li>
             <li><a href="/about">About Omega X Converter</a></li>
             <li><a href="/sitemap">Sitemap</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Use</a></li>
           </ul>
         </section>
 
@@ -664,6 +708,14 @@ for (const cat of Categories) {
   ]
 
   const catAuthSources = getCategoryAuthoritySources(cat.id)
+  const std = getCategoryStandards(cat.id, cat.lb, cat.un.map(u => u.lb))
+  const SI_BASE_UNIT_IDS = new Set(['m', 'kg', 's', 'A', 'K'])
+  const baseUnits = cat.un.filter(u => u.r === 1)
+  const isComposite = baseUnits.length > 1
+  const singleBaseUnit = baseUnits.length === 1 ? baseUnits[0] : null
+  const relatedCats = getRelatedCategoryIds(cat.id)
+    .map(id => Categories.find(c => c.id === id))
+    .filter((c): c is (typeof Categories)[number] => Boolean(c))
   const authorityHtml = catAuthSources.length > 0
     ? `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:#777;">Primary References: ${catAuthSources.map(s => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" style="color:#0066cc;">${s.documentRef}</a>`).join(' · ')} · <a href="/about" style="color:#0066cc;">Standards Directory</a></p>`
     : `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:#777;">Standards & Data Source Note: Consult our <a href="/about" style="color:#0066cc;">standards and methodology directory</a> for data source provenance.</p>`
@@ -678,12 +730,13 @@ for (const cat of Categories) {
       <header>
         <h1 style="font-size:2rem;font-weight:700;">${cat.ic} ${h1}</h1>
         <p style="font-size:1.1rem;color:#555;line-height:1.6;">${intro}</p>
+        <p style="color:#333;line-height:1.6;">${escapeHtml(std.aeoCapsule)}</p>
       </header>
 
       <section aria-labelledby="standards-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
         <h2 id="standards-heading" style="font-size:1.2rem;margin-top:0;">Metrological Standards & Base Equation</h2>
         <p style="margin-bottom:0.5rem;font-size:0.95rem;">${formula}</p>
-        <p style="margin:0;font-size:0.85rem;color:#777;">Conversion ratios adhere to standardized mathematical definitions and institutional documentation.</p>
+        <p style="margin:0;font-size:0.9rem;color:#555;line-height:1.6;">${escapeHtml(std.standardsStatement)}</p>
         ${authorityHtml}
       </section>
 
@@ -697,18 +750,48 @@ for (const cat of Categories) {
                 <th scope="col">Unit Symbol</th>
                 <th scope="col">Unit Name</th>
                 <th scope="col">System</th>
-                <th scope="col">Base Factor</th>
+                <th scope="col">${singleBaseUnit ? `Equivalent in ${escapeHtml(unitName(singleBaseUnit, cat.id))}` : (isComposite ? 'Metrological Standard' : 'Conversion Basis')}</th>
               </tr>
             </thead>
             <tbody>
-              ${cat.un.map(u => `
+              ${cat.un.map(u => {
+                const isSiBase = (u.r === 1 || u.id === 'K') && SI_BASE_UNIT_IDS.has(u.id)
+                const isRef = u.r === 1 && !isSiBase
+                let equivText: string
+                if (singleBaseUnit) {
+                  if (isSiBase) {
+                    equivText = `SI Base Unit (1 ${escapeHtml(unitSymbol(u, cat.id))})`
+                  } else if (isRef) {
+                    equivText = `Reference Standard (1 ${escapeHtml(unitSymbol(u, cat.id))})`
+                  } else if (u.r !== undefined) {
+                    equivText = `1 ${escapeHtml(unitSymbol(u, cat.id))} = ${fmt(u.r, 8)} ${escapeHtml(unitSymbol(singleBaseUnit, cat.id))}`
+                  } else {
+                    equivText = 'Formula-based (non-linear)'
+                  }
+                } else if (isComposite) {
+                  if (isSiBase) {
+                    equivText = `SI Base Unit (${escapeHtml(unitName(u, cat.id))})`
+                  } else if (isRef) {
+                    equivText = `Reference Standard (${escapeHtml(unitName(u, cat.id))})`
+                  } else {
+                    equivText = `Dimensional Standard (${u.s === 'M' ? 'Metric' : u.s === 'I' ? 'Imperial' : u.s === 'S' ? 'Scientific' : 'Customary'})`
+                  }
+                } else {
+                  if (isSiBase) {
+                    equivText = `SI Base Unit (${escapeHtml(unitName(u, cat.id))})`
+                  } else {
+                    equivText = cat.id === 'temp' ? 'Affine temperature scale' : 'Formula-based (non-linear)'
+                  }
+                }
+                return `
                 <tr>
-                  <td><code>${u.id}</code></td>
-                  <td><strong>${u.lb}</strong></td>
-                  <td>${u.s === 'M' ? 'Metric (SI)' : u.s === 'I' ? 'Imperial' : u.s === 'S' ? 'Scientific' : 'Customary'}</td>
-                  <td>${u.r !== undefined ? u.r : 'Formula-based'}</td>
+                  <td><code>${escapeHtml(unitSymbol(u, cat.id))}</code></td>
+                  <td><strong>${escapeHtml(unitName(u, cat.id))}</strong></td>
+                  <td>${u.s === 'M' ? 'Metric' : u.s === 'I' ? 'Imperial' : u.s === 'S' ? 'Scientific' : 'Other'}</td>
+                  <td>${equivText}</td>
                 </tr>
-              `).join('')}
+                `
+              }).join('')}
             </tbody>
           </table>
         </div>
@@ -756,13 +839,23 @@ for (const cat of Categories) {
         </section>
       ` : ''}
 
+      ${relatedCats.length > 0 ? `
+        <section aria-labelledby="related-heading">
+          <h2 id="related-heading" style="font-size:1.25rem;margin-bottom:0.5rem;">Related Conversion Categories</h2>
+          <ul>
+            ${relatedCats.map(c => `<li><a href="/convert/${c.id}" style="color:#0066cc;">${escapeHtml(c.lb)} converter</a></li>`).join('')}
+            <li><a href="/categories" style="color:#0066cc;">All conversion categories</a></li>
+          </ul>
+        </section>
+      ` : ''}
+
       <section aria-labelledby="faq-heading">
         <h2 id="faq-heading" style="font-size:1.25rem;margin-bottom:1rem;">Frequently Asked Questions</h2>
         <div style="display:flex;flex-direction:column;gap:1rem;">
           ${faqs.map(f => `
             <div style="border-left:3px solid #0066cc;padding-left:1rem;">
-              <h3 style="margin:0 0 0.25rem 0;font-size:1.05rem;">${f.q}</h3>
-              <p style="margin:0;color:#555;font-size:0.95rem;line-height:1.5;">${f.a}</p>
+              <h3 style="margin:0 0 0.25rem 0;font-size:1.05rem;">${escapeHtml(f.q)}</h3>
+              <p style="margin:0;color:#555;font-size:0.95rem;line-height:1.5;">${escapeHtml(f.a)}</p>
             </div>
           `).join('')}
         </div>
@@ -810,20 +903,24 @@ for (const cat of Categories) {
     const editorial = getPairEditorial(cat, u1, u2, pairParam)
     const pairGuide = getGuideForPair(cat.id, pairParam)
 
-    const pageTitle = `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})`
-    const metaDescription = `Free online ${u1.lb} to ${u2.lb} converter. ${editorial.directAnswer.summary} Includes live calculator, exact formula, and 1 to 1000 conversion chart.`
+    const pageTitle = pairTitle(u1, u2, cat.id)
+    const metaDescription = pairMetaDescription(u1, u2, cat.id, editorial.directAnswer.summary)
+
+    const pairRelatedCats = getRelatedCategoryIds(cat.id)
+      .map(id => Categories.find(c => c.id === id))
+      .filter((c): c is (typeof Categories)[number] => Boolean(c))
 
     const pairSchema = buildPairSchema(cat, u1, u2, unitRatio, inverseUnitRatio, pairParam, editorial.faqs, editorial.directAnswer.summary)
 
     const pairBodyHtml = `
       <main class="max-w-5xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
         <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <a href="/categories">Categories</a> / <a href="/convert/${cat.id}">${cat.lb}</a> / <strong>${u1.lb} to ${u2.lb}</strong>
+          <a href="/">Home</a> / <a href="/categories">Categories</a> / <a href="/convert/${cat.id}">${cat.lb}</a> / <strong>${unitName(u1, cat.id)} to ${unitName(u2, cat.id)}</strong>
         </nav>
         <header>
-          <h1 style="font-size:2rem;font-weight:700;">Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})</h1>
+          <h1 style="font-size:2rem;font-weight:700;">${pageTitle}</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Instant precision conversion from ${u1.lb} (${u1.id}) to ${u2.lb} (${u2.id}) in ${cat.lb}.
+            Instant precision conversion from ${unitLabel(u1, cat.id)} to ${unitLabel(u2, cat.id)} in ${cat.lb}.
           </p>
         </header>
 
@@ -883,16 +980,16 @@ for (const cat of Categories) {
         ` : ''}
 
         <section aria-labelledby="chart-heading">
-          <h2 id="chart-heading" style="font-size:1.25rem;margin-bottom:0.75rem;">${u1.lb} to ${u2.lb} Conversion Table (1 to 1000)</h2>
+          <h2 id="chart-heading" style="font-size:1.25rem;margin-bottom:0.75rem;">${unitName(u1, cat.id)} to ${unitName(u2, cat.id)} Conversion Table (1 to 1000)</h2>
           <div style="overflow-x:auto;">
             <table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;text-align:left;border:1px solid #ddd;font-size:0.9rem;">
-              <caption style="text-align:left;font-weight:600;margin-bottom:0.5rem;">${u1.lb} (${u1.id}) to ${u2.lb} (${u2.id}) and Reciprocal Equivalents</caption>
+              <caption style="text-align:left;font-weight:600;margin-bottom:0.5rem;">${unitLabel(u1, cat.id)} to ${unitLabel(u2, cat.id)} and Reciprocal Equivalents</caption>
               <thead style="background:#f0f0f0;">
                 <tr>
-                  <th scope="col">${u1.lb} (${u1.id})</th>
-                  <th scope="col">${u2.lb} (${u2.id})</th>
-                  <th scope="col">${u2.lb} (${u2.id})</th>
-                  <th scope="col">${u1.lb} (${u1.id})</th>
+                  <th scope="col">${unitLabel(u1, cat.id)}</th>
+                  <th scope="col">${unitLabel(u2, cat.id)}</th>
+                  <th scope="col">${unitLabel(u2, cat.id)}</th>
+                  <th scope="col">${unitLabel(u1, cat.id)}</th>
                 </tr>
               </thead>
               <tbody>
@@ -901,10 +998,10 @@ for (const cat of Categories) {
                   const resBwd = convert(v, cat.id, u2.id, u1.id)
                   return `
                     <tr>
-                      <td>${v} ${u1.id}</td>
-                      <td><strong>${resFwd !== null ? fmt(resFwd, 6) : ''}</strong> ${u2.id}</td>
-                      <td>${v} ${u2.id}</td>
-                      <td><strong>${resBwd !== null ? fmt(resBwd, 6) : ''}</strong> ${u1.id}</td>
+                      <td>${v} ${unitSymbol(u1, cat.id)}</td>
+                      <td><strong>${resFwd !== null ? fmt(resFwd, 6) : ''}</strong> ${unitSymbol(u2, cat.id)}</td>
+                      <td>${v} ${unitSymbol(u2, cat.id)}</td>
+                      <td><strong>${resBwd !== null ? fmt(resBwd, 6) : ''}</strong> ${unitSymbol(u1, cat.id)}</td>
                     </tr>
                   `
                 }).join('')}
@@ -921,6 +1018,7 @@ for (const cat of Categories) {
               return `<a href="/convert/${cat.id}/${pSlug}" style="display:inline-block;border:1px solid #ccc;padding:0.4rem 0.8rem;border-radius:4px;color:#0066cc;text-decoration:none;font-size:0.85rem;">${p.from} → ${p.to}</a>`
             }).join('')}
           </div>
+          ${pairRelatedCats.length > 0 ? `<p style="font-size:0.9rem;color:#555;">More converters: ${pairRelatedCats.map(c => `<a href="/convert/${c.id}" style="color:#0066cc;">${escapeHtml(c.lb)}</a>`).join(' · ')}</p>` : ''}
         </section>
 
         <section aria-labelledby="faq-heading">
@@ -1071,24 +1169,28 @@ for (const post of BLOG_POSTS) {
 
   const blogPostSchema = buildBlogPostSchema(post)
 
+  const blogRelatedPairs = categoryContent[post.relatedCat]?.popularPairs ?? []
+  const blogRelatedCatLabel = Categories.find(c => c.id === post.relatedCat)?.lb ?? post.relatedCat
   const blogPostBodyHtml = `
     <article class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
       <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-        <a href="/">Home</a> / <a href="/blog">Blog</a> / <strong>${post.title}</strong>
+        <a href="/">Home</a> / <a href="/blog">Blog</a> / <strong>${escapeHtml(post.title)}</strong>
       </nav>
       <header>
-        <h1 style="font-size:2rem;font-weight:700;">${post.title}</h1>
+        <h1 style="font-size:2rem;font-weight:700;">${escapeHtml(post.title)}</h1>
         <div style="font-size:0.85rem;color:#777;margin-top:0.5rem;">
           Published on ${post.date} · By ${post.author} · ${post.readTime}
         </div>
-        <p style="font-size:1.1rem;color:#555;line-height:1.6;margin-top:0.75rem;">${post.excerpt}</p>
+        <p style="font-size:1.1rem;color:#555;line-height:1.6;margin-top:0.75rem;">${escapeHtml(post.excerpt)}</p>
       </header>
 
-      ${post.content.takeaways && post.content.takeaways.length > 0 ? `
+      <p style="color:#333;line-height:1.7;">${escapeHtml(post.content.intro)}</p>
+
+      ${post.content.keyTakeaways.length > 0 ? `
         <section aria-labelledby="takeaways-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
           <h2 id="takeaways-heading" style="font-size:1.2rem;margin-top:0;">Key Takeaways</h2>
           <ul style="line-height:1.6;margin-bottom:0;">
-            ${post.content.takeaways.map(t => `<li>${t}</li>`).join('')}
+            ${post.content.keyTakeaways.map(t => `<li>${escapeHtml(t)}</li>`).join('')}
           </ul>
         </section>
       ` : ''}
@@ -1096,8 +1198,15 @@ for (const post of BLOG_POSTS) {
       <div style="display:flex;flex-direction:column;gap:1.5rem;">
         ${post.content.sections.map(sec => `
           <section>
-            <h2 style="font-size:1.3rem;margin-bottom:0.5rem;">${sec.heading}</h2>
-            <p style="color:#444;line-height:1.6;margin:0;">${sec.body}</p>
+            <h2 style="font-size:1.3rem;margin-bottom:0.5rem;">${escapeHtml(sec.title)}</h2>
+            <p style="color:#444;line-height:1.6;margin:0;">${escapeHtml(sec.body)}</p>
+            ${sec.formula ? `<pre style="background:#f4f4f8;border-radius:6px;padding:0.75rem;white-space:pre-wrap;"><code>${escapeHtml(sec.formula)}</code></pre>` : ''}
+            ${sec.bulletPoints?.length ? `<ul style="line-height:1.6;">${sec.bulletPoints.map(bp => `<li>${escapeHtml(bp)}</li>`).join('')}</ul>` : ''}
+            ${sec.table?.length ? `
+              <table style="border-collapse:collapse;width:100%;margin-top:0.75rem;">
+                <thead><tr>${[sec.table[0].col1, sec.table[0].col2, sec.table[0].col3].filter(Boolean).map(c => `<th scope="col" style="text-align:left;border-bottom:1px solid #ddd;padding:6px;">${escapeHtml(c!)}</th>`).join('')}</tr></thead>
+                <tbody>${sec.table.slice(1).map(r => `<tr>${[r.col1, r.col2, r.col3].filter(Boolean).map(c => `<td style="border-bottom:1px solid #eee;padding:6px;">${escapeHtml(c!)}</td>`).join('')}</tr>`).join('')}</tbody>
+              </table>` : ''}
           </section>
         `).join('')}
       </div>
@@ -1116,6 +1225,23 @@ for (const post of BLOG_POSTS) {
         </section>
       ` : ''}
 
+      ${blogRelatedPairs.length > 0 ? `
+        <section aria-labelledby="related-converters-heading">
+          <h2 id="related-converters-heading" style="font-size:1.2rem;">Related Converters</h2>
+          <ul style="line-height:1.8;">
+            <li><a href="/convert/${post.relatedCat}" style="color:#0066cc;">All ${escapeHtml(blogRelatedCatLabel)} conversions</a></li>
+            ${blogRelatedPairs.map(p => `<li><a href="/convert/${post.relatedCat}/${cleanSlug(p.from)}-to-${cleanSlug(p.to)}" style="color:#0066cc;">${escapeHtml(p.from)} to ${escapeHtml(p.to)}</a></li>`).join('')}
+          </ul>
+        </section>
+      ` : ''}
+
+      <section aria-labelledby="related-articles-heading">
+        <h2 id="related-articles-heading" style="font-size:1.2rem;">Related Guides & Tutorials</h2>
+        <ul style="line-height:1.8;">
+          ${getRelatedPosts(post).map(rp => `<li><a href="/blog/${rp.slug}" style="color:#0066cc;">${escapeHtml(rp.title)}</a> — ${escapeHtml(rp.excerpt)}</li>`).join('')}
+        </ul>
+      </section>
+
       <div style="font-size:0.85rem;color:#777;border-top:1px solid #eee;padding-top:0.75rem;margin-top:1.5rem;">
         Published by ${post.author} on behalf of NumanX Studio. Conversion constants adhere to NIST SP 811 and BIPM SI brochure standards. Consult our <a href="/about" style="color:#0066cc;">metrology standards directory</a>.
       </div>
@@ -1128,7 +1254,7 @@ for (const post of BLOG_POSTS) {
 
   renderAndWritePage({
     routePath: pageRoute,
-    title: `${post.title} — NumanX Blog`,
+    title: post.seoTitle ?? post.title,
     description: post.excerpt,
     schema: blogPostSchema,
     staticBodyHtml: blogPostBodyHtml,
@@ -1136,4 +1262,25 @@ for (const post of BLOG_POSTS) {
   generatedCount++
 }
 
-console.log(`\n🎉 Prerender Complete! Generated meaningful static HTML for ${generatedCount}/146 routes.`)
+console.log('⚡ Prerendering legal & contact pages ...')
+for (const doc of [getPrivacyPolicy(), getTerms(), getContactPage()]) {
+  renderAndWritePage({
+    routePath: doc.path,
+    title: PAGE_META[doc.path].title,
+    description: PAGE_META[doc.path].description,
+    schema: buildCorePageSchema(doc.path, PAGE_META[doc.path].title, PAGE_META[doc.path].description, { pageType: 'WebPage' }),
+    staticBodyHtml: renderLegalBody(doc),
+  })
+  generatedCount++
+}
+
+const securityTxt = buildSecurityTxt(siteOrigin)
+if (securityTxt) {
+  fs.mkdirSync(path.join(distDir, '.well-known'), { recursive: true })
+  fs.writeFileSync(path.join(distDir, '.well-known', 'security.txt'), securityTxt, 'utf-8')
+  console.log('✅ Wrote /.well-known/security.txt')
+} else {
+  console.log('ℹ️  Skipped security.txt: set LEGAL.contactEmail in src/config/legal.ts to publish it')
+}
+
+console.log(`\n🎉 Prerender Complete! Generated meaningful static HTML for ${generatedCount} routes.`)

@@ -158,6 +158,7 @@ var Categories = [
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
       { id: "gal", lb: "Gal", r: 0.01, s: "O" },
+      { id: "ftps2", lb: "ft/s\xB2", r: 0.3048, s: "I" },
       { id: "gforce", lb: "g-force", r: 9.80665, s: "O" }
     ]
   },
@@ -168,8 +169,9 @@ var Categories = [
     cl: "#e91e63",
     un: [
       { id: "N", lb: "Newton", r: 1, s: "M" },
+      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" },
       { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
-      { id: "lbf", lb: "Pound-force", r: 4.44822, s: "I" },
+      { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
       { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" }
     ]
   },
@@ -215,7 +217,8 @@ var Categories = [
       { id: "W", lb: "Watt", r: 1, s: "M" },
       { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
       { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
-      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" }
+      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
+      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" }
     ]
   },
   {
@@ -257,7 +260,8 @@ var Categories = [
       { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
       { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
       { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
-      { id: "THz", lb: "THz", r: 1e12, s: "M" }
+      { id: "THz", lb: "THz", r: 1e12, s: "M" },
+      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" }
     ]
   },
   {
@@ -298,7 +302,8 @@ var Categories = [
     cl: "#00bcd4",
     un: [
       { id: "deg", lb: "Degree", r: 1, s: "M" },
-      { id: "rad", lb: "Radian", r: 57.2958, s: "S" },
+      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" },
+      { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
       { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
       { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
       { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" }
@@ -439,7 +444,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -464,6 +469,269 @@ function canonicalUrl(path2 = "") {
   return absoluteUrl(normalized);
 }
 
+// src/config/pageMeta.ts
+var BRAND_SUFFIX = " | Omega X Converter";
+var MAX_TITLE = 65;
+function withBrand(title) {
+  if (title.includes("\u2014") || title.includes("|")) return title;
+  return title.length + BRAND_SUFFIX.length <= MAX_TITLE ? title + BRAND_SUFFIX : title;
+}
+var PAGE_META = {
+  "/": {
+    title: "Omega X Converter \u2014 Free Unit & Currency Converter",
+    description: "Free unit converter with 24 categories and 180+ units, plus live currency rates, crypto prices, formulas and offline support. Runs in your browser."
+  },
+  "/about": {
+    title: "About Omega X Converter \u2014 NumanX Studio",
+    description: "About Omega X Converter by NumanX Studio: private, client-side unit conversion built on NIST SP 811 and SI standards, with offline PWA support."
+  },
+  "/blog": {
+    title: "Unit Conversion Blog \u2014 Guides & Tips | Omega X",
+    description: "Guides, tutorials, formulas and cheat sheets for length, weight, temperature, data and precision conversions from NumanX Studio."
+  },
+  "/calculator": {
+    title: "Scientific Calculator \u2014 Engineering Math | Omega X",
+    description: "Free scientific and engineering calculator with trigonometric functions, memory, formula history and built-in unit conversion."
+  },
+  "/categories": {
+    title: "All 24 Unit Conversion Categories | Omega X",
+    description: "Browse all 24 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
+  },
+  "/converter": {
+    title: "Universal Unit Converter \u2014 24 Categories | Omega X",
+    description: 'Convert metric, imperial, scientific and astronomical units across 24 categories. Type naturally, like "5 km in miles", and get an instant answer.'
+  },
+  "/crypto": {
+    title: "Crypto Converter \u2014 Live BTC, ETH & SOL Prices | Omega X",
+    description: "Free crypto converter with live prices for Bitcoin, Ethereum, Solana and other top coins in USD, EUR and more. Price data from CoinGecko."
+  },
+  "/currency": {
+    title: "Currency Converter \u2014 Live Exchange Rates | Omega X",
+    description: "Free currency converter with live mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD and more. Keeps working offline with cached rates."
+  },
+  "/formulas": {
+    title: "Unit Conversion Formulas & Constants | Omega X",
+    description: "Reference library of conversion formulas, constants and worked derivations across all 24 measurement categories."
+  },
+  "/health": {
+    title: "Health Calculators \u2014 BMI, BMR & Body Metrics | Omega X",
+    description: "Free BMI and BMR calculators: check your body mass index category and estimate daily calories burned at rest. General estimates, not medical advice."
+  },
+  "/sitemap": {
+    title: "Sitemap \u2014 All Converters, Guides & Articles | Omega X",
+    description: "Directory of every public page on Omega X: core tools, 24 conversion categories, popular conversion pairs, guides and blog articles."
+  },
+  "/privacy": {
+    title: "Privacy Policy \u2014 No Tracking, Local-Only Data | Omega X",
+    description: "How Omega X Converter handles data: no accounts, ads, cookies or analytics. Your history and settings stay in your browser. Read what is stored and why."
+  },
+  "/terms": {
+    title: "Terms of Use | Omega X Converter",
+    description: "Terms for using Omega X Converter: accuracy of conversions, currency and crypto price data, health calculator limits, acceptable use and content licensing."
+  },
+  "/contact": {
+    title: "Contact Omega X Converter \u2014 NumanX Studio",
+    description: "Contact NumanX Studio about Omega X Converter: report a wrong conversion, a security issue or a privacy question."
+  }
+};
+
+// src/config/legal.ts
+var LEGAL = {
+  operator: "NumanX Studio",
+  /** Set once the new domain's mailbox exists. Until then the contact page says email is coming soon and security.txt is not published. */
+  contactEmail: "",
+  /** Country whose law governs the terms, e.g. 'Pakistan'. The clause is omitted until this is set. */
+  governingLaw: "",
+  lastUpdated: "2026-10-29"
+};
+var DISCLAIMERS = {
+  health: "Results are general estimates for information only, not medical advice. Talk to a qualified health professional about your health.",
+  finance: "Rates come from third-party providers and may be delayed or cached. For information only, not financial advice and not suitable for trading."
+};
+function contactSentence() {
+  return LEGAL.contactEmail ? `Email us at ${LEGAL.contactEmail}.` : "A dedicated contact email is being set up and will be published on our Contact page soon.";
+}
+function getPrivacyPolicy() {
+  return {
+    path: "/privacy",
+    h1: "Privacy Policy",
+    intro: `This policy explains what data Omega X Converter, operated by ${LEGAL.operator}, handles when you use it. In short: there are no accounts, no ads, no analytics or tracking cookies, and every conversion is calculated in your browser.`,
+    sections: [
+      {
+        heading: "What stays on your device",
+        paragraphs: [
+          "To remember your preferences and make features work, the app saves the following in your browser's local storage. This data never leaves your device and we cannot see it:"
+        ],
+        bullets: [
+          "Settings: theme, font, decimal precision, app mode, haptic feedback and default units.",
+          "Your content: conversion history, favorites, custom units and AI assistant chat history.",
+          "Usage statistics shown only to you on the dashboard: conversion counts, streaks and frequently used conversions.",
+          "Cached currency and crypto rates, so the converters keep working offline."
+        ]
+      },
+      {
+        heading: "Offline support",
+        paragraphs: [
+          "The app installs a service worker that stores copies of its pages and files in your browser cache, so it can load without an internet connection. Like local storage, this cache stays on your device."
+        ]
+      },
+      {
+        heading: "Requests to other services",
+        paragraphs: [
+          "A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent."
+        ],
+        bullets: [
+          "Currency rates are fetched from ExchangeRate-API (open.er-api.com).",
+          "Cryptocurrency prices are fetched from CoinGecko (api.coingecko.com).",
+          "The website is hosted by Netlify, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
+        ]
+      },
+      {
+        heading: "What we do not do",
+        paragraphs: [
+          "We do not use cookies, advertising, analytics or tracking tools, and we do not sell or share personal data. Fonts are served from our own website rather than a third-party font service."
+        ]
+      },
+      {
+        heading: "Deleting your data",
+        paragraphs: [
+          `Use "Clear All Data" on the Settings page to delete your history, favorites, custom units, chat history, usage statistics and cached rates. Clearing your browser's site data for this website removes everything, including settings and the offline cache.`
+        ]
+      },
+      {
+        heading: "Children",
+        paragraphs: [
+          "The app does not ask for or collect personal information from anyone, including children."
+        ]
+      },
+      {
+        heading: "Changes to this policy",
+        paragraphs: [
+          `If the app starts handling data differently, we will update this page and its "last updated" date. Last updated: ${LEGAL.lastUpdated}.`
+        ]
+      },
+      {
+        heading: "Contact",
+        paragraphs: [`Questions about privacy? ${contactSentence()}`]
+      }
+    ]
+  };
+}
+function getTerms() {
+  const sections = [
+    {
+      heading: "Using the service",
+      paragraphs: [
+        `Omega X Converter is a free tool operated by ${LEGAL.operator}. By using it you agree to these terms. If you do not agree, please do not use the service.`
+      ]
+    },
+    {
+      heading: "Accuracy of conversions",
+      paragraphs: [
+        "Conversions use published standard factors (such as NIST SP 811 and the BIPM SI Brochure) and are checked by automated tests, but no tool is free of errors. Results are provided for general information. Double-check any value used for engineering, medical, legal, safety-critical or financial decisions with an authoritative source."
+      ]
+    },
+    {
+      heading: "Currency and crypto prices",
+      paragraphs: [
+        "Exchange rates and cryptocurrency prices come from third-party providers. They may be delayed, cached or inaccurate, and they are not suitable for trading. Nothing on this site is financial advice."
+      ]
+    },
+    {
+      heading: "Health calculators",
+      paragraphs: [
+        "BMI, BMR and other health results are general estimates. They are not medical advice and do not replace guidance from a qualified health professional."
+      ]
+    },
+    {
+      heading: "Acceptable use",
+      paragraphs: ["Please do not:"],
+      bullets: [
+        "Attempt to disrupt, overload or gain unauthorized access to the service or its hosting.",
+        "Scrape or download the site in a way that degrades it for other visitors.",
+        "Present the service or its content as your own without the attribution described below."
+      ]
+    },
+    {
+      heading: "Content and attribution",
+      paragraphs: [
+        `Written content on this site (articles, guides and explanations) is licensed under Creative Commons Attribution 4.0 (CC BY 4.0): you may reuse it if you credit "Omega X Converter by ${LEGAL.operator}" and link back. The Omega X name, logo and the app itself are not covered by that license.`
+      ]
+    },
+    {
+      heading: "Third-party services",
+      paragraphs: [
+        "The service relies on third parties for hosting and price data, and links to outside references such as NIST and BIPM. We are not responsible for their content or availability."
+      ]
+    },
+    {
+      heading: "No warranty and limitation of liability",
+      paragraphs: [
+        `The service is provided "as is" and "as available", without warranties of any kind. To the fullest extent permitted by law, ${LEGAL.operator} is not liable for any loss or damage arising from use of the service or reliance on its results.`
+      ]
+    },
+    {
+      heading: "Changes",
+      paragraphs: [
+        `We may update these terms. Continued use after an update means you accept the new version. Last updated: ${LEGAL.lastUpdated}.`
+      ]
+    }
+  ];
+  if (LEGAL.governingLaw) {
+    sections.push({
+      heading: "Governing law",
+      paragraphs: [`These terms are governed by the laws of ${LEGAL.governingLaw}.`]
+    });
+  }
+  sections.push({ heading: "Contact", paragraphs: [`Questions about these terms? ${contactSentence()}`] });
+  return {
+    path: "/terms",
+    h1: "Terms of Use",
+    intro: "These terms cover your use of Omega X Converter, including its unit converters, currency and crypto tools, calculators, guides and articles.",
+    sections
+  };
+}
+function getContactPage() {
+  return {
+    path: "/contact",
+    h1: "Contact",
+    intro: `Omega X Converter is built and maintained by ${LEGAL.operator}. ${contactSentence()}`,
+    sections: [
+      {
+        heading: "Report a wrong conversion",
+        paragraphs: [
+          "If a result looks wrong, tell us the page address, the value you entered and the result you expected. Accuracy reports are our top priority."
+        ]
+      },
+      {
+        heading: "Security",
+        paragraphs: [
+          LEGAL.contactEmail ? `To report a security vulnerability, email ${LEGAL.contactEmail} with details and steps to reproduce. Please give us reasonable time to fix the issue before disclosing it publicly. Our security contact is also listed in /.well-known/security.txt.` : "To report a security vulnerability, please use the contact email once it is published here. Please give us reasonable time to fix the issue before disclosing it publicly."
+        ]
+      },
+      {
+        heading: "Privacy",
+        paragraphs: [
+          "We do not collect personal data, so there is no account or profile to request or delete. See the Privacy Policy for details on what stays in your browser."
+        ]
+      }
+    ]
+  };
+}
+function buildSecurityTxt(siteUrl, now = /* @__PURE__ */ new Date()) {
+  if (!LEGAL.contactEmail) return null;
+  const expires = new Date(now);
+  expires.setFullYear(expires.getFullYear() + 1);
+  return [
+    `Contact: mailto:${LEGAL.contactEmail}`,
+    `Expires: ${expires.toISOString().replace(/\.\d{3}Z$/, "Z")}`,
+    "Preferred-Languages: en",
+    `Canonical: ${siteUrl}/.well-known/security.txt`,
+    `Policy: ${siteUrl}/contact`,
+    ""
+  ].join("\n");
+}
+
 // src/utils/numbers.ts
 function cleanFloat(value, sigFigs = 14) {
   if (!Number.isFinite(value) || value === 0) return 0;
@@ -477,6 +745,126 @@ function fmt(v, prec = 6) {
     return cleanFloat(v, Math.max(prec, 4)).toExponential(Math.min(prec, 6));
   }
   return cleanFloat(Number(v.toFixed(prec))).toString();
+}
+
+// src/engine/unitSymbols.ts
+var SCOPED = {
+  "temp:C": "\xB0C",
+  "temp:F": "\xB0F",
+  "acceleration:gal": "Gal"
+};
+var SYMBOLS = {
+  um: "\xB5m",
+  ug: "\xB5g",
+  us: "\xB5s",
+  uF: "\xB5F",
+  mm2: "mm\xB2",
+  cm2: "cm\xB2",
+  m2: "m\xB2",
+  km2: "km\xB2",
+  in2: "in\xB2",
+  ft2: "ft\xB2",
+  yd2: "yd\xB2",
+  mi2: "mi\xB2",
+  m3: "m\xB3",
+  in3: "in\xB3",
+  ft3: "ft\xB3",
+  floz: "fl oz",
+  floz_c: "fl oz",
+  cup_c: "cup",
+  tbsp_c: "tbsp",
+  tsp_c: "tsp",
+  mL_c: "mL",
+  stone: "st",
+  R: "\xB0R",
+  Re: "\xB0R\xE9",
+  mps: "m/s",
+  kmh: "km/h",
+  knot: "kn",
+  mach: "Mach",
+  mps2: "m/s\xB2",
+  ftps2: "ft/s\xB2",
+  gforce: "g-force",
+  ohm: "\u03A9",
+  kohm: "k\u03A9",
+  Mohm: "M\u03A9",
+  Nm: "N\xB7m",
+  lbft: "lb\xB7ft",
+  kmL: "km/L",
+  mpgUS: "MPG (US)",
+  mpgUK: "MPG (UK)",
+  L100km: "L/100km",
+  kgm3: "kg/m\xB3",
+  gcm3: "g/cm\xB3",
+  lbft3: "lb/ft\xB3",
+  BTUh: "BTU/h",
+  tc: "TC",
+  au: "AU",
+  au_a: "AU",
+  ly_a: "ly",
+  pc_a: "pc",
+  sm: "M\u2609",
+  em: "M\u2295",
+  ld: "LD",
+  sr: "R\u2609",
+  er: "R\u2295"
+};
+var SCOPED_NAMES = {
+  "temp:C": "Celsius",
+  "temp:F": "Fahrenheit",
+  "temp:K": "Kelvin"
+};
+var NAMES = {
+  KB: "Kilobyte",
+  MB: "Megabyte",
+  GB: "Gigabyte",
+  TB: "Terabyte",
+  PB: "Petabyte",
+  kHz: "Kilohertz",
+  MHz: "Megahertz",
+  GHz: "Gigahertz",
+  THz: "Terahertz",
+  mm2: "Square Millimeter",
+  cm2: "Square Centimeter",
+  m2: "Square Meter",
+  km2: "Square Kilometer",
+  in2: "Square Inch",
+  ft2: "Square Foot",
+  yd2: "Square Yard",
+  mi2: "Square Mile",
+  Nm: "Newton-meter",
+  lbft: "Pound-foot",
+  au_a: "Astronomical Unit"
+};
+function unitSymbol(u, catId) {
+  return catId && SCOPED[`${catId}:${u.id}`] || SYMBOLS[u.id] || u.id;
+}
+function unitName(u, catId) {
+  return catId && SCOPED_NAMES[`${catId}:${u.id}`] || NAMES[u.id] || u.lb;
+}
+function unitLabel(u, catId) {
+  const name = unitName(u, catId);
+  const sym = unitSymbol(u, catId);
+  return name === sym ? name : `${name} (${sym})`;
+}
+function pairTitle(u1, u2, catId) {
+  const n1 = unitName(u1, catId);
+  const n2 = unitName(u2, catId);
+  const s1 = unitSymbol(u1, catId);
+  const s2 = unitSymbol(u2, catId);
+  if (s1 === n1 && s2 === n2) return `Convert ${n1} to ${n2}`;
+  return `Convert ${n1} to ${n2} (${s1} to ${s2})`;
+}
+function pairMetaDescription(u1, u2, catId, summary) {
+  const candidates = [
+    `${summary} Free ${unitName(u1, catId)} to ${unitName(u2, catId)} converter with formula and chart.`,
+    `${summary} Free converter with formula and chart.`,
+    summary
+  ];
+  const fit = candidates.find((c) => c.length <= 160);
+  if (fit) return fit;
+  const cut = summary.slice(0, 160).lastIndexOf(". ");
+  return cut > 0 ? summary.slice(0, cut + 1) : summary.slice(0, 157) + "\u2026";
 }
 
 // src/config/schema.ts
@@ -533,7 +921,7 @@ function buildHomeSchema() {
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: [
           "24 unit categories including length, mass, volume, temperature, currency, crypto",
-          "200+ units from metric, imperial, and scientific systems",
+          "180+ units from metric, imperial, and scientific systems",
           "Live currency rates for 40+ world currencies",
           "Real-time cryptocurrency prices via CoinGecko",
           'Natural language input: type "5 km in miles" or "(5m+20cm)\xD72"',
@@ -629,17 +1017,17 @@ function buildCategorySchema(category, content) {
 }
 function buildPairSchema(category, u1, u2, unitRatio, inverseUnitRatio, pairParam, faqs, directAnswerSummary) {
   const pageUrl = canonicalUrl(`/convert/${category.id}/${pairParam}`);
-  const pageTitle = `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})`;
-  const summaryText = directAnswerSummary || `1 ${u1.lb} = ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${u2.lb}.`;
-  const metaDescription = `Free online ${u1.lb} to ${u2.lb} converter. ${summaryText} Includes live calculator, exact formula, and 1 to 1000 conversion chart.`;
+  const pageTitle = pairTitle(u1, u2, category.id);
+  const summaryText = directAnswerSummary || `1 ${unitName(u1, category.id)} = ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${unitName(u2, category.id)}.`;
+  const metaDescription = pairMetaDescription(u1, u2, category.id, summaryText);
   const defaultFaqs = [
     {
-      question: `How many ${u2.lb} in 1 ${u1.lb}?`,
-      answer: `1 ${u1.lb} (${u1.id}) is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ""} ${u2.lb} (${u2.id}).`
+      question: `How many ${unitName(u2, category.id)} in 1 ${unitName(u1, category.id)}?`,
+      answer: `1 ${unitLabel(u1, category.id)} is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ""} ${unitLabel(u2, category.id)}.`
     },
     {
-      question: `How to convert ${u1.lb} to ${u2.lb}?`,
-      answer: `To convert from ${u1.lb} to ${u2.lb}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : "the conversion factor"}.`
+      question: `How to convert ${unitName(u1, category.id)} to ${unitName(u2, category.id)}?`,
+      answer: `To convert from ${unitName(u1, category.id)} to ${unitName(u2, category.id)}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : "the conversion factor"}.`
     }
   ];
   const activeFaqs = faqs && faqs.length > 0 ? faqs : defaultFaqs;
@@ -663,7 +1051,7 @@ function buildPairSchema(category, u1, u2, unitRatio, inverseUnitRatio, pairPara
           { "@type": "ListItem", position: 1, name: "Home", item: canonicalUrl("/") },
           { "@type": "ListItem", position: 2, name: "Categories", item: canonicalUrl("/categories") },
           { "@type": "ListItem", position: 3, name: category.lb, item: canonicalUrl(`/convert/${category.id}`) },
-          { "@type": "ListItem", position: 4, name: `${u1.lb} to ${u2.lb}`, item: pageUrl }
+          { "@type": "ListItem", position: 4, name: `${unitName(u1, category.id)} to ${unitName(u2, category.id)}`, item: pageUrl }
         ]
       },
       {
@@ -863,7 +1251,7 @@ function buildCorePageSchema(routePath, title, description, options) {
 // src/engine/categoryContent.ts
 var categoryContent = {
   length: {
-    title: "Length Converter (Decimal & Fractional) \u2014 Instant NIST Chart | Omega",
+    title: "Length Converter \u2014 Metric, Imperial & Fractional Inches",
     metaDesc: 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.',
     h1: "Length Precision Converter & Architectural Scale",
     intro: 'Convert between any length units instantly \u2014 from nanometers to parsecs. Supports metric, imperial, architectural tape fractions (1/64"), and astronomical units. Meets NIST SP 811 and the 1959 International Yard Agreement standards. Natural language phrases like "5 feet 10 inches in cm" and compound expressions are handled automatically.',
@@ -921,7 +1309,7 @@ var categoryContent = {
     ]
   },
   area: {
-    title: "Area Converter \u2014 Square Meters, Acres, Hectares, Square Feet & More",
+    title: "Area Converter \u2014 Square Meters, Acres, Hectares & Square Feet",
     metaDesc: "Free online area converter. Convert between square meters, square feet, acres, hectares, square kilometers, and 12+ area units. Perfect for real estate & land.",
     h1: "Area Conversion",
     intro: "Convert between area units for real estate, construction, agriculture, and science. Supports square meters (m\xB2), square feet (ft\xB2), square kilometers (km\xB2), acres (ac), hectares (ha), square inches (in\xB2), square yards (yd\xB2), square miles (mi\xB2), and scientific units like barns.",
@@ -1150,7 +1538,7 @@ var categoryContent = {
   },
   acceleration: {
     title: "Acceleration Converter \u2014 m/s\xB2, G-Force, ft/s\xB2 & More",
-    metaDesc: "Convert acceleration units instantly: meters per second squared (m/s\xB2), standard gravity (g-force), feet per second squared (ft/s\xB2), and Gal. Free online tool for physics and engineering.",
+    metaDesc: "Convert acceleration units: m/s\xB2, g-force, ft/s\xB2 and Gal. Free online converter for physics and engineering, with formulas and charts.",
     h1: "Acceleration Conversion",
     intro: "Convert between linear acceleration and gravitational acceleration units. Supports meters per second squared (m/s\xB2), standard gravitational acceleration (g-force, 9.80665 m/s\xB2), feet per second squared (ft/s\xB2), and Galileo (Gal). Essential for physics students, automotive engineers, and aerospace calculations.",
     popularPairs: [
@@ -1249,7 +1637,7 @@ var categoryContent = {
     ]
   },
   cooking: {
-    title: "Cooking Converter \u2014 Cups, Tablespoons, Teaspoons, mL & Fluid Ounces",
+    title: "Cooking Converter \u2014 Cups, Tablespoons, Teaspoons & mL",
     metaDesc: "Free online kitchen and cooking converter. Easily convert cups, tablespoons, teaspoons, fluid ounces, milliliters, dashes, and pinches for perfect recipes.",
     h1: "Kitchen & Cooking Conversion",
     intro: "Convert culinary volume measurements between US recipe standards and metric kitchen measures: cups, tablespoons (tbsp), teaspoons (tsp), fluid ounces (fl oz), milliliters (mL), pinches, and dashes. Perfect for baking, doubling dinner recipes, and converting international cookbooks.",
@@ -1283,7 +1671,7 @@ var categoryContent = {
     ]
   },
   astronomy: {
-    title: "Astronomy Distance & Mass Converter \u2014 Light Years, AU, Parsecs, Solar Masses",
+    title: "Astronomy Converter \u2014 Light Years, AU, Parsecs & Solar Masses",
     metaDesc: "Convert cosmic distances and stellar masses: Astronomical Units (AU), Light Years, Parsecs, Solar Masses, and Earth Masses. Free astronomical calculator.",
     h1: "Astronomical Units Conversion",
     intro: "Convert cosmic scale distances and celestial masses: Astronomical Units (AU, distance from Earth to Sun), Light Years (distance light travels in a Julian year), Parsecs (pc), Solar Mass (mass of our Sun), and Earth Mass. Created for stargazers, astrophysics enthusiasts, and planetary science.",
@@ -1306,7 +1694,7 @@ var categoryContent = {
 var guideContent = {
   "lbs-to-kg": {
     title: "Pounds to Kilograms Converter \u2014 Convert lb to kg Instantly",
-    metaDesc: "Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.",
+    metaDesc: "Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1\u2013300 lb table, step-by-step guide and real-world examples.",
     h1: "Pounds to Kilograms Converter (lb \u2192 kg)",
     slug: "lbs-to-kg",
     intro: "Converting pounds to kilograms is essential for fitness tracking, international travel, medical dosage calculations, and shipping. One pound equals exactly 0.45359237 kilograms. Our free converter handles the math instantly \u2014 type any value in pounds and get the exact kilogram equivalent with up to 12 decimal places of precision.",
@@ -1361,7 +1749,7 @@ var guideContent = {
   },
   "celsius-to-fahrenheit": {
     title: "Celsius to Fahrenheit Converter \u2014 \xB0C to \xB0F Instantly",
-    metaDesc: "Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40\xB0C to 100\xB0C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.",
+    metaDesc: "Convert Celsius to Fahrenheit with \xB0F = \xB0C \xD7 9/5 + 32. Free converter with a \u221240\xB0C to 100\xB0C reference table, step-by-step guide and examples.",
     h1: "Celsius to Fahrenheit Converter (\xB0C \u2192 \xB0F)",
     slug: "celsius-to-fahrenheit",
     intro: "Converting Celsius to Fahrenheit is one of the most common temperature conversions used worldwide. Whether you are following a recipe from a European blog, checking weather forecasts, doing science homework, or traveling to the United States, knowing how to convert \xB0C to \xB0F is essential. The formula is simple: multiply by 9/5 and add 32.",
@@ -1415,7 +1803,7 @@ var guideContent = {
   },
   "meters-to-feet": {
     title: "Meters to Feet Converter \u2014 Convert m to ft Instantly",
-    metaDesc: "Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.",
+    metaDesc: "Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1\u2013100 m table, step-by-step guide and real-world examples.",
     h1: "Meters to Feet Converter (m \u2192 ft)",
     slug: "meters-to-feet",
     intro: 'Converting meters to feet is essential for construction, real estate, hiking, aviation, and understanding product dimensions. One meter equals approximately 3.28084 feet. Our converter handles any value \u2014 from millimeters to kilometers \u2014 with precision up to 12 decimal places. Type natural phrases like "5 meters in feet" and get instant results.',
@@ -1463,7 +1851,7 @@ var guideContent = {
   },
   "kg-to-lbs": {
     title: "Kilograms to Pounds Converter \u2014 Convert kg to lb Instantly",
-    metaDesc: "Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.",
+    metaDesc: "Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1\u2013150 kg table, step-by-step guide and real-world examples.",
     h1: "Kilograms to Pounds Converter (kg \u2192 lb)",
     slug: "kg-to-lbs",
     intro: "Converting kilograms to pounds is essential for fitness tracking (especially with US equipment), international shipping, medical dosing, and understanding product weights. One kilogram equals exactly 2.20462 pounds. Our free converter handles any weight instantly \u2014 type any value in kg and get the exact pound equivalent.",
@@ -1513,7 +1901,7 @@ var guideContent = {
   },
   "fahrenheit-to-celsius": {
     title: "Fahrenheit to Celsius Converter \u2014 \xB0F to \xB0C Instantly",
-    metaDesc: "Convert Fahrenheit to Celsius instantly. Free online temperature converter with formula, reference table (-40\xB0F to 212\xB0F), step-by-step guide, and real-world examples. Perfect for travel and science.",
+    metaDesc: "Convert Fahrenheit to Celsius with \xB0C = (\xB0F \u2212 32) \xD7 5/9. Free converter with a \u221240\xB0F to 212\xB0F reference table, step-by-step guide and examples.",
     h1: "Fahrenheit to Celsius Converter (\xB0F \u2192 \xB0C)",
     slug: "fahrenheit-to-celsius",
     intro: "Converting Fahrenheit to Celsius is essential when traveling to countries using the metric system, following international recipes, studying science, or checking weather forecasts from Europe and Asia. The formula subtracts 32 from Fahrenheit, then multiplies by 5/9.",
@@ -1563,7 +1951,7 @@ var guideContent = {
   },
   "feet-to-meters": {
     title: "Feet to Meters Converter \u2014 Convert ft to m Instantly",
-    metaDesc: "Convert feet to meters instantly. Free online length converter with formula, conversion table (1-100 ft), step-by-step guide, and real-world examples. Essential for construction, real estate, and aviation.",
+    metaDesc: "Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1\u2013100 ft table, step-by-step guide and real-world examples.",
     h1: "Feet to Meters Converter (ft \u2192 m)",
     slug: "feet-to-meters",
     intro: "Converting feet to meters is essential for international construction projects, real estate listings, aviation altitude readings, and understanding US product dimensions in metric units. One foot equals exactly 0.3048 meters. Our converter handles any value with precision and supports natural language input.",
@@ -1666,6 +2054,7 @@ var BLOG_POSTS = [
   {
     slug: "fractional-inches-to-mm-best-practices",
     title: "Fractional Inches to Millimeters: Machinist & Woodworking Best Practices",
+    seoTitle: "Fractional Inches to mm: Machinist & Woodworking Guide",
     excerpt: "Everything you need to know about converting fractional inch drill bits and timber stock to metric with tolerance thresholds.",
     category: "Tutorials",
     date: "2025-01-10",
@@ -1709,6 +2098,7 @@ var BLOG_POSTS = [
   {
     slug: "metric-vs-imperial-engineering-guide",
     title: "Metric vs Imperial: The Ultimate Engineering & Scientific Comparison",
+    seoTitle: "Metric vs Imperial Units: Engineering Comparison",
     excerpt: "Explore the history, mathematical elegance, and costly historical failures that define the battle between SI and Customary units.",
     category: "Engineering",
     date: "2025-05-01",
@@ -1823,6 +2213,7 @@ var BLOG_POSTS = [
   {
     slug: "ai-powered-unit-conversions-in-2026",
     title: "AI-Powered Unit Conversions in 2026: Natural Language Calculations",
+    seoTitle: "AI Unit Conversions in 2026: Natural Language Math",
     excerpt: 'How modern neural parsers and LLM tool-calling engines translate ambiguous human prompts like "3 cups of milk in grams" into precise physical quantities.',
     category: "AI",
     date: "2026-01-05",
@@ -1860,6 +2251,10 @@ var BLOG_POSTS = [
     }
   }
 ];
+function getRelatedPosts(post, limit = 3) {
+  const score = (p) => (p.relatedCat === post.relatedCat ? 10 : 0) + p.tags.filter((t) => post.tags.includes(t)).length;
+  return BLOG_POSTS.filter((p) => p.slug !== post.slug).map((p, i) => ({ p, s: score(p), i })).sort((a, b) => b.s - a.s || a.i - b.i).slice(0, limit).map((x) => x.p);
+}
 
 // src/engine/converter.ts
 var customCategories = [];
@@ -2055,13 +2450,13 @@ var PAIR_UNIT_SYNONYMS = {
   // Acceleration
   "acceleration:m-s": "mps2",
   "acceleration:g-force": "gforce",
-  "acceleration:ft-s": "mps2",
+  "acceleration:ft-s": "ftps2",
   // Mass
   "us-ton": "sh tn",
   "short-ton": "sh tn",
   "metric-ton": "t",
   // Power / Energy
-  "btu-h": "W",
+  "btu-h": "BTUh",
   "calories": "cal",
   "calorie": "cal",
   "joules": "J",
@@ -2079,9 +2474,9 @@ var PAIR_UNIT_SYNONYMS = {
   "kg-m": "kgm3",
   "lb-ft": "lbft3",
   // Force
-  "kn": "N",
+  "force:kn": "kN",
   // Frequency
-  "rpm": "Hz",
+  "rpm": "rpm",
   // Angle
   "degrees": "deg",
   "degree": "deg",
@@ -2091,7 +2486,7 @@ var PAIR_UNIT_SYNONYMS = {
   "gradian": "grad",
   "arcminutes": "arcmin",
   "arcminute": "arcmin",
-  "mrad": "rad",
+  "mrad": "mrad",
   // Data
   "bits": "bit",
   "bytes": "B",
@@ -2783,6 +3178,12 @@ var PAIR_USE_CASES = {
   ]
 };
 function getPairEditorial(cat, u1, u2, pairParam) {
+  const s1 = unitSymbol(u1, cat.id);
+  const s2 = unitSymbol(u2, cat.id);
+  const n1 = unitName(u1, cat.id);
+  const n2 = unitName(u2, cat.id);
+  const l1 = unitLabel(u1, cat.id);
+  const l2 = unitLabel(u2, cat.id);
   const metrology = CATEGORY_METROLOGY[cat.id] || {
     dimension: `${cat.lb} measurement`,
     siBase: u1.id,
@@ -2825,46 +3226,54 @@ function getPairEditorial(cat, u1, u2, pairParam) {
       calculationRule = `To convert Fahrenheit to Kelvin, subtract 32 from the Fahrenheit value, multiply by 5/9, and add 273.15.`;
       inverseSummary = `1 K equals approximately -457.87 \xB0F. Formula: \xB0F = (K - 273.15) \xD7 9/5 + 32.`;
     } else {
-      formulaDisplay = `${u2.id} = formula(${u1.id})`;
-      summary = `1 ${u1.lb} (${u1.id}) corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${u2.lb} (${u2.id}).`;
-      calculationRule = `To convert from ${u1.lb} to ${u2.lb}, apply the thermodynamic conversion formula.`;
-      inverseSummary = `1 ${u2.lb} (${u2.id}) corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ""} ${u1.lb} (${u1.id}).`;
+      formulaDisplay = `${s2} = formula(${s1})`;
+      summary = `1 ${l1} corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${l2}.`;
+      calculationRule = `To convert from ${n1} to ${n2}, apply the thermodynamic conversion formula.`;
+      inverseSummary = `1 ${l2} corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ""} ${l1}.`;
     }
   } else if (isReciprocalFuel) {
     if (u1.id === "mpgUS" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUS") {
       formulaDisplay = "L/100km \u2248 235.215 \xF7 MPG (US)";
-      summary = `1 MPG (US) equals approximately 235.215 L/100km (reciprocal factor: 100 \xD7 3.785411784 \xF7 1.609344 \xF7 MPG). This relationship is reciprocal (inverse).`;
+      summary = `1 MPG (US) equals approximately 235.215 L/100km. Formula: L/100km \u2248 235.215 \xF7 MPG (US), where 235.215 = 100 \xD7 3.785411784 \xF7 1.609344.`;
       calculationRule = `To convert between MPG (US) and L/100km, divide 235.215 by the known value (L/100km \u2248 235.215 \xF7 MPG). Note that 235.215 is a rounded constant.`;
       inverseSummary = `1 L/100km equals approximately 235.215 MPG (US). Formula: MPG \u2248 235.215 \xF7 (L/100km).`;
     } else if (u1.id === "mpgUK" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUK") {
       formulaDisplay = "L/100km \u2248 282.481 \xF7 MPG (UK)";
-      summary = `1 MPG (UK) equals approximately 282.481 L/100km (reciprocal factor: 100 \xD7 4.54609 \xF7 1.609344 \xF7 MPG). This relationship is reciprocal (inverse).`;
+      summary = `1 MPG (UK) equals approximately 282.481 L/100km. Formula: L/100km \u2248 282.481 \xF7 MPG (UK), where 282.481 = 100 \xD7 4.54609 \xF7 1.609344.`;
       calculationRule = `To convert between MPG (UK) and L/100km, divide 282.481 by the known value (L/100km \u2248 282.481 \xF7 MPG). Note that 282.481 is a rounded constant.`;
       inverseSummary = `1 L/100km equals approximately 282.481 MPG (UK). Formula: MPG \u2248 282.481 \xF7 (L/100km).`;
     } else {
       formulaDisplay = "L/100km = 100 \xF7 km/L";
-      summary = `1 km/L equals exactly 100 L/100km (exact formula: L/100km = 100 \xF7 km/L). This relationship is reciprocal (inverse).`;
+      summary = `1 km/L equals exactly 100 L/100km. Formula: L/100km = 100 \xF7 km/L.`;
       calculationRule = `To convert between km/L and L/100km, divide 100 by the known value (L/100km = 100 \xF7 km/L).`;
       inverseSummary = `1 L/100km equals exactly 100 km/L. Formula: km/L = 100 \xF7 (L/100km).`;
+    }
+    if (u1.id === "L100km") {
+      ;
+      [summary, inverseSummary] = [inverseSummary, summary];
+      const [lhs, rhs] = formulaDisplay.split(/ [≈=] /);
+      const op = formulaDisplay.includes("\u2248") ? "\u2248" : "=";
+      const [constant, divisor] = rhs.split(" \xF7 ");
+      formulaDisplay = `${divisor} ${op} ${constant} \xF7 ${lhs}`;
     }
   } else {
     const rFmt = unitRatio !== null ? fmt(unitRatio, 6) : "\u2014";
     const invFmt = inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : "\u2014";
     const isExact = unitRatio !== null && Math.abs(Number(rFmt) - unitRatio) < 1e-12;
     const isInvExact = inverseUnitRatio !== null && Math.abs(Number(invFmt) - inverseUnitRatio) < 1e-12;
-    formulaDisplay = isExact ? `${u2.id} = ${u1.id} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}` : `${u2.id} \u2248 ${u1.id} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}`;
-    summary = isExact ? `1 ${u1.lb} (${u1.id}) equals exactly ${rFmt} ${u2.lb} (${u2.id}).` : `1 ${u1.lb} (${u1.id}) equals approximately ${rFmt} ${u2.lb} (${u2.id}).`;
-    calculationRule = isExact ? `To convert from ${u1.lb} to ${u2.lb}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).` : `To convert from ${u1.lb} to ${u2.lb}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`;
-    inverseSummary = isInvExact ? `1 ${u2.lb} (${u2.id}) equals exactly ${invFmt} ${u1.lb} (${u1.id}). Formula: ${u1.id} = ${u2.id} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.` : `1 ${u2.lb} (${u2.id}) equals approximately ${invFmt} ${u1.lb} (${u1.id}). Formula: ${u1.id} \u2248 ${u2.id} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`;
+    formulaDisplay = isExact ? `${s2} = ${s1} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}` : `${s2} \u2248 ${s1} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}`;
+    summary = isExact ? `1 ${l1} equals exactly ${rFmt} ${l2}.` : `1 ${l1} equals approximately ${rFmt} ${l2}.`;
+    calculationRule = isExact ? `To convert from ${n1} to ${n2}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).` : `To convert from ${n1} to ${n2}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`;
+    inverseSummary = isInvExact ? `1 ${l2} equals exactly ${invFmt} ${l1}. Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.` : `1 ${l2} equals approximately ${invFmt} ${l1}. Formula: ${s1} \u2248 ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`;
   }
-  const explanationHeading = `How ${u1.lb} (${u1.id}) and ${u2.lb} (${u2.id}) Relate`;
-  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${u1.lb} (${u1.id}) and ${u2.lb} (${u2.id}) originate from ${metrology.systems}. ${metrology.contextNote}`;
-  const p2 = isTemp ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${u1.lb} and ${u2.lb} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.` : isReciprocalFuel ? `Fuel economy units like ${u1.id} and ${u2.id} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.` : `Because both ${u1.lb} and ${u2.lb} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ""}) guarantees zero precision drift across mathematical calculations.`;
+  const explanationHeading = `How ${l1} and ${l2} Relate`;
+  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${l1} and ${l2} originate from ${metrology.systems}. ${metrology.contextNote}`;
+  const p2 = isTemp ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${n1} and ${n2} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.` : isReciprocalFuel ? `Fuel economy units like ${s1} and ${s2} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.` : `Because both ${n1} and ${n2} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ""}) guarantees zero precision drift across mathematical calculations.`;
   const pairKey = `${cat.id}:${pairParam}`;
   const specificUseCases = PAIR_USE_CASES[pairKey] || [
-    { domain: `Engineering & Technical Specifications`, context: `Converting ${u1.lb} measurements to ${u2.lb} to align design drawings and component tolerances with global partner standards.` },
-    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${u1.id} records and domestic ${u2.id} systems.` },
-    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${u1.lb} into standard SI and reporting units.` }
+    { domain: `Engineering & Technical Specifications`, context: `Converting ${n1} measurements to ${n2} to align design drawings and component tolerances with global partner standards.` },
+    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${s1} records and domestic ${s2} systems.` },
+    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${n1} into standard SI and reporting units.` }
   ];
   const catPairs = categoryContent[cat.id]?.popularPairs || [];
   let canonicalReverseSlug = null;
@@ -2879,9 +3288,9 @@ function getPairEditorial(cat, u1, u2, pairParam) {
   const reciprocal = canonicalReverseSlug ? {
     hasCanonicalPair: true,
     url: `/convert/${cat.id}/${canonicalReverseSlug}`,
-    anchorText: `Convert ${u2.lb} to ${u1.lb} (${u2.id} to ${u1.id})`,
+    anchorText: `Convert ${n2} to ${n1} (${s2} to ${s1})`,
     badgeText: "Reverse Pair Available",
-    description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${u2.lb} to ${u1.lb} converter.`
+    description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${n2} to ${n1} converter.`
   } : {
     hasCanonicalPair: false,
     url: `/convert/${cat.id}`,
@@ -2889,7 +3298,7 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     badgeText: "Category Hub",
     description: `Need to convert other ${cat.lb.toLowerCase()} units? Explore all combinations in the full ${cat.lb} converter.`
   };
-  const workedExampleQuestion = `What is an example calculation converting ${u1.lb} to ${u2.lb}?`;
+  const workedExampleQuestion = `What is an example calculation converting ${n1} to ${n2}?`;
   let workedExampleAnswer;
   if (isTemp) {
     if (u1.id === "C" && u2.id === "F") {
@@ -2903,7 +3312,7 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     } else {
       const sampleVal = 20;
       const sampleRes = convertTemp(sampleVal, u1.id, u2.id);
-      workedExampleAnswer = `To convert ${sampleVal} ${u1.id} to ${u2.id}: apply the scale formula to calculate ${sampleVal} ${u1.id} = ${cleanFloat(sampleRes, 4)} ${u2.id}.`;
+      workedExampleAnswer = `To convert ${sampleVal} ${s1} to ${s2}: apply the scale formula to calculate ${sampleVal} ${s1} = ${cleanFloat(sampleRes, 4)} ${s2}.`;
     }
   } else if (isReciprocalFuel) {
     if (u1.id === "mpgUS" && u2.id === "L100km") {
@@ -2913,21 +3322,21 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     } else if (u1.id === "kmL" && u2.id === "L100km") {
       workedExampleAnswer = `To convert 15 km/L to L/100km: divide 100 by 15, which yields 6.67 L/100km (100 \xF7 15 = 6.67 L/100km).`;
     } else {
-      workedExampleAnswer = `To convert 10 ${u1.id} to ${u2.id}: apply the reciprocal formula to calculate 10 ${u1.id} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id), 4) : ""} ${u2.id}.`;
+      workedExampleAnswer = `To convert 10 ${s1} to ${s2}: apply the reciprocal formula to calculate 10 ${s1} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id), 4) : ""} ${s2}.`;
     }
   } else {
     const sampleVal = 10;
     const sampleRes = convert(sampleVal, cat.id, u1.id, u2.id);
     const isSampleExact = sampleRes !== null && Math.abs(Number(fmt(sampleRes, 4)) - sampleRes) < 1e-12;
-    workedExampleAnswer = isSampleExact ? `To convert 10 ${u1.lb} to ${u2.lb}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${u2.lb} (${u2.id}).` : `To convert 10 ${u1.lb} to ${u2.lb}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${u2.lb} (${u2.id}).`;
+    workedExampleAnswer = isSampleExact ? `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${l2}.` : `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${l2}.`;
   }
   const faqs = [
     {
-      question: isTemp ? `What is 1 ${u1.lb} in ${u2.lb}?` : `How many ${u2.lb} in 1 ${u1.lb}?`,
+      question: isTemp ? `What is 1 ${n1} in ${n2}?` : `How many ${n2} in 1 ${n1}?`,
       answer: `${summary} ${inverseSummary}`
     },
     {
-      question: `How to convert ${u1.lb} to ${u2.lb}?`,
+      question: `How to convert ${n1} to ${n2}?`,
       answer: `${calculationRule} Mathematical formula: ${formulaDisplay}.`
     },
     {
@@ -2935,13 +3344,13 @@ function getPairEditorial(cat, u1, u2, pairParam) {
       answer: workedExampleAnswer
     },
     {
-      question: `How to convert back from ${u2.lb} to ${u1.lb}?`,
-      answer: isTemp ? `To convert from ${u2.lb} to ${u1.lb}, reverse the calculation formula: ${inverseSummary}` : isReciprocalFuel ? `Because fuel economy conversions between ${u1.id} and ${u2.id} are reciprocal, divide the exact conversion constant by your ${u2.id} value to get ${u1.id}.` : `To convert from ${u2.lb} to ${u1.lb}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ""} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ""}). Formula: ${u1.id} = ${u2.id} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`
+      question: `How to convert back from ${n2} to ${n1}?`,
+      answer: isTemp ? `To convert from ${n2} to ${n1}, reverse the calculation formula: ${inverseSummary}` : isReciprocalFuel ? `Because fuel economy conversions between ${s1} and ${s2} are reciprocal, divide the exact conversion constant by your ${s2} value to get ${s1}.` : `To convert from ${n2} to ${n1}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ""} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ""}). Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`
     }
   ];
   return {
     directAnswer: {
-      heading: `Direct Answer: 1 ${u1.id} to ${u2.id}`,
+      heading: `Direct Answer: 1 ${s1} to ${s2}`,
       summary,
       formulaDisplay,
       inverseSummary,
@@ -3057,6 +3466,114 @@ function getCategoryAuthoritySources(catId) {
   }
 }
 
+// src/engine/categoryStandards.ts
+var CATEGORY_STANDARDS = {
+  length: {
+    aeoCapsule: "Length conversion calculates equivalent linear distance across metric, imperial, and astronomical systems. Defined by the 1959 International Yard and Pound Agreement and NIST Special Publication 811, 1 inch equals exactly 25.4 millimeters (2.54 cm), 1 foot equals exactly 0.3048 meters, and 1 meter equals approximately 3.2808399 feet.",
+    standardsStatement: "All linear conversion factors on this platform strictly comply with NIST Special Publication 811 (Guide for the Use of the International System of Units), the BIPM SI Brochure (9th Edition), and the 1959 International Yard and Pound Agreement (codifying 1 yard = 0.9144 m and 1 inch = 25.4 mm). Astronomical distances are grounded in the International Astronomical Union (IAU 2012) resolution defining 1 AU = 149,597,870,700 m."
+  },
+  mass: {
+    aeoCapsule: "Mass and weight conversion calculates equivalent mass across metric, avoirdupois imperial, and troy systems using fixed international standards. Standardized by the BIPM 2019 SI Redefinition and NIST SP 811, 1 kilogram (kg) is the SI base unit (defined by the Planck constant h), 1 avoirdupois pound (lb) equals exactly 0.45359237 kg, and 1 ounce (oz) equals 28.3495 grams.",
+    standardsStatement: "All mass conversion factors comply with the 2019 BIPM SI Redefinition of the kilogram via the Planck constant, NIST Special Publication 811, and the 1959 International Yard and Pound Agreement (codifying 1 lb = 0.45359237 kg exact). Precious metal conversions strictly adhere to the Troy ounce standard (1 oz t = 31.1034768 grams)."
+  },
+  temp: {
+    aeoCapsule: "Temperature conversion calculates thermal equilibrium across Celsius (\xB0C), Fahrenheit (\xB0F), and Kelvin (K). The kelvin and degree Celsius share the exact same interval size, with 0 \xB0C defined as 273.15 K, while 0 \xB0C corresponds exactly to 32 \xB0F by scale conversion relationship. Absolute zero corresponds to 0 K (\u2212273.15 \xB0C). The exact affine formulas are \xB0F = (\xB0C \xD7 9/5) + 32 and K = \xB0C + 273.15.",
+    standardsStatement: "Thermal conversion algorithms adhere to SI base unit definitions (with the kelvin defined via the Boltzmann constant k = 1.380649 \xD7 10\u207B\xB2\xB3 J/K), NIST Special Publication 811, and the BIPM SI Brochure (9th Edition). Fahrenheit and Rankine calculations use exact rational fractions without intermediary rounding."
+  },
+  area: {
+    aeoCapsule: "Area conversion calculates two-dimensional geometric space across metric and imperial customary measures. Governed by NIST SP 811, 1 square meter (m\xB2) equals exactly 10,000 square centimeters or approximately 10.7639 square feet. 1 acre is defined as exactly 43,560 square feet (approx. 4,046.86 m\xB2 or 0.4047 hectares).",
+    standardsStatement: "Area conversions follow NIST Special Publication 811 definitions derived directly from international linear dimensions. Agricultural land measures adhere to the International Acre standard (codified following the 2023 NIST deprecation of the US survey foot)."
+  },
+  volume: {
+    aeoCapsule: "Volume and capacity conversion calculates three-dimensional space across metric liters and US/Imperial liquid measures. Defined by NIST Handbook 44, 1 liter (L) equals 1,000 milliliters (cm\xB3), 1 US liquid gallon equals exactly 231 cubic inches (approx. 3.78541 L), and 1 Imperial gallon equals exactly 4.54609 liters.",
+    standardsStatement: "Fluid and dry capacity measurements strictly comply with NIST Handbook 44 (Specifications, Tolerances, and Other Technical Requirements for Weighing and Measuring Devices) and the UK Weights and Measures Act (1985) for Imperial units."
+  },
+  time: {
+    aeoCapsule: "Time conversion calculates duration based on the international SI base second (s), standardized by BIPM/SI via 9,192,631,770 transitions of the cesium-133 atom. 1 minute equals 60 seconds, 1 hour equals 3,600 seconds, and 1 standard calendar day equals 86,400 seconds (24 hours).",
+    standardsStatement: "All temporal ratios are aligned with the BIPM International Atomic Time (TAI) and Coordinated Universal Time (UTC) definition of the SI second, established by the 13th General Conference on Weights and Measures (CGPM)."
+  },
+  speed: {
+    aeoCapsule: "Speed and velocity conversion calculates rate of distance per unit of time. The SI base unit is meters per second (m/s). 1 m/s equals exactly 3.6 kilometers per hour (km/h) or approx. 2.23694 miles per hour (mph). 1 knot (international nautical mile per hour) equals exactly 1.852 km/h.",
+    standardsStatement: "Speed ratios are derived from NIST SP 811 linear and temporal SI base units. Nautical speeds follow the International Hydrographic Organization (IHO) standard of 1 knot = 1,852 meters per hour exact."
+  },
+  data: {
+    aeoCapsule: "Digital data storage and bandwidth conversion calculates binary memory and network throughput. Governed by IEC 80000-13 and IEEE 1541, 1 byte equals 8 bits. Decimal SI prefixes (1 KB = 1,000 bytes, 1 GB = 10\u2079 bytes) represent drive storage, while binary IEC prefixes (1 KiB = 1,024 bytes, 1 GiB = 2\xB3\u2070 bytes) represent RAM memory.",
+    standardsStatement: "Digital storage factors strictly comply with IEC 80000-13 and IEEE 1541 standards, clearly separating decimal SI prefixes (KB, MB, GB = powers of 10) from binary IEC prefixes (KiB, MiB, GiB = powers of 2)."
+  },
+  datatransfer: {
+    aeoCapsule: "Data transfer rate conversion calculates network bandwidth and telecommunication throughput across decimal bits and binary bytes per second. Standardized by IEEE 802 and ITU-T, 1 Megabit per second (Mbps) equals 1,000,000 bits/s, equivalent to 125 Kilobytes per second (KB/s). 1 Gigabit per second (Gbps) equals 1,000 Mbps.",
+    standardsStatement: "Network bandwidth formulas comply with International Telecommunication Union (ITU-T) and IEEE 802 telecommunications standards, calculating real-world line rate throughput across decimal and binary byte representations."
+  },
+  pressure: {
+    aeoCapsule: "Pressure conversion calculates applied force per unit surface area. The SI base unit is the Pascal (Pa, 1 N/m\xB2). Standard atmospheric pressure (1 atm) is internationally codified by IUPAC as exactly 101,325 Pa (101.325 kPa), equivalent to 1.01325 bar or approx. 14.6959 psi (lbf/in\xB2).",
+    standardsStatement: "Pressure equivalents comply with IUPAC (International Union of Pure and Applied Chemistry) standard conditions and NIST Special Publication 811. Technical and barometric units use exact gravitational acceleration g\u2080 = 9.80665 m/s\xB2."
+  },
+  energy: {
+    aeoCapsule: "Energy and work conversion calculates the capacity to perform mechanical, thermal, or electrical work. The SI unit is the Joule (J, 1 N\xB7m). 1 kilojoule (kJ) equals 1,000 Joules, 1 dietary Calorie (kcal) equals 4,184 Joules, 1 British Thermal Unit (BTU) equals approx. 1,055.06 Joules, and 1 kilowatt-hour (kWh) equals 3,600,000 Joules.",
+    standardsStatement: "Energy conversion factors adhere to the International Union of Pure and Applied Physics (IUPAP) and NIST SP 811. Thermochemical calories and International Steam Table (IT) calories are distinguished with exact NIST conversion ratios."
+  },
+  power: {
+    aeoCapsule: "Power conversion calculates the rate of energy transfer or work performed over time. The SI base unit is the Watt (W, 1 Joule/s). 1 kilowatt (kW) equals 1,000 Watts, 1 metric horsepower (PS/cv) equals 735.49875 Watts, and 1 mechanical imperial horsepower (hp) is standardized as approx. 745.69987 Watts (550 ft\xB7lbf/s).",
+    standardsStatement: "Power calculations strictly distinguish between mechanical horsepower (550 ft\xB7lbf/s \u2248 745.69987 W) codified by James Watt, metric horsepower (DIN 66036 = 75 kp\xB7m/s = 735.49875 W), and electrical horsepower (exactly 746 W) per NIST SP 811."
+  },
+  fuel: {
+    aeoCapsule: "Fuel economy and consumption conversion translates distance-per-volume and volume-per-distance vehicle efficiencies. 1 US MPG (miles per gallon) equals approx. 0.42514 km/L. The reciprocal formula between US MPG and European metric consumption is L/100 km = 235.215 / MPG, and for Imperial UK MPG is L/100 km = 282.481 / UK MPG.",
+    standardsStatement: "Automotive consumption equations conform to US EPA (Environmental Protection Agency) and European Commission Directive 1999/100/EC standards for vehicle fuel efficiency measurement and reciprocal metric-to-imperial translation."
+  },
+  cooking: {
+    aeoCapsule: "Culinary conversion calculates volumetric and mass recipe measures across US Customary, UK Imperial, and Metric systems. Based on international culinary standards, 1 US tablespoon equals 3 teaspoons (14.79 mL), 1 US cup equals 16 tablespoons (236.59 mL or 8 fl oz), and 1 metric culinary cup is standardized as exactly 250 mL.",
+    standardsStatement: "Culinary volume factors comply with NIST Handbook 44 and standard culinary reference tables, noting regional variations between US Customary cups (236.59 mL), legal nutrition labeling cups (240 mL), and Commonwealth metric cups (250 mL)."
+  },
+  angle: {
+    aeoCapsule: "Angular conversion calculates rotational displacement across circular division systems. The SI derived unit is the radian (rad). A full circle equals 360 degrees (360\xB0), 2\u03C0 radians (approx. 6.283185 rad), or 400 gradians (gon). 1 radian equals approximately 57.29578 degrees.",
+    standardsStatement: "Trigonometric angular factors adhere to ISO 80000-3 (Quantities and Units \u2014 Space and Time) and the SI brochure, maintaining double-precision floating-point values of mathematical \u03C0 for astronomical and geodetic calculations."
+  },
+  force: {
+    aeoCapsule: "Force conversion calculates mechanical push or pull acting upon an object. The SI base unit is the Newton (N, 1 kg\xB7m/s\xB2). 1 kilonewton (kN) equals 1,000 Newtons, 1 pound-force (lbf) equals approx. 4.44822 Newtons, and 1 kilogram-force (kgf/kilopond) is defined by standard gravity as exactly 9.80665 Newtons.",
+    standardsStatement: "Force calculations comply with BIPM standards and NIST SP 811, using the internationally accepted standard acceleration of free fall g\u2080 = 9.80665 m/s\xB2 for gravitational force units (kilogram-force, pound-force, and ounce-force)."
+  }
+};
+function getCategoryStandards(catId, catName, unitNames) {
+  if (CATEGORY_STANDARDS[catId]) {
+    return CATEGORY_STANDARDS[catId];
+  }
+  return {
+    aeoCapsule: `${catName} conversion calculates equivalent measures across standardized metric, customary, and technical units using fixed mathematical ratios. Standardized in accordance with NIST Special Publication 811 and BIPM SI guidelines, enabling precision calculations between ${unitNames.slice(0, 4).join(", ")}, and ${Math.max(0, unitNames.length - 4)} additional units.`,
+    standardsStatement: `All ${catName.toLowerCase()} conversion factors on this platform comply with NIST Special Publication 811 (Guide for the Use of the International System of Units) and the BIPM SI Brochure (9th Edition), utilizing exact rational ratios and IEEE-754 double-precision arithmetic to prevent rounding distortion.`
+  };
+}
+
+// src/config/relatedCategories.ts
+var RELATED_CATEGORIES = {
+  length: ["area", "volume", "speed", "astronomy", "angle"],
+  area: ["length", "volume", "textile", "pressure"],
+  volume: ["length", "area", "cooking", "fuel", "density"],
+  mass: ["density", "force", "cooking", "volume"],
+  temp: ["energy", "pressure", "cooking"],
+  time: ["speed", "frequency", "datatransfer"],
+  speed: ["length", "time", "acceleration", "fuel"],
+  acceleration: ["speed", "force", "length"],
+  force: ["mass", "acceleration", "pressure", "torque"],
+  pressure: ["force", "area", "temp"],
+  energy: ["power", "temp", "electricity"],
+  power: ["energy", "electricity", "torque"],
+  electricity: ["power", "energy", "magnetism", "frequency"],
+  magnetism: ["electricity", "frequency"],
+  frequency: ["time", "electricity", "datatransfer"],
+  data: ["datatransfer", "frequency"],
+  datatransfer: ["data", "time", "frequency"],
+  angle: ["length", "torque", "astronomy"],
+  torque: ["force", "power", "angle"],
+  fuel: ["volume", "speed", "length"],
+  density: ["mass", "volume", "pressure"],
+  cooking: ["volume", "mass", "temp"],
+  textile: ["area", "mass", "length"],
+  astronomy: ["length", "mass", "time"]
+};
+function getRelatedCategoryIds(catId) {
+  return RELATED_CATEGORIES[catId] ?? [];
+}
+
 // scripts/prerender-seo.ts
 var distDir = path.resolve(process.cwd(), "dist");
 var baseHtmlPath = path.join(distDir, "index.html");
@@ -3074,10 +3591,37 @@ function escapeAttr(str) {
   return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 var cleanSlug2 = (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+var STATIC_FOOTER_HTML = `
+    <footer style="font-family:system-ui,sans-serif;max-width:64rem;margin:2rem auto 0;padding:1rem 1.5rem;border-top:1px solid #ddd;font-size:0.85rem;color:#666;">
+      <nav aria-label="Site">
+        <a href="/about">About</a> \xB7 <a href="/contact">Contact</a> \xB7 <a href="/privacy">Privacy Policy</a> \xB7 <a href="/terms">Terms of Use</a> \xB7 <a href="/sitemap">Sitemap</a>
+      </nav>
+      <p style="margin:0.5rem 0 0;">\xA9 ${(/* @__PURE__ */ new Date()).getFullYear()} ${LEGAL.operator} \xB7 Omega X Converter</p>
+    </footer>`;
+function renderLegalBody(doc) {
+  return `
+    <main class="max-w-3xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
+      <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
+        <a href="/">Home</a> / <strong>${escapeHtml(doc.h1)}</strong>
+      </nav>
+      <header>
+        <h1 style="font-size:2rem;font-weight:700;">${escapeHtml(doc.h1)}</h1>
+        ${doc.path !== "/contact" ? `<p style="font-size:0.85rem;color:#777;">Last updated: ${LEGAL.lastUpdated}</p>` : ""}
+        <p style="font-size:1.05rem;color:#444;line-height:1.6;">${escapeHtml(doc.intro)}</p>
+      </header>
+      ${doc.sections.map((sec) => `
+        <section>
+          <h2 style="font-size:1.25rem;">${escapeHtml(sec.heading)}</h2>
+          ${sec.paragraphs.map((p) => `<p style="color:#444;line-height:1.6;">${escapeHtml(p)}</p>`).join("")}
+          ${sec.bullets ? `<ul style="line-height:1.6;">${sec.bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}</ul>` : ""}
+        </section>
+      `).join("")}
+    </main>`;
+}
 function renderAndWritePage(config) {
   let html = baseHtml;
   const pageCanonical = canonicalUrl(config.routePath);
-  const fullTitle = config.title.includes("\u2014") || config.title.includes("|") ? config.title : `${config.title} | Omega X Converter`;
+  const fullTitle = withBrand(config.title);
   html = html.replace(/<title.*?>.*?<\/title>/i, `<title data-rh="true">${escapeHtml(fullTitle)}</title>`);
   html = html.replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>/i, `<link rel="canonical" data-rh="true" href="${pageCanonical}" />`);
   html = html.replace(/<meta[^>]*name=["']description["'][^>]*\/?>/i, `<meta name="description" data-rh="true" content="${escapeAttr(config.description)}" />`);
@@ -3101,6 +3645,7 @@ function renderAndWritePage(config) {
     /<div id="root">\s*<\/div>/i,
     `<div id="root">
 ${config.staticBodyHtml}
+${STATIC_FOOTER_HTML}
     </div>`
   );
   if (config.routePath === "/" || config.routePath === "") {
@@ -3183,8 +3728,8 @@ var homeStaticHtml = `
 `;
 renderAndWritePage({
   routePath: "/",
-  title: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  description: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  title: PAGE_META["/"].title,
+  description: PAGE_META["/"].description,
   schema: homeSchema,
   staticBodyHtml: homeStaticHtml
 });
@@ -3193,12 +3738,12 @@ console.log("\u26A1 Prerendering Core Public Pages (10 pages) ...");
 var corePages = [
   {
     routePath: "/about",
-    title: "About Omega X Converter \u2014 Universal Unit Conversion Platform",
-    description: "Learn about Omega X Converter by NumanX Studio: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine.",
+    title: PAGE_META["/about"].title,
+    description: PAGE_META["/about"].description,
     schema: buildCorePageSchema(
       "/about",
-      "About Omega X Converter \u2014 Universal Unit Conversion Platform",
-      "Learn about Omega X Converter by NumanX Studio: 100% client-side privacy, NIST SP 811 metrology standards, offline PWA support, and sub-nanometer scientific calculation engine.",
+      PAGE_META["/about"].title,
+      PAGE_META["/about"].description,
       { pageType: "AboutPage" }
     ),
     staticBodyHtml: `
@@ -3241,8 +3786,8 @@ var corePages = [
   },
   {
     routePath: "/blog",
-    title: "Blog \u2014 Unit Conversion Guides, Metrology & Precision Tips | NumanX",
-    description: "Comprehensive guides, tutorials, formulas, and cheat sheets for length, weight, temperature, data, and precision conversions by NumanX.",
+    title: PAGE_META["/blog"].title,
+    description: PAGE_META["/blog"].description,
     schema: buildBlogIndexSchema(BLOG_POSTS),
     staticBodyHtml: `
       <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
@@ -3261,7 +3806,7 @@ var corePages = [
             ${BLOG_POSTS.map((post) => `
               <article style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;">
                 <h3 style="margin:0 0 0.5rem 0;font-size:1.25rem;">
-                  <a href="/blog/${post.slug}" style="color:#0066cc;text-decoration:none;">${post.title}</a>
+                  <a href="/blog/${post.slug}" style="color:#0066cc;text-decoration:none;">${escapeHtml(post.title)}</a>
                 </h3>
                 <div style="font-size:0.85rem;color:#777;margin-bottom:0.5rem;">
                   Published on ${post.date} \xB7 By ${post.author} \xB7 ${post.readTime}
@@ -3276,12 +3821,12 @@ var corePages = [
   },
   {
     routePath: "/calculator",
-    title: "Engineering & Scientific Calculator \u2014 Precision Math Engine | Omega X",
-    description: "Free online scientific and engineering calculator with high precision, trigonometric functions, memory storage, formula history, and unit calculation integration.",
+    title: PAGE_META["/calculator"].title,
+    description: PAGE_META["/calculator"].description,
     schema: buildCorePageSchema(
       "/calculator",
-      "Engineering & Scientific Calculator \u2014 Precision Math Engine | Omega X",
-      "Free online scientific and engineering calculator with high precision, trigonometric functions, memory storage, formula history, and unit calculation integration.",
+      PAGE_META["/calculator"].title,
+      PAGE_META["/calculator"].description,
       { applicationCategory: "UtilitiesApplication" }
     ),
     staticBodyHtml: `
@@ -3314,8 +3859,8 @@ var corePages = [
   },
   {
     routePath: "/categories",
-    title: "Unit Categories Directory \u2014 24 Measurement Systems | Omega X",
-    description: "Browse all 24 measurement categories in Omega X: length, mass, temperature, area, volume, pressure, data, energy, and more with instant conversion tools.",
+    title: PAGE_META["/categories"].title,
+    description: PAGE_META["/categories"].description,
     schema: buildCategoriesDirectorySchema(Categories),
     staticBodyHtml: `
       <main class="max-w-5xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
@@ -3350,12 +3895,12 @@ var corePages = [
   },
   {
     routePath: "/converter",
-    title: "Universal Unit Converter \u2014 24 Categories & Instant Search | Omega X",
-    description: "Universal unit conversion platform supporting metric, imperial, astronomical, and scientific units across 24 categories with natural language input.",
+    title: PAGE_META["/converter"].title,
+    description: PAGE_META["/converter"].description,
     schema: buildCorePageSchema(
       "/converter",
-      "Universal Unit Converter \u2014 24 Categories & Instant Search | Omega X",
-      "Universal unit conversion platform supporting metric, imperial, astronomical, and scientific units across 24 categories with natural language input.",
+      PAGE_META["/converter"].title,
+      PAGE_META["/converter"].description,
       { applicationCategory: "UtilitiesApplication" }
     ),
     staticBodyHtml: `
@@ -3398,12 +3943,12 @@ var corePages = [
   },
   {
     routePath: "/crypto",
-    title: "Cryptocurrency Converter & Live Market Prices \u2014 BTC, ETH, SOL | Omega X",
-    description: "Real-time cryptocurrency converter and live price tracker for Bitcoin, Ethereum, Solana, and top digital assets with fiat currency pairs and caching.",
+    title: PAGE_META["/crypto"].title,
+    description: PAGE_META["/crypto"].description,
     schema: buildCorePageSchema(
       "/crypto",
-      "Cryptocurrency Converter & Live Market Prices \u2014 BTC, ETH, SOL | Omega X",
-      "Real-time cryptocurrency converter and live price tracker for Bitcoin, Ethereum, Solana, and top digital assets with fiat currency pairs and caching.",
+      PAGE_META["/crypto"].title,
+      PAGE_META["/crypto"].description,
       { applicationCategory: "FinanceApplication" }
     ),
     staticBodyHtml: `
@@ -3432,17 +3977,18 @@ var corePages = [
             Omega X automatically caches cryptocurrency price snapshots in browser storage. If network connectivity is lost or upstream rate limits are encountered, conversion operations fall back seamlessly to cached valuations with explicit status indicators.
           </p>
         </section>
+        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `
   },
   {
     routePath: "/currency",
-    title: "Currency Converter \u2014 Real-Time Fiat Exchange Rates | Omega X",
-    description: "Live currency converter with mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD, and 160+ world currencies. Cached and offline-resilient.",
+    title: PAGE_META["/currency"].title,
+    description: PAGE_META["/currency"].description,
     schema: buildCorePageSchema(
       "/currency",
-      "Currency Converter \u2014 Real-Time Fiat Exchange Rates | Omega X",
-      "Live currency converter with mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD, and 160+ world currencies. Cached and offline-resilient.",
+      PAGE_META["/currency"].title,
+      PAGE_META["/currency"].description,
       { applicationCategory: "FinanceApplication" }
     ),
     staticBodyHtml: `
@@ -3466,17 +4012,18 @@ var corePages = [
             Financial conversions are computed entirely on your device. Your financial inquiries, amounts, and currency pairings are never logged or sold to third-party ad networks.
           </p>
         </section>
+        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `
   },
   {
     routePath: "/formulas",
-    title: "Unit Conversion Formulas & Metrology Reference Library | Omega X",
-    description: "Authoritative reference library of conversion formulas, mathematical constants, and derivation equations across all 24 measurement categories.",
+    title: PAGE_META["/formulas"].title,
+    description: PAGE_META["/formulas"].description,
     schema: buildCorePageSchema(
       "/formulas",
-      "Unit Conversion Formulas & Metrology Reference Library | Omega X",
-      "Authoritative reference library of conversion formulas, mathematical constants, and derivation equations across all 24 measurement categories.",
+      PAGE_META["/formulas"].title,
+      PAGE_META["/formulas"].description,
       { pageType: "ItemPage", applicationCategory: "UtilitiesApplication" }
     ),
     staticBodyHtml: `
@@ -3509,12 +4056,12 @@ var corePages = [
   },
   {
     routePath: "/health",
-    title: "Health & Biometric Calculators \u2014 BMI, BMR & Body Metrics | Omega X",
-    description: "Precision health and biometric calculation suite: BMI, Basal Metabolic Rate (BMR), Ideal Body Weight (IBW), daily water intake, and body surface area.",
+    title: PAGE_META["/health"].title,
+    description: PAGE_META["/health"].description,
     schema: buildCorePageSchema(
       "/health",
-      "Health & Biometric Calculators \u2014 BMI, BMR & Body Metrics | Omega X",
-      "Precision health and biometric calculation suite: BMI, Basal Metabolic Rate (BMR), Ideal Body Weight (IBW), daily water intake, and body surface area.",
+      PAGE_META["/health"].title,
+      PAGE_META["/health"].description,
       { applicationCategory: "HealthApplication" }
     ),
     staticBodyHtml: `
@@ -3533,22 +4080,28 @@ var corePages = [
           <ul>
             <li><strong>Body Mass Index (BMI):</strong> Calculates ratio of weight to height according to standard WHO weight classifications.</li>
             <li><strong>Basal Metabolic Rate (BMR):</strong> Estimates daily resting calorie expenditure using the Mifflin-St Jeor equation.</li>
-            <li><strong>Ideal Body Weight (IBW):</strong> Evaluated via the published Devine formula for health and fitness baselines.</li>
-            <li><strong>Body Surface Area (BSA):</strong> Computes surface area based on the Mosteller physiological formula.</li>
-            <li><strong>Daily Hydration Needs:</strong> Calculates recommended daily water intake based on body weight and activity levels.</li>
           </ul>
         </section>
+        <section>
+          <h2>How BMI is calculated</h2>
+          <p>BMI = weight (kg) \xF7 height (m)\xB2. Adult categories follow the World Health Organization: under 18.5 is underweight, 18.5 to 24.9 is normal, 25 to 29.9 is overweight and 30 or more is obese. For example, 70 kg at 1.75 m gives a BMI of 22.9 (normal).</p>
+        </section>
+        <section>
+          <h2>How BMR is calculated</h2>
+          <p>The Mifflin-St Jeor equation estimates calories burned at rest, using weight in kg, height in cm and age in years: men = 10 \xD7 weight + 6.25 \xD7 height \u2212 5 \xD7 age + 5; women = 10 \xD7 weight + 6.25 \xD7 height \u2212 5 \xD7 age \u2212 161. A 30-year-old man at 70 kg and 175 cm has a BMR of about 1,649 kcal per day.</p>
+        </section>
+        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.health} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `
   },
   {
     routePath: "/sitemap",
-    title: "HTML Sitemap \u2014 Complete Navigation & Conversion Directory | Omega X",
-    description: "Complete HTML directory of all 146 public indexable routes on Omega X: core tools, 24 conversion categories, popular pairs, guides, and blog articles.",
+    title: PAGE_META["/sitemap"].title,
+    description: PAGE_META["/sitemap"].description,
     schema: buildCorePageSchema(
       "/sitemap",
-      "HTML Sitemap \u2014 Complete Navigation & Conversion Directory | Omega X",
-      "Complete HTML directory of all 146 public indexable routes on Omega X: core tools, 24 conversion categories, popular pairs, guides, and blog articles.",
+      PAGE_META["/sitemap"].title,
+      PAGE_META["/sitemap"].description,
       { pageType: "CollectionPage" }
     ),
     staticBodyHtml: `
@@ -3559,7 +4112,7 @@ var corePages = [
         <header>
           <h1 style="font-size:2rem;font-weight:700;">Omega X HTML Sitemap</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Complete index of all 146 canonical public routes available on the Omega X Converter platform.
+            Complete index of every canonical public page on the Omega X Converter platform.
           </p>
         </header>
 
@@ -3577,6 +4130,9 @@ var corePages = [
             <li><a href="/blog">Metrology Blog</a></li>
             <li><a href="/about">About Omega X Converter</a></li>
             <li><a href="/sitemap">Sitemap</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Use</a></li>
           </ul>
         </section>
 
@@ -3627,6 +4183,12 @@ for (const cat of Categories) {
     { q: `How do I convert units in ${cat.lb}?`, a: `Select your source unit and destination unit, enter a value, and Omega X calculates the exact result instantly.` }
   ];
   const catAuthSources = getCategoryAuthoritySources(cat.id);
+  const std = getCategoryStandards(cat.id, cat.lb, cat.un.map((u) => u.lb));
+  const SI_BASE_UNIT_IDS = /* @__PURE__ */ new Set(["m", "kg", "s", "A", "K"]);
+  const baseUnits = cat.un.filter((u) => u.r === 1);
+  const isComposite = baseUnits.length > 1;
+  const singleBaseUnit = baseUnits.length === 1 ? baseUnits[0] : null;
+  const relatedCats = getRelatedCategoryIds(cat.id).map((id) => Categories.find((c) => c.id === id)).filter((c) => Boolean(c));
   const authorityHtml = catAuthSources.length > 0 ? `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:#777;">Primary References: ${catAuthSources.map((s) => `<a href="${s.url}" target="_blank" rel="noopener noreferrer" style="color:#0066cc;">${s.documentRef}</a>`).join(" \xB7 ")} \xB7 <a href="/about" style="color:#0066cc;">Standards Directory</a></p>` : `<p style="margin:0.25rem 0 0 0;font-size:0.85rem;color:#777;">Standards & Data Source Note: Consult our <a href="/about" style="color:#0066cc;">standards and methodology directory</a> for data source provenance.</p>`;
   const categorySchema = buildCategorySchema(cat, content);
   const categoryBodyHtml = `
@@ -3637,12 +4199,13 @@ for (const cat of Categories) {
       <header>
         <h1 style="font-size:2rem;font-weight:700;">${cat.ic} ${h1}</h1>
         <p style="font-size:1.1rem;color:#555;line-height:1.6;">${intro}</p>
+        <p style="color:#333;line-height:1.6;">${escapeHtml(std.aeoCapsule)}</p>
       </header>
 
       <section aria-labelledby="standards-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
         <h2 id="standards-heading" style="font-size:1.2rem;margin-top:0;">Metrological Standards & Base Equation</h2>
         <p style="margin-bottom:0.5rem;font-size:0.95rem;">${formula}</p>
-        <p style="margin:0;font-size:0.85rem;color:#777;">Conversion ratios adhere to standardized mathematical definitions and institutional documentation.</p>
+        <p style="margin:0;font-size:0.9rem;color:#555;line-height:1.6;">${escapeHtml(std.standardsStatement)}</p>
         ${authorityHtml}
       </section>
 
@@ -3656,18 +4219,48 @@ for (const cat of Categories) {
                 <th scope="col">Unit Symbol</th>
                 <th scope="col">Unit Name</th>
                 <th scope="col">System</th>
-                <th scope="col">Base Factor</th>
+                <th scope="col">${singleBaseUnit ? `Equivalent in ${escapeHtml(unitName(singleBaseUnit, cat.id))}` : isComposite ? "Metrological Standard" : "Conversion Basis"}</th>
               </tr>
             </thead>
             <tbody>
-              ${cat.un.map((u) => `
+              ${cat.un.map((u) => {
+    const isSiBase = (u.r === 1 || u.id === "K") && SI_BASE_UNIT_IDS.has(u.id);
+    const isRef = u.r === 1 && !isSiBase;
+    let equivText;
+    if (singleBaseUnit) {
+      if (isSiBase) {
+        equivText = `SI Base Unit (1 ${escapeHtml(unitSymbol(u, cat.id))})`;
+      } else if (isRef) {
+        equivText = `Reference Standard (1 ${escapeHtml(unitSymbol(u, cat.id))})`;
+      } else if (u.r !== void 0) {
+        equivText = `1 ${escapeHtml(unitSymbol(u, cat.id))} = ${fmt(u.r, 8)} ${escapeHtml(unitSymbol(singleBaseUnit, cat.id))}`;
+      } else {
+        equivText = "Formula-based (non-linear)";
+      }
+    } else if (isComposite) {
+      if (isSiBase) {
+        equivText = `SI Base Unit (${escapeHtml(unitName(u, cat.id))})`;
+      } else if (isRef) {
+        equivText = `Reference Standard (${escapeHtml(unitName(u, cat.id))})`;
+      } else {
+        equivText = `Dimensional Standard (${u.s === "M" ? "Metric" : u.s === "I" ? "Imperial" : u.s === "S" ? "Scientific" : "Customary"})`;
+      }
+    } else {
+      if (isSiBase) {
+        equivText = `SI Base Unit (${escapeHtml(unitName(u, cat.id))})`;
+      } else {
+        equivText = cat.id === "temp" ? "Affine temperature scale" : "Formula-based (non-linear)";
+      }
+    }
+    return `
                 <tr>
-                  <td><code>${u.id}</code></td>
-                  <td><strong>${u.lb}</strong></td>
-                  <td>${u.s === "M" ? "Metric (SI)" : u.s === "I" ? "Imperial" : u.s === "S" ? "Scientific" : "Customary"}</td>
-                  <td>${u.r !== void 0 ? u.r : "Formula-based"}</td>
+                  <td><code>${escapeHtml(unitSymbol(u, cat.id))}</code></td>
+                  <td><strong>${escapeHtml(unitName(u, cat.id))}</strong></td>
+                  <td>${u.s === "M" ? "Metric" : u.s === "I" ? "Imperial" : u.s === "S" ? "Scientific" : "Other"}</td>
+                  <td>${equivText}</td>
                 </tr>
-              `).join("")}
+                `;
+  }).join("")}
             </tbody>
           </table>
         </div>
@@ -3715,13 +4308,23 @@ for (const cat of Categories) {
         </section>
       ` : ""}
 
+      ${relatedCats.length > 0 ? `
+        <section aria-labelledby="related-heading">
+          <h2 id="related-heading" style="font-size:1.25rem;margin-bottom:0.5rem;">Related Conversion Categories</h2>
+          <ul>
+            ${relatedCats.map((c) => `<li><a href="/convert/${c.id}" style="color:#0066cc;">${escapeHtml(c.lb)} converter</a></li>`).join("")}
+            <li><a href="/categories" style="color:#0066cc;">All conversion categories</a></li>
+          </ul>
+        </section>
+      ` : ""}
+
       <section aria-labelledby="faq-heading">
         <h2 id="faq-heading" style="font-size:1.25rem;margin-bottom:1rem;">Frequently Asked Questions</h2>
         <div style="display:flex;flex-direction:column;gap:1rem;">
           ${faqs.map((f) => `
             <div style="border-left:3px solid #0066cc;padding-left:1rem;">
-              <h3 style="margin:0 0 0.25rem 0;font-size:1.05rem;">${f.q}</h3>
-              <p style="margin:0;color:#555;font-size:0.95rem;line-height:1.5;">${f.a}</p>
+              <h3 style="margin:0 0 0.25rem 0;font-size:1.05rem;">${escapeHtml(f.q)}</h3>
+              <p style="margin:0;color:#555;font-size:0.95rem;line-height:1.5;">${escapeHtml(f.a)}</p>
             </div>
           `).join("")}
         </div>
@@ -3757,18 +4360,19 @@ for (const cat of Categories) {
     const inverseUnitRatio = convert(1, cat.id, u2.id, u1.id);
     const editorial = getPairEditorial(cat, u1, u2, pairParam);
     const pairGuide = getGuideForPair(cat.id, pairParam);
-    const pageTitle = `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})`;
-    const metaDescription = `Free online ${u1.lb} to ${u2.lb} converter. ${editorial.directAnswer.summary} Includes live calculator, exact formula, and 1 to 1000 conversion chart.`;
+    const pageTitle = pairTitle(u1, u2, cat.id);
+    const metaDescription = pairMetaDescription(u1, u2, cat.id, editorial.directAnswer.summary);
+    const pairRelatedCats = getRelatedCategoryIds(cat.id).map((id) => Categories.find((c) => c.id === id)).filter((c) => Boolean(c));
     const pairSchema = buildPairSchema(cat, u1, u2, unitRatio, inverseUnitRatio, pairParam, editorial.faqs, editorial.directAnswer.summary);
     const pairBodyHtml = `
       <main class="max-w-5xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
         <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <a href="/categories">Categories</a> / <a href="/convert/${cat.id}">${cat.lb}</a> / <strong>${u1.lb} to ${u2.lb}</strong>
+          <a href="/">Home</a> / <a href="/categories">Categories</a> / <a href="/convert/${cat.id}">${cat.lb}</a> / <strong>${unitName(u1, cat.id)} to ${unitName(u2, cat.id)}</strong>
         </nav>
         <header>
-          <h1 style="font-size:2rem;font-weight:700;">Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})</h1>
+          <h1 style="font-size:2rem;font-weight:700;">${pageTitle}</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Instant precision conversion from ${u1.lb} (${u1.id}) to ${u2.lb} (${u2.id}) in ${cat.lb}.
+            Instant precision conversion from ${unitLabel(u1, cat.id)} to ${unitLabel(u2, cat.id)} in ${cat.lb}.
           </p>
         </header>
 
@@ -3828,16 +4432,16 @@ for (const cat of Categories) {
         ` : ""}
 
         <section aria-labelledby="chart-heading">
-          <h2 id="chart-heading" style="font-size:1.25rem;margin-bottom:0.75rem;">${u1.lb} to ${u2.lb} Conversion Table (1 to 1000)</h2>
+          <h2 id="chart-heading" style="font-size:1.25rem;margin-bottom:0.75rem;">${unitName(u1, cat.id)} to ${unitName(u2, cat.id)} Conversion Table (1 to 1000)</h2>
           <div style="overflow-x:auto;">
             <table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;text-align:left;border:1px solid #ddd;font-size:0.9rem;">
-              <caption style="text-align:left;font-weight:600;margin-bottom:0.5rem;">${u1.lb} (${u1.id}) to ${u2.lb} (${u2.id}) and Reciprocal Equivalents</caption>
+              <caption style="text-align:left;font-weight:600;margin-bottom:0.5rem;">${unitLabel(u1, cat.id)} to ${unitLabel(u2, cat.id)} and Reciprocal Equivalents</caption>
               <thead style="background:#f0f0f0;">
                 <tr>
-                  <th scope="col">${u1.lb} (${u1.id})</th>
-                  <th scope="col">${u2.lb} (${u2.id})</th>
-                  <th scope="col">${u2.lb} (${u2.id})</th>
-                  <th scope="col">${u1.lb} (${u1.id})</th>
+                  <th scope="col">${unitLabel(u1, cat.id)}</th>
+                  <th scope="col">${unitLabel(u2, cat.id)}</th>
+                  <th scope="col">${unitLabel(u2, cat.id)}</th>
+                  <th scope="col">${unitLabel(u1, cat.id)}</th>
                 </tr>
               </thead>
               <tbody>
@@ -3846,10 +4450,10 @@ for (const cat of Categories) {
       const resBwd = convert(v, cat.id, u2.id, u1.id);
       return `
                     <tr>
-                      <td>${v} ${u1.id}</td>
-                      <td><strong>${resFwd !== null ? fmt(resFwd, 6) : ""}</strong> ${u2.id}</td>
-                      <td>${v} ${u2.id}</td>
-                      <td><strong>${resBwd !== null ? fmt(resBwd, 6) : ""}</strong> ${u1.id}</td>
+                      <td>${v} ${unitSymbol(u1, cat.id)}</td>
+                      <td><strong>${resFwd !== null ? fmt(resFwd, 6) : ""}</strong> ${unitSymbol(u2, cat.id)}</td>
+                      <td>${v} ${unitSymbol(u2, cat.id)}</td>
+                      <td><strong>${resBwd !== null ? fmt(resBwd, 6) : ""}</strong> ${unitSymbol(u1, cat.id)}</td>
                     </tr>
                   `;
     }).join("")}
@@ -3866,6 +4470,7 @@ for (const cat of Categories) {
       return `<a href="/convert/${cat.id}/${pSlug}" style="display:inline-block;border:1px solid #ccc;padding:0.4rem 0.8rem;border-radius:4px;color:#0066cc;text-decoration:none;font-size:0.85rem;">${p.from} \u2192 ${p.to}</a>`;
     }).join("")}
           </div>
+          ${pairRelatedCats.length > 0 ? `<p style="font-size:0.9rem;color:#555;">More converters: ${pairRelatedCats.map((c) => `<a href="/convert/${c.id}" style="color:#0066cc;">${escapeHtml(c.lb)}</a>`).join(" \xB7 ")}</p>` : ""}
         </section>
 
         <section aria-labelledby="faq-heading">
@@ -4000,24 +4605,28 @@ for (const post of BLOG_POSTS) {
   if (!post.slug) continue;
   const pageRoute = `/blog/${post.slug}`;
   const blogPostSchema = buildBlogPostSchema(post);
+  const blogRelatedPairs = categoryContent[post.relatedCat]?.popularPairs ?? [];
+  const blogRelatedCatLabel = Categories.find((c) => c.id === post.relatedCat)?.lb ?? post.relatedCat;
   const blogPostBodyHtml = `
     <article class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
       <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-        <a href="/">Home</a> / <a href="/blog">Blog</a> / <strong>${post.title}</strong>
+        <a href="/">Home</a> / <a href="/blog">Blog</a> / <strong>${escapeHtml(post.title)}</strong>
       </nav>
       <header>
-        <h1 style="font-size:2rem;font-weight:700;">${post.title}</h1>
+        <h1 style="font-size:2rem;font-weight:700;">${escapeHtml(post.title)}</h1>
         <div style="font-size:0.85rem;color:#777;margin-top:0.5rem;">
           Published on ${post.date} \xB7 By ${post.author} \xB7 ${post.readTime}
         </div>
-        <p style="font-size:1.1rem;color:#555;line-height:1.6;margin-top:0.75rem;">${post.excerpt}</p>
+        <p style="font-size:1.1rem;color:#555;line-height:1.6;margin-top:0.75rem;">${escapeHtml(post.excerpt)}</p>
       </header>
 
-      ${post.content.takeaways && post.content.takeaways.length > 0 ? `
+      <p style="color:#333;line-height:1.7;">${escapeHtml(post.content.intro)}</p>
+
+      ${post.content.keyTakeaways.length > 0 ? `
         <section aria-labelledby="takeaways-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
           <h2 id="takeaways-heading" style="font-size:1.2rem;margin-top:0;">Key Takeaways</h2>
           <ul style="line-height:1.6;margin-bottom:0;">
-            ${post.content.takeaways.map((t) => `<li>${t}</li>`).join("")}
+            ${post.content.keyTakeaways.map((t) => `<li>${escapeHtml(t)}</li>`).join("")}
           </ul>
         </section>
       ` : ""}
@@ -4025,8 +4634,15 @@ for (const post of BLOG_POSTS) {
       <div style="display:flex;flex-direction:column;gap:1.5rem;">
         ${post.content.sections.map((sec) => `
           <section>
-            <h2 style="font-size:1.3rem;margin-bottom:0.5rem;">${sec.heading}</h2>
-            <p style="color:#444;line-height:1.6;margin:0;">${sec.body}</p>
+            <h2 style="font-size:1.3rem;margin-bottom:0.5rem;">${escapeHtml(sec.title)}</h2>
+            <p style="color:#444;line-height:1.6;margin:0;">${escapeHtml(sec.body)}</p>
+            ${sec.formula ? `<pre style="background:#f4f4f8;border-radius:6px;padding:0.75rem;white-space:pre-wrap;"><code>${escapeHtml(sec.formula)}</code></pre>` : ""}
+            ${sec.bulletPoints?.length ? `<ul style="line-height:1.6;">${sec.bulletPoints.map((bp) => `<li>${escapeHtml(bp)}</li>`).join("")}</ul>` : ""}
+            ${sec.table?.length ? `
+              <table style="border-collapse:collapse;width:100%;margin-top:0.75rem;">
+                <thead><tr>${[sec.table[0].col1, sec.table[0].col2, sec.table[0].col3].filter(Boolean).map((c) => `<th scope="col" style="text-align:left;border-bottom:1px solid #ddd;padding:6px;">${escapeHtml(c)}</th>`).join("")}</tr></thead>
+                <tbody>${sec.table.slice(1).map((r) => `<tr>${[r.col1, r.col2, r.col3].filter(Boolean).map((c) => `<td style="border-bottom:1px solid #eee;padding:6px;">${escapeHtml(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+              </table>` : ""}
           </section>
         `).join("")}
       </div>
@@ -4045,6 +4661,23 @@ for (const post of BLOG_POSTS) {
         </section>
       ` : ""}
 
+      ${blogRelatedPairs.length > 0 ? `
+        <section aria-labelledby="related-converters-heading">
+          <h2 id="related-converters-heading" style="font-size:1.2rem;">Related Converters</h2>
+          <ul style="line-height:1.8;">
+            <li><a href="/convert/${post.relatedCat}" style="color:#0066cc;">All ${escapeHtml(blogRelatedCatLabel)} conversions</a></li>
+            ${blogRelatedPairs.map((p) => `<li><a href="/convert/${post.relatedCat}/${cleanSlug2(p.from)}-to-${cleanSlug2(p.to)}" style="color:#0066cc;">${escapeHtml(p.from)} to ${escapeHtml(p.to)}</a></li>`).join("")}
+          </ul>
+        </section>
+      ` : ""}
+
+      <section aria-labelledby="related-articles-heading">
+        <h2 id="related-articles-heading" style="font-size:1.2rem;">Related Guides & Tutorials</h2>
+        <ul style="line-height:1.8;">
+          ${getRelatedPosts(post).map((rp) => `<li><a href="/blog/${rp.slug}" style="color:#0066cc;">${escapeHtml(rp.title)}</a> \u2014 ${escapeHtml(rp.excerpt)}</li>`).join("")}
+        </ul>
+      </section>
+
       <div style="font-size:0.85rem;color:#777;border-top:1px solid #eee;padding-top:0.75rem;margin-top:1.5rem;">
         Published by ${post.author} on behalf of NumanX Studio. Conversion constants adhere to NIST SP 811 and BIPM SI brochure standards. Consult our <a href="/about" style="color:#0066cc;">metrology standards directory</a>.
       </div>
@@ -4056,12 +4689,31 @@ for (const post of BLOG_POSTS) {
   `;
   renderAndWritePage({
     routePath: pageRoute,
-    title: `${post.title} \u2014 NumanX Blog`,
+    title: post.seoTitle ?? post.title,
     description: post.excerpt,
     schema: blogPostSchema,
     staticBodyHtml: blogPostBodyHtml
   });
   generatedCount++;
 }
+console.log("\u26A1 Prerendering legal & contact pages ...");
+for (const doc of [getPrivacyPolicy(), getTerms(), getContactPage()]) {
+  renderAndWritePage({
+    routePath: doc.path,
+    title: PAGE_META[doc.path].title,
+    description: PAGE_META[doc.path].description,
+    schema: buildCorePageSchema(doc.path, PAGE_META[doc.path].title, PAGE_META[doc.path].description, { pageType: "WebPage" }),
+    staticBodyHtml: renderLegalBody(doc)
+  });
+  generatedCount++;
+}
+var securityTxt = buildSecurityTxt(siteOrigin);
+if (securityTxt) {
+  fs.mkdirSync(path.join(distDir, ".well-known"), { recursive: true });
+  fs.writeFileSync(path.join(distDir, ".well-known", "security.txt"), securityTxt, "utf-8");
+  console.log("\u2705 Wrote /.well-known/security.txt");
+} else {
+  console.log("\u2139\uFE0F  Skipped security.txt: set LEGAL.contactEmail in src/config/legal.ts to publish it");
+}
 console.log(`
-\u{1F389} Prerender Complete! Generated meaningful static HTML for ${generatedCount}/146 routes.`);
+\u{1F389} Prerender Complete! Generated meaningful static HTML for ${generatedCount} routes.`);

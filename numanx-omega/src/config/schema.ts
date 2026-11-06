@@ -13,6 +13,7 @@
 
 import { canonicalUrl, getSiteUrl, SITE } from './site'
 import { fmt } from '../utils/numbers'
+import { unitName, unitLabel, pairTitle, pairMetaDescription } from '../engine/unitSymbols'
 import type { CategoryDef, UnitDef } from '../types'
 import type { BlogPost } from '../data/blogPosts'
 
@@ -86,7 +87,7 @@ export function buildHomeSchema(): SchemaGraph {
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         featureList: [
           '24 unit categories including length, mass, volume, temperature, currency, crypto',
-          '200+ units from metric, imperial, and scientific systems',
+          '180+ units from metric, imperial, and scientific systems',
           'Live currency rates for 40+ world currencies',
           'Real-time cryptocurrency prices via CoinGecko',
           'Natural language input: type "5 km in miles" or "(5m+20cm)×2"',
@@ -220,18 +221,18 @@ export function buildPairSchema(
   directAnswerSummary?: string,
 ): SchemaGraph {
   const pageUrl = canonicalUrl(`/convert/${category.id}/${pairParam}`)
-  const pageTitle = `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})`
-  const summaryText = directAnswerSummary || `1 ${u1.lb} = ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${u2.lb}.`
-  const metaDescription = `Free online ${u1.lb} to ${u2.lb} converter. ${summaryText} Includes live calculator, exact formula, and 1 to 1000 conversion chart.`
+  const pageTitle = pairTitle(u1, u2, category.id)
+  const summaryText = directAnswerSummary || `1 ${unitName(u1, category.id)} = ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${unitName(u2, category.id)}.`
+  const metaDescription = pairMetaDescription(u1, u2, category.id, summaryText)
 
   const defaultFaqs: PairSchemaFaq[] = [
     {
-      question: `How many ${u2.lb} in 1 ${u1.lb}?`,
-      answer: `1 ${u1.lb} (${u1.id}) is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ''} ${u2.lb} (${u2.id}).`,
+      question: `How many ${unitName(u2, category.id)} in 1 ${unitName(u1, category.id)}?`,
+      answer: `1 ${unitLabel(u1, category.id)} is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ''} ${unitLabel(u2, category.id)}.`,
     },
     {
-      question: `How to convert ${u1.lb} to ${u2.lb}?`,
-      answer: `To convert from ${u1.lb} to ${u2.lb}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : 'the conversion factor'}.`,
+      question: `How to convert ${unitName(u1, category.id)} to ${unitName(u2, category.id)}?`,
+      answer: `To convert from ${unitName(u1, category.id)} to ${unitName(u2, category.id)}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : 'the conversion factor'}.`,
     },
   ]
 
@@ -257,7 +258,7 @@ export function buildPairSchema(
           { '@type': 'ListItem', position: 1, name: 'Home', item: canonicalUrl('/') },
           { '@type': 'ListItem', position: 2, name: 'Categories', item: canonicalUrl('/categories') },
           { '@type': 'ListItem', position: 3, name: category.lb, item: canonicalUrl(`/convert/${category.id}`) },
-          { '@type': 'ListItem', position: 4, name: `${u1.lb} to ${u2.lb}`, item: pageUrl },
+          { '@type': 'ListItem', position: 4, name: `${unitName(u1, category.id)} to ${unitName(u2, category.id)}`, item: pageUrl },
         ],
       },
       {
