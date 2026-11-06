@@ -25,9 +25,11 @@ interface Props {
   initialValue?: number
   hideCategoryPicker?: boolean
   onHistoryAdd?: (cat: string, fv: number, fu: string, tv: number, tu: string) => void
+  variant?: 'workbench' | 'embedded'
+  compactOnMobile?: boolean
 }
 
-export default function UniversalConverter({ category: initialCat, mode = 'pro', initialFrom, initialTo, initialValue, hideCategoryPicker = false, onHistoryAdd }: Props) {
+export default function UniversalConverter({ category: initialCat, mode = 'pro', initialFrom, initialTo, initialValue, hideCategoryPicker = false, onHistoryAdd, variant = 'embedded', compactOnMobile = false }: Props) {
   const [catId, setCatId] = useState(initialCat || 'length')
   const [unitFamily, setUnitFamily] = useState<string>('all')
   const [fromVal, setFromVal] = useState(initialValue !== undefined ? String(initialValue) : '')
@@ -419,8 +421,679 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     return () => el.removeEventListener('focus', handler)
   }, [checkClipboard, mode])
 
+  if (variant === 'workbench') {
+    return (
+      <div className="w-full max-w-full min-w-0 space-y-4">
+        {/* Spatial Bento Frame (Level 2 Elevated Workbench) */}
+        <div className="w-full bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden transition-colors">
+          
+          {/* Cell A: Category Navigation Bar (Level 1 Surface) */}
+          <div className="bg-[var(--surface-1)] border-b border-[var(--border-subtle)] p-3.5 sm:p-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+              <div className="flex items-center gap-3">
+                <span className="text-2xl sm:text-3xl p-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border-subtle)] shadow-xs select-none" aria-hidden="true">
+                  {cat?.ic}
+                </span>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-base sm:text-lg font-bold text-[var(--text)] tracking-tight">{cat?.lb}</h2>
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)] font-medium">
+                      {cat?.un.length} units
+                    </span>
+                  </div>
+                  <p className="text-xs text-[var(--text2)] opacity-85 line-clamp-1">'Deterministic metrology conversion domain'</p>
+                </div>
+              </div>
+
+              {/* Category Search & Filter */}
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <div className="relative flex-1 sm:w-60">
+                  <input
+                    type="text"
+                    value={catFilter}
+                    onChange={e => setCatFilter(e.target.value)}
+                    placeholder="Filter 24 categories..."
+                    aria-label="Filter categories"
+                    className="w-full px-3 py-1.5 rounded-xl border border-[var(--border-control)] bg-[var(--surface-3)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] transition-colors min-h-[44px]"
+                  />
+                  {catFilter && (
+                    <button
+                      onClick={() => setCatFilter('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs opacity-60 hover:opacity-100 p-1"
+                      aria-label="Clear filter"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+                <ConversionStreaks compact />
+              </div>
+            </div>
+
+            {/* Category Pills Strip */}
+            <div
+              className="flex gap-1.5 overflow-x-auto py-1 scrollbar-thin max-w-full"
+              role="tablist"
+              aria-label="Unit categories"
+            >
+              {(catFilter
+                ? cats.filter(c => c.lb.toLowerCase().includes(catFilter.toLowerCase()) || c.id.includes(catFilter.toLowerCase()))
+                : cats
+              ).map(c => {
+                const isSelected = catId === c.id
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => {
+                      setCatId(c.id)
+                      setChainMode(false)
+                      setChainResult(null)
+                      setBatchMode(false)
+                    }}
+                    role="tab"
+                    aria-selected={isSelected}
+                    className={`btn-chip text-xs py-2 px-3 min-h-[44px] flex items-center gap-1.5 shrink-0 rounded-xl transition-all whitespace-nowrap font-medium ${
+                      isSelected
+                        ? 'active font-bold shadow-sm'
+                        : 'border border-[var(--border-subtle)]'
+                    }`}
+                    style={isSelected ? {
+                      background: `linear-gradient(135deg, ${c.cl || 'var(--primary)'}, ${c.cl || 'var(--primary)'}dd)`,
+                      color: '#fff',
+                      borderColor: 'transparent'
+                    } : {}}
+                  >
+                    <span aria-hidden="true">{c.ic}</span>
+                    <span>{c.lb}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Cell B: Primary Conversion Instrument (Swiss Technical Grid) */}
+          <div className="p-4 sm:p-6 lg:p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
+
+              {/* SOURCE CELL (Columns 1-5) */}
+              <div className="lg:col-span-5 flex flex-col justify-between space-y-3.5">
+                <div>
+                  <div className="flex items-center justify-between pb-1.5">
+                    <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[var(--text2)]">
+                      Source Quantity
+                    </span>
+                    {/* Unit family switcher */}
+                    <div className="flex gap-1" role="tablist" aria-label="Unit families">
+                      {unitFamilies.map(fam => (
+                        <button
+                          key={fam.id}
+                          type="button"
+                          role="tab"
+                          aria-selected={unitFamily === fam.id}
+                          onClick={() => handleUnitFamilyChange(fam.id)}
+                          className={`text-[10px] px-2 py-1 rounded-md transition-all font-medium min-h-[32px] ${
+                            unitFamily === fam.id
+                              ? 'bg-[var(--accent)] text-white font-bold'
+                              : 'text-[var(--text2)] hover:bg-[var(--border)]'
+                          }`}
+                        >
+                          {fam.label.split(' ')[0]}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Input Receptacle Well (Level 3 Surface) */}
+                  <div className="bg-[var(--surface-3)] border-2 border-[var(--border-control)] focus-within:border-[var(--primary)] rounded-xl p-3.5 sm:p-4 transition-all space-y-2 relative">
+                    <div className="flex items-center justify-between gap-2">
+                      <label htmlFor="workbench-source-val" className="text-xs font-semibold text-[var(--text2)] uppercase tracking-wider">
+                        Enter Value
+                      </label>
+                      <select
+                        id="workbench-source-unit"
+                        value={fromUnit}
+                        onChange={e => setFromUnit(e.target.value)}
+                        aria-label="Source unit"
+                        className="bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border-control)] rounded-lg px-2.5 py-1.5 text-xs font-medium outline-none min-h-[44px] cursor-pointer focus:border-[var(--primary)]"
+                      >
+                        {availableUnits.map(u => (
+                          <option key={u.id} value={u.id}>
+                            {u.lb} ({u.id})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="relative">
+                      <input
+                        id="workbench-source-val"
+                        ref={inputRef}
+                        type="text"
+                        value={fromVal}
+                        onChange={e => {
+                          const v = e.target.value
+                          setFromVal(v)
+                          const m = v.match(/^\d+\.?\d*\s*([a-zA-Z°%]+)/)
+                          if (m && m[1].length >= 1) {
+                            const partial = m[1].toLowerCase()
+                            const matches: { id: string; lb: string; cat: string; ic: string }[] = []
+                            cats.forEach(c => {
+                              c.un.forEach(u => {
+                                if (u.id.toLowerCase().startsWith(partial) || u.lb.toLowerCase().startsWith(partial)) {
+                                  matches.push({ id: u.id, lb: u.lb, cat: c.lb, ic: c.ic || '' })
+                                }
+                              })
+                            })
+                            setUnitSuggestions(matches.slice(0, 6))
+                          } else {
+                            setUnitSuggestions([])
+                          }
+                        }}
+                        onKeyDown={e => {
+                          if (e.key === 'ArrowUp' && inputHistory.current.length > 0 && historyIndex.current < inputHistory.current.length - 1) {
+                            historyIndex.current++
+                            setFromVal(inputHistory.current[inputHistory.current.length - 1 - historyIndex.current])
+                          } else if (e.key === 'ArrowDown' && historyIndex.current >= 0) {
+                            historyIndex.current--
+                            setFromVal(historyIndex.current >= 0 ? inputHistory.current[inputHistory.current.length - 1 - historyIndex.current] : '')
+                          }
+                          if (e.key === 'Escape') setUnitSuggestions([])
+                        }}
+                        placeholder={mode === 'student' ? 'e.g. 5 km or 100' : '0'}
+                        aria-label="Value to convert"
+                        inputMode="decimal"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        spellCheck={false}
+                        className="w-full min-h-[44px] py-1 bg-transparent font-mono tabular-nums text-3xl sm:text-4xl font-bold text-[var(--text)] outline-none placeholder:opacity-30"
+                      />
+                      {/* Clipboard detection badge */}
+                      {clipSuggestion && (
+                        <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                          className="absolute -bottom-5 left-0 flex items-center gap-1 z-10">
+                          <button onClick={() => {
+                            setFromVal(clipSuggestion.text); clearClip()
+                            if (clipSuggestion.unit && cat?.un.some(u => u.id === clipSuggestion.unit)) setFromUnit(clipSuggestion.unit)
+                            if (clipSuggestion.targetUnit && cat?.un.some(u => u.id === clipSuggestion.targetUnit)) setToUnit(clipSuggestion.targetUnit)
+                          }}
+                            className="btn-chip text-[11px] py-1 px-2.5 min-h-[36px]">
+                            📋 {clipSuggestion.label}
+                          </button>
+                          <button onClick={clearClip}
+                            className="btn-icon w-6 h-6 text-xs opacity-60 hover:opacity-100" aria-label="Dismiss suggestion">✕</button>
+                        </motion.div>
+                      )}
+
+                      {/* AI Unit Autocomplete */}
+                      {unitSuggestions.length > 0 && (
+                        <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                          className="absolute top-full left-0 right-0 mt-1 z-30 glass rounded-xl overflow-hidden shadow-xl border border-[var(--border)]">
+                          <div className="p-1 space-y-0.5">
+                            {unitSuggestions.map((s, i) => (
+                              <button key={i} onClick={() => { setFromUnit(s.id); setUnitSuggestions([]); inputRef.current?.focus() }}
+                                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-xs hover:bg-[var(--primary)]/10 transition-all text-left min-h-[44px]">
+                                <span className="text-base" aria-hidden="true">{s.ic}</span>
+                                <span className="font-medium text-[var(--text)]">{s.lb}</span>
+                                <span className="text-xs text-[var(--text2)] opacity-60 ml-auto">{s.cat}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+
+                    {/* Natural language indicator */}
+                    {isNatural && fromVal && (
+                      <div className="text-xs flex items-center gap-1.5 pt-1 text-[var(--text2)]">
+                        <span className="px-1.5 py-0.5 rounded bg-green-500/15 text-green-600 dark:text-green-400 font-mono text-[11px]">PARSED</span>
+                        <span className="font-mono text-xs">{parseNaturalLanguage(fromVal).raw}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Steppers & Modifiers */}
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[11px] font-mono font-bold text-[var(--text2)] mr-1">STEP:</span>
+                    {[
+                      { label: '-10', fn: () => setFromVal(prev => String(Math.max(0, (parseSmart(prev) || 0) - 10))) },
+                      { label: '-1', fn: () => setFromVal(prev => String(Math.max(0, (parseSmart(prev) || 0) - 1))) },
+                      { label: '+1', fn: () => setFromVal(prev => String((parseSmart(prev) || 0) + 1)) },
+                      { label: '+10', fn: () => setFromVal(prev => String((parseSmart(prev) || 0) + 10)) },
+                      { label: '×2', fn: () => setFromVal(prev => String((parseSmart(prev) || 0) * 2)) },
+                      { label: '÷2', fn: () => setFromVal(prev => String(Math.round(((parseSmart(prev) || 0) / 2) * 1000) / 1000)) },
+                      { label: '0', fn: () => setFromVal('0') },
+                      { label: 'Clear', fn: () => setFromVal('') },
+                    ].map(st => (
+                      <button
+                        key={st.label}
+                        type="button"
+                        onClick={st.fn}
+                        className="btn-chip text-xs py-2 px-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center font-mono hover:text-[var(--link-text)] rounded-lg border border-[var(--border-subtle)]"
+                      >
+                        {st.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Precision & format toggles */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border-subtle)]">
+                    <div className="flex items-center gap-2 flex-1 min-w-[160px]">
+                      <label htmlFor="workbench-prec-slider" className="text-xs font-mono text-[var(--text2)] whitespace-nowrap">
+                        Prec: <strong className="text-[var(--text)] font-bold">{prec}</strong>
+                      </label>
+                      <input
+                        id="workbench-prec-slider"
+                        type="range"
+                        min="0"
+                        max="12"
+                        value={prec}
+                        onChange={e => setPrec(Number(e.target.value))}
+                        aria-label="Calculation precision in decimal places"
+                        className="flex-1 accent-[var(--accent)] h-11 cursor-pointer"
+                      />
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setFrac(!frac)}
+                        aria-pressed={frac}
+                        aria-label="Toggle fraction display"
+                        className={`btn-chip text-xs font-mono py-1.5 px-3 min-h-[44px] min-w-[44px] rounded-lg ${frac ? 'active font-bold' : ''}`}
+                      >
+                        frac
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSci(!sci)}
+                        aria-pressed={sci}
+                        aria-label="Toggle scientific notation"
+                        className={`btn-chip text-xs font-mono py-1.5 px-3 min-h-[44px] min-w-[44px] rounded-lg ${sci ? 'active font-bold' : ''}`}
+                      >
+                        sci
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* SWAP BRIDGE (Column 6 on desktop, inline row on mobile) */}
+              <div className="lg:col-span-2 flex flex-col items-center justify-center py-2 lg:py-0">
+                <div className="hidden lg:block w-px h-16 bg-[var(--border-subtle)] mb-3" />
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={swap}
+                  animate={{ rotate: swapRotation }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                  aria-label="Swap source and target units"
+                  className="w-12 h-12 min-w-[44px] min-h-[44px] rounded-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white shadow-md flex items-center justify-center text-xl transition-all focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 interact-lift"
+                >
+                  <span aria-hidden="true">⇅</span>
+                </motion.button>
+                <div className="hidden lg:block w-px h-16 bg-[var(--border-subtle)] mt-3" />
+              </div>
+
+              {/* TARGET READOUT CELL (Columns 7-12) */}
+              <div className="lg:col-span-5 flex flex-col justify-between space-y-3.5">
+                <div>
+                  <div className="flex items-center justify-between pb-1.5">
+                    <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[var(--text2)]">
+                      Measurement Readout
+                    </span>
+                    <span className="text-xs font-mono font-bold text-[var(--accent)]">
+                      {toUnit}
+                    </span>
+                  </div>
+
+                  {/* Readout Receptacle Well (Level 3 Surface) */}
+                  <div className="bg-[var(--surface-3)] border-2 border-[var(--border-control)] rounded-xl p-3.5 sm:p-4 transition-all space-y-2 relative min-h-[140px] flex flex-col justify-between">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-semibold text-[var(--text2)] uppercase tracking-wider">
+                        Converted Output
+                      </span>
+                      <select
+                        id="workbench-target-unit"
+                        value={toUnit}
+                        onChange={e => setToUnit(e.target.value)}
+                        aria-label="Target unit"
+                        className="bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border-control)] rounded-lg px-2.5 py-1.5 text-xs font-medium outline-none min-h-[44px] cursor-pointer focus:border-[var(--primary)]"
+                      >
+                        {availableUnits.map(u => (
+                          <option key={u.id} value={u.id}>
+                            {u.lb} ({u.id})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Result Number Display */}
+                    <div
+                      ref={resultRef}
+                      role="region"
+                      aria-live="polite"
+                      aria-atomic="true"
+                      aria-label="Converted calculation result"
+                      className="w-full font-mono tabular-nums text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text)] select-all py-1 break-words min-h-[48px] flex items-center"
+                    >
+                      <span className="sr-only">
+                        {fromVal && result !== null ? `${fromVal} ${fromUnit} equals ${fmtR(result)} ${toUnit}` : 'No calculation'}
+                      </span>
+                      <motion.span
+                        key={result}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                        className="inline-block"
+                        aria-hidden="true"
+                      >
+                        {fmtR(result)}
+                      </motion.span>
+                    </div>
+
+                    {/* Incompatible / Error Notice */}
+                    {hasError && (
+                      <div className="text-xs text-red-500 flex items-center gap-1 font-medium pt-1">
+                        <span aria-hidden="true">⚠️</span>
+                        <span>Can't convert — incompatible units or missing conversion factor</span>
+                      </div>
+                    )}
+
+                    {/* Action Row inside Readout Well */}
+                    <div className="flex flex-wrap items-center justify-between pt-2 border-t border-[var(--border-subtle)] gap-2">
+                      {/* Format tags */}
+                      <div className="flex items-center gap-1">
+                        {(['plain', 'md', 'latex'] as const).map(f => (
+                          <button
+                            key={f}
+                            type="button"
+                            onClick={() => { setCopyFormat(f); copyResult(f) }}
+                            className={`text-[11px] font-mono px-2 py-1 min-h-[36px] rounded-md transition-colors ${
+                              copyFormat === f
+                                ? 'bg-[var(--accent)] text-white font-bold'
+                                : 'text-[var(--text2)] hover:bg-[var(--border)]'
+                            }`}
+                          >
+                            {f}
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={shareResult}
+                          className="btn-secondary text-xs px-2.5 py-1.5 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center gap-1"
+                          aria-label="Share result"
+                        >
+                          <span>📤</span> <span className="hidden sm:inline">Share</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => copyResult(copyFormat)}
+                          aria-label="Copy result"
+                          className="btn-primary text-xs px-3.5 py-1.5 min-h-[44px] min-w-[44px] rounded-lg flex items-center justify-center gap-1.5 font-bold shadow-sm"
+                        >
+                          <span>{copyBtnIcon}</span>
+                          <span>Copy</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Telemetry & Provenance Line */}
+                <div className="space-y-1 pt-1 text-xs text-[var(--text2)]">
+                  {formula && (
+                    <div className="font-mono text-[11px] text-[var(--text)] bg-[var(--surface-3)] px-2.5 py-1.5 rounded-lg border border-[var(--border-subtle)] truncate">
+                      <span className="text-[var(--text2)] font-semibold mr-1">Formula:</span> {formula}
+                    </div>
+                  )}
+                  {cat && fromUnit && toUnit && (() => {
+                    const fu = cat.un.find(u => u.id === fromUnit)
+                    const tu = cat.un.find(u => u.id === toUnit)
+                    if (fu?.r && tu?.r) {
+                      const ratio = fu.r / tu.r
+                      return (
+                        <div className="font-mono text-[11px] text-[var(--text2)] opacity-85 px-1 truncate">
+                          Ratio: 1 {fu.lb} = {fmtSmart(ratio, 8)} {tu.lb}
+                        </div>
+                      )
+                    }
+                    return null
+                  })()}
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Secondary Bento Lower Shelf */}
+          <div className="border-t border-[var(--border-subtle)] bg-[var(--surface-1)]/40 p-4 sm:p-6 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+              {/* Module 1: Live Multi-Unit Matrix */}
+              <div className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-xl p-4 space-y-2 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subtle)]">
+                    <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text)]">
+                      Multi-Unit Matrix
+                    </span>
+                    <span className="text-[11px] font-mono text-[var(--text2)]">
+                      {allResults.length} units
+                    </span>
+                  </div>
+                  <div className="space-y-1 pt-2 max-h-56 overflow-y-auto scrollbar-thin" role="region" aria-label="Multi-unit equivalents">
+                    {allResults.slice(0, showAllUnits ? undefined : 6).map(ar => (
+                      <button
+                        key={ar.id}
+                        onClick={() => setToUnit(ar.id)}
+                        className="w-full flex items-center justify-between p-1.5 rounded-lg hover:bg-[var(--surface-3)] text-xs transition-colors group text-left min-h-[36px]"
+                      >
+                        <span className="text-[var(--text2)] group-hover:text-[var(--text)] truncate mr-2 font-medium">
+                          {ar.label}
+                        </span>
+                        <span className="font-mono tabular-nums font-bold text-[var(--text)] text-right shrink-0">
+                          {ar.value !== null ? fmtR(ar.value) : '—'}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {allResults.length > 6 && (
+                  <button
+                    onClick={() => setShowAllUnits(!showAllUnits)}
+                    className="btn-secondary w-full text-xs py-2 min-h-[44px] flex items-center justify-center font-medium mt-1"
+                  >
+                    {showAllUnits ? '▲ Show Fewer Units' : `▼ View All ${allResults.length} Units`}
+                  </button>
+                )}
+              </div>
+
+              {/* Module 2: Derivation & Metrological Steps */}
+              <div className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-xl p-4 space-y-2.5">
+                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subtle)]">
+                  <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text)]">
+                    Derivation & Provenance
+                  </span>
+                  <span className="text-[11px] font-mono text-[var(--accent)] font-semibold">
+                    NIST Grounded
+                  </span>
+                </div>
+
+                {steps.length > 0 ? (
+                  <div className="space-y-2 text-xs">
+                    {steps.slice(0, 3).map((st, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <span className="w-4 h-4 rounded-full bg-[var(--accent)] text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          {i + 1}
+                        </span>
+                        <div>
+                          <span className="font-semibold text-[var(--text)]">{st.label}: </span>
+                          <span className="text-[var(--text2)] font-mono">{st.detail}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-[var(--text2)] italic">
+                    Enter a value above to view step-by-step arithmetic derivation.
+                  </p>
+                )}
+
+                {visualRef && (
+                  <div className="p-2.5 rounded-lg bg-[var(--surface-3)] border border-[var(--border-subtle)] text-xs flex items-center gap-2 mt-2">
+                    <span className="text-lg" aria-hidden="true">{visualRef.emoji}</span>
+                    <span className="text-[var(--text)] text-xs">
+                      {fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong>
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Module 3: Advanced Instruments (Presets, Batch, Chains) */}
+              <div className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between pb-1.5 border-b border-[var(--border-subtle)]">
+                  <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text)]">
+                    Workbench Instruments
+                  </span>
+                  <span className="text-[11px] font-mono text-[var(--text2)]">Tools</span>
+                </div>
+
+                {/* Quick Value Presets */}
+                <div>
+                  <span className="text-[10px] font-mono uppercase text-[var(--text2)] font-bold block mb-1.5">Quantity Presets</span>
+                  <div className="flex flex-wrap gap-1">
+                    {[1, 5, 10, 25, 50, 100, 1000].map(v => (
+                      <button
+                        key={v}
+                        type="button"
+                        onClick={() => setFromVal(String(v))}
+                        className="btn-chip text-xs font-mono px-2.5 py-1.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg"
+                      >
+                        {v >= 1000 ? '1k' : v}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Power Tools Actions */}
+                <div className="flex flex-col gap-1.5 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setBatchMode(!batchMode)}
+                    aria-pressed={batchMode}
+                    className={`btn-secondary text-xs py-2 px-3 min-h-[44px] flex items-center justify-between rounded-lg font-medium ${
+                      batchMode ? 'border-[var(--accent)] text-[var(--accent)]' : ''
+                    }`}
+                  >
+                    <span>📋 Batch Processing</span>
+                    <span className="text-xs opacity-60 font-mono">{batchMode ? 'Active ▲' : 'Open ▼'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => autoSuggestChain()}
+                    className="btn-secondary text-xs py-2 px-3 min-h-[44px] flex items-center justify-between rounded-lg font-medium"
+                  >
+                    <span>⛓ Relational Chains</span>
+                    <span className="text-xs opacity-60 font-mono">
+                      {suggestChain(catId) ? 'Available' : 'None'}
+                    </span>
+                  </button>
+
+                  {showFavSuggestion && (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await toggleFavorite({ cat: catId, from: fromUnit, to: toUnit })
+                        setShowFavSuggestion(false)
+                        addToast('Added to favorites!', 'success', '⭐')
+                      }}
+                      className="btn-secondary text-xs py-2 px-3 min-h-[44px] flex items-center justify-between rounded-lg font-medium text-amber-500 border-amber-500/30"
+                    >
+                      <span>⭐ Save to Favorites</span>
+                      <span>+</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Expandable Batch Module if active */}
+            {batchMode && (
+              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="overflow-hidden">
+                <div className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-xl p-4 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text)]">📋 Batch Value Execution</span>
+                    <button onClick={() => setBatchMode(false)} className="text-xs opacity-60 hover:opacity-100 p-1">✕</button>
+                  </div>
+                  <textarea
+                    value={batchInput}
+                    onChange={e => setBatchInput(e.target.value)}
+                    placeholder="Enter comma or newline separated values (e.g. 1, 5, 10, 25, 50)"
+                    aria-label="Values to batch convert"
+                    className="w-full p-2.5 rounded-lg border border-[var(--border-control)] bg-[var(--surface-3)] text-xs font-mono text-[var(--text)] outline-none min-h-[70px] resize-none"
+                  />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button onClick={handleBatchConvert} className="btn-primary text-xs px-3 py-2 min-h-[44px] font-bold">Convert All</button>
+                    <button onClick={() => setBatchInput(generateSequence(1, 100, 10).join('\n'))} className="btn-secondary text-xs px-3 py-2 min-h-[44px]">Sequence 1-100</button>
+                    <button onClick={() => setBatchInput(generateSequence(0, 1000, 100).join('\n'))} className="btn-secondary text-xs px-3 py-2 min-h-[44px]">Sequence 0-1000</button>
+                    {batchResults.length > 0 && (
+                      <div className="flex gap-1 ml-auto">
+                        <button onClick={() => {
+                          const csv = 'input,result\n' + batchResults.map(r => `${r.input},${r.result ?? ''}`).join('\n')
+                          const blob = new Blob([csv], { type: 'text/csv' })
+                          const url = URL.createObjectURL(blob)
+                          const a = document.createElement('a'); a.href = url; a.download = 'conversion-results.csv'
+                          a.click(); URL.revokeObjectURL(url); addToast('CSV downloaded', 'success', '📥')
+                        }} className="btn-secondary text-xs px-2.5 py-1.5 min-h-[44px]">📥 CSV</button>
+                        <button onClick={() => {
+                          const json = JSON.stringify(batchResults, null, 2)
+                          const blob = new Blob([json], { type: 'application/json' })
+                          const url = URL.createObjectURL(blob)
+                          const a = document.createElement('a'); a.href = url; a.download = 'conversion-results.json'
+                          a.click(); URL.revokeObjectURL(url); addToast('JSON downloaded', 'success', '📥')
+                        }} className="btn-secondary text-xs px-2.5 py-1.5 min-h-[44px]">📥 JSON</button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Expandable Chain Module if active */}
+            {chainMode && chainResult && (
+              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                className="bg-[var(--surface-2)] border-l-4 border-l-[var(--accent)] border border-[var(--border-subtle)] rounded-xl p-4 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text)]">⛓ Multi-Hop Relational Chain Result</span>
+                  <button onClick={() => { setChainMode(false); setActiveChain(null); setChainResult(null) }} className="text-xs opacity-60 hover:opacity-100 p-1">✕</button>
+                </div>
+                <div className="space-y-1.5 pt-1">
+                  {chainResult.map((link, i) => (
+                    <div key={i} className="flex items-center gap-2 text-xs">
+                      <span className="w-5 h-5 rounded-full bg-[var(--accent)]/20 text-[var(--accent)] flex items-center justify-center text-xs font-bold font-mono">{i + 1}</span>
+                      <span className="text-[var(--text2)] w-28 truncate">{link.label}</span>
+                      <span className="font-mono font-bold text-[var(--text)]">{fmtR(link.value)}</span>
+                      <span className="text-xs text-[var(--text2)] font-mono">{link.unit}</span>
+                      {i < chainResult.length - 1 && <span className="text-xs text-[var(--text2)]" aria-hidden="true">→</span>}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full min-w-0">
       {/* Chain mode indicator */}
       {chainMode && activeChain && (
         <div className="flex items-center gap-2 text-xs mb-2">
@@ -432,8 +1105,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       )}
 
       {hideCategoryPicker ? (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 mb-2 border-b border-[var(--border)]">
-          <div className="flex items-center gap-1.5 overflow-x-auto py-1" role="tablist" aria-label="Unit families">
+        <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 mb-2 border-b border-[var(--border)] min-w-0 max-w-full ${compactOnMobile ? 'hidden sm:flex' : ''}`}>
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full min-w-0 scrollbar-thin" role="tablist" aria-label="Unit families">
             <span className="text-xs font-bold text-[var(--text2)] mr-1 whitespace-nowrap">Filter Units:</span>
             {unitFamilies.map(fam => (
               <button
@@ -442,7 +1115,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 role="tab"
                 aria-selected={unitFamily === fam.id}
                 onClick={() => handleUnitFamilyChange(fam.id)}
-                className={`btn-chip text-xs py-1 px-2.5 transition-all whitespace-nowrap ${
+                className={`btn-chip text-xs py-2 px-3 min-h-[44px] flex items-center transition-all whitespace-nowrap ${
                   unitFamily === fam.id ? 'active font-bold' : ''
                 }`}
               >
@@ -463,7 +1136,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               <div className="grid grid-cols-3 gap-1.5">
                 {cats.slice(0, showAllCats ? cats.length : 9).map(c => (
                   <button key={c.id} onClick={() => { setCatId(c.id); setChainMode(false); setChainResult(null); setBatchMode(false) }}
-                    className={`px-2 py-2.5 rounded-xl text-xs font-medium transition-all flex flex-col items-center gap-1 interact-lift ${
+                    className={`px-2 py-2.5 min-h-[50px] rounded-xl text-xs font-medium transition-all flex flex-col items-center justify-center gap-1 interact-lift ${
                       catId === c.id
                         ? 'text-white shadow-md'
                         : 'glass opacity-60 hover:opacity-100'
@@ -479,7 +1152,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               </div>
               {cats.length > 9 && (
                 <button onClick={() => setShowAllCats(!showAllCats)}
-                  className="btn-secondary w-full mt-1.5 text-xs text-center py-1.5 font-medium">
+                  className="btn-secondary w-full mt-1.5 text-xs text-center py-2.5 min-h-[44px] flex items-center justify-center font-medium">
                   {showAllCats ? '▲ Show Less' : `▼ See All Categories (${cats.length})`}
                 </button>
               )}
@@ -519,14 +1192,14 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
           {/* Chain selector (when chain mode is off) */}
           {mode !== 'fast' && !chainMode && (
-            <div className="flex gap-1 overflow-x-auto py-1">
+            <div className={`flex gap-1 overflow-x-auto py-1 max-w-full min-w-0 scrollbar-thin ${compactOnMobile ? 'hidden sm:flex' : ''}`}>
               <button onClick={() => autoSuggestChain()}
-                className="btn-chip text-xs flex items-center gap-1 shrink-0">
+                className="btn-chip text-xs flex items-center gap-1.5 shrink-0 min-h-[44px] py-2 px-3">
                 <span aria-hidden="true">⛓</span> Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
               </button>
               {chains.map(chain => (
                 <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
-                  className="btn-chip text-xs shrink-0">
+                  className="btn-chip text-xs shrink-0 min-h-[44px] flex items-center py-2 px-3">
                   <span aria-hidden="true">{chain.icon}</span> {chain.label}
                 </button>
               ))}
@@ -538,7 +1211,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* Chain result */}
       {chainMode && chainResult && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-xl p-3 space-y-2 border-l-4" style={{ borderLeftColor: 'var(--accent)' }}>
+          className="glass rounded-xl p-3 space-y-2 border-l-4" style={{ borderLeftColor: 'var(--accent-focal)' }}>
           <div className="text-xs font-semibold uppercase tracking-wide opacity-60">Chain Result</div>
           {chainResult.map((link, i) => (
             <div key={i} className="flex items-center gap-2 text-sm">
@@ -575,7 +1248,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         const fu = cat?.un.find(u => u.id === fromUnit)
         const tu = cat?.un.find(u => u.id === toUnit)
         return (
-          <div className="flex items-center gap-1.5 text-xs text-[var(--text2)] mb-1" role="group" aria-label="Conversion category and units">
+          <div className={`flex items-center gap-1.5 text-xs text-[var(--text2)] mb-1 ${compactOnMobile ? 'hidden sm:flex' : ''}`} role="group" aria-label="Conversion category and units">
             <span className="font-semibold text-[var(--primary)]">{cat?.lb}</span>
             <span aria-hidden="true" className="text-[var(--text2)]">➔</span>
             <span>{fu?.lb || fromUnit}</span>
@@ -667,13 +1340,13 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
           <select value={fromUnit} onChange={e => setFromUnit(e.target.value)}
             aria-label="Source unit"
-            className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
+            className="p-3 min-h-[52px] rounded-xl border-2 border-[var(--border-control)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px] max-w-[130px] xs:max-w-[160px] sm:max-w-none">
             {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
 
         {/* Quick numeric adjustment steppers */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+        <div className={`flex flex-wrap items-center gap-1.5 pt-0.5 ${compactOnMobile ? 'hidden sm:flex' : ''}`}>
           <span className="text-[11px] font-bold text-[var(--text2)] mr-1">Step:</span>
           {[
             { label: '-10', fn: () => setFromVal(prev => String(Math.max(0, (parseSmart(prev) || 0) - 10))) },
@@ -689,7 +1362,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               key={st.label}
               type="button"
               onClick={st.fn}
-              className="btn-chip text-[11px] py-0.5 px-2 font-mono hover:text-[var(--primary)]"
+              className="btn-chip text-[11px] py-2 px-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center font-mono hover:text-[var(--link-text)]"
             >
               {st.label}
             </button>
@@ -722,38 +1395,38 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           )
         })()}
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <ConversionStreaks compact />
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center flex-wrap">
           <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
             animate={{ rotate: swapRotation }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             aria-label="Swap source and target units"
-            className="w-9 h-9 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] interact-lift"><span aria-hidden="true">⇅</span></motion.button>
+            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] interact-lift"><span aria-hidden="true">⇅</span></motion.button>
           {mode !== 'fast' && (
             <>
               <button onClick={() => setFrac(!frac)}
                 aria-label="Toggle fraction display"
                 aria-pressed={frac}
-                className={`btn-chip text-xs rounded-full ${frac ? 'active' : ''}`}>frac</button>
+                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${frac ? 'active' : ''}`}>frac</button>
               <button onClick={() => setSci(!sci)}
                 aria-label="Toggle scientific notation"
                 aria-pressed={sci}
-                className={`btn-chip text-xs rounded-full ${sci ? 'active' : ''}`}>sci</button>
+                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${sci ? 'active' : ''}`}>sci</button>
               <button onClick={() => setShowExplanation(!showExplanation)}
                 aria-label={showExplanation ? 'Hide calculation steps' : 'Show calculation steps'}
                 aria-expanded={showExplanation}
-                className={`btn-chip text-xs rounded-full ${showExplanation ? 'active' : ''}`}>
+                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${showExplanation ? 'active' : ''}`}>
                 <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
               </button>
               <button onClick={() => setBatchMode(!batchMode)}
                 aria-label="Toggle batch conversion mode"
                 aria-pressed={batchMode}
-                className={`btn-chip text-xs rounded-full ${batchMode ? 'active' : ''}`}>
+                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${batchMode ? 'active' : ''}`}>
                 <span aria-hidden="true">📋</span> Batch
               </button>
               <button onClick={() => setShowAIExplain(!showAIExplain)}
-                className={`btn-chip text-xs rounded-full ${showAIExplain ? 'active' : ''}`}
+                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${showAIExplain ? 'active' : ''}`}
                 aria-label="AI explain conversion">
                 <span aria-hidden="true">🤖</span> AI
               </button>
@@ -777,7 +1450,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     : 'border-[var(--border)]'
               } ${pulseKey > 0 ? 'result-pulse' : ''}`}
               style={{ borderLeftColor: cat?.cl || 'var(--primary)' }}
-              onClick={copyResult}
+              onClick={() => copyResult()}
               draggable={result !== null}
               onDragStart={e => {
                 if (result !== null) {
@@ -825,16 +1498,16 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               </div>
             )}
 
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-within:opacity-100 transition-all duration-200">
+            <div className={`absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1 transition-all duration-200 ${compactOnMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-within:opacity-100'}`}>
               {result !== null && (
                 <>
                   <button onClick={shareResult}
-                    className="share-btn btn-icon w-8 h-8 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs"
+                    className="share-btn btn-icon w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs flex items-center justify-center"
                     aria-label="Share result">
                     📤
                   </button>
-                  <button onClick={copyResult}
-                    className="btn-icon w-8 h-8 rounded-xl bg-[var(--primary)] text-white text-xs shadow-sm"
+                  <button onClick={() => copyResult()}
+                    className="btn-icon w-11 h-11 min-w-[44px] min-h-[44px] rounded-xl bg-[var(--primary)] text-white text-xs shadow-sm flex items-center justify-center"
                     aria-label="Copy result">
                     {copyBtnIcon}
                   </button>
@@ -1119,7 +1792,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         <div className="flex gap-1.5 flex-wrap">
           {quickValues.map(v => (
             <button key={v} onClick={() => setFromVal(String(v))}
-              className="btn-chip text-xs">
+              className="btn-chip text-xs min-h-[44px] min-w-[44px] px-3 flex items-center justify-center">
               {v < 1 ? String(v) : v >= 1e6 ? '1,000,000' : v >= 1e3 ? '1,000' : String(v)}
             </button>
           ))}
@@ -1128,7 +1801,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {/* Precision */}
       {mode !== 'fast' && !chainMode && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 min-h-[44px]">
           <label htmlFor="precision-slider" className="text-xs text-[var(--text2)] opacity-80">Precision: {prec}</label>
           <input
             id="precision-slider"
@@ -1141,7 +1814,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             aria-valuemin={0}
             aria-valuemax={12}
             aria-valuenow={prec}
-            className="flex-1 accent-[var(--primary)]"
+            className="flex-1 accent-[var(--primary)] h-11 cursor-pointer"
           />
         </div>
       )}

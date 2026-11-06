@@ -38,7 +38,7 @@ export default function AIQuickActions({ categoryId, result, onRepeatBatch, onOp
       <span className="text-xs opacity-50 uppercase tracking-wider mr-0.5">Actions</span>
       {actions.map((a, i) => (
         <button key={i} onClick={a.onClick}
-          className="btn-chip text-xs gap-1">
+          className="btn-chip text-xs gap-1 min-h-[44px] min-w-[44px] px-3 flex items-center justify-center">
           <span aria-hidden="true">{a.icon}</span>
           {a.label}
         </button>

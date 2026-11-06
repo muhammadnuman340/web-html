@@ -11,7 +11,7 @@ export interface CategoryContent {
 
 export const categoryContent: Record<string, CategoryContent> = {
   length: {
-    title: 'Length Converter (Decimal & Fractional) — Instant NIST Chart | Omega',
+    title: 'Length Converter — Metric, Imperial & Fractional Inches',
     metaDesc: 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.',
     h1: 'Length Precision Converter & Architectural Scale',
     intro: 'Convert between any length units instantly — from nanometers to parsecs. Supports metric, imperial, architectural tape fractions (1/64"), and astronomical units. Meets NIST SP 811 and the 1959 International Yard Agreement standards. Natural language phrases like "5 feet 10 inches in cm" and compound expressions are handled automatically.',
@@ -69,7 +69,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
   area: {
-    title: 'Area Converter — Square Meters, Acres, Hectares, Square Feet & More',
+    title: 'Area Converter — Square Meters, Acres, Hectares & Square Feet',
     metaDesc: 'Free online area converter. Convert between square meters, square feet, acres, hectares, square kilometers, and 12+ area units. Perfect for real estate & land.',
     h1: 'Area Conversion',
     intro: 'Convert between area units for real estate, construction, agriculture, and science. Supports square meters (m²), square feet (ft²), square kilometers (km²), acres (ac), hectares (ha), square inches (in²), square yards (yd²), square miles (mi²), and scientific units like barns.',
@@ -298,7 +298,7 @@ export const categoryContent: Record<string, CategoryContent> = {
   },
   acceleration: {
     title: 'Acceleration Converter — m/s², G-Force, ft/s² & More',
-    metaDesc: 'Convert acceleration units instantly: meters per second squared (m/s²), standard gravity (g-force), feet per second squared (ft/s²), and Gal. Free online tool for physics and engineering.',
+    metaDesc: 'Convert acceleration units: m/s², g-force, ft/s² and Gal. Free online converter for physics and engineering, with formulas and charts.',
     h1: 'Acceleration Conversion',
     intro: 'Convert between linear acceleration and gravitational acceleration units. Supports meters per second squared (m/s²), standard gravitational acceleration (g-force, 9.80665 m/s²), feet per second squared (ft/s²), and Galileo (Gal). Essential for physics students, automotive engineers, and aerospace calculations.',
     popularPairs: [
@@ -397,7 +397,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
   cooking: {
-    title: 'Cooking Converter — Cups, Tablespoons, Teaspoons, mL & Fluid Ounces',
+    title: 'Cooking Converter — Cups, Tablespoons, Teaspoons & mL',
     metaDesc: 'Free online kitchen and cooking converter. Easily convert cups, tablespoons, teaspoons, fluid ounces, milliliters, dashes, and pinches for perfect recipes.',
     h1: 'Kitchen & Cooking Conversion',
     intro: 'Convert culinary volume measurements between US recipe standards and metric kitchen measures: cups, tablespoons (tbsp), teaspoons (tsp), fluid ounces (fl oz), milliliters (mL), pinches, and dashes. Perfect for baking, doubling dinner recipes, and converting international cookbooks.',
@@ -431,7 +431,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
   astronomy: {
-    title: 'Astronomy Distance & Mass Converter — Light Years, AU, Parsecs, Solar Masses',
+    title: 'Astronomy Converter — Light Years, AU, Parsecs & Solar Masses',
     metaDesc: 'Convert cosmic distances and stellar masses: Astronomical Units (AU), Light Years, Parsecs, Solar Masses, and Earth Masses. Free astronomical calculator.',
     h1: 'Astronomical Units Conversion',
     intro: 'Convert cosmic scale distances and celestial masses: Astronomical Units (AU, distance from Earth to Sun), Light Years (distance light travels in a Julian year), Parsecs (pc), Solar Mass (mass of our Sun), and Earth Mass. Created for stargazers, astrophysics enthusiasts, and planetary science.',

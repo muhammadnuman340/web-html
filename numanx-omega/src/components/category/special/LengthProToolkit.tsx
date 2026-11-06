@@ -64,8 +64,8 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
 
       {/* 1. Shop-Floor Fractional Readout + Blueprint Scale Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2">
-          <div className="flex items-center justify-between">
+        <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2 min-w-0 max-w-full">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-1.5">
               <span aria-hidden="true">📐</span>
               <span>Tape Measure Fractional Snap</span>
@@ -107,8 +107,8 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
         </div>
 
         {/* Architectural Scale Multiplier */}
-        <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2">
-          <div className="flex items-center justify-between">
+        <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2 min-w-0 max-w-full">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-1.5">
               <span aria-hidden="true">🏗️</span>
               <span>Blueprint & Model Scale ({`1:${scaleRatio}`})</span>

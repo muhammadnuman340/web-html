@@ -16,6 +16,7 @@ import type { CategoryDef, UnitDef } from '../types'
 import { convert, convertTemp, convertFuel } from '../engine/converter'
 import { fmt, cleanFloat } from '../utils/numbers'
 import { categoryContent } from '../engine/categoryContent'
+import { unitSymbol, unitName, unitLabel } from '../engine/unitSymbols'
 
 export function cleanSlug(s: string): string {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
@@ -63,7 +64,7 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   // Acceleration
   'acceleration:m-s': 'mps2',
   'acceleration:g-force': 'gforce',
-  'acceleration:ft-s': 'mps2',
+  'acceleration:ft-s': 'ftps2',
 
   // Mass
   'us-ton': 'sh tn',
@@ -71,7 +72,7 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   'metric-ton': 't',
 
   // Power / Energy
-  'btu-h': 'W',
+  'btu-h': 'BTUh',
   'calories': 'cal',
   'calorie': 'cal',
   'joules': 'J',
@@ -93,10 +94,10 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   'lb-ft': 'lbft3',
 
   // Force
-  'kn': 'N',
+  'force:kn': 'kN',
 
   // Frequency
-  'rpm': 'Hz',
+  'rpm': 'rpm',
 
   // Angle
   'degrees': 'deg',
@@ -107,7 +108,7 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   'gradian': 'grad',
   'arcminutes': 'arcmin',
   'arcminute': 'arcmin',
-  'mrad': 'rad',
+  'mrad': 'mrad',
 
   // Data
   'bits': 'bit',
@@ -865,6 +866,12 @@ export function getPairEditorial(
   u2: UnitDef,
   pairParam: string,
 ): PairEditorialContent {
+  const s1 = unitSymbol(u1, cat.id)
+  const s2 = unitSymbol(u2, cat.id)
+  const n1 = unitName(u1, cat.id)
+  const n2 = unitName(u2, cat.id)
+  const l1 = unitLabel(u1, cat.id)
+  const l2 = unitLabel(u2, cat.id)
   const metrology = CATEGORY_METROLOGY[cat.id] || {
     dimension: `${cat.lb} measurement`,
     siBase: u1.id,
@@ -919,27 +926,35 @@ export function getPairEditorial(
       calculationRule = `To convert Fahrenheit to Kelvin, subtract 32 from the Fahrenheit value, multiply by 5/9, and add 273.15.`
       inverseSummary = `1 K equals approximately -457.87 °F. Formula: °F = (K - 273.15) × 9/5 + 32.`
     } else {
-      formulaDisplay = `${u2.id} = formula(${u1.id})`
-      summary = `1 ${u1.lb} (${u1.id}) corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${u2.lb} (${u2.id}).`
-      calculationRule = `To convert from ${u1.lb} to ${u2.lb}, apply the thermodynamic conversion formula.`
-      inverseSummary = `1 ${u2.lb} (${u2.id}) corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ''} ${u1.lb} (${u1.id}).`
+      formulaDisplay = `${s2} = formula(${s1})`
+      summary = `1 ${l1} corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ''} ${l2}.`
+      calculationRule = `To convert from ${n1} to ${n2}, apply the thermodynamic conversion formula.`
+      inverseSummary = `1 ${l2} corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ''} ${l1}.`
     }
   } else if (isReciprocalFuel) {
     if ((u1.id === 'mpgUS' && u2.id === 'L100km') || (u1.id === 'L100km' && u2.id === 'mpgUS')) {
       formulaDisplay = 'L/100km ≈ 235.215 ÷ MPG (US)'
-      summary = `1 MPG (US) equals approximately 235.215 L/100km (reciprocal factor: 100 × 3.785411784 ÷ 1.609344 ÷ MPG). This relationship is reciprocal (inverse).`
+      summary = `1 MPG (US) equals approximately 235.215 L/100km. Formula: L/100km ≈ 235.215 ÷ MPG (US), where 235.215 = 100 × 3.785411784 ÷ 1.609344.`
       calculationRule = `To convert between MPG (US) and L/100km, divide 235.215 by the known value (L/100km ≈ 235.215 ÷ MPG). Note that 235.215 is a rounded constant.`
       inverseSummary = `1 L/100km equals approximately 235.215 MPG (US). Formula: MPG ≈ 235.215 ÷ (L/100km).`
     } else if ((u1.id === 'mpgUK' && u2.id === 'L100km') || (u1.id === 'L100km' && u2.id === 'mpgUK')) {
       formulaDisplay = 'L/100km ≈ 282.481 ÷ MPG (UK)'
-      summary = `1 MPG (UK) equals approximately 282.481 L/100km (reciprocal factor: 100 × 4.54609 ÷ 1.609344 ÷ MPG). This relationship is reciprocal (inverse).`
+      summary = `1 MPG (UK) equals approximately 282.481 L/100km. Formula: L/100km ≈ 282.481 ÷ MPG (UK), where 282.481 = 100 × 4.54609 ÷ 1.609344.`
       calculationRule = `To convert between MPG (UK) and L/100km, divide 282.481 by the known value (L/100km ≈ 282.481 ÷ MPG). Note that 282.481 is a rounded constant.`
       inverseSummary = `1 L/100km equals approximately 282.481 MPG (UK). Formula: MPG ≈ 282.481 ÷ (L/100km).`
     } else {
       formulaDisplay = 'L/100km = 100 ÷ km/L'
-      summary = `1 km/L equals exactly 100 L/100km (exact formula: L/100km = 100 ÷ km/L). This relationship is reciprocal (inverse).`
+      summary = `1 km/L equals exactly 100 L/100km. Formula: L/100km = 100 ÷ km/L.`
       calculationRule = `To convert between km/L and L/100km, divide 100 by the known value (L/100km = 100 ÷ km/L).`
       inverseSummary = `1 L/100km equals exactly 100 km/L. Formula: km/L = 100 ÷ (L/100km).`
+    }
+    // The texts above are written MPG/km/L → L/100km; flip them for L/100km → X pages
+    if (u1.id === 'L100km') {
+      ;[summary, inverseSummary] = [inverseSummary, summary]
+      const [lhs, rhs] = formulaDisplay.split(/ [≈=] /)
+      const op = formulaDisplay.includes('≈') ? '≈' : '='
+      const [constant, divisor] = rhs.split(' ÷ ')
+      formulaDisplay = `${divisor} ${op} ${constant} ÷ ${lhs}`
     }
   } else {
     // Linear
@@ -949,37 +964,37 @@ export function getPairEditorial(
     const isInvExact = inverseUnitRatio !== null && Math.abs(Number(invFmt) - inverseUnitRatio) < 1e-12
 
     formulaDisplay = isExact
-      ? `${u2.id} = ${u1.id} × ${unitRatio !== null ? fmt(unitRatio, 8) : ''}`
-      : `${u2.id} ≈ ${u1.id} × ${unitRatio !== null ? fmt(unitRatio, 8) : ''}`
+      ? `${s2} = ${s1} × ${unitRatio !== null ? fmt(unitRatio, 8) : ''}`
+      : `${s2} ≈ ${s1} × ${unitRatio !== null ? fmt(unitRatio, 8) : ''}`
 
     summary = isExact
-      ? `1 ${u1.lb} (${u1.id}) equals exactly ${rFmt} ${u2.lb} (${u2.id}).`
-      : `1 ${u1.lb} (${u1.id}) equals approximately ${rFmt} ${u2.lb} (${u2.id}).`
+      ? `1 ${l1} equals exactly ${rFmt} ${l2}.`
+      : `1 ${l1} equals approximately ${rFmt} ${l2}.`
 
     calculationRule = isExact
-      ? `To convert from ${u1.lb} to ${u2.lb}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).`
-      : `To convert from ${u1.lb} to ${u2.lb}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`
+      ? `To convert from ${n1} to ${n2}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).`
+      : `To convert from ${n1} to ${n2}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`
 
     inverseSummary = isInvExact
-      ? `1 ${u2.lb} (${u2.id}) equals exactly ${invFmt} ${u1.lb} (${u1.id}). Formula: ${u1.id} = ${u2.id} × ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ''}.`
-      : `1 ${u2.lb} (${u2.id}) equals approximately ${invFmt} ${u1.lb} (${u1.id}). Formula: ${u1.id} ≈ ${u2.id} × ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ''}.`
+      ? `1 ${l2} equals exactly ${invFmt} ${l1}. Formula: ${s1} = ${s2} × ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ''}.`
+      : `1 ${l2} equals approximately ${invFmt} ${l1}. Formula: ${s1} ≈ ${s2} × ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ''}.`
   }
 
   // Explanation Paragraphs
-  const explanationHeading = `How ${u1.lb} (${u1.id}) and ${u2.lb} (${u2.id}) Relate`
-  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${u1.lb} (${u1.id}) and ${u2.lb} (${u2.id}) originate from ${metrology.systems}. ${metrology.contextNote}`
+  const explanationHeading = `How ${l1} and ${l2} Relate`
+  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${l1} and ${l2} originate from ${metrology.systems}. ${metrology.contextNote}`
   const p2 = isTemp
-    ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${u1.lb} and ${u2.lb} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.`
+    ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${n1} and ${n2} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.`
     : isReciprocalFuel
-    ? `Fuel economy units like ${u1.id} and ${u2.id} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.`
-    : `Because both ${u1.lb} and ${u2.lb} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ''}) guarantees zero precision drift across mathematical calculations.`
+    ? `Fuel economy units like ${s1} and ${s2} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.`
+    : `Because both ${n1} and ${n2} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ''}) guarantees zero precision drift across mathematical calculations.`
 
   // Practical Use Cases
   const pairKey = `${cat.id}:${pairParam}`
   const specificUseCases = PAIR_USE_CASES[pairKey] || [
-    { domain: `Engineering & Technical Specifications`, context: `Converting ${u1.lb} measurements to ${u2.lb} to align design drawings and component tolerances with global partner standards.` },
-    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${u1.id} records and domestic ${u2.id} systems.` },
-    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${u1.lb} into standard SI and reporting units.` },
+    { domain: `Engineering & Technical Specifications`, context: `Converting ${n1} measurements to ${n2} to align design drawings and component tolerances with global partner standards.` },
+    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${s1} records and domestic ${s2} systems.` },
+    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${n1} into standard SI and reporting units.` },
   ]
 
   // Reciprocal Canonical Pair Resolution
@@ -999,9 +1014,9 @@ export function getPairEditorial(
     ? {
         hasCanonicalPair: true,
         url: `/convert/${cat.id}/${canonicalReverseSlug}`,
-        anchorText: `Convert ${u2.lb} to ${u1.lb} (${u2.id} to ${u1.id})`,
+        anchorText: `Convert ${n2} to ${n1} (${s2} to ${s1})`,
         badgeText: 'Reverse Pair Available',
-        description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${u2.lb} to ${u1.lb} converter.`,
+        description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${n2} to ${n1} converter.`,
       }
     : {
         hasCanonicalPair: false,
@@ -1012,7 +1027,7 @@ export function getPairEditorial(
       }
 
   // Worked Example Calculation for FAQ
-  const workedExampleQuestion = `What is an example calculation converting ${u1.lb} to ${u2.lb}?`
+  const workedExampleQuestion = `What is an example calculation converting ${n1} to ${n2}?`
   let workedExampleAnswer: string
 
   if (isTemp) {
@@ -1027,7 +1042,7 @@ export function getPairEditorial(
     } else {
       const sampleVal = 20
       const sampleRes = convertTemp(sampleVal, u1.id, u2.id)
-      workedExampleAnswer = `To convert ${sampleVal} ${u1.id} to ${u2.id}: apply the scale formula to calculate ${sampleVal} ${u1.id} = ${cleanFloat(sampleRes, 4)} ${u2.id}.`
+      workedExampleAnswer = `To convert ${sampleVal} ${s1} to ${s2}: apply the scale formula to calculate ${sampleVal} ${s1} = ${cleanFloat(sampleRes, 4)} ${s2}.`
     }
   } else if (isReciprocalFuel) {
     if (u1.id === 'mpgUS' && u2.id === 'L100km') {
@@ -1037,25 +1052,25 @@ export function getPairEditorial(
     } else if (u1.id === 'kmL' && u2.id === 'L100km') {
       workedExampleAnswer = `To convert 15 km/L to L/100km: divide 100 by 15, which yields 6.67 L/100km (100 ÷ 15 = 6.67 L/100km).`
     } else {
-      workedExampleAnswer = `To convert 10 ${u1.id} to ${u2.id}: apply the reciprocal formula to calculate 10 ${u1.id} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id)!, 4) : ''} ${u2.id}.`
+      workedExampleAnswer = `To convert 10 ${s1} to ${s2}: apply the reciprocal formula to calculate 10 ${s1} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id)!, 4) : ''} ${s2}.`
     }
   } else {
     const sampleVal = 10
     const sampleRes = convert(sampleVal, cat.id, u1.id, u2.id)
     const isSampleExact = sampleRes !== null && Math.abs(Number(fmt(sampleRes, 4)) - sampleRes) < 1e-12
     workedExampleAnswer = isSampleExact
-      ? `To convert 10 ${u1.lb} to ${u2.lb}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ''} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ''} ${u2.lb} (${u2.id}).`
-      : `To convert 10 ${u1.lb} to ${u2.lb}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ''} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ''} ${u2.lb} (${u2.id}).`
+      ? `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ''} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ''} ${l2}.`
+      : `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ''} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ''} ${l2}.`
   }
 
   // Enhanced Pair-Specific FAQs with 100% Schema Parity
   const faqs: PairEditorialFaq[] = [
     {
-      question: isTemp ? `What is 1 ${u1.lb} in ${u2.lb}?` : `How many ${u2.lb} in 1 ${u1.lb}?`,
+      question: isTemp ? `What is 1 ${n1} in ${n2}?` : `How many ${n2} in 1 ${n1}?`,
       answer: `${summary} ${inverseSummary}`,
     },
     {
-      question: `How to convert ${u1.lb} to ${u2.lb}?`,
+      question: `How to convert ${n1} to ${n2}?`,
       answer: `${calculationRule} Mathematical formula: ${formulaDisplay}.`,
     },
     {
@@ -1063,18 +1078,18 @@ export function getPairEditorial(
       answer: workedExampleAnswer,
     },
     {
-      question: `How to convert back from ${u2.lb} to ${u1.lb}?`,
+      question: `How to convert back from ${n2} to ${n1}?`,
       answer: isTemp
-        ? `To convert from ${u2.lb} to ${u1.lb}, reverse the calculation formula: ${inverseSummary}`
+        ? `To convert from ${n2} to ${n1}, reverse the calculation formula: ${inverseSummary}`
         : isReciprocalFuel
-        ? `Because fuel economy conversions between ${u1.id} and ${u2.id} are reciprocal, divide the exact conversion constant by your ${u2.id} value to get ${u1.id}.`
-        : `To convert from ${u2.lb} to ${u1.lb}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ''} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ''}). Formula: ${u1.id} = ${u2.id} × ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ''}.`,
+        ? `Because fuel economy conversions between ${s1} and ${s2} are reciprocal, divide the exact conversion constant by your ${s2} value to get ${s1}.`
+        : `To convert from ${n2} to ${n1}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ''} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ''}). Formula: ${s1} = ${s2} × ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ''}.`,
     },
   ]
 
   return {
     directAnswer: {
-      heading: `Direct Answer: 1 ${u1.id} to ${u2.id}`,
+      heading: `Direct Answer: 1 ${s1} to ${s2}`,
       summary,
       formulaDisplay,
       inverseSummary,

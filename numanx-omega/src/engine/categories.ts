@@ -130,6 +130,7 @@ export const Categories: CategoryDef[] = [
     un: [
       { id: 'mps2', lb: 'm/s²', r: 1, s: 'M' },
       { id: 'gal', lb: 'Gal', r: 0.01, s: 'O' },
+      { id: 'ftps2', lb: 'ft/s²', r: 0.3048, s: 'I' },
       { id: 'gforce', lb: 'g-force', r: 9.80665, s: 'O' }
     ]
   },
@@ -137,8 +138,9 @@ export const Categories: CategoryDef[] = [
     id: 'force', lb: 'Force', ic: '💪', cl: '#e91e63',
     un: [
       { id: 'N', lb: 'Newton', r: 1, s: 'M' },
+      { id: 'kN', lb: 'Kilonewton', r: 1e3, s: 'M' },
       { id: 'dyn', lb: 'Dyne', r: 1e-5, s: 'M' },
-      { id: 'lbf', lb: 'Pound-force', r: 4.44822, s: 'I' },
+      { id: 'lbf', lb: 'Pound-force', r: 4.4482216152605, s: 'I' },
       { id: 'kgf', lb: 'Kilogram-force', r: 9.80665, s: 'M' }
     ]
   },
@@ -175,7 +177,8 @@ export const Categories: CategoryDef[] = [
       { id: 'W', lb: 'Watt', r: 1, s: 'M' },
       { id: 'kW', lb: 'Kilowatt', r: 1e3, s: 'M' },
       { id: 'MW', lb: 'Megawatt', r: 1e6, s: 'M' },
-      { id: 'hp', lb: 'Horsepower', r: 745.7, s: 'I' }
+      { id: 'hp', lb: 'Horsepower', r: 745.7, s: 'I' },
+      { id: 'BTUh', lb: 'BTU/h', r: 0.29307107, s: 'I' }
     ]
   },
   {
@@ -208,7 +211,8 @@ export const Categories: CategoryDef[] = [
       { id: 'kHz', lb: 'kHz', r: 1e3, s: 'M' },
       { id: 'MHz', lb: 'MHz', r: 1e6, s: 'M' },
       { id: 'GHz', lb: 'GHz', r: 1e9, s: 'M' },
-      { id: 'THz', lb: 'THz', r: 1e12, s: 'M' }
+      { id: 'THz', lb: 'THz', r: 1e12, s: 'M' },
+      { id: 'rpm', lb: 'RPM', r: 1 / 60, s: 'O' }
     ]
   },
   {
@@ -240,7 +244,8 @@ export const Categories: CategoryDef[] = [
     id: 'angle', lb: 'Angle', ic: '∡', cl: '#00bcd4',
     un: [
       { id: 'deg', lb: 'Degree', r: 1, s: 'M' },
-      { id: 'rad', lb: 'Radian', r: 57.2958, s: 'S' },
+      { id: 'rad', lb: 'Radian', r: 180 / Math.PI, s: 'S' },
+      { id: 'mrad', lb: 'Milliradian', r: 0.18 / Math.PI, s: 'S' },
       { id: 'grad', lb: 'Gradian', r: 0.9, s: 'O' },
       { id: 'arcmin', lb: 'Arcminute', r: 1 / 60, s: 'O' },
       { id: 'arcsec', lb: 'Arcsecond', r: 1 / 3600, s: 'O' }

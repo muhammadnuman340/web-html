@@ -14,7 +14,7 @@ export const guideContent: Record<string, {
 }> = {
   'lbs-to-kg': {
     title: 'Pounds to Kilograms Converter — Convert lb to kg Instantly',
-    metaDesc: 'Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.',
+    metaDesc: 'Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1–300 lb table, step-by-step guide and real-world examples.',
     h1: 'Pounds to Kilograms Converter (lb → kg)',
     slug: 'lbs-to-kg',
     intro: 'Converting pounds to kilograms is essential for fitness tracking, international travel, medical dosage calculations, and shipping. One pound equals exactly 0.45359237 kilograms. Our free converter handles the math instantly — type any value in pounds and get the exact kilogram equivalent with up to 12 decimal places of precision.',
@@ -69,7 +69,7 @@ export const guideContent: Record<string, {
   },
   'celsius-to-fahrenheit': {
     title: 'Celsius to Fahrenheit Converter — °C to °F Instantly',
-    metaDesc: 'Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40°C to 100°C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.',
+    metaDesc: 'Convert Celsius to Fahrenheit with °F = °C × 9/5 + 32. Free converter with a −40°C to 100°C reference table, step-by-step guide and examples.',
     h1: 'Celsius to Fahrenheit Converter (°C → °F)',
     slug: 'celsius-to-fahrenheit',
     intro: 'Converting Celsius to Fahrenheit is one of the most common temperature conversions used worldwide. Whether you are following a recipe from a European blog, checking weather forecasts, doing science homework, or traveling to the United States, knowing how to convert °C to °F is essential. The formula is simple: multiply by 9/5 and add 32.',
@@ -123,7 +123,7 @@ export const guideContent: Record<string, {
   },
   'meters-to-feet': {
     title: 'Meters to Feet Converter — Convert m to ft Instantly',
-    metaDesc: 'Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.',
+    metaDesc: 'Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1–100 m table, step-by-step guide and real-world examples.',
     h1: 'Meters to Feet Converter (m → ft)',
     slug: 'meters-to-feet',
     intro: 'Converting meters to feet is essential for construction, real estate, hiking, aviation, and understanding product dimensions. One meter equals approximately 3.28084 feet. Our converter handles any value — from millimeters to kilometers — with precision up to 12 decimal places. Type natural phrases like "5 meters in feet" and get instant results.',
@@ -171,7 +171,7 @@ export const guideContent: Record<string, {
   },
   'kg-to-lbs': {
     title: 'Kilograms to Pounds Converter — Convert kg to lb Instantly',
-    metaDesc: 'Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.',
+    metaDesc: 'Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1–150 kg table, step-by-step guide and real-world examples.',
     h1: 'Kilograms to Pounds Converter (kg → lb)',
     slug: 'kg-to-lbs',
     intro: 'Converting kilograms to pounds is essential for fitness tracking (especially with US equipment), international shipping, medical dosing, and understanding product weights. One kilogram equals exactly 2.20462 pounds. Our free converter handles any weight instantly — type any value in kg and get the exact pound equivalent.',
@@ -221,7 +221,7 @@ export const guideContent: Record<string, {
   },
   'fahrenheit-to-celsius': {
     title: 'Fahrenheit to Celsius Converter — °F to °C Instantly',
-    metaDesc: 'Convert Fahrenheit to Celsius instantly. Free online temperature converter with formula, reference table (-40°F to 212°F), step-by-step guide, and real-world examples. Perfect for travel and science.',
+    metaDesc: 'Convert Fahrenheit to Celsius with °C = (°F − 32) × 5/9. Free converter with a −40°F to 212°F reference table, step-by-step guide and examples.',
     h1: 'Fahrenheit to Celsius Converter (°F → °C)',
     slug: 'fahrenheit-to-celsius',
     intro: 'Converting Fahrenheit to Celsius is essential when traveling to countries using the metric system, following international recipes, studying science, or checking weather forecasts from Europe and Asia. The formula subtracts 32 from Fahrenheit, then multiplies by 5/9.',
@@ -271,7 +271,7 @@ export const guideContent: Record<string, {
   },
   'feet-to-meters': {
     title: 'Feet to Meters Converter — Convert ft to m Instantly',
-    metaDesc: 'Convert feet to meters instantly. Free online length converter with formula, conversion table (1-100 ft), step-by-step guide, and real-world examples. Essential for construction, real estate, and aviation.',
+    metaDesc: 'Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1–100 ft table, step-by-step guide and real-world examples.',
     h1: 'Feet to Meters Converter (ft → m)',
     slug: 'feet-to-meters',
     intro: 'Converting feet to meters is essential for international construction projects, real estate listings, aviation altitude readings, and understanding US product dimensions in metric units. One foot equals exactly 0.3048 meters. Our converter handles any value with precision and supports natural language input.',
