@@ -241,8 +241,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count remains the verified 146
-    assert.equal(entries.length, 146, `Expected exactly 146 sitemap entries, got ${entries.length}`)
+    // Verify count remains the verified 149
+    assert.equal(entries.length, 149, `Expected exactly 149 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {
@@ -419,12 +419,13 @@ describe('Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture', ()
     }
   })
 
-  it('verifies web font optimization and preconnect integrity', () => {
-    const indexPath = path.resolve(process.cwd(), 'index.html')
-    const indexContent = fs.readFileSync(indexPath, 'utf8')
-    assert.ok(indexContent.includes('rel="preconnect" href="https://fonts.googleapis.com"'), 'index.html must preconnect to Google Fonts')
-    assert.ok(indexContent.includes('rel="preconnect" href="https://fonts.gstatic.com" crossorigin'), 'index.html must preconnect to gstatic with crossorigin')
-    assert.ok(indexContent.includes('display=swap'), 'Google Fonts must include display=swap')
+  it('verifies web fonts are self-hosted (no visitor requests to Google Fonts)', () => {
+    const indexContent = fs.readFileSync(path.resolve(process.cwd(), 'index.html'), 'utf8')
+    assert.ok(!indexContent.includes('fonts.googleapis.com'), 'index.html must not load Google Fonts')
+    assert.ok(!indexContent.includes('fonts.gstatic.com'), 'index.html must not preconnect to gstatic')
+    const mainContent = fs.readFileSync(path.resolve(process.cwd(), 'src/main.tsx'), 'utf8')
+    assert.ok(mainContent.includes("import '@fontsource-variable/inter'"), 'main.tsx must import the self-hosted Inter font')
+    assert.ok(mainContent.includes("import '@fontsource-variable/jetbrains-mono'"), 'main.tsx must import the self-hosted JetBrains Mono font')
   })
 })
 
@@ -468,9 +469,9 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     assert.ok(csp.includes('https://api.coingecko.com'), 'CSP connect-src must permit CoinGecko API')
     assert.ok(!csp.includes('connect-src *'), 'CSP connect-src must NOT permit wildcard *')
 
-    // Google Fonts integration
-    assert.ok(csp.includes('https://fonts.googleapis.com'), 'CSP style-src must permit Google Fonts stylesheet origin')
-    assert.ok(csp.includes('https://fonts.gstatic.com'), 'CSP font-src must permit Google Fonts woff2 origin')
+    // Fonts are self-hosted, so no third-party font origins are allowed
+    assert.ok(csp.includes("font-src 'self';"), "CSP font-src must be 'self' only")
+    assert.ok(!csp.includes('fonts.googleapis.com') && !csp.includes('fonts.gstatic.com'), 'CSP must not permit Google Fonts origins')
 
     // PWA & Service Worker
     assert.ok(csp.includes("worker-src 'self'"), "CSP must include worker-src 'self'")

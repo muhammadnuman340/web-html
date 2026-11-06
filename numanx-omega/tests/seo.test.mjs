@@ -160,6 +160,7 @@ var Categories = [
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
       { id: "gal", lb: "Gal", r: 0.01, s: "O" },
+      { id: "ftps2", lb: "ft/s\xB2", r: 0.3048, s: "I" },
       { id: "gforce", lb: "g-force", r: 9.80665, s: "O" }
     ]
   },
@@ -170,8 +171,9 @@ var Categories = [
     cl: "#e91e63",
     un: [
       { id: "N", lb: "Newton", r: 1, s: "M" },
+      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" },
       { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
-      { id: "lbf", lb: "Pound-force", r: 4.44822, s: "I" },
+      { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
       { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" }
     ]
   },
@@ -217,7 +219,8 @@ var Categories = [
       { id: "W", lb: "Watt", r: 1, s: "M" },
       { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
       { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
-      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" }
+      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
+      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" }
     ]
   },
   {
@@ -259,7 +262,8 @@ var Categories = [
       { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
       { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
       { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
-      { id: "THz", lb: "THz", r: 1e12, s: "M" }
+      { id: "THz", lb: "THz", r: 1e12, s: "M" },
+      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" }
     ]
   },
   {
@@ -300,7 +304,8 @@ var Categories = [
     cl: "#00bcd4",
     un: [
       { id: "deg", lb: "Degree", r: 1, s: "M" },
-      { id: "rad", lb: "Radian", r: 57.2958, s: "S" },
+      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" },
+      { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
       { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
       { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
       { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" }
@@ -441,7 +446,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path3 = "") {
@@ -477,7 +482,10 @@ var INDEXABILITY_POLICY = {
     "/health",
     "/blog",
     "/about",
-    "/sitemap"
+    "/sitemap",
+    "/privacy",
+    "/terms",
+    "/contact"
   ],
   noindex: [
     "/dashboard",
@@ -510,7 +518,7 @@ import path from "node:path";
 // src/engine/categoryContent.ts
 var categoryContent = {
   length: {
-    title: "Length Converter (Decimal & Fractional) \u2014 Instant NIST Chart | Omega",
+    title: "Length Converter \u2014 Metric, Imperial & Fractional Inches",
     metaDesc: 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.',
     h1: "Length Precision Converter & Architectural Scale",
     intro: 'Convert between any length units instantly \u2014 from nanometers to parsecs. Supports metric, imperial, architectural tape fractions (1/64"), and astronomical units. Meets NIST SP 811 and the 1959 International Yard Agreement standards. Natural language phrases like "5 feet 10 inches in cm" and compound expressions are handled automatically.',
@@ -568,7 +576,7 @@ var categoryContent = {
     ]
   },
   area: {
-    title: "Area Converter \u2014 Square Meters, Acres, Hectares, Square Feet & More",
+    title: "Area Converter \u2014 Square Meters, Acres, Hectares & Square Feet",
     metaDesc: "Free online area converter. Convert between square meters, square feet, acres, hectares, square kilometers, and 12+ area units. Perfect for real estate & land.",
     h1: "Area Conversion",
     intro: "Convert between area units for real estate, construction, agriculture, and science. Supports square meters (m\xB2), square feet (ft\xB2), square kilometers (km\xB2), acres (ac), hectares (ha), square inches (in\xB2), square yards (yd\xB2), square miles (mi\xB2), and scientific units like barns.",
@@ -797,7 +805,7 @@ var categoryContent = {
   },
   acceleration: {
     title: "Acceleration Converter \u2014 m/s\xB2, G-Force, ft/s\xB2 & More",
-    metaDesc: "Convert acceleration units instantly: meters per second squared (m/s\xB2), standard gravity (g-force), feet per second squared (ft/s\xB2), and Gal. Free online tool for physics and engineering.",
+    metaDesc: "Convert acceleration units: m/s\xB2, g-force, ft/s\xB2 and Gal. Free online converter for physics and engineering, with formulas and charts.",
     h1: "Acceleration Conversion",
     intro: "Convert between linear acceleration and gravitational acceleration units. Supports meters per second squared (m/s\xB2), standard gravitational acceleration (g-force, 9.80665 m/s\xB2), feet per second squared (ft/s\xB2), and Galileo (Gal). Essential for physics students, automotive engineers, and aerospace calculations.",
     popularPairs: [
@@ -896,7 +904,7 @@ var categoryContent = {
     ]
   },
   cooking: {
-    title: "Cooking Converter \u2014 Cups, Tablespoons, Teaspoons, mL & Fluid Ounces",
+    title: "Cooking Converter \u2014 Cups, Tablespoons, Teaspoons & mL",
     metaDesc: "Free online kitchen and cooking converter. Easily convert cups, tablespoons, teaspoons, fluid ounces, milliliters, dashes, and pinches for perfect recipes.",
     h1: "Kitchen & Cooking Conversion",
     intro: "Convert culinary volume measurements between US recipe standards and metric kitchen measures: cups, tablespoons (tbsp), teaspoons (tsp), fluid ounces (fl oz), milliliters (mL), pinches, and dashes. Perfect for baking, doubling dinner recipes, and converting international cookbooks.",
@@ -930,7 +938,7 @@ var categoryContent = {
     ]
   },
   astronomy: {
-    title: "Astronomy Distance & Mass Converter \u2014 Light Years, AU, Parsecs, Solar Masses",
+    title: "Astronomy Converter \u2014 Light Years, AU, Parsecs & Solar Masses",
     metaDesc: "Convert cosmic distances and stellar masses: Astronomical Units (AU), Light Years, Parsecs, Solar Masses, and Earth Masses. Free astronomical calculator.",
     h1: "Astronomical Units Conversion",
     intro: "Convert cosmic scale distances and celestial masses: Astronomical Units (AU, distance from Earth to Sun), Light Years (distance light travels in a Julian year), Parsecs (pc), Solar Mass (mass of our Sun), and Earth Mass. Created for stargazers, astrophysics enthusiasts, and planetary science.",
@@ -953,7 +961,7 @@ var categoryContent = {
 var guideContent = {
   "lbs-to-kg": {
     title: "Pounds to Kilograms Converter \u2014 Convert lb to kg Instantly",
-    metaDesc: "Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.",
+    metaDesc: "Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1\u2013300 lb table, step-by-step guide and real-world examples.",
     h1: "Pounds to Kilograms Converter (lb \u2192 kg)",
     slug: "lbs-to-kg",
     intro: "Converting pounds to kilograms is essential for fitness tracking, international travel, medical dosage calculations, and shipping. One pound equals exactly 0.45359237 kilograms. Our free converter handles the math instantly \u2014 type any value in pounds and get the exact kilogram equivalent with up to 12 decimal places of precision.",
@@ -1008,7 +1016,7 @@ var guideContent = {
   },
   "celsius-to-fahrenheit": {
     title: "Celsius to Fahrenheit Converter \u2014 \xB0C to \xB0F Instantly",
-    metaDesc: "Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40\xB0C to 100\xB0C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.",
+    metaDesc: "Convert Celsius to Fahrenheit with \xB0F = \xB0C \xD7 9/5 + 32. Free converter with a \u221240\xB0C to 100\xB0C reference table, step-by-step guide and examples.",
     h1: "Celsius to Fahrenheit Converter (\xB0C \u2192 \xB0F)",
     slug: "celsius-to-fahrenheit",
     intro: "Converting Celsius to Fahrenheit is one of the most common temperature conversions used worldwide. Whether you are following a recipe from a European blog, checking weather forecasts, doing science homework, or traveling to the United States, knowing how to convert \xB0C to \xB0F is essential. The formula is simple: multiply by 9/5 and add 32.",
@@ -1062,7 +1070,7 @@ var guideContent = {
   },
   "meters-to-feet": {
     title: "Meters to Feet Converter \u2014 Convert m to ft Instantly",
-    metaDesc: "Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.",
+    metaDesc: "Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1\u2013100 m table, step-by-step guide and real-world examples.",
     h1: "Meters to Feet Converter (m \u2192 ft)",
     slug: "meters-to-feet",
     intro: 'Converting meters to feet is essential for construction, real estate, hiking, aviation, and understanding product dimensions. One meter equals approximately 3.28084 feet. Our converter handles any value \u2014 from millimeters to kilometers \u2014 with precision up to 12 decimal places. Type natural phrases like "5 meters in feet" and get instant results.',
@@ -1110,7 +1118,7 @@ var guideContent = {
   },
   "kg-to-lbs": {
     title: "Kilograms to Pounds Converter \u2014 Convert kg to lb Instantly",
-    metaDesc: "Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.",
+    metaDesc: "Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1\u2013150 kg table, step-by-step guide and real-world examples.",
     h1: "Kilograms to Pounds Converter (kg \u2192 lb)",
     slug: "kg-to-lbs",
     intro: "Converting kilograms to pounds is essential for fitness tracking (especially with US equipment), international shipping, medical dosing, and understanding product weights. One kilogram equals exactly 2.20462 pounds. Our free converter handles any weight instantly \u2014 type any value in kg and get the exact pound equivalent.",
@@ -1160,7 +1168,7 @@ var guideContent = {
   },
   "fahrenheit-to-celsius": {
     title: "Fahrenheit to Celsius Converter \u2014 \xB0F to \xB0C Instantly",
-    metaDesc: "Convert Fahrenheit to Celsius instantly. Free online temperature converter with formula, reference table (-40\xB0F to 212\xB0F), step-by-step guide, and real-world examples. Perfect for travel and science.",
+    metaDesc: "Convert Fahrenheit to Celsius with \xB0C = (\xB0F \u2212 32) \xD7 5/9. Free converter with a \u221240\xB0F to 212\xB0F reference table, step-by-step guide and examples.",
     h1: "Fahrenheit to Celsius Converter (\xB0F \u2192 \xB0C)",
     slug: "fahrenheit-to-celsius",
     intro: "Converting Fahrenheit to Celsius is essential when traveling to countries using the metric system, following international recipes, studying science, or checking weather forecasts from Europe and Asia. The formula subtracts 32 from Fahrenheit, then multiplies by 5/9.",
@@ -1210,7 +1218,7 @@ var guideContent = {
   },
   "feet-to-meters": {
     title: "Feet to Meters Converter \u2014 Convert ft to m Instantly",
-    metaDesc: "Convert feet to meters instantly. Free online length converter with formula, conversion table (1-100 ft), step-by-step guide, and real-world examples. Essential for construction, real estate, and aviation.",
+    metaDesc: "Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1\u2013100 ft table, step-by-step guide and real-world examples.",
     h1: "Feet to Meters Converter (ft \u2192 m)",
     slug: "feet-to-meters",
     intro: "Converting feet to meters is essential for international construction projects, real estate listings, aviation altitude readings, and understanding US product dimensions in metric units. One foot equals exactly 0.3048 meters. Our converter handles any value with precision and supports natural language input.",
@@ -1313,6 +1321,7 @@ var BLOG_POSTS = [
   {
     slug: "fractional-inches-to-mm-best-practices",
     title: "Fractional Inches to Millimeters: Machinist & Woodworking Best Practices",
+    seoTitle: "Fractional Inches to mm: Machinist & Woodworking Guide",
     excerpt: "Everything you need to know about converting fractional inch drill bits and timber stock to metric with tolerance thresholds.",
     category: "Tutorials",
     date: "2025-01-10",
@@ -1356,6 +1365,7 @@ var BLOG_POSTS = [
   {
     slug: "metric-vs-imperial-engineering-guide",
     title: "Metric vs Imperial: The Ultimate Engineering & Scientific Comparison",
+    seoTitle: "Metric vs Imperial Units: Engineering Comparison",
     excerpt: "Explore the history, mathematical elegance, and costly historical failures that define the battle between SI and Customary units.",
     category: "Engineering",
     date: "2025-05-01",
@@ -1470,6 +1480,7 @@ var BLOG_POSTS = [
   {
     slug: "ai-powered-unit-conversions-in-2026",
     title: "AI-Powered Unit Conversions in 2026: Natural Language Calculations",
+    seoTitle: "AI Unit Conversions in 2026: Natural Language Math",
     excerpt: 'How modern neural parsers and LLM tool-calling engines translate ambiguous human prompts like "3 cups of milk in grams" into precise physical quantities.',
     category: "AI",
     date: "2026-01-05",
@@ -1531,6 +1542,9 @@ function generateSitemapEntries() {
   add("/blog", "0.7", "weekly");
   add("/about", "0.6", "monthly");
   add("/sitemap", "0.5", "weekly");
+  add("/contact", "0.4", "yearly");
+  add("/privacy", "0.3", "yearly");
+  add("/terms", "0.3", "yearly");
   const categories = getAllCategories();
   for (const cat of categories) {
     add(`/convert/${cat.id}`, "0.85", "weekly");
@@ -1589,6 +1603,9 @@ function run() {
   }
 }
 run();
+
+// src/types/index.ts
+var SystemLabels = { M: "Metric", I: "Imperial", S: "Scientific", O: "Other", C: "Custom" };
 
 // tests/seo.test.ts
 describe("SEO Architecture: Site Identity & Authoritative Origin", () => {
@@ -1754,5 +1771,40 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
         `Sitemap must not contain noindex URL: ${noindexUrl}`
       );
     }
+  });
+});
+describe("Phase 4 Step 4.3.3: SSG Mathematical Integrity & SI Classification Parity", () => {
+  it("prerendered category pages never contain mathematically false cross-dimensional ratios", () => {
+    const distConvert = path2.resolve(process.cwd(), "dist/convert");
+    if (!fs2.existsSync(distConvert)) return;
+    const forbiddenStatements = [
+      "1 kV = 1000 A",
+      "1 k\u03A9 = 1000 A",
+      "1 \xB5F = 0.000001 A",
+      "1 M\u2609 = 1 AU",
+      "1 M\u2295 = 0.000003 AU",
+      "1 tex = 1000 dtex",
+      "1 den = 9000 dtex"
+    ];
+    const checkDir = (dir) => {
+      for (const entry of fs2.readdirSync(dir, { withFileTypes: true })) {
+        const full = path2.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          checkDir(full);
+        } else if (entry.name.endsWith(".html")) {
+          const html = fs2.readFileSync(full, "utf8");
+          for (const stmt of forbiddenStatements) {
+            assert.ok(
+              !html.includes(stmt),
+              `Prerendered HTML file ${path2.relative(process.cwd(), full)} contains forbidden false mathematical statement: "${stmt}"`
+            );
+          }
+        }
+      }
+    };
+    checkDir(distConvert);
+  });
+  it('SystemLabels.S is designated as "Scientific" rather than "SI Base"', () => {
+    assert.equal(SystemLabels.S, "Scientific", 'Unit system "S" must be labeled "Scientific"');
   });
 });

@@ -164,6 +164,7 @@ var Categories = [
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
       { id: "gal", lb: "Gal", r: 0.01, s: "O" },
+      { id: "ftps2", lb: "ft/s\xB2", r: 0.3048, s: "I" },
       { id: "gforce", lb: "g-force", r: 9.80665, s: "O" }
     ]
   },
@@ -174,8 +175,9 @@ var Categories = [
     cl: "#e91e63",
     un: [
       { id: "N", lb: "Newton", r: 1, s: "M" },
+      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" },
       { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
-      { id: "lbf", lb: "Pound-force", r: 4.44822, s: "I" },
+      { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
       { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" }
     ]
   },
@@ -221,7 +223,8 @@ var Categories = [
       { id: "W", lb: "Watt", r: 1, s: "M" },
       { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
       { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
-      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" }
+      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
+      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" }
     ]
   },
   {
@@ -263,7 +266,8 @@ var Categories = [
       { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
       { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
       { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
-      { id: "THz", lb: "THz", r: 1e12, s: "M" }
+      { id: "THz", lb: "THz", r: 1e12, s: "M" },
+      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" }
     ]
   },
   {
@@ -304,7 +308,8 @@ var Categories = [
     cl: "#00bcd4",
     un: [
       { id: "deg", lb: "Degree", r: 1, s: "M" },
-      { id: "rad", lb: "Radian", r: 57.2958, s: "S" },
+      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" },
+      { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
       { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
       { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
       { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" }
@@ -445,7 +450,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path4 = "") {
@@ -481,7 +486,10 @@ var INDEXABILITY_POLICY = {
     "/health",
     "/blog",
     "/about",
-    "/sitemap"
+    "/sitemap",
+    "/privacy",
+    "/terms",
+    "/contact"
   ],
   noindex: [
     "/dashboard",
@@ -577,7 +585,7 @@ function convert(v, catId, fromId, toId) {
 // src/engine/categoryContent.ts
 var categoryContent = {
   length: {
-    title: "Length Converter (Decimal & Fractional) \u2014 Instant NIST Chart | Omega",
+    title: "Length Converter \u2014 Metric, Imperial & Fractional Inches",
     metaDesc: 'Precision length converter with architectural fractions (1/64"), compound feet & inches, machinist socket tolerances, and NIST SP 811 tables.',
     h1: "Length Precision Converter & Architectural Scale",
     intro: 'Convert between any length units instantly \u2014 from nanometers to parsecs. Supports metric, imperial, architectural tape fractions (1/64"), and astronomical units. Meets NIST SP 811 and the 1959 International Yard Agreement standards. Natural language phrases like "5 feet 10 inches in cm" and compound expressions are handled automatically.',
@@ -635,7 +643,7 @@ var categoryContent = {
     ]
   },
   area: {
-    title: "Area Converter \u2014 Square Meters, Acres, Hectares, Square Feet & More",
+    title: "Area Converter \u2014 Square Meters, Acres, Hectares & Square Feet",
     metaDesc: "Free online area converter. Convert between square meters, square feet, acres, hectares, square kilometers, and 12+ area units. Perfect for real estate & land.",
     h1: "Area Conversion",
     intro: "Convert between area units for real estate, construction, agriculture, and science. Supports square meters (m\xB2), square feet (ft\xB2), square kilometers (km\xB2), acres (ac), hectares (ha), square inches (in\xB2), square yards (yd\xB2), square miles (mi\xB2), and scientific units like barns.",
@@ -864,7 +872,7 @@ var categoryContent = {
   },
   acceleration: {
     title: "Acceleration Converter \u2014 m/s\xB2, G-Force, ft/s\xB2 & More",
-    metaDesc: "Convert acceleration units instantly: meters per second squared (m/s\xB2), standard gravity (g-force), feet per second squared (ft/s\xB2), and Gal. Free online tool for physics and engineering.",
+    metaDesc: "Convert acceleration units: m/s\xB2, g-force, ft/s\xB2 and Gal. Free online converter for physics and engineering, with formulas and charts.",
     h1: "Acceleration Conversion",
     intro: "Convert between linear acceleration and gravitational acceleration units. Supports meters per second squared (m/s\xB2), standard gravitational acceleration (g-force, 9.80665 m/s\xB2), feet per second squared (ft/s\xB2), and Galileo (Gal). Essential for physics students, automotive engineers, and aerospace calculations.",
     popularPairs: [
@@ -963,7 +971,7 @@ var categoryContent = {
     ]
   },
   cooking: {
-    title: "Cooking Converter \u2014 Cups, Tablespoons, Teaspoons, mL & Fluid Ounces",
+    title: "Cooking Converter \u2014 Cups, Tablespoons, Teaspoons & mL",
     metaDesc: "Free online kitchen and cooking converter. Easily convert cups, tablespoons, teaspoons, fluid ounces, milliliters, dashes, and pinches for perfect recipes.",
     h1: "Kitchen & Cooking Conversion",
     intro: "Convert culinary volume measurements between US recipe standards and metric kitchen measures: cups, tablespoons (tbsp), teaspoons (tsp), fluid ounces (fl oz), milliliters (mL), pinches, and dashes. Perfect for baking, doubling dinner recipes, and converting international cookbooks.",
@@ -997,7 +1005,7 @@ var categoryContent = {
     ]
   },
   astronomy: {
-    title: "Astronomy Distance & Mass Converter \u2014 Light Years, AU, Parsecs, Solar Masses",
+    title: "Astronomy Converter \u2014 Light Years, AU, Parsecs & Solar Masses",
     metaDesc: "Convert cosmic distances and stellar masses: Astronomical Units (AU), Light Years, Parsecs, Solar Masses, and Earth Masses. Free astronomical calculator.",
     h1: "Astronomical Units Conversion",
     intro: "Convert cosmic scale distances and celestial masses: Astronomical Units (AU, distance from Earth to Sun), Light Years (distance light travels in a Julian year), Parsecs (pc), Solar Mass (mass of our Sun), and Earth Mass. Created for stargazers, astrophysics enthusiasts, and planetary science.",
@@ -1020,7 +1028,7 @@ var categoryContent = {
 var guideContent = {
   "lbs-to-kg": {
     title: "Pounds to Kilograms Converter \u2014 Convert lb to kg Instantly",
-    metaDesc: "Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.",
+    metaDesc: "Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1\u2013300 lb table, step-by-step guide and real-world examples.",
     h1: "Pounds to Kilograms Converter (lb \u2192 kg)",
     slug: "lbs-to-kg",
     intro: "Converting pounds to kilograms is essential for fitness tracking, international travel, medical dosage calculations, and shipping. One pound equals exactly 0.45359237 kilograms. Our free converter handles the math instantly \u2014 type any value in pounds and get the exact kilogram equivalent with up to 12 decimal places of precision.",
@@ -1075,7 +1083,7 @@ var guideContent = {
   },
   "celsius-to-fahrenheit": {
     title: "Celsius to Fahrenheit Converter \u2014 \xB0C to \xB0F Instantly",
-    metaDesc: "Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40\xB0C to 100\xB0C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.",
+    metaDesc: "Convert Celsius to Fahrenheit with \xB0F = \xB0C \xD7 9/5 + 32. Free converter with a \u221240\xB0C to 100\xB0C reference table, step-by-step guide and examples.",
     h1: "Celsius to Fahrenheit Converter (\xB0C \u2192 \xB0F)",
     slug: "celsius-to-fahrenheit",
     intro: "Converting Celsius to Fahrenheit is one of the most common temperature conversions used worldwide. Whether you are following a recipe from a European blog, checking weather forecasts, doing science homework, or traveling to the United States, knowing how to convert \xB0C to \xB0F is essential. The formula is simple: multiply by 9/5 and add 32.",
@@ -1129,7 +1137,7 @@ var guideContent = {
   },
   "meters-to-feet": {
     title: "Meters to Feet Converter \u2014 Convert m to ft Instantly",
-    metaDesc: "Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.",
+    metaDesc: "Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1\u2013100 m table, step-by-step guide and real-world examples.",
     h1: "Meters to Feet Converter (m \u2192 ft)",
     slug: "meters-to-feet",
     intro: 'Converting meters to feet is essential for construction, real estate, hiking, aviation, and understanding product dimensions. One meter equals approximately 3.28084 feet. Our converter handles any value \u2014 from millimeters to kilometers \u2014 with precision up to 12 decimal places. Type natural phrases like "5 meters in feet" and get instant results.',
@@ -1177,7 +1185,7 @@ var guideContent = {
   },
   "kg-to-lbs": {
     title: "Kilograms to Pounds Converter \u2014 Convert kg to lb Instantly",
-    metaDesc: "Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.",
+    metaDesc: "Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1\u2013150 kg table, step-by-step guide and real-world examples.",
     h1: "Kilograms to Pounds Converter (kg \u2192 lb)",
     slug: "kg-to-lbs",
     intro: "Converting kilograms to pounds is essential for fitness tracking (especially with US equipment), international shipping, medical dosing, and understanding product weights. One kilogram equals exactly 2.20462 pounds. Our free converter handles any weight instantly \u2014 type any value in kg and get the exact pound equivalent.",
@@ -1227,7 +1235,7 @@ var guideContent = {
   },
   "fahrenheit-to-celsius": {
     title: "Fahrenheit to Celsius Converter \u2014 \xB0F to \xB0C Instantly",
-    metaDesc: "Convert Fahrenheit to Celsius instantly. Free online temperature converter with formula, reference table (-40\xB0F to 212\xB0F), step-by-step guide, and real-world examples. Perfect for travel and science.",
+    metaDesc: "Convert Fahrenheit to Celsius with \xB0C = (\xB0F \u2212 32) \xD7 5/9. Free converter with a \u221240\xB0F to 212\xB0F reference table, step-by-step guide and examples.",
     h1: "Fahrenheit to Celsius Converter (\xB0F \u2192 \xB0C)",
     slug: "fahrenheit-to-celsius",
     intro: "Converting Fahrenheit to Celsius is essential when traveling to countries using the metric system, following international recipes, studying science, or checking weather forecasts from Europe and Asia. The formula subtracts 32 from Fahrenheit, then multiplies by 5/9.",
@@ -1277,7 +1285,7 @@ var guideContent = {
   },
   "feet-to-meters": {
     title: "Feet to Meters Converter \u2014 Convert ft to m Instantly",
-    metaDesc: "Convert feet to meters instantly. Free online length converter with formula, conversion table (1-100 ft), step-by-step guide, and real-world examples. Essential for construction, real estate, and aviation.",
+    metaDesc: "Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1\u2013100 ft table, step-by-step guide and real-world examples.",
     h1: "Feet to Meters Converter (ft \u2192 m)",
     slug: "feet-to-meters",
     intro: "Converting feet to meters is essential for international construction projects, real estate listings, aviation altitude readings, and understanding US product dimensions in metric units. One foot equals exactly 0.3048 meters. Our converter handles any value with precision and supports natural language input.",
@@ -1380,6 +1388,7 @@ var BLOG_POSTS = [
   {
     slug: "fractional-inches-to-mm-best-practices",
     title: "Fractional Inches to Millimeters: Machinist & Woodworking Best Practices",
+    seoTitle: "Fractional Inches to mm: Machinist & Woodworking Guide",
     excerpt: "Everything you need to know about converting fractional inch drill bits and timber stock to metric with tolerance thresholds.",
     category: "Tutorials",
     date: "2025-01-10",
@@ -1423,6 +1432,7 @@ var BLOG_POSTS = [
   {
     slug: "metric-vs-imperial-engineering-guide",
     title: "Metric vs Imperial: The Ultimate Engineering & Scientific Comparison",
+    seoTitle: "Metric vs Imperial Units: Engineering Comparison",
     excerpt: "Explore the history, mathematical elegance, and costly historical failures that define the battle between SI and Customary units.",
     category: "Engineering",
     date: "2025-05-01",
@@ -1537,6 +1547,7 @@ var BLOG_POSTS = [
   {
     slug: "ai-powered-unit-conversions-in-2026",
     title: "AI-Powered Unit Conversions in 2026: Natural Language Calculations",
+    seoTitle: "AI Unit Conversions in 2026: Natural Language Math",
     excerpt: 'How modern neural parsers and LLM tool-calling engines translate ambiguous human prompts like "3 cups of milk in grams" into precise physical quantities.',
     category: "AI",
     date: "2026-01-05",
@@ -1598,6 +1609,9 @@ function generateSitemapEntries() {
   add("/blog", "0.7", "weekly");
   add("/about", "0.6", "monthly");
   add("/sitemap", "0.5", "weekly");
+  add("/contact", "0.4", "yearly");
+  add("/privacy", "0.3", "yearly");
+  add("/terms", "0.3", "yearly");
   const categories = getAllCategories();
   for (const cat of categories) {
     add(`/convert/${cat.id}`, "0.85", "weekly");
@@ -1661,6 +1675,107 @@ run();
 import fs2 from "node:fs";
 import path2 from "node:path";
 
+// src/engine/unitSymbols.ts
+var SCOPED = {
+  "temp:C": "\xB0C",
+  "temp:F": "\xB0F",
+  "acceleration:gal": "Gal"
+};
+var SYMBOLS = {
+  um: "\xB5m",
+  ug: "\xB5g",
+  us: "\xB5s",
+  uF: "\xB5F",
+  mm2: "mm\xB2",
+  cm2: "cm\xB2",
+  m2: "m\xB2",
+  km2: "km\xB2",
+  in2: "in\xB2",
+  ft2: "ft\xB2",
+  yd2: "yd\xB2",
+  mi2: "mi\xB2",
+  m3: "m\xB3",
+  in3: "in\xB3",
+  ft3: "ft\xB3",
+  floz: "fl oz",
+  floz_c: "fl oz",
+  cup_c: "cup",
+  tbsp_c: "tbsp",
+  tsp_c: "tsp",
+  mL_c: "mL",
+  stone: "st",
+  R: "\xB0R",
+  Re: "\xB0R\xE9",
+  mps: "m/s",
+  kmh: "km/h",
+  knot: "kn",
+  mach: "Mach",
+  mps2: "m/s\xB2",
+  ftps2: "ft/s\xB2",
+  gforce: "g-force",
+  ohm: "\u03A9",
+  kohm: "k\u03A9",
+  Mohm: "M\u03A9",
+  Nm: "N\xB7m",
+  lbft: "lb\xB7ft",
+  kmL: "km/L",
+  mpgUS: "MPG (US)",
+  mpgUK: "MPG (UK)",
+  L100km: "L/100km",
+  kgm3: "kg/m\xB3",
+  gcm3: "g/cm\xB3",
+  lbft3: "lb/ft\xB3",
+  BTUh: "BTU/h",
+  tc: "TC",
+  au: "AU",
+  au_a: "AU",
+  ly_a: "ly",
+  pc_a: "pc",
+  sm: "M\u2609",
+  em: "M\u2295",
+  ld: "LD",
+  sr: "R\u2609",
+  er: "R\u2295"
+};
+var SCOPED_NAMES = {
+  "temp:C": "Celsius",
+  "temp:F": "Fahrenheit",
+  "temp:K": "Kelvin"
+};
+var NAMES = {
+  KB: "Kilobyte",
+  MB: "Megabyte",
+  GB: "Gigabyte",
+  TB: "Terabyte",
+  PB: "Petabyte",
+  kHz: "Kilohertz",
+  MHz: "Megahertz",
+  GHz: "Gigahertz",
+  THz: "Terahertz",
+  mm2: "Square Millimeter",
+  cm2: "Square Centimeter",
+  m2: "Square Meter",
+  km2: "Square Kilometer",
+  in2: "Square Inch",
+  ft2: "Square Foot",
+  yd2: "Square Yard",
+  mi2: "Square Mile",
+  Nm: "Newton-meter",
+  lbft: "Pound-foot",
+  au_a: "Astronomical Unit"
+};
+function unitSymbol(u, catId) {
+  return catId && SCOPED[`${catId}:${u.id}`] || SYMBOLS[u.id] || u.id;
+}
+function unitName(u, catId) {
+  return catId && SCOPED_NAMES[`${catId}:${u.id}`] || NAMES[u.id] || u.lb;
+}
+function unitLabel(u, catId) {
+  const name = unitName(u, catId);
+  const sym = unitSymbol(u, catId);
+  return name === sym ? name : `${name} (${sym})`;
+}
+
 // src/config/pairEditorial.ts
 function cleanSlug(s) {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -1704,13 +1819,13 @@ var PAIR_UNIT_SYNONYMS = {
   // Acceleration
   "acceleration:m-s": "mps2",
   "acceleration:g-force": "gforce",
-  "acceleration:ft-s": "mps2",
+  "acceleration:ft-s": "ftps2",
   // Mass
   "us-ton": "sh tn",
   "short-ton": "sh tn",
   "metric-ton": "t",
   // Power / Energy
-  "btu-h": "W",
+  "btu-h": "BTUh",
   "calories": "cal",
   "calorie": "cal",
   "joules": "J",
@@ -1728,9 +1843,9 @@ var PAIR_UNIT_SYNONYMS = {
   "kg-m": "kgm3",
   "lb-ft": "lbft3",
   // Force
-  "kn": "N",
+  "force:kn": "kN",
   // Frequency
-  "rpm": "Hz",
+  "rpm": "rpm",
   // Angle
   "degrees": "deg",
   "degree": "deg",
@@ -1740,7 +1855,7 @@ var PAIR_UNIT_SYNONYMS = {
   "gradian": "grad",
   "arcminutes": "arcmin",
   "arcminute": "arcmin",
-  "mrad": "rad",
+  "mrad": "mrad",
   // Data
   "bits": "bit",
   "bytes": "B",
@@ -2432,6 +2547,12 @@ var PAIR_USE_CASES = {
   ]
 };
 function getPairEditorial(cat, u1, u2, pairParam) {
+  const s1 = unitSymbol(u1, cat.id);
+  const s2 = unitSymbol(u2, cat.id);
+  const n1 = unitName(u1, cat.id);
+  const n2 = unitName(u2, cat.id);
+  const l1 = unitLabel(u1, cat.id);
+  const l2 = unitLabel(u2, cat.id);
   const metrology = CATEGORY_METROLOGY[cat.id] || {
     dimension: `${cat.lb} measurement`,
     siBase: u1.id,
@@ -2474,46 +2595,54 @@ function getPairEditorial(cat, u1, u2, pairParam) {
       calculationRule = `To convert Fahrenheit to Kelvin, subtract 32 from the Fahrenheit value, multiply by 5/9, and add 273.15.`;
       inverseSummary = `1 K equals approximately -457.87 \xB0F. Formula: \xB0F = (K - 273.15) \xD7 9/5 + 32.`;
     } else {
-      formulaDisplay = `${u2.id} = formula(${u1.id})`;
-      summary = `1 ${u1.lb} (${u1.id}) corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${u2.lb} (${u2.id}).`;
-      calculationRule = `To convert from ${u1.lb} to ${u2.lb}, apply the thermodynamic conversion formula.`;
-      inverseSummary = `1 ${u2.lb} (${u2.id}) corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ""} ${u1.lb} (${u1.id}).`;
+      formulaDisplay = `${s2} = formula(${s1})`;
+      summary = `1 ${l1} corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${l2}.`;
+      calculationRule = `To convert from ${n1} to ${n2}, apply the thermodynamic conversion formula.`;
+      inverseSummary = `1 ${l2} corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ""} ${l1}.`;
     }
   } else if (isReciprocalFuel) {
     if (u1.id === "mpgUS" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUS") {
       formulaDisplay = "L/100km \u2248 235.215 \xF7 MPG (US)";
-      summary = `1 MPG (US) equals approximately 235.215 L/100km (reciprocal factor: 100 \xD7 3.785411784 \xF7 1.609344 \xF7 MPG). This relationship is reciprocal (inverse).`;
+      summary = `1 MPG (US) equals approximately 235.215 L/100km. Formula: L/100km \u2248 235.215 \xF7 MPG (US), where 235.215 = 100 \xD7 3.785411784 \xF7 1.609344.`;
       calculationRule = `To convert between MPG (US) and L/100km, divide 235.215 by the known value (L/100km \u2248 235.215 \xF7 MPG). Note that 235.215 is a rounded constant.`;
       inverseSummary = `1 L/100km equals approximately 235.215 MPG (US). Formula: MPG \u2248 235.215 \xF7 (L/100km).`;
     } else if (u1.id === "mpgUK" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUK") {
       formulaDisplay = "L/100km \u2248 282.481 \xF7 MPG (UK)";
-      summary = `1 MPG (UK) equals approximately 282.481 L/100km (reciprocal factor: 100 \xD7 4.54609 \xF7 1.609344 \xF7 MPG). This relationship is reciprocal (inverse).`;
+      summary = `1 MPG (UK) equals approximately 282.481 L/100km. Formula: L/100km \u2248 282.481 \xF7 MPG (UK), where 282.481 = 100 \xD7 4.54609 \xF7 1.609344.`;
       calculationRule = `To convert between MPG (UK) and L/100km, divide 282.481 by the known value (L/100km \u2248 282.481 \xF7 MPG). Note that 282.481 is a rounded constant.`;
       inverseSummary = `1 L/100km equals approximately 282.481 MPG (UK). Formula: MPG \u2248 282.481 \xF7 (L/100km).`;
     } else {
       formulaDisplay = "L/100km = 100 \xF7 km/L";
-      summary = `1 km/L equals exactly 100 L/100km (exact formula: L/100km = 100 \xF7 km/L). This relationship is reciprocal (inverse).`;
+      summary = `1 km/L equals exactly 100 L/100km. Formula: L/100km = 100 \xF7 km/L.`;
       calculationRule = `To convert between km/L and L/100km, divide 100 by the known value (L/100km = 100 \xF7 km/L).`;
       inverseSummary = `1 L/100km equals exactly 100 km/L. Formula: km/L = 100 \xF7 (L/100km).`;
+    }
+    if (u1.id === "L100km") {
+      ;
+      [summary, inverseSummary] = [inverseSummary, summary];
+      const [lhs, rhs] = formulaDisplay.split(/ [≈=] /);
+      const op = formulaDisplay.includes("\u2248") ? "\u2248" : "=";
+      const [constant, divisor] = rhs.split(" \xF7 ");
+      formulaDisplay = `${divisor} ${op} ${constant} \xF7 ${lhs}`;
     }
   } else {
     const rFmt = unitRatio !== null ? fmt(unitRatio, 6) : "\u2014";
     const invFmt = inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : "\u2014";
     const isExact = unitRatio !== null && Math.abs(Number(rFmt) - unitRatio) < 1e-12;
     const isInvExact = inverseUnitRatio !== null && Math.abs(Number(invFmt) - inverseUnitRatio) < 1e-12;
-    formulaDisplay = isExact ? `${u2.id} = ${u1.id} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}` : `${u2.id} \u2248 ${u1.id} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}`;
-    summary = isExact ? `1 ${u1.lb} (${u1.id}) equals exactly ${rFmt} ${u2.lb} (${u2.id}).` : `1 ${u1.lb} (${u1.id}) equals approximately ${rFmt} ${u2.lb} (${u2.id}).`;
-    calculationRule = isExact ? `To convert from ${u1.lb} to ${u2.lb}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).` : `To convert from ${u1.lb} to ${u2.lb}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`;
-    inverseSummary = isInvExact ? `1 ${u2.lb} (${u2.id}) equals exactly ${invFmt} ${u1.lb} (${u1.id}). Formula: ${u1.id} = ${u2.id} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.` : `1 ${u2.lb} (${u2.id}) equals approximately ${invFmt} ${u1.lb} (${u1.id}). Formula: ${u1.id} \u2248 ${u2.id} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`;
+    formulaDisplay = isExact ? `${s2} = ${s1} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}` : `${s2} \u2248 ${s1} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}`;
+    summary = isExact ? `1 ${l1} equals exactly ${rFmt} ${l2}.` : `1 ${l1} equals approximately ${rFmt} ${l2}.`;
+    calculationRule = isExact ? `To convert from ${n1} to ${n2}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).` : `To convert from ${n1} to ${n2}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`;
+    inverseSummary = isInvExact ? `1 ${l2} equals exactly ${invFmt} ${l1}. Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.` : `1 ${l2} equals approximately ${invFmt} ${l1}. Formula: ${s1} \u2248 ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`;
   }
-  const explanationHeading = `How ${u1.lb} (${u1.id}) and ${u2.lb} (${u2.id}) Relate`;
-  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${u1.lb} (${u1.id}) and ${u2.lb} (${u2.id}) originate from ${metrology.systems}. ${metrology.contextNote}`;
-  const p2 = isTemp ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${u1.lb} and ${u2.lb} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.` : isReciprocalFuel ? `Fuel economy units like ${u1.id} and ${u2.id} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.` : `Because both ${u1.lb} and ${u2.lb} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ""}) guarantees zero precision drift across mathematical calculations.`;
+  const explanationHeading = `How ${l1} and ${l2} Relate`;
+  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${l1} and ${l2} originate from ${metrology.systems}. ${metrology.contextNote}`;
+  const p2 = isTemp ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${n1} and ${n2} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.` : isReciprocalFuel ? `Fuel economy units like ${s1} and ${s2} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.` : `Because both ${n1} and ${n2} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ""}) guarantees zero precision drift across mathematical calculations.`;
   const pairKey = `${cat.id}:${pairParam}`;
   const specificUseCases = PAIR_USE_CASES[pairKey] || [
-    { domain: `Engineering & Technical Specifications`, context: `Converting ${u1.lb} measurements to ${u2.lb} to align design drawings and component tolerances with global partner standards.` },
-    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${u1.id} records and domestic ${u2.id} systems.` },
-    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${u1.lb} into standard SI and reporting units.` }
+    { domain: `Engineering & Technical Specifications`, context: `Converting ${n1} measurements to ${n2} to align design drawings and component tolerances with global partner standards.` },
+    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${s1} records and domestic ${s2} systems.` },
+    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${n1} into standard SI and reporting units.` }
   ];
   const catPairs = categoryContent[cat.id]?.popularPairs || [];
   let canonicalReverseSlug = null;
@@ -2528,9 +2657,9 @@ function getPairEditorial(cat, u1, u2, pairParam) {
   const reciprocal = canonicalReverseSlug ? {
     hasCanonicalPair: true,
     url: `/convert/${cat.id}/${canonicalReverseSlug}`,
-    anchorText: `Convert ${u2.lb} to ${u1.lb} (${u2.id} to ${u1.id})`,
+    anchorText: `Convert ${n2} to ${n1} (${s2} to ${s1})`,
     badgeText: "Reverse Pair Available",
-    description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${u2.lb} to ${u1.lb} converter.`
+    description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${n2} to ${n1} converter.`
   } : {
     hasCanonicalPair: false,
     url: `/convert/${cat.id}`,
@@ -2538,7 +2667,7 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     badgeText: "Category Hub",
     description: `Need to convert other ${cat.lb.toLowerCase()} units? Explore all combinations in the full ${cat.lb} converter.`
   };
-  const workedExampleQuestion = `What is an example calculation converting ${u1.lb} to ${u2.lb}?`;
+  const workedExampleQuestion = `What is an example calculation converting ${n1} to ${n2}?`;
   let workedExampleAnswer;
   if (isTemp) {
     if (u1.id === "C" && u2.id === "F") {
@@ -2552,7 +2681,7 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     } else {
       const sampleVal = 20;
       const sampleRes = convertTemp(sampleVal, u1.id, u2.id);
-      workedExampleAnswer = `To convert ${sampleVal} ${u1.id} to ${u2.id}: apply the scale formula to calculate ${sampleVal} ${u1.id} = ${cleanFloat(sampleRes, 4)} ${u2.id}.`;
+      workedExampleAnswer = `To convert ${sampleVal} ${s1} to ${s2}: apply the scale formula to calculate ${sampleVal} ${s1} = ${cleanFloat(sampleRes, 4)} ${s2}.`;
     }
   } else if (isReciprocalFuel) {
     if (u1.id === "mpgUS" && u2.id === "L100km") {
@@ -2562,21 +2691,21 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     } else if (u1.id === "kmL" && u2.id === "L100km") {
       workedExampleAnswer = `To convert 15 km/L to L/100km: divide 100 by 15, which yields 6.67 L/100km (100 \xF7 15 = 6.67 L/100km).`;
     } else {
-      workedExampleAnswer = `To convert 10 ${u1.id} to ${u2.id}: apply the reciprocal formula to calculate 10 ${u1.id} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id), 4) : ""} ${u2.id}.`;
+      workedExampleAnswer = `To convert 10 ${s1} to ${s2}: apply the reciprocal formula to calculate 10 ${s1} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id), 4) : ""} ${s2}.`;
     }
   } else {
     const sampleVal = 10;
     const sampleRes = convert(sampleVal, cat.id, u1.id, u2.id);
     const isSampleExact = sampleRes !== null && Math.abs(Number(fmt(sampleRes, 4)) - sampleRes) < 1e-12;
-    workedExampleAnswer = isSampleExact ? `To convert 10 ${u1.lb} to ${u2.lb}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${u2.lb} (${u2.id}).` : `To convert 10 ${u1.lb} to ${u2.lb}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${u2.lb} (${u2.id}).`;
+    workedExampleAnswer = isSampleExact ? `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${l2}.` : `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${l2}.`;
   }
   const faqs = [
     {
-      question: isTemp ? `What is 1 ${u1.lb} in ${u2.lb}?` : `How many ${u2.lb} in 1 ${u1.lb}?`,
+      question: isTemp ? `What is 1 ${n1} in ${n2}?` : `How many ${n2} in 1 ${n1}?`,
       answer: `${summary} ${inverseSummary}`
     },
     {
-      question: `How to convert ${u1.lb} to ${u2.lb}?`,
+      question: `How to convert ${n1} to ${n2}?`,
       answer: `${calculationRule} Mathematical formula: ${formulaDisplay}.`
     },
     {
@@ -2584,13 +2713,13 @@ function getPairEditorial(cat, u1, u2, pairParam) {
       answer: workedExampleAnswer
     },
     {
-      question: `How to convert back from ${u2.lb} to ${u1.lb}?`,
-      answer: isTemp ? `To convert from ${u2.lb} to ${u1.lb}, reverse the calculation formula: ${inverseSummary}` : isReciprocalFuel ? `Because fuel economy conversions between ${u1.id} and ${u2.id} are reciprocal, divide the exact conversion constant by your ${u2.id} value to get ${u1.id}.` : `To convert from ${u2.lb} to ${u1.lb}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ""} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ""}). Formula: ${u1.id} = ${u2.id} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`
+      question: `How to convert back from ${n2} to ${n1}?`,
+      answer: isTemp ? `To convert from ${n2} to ${n1}, reverse the calculation formula: ${inverseSummary}` : isReciprocalFuel ? `Because fuel economy conversions between ${s1} and ${s2} are reciprocal, divide the exact conversion constant by your ${s2} value to get ${s1}.` : `To convert from ${n2} to ${n1}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ""} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ""}). Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`
     }
   ];
   return {
     directAnswer: {
-      heading: `Direct Answer: 1 ${u1.id} to ${u2.id}`,
+      heading: `Direct Answer: 1 ${s1} to ${s2}`,
       summary,
       formulaDisplay,
       inverseSummary,
@@ -2610,6 +2739,8 @@ function getPairEditorial(cat, u1, u2, pairParam) {
 }
 
 // scripts/generate-llms-full.ts
+var sitemapXml = fs2.readFileSync(path2.resolve(process.cwd(), "public/sitemap.xml"), "utf-8");
+var canonicalUrlCount = (sitemapXml.match(/<loc>/g) || []).length;
 function generateLlmsFullText() {
   const sections = [];
   sections.push(`# Omega X Converter \u2014 Comprehensive Agent & LLM Knowledge Base
@@ -2621,7 +2752,7 @@ function generateLlmsFullText() {
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: ${DEFAULT_SITE_URL}/sitemap.xml
 - Concise Agent Guide: ${DEFAULT_SITE_URL}/llms.txt
-- Total Canonical Indexable Inventory: 146 URLs
+- Total Canonical Indexable Inventory: ${canonicalUrlCount} URLs
 `);
   sections.push(`## 1. System Architecture & Metrology Standards
 
@@ -2662,6 +2793,12 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Editorial governance, source citations, privacy statement, and conversion engine architecture.
 - **XML Sitemap:** ${canonicalUrl("/sitemap")}
   Human-navigable sitemap page mirroring the authoritative machine-readable XML sitemap.
+- **Contact:** ${canonicalUrl("/contact")}
+  How to report a wrong conversion, a security issue or a privacy question.
+- **Privacy Policy:** ${canonicalUrl("/privacy")}
+  No accounts, ads, cookies or analytics; history and settings stay in the browser's local storage.
+- **Terms of Use:** ${canonicalUrl("/terms")}
+  Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 `);
   sections.push(`## 3. Supported Measurement Categories (24 Categories)
 
@@ -2918,8 +3055,8 @@ describe("Phase 3 Step 7 \u2014 AI Discovery Files & Agent Readiness", () => {
         "Must not contain speculative crawler allowlists"
       );
     });
-    it("canonical inventory remains exactly 146 URLs", () => {
-      assert.strictEqual(canonicalEntries.length, 146, "Canonical inventory must remain exactly 146 URLs");
+    it("canonical inventory remains exactly 149 URLs", () => {
+      assert.strictEqual(canonicalEntries.length, 149, "Canonical inventory must remain exactly 149 URLs");
     });
   });
 });

@@ -30,6 +30,11 @@ import {
 } from '../src/config/pairEditorial'
 import { buildPairSchema } from '../src/config/schema'
 import { convert } from '../src/engine/converter'
+import { BLOG_POSTS } from '../src/data/blogPosts'
+import { PAGE_META, withBrand } from '../src/config/pageMeta'
+import { getCategoryStandards } from '../src/engine/categoryStandards'
+import { getRelatedCategoryIds } from '../src/config/relatedCategories'
+import { LEGAL, STORAGE_KEYS, buildSecurityTxt, getPrivacyPolicy, getTerms, getContactPage } from '../src/config/legal'
 
 describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', () => {
   test('canonical pair set contains exactly 99 unique pairs across 24 categories', () => {
@@ -105,6 +110,38 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
     }
 
     assert.equal(verifiedCount, 99, 'Must have verified all 99 canonical pairs')
+  })
+
+  test('every pair slug resolves to two distinct units and no two slugs share a unit pair', () => {
+    const seen = new Map<string, string>()
+    for (const cat of Categories) {
+      for (const pair of categoryContent[cat.id]?.popularPairs ?? []) {
+        const slug = `${cat.id}/${cleanSlug(pair.from)}-to-${cleanSlug(pair.to)}`
+        const u1 = findUnit(cat, cleanSlug(pair.from))!
+        const u2 = findUnit(cat, cleanSlug(pair.to))!
+        assert.notEqual(u1.id, u2.id, `${slug} resolves both sides to "${u1.id}"`)
+        const key = `${cat.id}:${u1.id}->${u2.id}`
+        assert.ok(!seen.has(key), `${slug} and ${seen.get(key)} both resolve to ${key}`)
+        seen.set(key, slug)
+      }
+    }
+  })
+
+  test('pairs that rely on slug synonyms resolve to the intended units and values', () => {
+    const cases: [string, string, string, string, string, number][] = [
+      ['force', 'kn', 'lbf', 'kN', 'lbf', 224.808943],
+      ['frequency', 'rpm', 'hz', 'rpm', 'Hz', 1 / 60],
+      ['angle', 'radians', 'mrad', 'rad', 'mrad', 1000],
+      ['power', 'watts', 'btu-h', 'W', 'BTUh', 3.412142],
+      ['acceleration', 'ft-s', 'm-s', 'ftps2', 'mps2', 0.3048],
+    ]
+    for (const [catId, from, to, fromId, toId, value] of cases) {
+      const cat = Categories.find(c => c.id === catId)!
+      assert.equal(findUnit(cat, from)?.id, fromId, `${catId}:${from} must resolve to ${fromId}`)
+      assert.equal(findUnit(cat, to)?.id, toId, `${catId}:${to} must resolve to ${toId}`)
+      const result = convert(1, catId, fromId, toId)!
+      assert.ok(Math.abs(result - value) / value < 1e-6, `1 ${fromId} → ${toId} expected ${value}, got ${result}`)
+    }
   })
 
   test('temperature conversions are correctly flagged as affine with offset formulas', () => {
@@ -201,5 +238,155 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
       }
     }
     assert.equal(verifiedPrerenderCount, 99, 'Must verify all 99 prerendered pair HTML files')
+  })
+
+  test('prerendered blog posts contain the full article body', () => {
+    const distBlog = path.resolve(process.cwd(), 'dist/blog')
+    if (!fs.existsSync(distBlog)) return // skip if dist has not been generated yet
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    for (const post of BLOG_POSTS) {
+      const html = fs.readFileSync(path.join(distBlog, post.slug, 'index.html'), 'utf8')
+      const body = html.split(/<body[^>]*>/i)[1].replace(/<script[\s\S]*?<\/script>/gi, '')
+      assert.ok(!/\bundefined\b/.test(body), `${post.slug} body must not contain "undefined"`)
+      assert.ok(body.includes(esc(post.content.intro)), `${post.slug} must include its intro`)
+      for (const t of post.content.keyTakeaways) assert.ok(body.includes(esc(t)), `${post.slug} must include takeaway: ${t}`)
+      for (const sec of post.content.sections) {
+        assert.ok(body.includes(esc(sec.title)), `${post.slug} must include section title: ${sec.title}`)
+        assert.ok(body.includes(esc(sec.body)), `${post.slug} must include section body: ${sec.title}`)
+      }
+    }
+  })
+  test('prerendered titles and descriptions are readable, unique, and match shared page metadata', () => {
+    const dist = path.resolve(process.cwd(), 'dist')
+    if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
+    const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+    const read = (route: string) => {
+      const html = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8')
+      return {
+        title: decode(html.match(/<title[^>]*>([^<]*)<\/title>/)![1]),
+        desc: decode(html.match(/<meta name="description"[^>]*content="([^"]*)"/)![1]),
+      }
+    }
+
+    for (const [route, meta] of Object.entries(PAGE_META)) {
+      const page = read(route)
+      assert.equal(page.title, withBrand(meta.title), `${route} title must come from PAGE_META`)
+      assert.equal(page.desc, meta.description, `${route} description must come from PAGE_META`)
+    }
+
+    const titles = new Map<string, string>()
+    const descs = new Map<string, string>()
+    const rawIds = /\((?:[^)]*_[a-z]|mps2|gforce|kmh|L100km|mpgUS|gcm3|kgm3|lbft3?|ftps2|BTUh)\b/
+    for (const cat of Categories) {
+      for (const pair of categoryContent[cat.id]?.popularPairs ?? []) {
+        const route = `convert/${cat.id}/${cleanSlug(pair.from)}-to-${cleanSlug(pair.to)}`
+        const { title, desc } = read(route)
+        assert.ok(!rawIds.test(title), `${route} title shows an internal unit id: ${title}`)
+        assert.ok(desc.length <= 165, `${route} description is ${desc.length} chars`)
+        assert.ok(!titles.has(title), `${route} and ${titles.get(title)} share the title "${title}"`)
+        assert.ok(!descs.has(desc), `${route} and ${descs.get(desc)} share a description`)
+        titles.set(title, route)
+        descs.set(desc, route)
+      }
+    }
+  })
+  test('every internal link in prerendered HTML points to a prerendered page', () => {
+    const dist = path.resolve(process.cwd(), 'dist')
+    if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
+    const pages: string[] = []
+    const walk = (dir: string) => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, e.name)
+        if (e.isDirectory() && e.name !== 'assets') walk(full)
+        else if (e.name === 'index.html') pages.push(full)
+      }
+    }
+    walk(dist)
+    const broken: string[] = []
+    for (const file of pages) {
+      const body = fs.readFileSync(file, 'utf8').split(/<body[^>]*>/i)[1] ?? ''
+      for (const [, href] of body.matchAll(/<a[^>]+href="(\/[^"#?]*)/g)) {
+        const target = path.join(dist, href, 'index.html')
+        if (href !== '/' && !fs.existsSync(target)) broken.push(`${path.relative(dist, file)} -> ${href}`)
+      }
+    }
+    assert.deepEqual(broken, [], `Broken internal links:\n${broken.slice(0, 20).join('\n')}`)
+  })
+
+  test('category pages include standards text and topically related category links', () => {
+    const dist = path.resolve(process.cwd(), 'dist/convert')
+    if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    for (const cat of Categories) {
+      const html = fs.readFileSync(path.join(dist, cat.id, 'index.html'), 'utf8')
+      const std = getCategoryStandards(cat.id, cat.lb, cat.un.map(u => u.lb))
+      assert.ok(html.includes(esc(std.aeoCapsule)), `${cat.id} must include its answer summary`)
+      assert.ok(html.includes(esc(std.standardsStatement)), `${cat.id} must include its standards statement`)
+      const related = getRelatedCategoryIds(cat.id)
+      assert.ok(related.length >= 2, `${cat.id} needs at least 2 related categories`)
+      for (const id of related) {
+        assert.ok(Categories.some(c => c.id === id), `${cat.id} lists unknown related category ${id}`)
+        assert.ok(html.includes(`href="/convert/${id}"`), `${cat.id} must link to related category ${id}`)
+      }
+    }
+  })
+  test('legal pages are prerendered and every page links to them in the footer', () => {
+    const dist = path.resolve(process.cwd(), 'dist')
+    if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    for (const doc of [getPrivacyPolicy(), getTerms(), getContactPage()]) {
+      const html = fs.readFileSync(path.join(dist, doc.path, 'index.html'), 'utf8')
+      for (const sec of doc.sections) {
+        assert.ok(html.includes(esc(sec.heading)), `${doc.path} must include section "${sec.heading}"`)
+      }
+    }
+    const pages: string[] = []
+    const walk = (dir: string) => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, e.name)
+        if (e.isDirectory() && e.name !== 'assets') walk(full)
+        else if (e.name === 'index.html') pages.push(full)
+      }
+    }
+    walk(dist)
+    for (const file of pages) {
+      const html = fs.readFileSync(file, 'utf8')
+      for (const href of ['/privacy', '/terms', '/contact']) {
+        assert.ok(html.includes(`href="${href}"`), `${path.relative(dist, file)} must link to ${href}`)
+      }
+      assert.ok(!html.includes('fonts.googleapis.com'), `${path.relative(dist, file)} must not load Google Fonts`)
+    }
+  })
+
+  test('every localStorage key used by the app is covered by the privacy policy key list', () => {
+    const listed = new Set([...STORAGE_KEYS.personal, ...STORAGE_KEYS.preferences])
+    const used = new Set<string>()
+    const walk = (dir: string) => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, e.name)
+        if (e.isDirectory()) walk(full)
+        else if (/\.(ts|tsx)$/.test(e.name)) {
+          for (const [, key] of fs.readFileSync(full, 'utf8').matchAll(/['"`](uc_[a-zA-Z_]+)['"`]/g)) used.add(key)
+        }
+      }
+    }
+    walk(path.resolve(process.cwd(), 'src'))
+    const missing = [...used].filter(k => !listed.has(k))
+    assert.deepEqual(missing, [], `Add these keys to STORAGE_KEYS and the Privacy Policy: ${missing.join(', ')}`)
+  })
+
+  test('security.txt is only built once a contact email is configured', () => {
+    const original = LEGAL.contactEmail
+    try {
+      LEGAL.contactEmail = ''
+      assert.equal(buildSecurityTxt('https://example.com'), null)
+      LEGAL.contactEmail = 'security@example.com'
+      const txt = buildSecurityTxt('https://example.com', new Date('2026-10-29T00:00:00Z'))!
+      assert.ok(txt.includes('Contact: mailto:security@example.com'))
+      assert.ok(txt.includes('Expires: 2027-10-29T00:00:00Z'))
+      assert.ok(txt.includes('Canonical: https://example.com/.well-known/security.txt'))
+    } finally {
+      LEGAL.contactEmail = original
+    }
   })
 })

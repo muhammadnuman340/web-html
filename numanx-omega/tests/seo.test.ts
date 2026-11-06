@@ -27,6 +27,7 @@ import {
 } from '../src/config/site'
 import { getAllCategories } from '../src/engine/converter'
 import { generateSitemapEntries, buildSitemapXml } from '../scripts/generate-sitemap'
+import { SystemLabels } from '../src/types'
 
 describe('SEO Architecture: Site Identity & Authoritative Origin', () => {
   it('enforces live Netlify domain as authoritative origin', () => {
@@ -227,3 +228,43 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
     }
   })
 })
+
+describe('Phase 4 Step 4.3.3: SSG Mathematical Integrity & SI Classification Parity', () => {
+  it('prerendered category pages never contain mathematically false cross-dimensional ratios', () => {
+    const distConvert = path.resolve(process.cwd(), 'dist/convert')
+    if (!fs.existsSync(distConvert)) return
+
+    const forbiddenStatements = [
+      '1 kV = 1000 A',
+      '1 kΩ = 1000 A',
+      '1 µF = 0.000001 A',
+      '1 M☉ = 1 AU',
+      '1 M⊕ = 0.000003 AU',
+      '1 tex = 1000 dtex',
+      '1 den = 9000 dtex'
+    ]
+
+    const checkDir = (dir: string) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name)
+        if (entry.isDirectory()) {
+          checkDir(full)
+        } else if (entry.name.endsWith('.html')) {
+          const html = fs.readFileSync(full, 'utf8')
+          for (const stmt of forbiddenStatements) {
+            assert.ok(
+              !html.includes(stmt),
+              `Prerendered HTML file ${path.relative(process.cwd(), full)} contains forbidden false mathematical statement: "${stmt}"`
+            )
+          }
+        }
+      }
+    }
+    checkDir(distConvert)
+  })
+
+  it('SystemLabels.S is designated as "Scientific" rather than "SI Base"', () => {
+    assert.equal(SystemLabels.S, 'Scientific', 'Unit system "S" must be labeled "Scientific"')
+  })
+})
+

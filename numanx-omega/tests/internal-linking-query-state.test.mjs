@@ -266,6 +266,7 @@ var Categories = [
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
       { id: "gal", lb: "Gal", r: 0.01, s: "O" },
+      { id: "ftps2", lb: "ft/s\xB2", r: 0.3048, s: "I" },
       { id: "gforce", lb: "g-force", r: 9.80665, s: "O" }
     ]
   },
@@ -276,8 +277,9 @@ var Categories = [
     cl: "#e91e63",
     un: [
       { id: "N", lb: "Newton", r: 1, s: "M" },
+      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" },
       { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
-      { id: "lbf", lb: "Pound-force", r: 4.44822, s: "I" },
+      { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
       { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" }
     ]
   },
@@ -323,7 +325,8 @@ var Categories = [
       { id: "W", lb: "Watt", r: 1, s: "M" },
       { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
       { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
-      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" }
+      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
+      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" }
     ]
   },
   {
@@ -365,7 +368,8 @@ var Categories = [
       { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
       { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
       { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
-      { id: "THz", lb: "THz", r: 1e12, s: "M" }
+      { id: "THz", lb: "THz", r: 1e12, s: "M" },
+      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" }
     ]
   },
   {
@@ -406,7 +410,8 @@ var Categories = [
     cl: "#00bcd4",
     un: [
       { id: "deg", lb: "Degree", r: 1, s: "M" },
-      { id: "rad", lb: "Radian", r: 57.2958, s: "S" },
+      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" },
+      { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
       { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
       { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
       { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" }
@@ -491,7 +496,7 @@ var Categories = [
 var guideContent = {
   "lbs-to-kg": {
     title: "Pounds to Kilograms Converter \u2014 Convert lb to kg Instantly",
-    metaDesc: "Convert pounds (lb) to kilograms (kg) instantly. Free online weight converter with formula, conversion table (1-300 lb), step-by-step guide, and real-world examples. Used by 50,000+ people monthly.",
+    metaDesc: "Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1\u2013300 lb table, step-by-step guide and real-world examples.",
     h1: "Pounds to Kilograms Converter (lb \u2192 kg)",
     slug: "lbs-to-kg",
     intro: "Converting pounds to kilograms is essential for fitness tracking, international travel, medical dosage calculations, and shipping. One pound equals exactly 0.45359237 kilograms. Our free converter handles the math instantly \u2014 type any value in pounds and get the exact kilogram equivalent with up to 12 decimal places of precision.",
@@ -546,7 +551,7 @@ var guideContent = {
   },
   "celsius-to-fahrenheit": {
     title: "Celsius to Fahrenheit Converter \u2014 \xB0C to \xB0F Instantly",
-    metaDesc: "Convert Celsius to Fahrenheit instantly. Free online temperature converter with formula, reference table (-40\xB0C to 100\xB0C), step-by-step guide, and real-world examples. Used by students, cooks, and travelers.",
+    metaDesc: "Convert Celsius to Fahrenheit with \xB0F = \xB0C \xD7 9/5 + 32. Free converter with a \u221240\xB0C to 100\xB0C reference table, step-by-step guide and examples.",
     h1: "Celsius to Fahrenheit Converter (\xB0C \u2192 \xB0F)",
     slug: "celsius-to-fahrenheit",
     intro: "Converting Celsius to Fahrenheit is one of the most common temperature conversions used worldwide. Whether you are following a recipe from a European blog, checking weather forecasts, doing science homework, or traveling to the United States, knowing how to convert \xB0C to \xB0F is essential. The formula is simple: multiply by 9/5 and add 32.",
@@ -600,7 +605,7 @@ var guideContent = {
   },
   "meters-to-feet": {
     title: "Meters to Feet Converter \u2014 Convert m to ft Instantly",
-    metaDesc: "Convert meters to feet instantly. Free online length converter with formula, conversion table (1-100 m), step-by-step guide, and real-world examples. Essential for construction, real estate, and travel.",
+    metaDesc: "Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1\u2013100 m table, step-by-step guide and real-world examples.",
     h1: "Meters to Feet Converter (m \u2192 ft)",
     slug: "meters-to-feet",
     intro: 'Converting meters to feet is essential for construction, real estate, hiking, aviation, and understanding product dimensions. One meter equals approximately 3.28084 feet. Our converter handles any value \u2014 from millimeters to kilometers \u2014 with precision up to 12 decimal places. Type natural phrases like "5 meters in feet" and get instant results.',
@@ -648,7 +653,7 @@ var guideContent = {
   },
   "kg-to-lbs": {
     title: "Kilograms to Pounds Converter \u2014 Convert kg to lb Instantly",
-    metaDesc: "Convert kilograms to pounds instantly. Free online weight converter with formula, conversion table (1-150 kg), step-by-step guide, and real-world examples. Perfect for fitness and travel.",
+    metaDesc: "Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1\u2013150 kg table, step-by-step guide and real-world examples.",
     h1: "Kilograms to Pounds Converter (kg \u2192 lb)",
     slug: "kg-to-lbs",
     intro: "Converting kilograms to pounds is essential for fitness tracking (especially with US equipment), international shipping, medical dosing, and understanding product weights. One kilogram equals exactly 2.20462 pounds. Our free converter handles any weight instantly \u2014 type any value in kg and get the exact pound equivalent.",
@@ -698,7 +703,7 @@ var guideContent = {
   },
   "fahrenheit-to-celsius": {
     title: "Fahrenheit to Celsius Converter \u2014 \xB0F to \xB0C Instantly",
-    metaDesc: "Convert Fahrenheit to Celsius instantly. Free online temperature converter with formula, reference table (-40\xB0F to 212\xB0F), step-by-step guide, and real-world examples. Perfect for travel and science.",
+    metaDesc: "Convert Fahrenheit to Celsius with \xB0C = (\xB0F \u2212 32) \xD7 5/9. Free converter with a \u221240\xB0F to 212\xB0F reference table, step-by-step guide and examples.",
     h1: "Fahrenheit to Celsius Converter (\xB0F \u2192 \xB0C)",
     slug: "fahrenheit-to-celsius",
     intro: "Converting Fahrenheit to Celsius is essential when traveling to countries using the metric system, following international recipes, studying science, or checking weather forecasts from Europe and Asia. The formula subtracts 32 from Fahrenheit, then multiplies by 5/9.",
@@ -748,7 +753,7 @@ var guideContent = {
   },
   "feet-to-meters": {
     title: "Feet to Meters Converter \u2014 Convert ft to m Instantly",
-    metaDesc: "Convert feet to meters instantly. Free online length converter with formula, conversion table (1-100 ft), step-by-step guide, and real-world examples. Essential for construction, real estate, and aviation.",
+    metaDesc: "Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1\u2013100 ft table, step-by-step guide and real-world examples.",
     h1: "Feet to Meters Converter (ft \u2192 m)",
     slug: "feet-to-meters",
     intro: "Converting feet to meters is essential for international construction projects, real estate listings, aviation altitude readings, and understanding US product dimensions in metric units. One foot equals exactly 0.3048 meters. Our converter handles any value with precision and supports natural language input.",
@@ -856,7 +861,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 200+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -892,7 +897,10 @@ var INDEXABILITY_POLICY = {
     "/health",
     "/blog",
     "/about",
-    "/sitemap"
+    "/sitemap",
+    "/privacy",
+    "/terms",
+    "/contact"
   ],
   noindex: [
     "/dashboard",
@@ -927,20 +935,140 @@ function fmt(v, prec = 6) {
   return cleanFloat(Number(v.toFixed(prec))).toString();
 }
 
+// src/engine/unitSymbols.ts
+var SCOPED = {
+  "temp:C": "\xB0C",
+  "temp:F": "\xB0F",
+  "acceleration:gal": "Gal"
+};
+var SYMBOLS = {
+  um: "\xB5m",
+  ug: "\xB5g",
+  us: "\xB5s",
+  uF: "\xB5F",
+  mm2: "mm\xB2",
+  cm2: "cm\xB2",
+  m2: "m\xB2",
+  km2: "km\xB2",
+  in2: "in\xB2",
+  ft2: "ft\xB2",
+  yd2: "yd\xB2",
+  mi2: "mi\xB2",
+  m3: "m\xB3",
+  in3: "in\xB3",
+  ft3: "ft\xB3",
+  floz: "fl oz",
+  floz_c: "fl oz",
+  cup_c: "cup",
+  tbsp_c: "tbsp",
+  tsp_c: "tsp",
+  mL_c: "mL",
+  stone: "st",
+  R: "\xB0R",
+  Re: "\xB0R\xE9",
+  mps: "m/s",
+  kmh: "km/h",
+  knot: "kn",
+  mach: "Mach",
+  mps2: "m/s\xB2",
+  ftps2: "ft/s\xB2",
+  gforce: "g-force",
+  ohm: "\u03A9",
+  kohm: "k\u03A9",
+  Mohm: "M\u03A9",
+  Nm: "N\xB7m",
+  lbft: "lb\xB7ft",
+  kmL: "km/L",
+  mpgUS: "MPG (US)",
+  mpgUK: "MPG (UK)",
+  L100km: "L/100km",
+  kgm3: "kg/m\xB3",
+  gcm3: "g/cm\xB3",
+  lbft3: "lb/ft\xB3",
+  BTUh: "BTU/h",
+  tc: "TC",
+  au: "AU",
+  au_a: "AU",
+  ly_a: "ly",
+  pc_a: "pc",
+  sm: "M\u2609",
+  em: "M\u2295",
+  ld: "LD",
+  sr: "R\u2609",
+  er: "R\u2295"
+};
+var SCOPED_NAMES = {
+  "temp:C": "Celsius",
+  "temp:F": "Fahrenheit",
+  "temp:K": "Kelvin"
+};
+var NAMES = {
+  KB: "Kilobyte",
+  MB: "Megabyte",
+  GB: "Gigabyte",
+  TB: "Terabyte",
+  PB: "Petabyte",
+  kHz: "Kilohertz",
+  MHz: "Megahertz",
+  GHz: "Gigahertz",
+  THz: "Terahertz",
+  mm2: "Square Millimeter",
+  cm2: "Square Centimeter",
+  m2: "Square Meter",
+  km2: "Square Kilometer",
+  in2: "Square Inch",
+  ft2: "Square Foot",
+  yd2: "Square Yard",
+  mi2: "Square Mile",
+  Nm: "Newton-meter",
+  lbft: "Pound-foot",
+  au_a: "Astronomical Unit"
+};
+function unitSymbol(u, catId) {
+  return catId && SCOPED[`${catId}:${u.id}`] || SYMBOLS[u.id] || u.id;
+}
+function unitName(u, catId) {
+  return catId && SCOPED_NAMES[`${catId}:${u.id}`] || NAMES[u.id] || u.lb;
+}
+function unitLabel(u, catId) {
+  const name = unitName(u, catId);
+  const sym = unitSymbol(u, catId);
+  return name === sym ? name : `${name} (${sym})`;
+}
+function pairTitle(u1, u2, catId) {
+  const n1 = unitName(u1, catId);
+  const n2 = unitName(u2, catId);
+  const s1 = unitSymbol(u1, catId);
+  const s2 = unitSymbol(u2, catId);
+  if (s1 === n1 && s2 === n2) return `Convert ${n1} to ${n2}`;
+  return `Convert ${n1} to ${n2} (${s1} to ${s2})`;
+}
+function pairMetaDescription(u1, u2, catId, summary) {
+  const candidates = [
+    `${summary} Free ${unitName(u1, catId)} to ${unitName(u2, catId)} converter with formula and chart.`,
+    `${summary} Free converter with formula and chart.`,
+    summary
+  ];
+  const fit = candidates.find((c) => c.length <= 160);
+  if (fit) return fit;
+  const cut = summary.slice(0, 160).lastIndexOf(". ");
+  return cut > 0 ? summary.slice(0, cut + 1) : summary.slice(0, 157) + "\u2026";
+}
+
 // src/config/schema.ts
 function buildPairSchema(category, u1, u2, unitRatio, inverseUnitRatio, pairParam, faqs, directAnswerSummary) {
   const pageUrl = canonicalUrl(`/convert/${category.id}/${pairParam}`);
-  const pageTitle = `Convert ${u1.lb} to ${u2.lb} (${u1.id} to ${u2.id})`;
-  const summaryText = directAnswerSummary || `1 ${u1.lb} = ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${u2.lb}.`;
-  const metaDescription = `Free online ${u1.lb} to ${u2.lb} converter. ${summaryText} Includes live calculator, exact formula, and 1 to 1000 conversion chart.`;
+  const pageTitle = pairTitle(u1, u2, category.id);
+  const summaryText = directAnswerSummary || `1 ${unitName(u1, category.id)} = ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${unitName(u2, category.id)}.`;
+  const metaDescription = pairMetaDescription(u1, u2, category.id, summaryText);
   const defaultFaqs = [
     {
-      question: `How many ${u2.lb} in 1 ${u1.lb}?`,
-      answer: `1 ${u1.lb} (${u1.id}) is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ""} ${u2.lb} (${u2.id}).`
+      question: `How many ${unitName(u2, category.id)} in 1 ${unitName(u1, category.id)}?`,
+      answer: `1 ${unitLabel(u1, category.id)} is equal to ${unitRatio !== null ? fmt(unitRatio, 6) : ""} ${unitLabel(u2, category.id)}.`
     },
     {
-      question: `How to convert ${u1.lb} to ${u2.lb}?`,
-      answer: `To convert from ${u1.lb} to ${u2.lb}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : "the conversion factor"}.`
+      question: `How to convert ${unitName(u1, category.id)} to ${unitName(u2, category.id)}?`,
+      answer: `To convert from ${unitName(u1, category.id)} to ${unitName(u2, category.id)}, multiply the value by ${unitRatio !== null ? fmt(unitRatio, 6) : "the conversion factor"}.`
     }
   ];
   const activeFaqs = faqs && faqs.length > 0 ? faqs : defaultFaqs;
@@ -964,7 +1092,7 @@ function buildPairSchema(category, u1, u2, unitRatio, inverseUnitRatio, pairPara
           { "@type": "ListItem", position: 1, name: "Home", item: canonicalUrl("/") },
           { "@type": "ListItem", position: 2, name: "Categories", item: canonicalUrl("/categories") },
           { "@type": "ListItem", position: 3, name: category.lb, item: canonicalUrl(`/convert/${category.id}`) },
-          { "@type": "ListItem", position: 4, name: `${u1.lb} to ${u2.lb}`, item: pageUrl }
+          { "@type": "ListItem", position: 4, name: `${unitName(u1, category.id)} to ${unitName(u2, category.id)}`, item: pageUrl }
         ]
       },
       {
