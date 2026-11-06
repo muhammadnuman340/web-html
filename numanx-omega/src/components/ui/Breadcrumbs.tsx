@@ -21,18 +21,18 @@ export default function Breadcrumbs({ items, backTo, className = '' }: Breadcrum
     <div className={`space-y-3 mb-6 ${className}`}>
       {/* Breadcrumb Hierarchy */}
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[var(--text3)] flex-wrap">
-        <Link to="/" className="hover:text-[var(--text)] transition-colors font-medium">Home</Link>
+        <Link to="/" className="hover:text-[var(--text)] transition-colors font-medium py-2 inline-flex items-center min-h-[44px]">Home</Link>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
           return (
             <div key={index} className="flex items-center gap-2">
               <span className="opacity-40 select-none" aria-hidden="true">›</span>
               {isLast || !item.path ? (
-                <span className="text-[var(--text)] font-semibold truncate max-w-[280px] sm:max-w-md" aria-current="page">
+                <span className="text-[var(--text)] font-semibold truncate max-w-[280px] sm:max-w-md py-2 inline-flex items-center min-h-[44px]" aria-current="page">
                   {item.label}
                 </span>
               ) : (
-                <Link to={item.path} className="hover:text-[var(--text)] transition-colors font-medium">
+                <Link to={item.path} className="hover:text-[var(--text)] transition-colors font-medium py-2 inline-flex items-center min-h-[44px]">
                   {item.label}
                 </Link>
               )}
@@ -46,7 +46,7 @@ export default function Breadcrumbs({ items, backTo, className = '' }: Breadcrum
         <div>
           <button
             onClick={() => backTo.path ? navigate(backTo.path) : navigate(-1)}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--text)] hover:text-[var(--primary)] transition-colors group py-1"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--text)] hover:text-[var(--link-text)] transition-colors group py-2.5 min-h-[44px]"
             aria-label={`Back to ${backTo.label}`}
           >
             <span className="text-sm transition-transform group-hover:-translate-x-1" aria-hidden="true">←</span>

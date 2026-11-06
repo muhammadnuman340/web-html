@@ -77,7 +77,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         whileTap={{ scale: 0.97 }}
         onClick={() => { navigate(item.path); onClose() }}
         aria-current={active ? 'page' : undefined}
-        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all relative ${
+        className={`w-full flex items-center gap-3 px-3 py-2.5 min-h-[44px] rounded-xl text-sm transition-all relative ${
           active ? 'bg-[var(--primary)] text-white shadow-md' : 'hover:bg-[var(--border)]'
         }`}
       >
@@ -125,7 +125,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={onClose}
-            className="p-1.5 rounded-xl hover:bg-[var(--border)] text-sm interact-lift"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl hover:bg-[var(--border)] text-sm interact-lift"
             aria-label="Close sidebar"
           >
             ✕
@@ -140,7 +140,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
             aria-expanded={showModePicker}
             aria-haspopup="listbox"
             aria-label="Select converter mode"
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl glass hover:bg-[var(--border)] transition-all text-sm"
+            className="w-full flex items-center gap-2 px-3 py-2.5 min-h-[44px] rounded-xl glass hover:bg-[var(--border)] transition-all text-sm"
           >
             <span aria-hidden="true">{MODES.find(m => m.id === mode)?.icon}</span>
             <span className="flex-1 text-left font-medium">{MODES.find(m => m.id === mode)?.label}</span>
@@ -156,7 +156,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
               >
                 {MODES.filter(m => m.id !== mode).map(m => (
                   <button key={m.id} onClick={() => { onModeChange(m.id); setShowModePicker(false) }}
-                    className="w-full text-left px-3 py-2 text-xs hover:bg-[var(--border)] transition-colors flex items-center gap-2">
+                    className="w-full text-left px-3 py-2.5 min-h-[44px] text-xs hover:bg-[var(--border)] transition-colors flex items-center gap-2">
                     <span aria-hidden="true">{m.icon}</span>
                     <span>{m.label}</span>
                   </button>
@@ -178,7 +178,7 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
             <span className="text-xs uppercase tracking-wider text-[var(--text2)] opacity-70 font-semibold">Top Categories</span>
             <button
               onClick={() => { navigate('/categories'); onClose() }}
-              className="text-xs text-[var(--primary)] hover:underline font-medium"
+              className="text-xs text-[var(--link-text)] hover:text-[var(--link-hover)] hover:underline font-medium min-h-[44px] px-2.5 inline-flex items-center"
               aria-label="View all categories"
             >
               All →

@@ -21,6 +21,7 @@ const TOP_TOOLS = [
   { label: 'Data Storage', path: '/convert/data', icon: '💾', desc: 'MB, GB, TB, MiB, GiB binary' },
 ]
 
+
 export default function Navbar({
   isDark,
   onToggleDark,
@@ -30,6 +31,7 @@ export default function Navbar({
 }: NavbarProps) {
   const [toolsOpen, setToolsOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const mobileMenuBtnRef = useRef<HTMLButtonElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
   const navigate = useNavigate()
@@ -51,6 +53,22 @@ export default function Navbar({
     setMobileMenuOpen(false)
   }, [location.pathname])
 
+  // Close mobile menu on Escape key and restore focus
+  useEffect(() => {
+    if (!mobileMenuOpen && !toolsOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (mobileMenuOpen) {
+          setMobileMenuOpen(false)
+          mobileMenuBtnRef.current?.focus()
+        }
+        setToolsOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [mobileMenuOpen, toolsOpen])
+
   return (
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 border-b ${
@@ -59,12 +77,12 @@ export default function Navbar({
           : 'bg-[var(--card)]/80 backdrop-blur-sm border-[var(--border)]'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-1.5 sm:gap-4 min-w-0">
         {/* Left: Brand Logo matching Image 1 */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 sm:gap-3 shrink-0 min-w-0">
           <button
             onClick={onOpenSidebar}
-            className="lg:hidden p-2 rounded-xl text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors"
+            className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors"
             aria-label="Open sidebar drawer"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -74,13 +92,13 @@ export default function Navbar({
             </svg>
           </button>
 
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center text-white text-sm font-bold shadow-sm shadow-[var(--glow)] group-hover:scale-105 transition-transform">
+          <Link to="/" className="flex items-center gap-1.5 sm:gap-2 group min-w-0 min-h-[44px] py-1">
+            <div className="w-8 h-8 rounded-xl gradient-primary flex items-center justify-center text-white text-sm font-bold shadow-sm shadow-[var(--glow)] group-hover:scale-105 transition-transform shrink-0">
               <span aria-hidden="true">Ω</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-base tracking-tight text-[var(--text)]">NumanX</span>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[var(--primary-muted)] text-[var(--primary)]">
+            <div className="flex items-center gap-1 min-w-0">
+              <span className="font-extrabold text-sm sm:text-base tracking-tight text-[var(--text)]">NumanX</span>
+              <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[var(--primary-muted)] text-[var(--link-text)] shrink-0">
                 Omega
               </span>
             </div>
@@ -88,14 +106,14 @@ export default function Navbar({
         </div>
 
         {/* Center/Right Nav Links matching user Image 1: Tools ⌵, About, Blog */}
-        <nav aria-label="Main Navigation" className="hidden md:flex items-center gap-1 sm:gap-2">
+        <nav aria-label="Main Navigation" className="hidden lg:flex items-center gap-1 sm:gap-2">
           {/* Tools Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setToolsOpen(p => !p)}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium transition-all min-h-[44px] ${
                 toolsOpen || location.pathname.startsWith('/convert') || location.pathname === '/categories'
-                  ? 'text-[var(--primary)] bg-[var(--primary-muted)]'
+                  ? 'text-[var(--link-text)] bg-[var(--primary-muted)]'
                   : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
               }`}
               aria-expanded={toolsOpen}
@@ -134,13 +152,13 @@ export default function Navbar({
                         key={tool.path}
                         to={tool.path}
                         onClick={() => setToolsOpen(false)}
-                        className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[var(--card2)] transition-colors group"
+                        className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[var(--card2)] transition-colors group min-h-[44px]"
                       >
                         <span className="text-xl p-1.5 rounded-lg bg-[var(--primary-muted)] group-hover:scale-110 transition-transform flex-shrink-0" aria-hidden="true">
                           {tool.icon}
                         </span>
                         <div>
-                          <div className="text-xs font-semibold text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
+                          <div className="text-xs font-semibold text-[var(--text)] group-hover:text-[var(--link-text)] transition-colors">
                             {tool.label}
                           </div>
                           <div className="text-[11px] text-[var(--text3)] line-clamp-1">
@@ -154,7 +172,7 @@ export default function Navbar({
                     <Link
                       to="/categories"
                       onClick={() => setToolsOpen(false)}
-                      className="block text-center py-1.5 text-xs font-bold text-[var(--primary)] hover:underline"
+                      className="block text-center py-2 text-xs font-bold text-[var(--link-text)] hover:text-[var(--link-hover)] hover:underline min-h-[44px] flex items-center justify-center"
                     >
                       Browse All 24 Categories →
                     </Link>
@@ -168,9 +186,9 @@ export default function Navbar({
           <NavLink
             to="/about"
             className={({ isActive }) =>
-              `px-3.5 py-2 rounded-xl text-sm font-medium transition-colors ${
+              `px-3.5 py-2 rounded-xl text-sm font-medium transition-colors min-h-[44px] flex items-center ${
                 isActive
-                  ? 'text-[var(--primary)] bg-[var(--primary-muted)] font-semibold'
+                  ? 'text-[var(--link-text)] bg-[var(--primary-muted)] font-semibold'
                   : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
               }`
             }
@@ -182,9 +200,9 @@ export default function Navbar({
           <NavLink
             to="/blog"
             className={({ isActive }) =>
-              `px-3.5 py-2 rounded-xl text-sm font-medium transition-colors ${
+              `px-3.5 py-2 rounded-xl text-sm font-medium transition-colors min-h-[44px] flex items-center ${
                 isActive
-                  ? 'text-[var(--primary)] bg-[var(--primary-muted)] font-semibold'
+                  ? 'text-[var(--link-text)] bg-[var(--primary-muted)] font-semibold'
                   : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
               }`
             }
@@ -194,27 +212,29 @@ export default function Navbar({
         </nav>
 
         {/* Right Actions matching Image 1: Quick Search, Dark Mode, Get Started Button */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {/* Command Search Trigger (⌘K) */}
           <button
             onClick={onOpenCommandBar}
-            className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] hover:bg-[var(--border)] text-xs text-[var(--text2)] transition-colors"
+            className="flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] px-2.5 py-2 rounded-xl border border-[var(--border-control)] bg-[var(--card2)] hover:bg-[var(--border)] text-xs text-[var(--text2)] transition-colors"
             aria-label="Open Command Search"
           >
-            <svg className="w-3.5 h-3.5 text-[var(--text3)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <svg className="w-4 h-4 text-[var(--text3)] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-            <span className="hidden sm:inline">Search</span>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card)] text-[10px] font-mono text-[var(--text3)]">
-              ⌘K
-            </kbd>
+            <span className="hidden md:flex items-center gap-1.5">
+              <span>Search</span>
+              <kbd className="px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card)] text-[10px] font-mono text-[var(--text3)]">
+                ⌘K
+              </kbd>
+            </span>
           </button>
 
           {/* Theme Toggle Button (🌙 / ☀️) matching Image 1 */}
           <button
             onClick={onToggleDark}
-            className="p-2 rounded-xl text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors text-base"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors text-base"
             aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             data-tooltip={isDark ? 'Light Mode' : 'Dark Mode'}
           >
@@ -224,7 +244,7 @@ export default function Navbar({
           {/* Get Started / All Tools CTA Button matching Image 1 */}
           <button
             onClick={() => navigate('/categories')}
-            className="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 active:scale-95 transition-all shadow-sm shadow-[var(--glow)]"
+            className="hidden sm:inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 active:scale-95 transition-all shadow-sm shadow-[var(--glow)]"
           >
             Get Started
           </button>
@@ -232,9 +252,11 @@ export default function Navbar({
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(p => !p)}
-            className="md:hidden p-2 rounded-xl text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors"
-            aria-label="Toggle Navigation Menu"
+            className="lg:hidden min-w-[44px] min-h-[44px] flex items-center justify-center p-2 rounded-xl text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors"
+            aria-label={mobileMenuOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
             aria-expanded={mobileMenuOpen}
+            ref={mobileMenuBtnRef}
+            aria-controls="mobile-nav-drawer"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               {mobileMenuOpen ? (
@@ -260,28 +282,50 @@ export default function Navbar({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-[var(--border)] bg-[var(--card)] px-4 py-4 space-y-3 shadow-lg"
+            id="mobile-nav-drawer" role="region" aria-label="Mobile Navigation Menu" className="lg:hidden border-t border-[var(--border)] bg-[var(--card)] px-4 py-4 space-y-3 shadow-lg"
           >
             <div className="flex flex-col gap-1">
+              <button
+                onClick={() => { setMobileMenuOpen(false); onOpenCommandBar() }}
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors flex items-center justify-between min-h-[44px] w-full text-left"
+              >
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-[var(--text3)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                  </svg>
+                  Search Conversions
+                </span>
+                <kbd className="px-1.5 py-0.5 rounded border border-[var(--border)] bg-[var(--card2)] text-[10px] font-mono text-[var(--text3)]">
+                  ⌘K
+                </kbd>
+              </button>
               <Link
                 to="/categories"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors flex items-center justify-between"
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors flex items-center justify-between min-h-[44px]"
               >
                 <span>🛠️ All Tools & Categories</span>
                 <span className="text-xs text-[var(--text3)]">24 Categories</span>
               </Link>
               <Link
+                to="/converter"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors min-h-[44px] flex items-center"
+              >
+                📐 Universal Converter
+              </Link>
+              <Link
                 to="/about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors"
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors min-h-[44px] flex items-center"
               >
-                ℹ️ About
+                ℹ️ About Omega X
               </Link>
               <Link
                 to="/blog"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors"
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors min-h-[44px] flex items-center"
               >
                 📰 Blog & Guides
               </Link>
@@ -291,7 +335,7 @@ export default function Navbar({
               <span className="text-xs text-[var(--text2)] font-medium">Theme</span>
               <button
                 onClick={onToggleDark}
-                className="px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-semibold text-[var(--text)]"
+                className="px-3.5 py-2 rounded-xl border border-[var(--border-control)] bg-[var(--card2)] text-xs font-semibold text-[var(--text)] min-h-[44px] flex items-center gap-1.5"
               >
                 {isDark ? '☀️ Light Mode' : '🌙 Dark Mode'}
               </button>
@@ -299,7 +343,7 @@ export default function Navbar({
 
             <button
               onClick={() => { navigate('/categories'); setMobileMenuOpen(false) }}
-              className="w-full py-2.5 rounded-xl bg-[var(--primary)] text-white text-xs font-bold shadow-sm shadow-[var(--glow)] text-center block"
+              className="w-full py-3 rounded-xl bg-[var(--primary)] text-white text-xs font-bold shadow-sm shadow-[var(--glow)] text-center min-h-[44px] flex items-center justify-center"
             >
               Get Started →
             </button>
