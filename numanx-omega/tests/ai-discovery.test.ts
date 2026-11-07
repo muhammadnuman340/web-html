@@ -59,13 +59,15 @@ describe('Phase 3 Step 7 — AI Discovery Files & Agent Readiness', () => {
     it('references only valid approved canonical public URLs', () => {
       const content = fs.readFileSync(llmsPath, 'utf-8')
       // Extract all markdown links: [text](URL)
-      const linkRegex = /\[([^\]]+)\]\((https:\/\/numanx-studio-omega-converter\.netlify\.app[^)]*)\)/g
+      const origin = DEFAULT_SITE_URL
+      const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g
       let match: RegExpExecArray | null
       let linkCount = 0
 
       while ((match = linkRegex.exec(content)) !== null) {
         linkCount++
         const url = match[2]
+        assert.ok(url.startsWith(origin), `URL must start with authoritative origin: ${url}`)
         // Allow reference to sitemap.xml and llms-full.txt
         if (url.endsWith('/sitemap.xml') || url.endsWith('/llms-full.txt')) {
           continue

@@ -30,10 +30,9 @@ import { generateSitemapEntries, buildSitemapXml } from '../scripts/generate-sit
 import { SystemLabels } from '../src/types'
 
 describe('SEO Architecture: Site Identity & Authoritative Origin', () => {
-  it('enforces live Netlify domain as authoritative origin', () => {
-    assert.equal(DEFAULT_SITE_URL, 'https://numanx-studio-omega-converter.netlify.app')
-    assert.equal(SITE.url, 'https://numanx-studio-omega-converter.netlify.app/')
-    assert.equal(getSiteUrl(), 'https://numanx-studio-omega-converter.netlify.app')
+  it('enforces configured domain as authoritative origin', () => {
+    assert.equal(DEFAULT_SITE_URL, getSiteUrl())
+    assert.equal(SITE.url, `${getSiteUrl()}/`)
   })
 
   it('normalizes paths without double slashes or trailing slashes, preserving root /', () => {
@@ -45,31 +44,35 @@ describe('SEO Architecture: Site Identity & Authoritative Origin', () => {
   })
 
   it('generates pristine absolute URLs with proper trailing slash on root', () => {
-    assert.equal(absoluteUrl('/'), 'https://numanx-studio-omega-converter.netlify.app/')
-    assert.equal(absoluteUrl(''), 'https://numanx-studio-omega-converter.netlify.app/')
-    assert.equal(absoluteUrl('/converter'), 'https://numanx-studio-omega-converter.netlify.app/converter')
-    assert.equal(absoluteUrl('categories'), 'https://numanx-studio-omega-converter.netlify.app/categories')
+    const origin = getSiteUrl()
+    assert.equal(absoluteUrl('/'), `${origin}/`)
+    assert.equal(absoluteUrl(''), `${origin}/`)
+    assert.equal(absoluteUrl('/converter'), `${origin}/converter`)
+    assert.equal(absoluteUrl('categories'), `${origin}/categories`)
   })
 })
 
 describe('SEO Architecture: Canonical URL & Alias Resolution', () => {
   it('resolves home to trailing slash origin and static core routes without double slashes', () => {
-    assert.equal(canonicalUrl('/'), 'https://numanx-studio-omega-converter.netlify.app/')
-    assert.equal(canonicalUrl(''), 'https://numanx-studio-omega-converter.netlify.app/')
-    assert.equal(canonicalUrl('/categories'), 'https://numanx-studio-omega-converter.netlify.app/categories')
-    assert.equal(canonicalUrl('/blog'), 'https://numanx-studio-omega-converter.netlify.app/blog')
+    const origin = getSiteUrl()
+    assert.equal(canonicalUrl('/'), `${origin}/`)
+    assert.equal(canonicalUrl(''), `${origin}/`)
+    assert.equal(canonicalUrl('/categories'), `${origin}/categories`)
+    assert.equal(canonicalUrl('/blog'), `${origin}/blog`)
   })
 
   it('verifies explicit canonical examples specified in Step 4 specification', () => {
-    assert.equal(canonicalUrl('/'), 'https://numanx-studio-omega-converter.netlify.app/')
-    assert.equal(canonicalUrl('/length'), 'https://numanx-studio-omega-converter.netlify.app/convert/length')
-    assert.equal(canonicalUrl('/length-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/length')
-    assert.equal(canonicalUrl('/temperature'), 'https://numanx-studio-omega-converter.netlify.app/convert/temp')
-    assert.equal(canonicalUrl('/weight'), 'https://numanx-studio-omega-converter.netlify.app/convert/mass')
-    assert.equal(canonicalUrl('/convert/length/meter-to-feet'), 'https://numanx-studio-omega-converter.netlify.app/convert/length/meter-to-feet')
+    const origin = getSiteUrl()
+    assert.equal(canonicalUrl('/'), `${origin}/`)
+    assert.equal(canonicalUrl('/length'), `${origin}/convert/length`)
+    assert.equal(canonicalUrl('/length-converter'), `${origin}/convert/length`)
+    assert.equal(canonicalUrl('/temperature'), `${origin}/convert/temp`)
+    assert.equal(canonicalUrl('/weight'), `${origin}/convert/mass`)
+    assert.equal(canonicalUrl('/convert/length/meter-to-feet'), `${origin}/convert/length/meter-to-feet`)
   })
 
   it('resolves canonical category routes to /convert/:id for all 24 categories', () => {
+    const origin = getSiteUrl()
     const categories = getAllCategories()
     assert.equal(categories.length, 24)
 
@@ -77,40 +80,41 @@ describe('SEO Architecture: Canonical URL & Alias Resolution', () => {
       const canonical = canonicalUrl(`/convert/${cat.id}`)
       assert.equal(
         canonical,
-        `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}`,
+        `${origin}/convert/${cat.id}`,
         `Canonical mismatch for category ${cat.id}`
       )
     }
   })
 
   it('maps legacy aliases and friendly URLs directly to their canonical category destination', () => {
+    const origin = getSiteUrl()
     // Length aliases
-    assert.equal(canonicalUrl('/length'), 'https://numanx-studio-omega-converter.netlify.app/convert/length')
-    assert.equal(canonicalUrl('/length-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/length')
+    assert.equal(canonicalUrl('/length'), `${origin}/convert/length`)
+    assert.equal(canonicalUrl('/length-converter'), `${origin}/convert/length`)
 
     // Mass / Weight aliases
-    assert.equal(canonicalUrl('/mass'), 'https://numanx-studio-omega-converter.netlify.app/convert/mass')
-    assert.equal(canonicalUrl('/mass-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/mass')
-    assert.equal(canonicalUrl('/weight'), 'https://numanx-studio-omega-converter.netlify.app/convert/mass')
-    assert.equal(canonicalUrl('/weight-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/mass')
+    assert.equal(canonicalUrl('/mass'), `${origin}/convert/mass`)
+    assert.equal(canonicalUrl('/mass-converter'), `${origin}/convert/mass`)
+    assert.equal(canonicalUrl('/weight'), `${origin}/convert/mass`)
+    assert.equal(canonicalUrl('/weight-converter'), `${origin}/convert/mass`)
 
     // Temperature aliases
-    assert.equal(canonicalUrl('/temp'), 'https://numanx-studio-omega-converter.netlify.app/convert/temp')
-    assert.equal(canonicalUrl('/temp-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/temp')
-    assert.equal(canonicalUrl('/temperature'), 'https://numanx-studio-omega-converter.netlify.app/convert/temp')
-    assert.equal(canonicalUrl('/temperature-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/temp')
+    assert.equal(canonicalUrl('/temp'), `${origin}/convert/temp`)
+    assert.equal(canonicalUrl('/temp-converter'), `${origin}/convert/temp`)
+    assert.equal(canonicalUrl('/temperature'), `${origin}/convert/temp`)
+    assert.equal(canonicalUrl('/temperature-converter'), `${origin}/convert/temp`)
 
     // Data aliases
-    assert.equal(canonicalUrl('/data'), 'https://numanx-studio-omega-converter.netlify.app/convert/data')
-    assert.equal(canonicalUrl('/data-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/data')
+    assert.equal(canonicalUrl('/data'), `${origin}/convert/data`)
+    assert.equal(canonicalUrl('/data-converter'), `${origin}/convert/data`)
 
     // Speed alias
-    assert.equal(canonicalUrl('/speed'), 'https://numanx-studio-omega-converter.netlify.app/convert/speed')
-    assert.equal(canonicalUrl('/speed-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/speed')
+    assert.equal(canonicalUrl('/speed'), `${origin}/convert/speed`)
+    assert.equal(canonicalUrl('/speed-converter'), `${origin}/convert/speed`)
 
     // Datatransfer alias
-    assert.equal(canonicalUrl('/datatransfer'), 'https://numanx-studio-omega-converter.netlify.app/convert/datatransfer')
-    assert.equal(canonicalUrl('/datatransfer-converter'), 'https://numanx-studio-omega-converter.netlify.app/convert/datatransfer')
+    assert.equal(canonicalUrl('/datatransfer'), `${origin}/convert/datatransfer`)
+    assert.equal(canonicalUrl('/datatransfer-converter'), `${origin}/convert/datatransfer`)
   })
 })
 
@@ -141,7 +145,7 @@ describe('SEO Architecture: Indexability & Robots Policy', () => {
     assert.ok(fs.existsSync(robotsPath), 'public/robots.txt must exist')
     const content = fs.readFileSync(robotsPath, 'utf-8')
 
-    assert.ok(content.includes('Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml'))
+    assert.ok(content.includes(`Sitemap: ${getSiteUrl()}/sitemap.xml`))
     assert.ok(content.includes('Disallow: /_redirects'))
 
     // App routes with noindex must NOT be disallowed in robots.txt so crawlers can read the noindex tag
@@ -163,7 +167,7 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
       assert.ok(!seen.has(e.loc), `Duplicate loc found in sitemap: ${e.loc}`)
       seen.add(e.loc)
       assert.ok(
-        e.loc.startsWith('https://numanx-studio-omega-converter.netlify.app/'),
+        e.loc.startsWith(`${getSiteUrl()}/`),
         `Loc must begin with authoritative origin with trailing slash: ${e.loc}`
       )
     }
@@ -180,7 +184,7 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
 
     const categories = getAllCategories()
     for (const cat of categories) {
-      const expectedUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}`
+      const expectedUrl = `${getSiteUrl()}/convert/${cat.id}`
       assert.ok(locs.has(expectedUrl), `Missing canonical category URL: ${expectedUrl}`)
     }
   })
@@ -207,7 +211,7 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
     ]
 
     for (const alias of forbiddenAliases) {
-      const aliasUrl = `https://numanx-studio-omega-converter.netlify.app${alias}`
+      const aliasUrl = `${getSiteUrl()}${alias}`
       assert.ok(
         !locs.includes(aliasUrl),
         `Sitemap must not contain compatibility alias URL: ${aliasUrl}`
@@ -220,7 +224,7 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
     const locs = entries.map(e => e.loc)
 
     for (const noindexPath of INDEXABILITY_POLICY.noindex) {
-      const noindexUrl = `https://numanx-studio-omega-converter.netlify.app${noindexPath}`
+      const noindexUrl = `${getSiteUrl()}${noindexPath}`
       assert.ok(
         !locs.includes(noindexUrl),
         `Sitemap must not contain noindex URL: ${noindexUrl}`

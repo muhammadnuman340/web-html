@@ -438,9 +438,9 @@ function resolveCategoryId(input) {
 }
 
 // src/config/site.ts
-var DEFAULT_SITE_URL = "https://numanx-studio-omega-converter.netlify.app";
+var DEFAULT_SITE_URL = "https://converter.numanxstudio.com";
 function getSiteUrl() {
-  const envUrl = typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
+  const envUrl = typeof process !== "undefined" && process.env?.VITE_SITE_URL ? process.env.VITE_SITE_URL : typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
   const rawUrl = envUrl || DEFAULT_SITE_URL;
   return rawUrl.trim().replace(/\/+$/, "");
 }
@@ -1655,6 +1655,19 @@ function buildSitemapXml(entries) {
   ];
   return lines.join("\n");
 }
+function buildRobotsTxt() {
+  const origin = getSiteUrl();
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "# Prevent crawling of internal infrastructure configuration",
+    "Disallow: /_redirects",
+    "",
+    `Sitemap: ${origin}/sitemap.xml`,
+    ""
+  ].join("\n");
+}
 function run() {
   const entries = generateSitemapEntries();
   const xml = buildSitemapXml(entries);
@@ -1662,11 +1675,18 @@ function run() {
   const publicPath = path.resolve(cwd, "public/sitemap.xml");
   fs.writeFileSync(publicPath, xml, "utf-8");
   console.log(`\u2705 Updated public/sitemap.xml (${entries.length} URLs)`);
+  const robots = buildRobotsTxt();
+  const publicRobotsPath = path.resolve(cwd, "public/robots.txt");
+  fs.writeFileSync(publicRobotsPath, robots, "utf-8");
+  console.log(`\u2705 Updated public/robots.txt`);
   const distDir = path.resolve(cwd, "dist");
   if (fs.existsSync(distDir)) {
     const distPath = path.resolve(distDir, "sitemap.xml");
     fs.writeFileSync(distPath, xml, "utf-8");
     console.log(`\u2705 Updated dist/sitemap.xml (${entries.length} URLs)`);
+    const distRobotsPath = path.resolve(distDir, "robots.txt");
+    fs.writeFileSync(distRobotsPath, robots, "utf-8");
+    console.log(`\u2705 Updated dist/robots.txt`);
   }
 }
 run();
@@ -2904,15 +2924,102 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 `);
   return sections.join("\n");
 }
+function generateLlmsSummaryText() {
+  return `# Omega X Converter
+
+> Universal unit and currency conversion platform with 24 physical and financial categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+
+Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, currency, crypto, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
+
+Canonical Origin: ${DEFAULT_SITE_URL}/
+Publisher: NumanX Studio
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+XML Sitemap: ${DEFAULT_SITE_URL}/sitemap.xml
+Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
+
+## Primary Public Resources
+
+- [Home](${canonicalUrl("/")}): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
+- [Universal Converter](${canonicalUrl("/converter")}): Dedicated conversion tool interface supporting all 24 measurement categories.
+- [Categories Directory](${canonicalUrl("/categories")}): Complete index of all 24 conversion categories with unit counts and reference standards.
+- [Currency Exchange](${canonicalUrl("/currency")}): Global fiat currency conversion tool supporting 160+ fiat currencies with offline fallback rates.
+- [Cryptocurrency Rates](${canonicalUrl("/crypto")}): Digital asset conversion calculator covering major cryptocurrencies against USD, EUR, GBP, and BTC.
+- [Formula Explorer](${canonicalUrl("/formulas")}): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
+- [Scientific Calculator](${canonicalUrl("/calculator")}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
+- [Health & Fitness Metrics](${canonicalUrl("/health")}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
+- [Educational Blog](${canonicalUrl("/blog")}): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
+- [About & Standards Methodology](${canonicalUrl("/about")}): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
+- [HTML Sitemap](${canonicalUrl("/sitemap")}): Authoritative index of every canonical public page.
+- [Contact](${canonicalUrl("/contact")}): How to report a wrong conversion, a security issue or a privacy question.
+- [Privacy Policy](${canonicalUrl("/privacy")}): No accounts, ads, cookies or analytics; history and settings stay in the browser.
+- [Terms of Use](${canonicalUrl("/terms")}): Accuracy, third-party price data, health calculator limits and content licensing.
+
+## Category Landings
+
+- [Length](${canonicalUrl("/convert/length")}): Meters, feet, inches, centimeters, kilometers, miles, yards, millimeters, nautical miles, micrometers, nanometers.
+- [Area](${canonicalUrl("/convert/area")}): Square meters, square feet, acres, hectares, square kilometers, square miles.
+- [Volume](${canonicalUrl("/convert/volume")}): Liters, milliliters, gallons, cubic meters, cubic feet, fluid ounces, cups.
+- [Mass & Weight](${canonicalUrl("/convert/mass")}): Kilograms, grams, pounds, ounces, metric tons, milligrams, stones, carats.
+- [Temperature](${canonicalUrl("/convert/temp")}): Celsius, Fahrenheit, Kelvin, Rankine with exact affine zero-offset formulas.
+- [Time](${canonicalUrl("/convert/time")}): Seconds, minutes, hours, days, weeks, months, years, milliseconds, microseconds.
+- [Speed](${canonicalUrl("/convert/speed")}): Meters per second, kilometers per hour, miles per hour, knots, feet per second.
+- [Acceleration](${canonicalUrl("/convert/acceleration")}): Meters per second squared, standard gravity (g), feet per second squared, gal.
+- [Force](${canonicalUrl("/convert/force")}): Newtons, kilonewtons, pound-force, dyne, kilogram-force.
+- [Pressure](${canonicalUrl("/convert/pressure")}): Pascals, bars, PSI, atmospheres, millimeters of mercury, kilopascals.
+- [Energy](${canonicalUrl("/convert/energy")}): Joules, calories, kilowatt-hours, British thermal units (BTU), electronvolts.
+- [Power](${canonicalUrl("/convert/power")}): Watts, kilowatts, horsepower, megawatts, gigawatts.
+- [Electricity & Current](${canonicalUrl("/convert/electricity")}): Amperes, milliamperes, kiloamperes, microamperes, coulombs, volts, ohms, farads.
+- [Magnetism](${canonicalUrl("/convert/magnetism")}): Tesla, gauss, weber, maxwell.
+- [Frequency](${canonicalUrl("/convert/frequency")}): Hertz, kilohertz, megahertz, gigahertz, revolutions per minute.
+- [Digital Storage](${canonicalUrl("/convert/data")}): Bytes, kilobytes, megabytes, gigabytes, terabytes, kibibytes, mebibytes, gibibytes (decimal vs binary prefixes).
+- [Data Transfer Rate](${canonicalUrl("/convert/datatransfer")}): Bits per second, megabits per second, gigabits per second, megabytes per second.
+- [Angle](${canonicalUrl("/convert/angle")}): Degrees, radians, gradians, arcminutes, arcseconds.
+- [Torque](${canonicalUrl("/convert/torque")}): Newton-meters, pound-feet, pound-inches.
+- [Fuel Economy](${canonicalUrl("/convert/fuel")}): Miles per gallon (US), liters per 100 km, kilometers per liter.
+- [Density](${canonicalUrl("/convert/density")}): Kilograms per cubic meter, grams per cubic centimeter, pounds per cubic foot.
+- [Cooking](${canonicalUrl("/convert/cooking")}): Cups, tablespoons, teaspoons, fluid ounces, milliliters, grams (ingredient-aware).
+- [Textile & Yarn Count](${canonicalUrl("/convert/textile")}): Tex, denier, cotton count (Ne), worsted count, metric count (Nm).
+- [Astronomy](${canonicalUrl("/convert/astronomy")}): Astronomical units (au), light-years, parsecs, kilometers, miles.
+
+## Educational Guides
+
+- [Meters to Feet Conversion Guide](${canonicalUrl("/guides/meters-to-feet")}): Detailed conversion methodology, practical height and construction examples, and historical background.
+- [Feet to Meters Conversion Guide](${canonicalUrl("/guides/feet-to-meters")}): Reverse length conversion reference from international feet to SI meters.
+- [Celsius to Fahrenheit Conversion Guide](${canonicalUrl("/guides/celsius-to-fahrenheit")}): Exact affine formula breakdown, mental math shortcuts, and meteorological references.
+- [Fahrenheit to Celsius Conversion Guide](${canonicalUrl("/guides/fahrenheit-to-celsius")}): Reverse thermal conversion reference with exact 5/9 interval ratios.
+- [Kilograms to Pounds Conversion Guide](${canonicalUrl("/guides/kg-to-lbs")}): Mass conversion standard (NIST / international avoirdupois pound) with conversion tables.
+- [Pounds to Kilograms Conversion Guide](${canonicalUrl("/guides/lbs-to-kg")}): Standard mass conversion reference from avoirdupois pounds to SI kilograms.
+
+## Technical Articles
+
+- [Compound Length Units in Construction](${canonicalUrl("/blog/compound-length-units-guide")}): Working with feet-and-inches, architectural notation, and precision tolerances.
+- [Fractional Inches to Millimeters](${canonicalUrl("/blog/fractional-inches-to-mm-best-practices")}): Reference chart and tolerance best practices for machinists and engineers.
+- [Metric vs Imperial Engineering Standards](${canonicalUrl("/blog/metric-vs-imperial-engineering-guide")}): Analysis of global dual-unit documentation in aerospace, automotive, and civil engineering.
+- [Thermodynamic Temperature Scales](${canonicalUrl("/blog/temperature-scales-celsius-fahrenheit-kelvin")}): Deep dive into absolute zero, Boltzmann's constant, and ITS-90 temperature standards.
+- [Digital Storage Measurement](${canonicalUrl("/blog/digital-data-storage-units-guide")}): Hardware disk capacity versus operating system reported file sizes.
+- [AI-Assisted Conversion Architecture](${canonicalUrl("/blog/ai-powered-unit-conversions-in-2026")}): Local client regex and natural-language pattern matching for rapid unit extraction without remote data transmission.
+
+## Machine Usage & Agent Guidelines
+
+- Nature of this File: \`llms.txt\` is an emerging community convention and proposal for providing concise, LLM-oriented site documentation. It is not a formal web standard and carries no guarantee of crawler ingestion, AI discovery, ranking benefit, or model citation.
+- URL Structure: All public routes follow deterministic paths: \`/convert/{category}\` for category landings and \`/convert/{category}/{from}-to-{to}\` for unit pairs.
+- Scientific Grounding: Conversion factors follow the BIPM SI Brochure (9th Edition) and NIST Special Publication 811.
+- No Commercial Endorsement: Institutional references (NIST, BIPM, ISO, IEC, CODATA, WMO) represent scientific source provenance only and do not imply institutional endorsement.
+- Privacy & State: The application runs entirely on the client. Routes such as \`/history\`, \`/favorites\`, \`/settings\`, \`/custom-units\`, \`/help\`, and \`/dashboard\` rely on browser LocalStorage, are tagged noindex, and are not public indexable URLs.
+`;
+}
 function run2() {
   const content = generateLlmsFullText();
+  const summary = generateLlmsSummaryText();
   const cwd = process.cwd();
   fs2.writeFileSync(path2.resolve(cwd, "public/llms-full.txt"), content, "utf-8");
-  console.log("\u2705 Generated public/llms-full.txt successfully.");
+  fs2.writeFileSync(path2.resolve(cwd, "public/llms.txt"), summary, "utf-8");
+  console.log("\u2705 Generated public/llms-full.txt and public/llms.txt successfully.");
   const distDir = path2.resolve(cwd, "dist");
   if (fs2.existsSync(distDir)) {
     fs2.writeFileSync(path2.resolve(distDir, "llms-full.txt"), content, "utf-8");
-    console.log("\u2705 Generated dist/llms-full.txt successfully.");
+    fs2.writeFileSync(path2.resolve(distDir, "llms.txt"), summary, "utf-8");
+    console.log("\u2705 Generated dist/llms-full.txt and dist/llms.txt successfully.");
   }
 }
 run2();
@@ -2959,12 +3066,14 @@ describe("Phase 3 Step 7 \u2014 AI Discovery Files & Agent Readiness", () => {
     });
     it("references only valid approved canonical public URLs", () => {
       const content = fs3.readFileSync(llmsPath, "utf-8");
-      const linkRegex = /\[([^\]]+)\]\((https:\/\/numanx-studio-omega-converter\.netlify\.app[^)]*)\)/g;
+      const origin = DEFAULT_SITE_URL;
+      const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
       let match;
       let linkCount = 0;
       while ((match = linkRegex.exec(content)) !== null) {
         linkCount++;
         const url = match[2];
+        assert.ok(url.startsWith(origin), `URL must start with authoritative origin: ${url}`);
         if (url.endsWith("/sitemap.xml") || url.endsWith("/llms-full.txt")) {
           continue;
         }

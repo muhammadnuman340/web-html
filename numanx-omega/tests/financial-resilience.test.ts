@@ -17,6 +17,7 @@ import {
   convertCryptoAmount
 } from '../src/services/financialData'
 import { classifyRequest, getOfflineFallbackForType } from '../src/utils/pwaLogic'
+import { getSiteUrl } from '../src/config/site'
 
 describe('Task 11 & 12: Financial Cache Validation & Malformed Cache Rejection', () => {
   it('validates a well-formed fiat currency cache payload', () => {
@@ -273,7 +274,7 @@ describe('Task 7, 8 & 10: Financial HTTP Error & Rate Limit Architecture', () =>
 })
 
 describe('Task 19 & 41: Service Worker Invariant & Cross-Origin API Protection', () => {
-  const APP_ORIGIN = 'https://numanx-studio-omega-converter.netlify.app'
+  const APP_ORIGIN = getSiteUrl()
 
   it('strictly classifies open.er-api.com as CROSS_ORIGIN', () => {
     const classification = classifyRequest('https://open.er-api.com/v6/latest/USD', 'cors', 'GET', APP_ORIGIN)

@@ -434,9 +434,9 @@ function resolveCategoryId(input) {
 }
 
 // src/config/site.ts
-var DEFAULT_SITE_URL = "https://numanx-studio-omega-converter.netlify.app";
+var DEFAULT_SITE_URL = "https://converter.numanxstudio.com";
 function getSiteUrl() {
-  const envUrl = typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
+  const envUrl = typeof process !== "undefined" && process.env?.VITE_SITE_URL ? process.env.VITE_SITE_URL : typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
   const rawUrl = envUrl || DEFAULT_SITE_URL;
   return rawUrl.trim().replace(/\/+$/, "");
 }
@@ -1588,6 +1588,19 @@ function buildSitemapXml(entries) {
   ];
   return lines.join("\n");
 }
+function buildRobotsTxt() {
+  const origin = getSiteUrl();
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "# Prevent crawling of internal infrastructure configuration",
+    "Disallow: /_redirects",
+    "",
+    `Sitemap: ${origin}/sitemap.xml`,
+    ""
+  ].join("\n");
+}
 function run() {
   const entries = generateSitemapEntries();
   const xml = buildSitemapXml(entries);
@@ -1595,11 +1608,18 @@ function run() {
   const publicPath = path.resolve(cwd, "public/sitemap.xml");
   fs.writeFileSync(publicPath, xml, "utf-8");
   console.log(`\u2705 Updated public/sitemap.xml (${entries.length} URLs)`);
+  const robots = buildRobotsTxt();
+  const publicRobotsPath = path.resolve(cwd, "public/robots.txt");
+  fs.writeFileSync(publicRobotsPath, robots, "utf-8");
+  console.log(`\u2705 Updated public/robots.txt`);
   const distDir = path.resolve(cwd, "dist");
   if (fs.existsSync(distDir)) {
     const distPath = path.resolve(distDir, "sitemap.xml");
     fs.writeFileSync(distPath, xml, "utf-8");
     console.log(`\u2705 Updated dist/sitemap.xml (${entries.length} URLs)`);
+    const distRobotsPath = path.resolve(distDir, "robots.txt");
+    fs.writeFileSync(distRobotsPath, robots, "utf-8");
+    console.log(`\u2705 Updated dist/robots.txt`);
   }
 }
 run();
@@ -1609,10 +1629,9 @@ var SystemLabels = { M: "Metric", I: "Imperial", S: "Scientific", O: "Other", C:
 
 // tests/seo.test.ts
 describe("SEO Architecture: Site Identity & Authoritative Origin", () => {
-  it("enforces live Netlify domain as authoritative origin", () => {
-    assert.equal(DEFAULT_SITE_URL, "https://numanx-studio-omega-converter.netlify.app");
-    assert.equal(SITE.url, "https://numanx-studio-omega-converter.netlify.app/");
-    assert.equal(getSiteUrl(), "https://numanx-studio-omega-converter.netlify.app");
+  it("enforces configured domain as authoritative origin", () => {
+    assert.equal(DEFAULT_SITE_URL, getSiteUrl());
+    assert.equal(SITE.url, `${getSiteUrl()}/`);
   });
   it("normalizes paths without double slashes or trailing slashes, preserving root /", () => {
     assert.equal(normalizePath(""), "/");
@@ -1622,56 +1641,61 @@ describe("SEO Architecture: Site Identity & Authoritative Origin", () => {
     assert.equal(normalizePath("//convert//length//"), "/convert/length");
   });
   it("generates pristine absolute URLs with proper trailing slash on root", () => {
-    assert.equal(absoluteUrl("/"), "https://numanx-studio-omega-converter.netlify.app/");
-    assert.equal(absoluteUrl(""), "https://numanx-studio-omega-converter.netlify.app/");
-    assert.equal(absoluteUrl("/converter"), "https://numanx-studio-omega-converter.netlify.app/converter");
-    assert.equal(absoluteUrl("categories"), "https://numanx-studio-omega-converter.netlify.app/categories");
+    const origin = getSiteUrl();
+    assert.equal(absoluteUrl("/"), `${origin}/`);
+    assert.equal(absoluteUrl(""), `${origin}/`);
+    assert.equal(absoluteUrl("/converter"), `${origin}/converter`);
+    assert.equal(absoluteUrl("categories"), `${origin}/categories`);
   });
 });
 describe("SEO Architecture: Canonical URL & Alias Resolution", () => {
   it("resolves home to trailing slash origin and static core routes without double slashes", () => {
-    assert.equal(canonicalUrl("/"), "https://numanx-studio-omega-converter.netlify.app/");
-    assert.equal(canonicalUrl(""), "https://numanx-studio-omega-converter.netlify.app/");
-    assert.equal(canonicalUrl("/categories"), "https://numanx-studio-omega-converter.netlify.app/categories");
-    assert.equal(canonicalUrl("/blog"), "https://numanx-studio-omega-converter.netlify.app/blog");
+    const origin = getSiteUrl();
+    assert.equal(canonicalUrl("/"), `${origin}/`);
+    assert.equal(canonicalUrl(""), `${origin}/`);
+    assert.equal(canonicalUrl("/categories"), `${origin}/categories`);
+    assert.equal(canonicalUrl("/blog"), `${origin}/blog`);
   });
   it("verifies explicit canonical examples specified in Step 4 specification", () => {
-    assert.equal(canonicalUrl("/"), "https://numanx-studio-omega-converter.netlify.app/");
-    assert.equal(canonicalUrl("/length"), "https://numanx-studio-omega-converter.netlify.app/convert/length");
-    assert.equal(canonicalUrl("/length-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/length");
-    assert.equal(canonicalUrl("/temperature"), "https://numanx-studio-omega-converter.netlify.app/convert/temp");
-    assert.equal(canonicalUrl("/weight"), "https://numanx-studio-omega-converter.netlify.app/convert/mass");
-    assert.equal(canonicalUrl("/convert/length/meter-to-feet"), "https://numanx-studio-omega-converter.netlify.app/convert/length/meter-to-feet");
+    const origin = getSiteUrl();
+    assert.equal(canonicalUrl("/"), `${origin}/`);
+    assert.equal(canonicalUrl("/length"), `${origin}/convert/length`);
+    assert.equal(canonicalUrl("/length-converter"), `${origin}/convert/length`);
+    assert.equal(canonicalUrl("/temperature"), `${origin}/convert/temp`);
+    assert.equal(canonicalUrl("/weight"), `${origin}/convert/mass`);
+    assert.equal(canonicalUrl("/convert/length/meter-to-feet"), `${origin}/convert/length/meter-to-feet`);
   });
   it("resolves canonical category routes to /convert/:id for all 24 categories", () => {
+    const origin = getSiteUrl();
     const categories = getAllCategories();
     assert.equal(categories.length, 24);
     for (const cat of categories) {
       const canonical = canonicalUrl(`/convert/${cat.id}`);
       assert.equal(
         canonical,
-        `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}`,
+        `${origin}/convert/${cat.id}`,
         `Canonical mismatch for category ${cat.id}`
       );
     }
   });
   it("maps legacy aliases and friendly URLs directly to their canonical category destination", () => {
-    assert.equal(canonicalUrl("/length"), "https://numanx-studio-omega-converter.netlify.app/convert/length");
-    assert.equal(canonicalUrl("/length-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/length");
-    assert.equal(canonicalUrl("/mass"), "https://numanx-studio-omega-converter.netlify.app/convert/mass");
-    assert.equal(canonicalUrl("/mass-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/mass");
-    assert.equal(canonicalUrl("/weight"), "https://numanx-studio-omega-converter.netlify.app/convert/mass");
-    assert.equal(canonicalUrl("/weight-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/mass");
-    assert.equal(canonicalUrl("/temp"), "https://numanx-studio-omega-converter.netlify.app/convert/temp");
-    assert.equal(canonicalUrl("/temp-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/temp");
-    assert.equal(canonicalUrl("/temperature"), "https://numanx-studio-omega-converter.netlify.app/convert/temp");
-    assert.equal(canonicalUrl("/temperature-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/temp");
-    assert.equal(canonicalUrl("/data"), "https://numanx-studio-omega-converter.netlify.app/convert/data");
-    assert.equal(canonicalUrl("/data-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/data");
-    assert.equal(canonicalUrl("/speed"), "https://numanx-studio-omega-converter.netlify.app/convert/speed");
-    assert.equal(canonicalUrl("/speed-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/speed");
-    assert.equal(canonicalUrl("/datatransfer"), "https://numanx-studio-omega-converter.netlify.app/convert/datatransfer");
-    assert.equal(canonicalUrl("/datatransfer-converter"), "https://numanx-studio-omega-converter.netlify.app/convert/datatransfer");
+    const origin = getSiteUrl();
+    assert.equal(canonicalUrl("/length"), `${origin}/convert/length`);
+    assert.equal(canonicalUrl("/length-converter"), `${origin}/convert/length`);
+    assert.equal(canonicalUrl("/mass"), `${origin}/convert/mass`);
+    assert.equal(canonicalUrl("/mass-converter"), `${origin}/convert/mass`);
+    assert.equal(canonicalUrl("/weight"), `${origin}/convert/mass`);
+    assert.equal(canonicalUrl("/weight-converter"), `${origin}/convert/mass`);
+    assert.equal(canonicalUrl("/temp"), `${origin}/convert/temp`);
+    assert.equal(canonicalUrl("/temp-converter"), `${origin}/convert/temp`);
+    assert.equal(canonicalUrl("/temperature"), `${origin}/convert/temp`);
+    assert.equal(canonicalUrl("/temperature-converter"), `${origin}/convert/temp`);
+    assert.equal(canonicalUrl("/data"), `${origin}/convert/data`);
+    assert.equal(canonicalUrl("/data-converter"), `${origin}/convert/data`);
+    assert.equal(canonicalUrl("/speed"), `${origin}/convert/speed`);
+    assert.equal(canonicalUrl("/speed-converter"), `${origin}/convert/speed`);
+    assert.equal(canonicalUrl("/datatransfer"), `${origin}/convert/datatransfer`);
+    assert.equal(canonicalUrl("/datatransfer-converter"), `${origin}/convert/datatransfer`);
   });
 });
 describe("SEO Architecture: Indexability & Robots Policy", () => {
@@ -1698,7 +1722,7 @@ describe("SEO Architecture: Indexability & Robots Policy", () => {
     const robotsPath = path2.resolve(process.cwd(), "public/robots.txt");
     assert.ok(fs2.existsSync(robotsPath), "public/robots.txt must exist");
     const content = fs2.readFileSync(robotsPath, "utf-8");
-    assert.ok(content.includes("Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml"));
+    assert.ok(content.includes(`Sitemap: ${getSiteUrl()}/sitemap.xml`));
     assert.ok(content.includes("Disallow: /_redirects"));
     assert.ok(!content.includes("Disallow: /dashboard"));
     assert.ok(!content.includes("Disallow: /favorites"));
@@ -1716,7 +1740,7 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
       assert.ok(!seen.has(e.loc), `Duplicate loc found in sitemap: ${e.loc}`);
       seen.add(e.loc);
       assert.ok(
-        e.loc.startsWith("https://numanx-studio-omega-converter.netlify.app/"),
+        e.loc.startsWith(`${getSiteUrl()}/`),
         `Loc must begin with authoritative origin with trailing slash: ${e.loc}`
       );
     }
@@ -1730,7 +1754,7 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
     const locs = new Set(entries.map((e) => e.loc));
     const categories = getAllCategories();
     for (const cat of categories) {
-      const expectedUrl = `https://numanx-studio-omega-converter.netlify.app/convert/${cat.id}`;
+      const expectedUrl = `${getSiteUrl()}/convert/${cat.id}`;
       assert.ok(locs.has(expectedUrl), `Missing canonical category URL: ${expectedUrl}`);
     }
   });
@@ -1754,7 +1778,7 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
       "/data-converter"
     ];
     for (const alias of forbiddenAliases) {
-      const aliasUrl = `https://numanx-studio-omega-converter.netlify.app${alias}`;
+      const aliasUrl = `${getSiteUrl()}${alias}`;
       assert.ok(
         !locs.includes(aliasUrl),
         `Sitemap must not contain compatibility alias URL: ${aliasUrl}`
@@ -1765,7 +1789,7 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
     const entries = generateSitemapEntries();
     const locs = entries.map((e) => e.loc);
     for (const noindexPath of INDEXABILITY_POLICY.noindex) {
-      const noindexUrl = `https://numanx-studio-omega-converter.netlify.app${noindexPath}`;
+      const noindexUrl = `${getSiteUrl()}${noindexPath}`;
       assert.ok(
         !locs.includes(noindexUrl),
         `Sitemap must not contain noindex URL: ${noindexUrl}`

@@ -15,8 +15,9 @@ import {
   PRECACHE_STATIC,
   PRECACHE_PAGES
 } from '../src/utils/pwaLogic'
+import { getSiteUrl } from '../src/config/site'
 
-const APP_ORIGIN = 'https://numanx-studio-omega-converter.netlify.app'
+const APP_ORIGIN = getSiteUrl()
 
 interface MockSwEvent {
   request?: {
