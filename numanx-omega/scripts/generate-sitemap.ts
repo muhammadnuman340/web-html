@@ -12,7 +12,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { canonicalUrl, isIndexablePath } from '../src/config/site'
+import { canonicalUrl, isIndexablePath, getSiteUrl } from '../src/config/site'
 import { getAllCategories } from '../src/engine/converter'
 import { categoryContent } from '../src/engine/categoryContent'
 import { guideContent } from '../src/engine/guideContent'
@@ -107,6 +107,20 @@ export function buildSitemapXml(entries: SitemapEntry[]): string {
   return lines.join('\n')
 }
 
+export function buildRobotsTxt(): string {
+  const origin = getSiteUrl()
+  return [
+    'User-agent: *',
+    'Allow: /',
+    '',
+    '# Prevent crawling of internal infrastructure configuration',
+    'Disallow: /_redirects',
+    '',
+    `Sitemap: ${origin}/sitemap.xml`,
+    '',
+  ].join('\n')
+}
+
 export function run() {
   const entries = generateSitemapEntries()
   const xml = buildSitemapXml(entries)
@@ -116,11 +130,20 @@ export function run() {
   fs.writeFileSync(publicPath, xml, 'utf-8')
   console.log(`✅ Updated public/sitemap.xml (${entries.length} URLs)`)
 
+  const robots = buildRobotsTxt()
+  const publicRobotsPath = path.resolve(cwd, 'public/robots.txt')
+  fs.writeFileSync(publicRobotsPath, robots, 'utf-8')
+  console.log(`✅ Updated public/robots.txt`)
+
   const distDir = path.resolve(cwd, 'dist')
   if (fs.existsSync(distDir)) {
     const distPath = path.resolve(distDir, 'sitemap.xml')
     fs.writeFileSync(distPath, xml, 'utf-8')
     console.log(`✅ Updated dist/sitemap.xml (${entries.length} URLs)`)
+
+    const distRobotsPath = path.resolve(distDir, 'robots.txt')
+    fs.writeFileSync(distRobotsPath, robots, 'utf-8')
+    console.log(`✅ Updated dist/robots.txt`)
   }
 }
 

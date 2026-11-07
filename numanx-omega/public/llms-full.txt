@@ -2,11 +2,11 @@
 
 > Complete architectural, metrological, and routing reference for Omega X Converter, published by NumanX Studio.
 
-- Canonical Origin: https://numanx-studio-omega-converter.netlify.app/
+- Canonical Origin: https://converter.numanxstudio.com/
 - Publisher: NumanX Studio
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-- Canonical XML Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
-- Concise Agent Guide: https://numanx-studio-omega-converter.netlify.app/llms.txt
+- Canonical XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
+- Concise Agent Guide: https://converter.numanxstudio.com/llms.txt
 - Total Canonical Indexable Inventory: 149 URLs
 
 ## 1. System Architecture & Metrology Standards
@@ -26,33 +26,33 @@ Omega X Converter is a client-side progressive web application (PWA) built with 
 
 All primary interactive features are accessed via deterministic canonical URLs:
 
-- **Home Workspace:** https://numanx-studio-omega-converter.netlify.app/
+- **Home Workspace:** https://converter.numanxstudio.com/
   Multi-unit interactive workspace with real-time conversion, history drawer, and category search.
-- **Universal Converter:** https://numanx-studio-omega-converter.netlify.app/converter
+- **Universal Converter:** https://converter.numanxstudio.com/converter
   Unified converter interface with category dropdown, unit selectors, swap function, and dynamic formula display.
-- **Categories Directory:** https://numanx-studio-omega-converter.netlify.app/categories
+- **Categories Directory:** https://converter.numanxstudio.com/categories
   Full catalog of all 24 supported conversion categories with unit counts and measurement dimensions.
-- **Currency Center:** https://numanx-studio-omega-converter.netlify.app/currency
+- **Currency Center:** https://converter.numanxstudio.com/currency
   Real-time foreign exchange converter supporting 160+ fiat currencies with offline fallback rates.
-- **Cryptocurrency Tracker:** https://numanx-studio-omega-converter.netlify.app/crypto
+- **Cryptocurrency Tracker:** https://converter.numanxstudio.com/crypto
   Crypto asset pricing and unit calculator across major digital tokens with multi-currency fiat pairings.
-- **Formula Explorer:** https://numanx-studio-omega-converter.netlify.app/formulas
+- **Formula Explorer:** https://converter.numanxstudio.com/formulas
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
-- **Scientific Calculator:** https://numanx-studio-omega-converter.netlify.app/calculator
+- **Scientific Calculator:** https://converter.numanxstudio.com/calculator
   Client-side mathematical calculator with standard arithmetic, trigonometry, powers, and logs.
-- **Health Metrics:** https://numanx-studio-omega-converter.netlify.app/health
+- **Health Metrics:** https://converter.numanxstudio.com/health
   Body Mass Index (BMI), Basal Metabolic Rate (BMR), and daily energy requirement calculators.
-- **Educational Blog:** https://numanx-studio-omega-converter.netlify.app/blog
+- **Educational Blog:** https://converter.numanxstudio.com/blog
   Engineering, metrology, and unit history articles written by NumanX Studio editorial teams.
-- **About & Standards:** https://numanx-studio-omega-converter.netlify.app/about
+- **About & Standards:** https://converter.numanxstudio.com/about
   Editorial governance, source citations, privacy statement, and conversion engine architecture.
-- **XML Sitemap:** https://numanx-studio-omega-converter.netlify.app/sitemap
+- **XML Sitemap:** https://converter.numanxstudio.com/sitemap
   Human-navigable sitemap page mirroring the authoritative machine-readable XML sitemap.
-- **Contact:** https://numanx-studio-omega-converter.netlify.app/contact
+- **Contact:** https://converter.numanxstudio.com/contact
   How to report a wrong conversion, a security issue or a privacy question.
-- **Privacy Policy:** https://numanx-studio-omega-converter.netlify.app/privacy
+- **Privacy Policy:** https://converter.numanxstudio.com/privacy
   No accounts, ads, cookies or analytics; history and settings stay in the browser's local storage.
-- **Terms of Use:** https://numanx-studio-omega-converter.netlify.app/terms
+- **Terms of Use:** https://converter.numanxstudio.com/terms
   Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 
 ## 3. Supported Measurement Categories (24 Categories)
@@ -60,145 +60,145 @@ All primary interactive features are accessed via deterministic canonical URLs:
 Omega X Converter provides complete unit coverage across 24 distinct physical and financial domains:
 
 ### Length (`length`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/length
+- **Canonical URL:** https://converter.numanxstudio.com/convert/length
 - **Base Reference Unit:** Meter
 - **Registered Units (23):** Nanometer (nm), Micrometer (um), Millimeter (mm), Centimeter (cm), Decimeter (dm), Meter (m), Kilometer (km), Inch (in), Foot (ft), Yard (yd), Mile (mi), Nautical Mile (nmi), Furlong (furlong), Chain (chain), Rod (rod), Hand (hand), Cubit (cubit), Light Year (ly), Astronomical Unit (au), Parsec (pc), Lunar Distance (ld), Solar Radius (sr), Earth Radius (er)
 - **Description:** Deterministic measurement conversions for length.
 
 ### Area (`area`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/area
+- **Canonical URL:** https://converter.numanxstudio.com/convert/area
 - **Base Reference Unit:** m²
 - **Registered Units (12):** mm² (mm2), cm² (cm2), m² (m2), km² (km2), in² (in2), ft² (ft2), yd² (yd2), Acre (ac), Hectare (ha), mi² (mi2), Township (twp), Barn (barn)
 - **Description:** Deterministic measurement conversions for area.
 
 ### Volume (`volume`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/volume
+- **Canonical URL:** https://converter.numanxstudio.com/convert/volume
 - **Base Reference Unit:** Liter
 - **Registered Units (14):** Milliliter (mL), Liter (L), Cubic Meter (m3), Cubic Inch (in3), Cubic Foot (ft3), Gallon (gal), Quart (qt), Pint (pt), Barrel (bbl), Fluid Ounce (floz), Tablespoon (tbsp), Teaspoon (tsp), Cup (cup), Drop (drop)
 - **Description:** Deterministic measurement conversions for volume.
 
 ### Mass (`mass`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/mass
+- **Canonical URL:** https://converter.numanxstudio.com/convert/mass
 - **Base Reference Unit:** Kilogram
 - **Registered Units (13):** Microgram (ug), Milligram (mg), Gram (g), Kilogram (kg), Metric Ton (t), Ounce (oz), Pound (lb), Stone (stone), Short Ton (sh tn), Long Ton (lg tn), Carat (ct), Grain (gr), Atomic Mass Unit (amu)
 - **Description:** Deterministic measurement conversions for mass.
 
 ### Temperature (`temp`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/temp
+- **Canonical URL:** https://converter.numanxstudio.com/convert/temp
 - **Base Reference Unit:** °C
 - **Registered Units (5):** °C (C), °F (F), K (K), °Rankine (R), °Réaumur (Re)
 - **Description:** Deterministic measurement conversions for temperature.
 
 ### Time (`time`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/time
+- **Canonical URL:** https://converter.numanxstudio.com/convert/time
 - **Base Reference Unit:** Second
 - **Registered Units (13):** Nanosecond (ns), Microsecond (us), Millisecond (ms), Second (s), Minute (min), Hour (hr), Day (day), Week (week), Month (mo), Year (yr), Decade (decade), Century (century), Millennium (millennium)
 - **Description:** Deterministic measurement conversions for time.
 
 ### Speed (`speed`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/speed
+- **Canonical URL:** https://converter.numanxstudio.com/convert/speed
 - **Base Reference Unit:** m/s
 - **Registered Units (6):** m/s (mps), km/h (kmh), mph (mph), Knot (knot), Mach (mach), Speed of Light (c)
 - **Description:** Deterministic measurement conversions for speed.
 
 ### Acceleration (`acceleration`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/acceleration
+- **Canonical URL:** https://converter.numanxstudio.com/convert/acceleration
 - **Base Reference Unit:** m/s²
 - **Registered Units (4):** m/s² (mps2), Gal (gal), ft/s² (ftps2), g-force (gforce)
 - **Description:** Deterministic measurement conversions for acceleration.
 
 ### Force (`force`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/force
+- **Canonical URL:** https://converter.numanxstudio.com/convert/force
 - **Base Reference Unit:** Newton
 - **Registered Units (5):** Newton (N), Kilonewton (kN), Dyne (dyn), Pound-force (lbf), Kilogram-force (kgf)
 - **Description:** Deterministic measurement conversions for force.
 
 ### Pressure (`pressure`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/pressure
+- **Canonical URL:** https://converter.numanxstudio.com/convert/pressure
 - **Base Reference Unit:** Pascal
 - **Registered Units (8):** Pascal (Pa), Kilopascal (kPa), Megapascal (MPa), Bar (bar), PSI (psi), Atmosphere (atm), Torr (torr), mmHg (mmHg)
 - **Description:** Deterministic measurement conversions for pressure.
 
 ### Energy (`energy`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/energy
+- **Canonical URL:** https://converter.numanxstudio.com/convert/energy
 - **Base Reference Unit:** Joule
 - **Registered Units (9):** Joule (J), Kilojoule (kJ), Calorie (cal), Kilocalorie (kcal), Watt-hour (Wh), Kilowatt-hour (kWh), Electronvolt (eV), BTU (BTU), Therm (therm)
 - **Description:** Deterministic measurement conversions for energy.
 
 ### Power (`power`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/power
+- **Canonical URL:** https://converter.numanxstudio.com/convert/power
 - **Base Reference Unit:** Watt
 - **Registered Units (5):** Watt (W), Kilowatt (kW), Megawatt (MW), Horsepower (hp), BTU/h (BTUh)
 - **Description:** Deterministic measurement conversions for power.
 
 ### Electricity (`electricity`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/electricity
+- **Canonical URL:** https://converter.numanxstudio.com/convert/electricity
 - **Base Reference Unit:** Ampere
 - **Registered Units (10):** Ampere (A), Milliampere (mA), Volt (V), Kilovolt (kV), Ohm (ohm), Kilo-ohm (kohm), Mega-ohm (Mohm), Farad (F), Microfarad (uF), Coulomb (C)
 - **Description:** Deterministic measurement conversions for electricity.
 
 ### Magnetism (`magnetism`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/magnetism
+- **Canonical URL:** https://converter.numanxstudio.com/convert/magnetism
 - **Base Reference Unit:** Tesla
 - **Registered Units (3):** Tesla (T), Gauss (G), Weber (Wb)
 - **Description:** Deterministic measurement conversions for magnetism.
 
 ### Frequency (`frequency`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/frequency
+- **Canonical URL:** https://converter.numanxstudio.com/convert/frequency
 - **Base Reference Unit:** Hertz
 - **Registered Units (6):** Hertz (Hz), kHz (kHz), MHz (MHz), GHz (GHz), THz (THz), RPM (rpm)
 - **Description:** Deterministic measurement conversions for frequency.
 
 ### Data Storage (`data`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/data
+- **Canonical URL:** https://converter.numanxstudio.com/convert/data
 - **Base Reference Unit:** Byte
 - **Registered Units (10):** Bit (bit), Byte (B), KB (KB), MB (MB), GB (GB), TB (TB), PB (PB), EB (EB), ZB (ZB), YB (YB)
 - **Description:** Deterministic measurement conversions for data storage.
 
 ### Data Transfer (`datatransfer`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/datatransfer
+- **Canonical URL:** https://converter.numanxstudio.com/convert/datatransfer
 - **Base Reference Unit:** bps
 - **Registered Units (5):** bps (bps), Kbps (kbps), Mbps (Mbps), Gbps (Gbps), Tbps (Tbps)
 - **Description:** Deterministic measurement conversions for data transfer.
 
 ### Angle (`angle`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/angle
+- **Canonical URL:** https://converter.numanxstudio.com/convert/angle
 - **Base Reference Unit:** Degree
 - **Registered Units (6):** Degree (deg), Radian (rad), Milliradian (mrad), Gradian (grad), Arcminute (arcmin), Arcsecond (arcsec)
 - **Description:** Deterministic measurement conversions for angle.
 
 ### Torque (`torque`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/torque
+- **Canonical URL:** https://converter.numanxstudio.com/convert/torque
 - **Base Reference Unit:** N·m
 - **Registered Units (2):** N·m (Nm), lb-ft (lbft)
 - **Description:** Deterministic measurement conversions for torque.
 
 ### Fuel Economy (`fuel`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/fuel
+- **Canonical URL:** https://converter.numanxstudio.com/convert/fuel
 - **Base Reference Unit:** MPG (US)
 - **Registered Units (4):** MPG (US) (mpgUS), MPG (UK) (mpgUK), km/L (kmL), L/100km (L100km)
 - **Description:** Deterministic measurement conversions for fuel economy.
 
 ### Density (`density`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/density
+- **Canonical URL:** https://converter.numanxstudio.com/convert/density
 - **Base Reference Unit:** kg/m³
 - **Registered Units (3):** kg/m³ (kgm3), g/cm³ (gcm3), lb/ft³ (lbft3)
 - **Description:** Deterministic measurement conversions for density.
 
 ### Cooking (`cooking`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/cooking
+- **Canonical URL:** https://converter.numanxstudio.com/convert/cooking
 - **Base Reference Unit:** Milliliter
 - **Registered Units (7):** Cup (cup_c), Tablespoon (tbsp_c), Teaspoon (tsp_c), Dash (dash), Pinch (pinch), Fluid Ounce (floz_c), Milliliter (mL_c)
 - **Description:** Deterministic measurement conversions for cooking.
 
 ### Textile (`textile`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/textile
+- **Canonical URL:** https://converter.numanxstudio.com/convert/textile
 - **Base Reference Unit:** GSM
 - **Registered Units (3):** GSM (gsm), Thread Count (tc), Yarn Count (yc)
 - **Description:** Deterministic measurement conversions for textile.
 
 ### Astronomy (`astronomy`)
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/convert/astronomy
+- **Canonical URL:** https://converter.numanxstudio.com/convert/astronomy
 - **Base Reference Unit:** AU
 - **Registered Units (5):** AU (au_a), Light Year (ly_a), Parsec (pc_a), Solar Mass (sm), Earth Mass (em)
 - **Description:** Deterministic measurement conversions for astronomy.
@@ -208,399 +208,399 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 Each curated pair page provides route-specific editorial commentary, exact conversion formulas, step-by-step arithmetic examples, and reciprocal pair navigation:
 
 1. **Meter to Feet** (`length`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/length/meter-to-feet
+   - URL: https://converter.numanxstudio.com/convert/length/meter-to-feet
    - Formula: Multiply Meter by conversion factor to obtain Feet.
 
 2. **Kilometer to Miles** (`length`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/length/kilometer-to-miles
+   - URL: https://converter.numanxstudio.com/convert/length/kilometer-to-miles
    - Formula: Multiply Kilometer by conversion factor to obtain Miles.
 
 3. **Inches to Centimeter** (`length`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/length/inches-to-centimeter
+   - URL: https://converter.numanxstudio.com/convert/length/inches-to-centimeter
    - Formula: Multiply Inches by conversion factor to obtain Centimeter.
 
 4. **Feet to Meters** (`length`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/length/feet-to-meters
+   - URL: https://converter.numanxstudio.com/convert/length/feet-to-meters
    - Formula: Multiply Feet by conversion factor to obtain Meters.
 
 5. **Centimeter to Inches** (`length`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/length/centimeter-to-inches
+   - URL: https://converter.numanxstudio.com/convert/length/centimeter-to-inches
    - Formula: Multiply Centimeter by conversion factor to obtain Inches.
 
 6. **Square Meters to Square Feet** (`area`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/area/square-meters-to-square-feet
+   - URL: https://converter.numanxstudio.com/convert/area/square-meters-to-square-feet
    - Formula: Multiply Square Meters by conversion factor to obtain Square Feet.
 
 7. **Acres to Hectares** (`area`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/area/acres-to-hectares
+   - URL: https://converter.numanxstudio.com/convert/area/acres-to-hectares
    - Formula: Multiply Acres by conversion factor to obtain Hectares.
 
 8. **Square Feet to Square Meters** (`area`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/area/square-feet-to-square-meters
+   - URL: https://converter.numanxstudio.com/convert/area/square-feet-to-square-meters
    - Formula: Multiply Square Feet by conversion factor to obtain Square Meters.
 
 9. **Hectares to Acres** (`area`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/area/hectares-to-acres
+   - URL: https://converter.numanxstudio.com/convert/area/hectares-to-acres
    - Formula: Multiply Hectares by conversion factor to obtain Acres.
 
 10. **Square Kilometers to Square Miles** (`area`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/area/square-kilometers-to-square-miles
+   - URL: https://converter.numanxstudio.com/convert/area/square-kilometers-to-square-miles
    - Formula: Multiply Square Kilometers by conversion factor to obtain Square Miles.
 
 11. **Liters to Gallons** (`volume`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/volume/liters-to-gallons
+   - URL: https://converter.numanxstudio.com/convert/volume/liters-to-gallons
    - Formula: Multiply Liters by conversion factor to obtain Gallons.
 
 12. **Gallons to Liters** (`volume`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/volume/gallons-to-liters
+   - URL: https://converter.numanxstudio.com/convert/volume/gallons-to-liters
    - Formula: Multiply Gallons by conversion factor to obtain Liters.
 
 13. **Milliliters to Fluid Ounces** (`volume`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/volume/milliliters-to-fluid-ounces
+   - URL: https://converter.numanxstudio.com/convert/volume/milliliters-to-fluid-ounces
    - Formula: Multiply Milliliters by conversion factor to obtain Fluid Ounces.
 
 14. **Cubic Meters to Cubic Feet** (`volume`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/volume/cubic-meters-to-cubic-feet
+   - URL: https://converter.numanxstudio.com/convert/volume/cubic-meters-to-cubic-feet
    - Formula: Multiply Cubic Meters by conversion factor to obtain Cubic Feet.
 
 15. **Quarts to Liters** (`volume`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/volume/quarts-to-liters
+   - URL: https://converter.numanxstudio.com/convert/volume/quarts-to-liters
    - Formula: Multiply Quarts by conversion factor to obtain Liters.
 
 16. **Kilogram to Pounds** (`mass`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/mass/kilogram-to-pounds
+   - URL: https://converter.numanxstudio.com/convert/mass/kilogram-to-pounds
    - Formula: Multiply Kilogram by conversion factor to obtain Pounds.
 
 17. **Pounds to Kilogram** (`mass`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/mass/pounds-to-kilogram
+   - URL: https://converter.numanxstudio.com/convert/mass/pounds-to-kilogram
    - Formula: Multiply Pounds by conversion factor to obtain Kilogram.
 
 18. **Ounces to Grams** (`mass`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/mass/ounces-to-grams
+   - URL: https://converter.numanxstudio.com/convert/mass/ounces-to-grams
    - Formula: Multiply Ounces by conversion factor to obtain Grams.
 
 19. **Stone to Kilogram** (`mass`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/mass/stone-to-kilogram
+   - URL: https://converter.numanxstudio.com/convert/mass/stone-to-kilogram
    - Formula: Multiply Stone by conversion factor to obtain Kilogram.
 
 20. **Metric Ton to US Ton** (`mass`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/mass/metric-ton-to-us-ton
+   - URL: https://converter.numanxstudio.com/convert/mass/metric-ton-to-us-ton
    - Formula: Multiply Metric Ton by conversion factor to obtain US Ton.
 
 21. **Celsius to Fahrenheit** (`temp`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/temp/celsius-to-fahrenheit
+   - URL: https://converter.numanxstudio.com/convert/temp/celsius-to-fahrenheit
    - Formula: Multiply Celsius by conversion factor to obtain Fahrenheit.
 
 22. **Fahrenheit to Celsius** (`temp`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/temp/fahrenheit-to-celsius
+   - URL: https://converter.numanxstudio.com/convert/temp/fahrenheit-to-celsius
    - Formula: Multiply Fahrenheit by conversion factor to obtain Celsius.
 
 23. **Celsius to Kelvin** (`temp`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/temp/celsius-to-kelvin
+   - URL: https://converter.numanxstudio.com/convert/temp/celsius-to-kelvin
    - Formula: Multiply Celsius by conversion factor to obtain Kelvin.
 
 24. **Kelvin to Celsius** (`temp`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/temp/kelvin-to-celsius
+   - URL: https://converter.numanxstudio.com/convert/temp/kelvin-to-celsius
    - Formula: Multiply Kelvin by conversion factor to obtain Celsius.
 
 25. **Fahrenheit to Kelvin** (`temp`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/temp/fahrenheit-to-kelvin
+   - URL: https://converter.numanxstudio.com/convert/temp/fahrenheit-to-kelvin
    - Formula: Multiply Fahrenheit by conversion factor to obtain Kelvin.
 
 26. **Hours to Minutes** (`time`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/time/hours-to-minutes
+   - URL: https://converter.numanxstudio.com/convert/time/hours-to-minutes
    - Formula: Multiply Hours by conversion factor to obtain Minutes.
 
 27. **Days to Hours** (`time`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/time/days-to-hours
+   - URL: https://converter.numanxstudio.com/convert/time/days-to-hours
    - Formula: Multiply Days by conversion factor to obtain Hours.
 
 28. **Minutes to Seconds** (`time`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/time/minutes-to-seconds
+   - URL: https://converter.numanxstudio.com/convert/time/minutes-to-seconds
    - Formula: Multiply Minutes by conversion factor to obtain Seconds.
 
 29. **Weeks to Days** (`time`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/time/weeks-to-days
+   - URL: https://converter.numanxstudio.com/convert/time/weeks-to-days
    - Formula: Multiply Weeks by conversion factor to obtain Days.
 
 30. **Years to Days** (`time`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/time/years-to-days
+   - URL: https://converter.numanxstudio.com/convert/time/years-to-days
    - Formula: Multiply Years by conversion factor to obtain Days.
 
 31. **km/h to mph** (`speed`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/speed/km-h-to-mph
+   - URL: https://converter.numanxstudio.com/convert/speed/km-h-to-mph
    - Formula: Multiply km/h by conversion factor to obtain mph.
 
 32. **mph to km/h** (`speed`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/speed/mph-to-km-h
+   - URL: https://converter.numanxstudio.com/convert/speed/mph-to-km-h
    - Formula: Multiply mph by conversion factor to obtain km/h.
 
 33. **Knots to mph** (`speed`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/speed/knots-to-mph
+   - URL: https://converter.numanxstudio.com/convert/speed/knots-to-mph
    - Formula: Multiply Knots by conversion factor to obtain mph.
 
 34. **m/s to km/h** (`speed`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/speed/m-s-to-km-h
+   - URL: https://converter.numanxstudio.com/convert/speed/m-s-to-km-h
    - Formula: Multiply m/s by conversion factor to obtain km/h.
 
 35. **Mach to km/h** (`speed`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/speed/mach-to-km-h
+   - URL: https://converter.numanxstudio.com/convert/speed/mach-to-km-h
    - Formula: Multiply Mach by conversion factor to obtain km/h.
 
 36. **m/s² to g-force** (`acceleration`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/acceleration/m-s-to-g-force
+   - URL: https://converter.numanxstudio.com/convert/acceleration/m-s-to-g-force
    - Formula: Multiply m/s² by conversion factor to obtain g-force.
 
 37. **g-force to m/s²** (`acceleration`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/acceleration/g-force-to-m-s
+   - URL: https://converter.numanxstudio.com/convert/acceleration/g-force-to-m-s
    - Formula: Multiply g-force by conversion factor to obtain m/s².
 
 38. **ft/s² to m/s²** (`acceleration`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/acceleration/ft-s-to-m-s
+   - URL: https://converter.numanxstudio.com/convert/acceleration/ft-s-to-m-s
    - Formula: Multiply ft/s² by conversion factor to obtain m/s².
 
 39. **Newtons to Pound-Force** (`force`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/force/newtons-to-pound-force
+   - URL: https://converter.numanxstudio.com/convert/force/newtons-to-pound-force
    - Formula: Multiply Newtons by conversion factor to obtain Pound-Force.
 
 40. **Pound-Force to Newtons** (`force`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/force/pound-force-to-newtons
+   - URL: https://converter.numanxstudio.com/convert/force/pound-force-to-newtons
    - Formula: Multiply Pound-Force by conversion factor to obtain Newtons.
 
 41. **kN to lbf** (`force`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/force/kn-to-lbf
+   - URL: https://converter.numanxstudio.com/convert/force/kn-to-lbf
    - Formula: Multiply kN by conversion factor to obtain lbf.
 
 42. **Dynes to Newtons** (`force`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/force/dynes-to-newtons
+   - URL: https://converter.numanxstudio.com/convert/force/dynes-to-newtons
    - Formula: Multiply Dynes by conversion factor to obtain Newtons.
 
 43. **kgf to N** (`force`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/force/kgf-to-n
+   - URL: https://converter.numanxstudio.com/convert/force/kgf-to-n
    - Formula: Multiply kgf by conversion factor to obtain N.
 
 44. **PSI to Bar** (`pressure`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/pressure/psi-to-bar
+   - URL: https://converter.numanxstudio.com/convert/pressure/psi-to-bar
    - Formula: Multiply PSI by conversion factor to obtain Bar.
 
 45. **Bar to PSI** (`pressure`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/pressure/bar-to-psi
+   - URL: https://converter.numanxstudio.com/convert/pressure/bar-to-psi
    - Formula: Multiply Bar by conversion factor to obtain PSI.
 
 46. **ATM to PSI** (`pressure`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/pressure/atm-to-psi
+   - URL: https://converter.numanxstudio.com/convert/pressure/atm-to-psi
    - Formula: Multiply ATM by conversion factor to obtain PSI.
 
 47. **Pascals to PSI** (`pressure`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/pressure/pascals-to-psi
+   - URL: https://converter.numanxstudio.com/convert/pressure/pascals-to-psi
    - Formula: Multiply Pascals by conversion factor to obtain PSI.
 
 48. **mmHg to ATM** (`pressure`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/pressure/mmhg-to-atm
+   - URL: https://converter.numanxstudio.com/convert/pressure/mmhg-to-atm
    - Formula: Multiply mmHg by conversion factor to obtain ATM.
 
 49. **Joules to Calories** (`energy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/energy/joules-to-calories
+   - URL: https://converter.numanxstudio.com/convert/energy/joules-to-calories
    - Formula: Multiply Joules by conversion factor to obtain Calories.
 
 50. **kWh to BTU** (`energy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/energy/kwh-to-btu
+   - URL: https://converter.numanxstudio.com/convert/energy/kwh-to-btu
    - Formula: Multiply kWh by conversion factor to obtain BTU.
 
 51. **Calories to Joules** (`energy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/energy/calories-to-joules
+   - URL: https://converter.numanxstudio.com/convert/energy/calories-to-joules
    - Formula: Multiply Calories by conversion factor to obtain Joules.
 
 52. **eV to Joules** (`energy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/energy/ev-to-joules
+   - URL: https://converter.numanxstudio.com/convert/energy/ev-to-joules
    - Formula: Multiply eV by conversion factor to obtain Joules.
 
 53. **BTU to kWh** (`energy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/energy/btu-to-kwh
+   - URL: https://converter.numanxstudio.com/convert/energy/btu-to-kwh
    - Formula: Multiply BTU by conversion factor to obtain kWh.
 
 54. **Horsepower to Kilowatts** (`power`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/power/horsepower-to-kilowatts
+   - URL: https://converter.numanxstudio.com/convert/power/horsepower-to-kilowatts
    - Formula: Multiply Horsepower by conversion factor to obtain Kilowatts.
 
 55. **Kilowatts to Horsepower** (`power`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/power/kilowatts-to-horsepower
+   - URL: https://converter.numanxstudio.com/convert/power/kilowatts-to-horsepower
    - Formula: Multiply Kilowatts by conversion factor to obtain Horsepower.
 
 56. **Watts to BTU/h** (`power`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/power/watts-to-btu-h
+   - URL: https://converter.numanxstudio.com/convert/power/watts-to-btu-h
    - Formula: Multiply Watts by conversion factor to obtain BTU/h.
 
 57. **MW to kW** (`power`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/power/mw-to-kw
+   - URL: https://converter.numanxstudio.com/convert/power/mw-to-kw
    - Formula: Multiply MW by conversion factor to obtain kW.
 
 58. **Horsepower to Watts** (`power`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/power/horsepower-to-watts
+   - URL: https://converter.numanxstudio.com/convert/power/horsepower-to-watts
    - Formula: Multiply Horsepower by conversion factor to obtain Watts.
 
 59. **Volt to Kilovolt** (`electricity`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/electricity/volt-to-kilovolt
+   - URL: https://converter.numanxstudio.com/convert/electricity/volt-to-kilovolt
    - Formula: Multiply Volt by conversion factor to obtain Kilovolt.
 
 60. **Milliampere to Ampere** (`electricity`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/electricity/milliampere-to-ampere
+   - URL: https://converter.numanxstudio.com/convert/electricity/milliampere-to-ampere
    - Formula: Multiply Milliampere by conversion factor to obtain Ampere.
 
 61. **Kilo-ohm to Ohm** (`electricity`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/electricity/kilo-ohm-to-ohm
+   - URL: https://converter.numanxstudio.com/convert/electricity/kilo-ohm-to-ohm
    - Formula: Multiply Kilo-ohm by conversion factor to obtain Ohm.
 
 62. **Microfarad to Farad** (`electricity`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/electricity/microfarad-to-farad
+   - URL: https://converter.numanxstudio.com/convert/electricity/microfarad-to-farad
    - Formula: Multiply Microfarad by conversion factor to obtain Farad.
 
 63. **Tesla to Gauss** (`magnetism`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/magnetism/tesla-to-gauss
+   - URL: https://converter.numanxstudio.com/convert/magnetism/tesla-to-gauss
    - Formula: Multiply Tesla by conversion factor to obtain Gauss.
 
 64. **Gauss to Tesla** (`magnetism`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/magnetism/gauss-to-tesla
+   - URL: https://converter.numanxstudio.com/convert/magnetism/gauss-to-tesla
    - Formula: Multiply Gauss by conversion factor to obtain Tesla.
 
 65. **MHz to GHz** (`frequency`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/frequency/mhz-to-ghz
+   - URL: https://converter.numanxstudio.com/convert/frequency/mhz-to-ghz
    - Formula: Multiply MHz by conversion factor to obtain GHz.
 
 66. **GHz to MHz** (`frequency`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/frequency/ghz-to-mhz
+   - URL: https://converter.numanxstudio.com/convert/frequency/ghz-to-mhz
    - Formula: Multiply GHz by conversion factor to obtain MHz.
 
 67. **kHz to MHz** (`frequency`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/frequency/khz-to-mhz
+   - URL: https://converter.numanxstudio.com/convert/frequency/khz-to-mhz
    - Formula: Multiply kHz by conversion factor to obtain MHz.
 
 68. **Hz to kHz** (`frequency`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/frequency/hz-to-khz
+   - URL: https://converter.numanxstudio.com/convert/frequency/hz-to-khz
    - Formula: Multiply Hz by conversion factor to obtain kHz.
 
 69. **RPM to Hz** (`frequency`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/frequency/rpm-to-hz
+   - URL: https://converter.numanxstudio.com/convert/frequency/rpm-to-hz
    - Formula: Multiply RPM by conversion factor to obtain Hz.
 
 70. **MB to GB** (`data`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/data/mb-to-gb
+   - URL: https://converter.numanxstudio.com/convert/data/mb-to-gb
    - Formula: Multiply MB by conversion factor to obtain GB.
 
 71. **GB to MB** (`data`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/data/gb-to-mb
+   - URL: https://converter.numanxstudio.com/convert/data/gb-to-mb
    - Formula: Multiply GB by conversion factor to obtain MB.
 
 72. **GB to TB** (`data`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/data/gb-to-tb
+   - URL: https://converter.numanxstudio.com/convert/data/gb-to-tb
    - Formula: Multiply GB by conversion factor to obtain TB.
 
 73. **KB to MB** (`data`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/data/kb-to-mb
+   - URL: https://converter.numanxstudio.com/convert/data/kb-to-mb
    - Formula: Multiply KB by conversion factor to obtain MB.
 
 74. **Bits to Bytes** (`data`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/data/bits-to-bytes
+   - URL: https://converter.numanxstudio.com/convert/data/bits-to-bytes
    - Formula: Multiply Bits by conversion factor to obtain Bytes.
 
 75. **Mbps to Gbps** (`datatransfer`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/datatransfer/mbps-to-gbps
+   - URL: https://converter.numanxstudio.com/convert/datatransfer/mbps-to-gbps
    - Formula: Multiply Mbps by conversion factor to obtain Gbps.
 
 76. **Gbps to Mbps** (`datatransfer`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/datatransfer/gbps-to-mbps
+   - URL: https://converter.numanxstudio.com/convert/datatransfer/gbps-to-mbps
    - Formula: Multiply Gbps by conversion factor to obtain Mbps.
 
 77. **Kbps to Mbps** (`datatransfer`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/datatransfer/kbps-to-mbps
+   - URL: https://converter.numanxstudio.com/convert/datatransfer/kbps-to-mbps
    - Formula: Multiply Kbps by conversion factor to obtain Mbps.
 
 78. **Degrees to Radians** (`angle`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/angle/degrees-to-radians
+   - URL: https://converter.numanxstudio.com/convert/angle/degrees-to-radians
    - Formula: Multiply Degrees by conversion factor to obtain Radians.
 
 79. **Radians to Degrees** (`angle`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/angle/radians-to-degrees
+   - URL: https://converter.numanxstudio.com/convert/angle/radians-to-degrees
    - Formula: Multiply Radians by conversion factor to obtain Degrees.
 
 80. **Degrees to Gradians** (`angle`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/angle/degrees-to-gradians
+   - URL: https://converter.numanxstudio.com/convert/angle/degrees-to-gradians
    - Formula: Multiply Degrees by conversion factor to obtain Gradians.
 
 81. **Arcminutes to Degrees** (`angle`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/angle/arcminutes-to-degrees
+   - URL: https://converter.numanxstudio.com/convert/angle/arcminutes-to-degrees
    - Formula: Multiply Arcminutes by conversion factor to obtain Degrees.
 
 82. **Radians to mrad** (`angle`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/angle/radians-to-mrad
+   - URL: https://converter.numanxstudio.com/convert/angle/radians-to-mrad
    - Formula: Multiply Radians by conversion factor to obtain mrad.
 
 83. **Newton-meter to Foot-pound** (`torque`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/torque/newton-meter-to-foot-pound
+   - URL: https://converter.numanxstudio.com/convert/torque/newton-meter-to-foot-pound
    - Formula: Multiply Newton-meter by conversion factor to obtain Foot-pound.
 
 84. **Foot-pound to Newton-meter** (`torque`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/torque/foot-pound-to-newton-meter
+   - URL: https://converter.numanxstudio.com/convert/torque/foot-pound-to-newton-meter
    - Formula: Multiply Foot-pound by conversion factor to obtain Newton-meter.
 
 85. **MPG (US) to L/100km** (`fuel`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/fuel/mpg-us-to-l-100km
+   - URL: https://converter.numanxstudio.com/convert/fuel/mpg-us-to-l-100km
    - Formula: Multiply MPG (US) by conversion factor to obtain L/100km.
 
 86. **L/100km to MPG (US)** (`fuel`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/fuel/l-100km-to-mpg-us
+   - URL: https://converter.numanxstudio.com/convert/fuel/l-100km-to-mpg-us
    - Formula: Multiply L/100km by conversion factor to obtain MPG (US).
 
 87. **km/L to MPG (US)** (`fuel`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/fuel/km-l-to-mpg-us
+   - URL: https://converter.numanxstudio.com/convert/fuel/km-l-to-mpg-us
    - Formula: Multiply km/L by conversion factor to obtain MPG (US).
 
 88. **MPG (UK) to MPG (US)** (`fuel`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/fuel/mpg-uk-to-mpg-us
+   - URL: https://converter.numanxstudio.com/convert/fuel/mpg-uk-to-mpg-us
    - Formula: Multiply MPG (UK) by conversion factor to obtain MPG (US).
 
 89. **L/100km to km/L** (`fuel`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/fuel/l-100km-to-km-l
+   - URL: https://converter.numanxstudio.com/convert/fuel/l-100km-to-km-l
    - Formula: Multiply L/100km by conversion factor to obtain km/L.
 
 90. **g/cm³ to kg/m³** (`density`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/density/g-cm-to-kg-m
+   - URL: https://converter.numanxstudio.com/convert/density/g-cm-to-kg-m
    - Formula: Multiply g/cm³ by conversion factor to obtain kg/m³.
 
 91. **kg/m³ to lb/ft³** (`density`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/density/kg-m-to-lb-ft
+   - URL: https://converter.numanxstudio.com/convert/density/kg-m-to-lb-ft
    - Formula: Multiply kg/m³ by conversion factor to obtain lb/ft³.
 
 92. **Cup to Tablespoon** (`cooking`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/cooking/cup-to-tablespoon
+   - URL: https://converter.numanxstudio.com/convert/cooking/cup-to-tablespoon
    - Formula: Multiply Cup by conversion factor to obtain Tablespoon.
 
 93. **Tablespoon to Teaspoon** (`cooking`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/cooking/tablespoon-to-teaspoon
+   - URL: https://converter.numanxstudio.com/convert/cooking/tablespoon-to-teaspoon
    - Formula: Multiply Tablespoon by conversion factor to obtain Teaspoon.
 
 94. **Cup to Milliliter** (`cooking`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/cooking/cup-to-milliliter
+   - URL: https://converter.numanxstudio.com/convert/cooking/cup-to-milliliter
    - Formula: Multiply Cup by conversion factor to obtain Milliliter.
 
 95. **Fluid Ounce to Milliliter** (`cooking`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/cooking/fluid-ounce-to-milliliter
+   - URL: https://converter.numanxstudio.com/convert/cooking/fluid-ounce-to-milliliter
    - Formula: Multiply Fluid Ounce by conversion factor to obtain Milliliter.
 
 96. **GSM to Thread Count** (`textile`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/textile/gsm-to-thread-count
+   - URL: https://converter.numanxstudio.com/convert/textile/gsm-to-thread-count
    - Formula: Multiply GSM by conversion factor to obtain Thread Count.
 
 97. **Light Year to AU** (`astronomy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/astronomy/light-year-to-au
+   - URL: https://converter.numanxstudio.com/convert/astronomy/light-year-to-au
    - Formula: Multiply Light Year by conversion factor to obtain AU.
 
 98. **Parsec to Light Year** (`astronomy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/astronomy/parsec-to-light-year
+   - URL: https://converter.numanxstudio.com/convert/astronomy/parsec-to-light-year
    - Formula: Multiply Parsec by conversion factor to obtain Light Year.
 
 99. **Solar Mass to Earth Mass** (`astronomy`)
-   - URL: https://numanx-studio-omega-converter.netlify.app/convert/astronomy/solar-mass-to-earth-mass
+   - URL: https://converter.numanxstudio.com/convert/astronomy/solar-mass-to-earth-mass
    - Formula: Multiply Solar Mass by conversion factor to obtain Earth Mass.
 
 ## 5. Educational Guides (6 Guides)
@@ -608,32 +608,32 @@ Each curated pair page provides route-specific editorial commentary, exact conve
 Comprehensive technical guides detailing unit origins, math shortcuts, and real-world applications:
 
 ### Pounds to Kilograms Converter — Convert lb to kg Instantly
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/lbs-to-kg
+- **Canonical URL:** https://converter.numanxstudio.com/guides/lbs-to-kg
 - **Category:** undefined
 - **Target Measurement System:** Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1–300 lb table, step-by-step guide and real-world examples.
 
 ### Celsius to Fahrenheit Converter — °C to °F Instantly
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/celsius-to-fahrenheit
+- **Canonical URL:** https://converter.numanxstudio.com/guides/celsius-to-fahrenheit
 - **Category:** undefined
 - **Target Measurement System:** Convert Celsius to Fahrenheit with °F = °C × 9/5 + 32. Free converter with a −40°C to 100°C reference table, step-by-step guide and examples.
 
 ### Meters to Feet Converter — Convert m to ft Instantly
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/meters-to-feet
+- **Canonical URL:** https://converter.numanxstudio.com/guides/meters-to-feet
 - **Category:** undefined
 - **Target Measurement System:** Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1–100 m table, step-by-step guide and real-world examples.
 
 ### Kilograms to Pounds Converter — Convert kg to lb Instantly
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/kg-to-lbs
+- **Canonical URL:** https://converter.numanxstudio.com/guides/kg-to-lbs
 - **Category:** undefined
 - **Target Measurement System:** Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1–150 kg table, step-by-step guide and real-world examples.
 
 ### Fahrenheit to Celsius Converter — °F to °C Instantly
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/fahrenheit-to-celsius
+- **Canonical URL:** https://converter.numanxstudio.com/guides/fahrenheit-to-celsius
 - **Category:** undefined
 - **Target Measurement System:** Convert Fahrenheit to Celsius with °C = (°F − 32) × 5/9. Free converter with a −40°F to 212°F reference table, step-by-step guide and examples.
 
 ### Feet to Meters Converter — Convert ft to m Instantly
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/guides/feet-to-meters
+- **Canonical URL:** https://converter.numanxstudio.com/guides/feet-to-meters
 - **Category:** undefined
 - **Target Measurement System:** Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1–100 ft table, step-by-step guide and real-world examples.
 
@@ -642,42 +642,42 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
 In-depth technical publications on dimensional metrology, machinist tolerances, and computational architecture:
 
 ### How to Convert Compound Units: Feet, Inches & Fractions Guide
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/blog/compound-length-units-guide
+- **Canonical URL:** https://converter.numanxstudio.com/blog/compound-length-units-guide
 - **Date Published:** 2025-01-15
 - **Editorial Byline:** NumanX Metrology Team (NumanX Studio)
 - **Category:** Guides (length)
 - **Summary:** Master compound measurement conversions like 5' 10 1/2" into decimal inches, centimeters, or meters without rounding errors.
 
 ### Fractional Inches to Millimeters: Machinist & Woodworking Best Practices
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/blog/fractional-inches-to-mm-best-practices
+- **Canonical URL:** https://converter.numanxstudio.com/blog/fractional-inches-to-mm-best-practices
 - **Date Published:** 2025-01-10
 - **Editorial Byline:** NumanX Engineering Editorial Staff (NumanX Studio)
 - **Category:** Tutorials (length)
 - **Summary:** Everything you need to know about converting fractional inch drill bits and timber stock to metric with tolerance thresholds.
 
 ### Metric vs Imperial: The Ultimate Engineering & Scientific Comparison
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/blog/metric-vs-imperial-engineering-guide
+- **Canonical URL:** https://converter.numanxstudio.com/blog/metric-vs-imperial-engineering-guide
 - **Date Published:** 2025-05-01
 - **Editorial Byline:** NumanX Engineering Editorial Staff (NumanX Studio)
 - **Category:** Engineering (length)
 - **Summary:** Explore the history, mathematical elegance, and costly historical failures that define the battle between SI and Customary units.
 
 ### Temperature Scales Demystified: Celsius, Fahrenheit, and Kelvin
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/blog/temperature-scales-celsius-fahrenheit-kelvin
+- **Canonical URL:** https://converter.numanxstudio.com/blog/temperature-scales-celsius-fahrenheit-kelvin
 - **Date Published:** 2025-05-10
 - **Editorial Byline:** NumanX Science Team (NumanX Studio)
 - **Category:** Tips (temp)
 - **Summary:** Understand thermodynamic temperature scales, absolute zero, and how to convert temperatures effortlessly in your head.
 
 ### Digital Data Units: Megabytes, Mebibytes, and Transfer Speeds
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/blog/digital-data-storage-units-guide
+- **Canonical URL:** https://converter.numanxstudio.com/blog/digital-data-storage-units-guide
 - **Date Published:** 2025-06-10
 - **Editorial Byline:** NumanX Technology Editorial Team (NumanX Studio)
 - **Category:** Productivity (data)
 - **Summary:** Why your 1 TB hard drive only shows 931 GB in Windows: Decimal (1000) vs Binary (1024) prefixes explained.
 
 ### AI-Powered Unit Conversions in 2026: Natural Language Calculations
-- **Canonical URL:** https://numanx-studio-omega-converter.netlify.app/blog/ai-powered-unit-conversions-in-2026
+- **Canonical URL:** https://converter.numanxstudio.com/blog/ai-powered-unit-conversions-in-2026
 - **Date Published:** 2026-01-05
 - **Editorial Byline:** NumanX AI Research (NumanX Studio)
 - **Category:** AI (cooking)
@@ -689,7 +689,7 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 - Both `llms.txt` and `llms-full.txt` follow an emerging community convention and proposal for providing concise, LLM-oriented site documentation. They are not formal web standards, nor do they carry guarantees of crawler ingestion, AI discovery, ranking benefit, or model citation.
 
 ### Canonical URL & Route Policy
-- All public URLs are normalized, lowercase, and strictly enforce the production domain `https://numanx-studio-omega-converter.netlify.app`.
+- All public URLs are normalized, lowercase, and strictly enforce the production domain `https://converter.numanxstudio.com`.
 - Query strings (`?from=...`, `?to=...`, `?value=...`) are handled dynamically on the client for live input sharing, but canonical URLs in metadata, sitemaps, and discovery files are stripped of query parameters.
 - Private, session-based routes (`/dashboard`, `/favorites`, `/history`, `/settings`, `/custom-units`, `/help`, `/404`) rely on local browser storage, are tagged `noindex`, and are excluded from the sitemap.
 

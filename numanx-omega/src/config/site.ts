@@ -11,15 +11,17 @@
 
 import { resolveCategoryId } from '../engine/routes'
 
-// Authoritative default production origin (Netlify live domain)
-export const DEFAULT_SITE_URL = 'https://numanx-studio-omega-converter.netlify.app'
+// Authoritative default production origin (Cloudflare domain)
+export const DEFAULT_SITE_URL = 'https://converter.numanxstudio.com'
 
 /**
  * Returns the active production site origin without a trailing slash.
  * Supports environment override via VITE_SITE_URL if configured.
  */
 export function getSiteUrl(): string {
-  const envUrl = typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL
+  const envUrl = (typeof process !== 'undefined' && process.env?.VITE_SITE_URL)
+    ? process.env.VITE_SITE_URL
+    : (typeof import.meta !== 'undefined' && import.meta.env?.VITE_SITE_URL)
     ? import.meta.env.VITE_SITE_URL
     : undefined
 

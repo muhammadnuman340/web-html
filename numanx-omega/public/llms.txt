@@ -4,73 +4,73 @@
 
 Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, currency, crypto, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 
-Canonical Origin: https://numanx-studio-omega-converter.netlify.app/
+Canonical Origin: https://converter.numanxstudio.com/
 Publisher: NumanX Studio
 License: Creative Commons Attribution 4.0 International (CC BY 4.0)
-XML Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
-Full Agent Documentation: https://numanx-studio-omega-converter.netlify.app/llms-full.txt
+XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
+Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 
 ## Primary Public Resources
 
-- [Home](https://numanx-studio-omega-converter.netlify.app/): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
-- [Universal Converter](https://numanx-studio-omega-converter.netlify.app/converter): Dedicated conversion tool interface supporting all 24 measurement categories.
-- [Categories Directory](https://numanx-studio-omega-converter.netlify.app/categories): Complete index of all 24 conversion categories with unit counts and reference standards.
-- [Currency Exchange](https://numanx-studio-omega-converter.netlify.app/currency): Global fiat currency conversion tool supporting 160+ fiat currencies with offline fallback rates.
-- [Cryptocurrency Rates](https://numanx-studio-omega-converter.netlify.app/crypto): Digital asset conversion calculator covering major cryptocurrencies against USD, EUR, GBP, and BTC.
-- [Formula Explorer](https://numanx-studio-omega-converter.netlify.app/formulas): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
-- [Scientific Calculator](https://numanx-studio-omega-converter.netlify.app/calculator): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
-- [Health & Fitness Metrics](https://numanx-studio-omega-converter.netlify.app/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
-- [Educational Blog](https://numanx-studio-omega-converter.netlify.app/blog): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
-- [About & Standards Methodology](https://numanx-studio-omega-converter.netlify.app/about): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
-- [HTML Sitemap](https://numanx-studio-omega-converter.netlify.app/sitemap): Authoritative index of every canonical public page.
-- [Contact](https://numanx-studio-omega-converter.netlify.app/contact): How to report a wrong conversion, a security issue or a privacy question.
-- [Privacy Policy](https://numanx-studio-omega-converter.netlify.app/privacy): No accounts, ads, cookies or analytics; history and settings stay in the browser.
-- [Terms of Use](https://numanx-studio-omega-converter.netlify.app/terms): Accuracy, third-party price data, health calculator limits and content licensing.
+- [Home](https://converter.numanxstudio.com/): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
+- [Universal Converter](https://converter.numanxstudio.com/converter): Dedicated conversion tool interface supporting all 24 measurement categories.
+- [Categories Directory](https://converter.numanxstudio.com/categories): Complete index of all 24 conversion categories with unit counts and reference standards.
+- [Currency Exchange](https://converter.numanxstudio.com/currency): Global fiat currency conversion tool supporting 160+ fiat currencies with offline fallback rates.
+- [Cryptocurrency Rates](https://converter.numanxstudio.com/crypto): Digital asset conversion calculator covering major cryptocurrencies against USD, EUR, GBP, and BTC.
+- [Formula Explorer](https://converter.numanxstudio.com/formulas): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
+- [Scientific Calculator](https://converter.numanxstudio.com/calculator): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
+- [Health & Fitness Metrics](https://converter.numanxstudio.com/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
+- [Educational Blog](https://converter.numanxstudio.com/blog): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
+- [About & Standards Methodology](https://converter.numanxstudio.com/about): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
+- [HTML Sitemap](https://converter.numanxstudio.com/sitemap): Authoritative index of every canonical public page.
+- [Contact](https://converter.numanxstudio.com/contact): How to report a wrong conversion, a security issue or a privacy question.
+- [Privacy Policy](https://converter.numanxstudio.com/privacy): No accounts, ads, cookies or analytics; history and settings stay in the browser.
+- [Terms of Use](https://converter.numanxstudio.com/terms): Accuracy, third-party price data, health calculator limits and content licensing.
 
 ## Category Landings
 
-- [Length](https://numanx-studio-omega-converter.netlify.app/convert/length): Meters, feet, inches, centimeters, kilometers, miles, yards, millimeters, nautical miles, micrometers, nanometers.
-- [Area](https://numanx-studio-omega-converter.netlify.app/convert/area): Square meters, square feet, acres, hectares, square kilometers, square miles.
-- [Volume](https://numanx-studio-omega-converter.netlify.app/convert/volume): Liters, milliliters, gallons, cubic meters, cubic feet, fluid ounces, cups.
-- [Mass & Weight](https://numanx-studio-omega-converter.netlify.app/convert/mass): Kilograms, grams, pounds, ounces, metric tons, milligrams, stones, carats.
-- [Temperature](https://numanx-studio-omega-converter.netlify.app/convert/temp): Celsius, Fahrenheit, Kelvin, Rankine with exact affine zero-offset formulas.
-- [Time](https://numanx-studio-omega-converter.netlify.app/convert/time): Seconds, minutes, hours, days, weeks, months, years, milliseconds, microseconds.
-- [Speed](https://numanx-studio-omega-converter.netlify.app/convert/speed): Meters per second, kilometers per hour, miles per hour, knots, feet per second.
-- [Acceleration](https://numanx-studio-omega-converter.netlify.app/convert/acceleration): Meters per second squared, standard gravity (g), feet per second squared, gal.
-- [Force](https://numanx-studio-omega-converter.netlify.app/convert/force): Newtons, kilonewtons, pound-force, dyne, kilogram-force.
-- [Pressure](https://numanx-studio-omega-converter.netlify.app/convert/pressure): Pascals, bars, PSI, atmospheres, millimeters of mercury, kilopascals.
-- [Energy](https://numanx-studio-omega-converter.netlify.app/convert/energy): Joules, calories, kilowatt-hours, British thermal units (BTU), electronvolts.
-- [Power](https://numanx-studio-omega-converter.netlify.app/convert/power): Watts, kilowatts, horsepower, megawatts, gigawatts.
-- [Electricity & Current](https://numanx-studio-omega-converter.netlify.app/convert/electricity): Amperes, milliamperes, kiloamperes, microamperes, coulombs, volts, ohms, farads.
-- [Magnetism](https://numanx-studio-omega-converter.netlify.app/convert/magnetism): Tesla, gauss, weber, maxwell.
-- [Frequency](https://numanx-studio-omega-converter.netlify.app/convert/frequency): Hertz, kilohertz, megahertz, gigahertz, revolutions per minute.
-- [Digital Storage](https://numanx-studio-omega-converter.netlify.app/convert/data): Bytes, kilobytes, megabytes, gigabytes, terabytes, kibibytes, mebibytes, gibibytes (decimal vs binary prefixes).
-- [Data Transfer Rate](https://numanx-studio-omega-converter.netlify.app/convert/datatransfer): Bits per second, megabits per second, gigabits per second, megabytes per second.
-- [Angle](https://numanx-studio-omega-converter.netlify.app/convert/angle): Degrees, radians, gradians, arcminutes, arcseconds.
-- [Torque](https://numanx-studio-omega-converter.netlify.app/convert/torque): Newton-meters, pound-feet, pound-inches.
-- [Fuel Economy](https://numanx-studio-omega-converter.netlify.app/convert/fuel): Miles per gallon (US), liters per 100 km, kilometers per liter.
-- [Density](https://numanx-studio-omega-converter.netlify.app/convert/density): Kilograms per cubic meter, grams per cubic centimeter, pounds per cubic foot.
-- [Cooking](https://numanx-studio-omega-converter.netlify.app/convert/cooking): Cups, tablespoons, teaspoons, fluid ounces, milliliters, grams (ingredient-aware).
-- [Textile & Yarn Count](https://numanx-studio-omega-converter.netlify.app/convert/textile): Tex, denier, cotton count (Ne), worsted count, metric count (Nm).
-- [Astronomy](https://numanx-studio-omega-converter.netlify.app/convert/astronomy): Astronomical units (au), light-years, parsecs, kilometers, miles.
+- [Length](https://converter.numanxstudio.com/convert/length): Meters, feet, inches, centimeters, kilometers, miles, yards, millimeters, nautical miles, micrometers, nanometers.
+- [Area](https://converter.numanxstudio.com/convert/area): Square meters, square feet, acres, hectares, square kilometers, square miles.
+- [Volume](https://converter.numanxstudio.com/convert/volume): Liters, milliliters, gallons, cubic meters, cubic feet, fluid ounces, cups.
+- [Mass & Weight](https://converter.numanxstudio.com/convert/mass): Kilograms, grams, pounds, ounces, metric tons, milligrams, stones, carats.
+- [Temperature](https://converter.numanxstudio.com/convert/temp): Celsius, Fahrenheit, Kelvin, Rankine with exact affine zero-offset formulas.
+- [Time](https://converter.numanxstudio.com/convert/time): Seconds, minutes, hours, days, weeks, months, years, milliseconds, microseconds.
+- [Speed](https://converter.numanxstudio.com/convert/speed): Meters per second, kilometers per hour, miles per hour, knots, feet per second.
+- [Acceleration](https://converter.numanxstudio.com/convert/acceleration): Meters per second squared, standard gravity (g), feet per second squared, gal.
+- [Force](https://converter.numanxstudio.com/convert/force): Newtons, kilonewtons, pound-force, dyne, kilogram-force.
+- [Pressure](https://converter.numanxstudio.com/convert/pressure): Pascals, bars, PSI, atmospheres, millimeters of mercury, kilopascals.
+- [Energy](https://converter.numanxstudio.com/convert/energy): Joules, calories, kilowatt-hours, British thermal units (BTU), electronvolts.
+- [Power](https://converter.numanxstudio.com/convert/power): Watts, kilowatts, horsepower, megawatts, gigawatts.
+- [Electricity & Current](https://converter.numanxstudio.com/convert/electricity): Amperes, milliamperes, kiloamperes, microamperes, coulombs, volts, ohms, farads.
+- [Magnetism](https://converter.numanxstudio.com/convert/magnetism): Tesla, gauss, weber, maxwell.
+- [Frequency](https://converter.numanxstudio.com/convert/frequency): Hertz, kilohertz, megahertz, gigahertz, revolutions per minute.
+- [Digital Storage](https://converter.numanxstudio.com/convert/data): Bytes, kilobytes, megabytes, gigabytes, terabytes, kibibytes, mebibytes, gibibytes (decimal vs binary prefixes).
+- [Data Transfer Rate](https://converter.numanxstudio.com/convert/datatransfer): Bits per second, megabits per second, gigabits per second, megabytes per second.
+- [Angle](https://converter.numanxstudio.com/convert/angle): Degrees, radians, gradians, arcminutes, arcseconds.
+- [Torque](https://converter.numanxstudio.com/convert/torque): Newton-meters, pound-feet, pound-inches.
+- [Fuel Economy](https://converter.numanxstudio.com/convert/fuel): Miles per gallon (US), liters per 100 km, kilometers per liter.
+- [Density](https://converter.numanxstudio.com/convert/density): Kilograms per cubic meter, grams per cubic centimeter, pounds per cubic foot.
+- [Cooking](https://converter.numanxstudio.com/convert/cooking): Cups, tablespoons, teaspoons, fluid ounces, milliliters, grams (ingredient-aware).
+- [Textile & Yarn Count](https://converter.numanxstudio.com/convert/textile): Tex, denier, cotton count (Ne), worsted count, metric count (Nm).
+- [Astronomy](https://converter.numanxstudio.com/convert/astronomy): Astronomical units (au), light-years, parsecs, kilometers, miles.
 
 ## Educational Guides
 
-- [Meters to Feet Conversion Guide](https://numanx-studio-omega-converter.netlify.app/guides/meters-to-feet): Detailed conversion methodology, practical height and construction examples, and historical background.
-- [Feet to Meters Conversion Guide](https://numanx-studio-omega-converter.netlify.app/guides/feet-to-meters): Reverse length conversion reference from international feet to SI meters.
-- [Celsius to Fahrenheit Conversion Guide](https://numanx-studio-omega-converter.netlify.app/guides/celsius-to-fahrenheit): Exact affine formula breakdown, mental math shortcuts, and meteorological references.
-- [Fahrenheit to Celsius Conversion Guide](https://numanx-studio-omega-converter.netlify.app/guides/fahrenheit-to-celsius): Reverse thermal conversion reference with exact 5/9 interval ratios.
-- [Kilograms to Pounds Conversion Guide](https://numanx-studio-omega-converter.netlify.app/guides/kg-to-lbs): Mass conversion standard (NIST / international avoirdupois pound) with conversion tables.
-- [Pounds to Kilograms Conversion Guide](https://numanx-studio-omega-converter.netlify.app/guides/lbs-to-kg): Standard mass conversion reference from avoirdupois pounds to SI kilograms.
+- [Meters to Feet Conversion Guide](https://converter.numanxstudio.com/guides/meters-to-feet): Detailed conversion methodology, practical height and construction examples, and historical background.
+- [Feet to Meters Conversion Guide](https://converter.numanxstudio.com/guides/feet-to-meters): Reverse length conversion reference from international feet to SI meters.
+- [Celsius to Fahrenheit Conversion Guide](https://converter.numanxstudio.com/guides/celsius-to-fahrenheit): Exact affine formula breakdown, mental math shortcuts, and meteorological references.
+- [Fahrenheit to Celsius Conversion Guide](https://converter.numanxstudio.com/guides/fahrenheit-to-celsius): Reverse thermal conversion reference with exact 5/9 interval ratios.
+- [Kilograms to Pounds Conversion Guide](https://converter.numanxstudio.com/guides/kg-to-lbs): Mass conversion standard (NIST / international avoirdupois pound) with conversion tables.
+- [Pounds to Kilograms Conversion Guide](https://converter.numanxstudio.com/guides/lbs-to-kg): Standard mass conversion reference from avoirdupois pounds to SI kilograms.
 
 ## Technical Articles
 
-- [Compound Length Units in Construction](https://numanx-studio-omega-converter.netlify.app/blog/compound-length-units-guide): Working with feet-and-inches, architectural notation, and precision tolerances.
-- [Fractional Inches to Millimeters](https://numanx-studio-omega-converter.netlify.app/blog/fractional-inches-to-mm-best-practices): Reference chart and tolerance best practices for machinists and engineers.
-- [Metric vs Imperial Engineering Standards](https://numanx-studio-omega-converter.netlify.app/blog/metric-vs-imperial-engineering-guide): Analysis of global dual-unit documentation in aerospace, automotive, and civil engineering.
-- [Thermodynamic Temperature Scales](https://numanx-studio-omega-converter.netlify.app/blog/temperature-scales-celsius-fahrenheit-kelvin): Deep dive into absolute zero, Boltzmann's constant, and ITS-90 temperature standards.
-- [Digital Storage Measurement](https://numanx-studio-omega-converter.netlify.app/blog/digital-data-storage-units-guide): Hardware disk capacity versus operating system reported file sizes.
-- [AI-Assisted Conversion Architecture](https://numanx-studio-omega-converter.netlify.app/blog/ai-powered-unit-conversions-in-2026): Local client regex and natural-language pattern matching for rapid unit extraction without remote data transmission.
+- [Compound Length Units in Construction](https://converter.numanxstudio.com/blog/compound-length-units-guide): Working with feet-and-inches, architectural notation, and precision tolerances.
+- [Fractional Inches to Millimeters](https://converter.numanxstudio.com/blog/fractional-inches-to-mm-best-practices): Reference chart and tolerance best practices for machinists and engineers.
+- [Metric vs Imperial Engineering Standards](https://converter.numanxstudio.com/blog/metric-vs-imperial-engineering-guide): Analysis of global dual-unit documentation in aerospace, automotive, and civil engineering.
+- [Thermodynamic Temperature Scales](https://converter.numanxstudio.com/blog/temperature-scales-celsius-fahrenheit-kelvin): Deep dive into absolute zero, Boltzmann's constant, and ITS-90 temperature standards.
+- [Digital Storage Measurement](https://converter.numanxstudio.com/blog/digital-data-storage-units-guide): Hardware disk capacity versus operating system reported file sizes.
+- [AI-Assisted Conversion Architecture](https://converter.numanxstudio.com/blog/ai-powered-unit-conversions-in-2026): Local client regex and natural-language pattern matching for rapid unit extraction without remote data transmission.
 
 ## Machine Usage & Agent Guidelines
 

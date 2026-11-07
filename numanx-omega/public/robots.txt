@@ -4,5 +4,4 @@ Allow: /
 # Prevent crawling of internal infrastructure configuration
 Disallow: /_redirects
 
-Sitemap: https://numanx-studio-omega-converter.netlify.app/sitemap.xml
-
+Sitemap: https://converter.numanxstudio.com/sitemap.xml

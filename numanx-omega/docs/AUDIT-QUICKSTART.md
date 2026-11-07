@@ -50,7 +50,7 @@ npm run audit:site:v4
 ## Authorised live audit
 
 ```powershell
-$env:SITE_URL = 'https://numanx-studio-omega-converter.netlify.app'
+$env:SITE_URL = 'https://converter.numanxstudio.com'
 Remove-Item Env:AUDIT_ALLOW_PRIVATE_NETWORK -ErrorAction SilentlyContinue
 $env:AUDIT_MAX_PAGES = '25'       # start small
 $env:AUDIT_CONCURRENCY = '2'

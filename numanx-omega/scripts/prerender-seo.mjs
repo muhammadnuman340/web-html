@@ -432,9 +432,9 @@ function resolveCategoryId(input) {
 }
 
 // src/config/site.ts
-var DEFAULT_SITE_URL = "https://numanx-studio-omega-converter.netlify.app";
+var DEFAULT_SITE_URL = "https://converter.numanxstudio.com";
 function getSiteUrl() {
-  const envUrl = typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
+  const envUrl = typeof process !== "undefined" && process.env?.VITE_SITE_URL ? process.env.VITE_SITE_URL : typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
   const rawUrl = envUrl || DEFAULT_SITE_URL;
   return rawUrl.trim().replace(/\/+$/, "");
 }

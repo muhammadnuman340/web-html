@@ -139,3 +139,23 @@ await esbuild.build({
   outfile: 'scripts/generate-llms-full.mjs'
 })
 console.log('✅ Built scripts/generate-llms-full.mjs successfully.')
+
+await esbuild.build({
+  entryPoints: ['scripts/check-sitemap-inventory.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'scripts/check-sitemap-inventory.mjs'
+})
+console.log('✅ Built scripts/check-sitemap-inventory.mjs successfully.')
+
+await esbuild.build({
+  entryPoints: ['scripts/verify-all-99-html.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'scripts/verify-all-99-html.mjs'
+})
+console.log('✅ Built scripts/verify-all-99-html.mjs successfully.')

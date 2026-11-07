@@ -432,9 +432,9 @@ function resolveCategoryId(input) {
 }
 
 // src/config/site.ts
-var DEFAULT_SITE_URL = "https://numanx-studio-omega-converter.netlify.app";
+var DEFAULT_SITE_URL = "https://converter.numanxstudio.com";
 function getSiteUrl() {
-  const envUrl = typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
+  const envUrl = typeof process !== "undefined" && process.env?.VITE_SITE_URL ? process.env.VITE_SITE_URL : typeof import.meta !== "undefined" && import.meta.env?.VITE_SITE_URL ? import.meta.env.VITE_SITE_URL : void 0;
   const rawUrl = envUrl || DEFAULT_SITE_URL;
   return rawUrl.trim().replace(/\/+$/, "");
 }
@@ -1582,6 +1582,19 @@ function buildSitemapXml(entries) {
   ];
   return lines.join("\n");
 }
+function buildRobotsTxt() {
+  const origin = getSiteUrl();
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    "# Prevent crawling of internal infrastructure configuration",
+    "Disallow: /_redirects",
+    "",
+    `Sitemap: ${origin}/sitemap.xml`,
+    ""
+  ].join("\n");
+}
 function run() {
   const entries = generateSitemapEntries();
   const xml = buildSitemapXml(entries);
@@ -1589,15 +1602,23 @@ function run() {
   const publicPath = path.resolve(cwd, "public/sitemap.xml");
   fs.writeFileSync(publicPath, xml, "utf-8");
   console.log(`\u2705 Updated public/sitemap.xml (${entries.length} URLs)`);
+  const robots = buildRobotsTxt();
+  const publicRobotsPath = path.resolve(cwd, "public/robots.txt");
+  fs.writeFileSync(publicRobotsPath, robots, "utf-8");
+  console.log(`\u2705 Updated public/robots.txt`);
   const distDir = path.resolve(cwd, "dist");
   if (fs.existsSync(distDir)) {
     const distPath = path.resolve(distDir, "sitemap.xml");
     fs.writeFileSync(distPath, xml, "utf-8");
     console.log(`\u2705 Updated dist/sitemap.xml (${entries.length} URLs)`);
+    const distRobotsPath = path.resolve(distDir, "robots.txt");
+    fs.writeFileSync(distRobotsPath, robots, "utf-8");
+    console.log(`\u2705 Updated dist/robots.txt`);
   }
 }
 run();
 export {
+  buildRobotsTxt,
   buildSitemapXml,
   generateSitemapEntries,
   run
