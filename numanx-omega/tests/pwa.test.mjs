@@ -7,7 +7,7 @@ import vm from "node:vm";
 
 // src/utils/pwaLogic.ts
 var PWA_CACHE_PREFIX = "omega-x-";
-var PWA_CACHE_VERSION = "v3";
+var PWA_CACHE_VERSION = "v4";
 var PWA_STATIC_CACHE = `${PWA_CACHE_PREFIX}static-${PWA_CACHE_VERSION}`;
 var PWA_PAGES_CACHE = `${PWA_CACHE_PREFIX}pages-${PWA_CACHE_VERSION}`;
 var PRECACHE_STATIC = [
@@ -17,7 +17,8 @@ var PRECACHE_STATIC = [
   "/icons/icon-512.svg"
 ];
 var PRECACHE_PAGES = [
-  "/index.html"
+  "/index.html",
+  "/spa"
 ];
 function classifyRequest(urlStr, mode, method, appOrigin) {
   if (method !== "GET") {
@@ -632,6 +633,7 @@ describe("Cache Architecture, Versioning & Safe Stale Cleanup", () => {
     assert.ok(PRECACHE_STATIC.includes("/icons/icon-192.svg"));
     assert.ok(PRECACHE_STATIC.includes("/icons/icon-512.svg"));
     assert.ok(PRECACHE_PAGES.includes("/index.html"));
+    assert.ok(PRECACHE_PAGES.includes("/spa"));
   });
   it("identifies and purges obsolete Omega caches without touching unrelated origin caches", () => {
     const activeCaches = /* @__PURE__ */ new Set([PWA_STATIC_CACHE, PWA_PAGES_CACHE]);
@@ -717,16 +719,16 @@ describe("Service Worker Runtime Execution & Routing Simulation", () => {
       installWaitPromise = p;
     } });
     await installWaitPromise;
-    assert.ok(storage.has("omega-x-static-v3"), "Static cache must be created on install");
-    assert.ok(storage.has("omega-x-pages-v3"), "Pages cache must be created on install");
-    storage.set("omega-x-static-v2", /* @__PURE__ */ new Map());
+    assert.ok(storage.has("omega-x-static-v4"), "Static cache must be created on install");
+    assert.ok(storage.has("omega-x-pages-v4"), "Pages cache must be created on install");
+    storage.set("omega-x-static-v3", /* @__PURE__ */ new Map());
     storage.set("unrelated-domain-cache", /* @__PURE__ */ new Map());
     let activateWaitPromise = null;
     listeners["activate"]({ waitUntil: (p) => {
       activateWaitPromise = p;
     } });
     await activateWaitPromise;
-    assert.equal(storage.has("omega-x-static-v2"), false, "Old omega cache must be deleted on activate");
+    assert.equal(storage.has("omega-x-static-v3"), false, "Old omega cache must be deleted on activate");
     assert.equal(storage.has("unrelated-domain-cache"), true, "Unrelated origin cache must be preserved on activate");
     const runFetch = async (req) => {
       let respondPromise = null;
@@ -761,7 +763,7 @@ describe("Service Worker Runtime Execution & Routing Simulation", () => {
     });
     assert.ok(navOfflineRes, "Offline navigation must resolve to cached shell");
     const navOfflineText = await navOfflineRes.text();
-    assert.equal(navOfflineText, "Content of /index.html");
+    assert.equal(navOfflineText, "Content of /spa");
     mockFetch = async () => new Response('console.log("chunk");', {
       status: 200,
       headers: { "Content-Type": "application/javascript" }

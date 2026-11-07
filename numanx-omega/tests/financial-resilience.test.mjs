@@ -136,7 +136,7 @@ function convertCryptoAmount(amount, from, to, prices) {
 
 // src/utils/pwaLogic.ts
 var PWA_CACHE_PREFIX = "omega-x-";
-var PWA_CACHE_VERSION = "v3";
+var PWA_CACHE_VERSION = "v4";
 var PWA_STATIC_CACHE = `${PWA_CACHE_PREFIX}static-${PWA_CACHE_VERSION}`;
 var PWA_PAGES_CACHE = `${PWA_CACHE_PREFIX}pages-${PWA_CACHE_VERSION}`;
 function classifyRequest(urlStr, mode, method, appOrigin) {

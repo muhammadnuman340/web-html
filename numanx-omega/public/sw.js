@@ -1,5 +1,5 @@
 // Omega X Converter - Service Worker (Production-Safe & Reliable)
-const CACHE_VERSION = 'v3'
+const CACHE_VERSION = 'v4'
 const CACHE_PREFIX = 'omega-x-'
 const STATIC_CACHE = `${CACHE_PREFIX}static-${CACHE_VERSION}`
 const PAGES_CACHE = `${CACHE_PREFIX}pages-${CACHE_VERSION}`
@@ -12,7 +12,8 @@ const PRECACHE_STATIC = [
 ]
 
 const PRECACHE_PAGES = [
-  '/index.html'
+  '/index.html',
+  '/spa'
 ]
 
 self.addEventListener('install', (event) => {
@@ -72,7 +73,7 @@ self.addEventListener('fetch', (event) => {
         .catch(async () => {
           const cached = await caches.match(request)
           if (cached) return cached
-          const shell = await caches.match('/index.html')
+          const shell = await caches.match('/spa')
           if (shell) return shell
           return new Response('Offline - Omega X Converter Shell unavailable', {
             status: 503,

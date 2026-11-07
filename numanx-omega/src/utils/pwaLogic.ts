@@ -15,7 +15,7 @@ export type PwaRequestType =
   | 'STATIC_ASSET'
 
 export const PWA_CACHE_PREFIX = 'omega-x-'
-export const PWA_CACHE_VERSION = 'v3'
+export const PWA_CACHE_VERSION = 'v4'
 export const PWA_STATIC_CACHE = `${PWA_CACHE_PREFIX}static-${PWA_CACHE_VERSION}`
 export const PWA_PAGES_CACHE = `${PWA_CACHE_PREFIX}pages-${PWA_CACHE_VERSION}`
 
@@ -27,7 +27,8 @@ export const PRECACHE_STATIC = [
 ]
 
 export const PRECACHE_PAGES = [
-  '/index.html'
+  '/index.html',
+  '/spa'
 ]
 
 /**

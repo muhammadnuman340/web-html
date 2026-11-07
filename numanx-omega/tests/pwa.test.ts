@@ -197,6 +197,7 @@ describe('Cache Architecture, Versioning & Safe Stale Cleanup', () => {
     assert.ok(PRECACHE_STATIC.includes('/icons/icon-192.svg'))
     assert.ok(PRECACHE_STATIC.includes('/icons/icon-512.svg'))
     assert.ok(PRECACHE_PAGES.includes('/index.html'))
+    assert.ok(PRECACHE_PAGES.includes('/spa'))
   })
 
   it('identifies and purges obsolete Omega caches without touching unrelated origin caches', () => {
@@ -300,18 +301,18 @@ describe('Service Worker Runtime Execution & Routing Simulation', () => {
     listeners['install']({ waitUntil: (p: Promise<unknown>) => { installWaitPromise = p } })
     await installWaitPromise
 
-    assert.ok(storage.has('omega-x-static-v3'), 'Static cache must be created on install')
-    assert.ok(storage.has('omega-x-pages-v3'), 'Pages cache must be created on install')
+    assert.ok(storage.has('omega-x-static-v4'), 'Static cache must be created on install')
+    assert.ok(storage.has('omega-x-pages-v4'), 'Pages cache must be created on install')
 
     // 2. Activate Event Test (Stale Cache Deletion)
-    storage.set('omega-x-static-v2', new Map())
+    storage.set('omega-x-static-v3', new Map())
     storage.set('unrelated-domain-cache', new Map())
 
     let activateWaitPromise: Promise<unknown> | null = null
     listeners['activate']({ waitUntil: (p: Promise<unknown>) => { activateWaitPromise = p } })
     await activateWaitPromise
 
-    assert.equal(storage.has('omega-x-static-v2'), false, 'Old omega cache must be deleted on activate')
+    assert.equal(storage.has('omega-x-static-v3'), false, 'Old omega cache must be deleted on activate')
     assert.equal(storage.has('unrelated-domain-cache'), true, 'Unrelated origin cache must be preserved on activate')
 
     // 3. Fetch Event Helper
@@ -353,7 +354,7 @@ describe('Service Worker Runtime Execution & Routing Simulation', () => {
     })
     assert.ok(navOfflineRes, 'Offline navigation must resolve to cached shell')
     const navOfflineText = await navOfflineRes.text()
-    assert.equal(navOfflineText, 'Content of /index.html')
+    assert.equal(navOfflineText, 'Content of /spa')
 
     // C. Hashed JS Asset Request Online -> caches and returns
     mockFetch = async () => new Response('console.log("chunk");', {
