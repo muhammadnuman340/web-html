@@ -1,14 +1,6 @@
-# Netlify — deploy from GitHub (repo: muhammadnuman340/web-html)
-[build]
-  base = "numanx-omega"
-  command = "npm ci && npm run build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "20"
-
-# React Router (SPA) — all routes serve index.html
+# Netlify — permanent redirect-only to Cloudflare domain
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "https://converter.numanxstudio.com/:splat"
+  status = 301
+  force = true
