@@ -108,7 +108,8 @@ export default function Sidebar({ open, onClose, mode, onModeChange, onApplyPair
         animate={open ? 'open' : 'closed'}
         exit="closed"
         aria-label="Navigation sidebar"
-        className="fixed top-0 left-0 h-full w-64 z-50 glass p-4 overflow-y-auto"
+        aria-hidden={!open}
+        className={`fixed top-0 left-0 h-full w-64 z-50 glass p-4 overflow-y-auto ${open ? '' : 'pointer-events-none'}`}
       >
         {/* Logo + close */}
         <div className="flex items-center justify-between mb-6 mt-2">

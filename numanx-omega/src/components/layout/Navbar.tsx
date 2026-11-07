@@ -112,7 +112,7 @@ export default function Navbar({
             <button
               onClick={() => setToolsOpen(p => !p)}
               className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-medium transition-all min-h-[44px] ${
-                toolsOpen || location.pathname.startsWith('/convert') || location.pathname === '/categories'
+                toolsOpen || location.pathname.startsWith('/convert')
                   ? 'text-[var(--link-text)] bg-[var(--primary-muted)]'
                   : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
               }`}
@@ -181,6 +181,20 @@ export default function Navbar({
               )}
             </AnimatePresence>
           </div>
+
+          {/* Categories Link */}
+          <NavLink
+            to="/categories"
+            className={({ isActive }) =>
+              `px-3.5 py-2 rounded-xl text-sm font-medium transition-colors min-h-[44px] flex items-center ${
+                isActive
+                  ? 'text-[var(--link-text)] bg-[var(--primary-muted)] font-semibold'
+                  : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
+              }`
+            }
+          >
+            Categories
+          </NavLink>
 
           {/* About Link */}
           <NavLink
