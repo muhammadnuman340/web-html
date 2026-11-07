@@ -31,9 +31,10 @@ console.log('Sum:', home.length + core.length + categories.length + pairs.length
 let missingPrerender = 0
 for (const u of urls) {
   const pathPart = u.replace(siteUrl, '')
-  const filePath = pathPart === '/' || pathPart === '' 
+  const clean = pathPart.replace(/^\/+/, '').replace(/\/+$/, '')
+  const filePath = pathPart === '/' || clean === '' 
     ? 'dist/index.html' 
-    : `dist${pathPart}/index.html`
+    : `dist/${clean}.html`
   if (!fs.existsSync(filePath)) {
     console.error('Missing prerender file for URL:', u, 'at', filePath)
     missingPrerender++

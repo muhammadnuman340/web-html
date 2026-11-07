@@ -1393,7 +1393,8 @@ var BLOG_POSTS = [
 // tests/faq-parity.test.ts
 var distDir = path.resolve(process.cwd(), "dist");
 function readPrerenderedSchemaAndHtml(routePath) {
-  const cleanPath = routePath === "/" ? "index.html" : path.join(routePath.replace(/^\/+/, ""), "index.html");
+  const clean = routePath.replace(/^\/+/, "").replace(/\/+$/, "");
+  const cleanPath = routePath === "/" || clean === "" ? "index.html" : `${clean}.html`;
   const fullPath = path.join(distDir, cleanPath);
   if (!fs.existsSync(fullPath)) {
     throw new Error(`Prerendered file not found: ${fullPath}`);

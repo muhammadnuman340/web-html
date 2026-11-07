@@ -65,6 +65,14 @@ const baseHtml = fs.readFileSync(baseHtmlPath, 'utf-8')
 const siteOrigin = getSiteUrl()
 const ogImageUrl = `${siteOrigin}/og-image.png`
 
+// 0. Neutral SPA shell: emit dist/spa.html before homepage prerender injection
+// (empty #root, generic title, no canonical, no homepage JSON-LD)
+const spaHtml = baseHtml
+  .replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>\s*/gi, '')
+  .replace(/<meta[^>]*property=["']og:url["'][^>]*\/?>\s*/gi, '')
+fs.writeFileSync(path.join(distDir, 'spa.html'), spaHtml, 'utf-8')
+console.log('⚡ Emitted neutral SPA shell (dist/spa.html)')
+
 function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
@@ -81,6 +89,7 @@ interface PrerenderPageConfig {
   description: string
   schema?: Record<string, unknown>
   staticBodyHtml: string
+  is404?: boolean
 }
 
 // Site-wide footer for prerendered HTML (mirrors the React app footer)
@@ -121,8 +130,16 @@ function renderAndWritePage(config: PrerenderPageConfig) {
   // 1. Replace <title>
   html = html.replace(/<title.*?>.*?<\/title>/i, `<title data-rh="true">${escapeHtml(fullTitle)}</title>`)
 
-  // 2. Replace Canonical Link
-  html = html.replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>/i, `<link rel="canonical" data-rh="true" href="${pageCanonical}" />`)
+  // 2. Replace Canonical Link & Robots for 404
+  if (config.is404) {
+    html = html.replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>/i, '')
+    html = html.replace(/<meta[^>]*property=["']og:url["'][^>]*\/?>/i, '')
+    html = html.replace(/<meta[^>]*name=["']robots["'][^>]*\/?>/i, '<meta name="robots" content="noindex, follow" />')
+    html = html.replace(/<meta[^>]*name=["']googlebot["'][^>]*\/?>/i, '<meta name="googlebot" content="noindex, follow" />')
+  } else {
+    html = html.replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>/i, `<link rel="canonical" data-rh="true" href="${pageCanonical}" />`)
+    html = html.replace(/<meta[^>]*property=["']og:url["'][^>]*\/?>/i, `<meta property="og:url" content="${pageCanonical}" />`)
+  }
 
   // 3. Replace Meta Description
   html = html.replace(/<meta[^>]*name=["']description["'][^>]*\/?>/i, `<meta name="description" data-rh="true" content="${escapeAttr(config.description)}" />`)
@@ -130,7 +147,6 @@ function renderAndWritePage(config: PrerenderPageConfig) {
   // 4. OpenGraph Tags
   html = html.replace(/<meta[^>]*property=["']og:title["'][^>]*\/?>/i, `<meta property="og:title" content="${escapeAttr(fullTitle)}" />`)
   html = html.replace(/<meta[^>]*property=["']og:description["'][^>]*\/?>/i, `<meta property="og:description" content="${escapeAttr(config.description)}" />`)
-  html = html.replace(/<meta[^>]*property=["']og:url["'][^>]*\/?>/i, `<meta property="og:url" content="${pageCanonical}" />`)
   html = html.replace(/<meta[^>]*property=["']og:image["'][^>]*\/?>/i, `<meta property="og:image" content="${ogImageUrl}" />`)
 
   // 5. Twitter Card Tags
@@ -139,13 +155,15 @@ function renderAndWritePage(config: PrerenderPageConfig) {
   html = html.replace(/<meta[^>]*name=["']twitter:image["'][^>]*\/?>/i, `<meta name="twitter:image" content="${ogImageUrl}" />`)
 
   // 6. Schema Injection
-  const globalSiteSchema = buildGlobalSiteSchema()
-  let headInjection = `  <script id="omega-global-schema" type="application/ld+json">${JSON.stringify(globalSiteSchema)}</script>\n`
-  if (config.schema) {
-    headInjection += `  <script id="omega-page-schema" type="application/ld+json">${JSON.stringify(config.schema)}</script>\n`
+  if (!config.is404) {
+    const globalSiteSchema = buildGlobalSiteSchema()
+    let headInjection = `  <script id="omega-global-schema" type="application/ld+json">${JSON.stringify(globalSiteSchema)}</script>\n`
+    if (config.schema) {
+      headInjection += `  <script id="omega-page-schema" type="application/ld+json">${JSON.stringify(config.schema)}</script>\n`
+    }
+    headInjection += `  </head>`
+    html = html.replace('</head>', headInjection)
   }
-  headInjection += `  </head>`
-  html = html.replace('</head>', headInjection)
 
   // 7. Inject static HTML inside <div id="root">
   html = html.replace(
@@ -154,13 +172,15 @@ function renderAndWritePage(config: PrerenderPageConfig) {
   )
 
   // 8. Write to disk
-  if (config.routePath === '/' || config.routePath === '') {
+  if (config.is404) {
+    fs.writeFileSync(path.join(distDir, '404.html'), html, 'utf-8')
+  } else if (config.routePath === '/' || config.routePath === '') {
     fs.writeFileSync(path.join(distDir, 'index.html'), html, 'utf-8')
   } else {
     const cleanPath = config.routePath.replace(/^\/+/, '').replace(/\/+$/, '')
-    const targetDir = path.join(distDir, cleanPath)
-    fs.mkdirSync(targetDir, { recursive: true })
-    fs.writeFileSync(path.join(targetDir, 'index.html'), html, 'utf-8')
+    const targetFile = path.join(distDir, `${cleanPath}.html`)
+    fs.mkdirSync(path.dirname(targetFile), { recursive: true })
+    fs.writeFileSync(targetFile, html, 'utf-8')
   }
 }
 
@@ -1282,5 +1302,26 @@ if (securityTxt) {
 } else {
   console.log('ℹ️  Skipped security.txt: set LEGAL.contactEmail in src/config/legal.ts to publish it')
 }
+
+console.log('⚡ Prerendering 404 page (dist/404.html) ...')
+renderAndWritePage({
+  routePath: '/404',
+  title: 'Page Not Found (404)',
+  description: 'The page you requested does not exist or has been moved. Explore 24 unit conversion categories or return home.',
+  staticBodyHtml: `
+    <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;padding:3rem 1rem;font-family:system-ui,-apple-system,sans-serif;text-align:center;">
+      <div style="font-size:4rem;font-weight:900;color:#2563eb;font-family:monospace;letter-spacing:0.05em;" aria-hidden="true">404</div>
+      <div style="margin:1rem 0 1.5rem;">
+        <h1 style="font-size:1.75rem;font-weight:700;color:#111;margin:0 0 0.5rem;">Page Not Found</h1>
+        <p style="font-size:0.95rem;color:#666;line-height:1.5;max-width:28rem;margin:0 auto;">The page you requested does not exist, was moved, or had its URL changed.</p>
+      </div>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+        <a href="/" style="padding:0.6rem 1.25rem;border-radius:0.75rem;background:#2563eb;color:#ffffff;text-decoration:none;font-size:0.875rem;font-weight:600;">← Return Home</a>
+        <a href="/categories" style="padding:0.6rem 1.25rem;border-radius:0.75rem;border:1px solid #d1d5db;color:#374151;text-decoration:none;font-size:0.875rem;font-weight:600;background:#ffffff;">Browse All Categories</a>
+      </div>
+    </main>
+  `,
+  is404: true,
+})
 
 console.log(`\n🎉 Prerender Complete! Generated meaningful static HTML for ${generatedCount} routes.`)

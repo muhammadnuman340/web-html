@@ -1168,12 +1168,12 @@ describe("Phase 3 Step 4: Guide Relationship Architecture & Internal Linking", (
     assert.ok(tempRel.relatedPostSlugs.includes("temperature-scales-celsius-fahrenheit-kelvin"));
   });
   test("prerendered HTML contains contextual internal links on category, pair, and guide pages", () => {
-    const lengthCatHtml = fs.readFileSync(path.join(distDir, "convert/length/index.html"), "utf-8");
+    const lengthCatHtml = fs.readFileSync(path.join(distDir, "convert/length.html"), "utf-8");
     assert.ok(lengthCatHtml.includes("/guides/meters-to-feet"), "Length category HTML must link to meters-to-feet guide");
     assert.ok(lengthCatHtml.includes("/guides/feet-to-meters"), "Length category HTML must link to feet-to-meters guide");
-    const pairHtml = fs.readFileSync(path.join(distDir, "convert/length/meter-to-feet/index.html"), "utf-8");
+    const pairHtml = fs.readFileSync(path.join(distDir, "convert/length/meter-to-feet.html"), "utf-8");
     assert.ok(pairHtml.includes("/guides/meters-to-feet"), "meter-to-feet pair HTML must link to meters-to-feet guide");
-    const guideHtml = fs.readFileSync(path.join(distDir, "guides/meters-to-feet/index.html"), "utf-8");
+    const guideHtml = fs.readFileSync(path.join(distDir, "guides/meters-to-feet.html"), "utf-8");
     assert.ok(guideHtml.includes("/convert/length/meter-to-feet"), "meters-to-feet guide HTML must link to meter-to-feet pair");
     assert.ok(guideHtml.includes("/convert/length"), "meters-to-feet guide HTML must link to length category");
     assert.ok(guideHtml.includes("/blog/compound-length-units-guide"), "meters-to-feet guide HTML must link to related blog article");

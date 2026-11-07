@@ -441,13 +441,11 @@ var discoveredPairs = [];
 for (const cat of fs.readdirSync(distConvert)) {
   const catPath = path.join(distConvert, cat);
   if (!fs.statSync(catPath).isDirectory()) continue;
-  for (const pair of fs.readdirSync(catPath)) {
-    const pairPath = path.join(catPath, pair);
-    if (!fs.statSync(pairPath).isDirectory()) continue;
-    const htmlPath = path.join(pairPath, "index.html");
-    if (fs.existsSync(htmlPath)) {
-      discoveredPairs.push({ cat, pair, htmlPath, relRoute: `/convert/${cat}/${pair}` });
-    }
+  for (const file of fs.readdirSync(catPath)) {
+    if (!file.endsWith(".html")) continue;
+    const pair = file.replace(/\.html$/, "");
+    const htmlPath = path.join(catPath, file);
+    discoveredPairs.push({ cat, pair, htmlPath, relRoute: `/convert/${cat}/${pair}` });
   }
 }
 console.log(`Discovered ${discoveredPairs.length} pair pages in dist/convert/`);

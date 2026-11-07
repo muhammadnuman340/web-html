@@ -221,9 +221,9 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
         const fromSlug = cleanSlug(pair.from)
         const toSlug = cleanSlug(pair.to)
         const pairParam = `${fromSlug}-to-${toSlug}`
-        const htmlPath = path.join(distConvert, cat.id, pairParam, 'index.html')
+        const htmlPath = path.join(distConvert, cat.id, `${pairParam}.html`)
 
-        assert.ok(fs.existsSync(htmlPath), `Prerender file must exist: dist/convert/${cat.id}/${pairParam}/index.html`)
+        assert.ok(fs.existsSync(htmlPath), `Prerender file must exist: dist/convert/${cat.id}/${pairParam}.html`)
         const html = fs.readFileSync(htmlPath, 'utf8')
 
         assert.ok(html.includes('id="aeo-answer-heading"') || html.includes('Quick Direct Answer'), `Direct answer heading missing in ${cat.id}:${pairParam}`)
@@ -245,7 +245,7 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
     if (!fs.existsSync(distBlog)) return // skip if dist has not been generated yet
     const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     for (const post of BLOG_POSTS) {
-      const html = fs.readFileSync(path.join(distBlog, post.slug, 'index.html'), 'utf8')
+      const html = fs.readFileSync(path.join(distBlog, `${post.slug}.html`), 'utf8')
       const body = html.split(/<body[^>]*>/i)[1].replace(/<script[\s\S]*?<\/script>/gi, '')
       assert.ok(!/\bundefined\b/.test(body), `${post.slug} body must not contain "undefined"`)
       assert.ok(body.includes(esc(post.content.intro)), `${post.slug} must include its intro`)
@@ -261,7 +261,9 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
     if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
     const decode = (s: string) => s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
     const read = (route: string) => {
-      const html = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8')
+      const clean = route.replace(/^\/+/, '').replace(/\/+$/, '')
+      const target = clean === '' ? 'index.html' : `${clean}.html`
+      const html = fs.readFileSync(path.join(dist, target), 'utf8')
       return {
         title: decode(html.match(/<title[^>]*>([^<]*)<\/title>/)![1]),
         desc: decode(html.match(/<meta name="description"[^>]*content="([^"]*)"/)![1]),
@@ -298,7 +300,7 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
       for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
         const full = path.join(dir, e.name)
         if (e.isDirectory() && e.name !== 'assets') walk(full)
-        else if (e.name === 'index.html') pages.push(full)
+        else if (e.name.endsWith('.html') && !e.name.startsWith('google') && e.name !== 'spa.html' && e.name !== '404.html') pages.push(full)
       }
     }
     walk(dist)
@@ -306,7 +308,8 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
     for (const file of pages) {
       const body = fs.readFileSync(file, 'utf8').split(/<body[^>]*>/i)[1] ?? ''
       for (const [, href] of body.matchAll(/<a[^>]+href="(\/[^"#?]*)/g)) {
-        const target = path.join(dist, href, 'index.html')
+        const cleanHref = href.replace(/^\/+/, '').replace(/\/+$/, '')
+        const target = path.join(dist, cleanHref === '' ? 'index.html' : `${cleanHref}.html`)
         if (href !== '/' && !fs.existsSync(target)) broken.push(`${path.relative(dist, file)} -> ${href}`)
       }
     }
@@ -318,7 +321,7 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
     if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
     const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     for (const cat of Categories) {
-      const html = fs.readFileSync(path.join(dist, cat.id, 'index.html'), 'utf8')
+      const html = fs.readFileSync(path.join(dist, `${cat.id}.html`), 'utf8')
       const std = getCategoryStandards(cat.id, cat.lb, cat.un.map(u => u.lb))
       assert.ok(html.includes(esc(std.aeoCapsule)), `${cat.id} must include its answer summary`)
       assert.ok(html.includes(esc(std.standardsStatement)), `${cat.id} must include its standards statement`)
@@ -335,7 +338,8 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
     if (!fs.existsSync(dist)) return // skip if dist has not been generated yet
     const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     for (const doc of [getPrivacyPolicy(), getTerms(), getContactPage()]) {
-      const html = fs.readFileSync(path.join(dist, doc.path, 'index.html'), 'utf8')
+      const cleanDoc = doc.path.replace(/^\/+/, '').replace(/\/+$/, '')
+      const html = fs.readFileSync(path.join(dist, `${cleanDoc}.html`), 'utf8')
       for (const sec of doc.sections) {
         assert.ok(html.includes(esc(sec.heading)), `${doc.path} must include section "${sec.heading}"`)
       }
@@ -345,7 +349,7 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
       for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
         const full = path.join(dir, e.name)
         if (e.isDirectory() && e.name !== 'assets') walk(full)
-        else if (e.name === 'index.html') pages.push(full)
+        else if (e.name.endsWith('.html') && !e.name.startsWith('google') && e.name !== 'spa.html' && e.name !== '404.html') pages.push(full)
       }
     }
     walk(dist)

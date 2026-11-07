@@ -2090,11 +2090,13 @@ describe("Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     assert.ok(content.includes("/manifest.json"), "Must define /manifest.json cache rule");
     assert.ok(content.includes("max-age=0, must-revalidate"), "index.html and sw.js must enforce must-revalidate");
   });
-  it("verifies SPA routing redirects file preserves wildcard fallback to /index.html 200", () => {
+  it("verifies Cloudflare Pages routing redirects file defines aliases, shell rewrites, and zero catch-all", () => {
     const publicRedirectsPath = path2.resolve(process.cwd(), "public/_redirects");
     assert.ok(fs2.existsSync(publicRedirectsPath), "public/_redirects must exist");
     const content = fs2.readFileSync(publicRedirectsPath, "utf8").trim();
-    assert.ok(content.includes("/*    /index.html   200") || content.includes("/* /index.html 200"), "public/_redirects must contain SPA fallback rule");
+    assert.ok(content.includes("/length                       /convert/length          301"), "Must include 301 alias for /length");
+    assert.ok(content.includes("/settings                     /spa.html                200"), "Must rewrite /settings to /spa.html 200");
+    assert.ok(!content.includes("/*    /index.html   200") && !content.includes("/* /index.html 200"), "Must not contain wildcard catch-all fallback");
     const distRedirectsPath = path2.resolve(process.cwd(), "dist/_redirects");
     if (fs2.existsSync(path2.resolve(process.cwd(), "dist"))) {
       assert.ok(fs2.existsSync(distRedirectsPath), "dist/_redirects must exist in production build");

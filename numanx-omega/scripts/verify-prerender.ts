@@ -64,7 +64,7 @@ for (const url of urls) {
   const cleanRoute = routePath.replace(/^\/+/, '').replace(/\/+$/, '')
   const filePath = (routePath === '/' || routePath === '')
     ? path.join(distDir, 'index.html')
-    : path.join(distDir, cleanRoute, 'index.html')
+    : path.join(distDir, `${cleanRoute}.html`)
 
   // Invariant 1: File exists on disk
   if (!fs.existsSync(filePath)) {
@@ -208,6 +208,42 @@ if (similarCategoryPairs.length > 0) {
   similarCategoryPairs.forEach(p => {
     console.log(`  - ${p.cat1} & ${p.cat2}: ${p.similarity}`)
   })
+}
+
+// -------------------------------------------------------------
+// Invariant check for spa.html & 404.html
+// -------------------------------------------------------------
+const spaPath = path.join(distDir, 'spa.html')
+if (!fs.existsSync(spaPath)) {
+  failures.push({ url: '/spa.html', routePath: '/spa.html', reason: 'dist/spa.html missing on disk' })
+} else {
+  const spaHtml = fs.readFileSync(spaPath, 'utf8')
+  const rootMatch = spaHtml.match(/<div id="root">\s*([\s\S]*?)\s*<\/div>/i)
+  if (!rootMatch || rootMatch[1].trim().length > 0) {
+    failures.push({ url: '/spa.html', routePath: '/spa.html', reason: 'dist/spa.html #root must be empty' })
+  }
+  if (/<link[^>]*rel=["']canonical["']/i.test(spaHtml)) {
+    failures.push({ url: '/spa.html', routePath: '/spa.html', reason: 'dist/spa.html must not declare a canonical URL' })
+  }
+  if (/<h1\b/i.test(spaHtml)) {
+    failures.push({ url: '/spa.html', routePath: '/spa.html', reason: 'dist/spa.html must not contain an <h1>' })
+  }
+}
+
+const notFoundPath = path.join(distDir, '404.html')
+if (!fs.existsSync(notFoundPath)) {
+  failures.push({ url: '/404.html', routePath: '/404.html', reason: 'dist/404.html missing on disk' })
+} else {
+  const notFoundHtml = fs.readFileSync(notFoundPath, 'utf8')
+  if (!notFoundHtml.includes('Page Not Found') || !/<h1\b/i.test(notFoundHtml)) {
+    failures.push({ url: '/404.html', routePath: '/404.html', reason: 'dist/404.html must have an <h1>Page Not Found</h1>' })
+  }
+  if (!notFoundHtml.includes('href="/"') || !notFoundHtml.includes('href="/categories"')) {
+    failures.push({ url: '/404.html', routePath: '/404.html', reason: 'dist/404.html must link to / and /categories' })
+  }
+  if (!notFoundHtml.includes('noindex')) {
+    failures.push({ url: '/404.html', routePath: '/404.html', reason: 'dist/404.html must specify noindex' })
+  }
 }
 
 // -------------------------------------------------------------

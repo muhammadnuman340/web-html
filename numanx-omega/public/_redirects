@@ -1,1 +1,82 @@
-/*    /index.html   200
+# ==============================================================================
+# Cloudflare Pages / Static Hosting Redirects & Rewrites
+# Order: First match wins
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Deterministic Category Compatibility Aliases (301 Permanent Redirects)
+# ------------------------------------------------------------------------------
+/length-converter             /convert/length          301
+/length                       /convert/length          301
+/area-converter               /convert/area            301
+/area                         /convert/area            301
+/volume-converter             /convert/volume          301
+/volume                       /convert/volume          301
+/mass-converter               /convert/mass            301
+/mass                         /convert/mass            301
+/weight-converter             /convert/mass            301
+/weight                       /convert/mass            301
+/temperature-converter        /convert/temp            301
+/temperature                  /convert/temp            301
+/temp-converter               /convert/temp            301
+/temp                         /convert/temp            301
+/time-converter               /convert/time            301
+/time                         /convert/time            301
+/speed-converter              /convert/speed           301
+/speed                        /convert/speed           301
+/acceleration-converter       /convert/acceleration    301
+/acceleration                 /convert/acceleration    301
+/force-converter              /convert/force           301
+/force                        /convert/force           301
+/pressure-converter           /convert/pressure        301
+/pressure                     /convert/pressure        301
+/energy-converter             /convert/energy          301
+/energy                       /convert/energy          301
+/power-converter              /convert/power           301
+/power                        /convert/power           301
+/electricity-converter        /convert/electricity    301
+/electricity                  /convert/electricity    301
+/magnetism-converter          /convert/magnetism       301
+/magnetism                    /convert/magnetism       301
+/frequency-converter          /convert/frequency       301
+/frequency                    /convert/frequency       301
+/data-converter               /convert/data            301
+/data                         /convert/data            301
+/datatransfer-converter       /convert/datatransfer    301
+/datatransfer                 /convert/datatransfer    301
+/angle-converter              /convert/angle           301
+/angle                        /convert/angle           301
+/torque-converter             /convert/torque          301
+/torque                       /convert/torque          301
+/fuel-converter               /convert/fuel            301
+/fuel                         /convert/fuel            301
+/density-converter            /convert/density         301
+/density                      /convert/density         301
+/cooking-converter            /convert/cooking         301
+/cooking                      /convert/cooking         301
+/textile-converter            /convert/textile         301
+/textile                      /convert/textile         301
+/astronomy-converter          /convert/astronomy       301
+/astronomy                    /convert/astronomy       301
+
+# Category path aliases
+/category/weight              /convert/mass            301
+/category/temperature         /convert/temp            301
+/category/*                   /convert/:splat          301
+
+# ------------------------------------------------------------------------------
+# 2. Client-Side SPA Routes (200 Rewrites to Neutral Shell)
+# ------------------------------------------------------------------------------
+/dashboard                    /spa.html                200
+/favorites                    /spa.html                200
+/history                      /spa.html                200
+/settings                     /spa.html                200
+/custom-units                 /spa.html                200
+/help                         /spa.html                200
+/convert/*/*                  /spa.html                200
+/pair/*                       /spa.html                200
+/convert                      /spa.html                200
+
+# ------------------------------------------------------------------------------
+# 3. No Catch-All Fallback (Unknown routes fall through to dist/404.html)
+# ------------------------------------------------------------------------------
