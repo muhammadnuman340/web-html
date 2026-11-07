@@ -12,11 +12,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs",
+    "build": "node scripts/build-conversion-tests.mjs && vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server.js",
-    "prod": "vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs && node server.js",
+    "prod": "node scripts/build-conversion-tests.mjs && vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs && node server.js",
     "audit": "node scripts/audit-site.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",
@@ -56,6 +56,7 @@
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "vite": "^8.0.12",
+    "wrangler": "^4.158.0"
   }
 }

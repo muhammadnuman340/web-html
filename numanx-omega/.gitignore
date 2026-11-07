@@ -25,3 +25,4 @@ audit-headers*.json
 audit.env
 scratch/
 AUDIT_*.md
+.wrangler/
