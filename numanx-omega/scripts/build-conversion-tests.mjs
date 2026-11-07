@@ -159,3 +159,13 @@ await esbuild.build({
   outfile: 'scripts/verify-all-99-html.mjs'
 })
 console.log('✅ Built scripts/verify-all-99-html.mjs successfully.')
+
+await esbuild.build({
+  entryPoints: ['scripts/verify-prerender.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'scripts/verify-prerender.mjs'
+})
+console.log('✅ Built scripts/verify-prerender.mjs successfully.')

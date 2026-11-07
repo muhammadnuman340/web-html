@@ -12,11 +12,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs",
+    "build": "vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server.js",
-    "prod": "vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node server.js",
+    "prod": "vite build && node scripts/prerender-seo.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs && node server.js",
     "audit": "node scripts/audit-site.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",
