@@ -67,15 +67,14 @@
 # ------------------------------------------------------------------------------
 # 2. Client-Side SPA Routes (200 Rewrites to Neutral Shell)
 # ------------------------------------------------------------------------------
-/dashboard                    /spa.html                200
-/favorites                    /spa.html                200
-/history                      /spa.html                200
-/settings                     /spa.html                200
-/custom-units                 /spa.html                200
-/help                         /spa.html                200
-/convert/*/*                  /spa.html                200
-/pair/*                       /spa.html                200
-/convert                      /spa.html                200
+/dashboard                    /spa                     200
+/favorites                    /spa                     200
+/history                      /spa                     200
+/settings                     /spa                     200
+/custom-units                 /spa                     200
+/help                         /spa                     200
+/pair/*                       /spa                     200
+/convert                      /spa                     200
 
 # ------------------------------------------------------------------------------
 # 3. No Catch-All Fallback (Unknown routes fall through to dist/404.html)

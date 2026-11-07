@@ -604,6 +604,72 @@ if (!fs.existsSync(notFoundPath)) {
     failures.push({ url: "/404.html", routePath: "/404.html", reason: "dist/404.html must specify noindex" });
   }
 }
+var redirectsContent = fs.readFileSync(path.join(process.cwd(), "public/_redirects"), "utf8");
+var alias301s = /* @__PURE__ */ new Set();
+var spaRewrites = /* @__PURE__ */ new Set();
+for (const line of redirectsContent.split(/\r?\n/)) {
+  const trimmed = line.trim();
+  if (!trimmed || trimmed.startsWith("#")) continue;
+  const parts = trimmed.split(/\s+/);
+  if (parts.length >= 3) {
+    if (parts[2] === "301") alias301s.add(parts[0]);
+    else if (parts[2] === "200") spaRewrites.add(parts[0]);
+  }
+}
+var distHtmlFiles = [];
+function collectHtml(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory() && entry.name !== "assets") {
+      collectHtml(full);
+    } else if (entry.name.endsWith(".html") && !entry.name.startsWith("google")) {
+      distHtmlFiles.push(full);
+    }
+  }
+}
+collectHtml(distDir);
+var totalInternalLinksChecked = 0;
+var linkFailures = [];
+for (const fPath of distHtmlFiles) {
+  const relFile = path.relative(distDir, fPath);
+  const fileHtml = fs.readFileSync(fPath, "utf8");
+  for (const m of fileHtml.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)) {
+    const rawHref = m[1].trim();
+    if (!rawHref.startsWith("/") || rawHref.startsWith("//")) continue;
+    totalInternalLinksChecked++;
+    const urlPath = rawHref.split(/[?#]/)[0];
+    if (urlPath !== "/" && urlPath.endsWith("/")) {
+      linkFailures.push({ file: relFile, href: rawHref, reason: `Link has forbidden trailing slash: ${rawHref}` });
+      continue;
+    }
+    if (urlPath.endsWith(".html")) {
+      linkFailures.push({ file: relFile, href: rawHref, reason: `Link has forbidden .html extension: ${rawHref}` });
+      continue;
+    }
+    if (alias301s.has(urlPath) || urlPath.startsWith("/category/")) {
+      linkFailures.push({ file: relFile, href: rawHref, reason: `Link points to 301 redirect alias: ${rawHref}` });
+      continue;
+    }
+    const clean = urlPath.replace(/^\/+/, "").replace(/\/+$/, "");
+    const targetFile = clean === "" ? path.join(distDir, "index.html") : path.join(distDir, `${clean}.html`);
+    const fileExists = fs.existsSync(targetFile);
+    const isSpaRewrite = spaRewrites.has(urlPath) || urlPath.startsWith("/pair/") && spaRewrites.has("/pair/*");
+    const isFunctionMatch = /^\/convert\/[a-z0-9_-]+\/[a-z0-9_-]+$/i.test(urlPath);
+    if (!fileExists && !isSpaRewrite && !isFunctionMatch) {
+      linkFailures.push({ file: relFile, href: rawHref, reason: `Target does not exist on disk and matches no rewrite/function: ${rawHref}` });
+    }
+  }
+}
+console.log(`
+\u{1F517} --- INTERNAL LINK CRAWLER AUDIT ---`);
+console.log(`\u2022 Total Internal <a href> Links Crawled: ${totalInternalLinksChecked}`);
+console.log(`\u2022 Link Invariant Violations: ${linkFailures.length}`);
+if (linkFailures.length > 0) {
+  linkFailures.slice(0, 20).forEach((lf) => {
+    console.error(`  - In [${lf.file}]: ${lf.reason}`);
+    failures.push({ url: lf.href, routePath: lf.href, reason: `[In ${lf.file}] ${lf.reason}` });
+  });
+}
 console.log("\n\u{1F6E1}\uFE0F  --- SSG HARD INVARIANT RESULTS ---");
 console.log(`Total canonical routes verified: ${urls.length}`);
 console.log(`Passed: ${urls.length - failures.length} / ${urls.length}`);

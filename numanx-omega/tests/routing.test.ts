@@ -516,7 +516,7 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     assert.ok(fs.existsSync(publicRedirectsPath), 'public/_redirects must exist')
     const content = fs.readFileSync(publicRedirectsPath, 'utf8').trim()
     assert.ok(content.includes('/length                       /convert/length          301'), 'Must include 301 alias for /length')
-    assert.ok(content.includes('/settings                     /spa.html                200'), 'Must rewrite /settings to /spa.html 200')
+    assert.ok(content.includes('/settings                     /spa                     200'), 'Must rewrite /settings to /spa 200')
     assert.ok(!content.includes('/*    /index.html   200') && !content.includes('/* /index.html 200'), 'Must not contain wildcard catch-all fallback')
 
     const distRedirectsPath = path.resolve(process.cwd(), 'dist/_redirects')
