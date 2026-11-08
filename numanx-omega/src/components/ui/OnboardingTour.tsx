@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const STEPS = [
@@ -12,6 +12,7 @@ const STEPS = [
 export default function OnboardingTour() {
   const [step, setStep] = useState(0)
   const [dismissed, setDismissed] = useState(() => Boolean(localStorage.getItem('uc_onboarded')))
+  const cardRef = useRef<HTMLDivElement>(null)
 
   const finish = () => {
     setDismissed(true)
@@ -23,8 +24,17 @@ export default function OnboardingTour() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') finish()
     }
+    const handleClickOutside = (e: MouseEvent) => {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+        finish()
+      }
+    }
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
   }, [dismissed])
 
   if (dismissed) return null
@@ -33,14 +43,11 @@ export default function OnboardingTour() {
 
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
-        onClick={e => { if (e.target === e.currentTarget) finish() }}
+      <div
+        className="fixed inset-0 z-30 pointer-events-none flex items-center justify-center p-4"
       >
         <motion.div
+          ref={cardRef}
           key={step}
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -49,7 +56,7 @@ export default function OnboardingTour() {
           role="dialog"
           aria-modal="true"
           aria-labelledby="tour-heading"
-          className="glass rounded-3xl p-8 max-w-sm w-full text-center space-y-4 shadow-2xl"
+          className="glass rounded-3xl p-8 max-w-sm w-full text-center space-y-4 shadow-2xl pointer-events-auto"
         >
           <div className="text-6xl animate-float">{s.icon}</div>
           <h2 id="tour-heading" className="text-xl font-bold">{s.title}</h2>
@@ -61,20 +68,38 @@ export default function OnboardingTour() {
           </div>
           <div className="flex gap-2 justify-center pt-2">
             {step > 0 && (
-              <button onClick={() => setStep(s => s - 1)}
-                className="btn-secondary text-xs px-4 py-2.5 min-h-[44px] flex items-center justify-center">Back</button>
+              <button
+                onClick={() => setStep(s => s - 1)}
+                className="btn-secondary text-xs px-4 py-2.5 min-h-[44px] flex items-center justify-center"
+              >
+                Back
+              </button>
             )}
             {step < STEPS.length - 1 ? (
-              <button onClick={() => setStep(s => s + 1)}
-                className="btn-primary text-xs px-6 py-2.5 min-h-[44px] flex items-center justify-center">Next</button>
+              <button
+                onClick={() => setStep(s => s + 1)}
+                className="btn-primary text-xs px-6 py-2.5 min-h-[44px] flex items-center justify-center"
+              >
+                Next
+              </button>
             ) : (
-              <button onClick={finish}
-                className="btn-primary text-xs px-6 py-2.5 min-h-[44px] flex items-center justify-center">Get Started 🚀</button>
+              <button
+                onClick={finish}
+                className="btn-primary text-xs px-6 py-2.5 min-h-[44px] flex items-center justify-center"
+              >
+                Get Started 🚀
+              </button>
             )}
           </div>
-          <button onClick={finish} className="text-xs opacity-60 hover:opacity-100 transition-opacity min-h-[44px] px-4 py-2 flex items-center justify-center mx-auto">Skip tour</button>
+          <button
+            onClick={finish}
+            className="text-xs font-semibold text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)] transition-colors min-h-[44px] px-4 py-2 rounded-xl flex items-center justify-center mx-auto"
+            aria-label="Skip tour"
+          >
+            Skip
+          </button>
         </motion.div>
-      </motion.div>
+      </div>
     </AnimatePresence>
   )
 }

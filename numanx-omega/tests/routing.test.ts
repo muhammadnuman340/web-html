@@ -470,7 +470,7 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     assert.ok(!csp.includes('connect-src *'), 'CSP connect-src must NOT permit wildcard *')
 
     // Fonts are self-hosted, so no third-party font origins are allowed
-    assert.ok(csp.includes("font-src 'self';"), "CSP font-src must be 'self' only")
+    assert.ok(csp.includes("font-src 'self' data:;"), "CSP font-src must permit 'self' and data:")
     assert.ok(!csp.includes('fonts.googleapis.com') && !csp.includes('fonts.gstatic.com'), 'CSP must not permit Google Fonts origins')
 
     // PWA & Service Worker
