@@ -28,17 +28,7 @@ export const COMPARISONS: Record<string, [number, string][]> = {
   ]
 }
 
-export const CURRENCY_LIST = [
-  'USD', 'EUR', 'GBP', 'JPY', 'CNY', 'INR', 'CAD', 'AUD', 'CHF', 'MXN',
-  'BRL', 'KRW', 'SEK', 'NOK', 'NZD', 'TRY', 'ZAR', 'AED', 'SAR', 'PKR',
-  'RUB', 'SGD', 'HKD', 'MYR', 'THB', 'PHP', 'IDR', 'EGP', 'NGN', 'ARS',
-  'COP', 'PLN', 'TWD', 'DKK', 'HUF', 'CZK', 'ILS', 'CLP', 'VND', 'BDT'
-]
 
-export const CRYPTO_LIST = [
-  'BTC', 'ETH', 'SOL', 'XRP', 'ADA', 'BNB', 'DOGE', 'USDT', 'USDC', 'DOT',
-  'AVAX', 'MATIC', 'LINK', 'UNI', 'SHIB', 'LTC', 'ATOM', 'ETC', 'XLM', 'TRX'
-]
 
 export const HEALTH_FORMULAS = {
   bmi: { label: 'BMI', formula: 'kg / (m)²', unit: 'kg/m²' },

@@ -485,8 +485,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 
@@ -592,8 +592,8 @@ describe("Pure Request Classification & Fallback Isolation Rules", () => {
     assert.equal(classifyRequest(`${APP_ORIGIN}/icons/icon-192.svg`, "no-cors", "GET", APP_ORIGIN), "STATIC_ASSET");
   });
   it("correctly classifies cross-origin requests (financial APIs, fonts, analytics)", () => {
-    assert.equal(classifyRequest("https://open.er-api.com/v6/latest/USD", "cors", "GET", APP_ORIGIN), "CROSS_ORIGIN");
-    assert.equal(classifyRequest("https://api.coingecko.com/api/v3/simple/price", "cors", "GET", APP_ORIGIN), "CROSS_ORIGIN");
+    assert.equal(classifyRequest("https://api.example.com/v1/data", "cors", "GET", APP_ORIGIN), "CROSS_ORIGIN");
+    assert.equal(classifyRequest("https://api.another.org/v2/items", "cors", "GET", APP_ORIGIN), "CROSS_ORIGIN");
     assert.equal(classifyRequest("https://fonts.googleapis.com/css2", "cors", "GET", APP_ORIGIN), "CROSS_ORIGIN");
     assert.equal(classifyRequest("https://fonts.gstatic.com/s/inter/v13.woff2", "cors", "GET", APP_ORIGIN), "CROSS_ORIGIN");
   });
@@ -815,7 +815,7 @@ describe("Service Worker Runtime Execution & Routing Simulation", () => {
     assert.equal(await imgFailRes.text(), "Asset not found");
     const crossOriginRes = await runFetch({
       method: "GET",
-      url: "https://open.er-api.com/v6/latest/USD",
+      url: "https://api.example.com/v1/data",
       mode: "cors",
       headers: new Headers()
     });

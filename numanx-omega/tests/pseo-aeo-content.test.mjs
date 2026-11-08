@@ -2042,8 +2042,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -2386,8 +2386,8 @@ function withBrand(title) {
 }
 var PAGE_META = {
   "/": {
-    title: "Omega X Converter \u2014 Free Unit & Currency Converter",
-    description: "Free unit converter with 24 categories and 180+ units, plus live currency rates, crypto prices, formulas and offline support. Runs in your browser."
+    title: "Omega X Converter \u2014 Free Unit Converter",
+    description: "Free unit converter with 24 categories and 180+ units, plus formulas and offline support. Runs in your browser."
   },
   "/about": {
     title: "About Omega X Converter \u2014 NumanX Studio",
@@ -2409,14 +2409,6 @@ var PAGE_META = {
     title: "Universal Unit Converter \u2014 24 Categories | Omega X",
     description: 'Convert metric, imperial, scientific and astronomical units across 24 categories. Type naturally, like "5 km in miles", and get an instant answer.'
   },
-  "/crypto": {
-    title: "Crypto Converter \u2014 Live BTC, ETH & SOL Prices | Omega X",
-    description: "Free crypto converter with live prices for Bitcoin, Ethereum, Solana and other top coins in USD, EUR and more. Price data from CoinGecko."
-  },
-  "/currency": {
-    title: "Currency Converter \u2014 Live Exchange Rates | Omega X",
-    description: "Free currency converter with live mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD and more. Keeps working offline with cached rates."
-  },
   "/formulas": {
     title: "Unit Conversion Formulas & Constants | Omega X",
     description: "Reference library of conversion formulas, constants and worked derivations across all 24 measurement categories."
@@ -2435,7 +2427,7 @@ var PAGE_META = {
   },
   "/terms": {
     title: "Terms of Use | Omega X Converter",
-    description: "Terms for using Omega X Converter: accuracy of conversions, currency and crypto price data, health calculator limits, acceptable use and content licensing."
+    description: "Terms for using Omega X Converter: accuracy of conversions, health calculator limits, acceptable use and content licensing."
   },
   "/contact": {
     title: "Contact Omega X Converter \u2014 NumanX Studio",
@@ -2570,10 +2562,7 @@ var STORAGE_KEYS = {
     "uc_ai_chat",
     "uc_analytics",
     "uc_streaks",
-    "uc_patterns",
-    "uc_currency_rates",
-    "uc_currency_offline",
-    "uc_crypto_prices"
+    "uc_patterns"
   ],
   preferences: ["uc_theme_class", "uc_font", "uc_prec", "uc_mode", "uc_haptic", "uc_onboarded"]
 };
@@ -2594,8 +2583,7 @@ function getPrivacyPolicy() {
         bullets: [
           "Settings: theme, font, decimal precision, app mode, haptic feedback and default units.",
           "Your content: conversion history, favorites, custom units and AI assistant chat history.",
-          "Usage statistics shown only to you on the dashboard: conversion counts, streaks and frequently used conversions.",
-          "Cached currency and crypto rates, so the converters keep working offline."
+          "Usage statistics shown only to you on the dashboard: conversion counts, streaks and frequently used conversions."
         ]
       },
       {
@@ -2610,8 +2598,6 @@ function getPrivacyPolicy() {
           "A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent."
         ],
         bullets: [
-          "Currency rates are fetched from ExchangeRate-API (open.er-api.com).",
-          "Cryptocurrency prices are fetched from CoinGecko (api.coingecko.com).",
           "The website is hosted by Netlify, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
         ]
       },
@@ -2658,12 +2644,6 @@ function getTerms() {
       heading: "Accuracy of conversions",
       paragraphs: [
         "Conversions use published standard factors (such as NIST SP 811 and the BIPM SI Brochure) and are checked by automated tests, but no tool is free of errors. Results are provided for general information. Double-check any value used for engineering, medical, legal, safety-critical or financial decisions with an authoritative source."
-      ]
-    },
-    {
-      heading: "Currency and crypto prices",
-      paragraphs: [
-        "Exchange rates and cryptocurrency prices come from third-party providers. They may be delayed, cached or inaccurate, and they are not suitable for trading. Nothing on this site is financial advice."
       ]
     },
     {
@@ -2716,7 +2696,7 @@ function getTerms() {
   return {
     path: "/terms",
     h1: "Terms of Use",
-    intro: "These terms cover your use of Omega X Converter, including its unit converters, currency and crypto tools, calculators, guides and articles.",
+    intro: "These terms cover your use of Omega X Converter, including its unit converters, calculators, guides and articles.",
     sections
   };
 }

@@ -409,8 +409,6 @@ var STATIC_ROUTES = [
   { path: "/convert", label: "Converter Redirect", type: "core", description: "Root convert route rendering converter" },
   { path: "/categories", label: "Browse Categories", type: "core", description: "Directory of all 24 categories" },
   { path: "/dashboard", label: "Dashboard", type: "feature", description: "Analytics and usage control center" },
-  { path: "/currency", label: "Currency", type: "feature", description: "Live forex converter with 160+ currencies" },
-  { path: "/crypto", label: "Crypto", type: "feature", description: "Real-time cryptocurrency price converter" },
   { path: "/formulas", label: "Formula Explorer", type: "feature", description: "Interactive scientific and engineering formulas" },
   { path: "/calculator", label: "Calculator", type: "feature", description: "Quick calculation and conversion interface" },
   { path: "/health", label: "Health Hub", type: "feature", description: "BMI, BMR, and body composition calculators" },
@@ -500,8 +498,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path3 = "") {
@@ -530,8 +528,6 @@ var INDEXABILITY_POLICY = {
     "/",
     "/converter",
     "/categories",
-    "/currency",
-    "/crypto",
     "/formulas",
     "/calculator",
     "/health",
@@ -1589,8 +1585,6 @@ function generateSitemapEntries() {
   add("/", "1.0", "daily");
   add("/converter", "0.9", "daily");
   add("/categories", "0.9", "weekly");
-  add("/currency", "0.8", "hourly");
-  add("/crypto", "0.8", "hourly");
   add("/formulas", "0.7", "weekly");
   add("/calculator", "0.7", "daily");
   add("/health", "0.6", "weekly");
@@ -1785,8 +1779,6 @@ describe("Task 7 & 8: Static & Special Route Audit", () => {
       "/convert",
       "/categories",
       "/dashboard",
-      "/currency",
-      "/crypto",
       "/formulas",
       "/calculator",
       "/health",
@@ -1873,7 +1865,7 @@ describe("Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment"
       assert.ok(!entry.loc.includes("404"), `404 route leaked into sitemap: ${entry.loc}`);
       assert.ok(!entry.loc.includes("not-found"), `Not found path leaked into sitemap: ${entry.loc}`);
     }
-    assert.equal(entries.length, 149, `Expected exactly 149 sitemap entries, got ${entries.length}`);
+    assert.equal(entries.length, 147, `Expected exactly 147 sitemap entries, got ${entries.length}`);
   });
   it("ensures /404 path is excluded by indexability policy and invalid routes fail resolution", () => {
     assert.equal(isIndexablePath("/404"), false, "/404 must not be indexable");
@@ -1972,7 +1964,11 @@ describe("Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
   });
 });
 describe("Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture", () => {
-  it("verifies chart.js is strictly isolated from initial load and root bundle", () => {
+  it("verifies chart.js and react-chartjs-2 are completely absent from codebase and dependencies", () => {
+    const pkgPath = path2.resolve(process.cwd(), "package.json");
+    const pkg = JSON.parse(fs2.readFileSync(pkgPath, "utf8"));
+    assert.ok(!pkg.dependencies?.["chart.js"], "chart.js must not be in dependencies");
+    assert.ok(!pkg.dependencies?.["react-chartjs-2"], "react-chartjs-2 must not be in dependencies");
     const mainPath = path2.resolve(process.cwd(), "src/main.tsx");
     const mainContent = fs2.readFileSync(mainPath, "utf8");
     assert.ok(!mainContent.includes("chart.js"), "src/main.tsx must not import chart.js");
@@ -1981,10 +1977,6 @@ describe("Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture", ()
     const appContent = fs2.readFileSync(appPath, "utf8");
     assert.ok(!appContent.includes("chart.js"), "src/App.tsx must not import chart.js");
     assert.ok(!appContent.includes("react-chartjs-2"), "src/App.tsx must not import react-chartjs-2");
-    assert.ok(appContent.includes("const Currency = lazy(() => import('./pages/Currency'))"), "Currency page must be lazy loaded");
-    const chartPath = path2.resolve(process.cwd(), "src/components/charts/CurrencyCenter.tsx");
-    const chartContent = fs2.readFileSync(chartPath, "utf8");
-    assert.ok(chartContent.includes("ChartJS.register"), "CurrencyCenter.tsx must modularly register chart.js components");
   });
   it("verifies heavy interactive widgets (AIAssistant, ShortcutsPanel, OnboardingTour) are code-split and lazy-loaded in App.tsx", () => {
     const appPath = path2.resolve(process.cwd(), "src/App.tsx");
@@ -2058,8 +2050,8 @@ describe("Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     assert.ok(!csp.includes("script-src *"), "CSP must NOT permit wildcard script-src");
     assert.ok(csp.includes("script-src 'self'"), "CSP must include script-src 'self'");
     assert.ok(csp.includes("connect-src"), "CSP must declare connect-src");
-    assert.ok(csp.includes("https://open.er-api.com"), "CSP connect-src must permit ExchangeRate API");
-    assert.ok(csp.includes("https://api.coingecko.com"), "CSP connect-src must permit CoinGecko API");
+    assert.ok(!csp.includes("https://open.er-api.com"), "CSP connect-src must NOT permit ExchangeRate API");
+    assert.ok(!csp.includes("https://api.coingecko.com"), "CSP connect-src must NOT permit CoinGecko API");
     assert.ok(!csp.includes("connect-src *"), "CSP connect-src must NOT permit wildcard *");
     assert.ok(csp.includes("font-src 'self' data:;"), "CSP font-src must permit 'self' and data:");
     assert.ok(!csp.includes("fonts.googleapis.com") && !csp.includes("fonts.gstatic.com"), "CSP must not permit Google Fonts origins");

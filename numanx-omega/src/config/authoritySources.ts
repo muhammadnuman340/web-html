@@ -94,7 +94,7 @@ export function getAuthoritySource(id: string): AuthoritySource | undefined {
 /**
  * Returns contextually relevant authority sources for a specific conversion category.
  * Prevents over-claiming authority by omitting NIST/BIPM from non-physical categories
- * (such as currency, crypto, data, or fuel) where they do not govern definitions.
+ * (such as data or fuel) where they do not govern definitions.
  */
 export function getCategoryAuthoritySources(catId: string): AuthoritySource[] {
   switch (catId) {
@@ -123,7 +123,7 @@ export function getCategoryAuthoritySources(catId: string): AuthoritySource[] {
     case 'angle':
       return [AUTHORITY_SOURCES['bipm-si-brochure']]
     default:
-      // Non-physical / market / computing categories (currency, crypto, data, datatransfer, fuel, typography, health)
+      // Non-physical / market / computing categories (data, datatransfer, fuel, typography, health)
       // do not claim direct NIST/BIPM base unit realization; they reference the central standards directory
       return []
   }

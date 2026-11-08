@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 
 const FEATURES = [
-  { icon: '📏', label: '24 Conversion Categories', desc: '176+ units across length, mass, temp, and more' },
-  { icon: '💵', label: 'Live Currency Rates', desc: '40+ world currencies with auto-refresh' },
-  { icon: '₿', label: 'Crypto Prices', desc: 'Real-time BTC, ETH, SOL & more from CoinGecko' },
-  { icon: '🧠', label: 'Natural Language Input', desc: 'Try "5 km in miles" or "(5m + 20cm) × 2"' },
+  { icon: '📏', label: '24 Conversion Categories', desc: '176+ units across length, mass, temp, and more' },  { icon: '🧠', label: 'Natural Language Input', desc: 'Try "5 km in miles" or "(5m + 20cm) × 2"' },
   { icon: '📋', label: 'Batch Convert', desc: 'Convert hundreds of values at once, export CSV/JSON' },
   { icon: '⚒️', label: 'Custom Units', desc: 'Define your own units and conversion factors' },
   { icon: '❤️', label: 'Health Calculators', desc: 'BMI, BMR, and body metrics' },
@@ -56,7 +53,7 @@ export default function Help() {
             {FEATURES.map((f, i) => (
               <motion.button key={f.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.03 }}
-                onClick={() => { const p = f.label.includes('Theme') ? '/settings' : f.label.includes('Currency') ? '/currency' : f.label.includes('Crypto') ? '/crypto' : f.label.includes('Health') ? '/dashboard' : f.label.includes('Formula') ? '/formulas' : '/converter'; navigate(p) }}
+                onClick={() => { const p = f.label.includes('Theme') ? '/settings' : f.label.includes('Health') ? '/dashboard' : f.label.includes('Formula') ? '/formulas' : '/converter'; navigate(p) }}
                 className="glass rounded-xl p-3 text-left hover:shadow-md transition-all interact-lift text-xs">
                 <div className="text-lg mb-1" aria-hidden="true">{f.icon}</div>
                 <div className="font-medium mb-0.5">{f.label}</div>

@@ -28,13 +28,6 @@ function getPageTips(pathname: string): ContextTip[] {
       { icon: '🔍', message: 'Search categories or browse by type' },
       { icon: '⚡', message: 'Click ⚡ on any category for quick convert' },
     ],
-    '/currency': [
-      { icon: '💱', message: 'Exchange rates update every 60 minutes' },
-      { icon: '⭐', message: 'Favorite currency pairs for quick access' },
-    ],
-    '/crypto': [
-      { icon: '₿', message: 'Live crypto prices with real-time updates' },
-    ],
     '/history': [
       { icon: '🕒', message: 'Search and filter your conversion history' },
       { icon: '📥', message: 'Export history as CSV or JSON' },

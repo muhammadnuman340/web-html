@@ -149,8 +149,8 @@ describe('Pure Request Classification & Fallback Isolation Rules', () => {
   })
 
   it('correctly classifies cross-origin requests (financial APIs, fonts, analytics)', () => {
-    assert.equal(classifyRequest('https://open.er-api.com/v6/latest/USD', 'cors', 'GET', APP_ORIGIN), 'CROSS_ORIGIN')
-    assert.equal(classifyRequest('https://api.coingecko.com/api/v3/simple/price', 'cors', 'GET', APP_ORIGIN), 'CROSS_ORIGIN')
+    assert.equal(classifyRequest('https://api.example.com/v1/data', 'cors', 'GET', APP_ORIGIN), 'CROSS_ORIGIN')
+    assert.equal(classifyRequest('https://api.another.org/v2/items', 'cors', 'GET', APP_ORIGIN), 'CROSS_ORIGIN')
     assert.equal(classifyRequest('https://fonts.googleapis.com/css2', 'cors', 'GET', APP_ORIGIN), 'CROSS_ORIGIN')
     assert.equal(classifyRequest('https://fonts.gstatic.com/s/inter/v13.woff2', 'cors', 'GET', APP_ORIGIN), 'CROSS_ORIGIN')
   })
@@ -414,7 +414,7 @@ describe('Service Worker Runtime Execution & Routing Simulation', () => {
     // G. Cross-Origin Request -> NOT INTERCEPTED (respondWith not called)
     const crossOriginRes = await runFetch({
       method: 'GET',
-      url: 'https://open.er-api.com/v6/latest/USD',
+      url: 'https://api.example.com/v1/data',
       mode: 'cors',
       headers: new Headers()
     })

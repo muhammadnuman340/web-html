@@ -24,8 +24,6 @@ const Home = lazy(() => import('./pages/Home'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Categories = lazy(() => import('./pages/Categories'))
 const ConverterPage = lazy(() => import('./pages/Converter'))
-const Currency = lazy(() => import('./pages/Currency'))
-const Crypto = lazy(() => import('./pages/Crypto'))
 const FormulaExplorer = lazy(() => import('./pages/FormulaExplorer'))
 const Favorites = lazy(() => import('./pages/Favorites'))
 const History = lazy(() => import('./pages/History'))
@@ -241,8 +239,6 @@ function AppContent() {
                           />
                         ))
                       )}
-                      <Route path="/currency" element={<Currency />} />
-                      <Route path="/crypto" element={<Crypto />} />
                       <Route path="/formulas" element={<FormulaExplorer />} />
                       <Route path="/favorites" element={<Favorites />} />
                       <Route path="/history" element={<History />} />

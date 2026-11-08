@@ -266,12 +266,9 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   useEffect(() => {
     if (!catId || !result) { setModeSuggestion(null); return }
     const sciCats = ['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy']
-    const currencyCats = ['currency', 'crypto']
     const basicCats = ['length', 'mass', 'volume', 'temp']
     if (sciCats.includes(catId) && mode === 'pro') {
       setModeSuggestion({ mode: 'scientist', label: 'Scientist mode', icon: '🔬' })
-    } else if (currencyCats.includes(catId) && mode === 'pro') {
-      setModeSuggestion({ mode: 'trader', label: 'Trader mode', icon: '💹' })
     } else if (basicCats.includes(catId) && showExplanation && mode !== 'student') {
       setModeSuggestion({ mode: 'student', label: 'Student mode', icon: '🎓' })
     } else {

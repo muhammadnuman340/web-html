@@ -63,8 +63,8 @@ describe('Phase 3 Step 6 — GEO Authority, Source Citations & Entity Harmonizat
       assert.ok(energySources.some(s => s.id === 'codata-constants'))
 
       // Non-physical / market categories must NOT claim NIST or BIPM base unit authority
-      assert.deepEqual(getCategoryAuthoritySources('currency'), [])
-      assert.deepEqual(getCategoryAuthoritySources('crypto'), [])
+      assert.deepEqual(getCategoryAuthoritySources('unknown-1'), [])
+      assert.deepEqual(getCategoryAuthoritySources('unknown-2'), [])
       assert.deepEqual(getCategoryAuthoritySources('data'), [])
     })
   })

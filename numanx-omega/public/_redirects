@@ -6,6 +6,8 @@
 # ------------------------------------------------------------------------------
 # 1. Deterministic Category Compatibility Aliases (301 Permanent Redirects)
 # ------------------------------------------------------------------------------
+/currency                     /categories              301
+/crypto                       /categories              301
 /length-converter             /convert/length          301
 /length                       /convert/length          301
 /area-converter               /convert/area            301

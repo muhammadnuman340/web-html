@@ -7,7 +7,7 @@
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
 - Concise Agent Guide: https://converter.numanxstudio.com/llms.txt
-- Total Canonical Indexable Inventory: 149 URLs
+- Total Canonical Indexable Inventory: 147 URLs
 
 ## 1. System Architecture & Metrology Standards
 
@@ -32,10 +32,6 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Unified converter interface with category dropdown, unit selectors, swap function, and dynamic formula display.
 - **Categories Directory:** https://converter.numanxstudio.com/categories
   Full catalog of all 24 supported conversion categories with unit counts and measurement dimensions.
-- **Currency Center:** https://converter.numanxstudio.com/currency
-  Real-time foreign exchange converter supporting 160+ fiat currencies with offline fallback rates.
-- **Cryptocurrency Tracker:** https://converter.numanxstudio.com/crypto
-  Crypto asset pricing and unit calculator across major digital tokens with multi-currency fiat pairings.
 - **Formula Explorer:** https://converter.numanxstudio.com/formulas
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
 - **Scientific Calculator:** https://converter.numanxstudio.com/calculator

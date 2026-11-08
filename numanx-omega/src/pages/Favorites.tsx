@@ -11,10 +11,9 @@ export default function Favorites() {
 
   const loadGroups = useCallback(async () => {
     const favs = await getFavorites()
-    const grouped: Record<string, { cat: string; from: string; to: string }[]> = { Math: [], Currency: [], Science: [], Custom: [] }
+    const grouped: Record<string, { cat: string; from: string; to: string }[]> = { Math: [], Science: [], Custom: [] }
     favs.forEach(entry => {
-      if (entry.cat === 'currency' || entry.cat === 'crypto') grouped.Currency.push(entry)
-      else if (['length', 'mass', 'volume', 'area', 'speed', 'temp', 'time'].includes(entry.cat)) grouped.Math.push(entry)
+      if (['length', 'mass', 'volume', 'area', 'speed', 'temp', 'time'].includes(entry.cat)) grouped.Math.push(entry)
       else if (['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy'].includes(entry.cat)) grouped.Science.push(entry)
       else grouped.Custom.push(entry)
     })
@@ -36,8 +35,8 @@ export default function Favorites() {
     await loadGroups()
   }
 
-  const groupIcons: Record<string, string> = { Math: '🔢', Currency: '💵', Science: '🔬', Custom: '⭐' }
-  const groupColors: Record<string, string> = { Math: '#6c63ff', Currency: '#2ecc71', Science: '#9b59b6', Custom: '#f39c12' }
+  const groupIcons: Record<string, string> = { Math: '🔢', Science: '🔬', Custom: '⭐' }
+  const groupColors: Record<string, string> = { Math: '#6c63ff', Science: '#9b59b6', Custom: '#f39c12' }
 
   const allFavs = Object.values(groups).flat()
 

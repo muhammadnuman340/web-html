@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-const HIDE_PATHS = ['/converter', '/currency', '/crypto', '/dashboard', '/categories', '/history', '/favorites', '/convert', '/guides']
+const HIDE_PATHS = ['/converter', '/dashboard', '/categories', '/history', '/favorites', '/convert', '/guides']
 
 export default function FloatingTools() {
   const navigate = useNavigate()
@@ -11,7 +11,6 @@ export default function FloatingTools() {
   if (hide) return null
 
   const tools = [
-    { icon: '💱', label: 'Quick Currency', path: '/currency' },
     { icon: '🧮', label: 'Calculator', path: '/calculator' },
     { icon: '📐', label: 'Formulas', path: '/formulas' },
     { icon: '❤️', label: 'Health', path: '/dashboard' },

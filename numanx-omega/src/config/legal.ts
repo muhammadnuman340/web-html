@@ -24,7 +24,6 @@ export const STORAGE_KEYS = {
   personal: [
     'uc_hist', 'uc_fav', 'uc_custom', 'uc_custom_units', 'uc_unit_defaults',
     'uc_ai_chat', 'uc_analytics', 'uc_streaks', 'uc_patterns',
-    'uc_currency_rates', 'uc_currency_offline', 'uc_crypto_prices',
   ],
   preferences: ['uc_theme_class', 'uc_font', 'uc_prec', 'uc_mode', 'uc_haptic', 'uc_onboarded'],
 }
@@ -69,7 +68,6 @@ export function getPrivacyPolicy(): LegalDoc {
           'Settings: theme, font, decimal precision, app mode, haptic feedback and default units.',
           'Your content: conversion history, favorites, custom units and AI assistant chat history.',
           'Usage statistics shown only to you on the dashboard: conversion counts, streaks and frequently used conversions.',
-          'Cached currency and crypto rates, so the converters keep working offline.',
         ],
       },
       {
@@ -84,8 +82,6 @@ export function getPrivacyPolicy(): LegalDoc {
           'A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent.',
         ],
         bullets: [
-          'Currency rates are fetched from ExchangeRate-API (open.er-api.com).',
-          'Cryptocurrency prices are fetched from CoinGecko (api.coingecko.com).',
           'The website is hosted by Netlify, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service.',
         ],
       },
@@ -133,12 +129,6 @@ export function getTerms(): LegalDoc {
       heading: 'Accuracy of conversions',
       paragraphs: [
         'Conversions use published standard factors (such as NIST SP 811 and the BIPM SI Brochure) and are checked by automated tests, but no tool is free of errors. Results are provided for general information. Double-check any value used for engineering, medical, legal, safety-critical or financial decisions with an authoritative source.',
-      ],
-    },
-    {
-      heading: 'Currency and crypto prices',
-      paragraphs: [
-        'Exchange rates and cryptocurrency prices come from third-party providers. They may be delayed, cached or inaccurate, and they are not suitable for trading. Nothing on this site is financial advice.',
       ],
     },
     {
@@ -192,7 +182,7 @@ export function getTerms(): LegalDoc {
   return {
     path: '/terms',
     h1: 'Terms of Use',
-    intro: 'These terms cover your use of Omega X Converter, including its unit converters, currency and crypto tools, calculators, guides and articles.',
+    intro: 'These terms cover your use of Omega X Converter, including its unit converters, calculators, guides and articles.',
     sections,
   }
 }

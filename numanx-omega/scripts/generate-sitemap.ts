@@ -41,8 +41,6 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add('/', '1.0', 'daily')
   add('/converter', '0.9', 'daily')
   add('/categories', '0.9', 'weekly')
-  add('/currency', '0.8', 'hourly')
-  add('/crypto', '0.8', 'hourly')
   add('/formulas', '0.7', 'weekly')
   add('/calculator', '0.7', 'daily')
   add('/health', '0.6', 'weekly')

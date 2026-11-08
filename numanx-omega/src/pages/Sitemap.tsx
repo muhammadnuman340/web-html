@@ -16,8 +16,6 @@ const CORE_ROUTES = [
   { path: '/calculator', label: 'Smart Calculator', icon: '🧮', desc: 'Instant calculation and conversion hybrid tool' },
   { path: '/formulas', label: 'Formula Explorer', icon: '📐', desc: 'Interactive mathematical formulas and conversion steps' },
   { path: '/health', label: 'Health & Fitness Hub', icon: '❤️', desc: 'BMI, body mass, and fitness unit conversion utilities' },
-  { path: '/currency', label: 'Live Currency Center', icon: '💵', desc: 'Real-time global foreign exchange rates with interactive historical charts' },
-  { path: '/crypto', label: 'Cryptocurrency Hub', icon: '₿', desc: 'Live market prices and conversions for Bitcoin, Ethereum, and crypto tokens' },
   { path: '/contact', label: 'Contact', icon: '✉️', desc: 'Report a wrong conversion, a security issue or a privacy question' },
   { path: '/privacy', label: 'Privacy Policy', icon: '🔒', desc: 'What stays in your browser and which outside services the app uses' },
   { path: '/terms', label: 'Terms of Use', icon: '📄', desc: 'Accuracy, price data, health calculator limits and content licensing' },

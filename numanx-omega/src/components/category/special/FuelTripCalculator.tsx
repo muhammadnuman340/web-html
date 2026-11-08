@@ -20,7 +20,7 @@ export default function FuelTripCalculator() {
   const [distanceKm, setDistanceKm] = useState<number>(350)
   const [efficiencyL100km, setEfficiencyL100km] = useState<number>(7.2)
   const [fuelPricePerLiter, setFuelPricePerLiter] = useState<number>(1.65)
-  const [currencySymbol, setCurrencySymbol] = useState<string>('$')
+  const [costSymbol, setPriceSymbol] = useState<string>('$')
 
   // Derived calculations
   const distanceMiles = useMemo(() => distanceKm * 0.621371, [distanceKm])
@@ -53,13 +53,13 @@ export default function FuelTripCalculator() {
           {['$', '€', '£', '¥'].map(curr => (
             <button
               key={curr}
-              onClick={() => setCurrencySymbol(curr)}
+              onClick={() => setPriceSymbol(curr)}
               className={`w-7 h-7 rounded-lg text-xs font-semibold transition-colors ${
-                currencySymbol === curr
+                costSymbol === curr
                   ? 'bg-[var(--primary)] text-white shadow-sm'
                   : 'bg-[var(--card2)] border border-[var(--border)] text-[var(--text2)] hover:text-[var(--text)]'
               }`}
-              aria-label={`Select currency ${curr}`}
+              aria-label={`Select unit ${curr}`}
             >
               {curr}
             </button>
@@ -114,7 +114,7 @@ export default function FuelTripCalculator() {
         <div className="space-y-1.5">
           <label htmlFor="fuel-price" className="text-xs font-medium text-[var(--text)] flex justify-between">
             <span>Fuel Price</span>
-            <span className="text-xs text-[var(--text2)] opacity-80">≈ {currencySymbol}{fmt(fuelPricePerLiter * 3.78541, 2)}/gal</span>
+            <span className="text-xs text-[var(--text2)] opacity-80">≈ {costSymbol}{fmt(fuelPricePerLiter * 3.78541, 2)}/gal</span>
           </label>
           <div className="relative">
             <input
@@ -127,7 +127,7 @@ export default function FuelTripCalculator() {
               onChange={e => setFuelPricePerLiter(Math.max(0, parseFloat(e.target.value) || 0))}
               className="w-full px-3 py-2 pr-12 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] font-mono tabular-nums"
             />
-            <span className="absolute right-3 top-2 text-xs text-[var(--text2)] opacity-70 font-medium">{currencySymbol}/L</span>
+            <span className="absolute right-3 top-2 text-xs text-[var(--text2)] opacity-70 font-medium">{costSymbol}/L</span>
           </div>
         </div>
       </div>
@@ -137,10 +137,10 @@ export default function FuelTripCalculator() {
         <div className="glass rounded-xl p-3 border border-[var(--border)] text-center">
           <div className="text-xs text-[var(--text2)] opacity-80 font-medium">Estimated Trip Cost</div>
           <div className="text-lg font-bold text-[var(--primary)] mt-0.5 font-mono">
-            {currencySymbol}{fmt(totalTripCost, 2)}
+            {costSymbol}{fmt(totalTripCost, 2)}
           </div>
           <div className="text-xs text-[var(--text2)] opacity-70 mt-0.5">
-            {currencySymbol}{fmt(costPerKm, 2)}/km · {currencySymbol}{fmt(costPerMile, 2)}/mi
+            {costSymbol}{fmt(costPerKm, 2)}/km · {costSymbol}{fmt(costPerMile, 2)}/mi
           </div>
         </div>
 

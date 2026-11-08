@@ -31,7 +31,7 @@ const GROUPS = [
       { keys: ['🎓'], desc: 'Student — simplified + explanations' },
       { keys: ['🔧'], desc: 'Engineer — precision focus' },
       { keys: ['🔬'], desc: 'Scientist — constants & math' },
-      { keys: ['💹'], desc: 'Trader — currency & crypto' },
+      { keys: ['💹'], desc: 'Fast — minimal instant mode' },
       { keys: ['⚡'], desc: 'Fast — minimal instant mode' },
       { keys: ['🚀'], desc: 'Pro — full analytics & AI' },
     ],

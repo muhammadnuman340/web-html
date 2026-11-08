@@ -5,8 +5,6 @@ import SEOHead from '../components/ui/SEOHead'
 import { PAGE_META } from '../config/pageMeta'
 import Disclaimer from '../components/ui/Disclaimer'
 import UniversalConverter from '../components/converter/UniversalConverter'
-import CurrencyCenter from '../components/charts/CurrencyCenter'
-import CryptoConverter from '../pages/Crypto'
 import GlassCard from '../components/ui/GlassCard'
 import AIDashboardInsights from '../components/widgets/AIDashboardInsights'
 import ConversionStreaks from '../components/widgets/ConversionStreaks'
@@ -17,10 +15,7 @@ import { fmt } from '../utils/numbers'
 import { getAllChains } from '../engine/conversionChains'
 
 const TABS = [
-  { id: 'convert', icon: '🔄', label: 'Convert' },
-  { id: 'currency', icon: '💵', label: 'Currency' },
-  { id: 'crypto', icon: '₿', label: 'Crypto' },
-  { id: 'health', icon: '❤️', label: 'Health' },
+  { id: 'convert', icon: '🔄', label: 'Convert' },  { id: 'health', icon: '❤️', label: 'Health' },
   { id: 'chains', icon: '⛓', label: 'Chains' },
   { id: 'insights', icon: '📊', label: 'Insights' },
 ]
@@ -75,14 +70,7 @@ export default function Dashboard() {
         <motion.div key={activeTab} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }}>
           {activeTab === 'convert' && (
             <GlassCard><UniversalConverter onHistoryAdd={handleHistoryAdd} /></GlassCard>
-          )}
-          {activeTab === 'currency' && (
-            <GlassCard><CurrencyCenter /></GlassCard>
-          )}
-          {activeTab === 'crypto' && (
-            <GlassCard><CryptoConverter /></GlassCard>
-          )}
-          {activeTab === 'health' && <HealthTab />}
+          )}          {activeTab === 'health' && <HealthTab />}
           {activeTab === 'chains' && <ChainsTab chains={chains} navigate={navigate} />}
           {activeTab === 'insights' && <InsightsTab summary={summary} analytics={analytics} />}
         </motion.div>

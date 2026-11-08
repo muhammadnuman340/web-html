@@ -11,7 +11,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['what is', 'about', 'app', 'numanx', 'omega', 'overview', 'what does'],
     title: 'About NumanX Omega',
-    content: 'NumanX Omega is a universal unit converter that handles 25+ categories including length, mass, volume, temperature, currency, crypto, and more. Features include natural language input (type "5 km in miles"), batch conversion, conversion chains, step-by-step explanations, real-world comparisons, and AI-powered suggestions. It works offline as a PWA and supports 6 user modes.',
+    content: 'NumanX Omega is a universal unit converter that handles 25+ categories including length, mass, volume, temperature, and more. Features include natural language input (type "5 km in miles"), batch conversion, conversion chains, step-by-step explanations, real-world comparisons, and AI-powered suggestions. It works offline as a PWA and supports 6 user modes.',
     category: 'feature',
     related: ['pages', 'modes', 'how to convert']
   },
@@ -41,22 +41,9 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['dashboard', 'stats', 'analytics', 'insights'],
     title: 'Dashboard',
-    content: 'The Dashboard has tabs for Convert, Currency, Crypto, Health, Chains, and Insights. The Insights tab shows your conversion statistics, top categories, activity heatmap, AI-powered suggestions, and your conversion streak.',
+    content: 'The Dashboard has tabs for Convert, Health, Chains, and Insights. The Insights tab shows your conversion statistics, top categories, activity heatmap, AI-powered suggestions, and your conversion streak.',
     category: 'page',
     related: ['insights', 'streaks']
-  },
-  {
-    keywords: ['currency', 'exchange', 'forex', 'money'],
-    title: 'Currency Converter',
-    content: 'Convert between world currencies with real-time exchange rates. Rates are cached for 60 minutes. Access from the Currency page or use the Currency Center on the Dashboard.',
-    category: 'page',
-    related: ['crypto', 'how to convert']
-  },
-  {
-    keywords: ['crypto', 'bitcoin', 'ethereum', 'cryptocurrency'],
-    title: 'Crypto Converter',
-    content: 'Convert between cryptocurrencies (BTC, ETH, etc.) and fiat currencies using live price data. Features a swap button to reverse the pair, a loading spinner during updates, and a "live" pulse indicator.',
-    category: 'page'
   },
   {
     keywords: ['formula', 'formulas', 'formula explorer', 'learn', 'education'],
@@ -68,7 +55,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['favorites', 'saved', 'bookmark', 'star'],
     title: 'Favorites',
-    content: 'Save your most-used conversion pairs to Favorites for quick access. They are organized into groups: Math, Currency, Science, and Custom. Click any favorite to navigate directly to its converter. The AI will also suggest saving a pair to favorites after you convert it 3+ times.',
+    content: 'Save your most-used conversion pairs to Favorites for quick access. They are organized into groups: Math, Science, and Custom. Click any favorite to navigate directly to its converter. The AI will also suggest saving a pair to favorites after you convert it 3+ times.',
     category: 'page',
     related: ['how to save favorites']
   },
@@ -249,7 +236,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['mode', 'student', 'engineer', 'fast', 'pro', 'trader', 'scientist'],
     title: 'App Modes',
-    content: 'The app has 6 modes that tailor the UI: 🎓 Student (simplified UI + explanations), 🔧 Engineer (precision + advanced units), ⚡ Fast (minimal instant mode), 🚀 Pro (full analytics + AI, default), 💹 Trader (currency + crypto focus), 🔬 Scientist (constants + math). Switch modes from the sidebar or Settings.',
+    content: 'The app has 6 modes that tailor the UI: 🎓 Student (simplified UI + explanations), 🔧 Engineer (precision + advanced units), ⚡ Fast (minimal instant mode), 🚀 Pro (full analytics + AI, default), 💹 Trader (high-speed conversion focus), 🔬 Scientist (constants + math). Switch modes from the sidebar or Settings.',
     category: 'setting',
     related: ['settings', 'sidebar']
   },
@@ -279,7 +266,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['how to save favorites', 'save conversion', 'bookmark', 'favorite a pair'],
     title: 'How to Save Favorites',
-    content: 'After converting a pair 3+ times, a "⭐ Save to favorites" chip appears automatically. You can also navigate directly to the Favorites page to view and manage saved pairs. Favorites are organized into Math, Currency, Science, and Custom groups.',
+    content: 'After converting a pair 3+ times, a "⭐ Save to favorites" chip appears automatically. You can also navigate directly to the Favorites page to view and manage saved pairs. Favorites are organized into Math, Science, and Custom groups.',
     category: 'howto',
     related: ['favorites']
   },
@@ -332,7 +319,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['not working', 'bug', 'error', 'issue', 'problem', 'broken', 'troubleshoot'],
     title: 'Troubleshooting',
-    content: 'Common issues: If conversion fails, check that you selected compatible units (you can\'t convert length to mass). If the app doesn\'t load, try clearing localStorage or using a private/incognito window. If currency rates are stale, wait 60 minutes for the cache to refresh or clear app data in Settings. For PWA issues, reinstall the app.',
+    content: 'Common issues: If conversion fails, check that you selected compatible units (you can\'t convert length to mass). If the app doesn\'t load, try clearing localStorage or using a private/incognito window. For PWA issues, reinstall the app.',
     category: 'trouble',
     related: ['settings']
   },

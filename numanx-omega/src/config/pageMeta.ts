@@ -22,8 +22,8 @@ export interface PageMeta {
 
 export const PAGE_META = {
   '/': {
-    title: 'Omega X Converter — Free Unit & Currency Converter',
-    description: 'Free unit converter with 24 categories and 180+ units, plus live currency rates, crypto prices, formulas and offline support. Runs in your browser.',
+    title: 'Omega X Converter — Free Unit Converter',
+    description: 'Free unit converter with 24 categories and 180+ units, plus formulas and offline support. Runs in your browser.',
   },
   '/about': {
     title: 'About Omega X Converter — NumanX Studio',
@@ -45,14 +45,6 @@ export const PAGE_META = {
     title: 'Universal Unit Converter — 24 Categories | Omega X',
     description: 'Convert metric, imperial, scientific and astronomical units across 24 categories. Type naturally, like "5 km in miles", and get an instant answer.',
   },
-  '/crypto': {
-    title: 'Crypto Converter — Live BTC, ETH & SOL Prices | Omega X',
-    description: 'Free crypto converter with live prices for Bitcoin, Ethereum, Solana and other top coins in USD, EUR and more. Price data from CoinGecko.',
-  },
-  '/currency': {
-    title: 'Currency Converter — Live Exchange Rates | Omega X',
-    description: 'Free currency converter with live mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD and more. Keeps working offline with cached rates.',
-  },
   '/formulas': {
     title: 'Unit Conversion Formulas & Constants | Omega X',
     description: 'Reference library of conversion formulas, constants and worked derivations across all 24 measurement categories.',
@@ -71,7 +63,7 @@ export const PAGE_META = {
   },
   '/terms': {
     title: 'Terms of Use | Omega X Converter',
-    description: 'Terms for using Omega X Converter: accuracy of conversions, currency and crypto price data, health calculator limits, acceptable use and content licensing.',
+    description: 'Terms for using Omega X Converter: accuracy of conversions, health calculator limits, acceptable use and content licensing.',
   },
   '/contact': {
     title: 'Contact Omega X Converter — NumanX Studio',

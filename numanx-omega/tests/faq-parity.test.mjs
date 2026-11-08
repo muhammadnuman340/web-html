@@ -1413,7 +1413,7 @@ describe("Phase 3 Step 3: Visible FAQ Parity & HowTo Acceptance Gate", () => {
     assert.ok(!types.includes("FAQPage"), "Home route must not contain FAQPage schema because it has no visible FAQ");
   });
   test("prerendered core public pages do not emit FAQPage schema", () => {
-    const coreRoutes = ["/about", "/calculator", "/categories", "/converter", "/crypto", "/currency", "/formulas", "/health", "/sitemap"];
+    const coreRoutes = ["/about", "/calculator", "/categories", "/converter", "/formulas", "/health", "/sitemap"];
     for (const r of coreRoutes) {
       const { schema } = readPrerenderedSchemaAndHtml(r);
       assert.ok(schema, `Schema should exist for ${r}`);

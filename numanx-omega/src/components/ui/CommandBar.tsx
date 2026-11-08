@@ -77,8 +77,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
 
     const pages = [
       { label: '🏠 Home', path: '/' }, { label: '📊 Dashboard', path: '/dashboard' },
-      { label: '🔄 Converter', path: '/converter' }, { label: '💵 Currency', path: '/currency' },
-      { label: '₿ Crypto', path: '/crypto' }, { label: '⭐ Favorites', path: '/favorites' },
+      { label: '🔄 Converter', path: '/converter' }, { label: '⭐ Favorites', path: '/favorites' },
       { label: '📜 History', path: '/history' }, { label: '⚙️ Settings', path: '/settings' },
       { label: '📐 Formulas', path: '/formulas' }, { label: 'ℹ️ Help', path: '/help' }
     ]

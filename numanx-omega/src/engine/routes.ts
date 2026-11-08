@@ -42,8 +42,6 @@ export const STATIC_ROUTES: StaticRouteDef[] = [
   { path: '/convert', label: 'Converter Redirect', type: 'core', description: 'Root convert route rendering converter' },
   { path: '/categories', label: 'Browse Categories', type: 'core', description: 'Directory of all 24 categories' },
   { path: '/dashboard', label: 'Dashboard', type: 'feature', description: 'Analytics and usage control center' },
-  { path: '/currency', label: 'Currency', type: 'feature', description: 'Live forex converter with 160+ currencies' },
-  { path: '/crypto', label: 'Crypto', type: 'feature', description: 'Real-time cryptocurrency price converter' },
   { path: '/formulas', label: 'Formula Explorer', type: 'feature', description: 'Interactive scientific and engineering formulas' },
   { path: '/calculator', label: 'Calculator', type: 'feature', description: 'Quick calculation and conversion interface' },
   { path: '/health', label: 'Health Hub', type: 'feature', description: 'BMI, BMR, and body composition calculators' },

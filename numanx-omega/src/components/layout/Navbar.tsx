@@ -16,8 +16,6 @@ const TOP_TOOLS = [
   { label: 'Temperature', path: '/convert/temp', icon: '🌡️', desc: 'Celsius, Fahrenheit, Kelvin' },
   { label: 'Speed & Velocity', path: '/convert/speed', icon: '⚡', desc: 'mph, km/h, knots, m/s' },
   { label: 'Volume & Capacity', path: '/convert/volume', icon: '🧪', desc: 'Liters, gallons, cups, fluid oz' },
-  { label: 'Currency Exchange', path: '/currency', icon: '💱', desc: '160+ fiat currencies with live rates' },
-  { label: 'Crypto Converter', path: '/crypto', icon: '🪙', desc: 'BTC, ETH, SOL and top 100 coins' },
   { label: 'Data Storage', path: '/convert/data', icon: '💾', desc: 'MB, GB, TB, MiB, GiB binary' },
 ]
 

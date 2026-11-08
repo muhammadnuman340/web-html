@@ -449,8 +449,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path4 = "") {
@@ -479,8 +479,6 @@ var INDEXABILITY_POLICY = {
     "/",
     "/converter",
     "/categories",
-    "/currency",
-    "/crypto",
     "/formulas",
     "/calculator",
     "/health",
@@ -1601,8 +1599,6 @@ function generateSitemapEntries() {
   add("/", "1.0", "daily");
   add("/converter", "0.9", "daily");
   add("/categories", "0.9", "weekly");
-  add("/currency", "0.8", "hourly");
-  add("/crypto", "0.8", "hourly");
   add("/formulas", "0.7", "weekly");
   add("/calculator", "0.7", "daily");
   add("/health", "0.6", "weekly");
@@ -2797,10 +2793,6 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Unified converter interface with category dropdown, unit selectors, swap function, and dynamic formula display.
 - **Categories Directory:** ${canonicalUrl("/categories")}
   Full catalog of all 24 supported conversion categories with unit counts and measurement dimensions.
-- **Currency Center:** ${canonicalUrl("/currency")}
-  Real-time foreign exchange converter supporting 160+ fiat currencies with offline fallback rates.
-- **Cryptocurrency Tracker:** ${canonicalUrl("/crypto")}
-  Crypto asset pricing and unit calculator across major digital tokens with multi-currency fiat pairings.
 - **Formula Explorer:** ${canonicalUrl("/formulas")}
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
 - **Scientific Calculator:** ${canonicalUrl("/calculator")}
@@ -2927,9 +2919,9 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 function generateLlmsSummaryText() {
   return `# Omega X Converter
 
-> Universal unit and currency conversion platform with 24 physical and financial categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+> Universal unit conversion platform with 24 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
 
-Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, currency, crypto, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
+Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 
 Canonical Origin: ${DEFAULT_SITE_URL}/
 Publisher: NumanX Studio
@@ -2942,8 +2934,6 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Home](${canonicalUrl("/")}): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
 - [Universal Converter](${canonicalUrl("/converter")}): Dedicated conversion tool interface supporting all 24 measurement categories.
 - [Categories Directory](${canonicalUrl("/categories")}): Complete index of all 24 conversion categories with unit counts and reference standards.
-- [Currency Exchange](${canonicalUrl("/currency")}): Global fiat currency conversion tool supporting 160+ fiat currencies with offline fallback rates.
-- [Cryptocurrency Rates](${canonicalUrl("/crypto")}): Digital asset conversion calculator covering major cryptocurrencies against USD, EUR, GBP, and BTC.
 - [Formula Explorer](${canonicalUrl("/formulas")}): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
 - [Scientific Calculator](${canonicalUrl("/calculator")}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](${canonicalUrl("/health")}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
@@ -3165,7 +3155,7 @@ describe("Phase 3 Step 7 \u2014 AI Discovery Files & Agent Readiness", () => {
       );
     });
     it("canonical inventory remains exactly 149 URLs", () => {
-      assert.strictEqual(canonicalEntries.length, 149, "Canonical inventory must remain exactly 149 URLs");
+      assert.strictEqual(canonicalEntries.length, 147, "Canonical inventory must remain exactly 147 URLs");
     });
   });
 });

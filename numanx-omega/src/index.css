@@ -694,7 +694,7 @@ code, .font-mono, kbd, .mono {
 }
 
 /* ==============================
-   LIVE INDICATOR (currency/crypto)
+   LIVE INDICATOR (status pulse)
    ============================== */
 @keyframes liveDot {
   0%, 100% { opacity: 1; }

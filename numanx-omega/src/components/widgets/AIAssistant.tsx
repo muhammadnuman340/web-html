@@ -21,10 +21,7 @@ const PAGE_TIPS: Record<string, { welcome: string; tips: string[] }> = {
   '/': { welcome: "You're on the Home page. I can help you navigate or start a conversion.", tips: ['Try "convert 5 km to miles"', 'View your recent stats', 'Explore features'] },
   '/converter': { welcome: "You're on the Converter. Type a value and I'll suggest units based on your history.", tips: ['Type naturally like "5 km in miles"', 'Try batch mode for multiple values', 'Use chains for step-by-step conversions'] },
   '/dashboard': { welcome: "You're on the Dashboard. Ask me about your usage patterns.", tips: ['Check your top categories', 'Review conversion history', 'Get productivity insights'] },
-  '/categories': { welcome: "You're browsing categories. Tell me which one you need help with.", tips: ['Ask about unit formulas', 'Find specific units', 'Get category recommendations'] },
-  '/currency': { welcome: "You're on Currency. I can help with exchange rates.", tips: ['Try "100 USD to EUR"', 'Check crypto rates', 'Set up favorites'] },
-  '/crypto': { welcome: "You're on Crypto. Ask about specific cryptocurrencies.", tips: ['Convert between coins', 'Check current rates', 'Compare values'] },
-  '/history': { welcome: "You're on History. I can help analyze your conversion patterns.", tips: ['Search your history', 'Find frequent pairs', 'Export your data'] },
+  '/categories': { welcome: "You're browsing categories. Tell me which one you need help with.", tips: ['Ask about unit formulas', 'Find specific units', 'Get category recommendations'] },  '/history': { welcome: "You're on History. I can help analyze your conversion patterns.", tips: ['Search your history', 'Find frequent pairs', 'Export your data'] },
   '/settings': { welcome: "You're on Settings. I can help configure your experience.", tips: ['Change your theme', 'Adjust precision', 'Toggle haptic feedback'] },
   '/formulas': { welcome: "You're exploring formulas. Ask me to explain any conversion.", tips: ['Search for a formula', 'Click to copy', 'Learn step-by-step'] },
   '/favorites': { welcome: "You're on Favorites. Ask me to suggest new conversions to save.", tips: ['Add frequent conversions', 'Organize by category', 'Quick-access your top picks'] },
@@ -63,10 +60,7 @@ const NAV_ACTIONS: Record<string, string> = {
   categories: '/categories',
   settings: '/settings',
   history: '/history',
-  favorites: '/favorites',
-  currency: '/currency',
-  crypto: '/crypto',
-  formulas: '/formulas',
+  favorites: '/favorites',  formulas: '/formulas',
   help: '/help',
   home: '/',
 }
@@ -236,7 +230,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
         case 'modes':
           ctx.lastAction = 'mode'
           setConversationContext(prev => ({ ...prev, lastAction: 'mode' }))
-          addMessage('🎓 **Student** — Simplified + explanations\n🔧 **Engineer** — Precision + advanced\n🔬 **Scientist** — Constants + math\n💹 **Trader** — Currency + crypto\n⚡ **Fast** — Minimal instant\n🚀 **Pro** — Full analytics + AI', 'assistant')
+          addMessage('🎓 **Student** — Simplified + explanations\n🔧 **Engineer** — Precision + advanced\n🔬 **Scientist** — Constants + math\n💹 **Trader** — High-speed calculations\n⚡ **Fast** — Minimal instant\n🚀 **Pro** — Full analytics + AI', 'assistant')
           return
         case 'theme':
           addMessage('Available themes: **Light**, **Dark (AMOLED)**, **Cyberpunk**, **RGB**, **Holographic**\nTip: I match light/dark based on your system preference too!', 'assistant')
@@ -355,10 +349,6 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
         if (others.length > 0) {
           addMessage(`Also: ${others.map(r => `${r.label}: ${roundSmart(r.value as number)}`).join(' • ')}`, 'suggestion')
         }
-        // Currency/crypto rate context
-        if (fromCat.curr || fromCat.crypto) {
-          addMessage(`💱 Rates update periodically — check Currency Center for latest`, 'tip')
-        }
         addMessage(`➡ converter`, 'assistant')
         addMessage(`💡 Try "tell me more" for ${fromCat.lb}`, 'suggestion')
         return true
@@ -431,7 +421,6 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
         { v: n, fu: 'km', tu: 'mi', cat: 'length' },
         { v: n, fu: 'kg', tu: 'lb', cat: 'mass' },
         { v: n, fu: 'C', tu: 'F', cat: 'temp' },
-        { v: n, fu: 'USD', tu: 'EUR', cat: 'currency' },
       ]
       addMessage(`🔢 **${n}** — Common conversions`, 'assistant')
       presets.forEach(p => {
@@ -513,7 +502,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     if (lower.includes('mode') || lower.includes('student') || lower.includes('engineer') || lower.includes('trader') || lower.includes('scientist')) {
       ctx.lastAction = 'mode'
       setConversationContext(prev => ({ ...prev, lastAction: 'mode' }))
-      addMessage('🎓 **Student** — Simplified UI + explanations\n🔧 **Engineer** — Precision + advanced units\n🔬 **Scientist** — Constants + math\n💹 **Trader** — Currency + crypto focus\n⚡ **Fast** — Minimal instant mode\n🚀 **Pro** — Full analytics + AI', 'assistant')
+      addMessage('🎓 **Student** — Simplified UI + explanations\n🔧 **Engineer** — Precision + advanced units\n🔬 **Scientist** — Constants + math\n💹 **Trader** — High-speed focus\n⚡ **Fast** — Minimal instant mode\n🚀 **Pro** — Full analytics + AI', 'assistant')
       addMessage('💡 Ask "tell me more" about any mode for details', 'assistant')
       return
     }

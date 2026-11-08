@@ -424,8 +424,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 

@@ -86,10 +86,8 @@ export function buildHomeSchema(): SchemaGraph {
         operatingSystem: 'All',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         featureList: [
-          '24 unit categories including length, mass, volume, temperature, currency, crypto',
+          '24 unit categories including length, mass, volume, temperature',
           '180+ units from metric, imperial, and scientific systems',
-          'Live currency rates for 40+ world currencies',
-          'Real-time cryptocurrency prices via CoinGecko',
           'Natural language input: type "5 km in miles" or "(5m+20cm)×2"',
           'Batch conversion mode for 1000+ values at once',
           'Cross-category conversion chains: Energy→Cost, Speed→Distance, Fuel→Cost',
@@ -454,7 +452,7 @@ export function buildBlogIndexSchema(posts: BlogPost[]): SchemaGraph {
 }
 
 /**
- * Schema for Core Public Pages (/about, /converter, /crypto, /currency, /formulas, /health, /sitemap, etc.).
+ * Schema for Core Public Pages (/about, /converter, /formulas, /health, /sitemap, etc.).
  */
 export function buildCorePageSchema(
   routePath: string,

@@ -68,25 +68,6 @@ export function getAllPluginPanels(): { id: string; label: string; icon: string 
 }
 
 export function loadBuiltinPlugins() {
-  registerPlugin({
-    id: 'core-currency',
-    name: 'Currency Pro',
-    icon: '💵',
-    color: '#2ecc71',
-    priority: 100,
-    description: 'Live and offline currency conversion',
-    version: '1.0.0',
-  })
-
-  registerPlugin({
-    id: 'core-crypto',
-    name: 'Crypto Tracker',
-    icon: '₿',
-    color: '#f39c12',
-    priority: 90,
-    description: 'Real-time cryptocurrency rates',
-    version: '1.0.0',
-  })
 
   registerPlugin({
     id: 'core-health',

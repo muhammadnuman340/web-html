@@ -443,8 +443,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -478,8 +478,8 @@ function withBrand(title) {
 }
 var PAGE_META = {
   "/": {
-    title: "Omega X Converter \u2014 Free Unit & Currency Converter",
-    description: "Free unit converter with 24 categories and 180+ units, plus live currency rates, crypto prices, formulas and offline support. Runs in your browser."
+    title: "Omega X Converter \u2014 Free Unit Converter",
+    description: "Free unit converter with 24 categories and 180+ units, plus formulas and offline support. Runs in your browser."
   },
   "/about": {
     title: "About Omega X Converter \u2014 NumanX Studio",
@@ -501,14 +501,6 @@ var PAGE_META = {
     title: "Universal Unit Converter \u2014 24 Categories | Omega X",
     description: 'Convert metric, imperial, scientific and astronomical units across 24 categories. Type naturally, like "5 km in miles", and get an instant answer.'
   },
-  "/crypto": {
-    title: "Crypto Converter \u2014 Live BTC, ETH & SOL Prices | Omega X",
-    description: "Free crypto converter with live prices for Bitcoin, Ethereum, Solana and other top coins in USD, EUR and more. Price data from CoinGecko."
-  },
-  "/currency": {
-    title: "Currency Converter \u2014 Live Exchange Rates | Omega X",
-    description: "Free currency converter with live mid-market exchange rates for USD, EUR, GBP, JPY, CAD, AUD and more. Keeps working offline with cached rates."
-  },
   "/formulas": {
     title: "Unit Conversion Formulas & Constants | Omega X",
     description: "Reference library of conversion formulas, constants and worked derivations across all 24 measurement categories."
@@ -527,7 +519,7 @@ var PAGE_META = {
   },
   "/terms": {
     title: "Terms of Use | Omega X Converter",
-    description: "Terms for using Omega X Converter: accuracy of conversions, currency and crypto price data, health calculator limits, acceptable use and content licensing."
+    description: "Terms for using Omega X Converter: accuracy of conversions, health calculator limits, acceptable use and content licensing."
   },
   "/contact": {
     title: "Contact Omega X Converter \u2014 NumanX Studio",
@@ -565,8 +557,7 @@ function getPrivacyPolicy() {
         bullets: [
           "Settings: theme, font, decimal precision, app mode, haptic feedback and default units.",
           "Your content: conversion history, favorites, custom units and AI assistant chat history.",
-          "Usage statistics shown only to you on the dashboard: conversion counts, streaks and frequently used conversions.",
-          "Cached currency and crypto rates, so the converters keep working offline."
+          "Usage statistics shown only to you on the dashboard: conversion counts, streaks and frequently used conversions."
         ]
       },
       {
@@ -581,8 +572,6 @@ function getPrivacyPolicy() {
           "A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent."
         ],
         bullets: [
-          "Currency rates are fetched from ExchangeRate-API (open.er-api.com).",
-          "Cryptocurrency prices are fetched from CoinGecko (api.coingecko.com).",
           "The website is hosted by Netlify, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
         ]
       },
@@ -629,12 +618,6 @@ function getTerms() {
       heading: "Accuracy of conversions",
       paragraphs: [
         "Conversions use published standard factors (such as NIST SP 811 and the BIPM SI Brochure) and are checked by automated tests, but no tool is free of errors. Results are provided for general information. Double-check any value used for engineering, medical, legal, safety-critical or financial decisions with an authoritative source."
-      ]
-    },
-    {
-      heading: "Currency and crypto prices",
-      paragraphs: [
-        "Exchange rates and cryptocurrency prices come from third-party providers. They may be delayed, cached or inaccurate, and they are not suitable for trading. Nothing on this site is financial advice."
       ]
     },
     {
@@ -687,7 +670,7 @@ function getTerms() {
   return {
     path: "/terms",
     h1: "Terms of Use",
-    intro: "These terms cover your use of Omega X Converter, including its unit converters, currency and crypto tools, calculators, guides and articles.",
+    intro: "These terms cover your use of Omega X Converter, including its unit converters, calculators, guides and articles.",
     sections
   };
 }
@@ -920,10 +903,8 @@ function buildHomeSchema() {
         operatingSystem: "All",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: [
-          "24 unit categories including length, mass, volume, temperature, currency, crypto",
+          "24 unit categories including length, mass, volume, temperature",
           "180+ units from metric, imperial, and scientific systems",
-          "Live currency rates for 40+ world currencies",
-          "Real-time cryptocurrency prices via CoinGecko",
           'Natural language input: type "5 km in miles" or "(5m+20cm)\xD72"',
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",
@@ -3707,17 +3688,9 @@ var homeStaticHtml = `
 
     <section aria-labelledby="tools-heading" style="margin-bottom:2.5rem;">
       <h2 id="tools-heading" style="font-size:1.4rem;font-weight:600;margin-bottom:1rem;border-bottom:2px solid #eee;padding-bottom:0.5rem;">
-        Integrated Calculation & Financial Tools
+        Integrated Calculation Tools
       </h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
-        <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
-          <h3 style="margin-top:0;"><a href="/currency" style="color:#0066cc;text-decoration:none;">Currency Converter</a></h3>
-          <p style="font-size:0.9rem;color:#555;">Real-time fiat foreign exchange rates for 160+ world currencies with 12-hour offline caching.</p>
-        </div>
-        <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
-          <h3 style="margin-top:0;"><a href="/crypto" style="color:#0066cc;text-decoration:none;">Cryptocurrency Converter</a></h3>
-          <p style="font-size:0.9rem;color:#555;">Live market valuations and conversion for Bitcoin, Ethereum, Solana, and major crypto assets.</p>
-        </div>
         <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
           <h3 style="margin-top:0;"><a href="/formulas" style="color:#0066cc;text-decoration:none;">Formula Explorer</a></h3>
           <p style="font-size:0.9rem;color:#555;">Comprehensive scientific and mathematical conversion formulas with exact derivation constants.</p>
@@ -3951,87 +3924,10 @@ var corePages = [
         <section>
           <h2>Specialized Financial & Health Tools</h2>
           <p>
-            <a href="/currency">Currency Converter</a> \xB7
-            <a href="/crypto">Cryptocurrency Prices</a> \xB7
             <a href="/health">Health Biometrics</a> \xB7
             <a href="/calculator">Scientific Calculator</a>
           </p>
         </section>
-      </main>
-    `
-  },
-  {
-    routePath: "/crypto",
-    title: PAGE_META["/crypto"].title,
-    description: PAGE_META["/crypto"].description,
-    schema: buildCorePageSchema(
-      "/crypto",
-      PAGE_META["/crypto"].title,
-      PAGE_META["/crypto"].description,
-      { applicationCategory: "FinanceApplication" }
-    ),
-    staticBodyHtml: `
-      <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
-        <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <strong>Crypto</strong>
-        </nav>
-        <header>
-          <h1 style="font-size:2rem;font-weight:700;">Cryptocurrency Price & Conversion Tracker</h1>
-          <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Convert live cryptocurrency market rates against USD, EUR, GBP, and fiat currencies. Features real-time price monitoring, local snapshot caching, and resilient fallback handling.
-          </p>
-        </header>
-        <section>
-          <h2>Supported Digital Currencies</h2>
-          <ul>
-            <li><strong>Bitcoin (BTC):</strong> Primary decentralized digital store of value.</li>
-            <li><strong>Ethereum (ETH):</strong> Smart contract and decentralized computation platform.</li>
-            <li><strong>Solana (SOL):</strong> High-throughput proof-of-history blockchain network.</li>
-            <li><strong>BNB, XRP, Cardano (ADA):</strong> Leading global digital assets.</li>
-          </ul>
-        </section>
-        <section>
-          <h2>Offline-Resilient Financial Architecture</h2>
-          <p>
-            Omega X automatically caches cryptocurrency price snapshots in browser storage. If network connectivity is lost or upstream rate limits are encountered, conversion operations fall back seamlessly to cached valuations with explicit status indicators.
-          </p>
-        </section>
-        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
-      </main>
-    `
-  },
-  {
-    routePath: "/currency",
-    title: PAGE_META["/currency"].title,
-    description: PAGE_META["/currency"].description,
-    schema: buildCorePageSchema(
-      "/currency",
-      PAGE_META["/currency"].title,
-      PAGE_META["/currency"].description,
-      { applicationCategory: "FinanceApplication" }
-    ),
-    staticBodyHtml: `
-      <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
-        <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <strong>Currency</strong>
-        </nav>
-        <header>
-          <h1 style="font-size:2rem;font-weight:700;">Live Fiat Currency Converter</h1>
-          <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Mid-market foreign exchange rates across 160+ global fiat currencies. Fast, accurate, and completely private with 12-hour local caching.
-          </p>
-        </header>
-        <section>
-          <h2>Major World Currencies Supported</h2>
-          <p>USD (US Dollar), EUR (Euro), GBP (British Pound), JPY (Japanese Yen), CAD (Canadian Dollar), AUD (Australian Dollar), CHF (Swiss Franc), CNY (Chinese Yuan), INR (Indian Rupee), and 150+ international currencies.</p>
-        </section>
-        <section>
-          <h2>Zero Telemetry & Client Privacy</h2>
-          <p>
-            Financial conversions are computed entirely on your device. Your financial inquiries, amounts, and currency pairings are never logged or sold to third-party ad networks.
-          </p>
-        </section>
-        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `
   },
@@ -4141,8 +4037,6 @@ var corePages = [
             <li><a href="/">Home (/)</a></li>
             <li><a href="/converter">Universal Converter</a></li>
             <li><a href="/categories">All Categories</a></li>
-            <li><a href="/currency">Currency Converter</a></li>
-            <li><a href="/crypto">Cryptocurrency Converter</a></li>
             <li><a href="/formulas">Formulas Reference</a></li>
             <li><a href="/calculator">Engineering Calculator</a></li>
             <li><a href="/health">Health & Biometrics</a></li>

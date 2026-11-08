@@ -872,8 +872,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -2546,8 +2546,8 @@ describe("Phase 3 Step 6 \u2014 GEO Authority, Source Citations & Entity Harmoni
       assert.equal(cookingSources.some((s) => s.id === "bipm-si-brochure"), false);
       const energySources = getCategoryAuthoritySources("energy");
       assert.ok(energySources.some((s) => s.id === "codata-constants"));
-      assert.deepEqual(getCategoryAuthoritySources("currency"), []);
-      assert.deepEqual(getCategoryAuthoritySources("crypto"), []);
+      assert.deepEqual(getCategoryAuthoritySources("unknown-1"), []);
+      assert.deepEqual(getCategoryAuthoritySources("unknown-2"), []);
       assert.deepEqual(getCategoryAuthoritySources("data"), []);
     });
   });

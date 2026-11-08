@@ -6,7 +6,7 @@ export interface UnitDef {
 }
 
 export interface CategoryDef {
-  id: string; lb: string; ic: string; cl: string; sp?: boolean; curr?: boolean; crypto?: boolean
+  id: string; lb: string; ic: string; cl: string; sp?: boolean
   al?: string[]; un: UnitDef[]
 }
 
@@ -31,6 +31,4 @@ export interface AppState {
   sidebarOpen: boolean; history: HistoryEntry[]; favorites: FavoriteEntry[]
 }
 
-export interface CurrencyRate { [key: string]: number }
 
-export type { FinancialDataStatus } from '../services/financialData'

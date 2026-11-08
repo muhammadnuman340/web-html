@@ -443,8 +443,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -473,8 +473,6 @@ var INDEXABILITY_POLICY = {
     "/",
     "/converter",
     "/categories",
-    "/currency",
-    "/crypto",
     "/formulas",
     "/calculator",
     "/health",
@@ -1528,8 +1526,6 @@ function generateSitemapEntries() {
   add("/", "1.0", "daily");
   add("/converter", "0.9", "daily");
   add("/categories", "0.9", "weekly");
-  add("/currency", "0.8", "hourly");
-  add("/crypto", "0.8", "hourly");
   add("/formulas", "0.7", "weekly");
   add("/calculator", "0.7", "daily");
   add("/health", "0.6", "weekly");

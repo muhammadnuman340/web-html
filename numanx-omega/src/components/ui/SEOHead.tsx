@@ -66,7 +66,7 @@ export default function SEOHead({ title, description, path = '', noindex, schema
     setMeta('og:image', ogImage)
     setMeta('og:image:width', '1200')
     setMeta('og:image:height', '630')
-    setMeta('og:image:alt', `${SITE.fullName} — Universal Unit & Currency Calculator`)
+    setMeta('og:image:alt', `${SITE.fullName} — Universal Unit Calculator`)
 
     // 6. Twitter Card Tags
     const setTwitter = (name: string, content: string) => {
@@ -83,7 +83,7 @@ export default function SEOHead({ title, description, path = '', noindex, schema
     setTwitter('twitter:title', fullTitle)
     setTwitter('twitter:description', description)
     setTwitter('twitter:image', ogImage)
-    setTwitter('twitter:image:alt', `${SITE.fullName} — Universal Unit & Currency Calculator`)
+    setTwitter('twitter:image:alt', `${SITE.fullName} — Universal Unit Calculator`)
 
     // 7. Page-level JSON-LD (isolated to id="omega-page-schema")
     let schemaScript = document.getElementById('omega-page-schema') as HTMLScriptElement | null

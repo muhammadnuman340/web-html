@@ -76,10 +76,9 @@ export async function removeFavorite(index: number): Promise<FavoriteEntry[]> {
 
 export async function groupFavorites(): Promise<Record<string, FavoriteEntry[]>> {
   const f = await getFavorites()
-  const groups: Record<string, FavoriteEntry[]> = { Math: [], Currency: [], Science: [], Custom: [] }
+  const groups: Record<string, FavoriteEntry[]> = { Math: [], Science: [], Custom: [] }
   f.forEach(entry => {
-    if (entry.cat === 'currency' || entry.cat === 'crypto') groups.Currency.push(entry)
-    else if (['length', 'mass', 'volume', 'area', 'speed', 'temp', 'time'].includes(entry.cat)) groups.Math.push(entry)
+    if (['length', 'mass', 'volume', 'area', 'speed', 'temp', 'time'].includes(entry.cat)) groups.Math.push(entry)
     else if (['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy'].includes(entry.cat)) groups.Science.push(entry)
     else groups.Custom.push(entry)
   })
@@ -96,14 +95,6 @@ export async function saveCustomUnits(units: CustomUnit[]): Promise<void> {
   await setItem('customUnits', units)
 }
 
-// Currency Cache
-export async function getCurrencyCache(): Promise<{ rates: Record<string, number>; timestamp: number } | null> {
-  return getItem<{ rates: Record<string, number>; timestamp: number } | null>('currencyCache', null)
-}
-
-export async function setCurrencyCache(rates: Record<string, number>): Promise<void> {
-  await setItem('currencyCache', { rates, timestamp: Date.now() })
-}
 
 // Analytics
 export async function getAnalyticsData(): Promise<{ events: unknown[]; dailyStats: Record<string, number> }> {

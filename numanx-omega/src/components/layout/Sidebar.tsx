@@ -29,8 +29,6 @@ const NAV_CATEGORIES = [
 ]
 
 const NAV_FEATURES = [
-  { path: '/currency', icon: '💵', label: 'Currency' },
-  { path: '/crypto', icon: '₿', label: 'Crypto' },
   { path: '/calculator', icon: '🧮', label: 'Calculator' },
   { path: '/formulas', icon: '📐', label: 'Formulas' },
   { path: '/health', icon: '❤️', label: 'Health' },

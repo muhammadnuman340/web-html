@@ -443,8 +443,8 @@ var SITE = {
   fullName: "Omega X Converter",
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
-  defaultTitle: "Omega X Converter \u2014 Universal Unit & Currency Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, live currency rates, crypto prices, formula charts, and offline PWA support.",
+  defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
+  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path = "") {
@@ -657,10 +657,8 @@ function buildHomeSchema() {
         operatingSystem: "All",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: [
-          "24 unit categories including length, mass, volume, temperature, currency, crypto",
+          "24 unit categories including length, mass, volume, temperature",
           "180+ units from metric, imperial, and scientific systems",
-          "Live currency rates for 40+ world currencies",
-          "Real-time cryptocurrency prices via CoinGecko",
           'Natural language input: type "5 km in miles" or "(5m+20cm)\xD72"',
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",
@@ -2018,7 +2016,7 @@ describe("Phase 3 Step 3: Schema Graph Architecture & Identity Integrity", () =>
     const webApp = schema["@graph"].find((n) => n["@type"] === "WebApplication");
     assert.ok(webApp);
     assert.equal(webApp.name, "Omega X Converter");
-    assert.ok(webApp.featureList.length >= 10);
+    assert.ok(webApp.featureList.length >= 8);
   });
   test("categories directory schema resolves 24-item ItemList with exact count parity", () => {
     const schema = buildCategoriesDirectorySchema(Categories);
@@ -2108,8 +2106,6 @@ describe("Phase 3 Step 3: Schema Graph Architecture & Identity Integrity", () =>
     const coreRoutes = [
       { path: "/about", type: "AboutPage" },
       { path: "/calculator", type: "WebApplication" },
-      { path: "/currency", type: "WebApplication" },
-      { path: "/crypto", type: "WebApplication" },
       { path: "/health", type: "WebApplication" },
       { path: "/sitemap", type: "CollectionPage" }
     ];

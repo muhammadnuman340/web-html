@@ -35,10 +35,6 @@ const CATEGORY_COMMON_PAIRS: Record<string, { from: string; to: string; label: s
     { from: 'MB', to: 'GB', label: 'MB → GB' },
     { from: 'GB', to: 'TB', label: 'GB → TB' },
   ],
-  currency: [
-    { from: 'usd', to: 'eur', label: 'USD → EUR' },
-    { from: 'usd', to: 'gbp', label: 'USD → GBP' },
-  ],
 }
 
 interface Props {

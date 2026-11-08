@@ -139,8 +139,6 @@ describe('Task 7 & 8: Static & Special Route Audit', () => {
       '/convert',
       '/categories',
       '/dashboard',
-      '/currency',
-      '/crypto',
       '/formulas',
       '/calculator',
       '/health',
@@ -242,7 +240,7 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
     // Verify count remains the verified 149
-    assert.equal(entries.length, 149, `Expected exactly 149 sitemap entries, got ${entries.length}`)
+    assert.equal(entries.length, 147, `Expected exactly 147 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {
@@ -356,7 +354,12 @@ describe('Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
 })
 
 describe('Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture', () => {
-  it('verifies chart.js is strictly isolated from initial load and root bundle', () => {
+  it('verifies chart.js and react-chartjs-2 are completely absent from codebase and dependencies', () => {
+    const pkgPath = path.resolve(process.cwd(), 'package.json')
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
+    assert.ok(!pkg.dependencies?.['chart.js'], 'chart.js must not be in dependencies')
+    assert.ok(!pkg.dependencies?.['react-chartjs-2'], 'react-chartjs-2 must not be in dependencies')
+
     const mainPath = path.resolve(process.cwd(), 'src/main.tsx')
     const mainContent = fs.readFileSync(mainPath, 'utf8')
     assert.ok(!mainContent.includes('chart.js'), 'src/main.tsx must not import chart.js')
@@ -366,11 +369,6 @@ describe('Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture', ()
     const appContent = fs.readFileSync(appPath, 'utf8')
     assert.ok(!appContent.includes('chart.js'), 'src/App.tsx must not import chart.js')
     assert.ok(!appContent.includes('react-chartjs-2'), 'src/App.tsx must not import react-chartjs-2')
-    assert.ok(appContent.includes("const Currency = lazy(() => import('./pages/Currency'))"), 'Currency page must be lazy loaded')
-
-    const chartPath = path.resolve(process.cwd(), 'src/components/charts/CurrencyCenter.tsx')
-    const chartContent = fs.readFileSync(chartPath, 'utf8')
-    assert.ok(chartContent.includes('ChartJS.register'), 'CurrencyCenter.tsx must modularly register chart.js components')
   })
 
   it('verifies heavy interactive widgets (AIAssistant, ShortcutsPanel, OnboardingTour) are code-split and lazy-loaded in App.tsx', () => {
@@ -465,8 +463,8 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
 
     // Financial APIs permitted in connect-src without wildcards
     assert.ok(csp.includes('connect-src'), 'CSP must declare connect-src')
-    assert.ok(csp.includes('https://open.er-api.com'), 'CSP connect-src must permit ExchangeRate API')
-    assert.ok(csp.includes('https://api.coingecko.com'), 'CSP connect-src must permit CoinGecko API')
+    assert.ok(!csp.includes('https://open.er-api.com'), 'CSP connect-src must NOT permit ExchangeRate API')
+    assert.ok(!csp.includes('https://api.coingecko.com'), 'CSP connect-src must NOT permit CoinGecko API')
     assert.ok(!csp.includes('connect-src *'), 'CSP connect-src must NOT permit wildcard *')
 
     // Fonts are self-hosted, so no third-party font origins are allowed

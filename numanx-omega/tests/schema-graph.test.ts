@@ -66,7 +66,7 @@ describe('Phase 3 Step 3: Schema Graph Architecture & Identity Integrity', () =>
     const webApp = schema['@graph'].find(n => n['@type'] === 'WebApplication')
     assert.ok(webApp)
     assert.equal(webApp.name, 'Omega X Converter')
-    assert.ok((webApp.featureList as string[]).length >= 10)
+    assert.ok((webApp.featureList as string[]).length >= 8)
   })
 
   test('categories directory schema resolves 24-item ItemList with exact count parity', () => {
@@ -179,8 +179,6 @@ describe('Phase 3 Step 3: Schema Graph Architecture & Identity Integrity', () =>
     const coreRoutes = [
       { path: '/about', type: 'AboutPage' },
       { path: '/calculator', type: 'WebApplication' },
-      { path: '/currency', type: 'WebApplication' },
-      { path: '/crypto', type: 'WebApplication' },
       { path: '/health', type: 'WebApplication' },
       { path: '/sitemap', type: 'CollectionPage' },
     ]

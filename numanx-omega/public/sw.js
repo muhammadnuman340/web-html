@@ -53,7 +53,7 @@ self.addEventListener('fetch', (event) => {
   }
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return
 
-  // 3. Pass through cross-origin requests untouched (live currency/crypto APIs, fonts, analytics)
+  // 3. Pass through cross-origin requests untouched (fonts, analytics)
   if (url.origin !== self.location.origin) return
 
   // 4. Do not interfere with Vite development or internal endpoints

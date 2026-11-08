@@ -20,7 +20,7 @@
     "audit": "node scripts/audit-site.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",
-    "test": "node --test tests/core.test.mjs tests/report.test.mjs && node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs tests/routing.test.mjs tests/seo.test.mjs tests/pwa.test.mjs tests/financial-resilience.test.mjs tests/schema-graph.test.mjs tests/faq-parity.test.mjs tests/internal-linking-query-state.test.mjs tests/pseo-aeo-content.test.mjs tests/authority-entity.test.mjs tests/ai-discovery.test.mjs",
+    "test": "node --test tests/core.test.mjs tests/report.test.mjs && node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs tests/routing.test.mjs tests/seo.test.mjs tests/pwa.test.mjs tests/schema-graph.test.mjs tests/faq-parity.test.mjs tests/internal-linking-query-state.test.mjs tests/pseo-aeo-content.test.mjs tests/authority-entity.test.mjs tests/ai-discovery.test.mjs",
     "test:conversion": "node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs",
     "test:routing": "node scripts/build-conversion-tests.mjs && node --test tests/routing.test.mjs",
     "test:seo": "node scripts/build-conversion-tests.mjs && node --test tests/seo.test.mjs",
@@ -30,12 +30,10 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
-    "chart.js": "^4.5.1",
     "express": "^5.2.1",
     "framer-motion": "^12.38.0",
     "localforage": "^1.10.0",
     "react": "^19.2.6",
-    "react-chartjs-2": "^5.3.1",
     "react-dom": "^19.2.6",
     "react-helmet-async": "^3.0.0",
     "react-router-dom": "^7.15.1"

@@ -5,7 +5,7 @@
  * Generates meaningful, crawlable, route-specific static HTML and metadata
  * for every public indexable route in the XML sitemap:
  * - 1 Home route (dist/index.html)
- * - 10 Core public pages (/about, /blog, /calculator, /categories, /converter, /crypto, /currency, /formulas, /health, /sitemap)
+ * - 8 Core public pages (/about, /blog, /calculator, /categories, /converter, /formulas, /health, /sitemap)
  * - 24 Canonical Category Landing pages (/convert/:category)
  * - 99 Curated Popular Pair pages (/convert/:category/:pair)
  * - 6 Educational Guides (/guides/:slug)
@@ -225,17 +225,9 @@ const homeStaticHtml = `
 
     <section aria-labelledby="tools-heading" style="margin-bottom:2.5rem;">
       <h2 id="tools-heading" style="font-size:1.4rem;font-weight:600;margin-bottom:1rem;border-bottom:2px solid #eee;padding-bottom:0.5rem;">
-        Integrated Calculation & Financial Tools
+        Integrated Calculation Tools
       </h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;">
-        <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
-          <h3 style="margin-top:0;"><a href="/currency" style="color:#0066cc;text-decoration:none;">Currency Converter</a></h3>
-          <p style="font-size:0.9rem;color:#555;">Real-time fiat foreign exchange rates for 160+ world currencies with 12-hour offline caching.</p>
-        </div>
-        <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
-          <h3 style="margin-top:0;"><a href="/crypto" style="color:#0066cc;text-decoration:none;">Cryptocurrency Converter</a></h3>
-          <p style="font-size:0.9rem;color:#555;">Live market valuations and conversion for Bitcoin, Ethereum, Solana, and major crypto assets.</p>
-        </div>
         <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
           <h3 style="margin-top:0;"><a href="/formulas" style="color:#0066cc;text-decoration:none;">Formula Explorer</a></h3>
           <p style="font-size:0.9rem;color:#555;">Comprehensive scientific and mathematical conversion formulas with exact derivation constants.</p>
@@ -475,87 +467,10 @@ const corePages: PrerenderPageConfig[] = [
         <section>
           <h2>Specialized Financial & Health Tools</h2>
           <p>
-            <a href="/currency">Currency Converter</a> ·
-            <a href="/crypto">Cryptocurrency Prices</a> ·
             <a href="/health">Health Biometrics</a> ·
             <a href="/calculator">Scientific Calculator</a>
           </p>
         </section>
-      </main>
-    `,
-  },
-  {
-    routePath: '/crypto',
-    title: PAGE_META['/crypto'].title,
-    description: PAGE_META['/crypto'].description,
-    schema: buildCorePageSchema(
-      '/crypto',
-      PAGE_META['/crypto'].title,
-      PAGE_META['/crypto'].description,
-      { applicationCategory: 'FinanceApplication' }
-    ),
-    staticBodyHtml: `
-      <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
-        <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <strong>Crypto</strong>
-        </nav>
-        <header>
-          <h1 style="font-size:2rem;font-weight:700;">Cryptocurrency Price & Conversion Tracker</h1>
-          <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Convert live cryptocurrency market rates against USD, EUR, GBP, and fiat currencies. Features real-time price monitoring, local snapshot caching, and resilient fallback handling.
-          </p>
-        </header>
-        <section>
-          <h2>Supported Digital Currencies</h2>
-          <ul>
-            <li><strong>Bitcoin (BTC):</strong> Primary decentralized digital store of value.</li>
-            <li><strong>Ethereum (ETH):</strong> Smart contract and decentralized computation platform.</li>
-            <li><strong>Solana (SOL):</strong> High-throughput proof-of-history blockchain network.</li>
-            <li><strong>BNB, XRP, Cardano (ADA):</strong> Leading global digital assets.</li>
-          </ul>
-        </section>
-        <section>
-          <h2>Offline-Resilient Financial Architecture</h2>
-          <p>
-            Omega X automatically caches cryptocurrency price snapshots in browser storage. If network connectivity is lost or upstream rate limits are encountered, conversion operations fall back seamlessly to cached valuations with explicit status indicators.
-          </p>
-        </section>
-        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
-      </main>
-    `,
-  },
-  {
-    routePath: '/currency',
-    title: PAGE_META['/currency'].title,
-    description: PAGE_META['/currency'].description,
-    schema: buildCorePageSchema(
-      '/currency',
-      PAGE_META['/currency'].title,
-      PAGE_META['/currency'].description,
-      { applicationCategory: 'FinanceApplication' }
-    ),
-    staticBodyHtml: `
-      <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
-        <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <strong>Currency</strong>
-        </nav>
-        <header>
-          <h1 style="font-size:2rem;font-weight:700;">Live Fiat Currency Converter</h1>
-          <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Mid-market foreign exchange rates across 160+ global fiat currencies. Fast, accurate, and completely private with 12-hour local caching.
-          </p>
-        </header>
-        <section>
-          <h2>Major World Currencies Supported</h2>
-          <p>USD (US Dollar), EUR (Euro), GBP (British Pound), JPY (Japanese Yen), CAD (Canadian Dollar), AUD (Australian Dollar), CHF (Swiss Franc), CNY (Chinese Yuan), INR (Indian Rupee), and 150+ international currencies.</p>
-        </section>
-        <section>
-          <h2>Zero Telemetry & Client Privacy</h2>
-          <p>
-            Financial conversions are computed entirely on your device. Your financial inquiries, amounts, and currency pairings are never logged or sold to third-party ad networks.
-          </p>
-        </section>
-        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.finance} See our <a href="/terms">Terms of Use</a>.</p>
       </main>
     `,
   },
@@ -665,8 +580,6 @@ const corePages: PrerenderPageConfig[] = [
             <li><a href="/">Home (/)</a></li>
             <li><a href="/converter">Universal Converter</a></li>
             <li><a href="/categories">All Categories</a></li>
-            <li><a href="/currency">Currency Converter</a></li>
-            <li><a href="/crypto">Cryptocurrency Converter</a></li>
             <li><a href="/formulas">Formulas Reference</a></li>
             <li><a href="/calculator">Engineering Calculator</a></li>
             <li><a href="/health">Health & Biometrics</a></li>

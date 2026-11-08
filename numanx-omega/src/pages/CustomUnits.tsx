@@ -86,7 +86,7 @@ export default function CustomUnits() {
           <select value={catId} onChange={e => setCatId(e.target.value)}
             aria-label="Target category for custom unit"
             className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all">
-            {cats.filter(c => !c.curr && !c.crypto).map(c => (
+            {cats.map(c => (
               <option key={c.id} value={c.id}>{c.ic} {c.lb}</option>
             ))}
           </select>

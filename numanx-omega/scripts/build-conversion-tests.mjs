@@ -40,15 +40,6 @@ await esbuild.build({
 })
 console.log('✅ Built tests/pwa.test.mjs successfully.')
 
-await esbuild.build({
-  entryPoints: ['tests/financial-resilience.test.ts'],
-  bundle: true,
-  platform: 'node',
-  format: 'esm',
-  packages: 'external',
-  outfile: 'tests/financial-resilience.test.mjs'
-})
-console.log('✅ Built tests/financial-resilience.test.mjs successfully.')
 
 await esbuild.build({
   entryPoints: ['tests/schema-graph.test.ts'],

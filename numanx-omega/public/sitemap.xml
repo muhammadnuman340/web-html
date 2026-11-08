@@ -136,8 +136,6 @@
   <url><loc>https://converter.numanxstudio.com/convert/volume/milliliters-to-fluid-ounces</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume/quarts-to-liters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/converter</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/crypto</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/currency</loc><priority>0.8</priority><changefreq>hourly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/formulas</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/fahrenheit-to-celsius</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
