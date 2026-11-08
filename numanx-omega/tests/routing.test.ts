@@ -297,7 +297,7 @@ describe('Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     const tourPath = path.resolve(process.cwd(), 'src/components/ui/OnboardingTour.tsx')
     const tourContent = fs.readFileSync(tourPath, 'utf8')
     assert.ok(tourContent.includes('role="dialog"'), 'OnboardingTour must have role="dialog"')
-    assert.ok(tourContent.includes('aria-modal="true"'), 'OnboardingTour must have aria-modal="true"')
+    assert.ok(!tourContent.includes('aria-modal="true"'), 'OnboardingTour must be non-modal (no aria-modal="true")')
     assert.ok(tourContent.includes('aria-labelledby="tour-heading"'), 'OnboardingTour must reference tour heading')
     assert.ok(tourContent.includes('id="tour-heading"'), 'OnboardingTour must define id="tour-heading"')
 

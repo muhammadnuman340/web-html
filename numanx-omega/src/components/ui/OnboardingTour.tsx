@@ -54,7 +54,6 @@ export default function OnboardingTour() {
           exit={{ opacity: 0, scale: 0.8, y: -20 }}
           transition={{ type: 'spring', damping: 20, stiffness: 200 }}
           role="dialog"
-          aria-modal="true"
           aria-labelledby="tour-heading"
           className="glass rounded-3xl p-8 max-w-sm w-full text-center space-y-4 shadow-2xl pointer-events-auto"
         >
