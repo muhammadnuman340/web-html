@@ -196,6 +196,15 @@ export default function Navbar({
             Categories
           </NavLink>
 
+          {/* Free Tools Link */}
+          <a
+            href="https://toolshub.numanxstudio.com"
+            title="NumanX Tools Hub — free image, text, QR and creator tools"
+            className="px-3.5 py-2 rounded-xl text-sm font-medium transition-colors min-h-[44px] flex items-center text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]"
+          >
+            Free Tools
+          </a>
+
           {/* About Link */}
           <NavLink
             to="/about"
@@ -329,6 +338,14 @@ export default function Navbar({
               >
                 📐 Universal Converter
               </Link>
+              <a
+                href="https://toolshub.numanxstudio.com"
+                title="NumanX Tools Hub — free image, text, QR and creator tools"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors min-h-[44px] flex items-center"
+              >
+                Free Tools
+              </a>
               <Link
                 to="/about"
                 onClick={() => setMobileMenuOpen(false)}

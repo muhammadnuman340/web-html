@@ -3596,6 +3596,11 @@ function escapeAttr(str) {
 var cleanSlug2 = (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 var STATIC_FOOTER_HTML = `
     <footer style="font-family:system-ui,sans-serif;max-width:64rem;margin:2rem auto 0;padding:1rem 1.5rem;border-top:1px solid #ddd;font-size:0.85rem;color:#666;">
+      <div style="margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #eee;">
+        <h3 style="margin:0 0 0.25rem;font-size:0.95rem;font-weight:600;color:#333;">More from NumanX Studio</h3>
+        <p style="margin:0 0 0.5rem;font-size:0.85rem;color:#666;line-height:1.4;">NumanX Tools Hub \u2014 free online tools for images, text, QR codes, YouTube creators and cricket stats. No sign-up, works in your browser.</p>
+        <a href="https://toolshub.numanxstudio.com" style="color:#0066cc;font-weight:500;text-decoration:underline;">Visit NumanX Tools Hub</a>
+      </div>
       <nav aria-label="Site">
         <a href="/about">About</a> \xB7 <a href="/contact">Contact</a> \xB7 <a href="/privacy">Privacy Policy</a> \xB7 <a href="/terms">Terms of Use</a> \xB7 <a href="/sitemap">Sitemap</a>
       </nav>

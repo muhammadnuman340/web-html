@@ -273,16 +273,34 @@ function AppContent() {
           </div>
 
           {/* Footer (mobile keeps space for the fixed bottom nav) */}
-          <footer className="flex flex-col lg:flex-row gap-2 items-center justify-between px-5 py-3 mb-20 lg:mb-4 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction">
-            <span>© {new Date().getFullYear()} NumanX Studio · Omega X v2.0</span>
-            <nav aria-label="Site" className="flex flex-wrap justify-center gap-1 sm:gap-2 items-center">
-              <Link to="/about" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">About</Link>
-              <Link to="/contact" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Contact</Link>
-              <Link to="/privacy" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Privacy</Link>
-              <Link to="/terms" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Terms</Link>
-              <Link to="/sitemap" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Sitemap</Link>
-              <span className="hidden lg:inline ml-2 text-[var(--text2)] opacity-70">Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
-            </nav>
+          <footer className="px-5 py-4 mb-20 lg:mb-4 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction space-y-3">
+            {/* Cross-link to NumanX Tools Hub */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-[var(--border)]">
+              <div>
+                <h3 className="font-semibold text-xs text-[var(--text)]">More from NumanX Studio</h3>
+                <p className="text-[11px] sm:text-xs text-[var(--text2)] mt-0.5 max-w-2xl">
+                  NumanX Tools Hub — free online tools for images, text, QR codes, YouTube creators and cricket stats. No sign-up, works in your browser.
+                </p>
+              </div>
+              <a
+                href="https://toolshub.numanxstudio.com"
+                className="inline-flex items-center justify-center shrink-0 min-h-[44px] px-3 py-1.5 rounded-lg text-xs font-semibold text-[var(--link-text)] hover:underline hover:text-[var(--link-hover)] transition-colors"
+              >
+                Visit NumanX Tools Hub
+              </a>
+            </div>
+
+            <div className="flex flex-col lg:flex-row gap-2 items-center justify-between">
+              <span>© {new Date().getFullYear()} NumanX Studio · Omega X v2.0</span>
+              <nav aria-label="Site" className="flex flex-wrap justify-center gap-1 sm:gap-2 items-center">
+                <Link to="/about" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">About</Link>
+                <Link to="/contact" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Contact</Link>
+                <Link to="/privacy" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Privacy</Link>
+                <Link to="/terms" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Terms</Link>
+                <Link to="/sitemap" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Sitemap</Link>
+                <span className="hidden lg:inline ml-2 text-[var(--text2)] opacity-70">Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
+              </nav>
+            </div>
           </footer>
 
           {/* Mobile bottom nav */}
