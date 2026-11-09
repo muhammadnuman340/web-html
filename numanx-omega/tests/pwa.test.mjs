@@ -7,7 +7,7 @@ import vm from "node:vm";
 
 // src/utils/pwaLogic.ts
 var PWA_CACHE_PREFIX = "omega-x-";
-var PWA_CACHE_VERSION = "v4";
+var PWA_CACHE_VERSION = "v5";
 var PWA_STATIC_CACHE = `${PWA_CACHE_PREFIX}static-${PWA_CACHE_VERSION}`;
 var PWA_PAGES_CACHE = `${PWA_CACHE_PREFIX}pages-${PWA_CACHE_VERSION}`;
 var PRECACHE_STATIC = [
@@ -719,16 +719,16 @@ describe("Service Worker Runtime Execution & Routing Simulation", () => {
       installWaitPromise = p;
     } });
     await installWaitPromise;
-    assert.ok(storage.has("omega-x-static-v4"), "Static cache must be created on install");
-    assert.ok(storage.has("omega-x-pages-v4"), "Pages cache must be created on install");
-    storage.set("omega-x-static-v3", /* @__PURE__ */ new Map());
+    assert.ok(storage.has("omega-x-static-v5"), "Static cache must be created on install");
+    assert.ok(storage.has("omega-x-pages-v5"), "Pages cache must be created on install");
+    storage.set("omega-x-static-v4", /* @__PURE__ */ new Map());
     storage.set("unrelated-domain-cache", /* @__PURE__ */ new Map());
     let activateWaitPromise = null;
     listeners["activate"]({ waitUntil: (p) => {
       activateWaitPromise = p;
     } });
     await activateWaitPromise;
-    assert.equal(storage.has("omega-x-static-v3"), false, "Old omega cache must be deleted on activate");
+    assert.equal(storage.has("omega-x-static-v4"), false, "Old omega cache must be deleted on activate");
     assert.equal(storage.has("unrelated-domain-cache"), true, "Unrelated origin cache must be preserved on activate");
     const runFetch = async (req) => {
       let respondPromise = null;

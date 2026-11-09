@@ -1,5 +1,5 @@
 // Omega X Converter - Service Worker (Production-Safe & Reliable)
-const CACHE_VERSION = 'v4'
+const CACHE_VERSION = 'v5'
 const CACHE_PREFIX = 'omega-x-'
 const STATIC_CACHE = `${CACHE_PREFIX}static-${CACHE_VERSION}`
 const PAGES_CACHE = `${CACHE_PREFIX}pages-${CACHE_VERSION}`

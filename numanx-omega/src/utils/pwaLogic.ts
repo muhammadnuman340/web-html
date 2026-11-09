@@ -15,7 +15,7 @@ export type PwaRequestType =
   | 'STATIC_ASSET'
 
 export const PWA_CACHE_PREFIX = 'omega-x-'
-export const PWA_CACHE_VERSION = 'v4'
+export const PWA_CACHE_VERSION = 'v5'
 export const PWA_STATIC_CACHE = `${PWA_CACHE_PREFIX}static-${PWA_CACHE_VERSION}`
 export const PWA_PAGES_CACHE = `${PWA_CACHE_PREFIX}pages-${PWA_CACHE_VERSION}`
 
