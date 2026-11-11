@@ -12,6 +12,9 @@ import UniversalConverter from '../components/converter/UniversalConverter'
 import CategoryLiveMatrix from '../components/category/CategoryLiveMatrix'
 import CategoryCheatSheet from '../components/category/CategoryCheatSheet'
 import CategorySpecialWidget from '../components/category/special/CategorySpecialWidget'
+import VisualComparisonCard from '../components/widgets/VisualComparisonCard'
+import ConversionChainsCard from '../components/widgets/ConversionChainsCard'
+import { suggestChain } from '../engine/conversionChains'
 import LengthProToolkit from '../components/category/special/LengthProToolkit'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { resolveCategoryId } from '../engine/routes'
@@ -371,6 +374,19 @@ export default function CategoryLanding({ categorySlug }: Props) {
       <div className="min-w-0 max-w-full overflow-hidden">
         <CategorySpecialWidget category={cat.id} />
       </div>
+
+      {/* Real-World Physical Scale Anchors */}
+      <VisualComparisonCard
+        category={cat.id}
+        value={1}
+        unitId={cat.un[0]?.id || ''}
+        unitLabel={cat.un[0]?.lb || ''}
+      />
+
+      {/* Domain Multi-Step Conversion Pipeline */}
+      {suggestChain(cat.id) && (
+        <ConversionChainsCard category={cat.id} />
+      )}
 
       {/* 6. Editorial Broadsheet — Technical & Metrological Reference */}
       <section aria-labelledby="reference-heading" className="space-y-3">

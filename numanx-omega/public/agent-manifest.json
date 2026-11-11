@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "Omega X Converter Agent Tooling",
+  "description": "Deterministic SI metrology and unit conversion engine with 28 physical categories and 123 verified canonical pairs. Designed for autonomous agents, answer engines, and LLM tool calling.",
+  "version": "2.4.0",
+  "homepage": "https://converter.numanxstudio.com",
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NumanX Omega Metrology Engine",
+    "version": "2.4.0",
+    "description": "Universal unit conversion interface supporting SI, US Customary, Imperial, and scientific domains."
+  },
+  "servers": [
+    {
+      "url": "https://converter.numanxstudio.com",
+      "description": "Production Web Application"
+    }
+  ],
+  "capabilities": {
+    "categories_count": 28,
+    "canonical_pairs_count": 99,
+    "total_indexable_pages": 178,
+    "offline_support": "PWA Service Worker Cache",
+    "metrology_standards": [
+      "BIPM SI Brochure 9th Edition (2019)",
+      "NIST Special Publication 811 (Guide for the Use of the International System of Units)",
+      "ISO 80000 Quantities and Units",
+      "CODATA Recommended Values of Fundamental Physical Constants (2018)",
+      "IEC 60027-2 Letter symbols to be used in electrical technology"
+    ]
+  },
+  "tools": [
+    {
+      "name": "convert_units",
+      "description": "Calculate deterministic unit conversions between measurement units.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "The category id (e.g. length, mass, temp, volume, area, speed, pressure, energy, power, data, cooking, fuel)"
+          },
+          "pair": {
+            "type": "string",
+            "description": "Conversion pair slug, e.g. meter-to-feet, kg-to-lbs, celsius-to-fahrenheit, psi-to-bar"
+          },
+          "val": {
+            "type": "number",
+            "description": "Numeric value to convert"
+          }
+        },
+        "required": ["category", "pair", "val"]
+      },
+      "url_template": "https://converter.numanxstudio.com/convert/{category}/{pair}?val={val}"
+    }
+  ]
+}

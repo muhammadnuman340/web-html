@@ -5,6 +5,7 @@ import UniversalConverter from '../components/converter/UniversalConverter'
 import { buildGuideSchema } from '../config/schema'
 import { getGuideRelationship } from '../config/guideRelations'
 import { BLOG_POSTS } from '../data/blogPosts'
+import ConversionQuiz from '../components/widgets/ConversionQuiz'
 
 export default function GuidePage() {
   const { slug } = useParams<{ slug: string }>()
@@ -115,6 +116,12 @@ export default function GuidePage() {
           ))}
         </ul>
       </section>
+
+      {/* Interactive Metrology Practice Quiz */}
+      <ConversionQuiz
+        category={content.relatedCat}
+        title={`${content.h1} Interactive Quiz`}
+      />
 
       {/* FAQ */}
       <section aria-labelledby="faq-heading" className="glass rounded-2xl p-4">

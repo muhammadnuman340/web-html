@@ -1513,3 +1513,109 @@ export function getPairEditorial(
     fieldNote,
   }
 }
+
+export interface CategoryToolkitInfo {
+  title: string
+  desc: string
+  action: string
+  icon: string
+}
+
+export const CATEGORY_TOOLKIT_MAP: Record<string, CategoryToolkitInfo> = {
+  length: {
+    title: 'Length Pro Metrology Toolkit & Dimensional Bar',
+    desc: 'Interactive architectural tape snap, lumber dimensions, socket scales, and live comparison bars.',
+    action: 'Open Length Toolkit',
+    icon: '📏',
+  },
+  cooking: {
+    title: "Culinary Recipe Scaler & Baker's Batch Tool",
+    desc: 'Scale baking recipes up or down by factor or serving count with instant ingredient volume conversions.',
+    action: 'Open Recipe Scaler',
+    icon: '🍳',
+  },
+  temp: {
+    title: 'Interactive Thermal Range & Phase Visualizer',
+    desc: 'Visual thermometer comparing Celsius, Fahrenheit, and Kelvin against water freezing and boiling points.',
+    action: 'Open Temperature Visualizer',
+    icon: '🌡️',
+  },
+  mass: {
+    title: 'Gravitational Weight & Mass Reference Matrix',
+    desc: 'Compare weights against everyday objects from paperclips to blue whales across metric and imperial systems.',
+    action: 'Open Mass Reference',
+    icon: '⚖️',
+  },
+  data: {
+    title: 'Network Transfer & Download Time Estimator',
+    desc: 'Estimate exact download and transfer times for files across broadband, 5G, gigabit, and optical networks.',
+    action: 'Open Transfer Estimator',
+    icon: '💾',
+  },
+  datatransfer: {
+    title: 'Network Throughput & Transfer Time Estimator',
+    desc: 'Model broadband speeds, bandwidth utilization, and file download times under realistic network conditions.',
+    action: 'Open Transfer Estimator',
+    icon: '📶',
+  },
+  speed: {
+    title: 'Velocity, Mach & Acceleration Spectrum',
+    desc: 'Explore speed benchmarks from walking pace to orbital velocity and the speed of light.',
+    action: 'Open Speed Spectrum',
+    icon: '🚀',
+  },
+  fuel: {
+    title: 'Fuel Trip Cost & Mileage Estimator',
+    desc: 'Calculate exact trip fuel consumption, cost per mile/kilometer, and fuel economy ratings.',
+    action: 'Open Fuel Trip Tool',
+    icon: '⛽',
+  },
+  area: {
+    title: 'Land & Surface Area Scale Visualizer',
+    desc: 'Visualize plots from tennis courts to square kilometers and international acres.',
+    action: 'Open Area Visualizer',
+    icon: '▣',
+  },
+  volume: {
+    title: 'Liquid & Spatial Volume Comparison Tool',
+    desc: 'Compare metric liters and cubic meters against gallons, fluid ounces, and everyday fluid vessels.',
+    action: 'Open Volume Visualizer',
+    icon: '🧪',
+  },
+  time: {
+    title: 'Temporal & Relativistic Time Visualizer',
+    desc: 'Compare nanoseconds to millennia with chronological benchmarks and planetary orbital cycles.',
+    action: 'Open Time Visualizer',
+    icon: '⏱️',
+  },
+  energy: {
+    title: 'Energy Work & Caloric Consumption Visualizer',
+    desc: 'Compare mechanical Joules, food Calories, kilowatt-hours, and British Thermal Units side-by-side.',
+    action: 'Open Energy Visualizer',
+    icon: '⚡',
+  },
+  pressure: {
+    title: 'Barometric & Hydraulic Pressure Gauge',
+    desc: 'Explore atmospheric, tire, diving, and vacuum pressure scales across Pa, PSI, and bar.',
+    action: 'Open Pressure Gauge',
+    icon: '🔵',
+  },
+  power: {
+    title: 'Mechanical & Electrical Power Visualizer',
+    desc: 'Compare horsepower, Watts, and kilowatts from smartphone batteries to industrial wind turbines.',
+    action: 'Open Power Visualizer',
+    icon: '💡',
+  },
+  angle: {
+    title: 'Trigonometric & Angular Visualizer',
+    desc: 'Interactive unit circle comparing degrees, radians, gradians, and arcminutes in real time.',
+    action: 'Open Angle Visualizer',
+    icon: '📐',
+  },
+  force: {
+    title: 'Newtonian Force & Vector Visualizer',
+    desc: 'Explore Newtons, pounds-force, and dynes with intuitive gravitational force anchors.',
+    action: 'Open Force Visualizer',
+    icon: '💪',
+  },
+}

@@ -14,14 +14,23 @@ interface QuizQuestion {
   options: number[]
 }
 
-function generateQuestion(): QuizQuestion {
+interface ConversionQuizProps {
+  category?: string
+  title?: string
+  className?: string
+}
+
+function generateQuestion(fixedCatId?: string): QuizQuestion {
   const validCats = getAllCategories().filter(
     c => c.un.length >= 2 && !['textile', 'electricity', 'magnetism', 'astronomy'].includes(c.id)
   )
-  const cat = validCats[Math.floor(Math.random() * validCats.length)]
+  const cat = (fixedCatId && (validCats.find(c => c.id === fixedCatId) || getAllCategories().find(c => c.id === fixedCatId)))
+    || validCats[Math.floor(Math.random() * validCats.length)]
+    || validCats[0]
+
   const fromIdx = Math.floor(Math.random() * cat.un.length)
   let toIdx = Math.floor(Math.random() * cat.un.length)
-  while (toIdx === fromIdx) toIdx = Math.floor(Math.random() * cat.un.length)
+  while (toIdx === fromIdx && cat.un.length > 1) toIdx = Math.floor(Math.random() * cat.un.length)
   const fromUnit = cat.un[fromIdx]
   const toUnit = cat.un[toIdx]
   const values = [1, 2, 5, 10, 25, 50, 100]
@@ -55,8 +64,8 @@ function generateQuestion(): QuizQuestion {
   }
 }
 
-export default function ConversionQuiz() {
-  const [question, setQuestion] = useState<QuizQuestion>(generateQuestion)
+export default function ConversionQuiz({ category, title = 'Conversion Quiz', className = '' }: ConversionQuizProps) {
+  const [question, setQuestion] = useState<QuizQuestion>(() => generateQuestion(category))
   const [selected, setSelected] = useState<number | null>(null)
   const [score, setScore] = useState({ correct: 0, total: 0 })
   const [showResult, setShowResult] = useState(false)
@@ -74,19 +83,19 @@ export default function ConversionQuiz() {
   }, [selected, question.correctAnswer])
 
   const next = useCallback(() => {
-    setQuestion(generateQuestion())
+    setQuestion(generateQuestion(category))
     setSelected(null)
     setShowResult(false)
-  }, [])
+  }, [category])
 
   const accuracy = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0
 
   return (
-    <div className="glass rounded-xl p-4 space-y-3">
+    <div className={`glass rounded-xl p-4 space-y-3 ${className}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-lg" aria-hidden="true">🧠</span>
-          <span className="text-sm font-semibold">Conversion Quiz</span>
+          <span className="text-sm font-semibold">{title}</span>
         </div>
         <div className="flex items-center gap-3 text-xs">
           {streak >= 3 && <span className="px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-500">🔥 {streak} streak</span>}

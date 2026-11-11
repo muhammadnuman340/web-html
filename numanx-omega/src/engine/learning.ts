@@ -177,10 +177,17 @@ const QUIZZES: Record<string, QuizQuestion[]> = {
   mass: [
     {
       question: 'How many grams are in 1 kilogram?',
-      options: ['100', '1000', '10', '10000'],
+      options: ['100', '1000', '10000', '0.001'],
       correct: 1,
-      explanation: '1 kg = 1000 g.',
+      explanation: 'Kilo = 1000, so 1 kg = 1000 g.',
       difficulty: 'beginner'
+    },
+    {
+      question: 'Which is heavier: 1 Troy ounce of gold or 1 standard Avoirdupois ounce of feathers?',
+      options: ['Standard ounce (28.35 g)', 'Troy ounce (31.10 g)', 'They are identical', 'Depends on temperature'],
+      correct: 1,
+      explanation: 'A Troy ounce is exactly 31.1035 g, while an ordinary avoirdupois ounce is 28.3495 g. Gold is measured in Troy ounces!',
+      difficulty: 'intermediate'
     }
   ],
   temp: [
@@ -195,8 +202,106 @@ const QUIZZES: Record<string, QuizQuestion[]> = {
       question: 'What is absolute zero in Celsius?',
       options: ['0°C', '-100°C', '-273.15°C', '-459.67°C'],
       correct: 2,
-      explanation: '0 K = -273.15°C is absolute zero.',
+      explanation: '0 K = -273.15°C is absolute zero, where molecular thermal motion ceases.',
       difficulty: 'intermediate'
+    }
+  ],
+  cooking: [
+    {
+      question: 'How many teaspoons are in 1 US tablespoon?',
+      options: ['2', '3', '4', '5'],
+      correct: 1,
+      explanation: '1 US tablespoon equals exactly 3 US teaspoons (15 mL vs 5 mL).',
+      difficulty: 'beginner'
+    },
+    {
+      question: 'How many tablespoons make up 1 standard US cup?',
+      options: ['8', '12', '16', '24'],
+      correct: 2,
+      explanation: 'There are 16 tablespoons in 1 US liquid cup (or 8 fluid ounces).',
+      difficulty: 'beginner'
+    }
+  ],
+  data: [
+    {
+      question: 'How many bits are in one standard digital Byte?',
+      options: ['4 bits', '8 bits', '16 bits', '1024 bits'],
+      correct: 1,
+      explanation: '1 Byte is universally composed of 8 bits (one octet).',
+      difficulty: 'beginner'
+    },
+    {
+      question: 'What is the exact difference between 1 Kilobyte (KB) and 1 Kibibyte (KiB)?',
+      options: ['1 KB = 1000 B, 1 KiB = 1024 B', '1 KB = 1024 B, 1 KiB = 1000 B', 'They are identical', 'KiB is for network, KB is for storage'],
+      correct: 0,
+      explanation: 'Under IEC standard 60027-2, decimal SI prefixes like KB represent 1,000 bytes, while binary IEC prefixes like KiB represent 1,024 bytes (2^10).',
+      difficulty: 'intermediate'
+    }
+  ],
+  speed: [
+    {
+      question: 'What is 36 km/h converted to meters per second (m/s)?',
+      options: ['3.6 m/s', '10 m/s', '100 m/s', '12.5 m/s'],
+      correct: 1,
+      explanation: 'To convert km/h to m/s, divide by 3.6: 36 ÷ 3.6 = 10 m/s.',
+      difficulty: 'beginner'
+    },
+    {
+      question: 'What is the speed of sound in dry air at 20°C (Mach 1)?',
+      options: ['~100 m/s', '~343 m/s', '~1000 m/s', '~300,000 km/s'],
+      correct: 1,
+      explanation: 'Mach 1 in standard sea-level atmosphere is approximately 343 m/s (1,235 km/h or 767 mph).',
+      difficulty: 'intermediate'
+    }
+  ],
+  pressure: [
+    {
+      question: 'What is standard atmospheric pressure at sea level in Pascals?',
+      options: ['1,000 Pa', '14.7 Pa', '101,325 Pa', '1,000,000 Pa'],
+      correct: 2,
+      explanation: 'Standard atmospheric pressure (1 atm) is defined by BIPM as exactly 101,325 Pascals (101.325 kPa or 1.01325 bar).',
+      difficulty: 'intermediate'
+    },
+    {
+      question: 'A typical passenger car tire is inflated to approximately 32 PSI. How many bar is that?',
+      options: ['~0.5 bar', '~1.2 bar', '~2.2 bar', '~5.5 bar'],
+      correct: 2,
+      explanation: '1 PSI ≈ 0.0689 bar. Thus 32 PSI ≈ 2.2 bar (or 220 kPa).',
+      difficulty: 'intermediate'
+    }
+  ],
+  energy: [
+    {
+      question: 'How many Joules are in 1 thermochemical calorie?',
+      options: ['1 J', '3.141 J', '4.184 J', '1000 J'],
+      correct: 2,
+      explanation: '1 thermochemical calorie is defined as exactly 4.184 Joules (the energy required to warm 1 gram of water by 1°C).',
+      difficulty: 'beginner'
+    },
+    {
+      question: 'How many Joules are represented by 1 kilowatt-hour (kWh) on an electric bill?',
+      options: ['3,600 J', '360,000 J', '3,600,000 J (3.6 MJ)', '1,000,000 J'],
+      correct: 2,
+      explanation: '1 kWh = 1000 W × 3600 seconds = 3,600,000 Joules (3.6 Megajoules).',
+      difficulty: 'intermediate'
+    }
+  ],
+  area: [
+    {
+      question: 'How many square meters (m²) are in 1 hectare (ha)?',
+      options: ['100 m²', '1,000 m²', '10,000 m²', '100,000 m²'],
+      correct: 2,
+      explanation: '1 hectare is a square of 100 meters by 100 meters = 10,000 m² (about 2.47 acres).',
+      difficulty: 'beginner'
+    }
+  ],
+  time: [
+    {
+      question: 'How many seconds are in 1 standard 24-hour solar day?',
+      options: ['3,600 s', '24,000 s', '86,400 s', '1,440 s'],
+      correct: 2,
+      explanation: '24 hours × 60 minutes × 60 seconds = 86,400 seconds.',
+      difficulty: 'beginner'
     }
   ]
 }

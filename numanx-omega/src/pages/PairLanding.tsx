@@ -8,11 +8,13 @@ import { useToast } from '../hooks/useToast'
 import { resolveCategoryId } from '../engine/routes'
 import { buildPairSchema } from '../config/schema'
 import { parsePairQueryVal, getGuideForPair } from '../config/guideRelations'
-import { findUnit, getPairEditorial, isCanonicalPair, cleanSlug } from '../config/pairEditorial'
+import { findUnit, getPairEditorial, isCanonicalPair, cleanSlug, CATEGORY_TOOLKIT_MAP } from '../config/pairEditorial'
 import { categoryContent } from '../engine/categoryContent'
 import { getRelatedCategoryIds } from '../config/relatedCategories'
 import { unitSymbol, unitName, unitLabel, pairTitle, pairMetaDescription } from '../engine/unitSymbols'
 import { getFavorites, toggleFavorite } from '../services/storage'
+import VisualComparisonCard from '../components/widgets/VisualComparisonCard'
+import ConversionQuiz from '../components/widgets/ConversionQuiz'
 
 function PairLandingInner({
   catParam,
@@ -384,6 +386,39 @@ function PairLandingInner({
         </section>
       )}
 
+      {/* Real-World Physical Reference Anchor */}
+      <VisualComparisonCard
+        category={cat.id}
+        value={numFrom || 1}
+        unitId={u1.id}
+        unitLabel={unitName(u1, cat.id)}
+      />
+
+      {/* Category Interactive Toolkit Spotlight */}
+      {CATEGORY_TOOLKIT_MAP[cat.id] && (
+        <section aria-labelledby="toolkit-spotlight-heading" className="glass rounded-2xl p-4 sm:p-5 border border-indigo-500/25 bg-indigo-500/[0.03] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-500 text-xs font-bold flex items-center justify-center shrink-0" aria-hidden="true">
+                {CATEGORY_TOOLKIT_MAP[cat.id].icon}
+              </span>
+              <h2 id="toolkit-spotlight-heading" className="text-xs sm:text-sm font-bold text-[var(--text)]">
+                {CATEGORY_TOOLKIT_MAP[cat.id].title}
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--text2)] opacity-85">
+              {CATEGORY_TOOLKIT_MAP[cat.id].desc}
+            </p>
+          </div>
+          <Link
+            to={`/convert/${cat.id}`}
+            className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-500 transition-all whitespace-nowrap self-start sm:self-center shadow-sm"
+          >
+            {CATEGORY_TOOLKIT_MAP[cat.id].action} &rarr;
+          </Link>
+        </section>
+      )}
+
       {/* Pair-Specific Metrological Explanation */}
       {editorial && (
         <section aria-labelledby="explanation-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
@@ -590,6 +625,12 @@ function PairLandingInner({
           ))}
         </div>
       </section>
+
+      {/* Metrology Interactive Knowledge Check */}
+      <ConversionQuiz
+        category={cat.id}
+        title={`${cat.lb} Metrology Knowledge Check`}
+      />
 
       {/* Return to Category */}
       <div className="pt-2 text-center">

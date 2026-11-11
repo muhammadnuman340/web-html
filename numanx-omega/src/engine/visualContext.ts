@@ -96,6 +96,48 @@ export const VISUAL_CONTEXT: Record<string, VisualRef[]> = {
     { value: 343, unit: 'm/s', label: 'speed of sound (Mach 1)', emoji: '💥' },
     { value: 300000000, unit: 'm/s', label: 'speed of light', emoji: '💡' },
   ],
+  data: [
+    { value: 1, unit: 'B', label: 'single ASCII character', emoji: '🔤' },
+    { value: 1024, unit: 'B', label: 'plain text email note (1 KB)', emoji: '📧' },
+    { value: 5242880, unit: 'B', label: 'smartphone photo or MP3 song (5 MB)', emoji: '🎵' },
+    { value: 1073741824, unit: 'B', label: '1 hour of HD video stream (1 GB)', emoji: '🎬' },
+    { value: 4700000000, unit: 'B', label: 'single-layer DVD disc (4.7 GB)', emoji: '📀' },
+    { value: 26843545600, unit: 'B', label: 'single-layer Blu-ray disc (25 GB)', emoji: '💿' },
+    { value: 1099511627776, unit: 'B', label: 'modern high-capacity NVMe SSD (1 TB)', emoji: '💾' },
+  ],
+  pressure: [
+    { value: 3000, unit: 'Pa', label: 'human lung expiration pressure', emoji: '🫁' },
+    { value: 101325, unit: 'Pa', label: 'sea level atmospheric pressure (1 atm)', emoji: '🌐' },
+    { value: 220000, unit: 'Pa', label: 'passenger vehicle tire pressure (~32 psi)', emoji: '🚗' },
+    { value: 700000, unit: 'Pa', label: 'road bicycle tire pressure (~100 psi)', emoji: '🚲' },
+    { value: 15000000, unit: 'Pa', label: 'scuba diving tank pressure (~150 bar)', emoji: '🤿' },
+    { value: 110000000, unit: 'Pa', label: 'bottom of Mariana Trench (Challenger Deep)', emoji: '🌊' },
+  ],
+  time: [
+    { value: 0.1, unit: 's', label: 'blink of an eye', emoji: '👁️' },
+    { value: 1, unit: 's', label: 'resting human heartbeat', emoji: '💓' },
+    { value: 60, unit: 's', label: '1 minute cooking timer', emoji: '⏱️' },
+    { value: 3600, unit: 's', label: 'standard university lecture (1 hour)', emoji: '🎓' },
+    { value: 86400, unit: 's', label: '1 full solar rotation of Earth (24 hours)', emoji: '🌍' },
+    { value: 604800, unit: 's', label: '1 calendar week', emoji: '📅' },
+    { value: 31557600, unit: 's', label: '1 planetary orbit around the Sun (1 year)', emoji: '☀️' },
+  ],
+  energy: [
+    { value: 4.184, unit: 'J', label: 'energy to raise 1 g of water by 1°C (1 cal)', emoji: '💧' },
+    { value: 1000, unit: 'J', label: 'kinetic energy of a fast-pitch baseball', emoji: '⚾' },
+    { value: 104600, unit: 'J', label: 'energy in a snack energy bar (~25 kcal)', emoji: '🍫' },
+    { value: 3600000, unit: 'J', label: '1 kilowatt-hour of grid electricity (1 kWh)', emoji: '⚡' },
+    { value: 35000000, unit: 'J', label: 'chemical energy in 1 liter of gasoline', emoji: '⛽' },
+    { value: 1e9, unit: 'J', label: 'energy released in a cloud lightning strike', emoji: '🌩️' },
+  ],
+  power: [
+    { value: 5, unit: 'W', label: 'smartphone baseline charger', emoji: '📱' },
+    { value: 60, unit: 'W', label: 'standard incandescent light bulb', emoji: '💡' },
+    { value: 745.7, unit: 'W', label: '1 mechanical horsepower (hp)', emoji: '🐎' },
+    { value: 1500, unit: 'W', label: 'hair dryer or electric space heater', emoji: '💨' },
+    { value: 150000, unit: 'W', label: 'typical family car engine (~200 hp)', emoji: '🚗' },
+    { value: 1000000, unit: 'W', label: 'commercial wind turbine output (1 MW)', emoji: '💨' },
+  ],
 }
 
 import { convert } from './converter'
@@ -107,6 +149,64 @@ const BASE_UNIT_BY_CAT: Record<string, string> = {
   volume: 'm3',
   temp: 'C',
   speed: 'mps',
+  data: 'B',
+  pressure: 'Pa',
+  time: 's',
+  energy: 'J',
+  power: 'W',
+}
+
+export function getVisualAnchors(catId: string, limit = 4): VisualRef[] {
+  const refs = VISUAL_CONTEXT[catId]
+  if (!refs || refs.length === 0) return []
+  if (refs.length <= limit) return refs
+  // Sample evenly across the scale
+  const step = Math.floor(refs.length / limit)
+  const result: VisualRef[] = []
+  for (let i = 0; i < limit; i++) {
+    const idx = Math.min(i * step, refs.length - 1)
+    result.push(refs[idx])
+  }
+  return result
+}
+
+export function getComparativeStatement(catId: string, value: number, unitId: string): { text: string; emoji: string } | null {
+  const ref = findVisualContext(catId, value, unitId)
+  if (!ref) return null
+
+  const baseUnit = BASE_UNIT_BY_CAT[catId]
+  if (!baseUnit) return null
+
+  const baseValue = unitId === baseUnit ? value : convert(value, catId, unitId, baseUnit)
+  if (baseValue === null || !Number.isFinite(baseValue)) return null
+
+  if (catId === 'temp') {
+    const diff = Math.round(baseValue - ref.value)
+    if (Math.abs(diff) <= 2) {
+      return { text: `Roughly equivalent to ${ref.label}`, emoji: ref.emoji }
+    }
+    const dir = diff > 0 ? `${diff}°C warmer than` : `${Math.abs(diff)}°C cooler than`
+    return { text: `Approximately ${dir} ${ref.label}`, emoji: ref.emoji }
+  }
+
+  if (baseValue <= 0 || ref.value <= 0) {
+    return { text: `Benchmark: ${ref.label}`, emoji: ref.emoji }
+  }
+
+  const ratio = baseValue / ref.value
+  if (ratio >= 0.85 && ratio <= 1.15) {
+    return { text: `Roughly equivalent to the ${ref.label}`, emoji: ref.emoji }
+  } else if (ratio > 1.15 && ratio < 10) {
+    return { text: `Approximately ${ratio.toFixed(1)}× the ${ref.label}`, emoji: ref.emoji }
+  } else if (ratio >= 10) {
+    return { text: `Approximately ${Math.round(ratio).toLocaleString()}× the ${ref.label}`, emoji: ref.emoji }
+  } else {
+    const inv = 1 / ratio
+    if (inv < 10) {
+      return { text: `Approximately ${(1 / inv).toFixed(2)}× (about 1/${Math.round(inv)}) of the ${ref.label}`, emoji: ref.emoji }
+    }
+    return { text: `Fractional scale (~1/${Math.round(inv).toLocaleString()}) of the ${ref.label}`, emoji: ref.emoji }
+  }
 }
 
 export function findVisualContext(catId: string, value: number, unitId: string): VisualRef | null {
