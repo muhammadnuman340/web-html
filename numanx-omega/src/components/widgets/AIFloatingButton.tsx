@@ -10,9 +10,10 @@ export default function AIFloatingButton({ open, onToggle }: { open: boolean; on
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.8 }}
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-            className="mb-1 px-3 py-1.5 rounded-xl glass text-xs font-medium text-[var(--text)] border border-[var(--border)] shadow-lg whitespace-nowrap"
+            className="mb-1 px-3 py-1.5 rounded-xl glass text-xs font-semibold text-[var(--text)] border border-[var(--border)] shadow-lg whitespace-nowrap flex items-center gap-1.5"
           >
-            Ask AI ✨
+            <span>Smart Assistant</span>
+            <span aria-hidden="true" className="text-[var(--primary)]">⚡</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -25,9 +26,9 @@ export default function AIFloatingButton({ open, onToggle }: { open: boolean; on
             ? 'bg-[var(--text)] text-[var(--bg)] rotate-45'
             : 'gradient-primary text-white shadow-[var(--glow)]'
         }`}
-        aria-label={open ? 'Close AI assistant' : 'Open AI assistant'}
+        aria-label={open ? 'Close smart assistant' : 'Open smart metrology assistant'}
       >
-        <motion.span animate={{ rotate: open ? 45 : 0 }}>{open ? '✕' : '🧠'}</motion.span>
+        <motion.span animate={{ rotate: open ? 45 : 0 }}>{open ? '✕' : '⚡'}</motion.span>
       </motion.button>
       {!open && (
         <motion.span

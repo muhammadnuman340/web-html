@@ -239,8 +239,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count matches authoritative sitemap inventory (175 URLs)
-    assert.equal(entries.length, 175, `Expected exactly 175 sitemap entries, got ${entries.length}`)
+    // Verify count matches authoritative sitemap inventory (178 URLs)
+    assert.equal(entries.length, 178, `Expected exactly 178 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {

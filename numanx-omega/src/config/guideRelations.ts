@@ -103,6 +103,45 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
       'temperature-scales-celsius-fahrenheit-kelvin',
     ],
   },
+  {
+    guideSlug: 'cups-to-grams',
+    title: 'Cups to Grams',
+    categoryId: 'cooking',
+    categoryName: 'Cooking & Recipes',
+    categoryPath: '/convert/cooking',
+    pairSlug: 'stick-of-butter-to-tablespoon',
+    pairPath: '/convert/cooking/stick-of-butter-to-tablespoon',
+    pairLabel: 'Stick of Butter to Tablespoon',
+    relatedPostSlugs: [
+      'ai-powered-unit-conversions-in-2026',
+    ],
+  },
+  {
+    guideSlug: 'psi-to-bar',
+    title: 'PSI to Bar',
+    categoryId: 'pressure',
+    categoryName: 'Pressure',
+    categoryPath: '/convert/pressure',
+    pairSlug: 'bar-to-psi',
+    pairPath: '/convert/pressure/bar-to-psi',
+    pairLabel: 'Bar to PSI',
+    relatedPostSlugs: [
+      'metric-vs-imperial-engineering-guide',
+    ],
+  },
+  {
+    guideSlug: 'kw-to-hp',
+    title: 'Kilowatts to Horsepower',
+    categoryId: 'power',
+    categoryName: 'Power',
+    categoryPath: '/convert/power',
+    pairSlug: 'metric-horsepower-to-kilowatt',
+    pairPath: '/convert/power/metric-horsepower-to-kilowatt',
+    pairLabel: 'Metric Horsepower to Kilowatt',
+    relatedPostSlugs: [
+      'metric-vs-imperial-engineering-guide',
+    ],
+  },
 ]
 
 /**

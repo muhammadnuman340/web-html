@@ -136,8 +136,8 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
       const url = canonicalUrl(`/guides/${guide.slug}`)
       sections.push(`### ${guide.title}
 - **Canonical URL:** ${url}
-- **Category:** ${guide.category}
-- **Target Measurement System:** ${guide.metaDesc || guide.subtitle || 'Educational conversion guide.'}
+- **Category:** ${guide.relatedCat || (guide as any).category || 'General'}
+- **Target Measurement System:** ${guide.metaDesc || (guide as any).subtitle || 'Educational conversion guide.'}
 `)
     }
   }

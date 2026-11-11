@@ -33,7 +33,7 @@ const GROUPS = [
       { keys: ['🔬'], desc: 'Scientist — constants & math' },
       { keys: ['💹'], desc: 'Fast — minimal instant mode' },
       { keys: ['⚡'], desc: 'Fast — minimal instant mode' },
-      { keys: ['🚀'], desc: 'Pro — full analytics & AI' },
+      { keys: ['🚀'], desc: 'Pro — full analytics & smart instruments' },
     ],
   },
 ]

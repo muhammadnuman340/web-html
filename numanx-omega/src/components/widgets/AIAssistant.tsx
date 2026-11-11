@@ -531,7 +531,7 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
     if (lower.includes('shortcut') || lower.includes('key')) {
       ctx.lastAction = 'shortcut'
       setConversationContext(prev => ({ ...prev, lastAction: 'shortcut' }))
-      addMessage('⌘K — Command bar\n⌘⇧C — Quick convert\n⌘H — History\n⌘D — Dark mode\n⌘⇧A — AI Assistant\nEsc — Close/clear', 'assistant')
+      addMessage('⌘K — Command bar\n⌘⇧C — Quick convert\n⌘H — History\n⌘D — Dark mode\n⌘⇧A — Metrology Assistant\nEsc — Close/clear', 'assistant')
       return
     }
 
@@ -587,15 +587,18 @@ export default function AIAssistant({ onClose, currentPage }: { onClose: () => v
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
             <div className="flex items-center gap-2">
-              <span className="w-7 h-7 rounded-full bg-[var(--primary)] flex items-center justify-center text-sm" aria-hidden="true">🧠</span>
-              <span className="font-semibold text-sm">NX-COS AI</span>
+              <span className="w-7 h-7 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-sm font-bold" aria-hidden="true">⚡</span>
+              <div>
+                <div className="font-semibold text-sm text-[var(--text)]">Metrology Assistant</div>
+                <div className="text-[10px] text-[var(--text2)] opacity-70">Deterministic SI Math</div>
+              </div>
             </div>
             <div className="flex items-center gap-1.5">
               {messages.length > 2 && <span className="text-xs opacity-40">{messages.length}</span>}
               <button onClick={() => { setMessages([]); localStorage.removeItem(CHAT_STORAGE_KEY); msgId.current = 1 }}
                 className="text-xs opacity-40 hover:opacity-100 p-1" aria-label="Clear chat">🗑</button>
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <button onClick={onClose} className="text-xs opacity-40 hover:opacity-100 p-1" aria-label="Close AI assistant">✕</button>
+              <button onClick={onClose} className="text-xs opacity-40 hover:opacity-100 p-1" aria-label="Close assistant">✕</button>
             </div>
           </div>
 

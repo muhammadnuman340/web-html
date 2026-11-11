@@ -7,7 +7,7 @@
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
 - Concise Agent Guide: https://converter.numanxstudio.com/llms.txt
-- Total Canonical Indexable Inventory: 175 URLs
+- Total Canonical Indexable Inventory: 178 URLs
 
 ## 1. System Architecture & Metrology Standards
 
@@ -725,33 +725,48 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
 
 ### Pounds to Kilograms Converter — Convert lb to kg Instantly
 - **Canonical URL:** https://converter.numanxstudio.com/guides/lbs-to-kg
-- **Category:** undefined
+- **Category:** mass
 - **Target Measurement System:** Convert pounds to kilograms: 1 lb = 0.45359237 kg exactly. Free converter with formula, a 1–300 lb table, step-by-step guide and real-world examples.
 
 ### Celsius to Fahrenheit Converter — °C to °F Instantly
 - **Canonical URL:** https://converter.numanxstudio.com/guides/celsius-to-fahrenheit
-- **Category:** undefined
+- **Category:** temp
 - **Target Measurement System:** Convert Celsius to Fahrenheit with °F = °C × 9/5 + 32. Free converter with a −40°C to 100°C reference table, step-by-step guide and examples.
 
 ### Meters to Feet Converter — Convert m to ft Instantly
 - **Canonical URL:** https://converter.numanxstudio.com/guides/meters-to-feet
-- **Category:** undefined
+- **Category:** length
 - **Target Measurement System:** Convert meters to feet: 1 m = 3.28084 ft. Free converter with formula, a 1–100 m table, step-by-step guide and real-world examples.
 
 ### Kilograms to Pounds Converter — Convert kg to lb Instantly
 - **Canonical URL:** https://converter.numanxstudio.com/guides/kg-to-lbs
-- **Category:** undefined
+- **Category:** mass
 - **Target Measurement System:** Convert kilograms to pounds: 1 kg = 2.20462 lb. Free converter with formula, a 1–150 kg table, step-by-step guide and real-world examples.
 
 ### Fahrenheit to Celsius Converter — °F to °C Instantly
 - **Canonical URL:** https://converter.numanxstudio.com/guides/fahrenheit-to-celsius
-- **Category:** undefined
+- **Category:** temp
 - **Target Measurement System:** Convert Fahrenheit to Celsius with °C = (°F − 32) × 5/9. Free converter with a −40°F to 212°F reference table, step-by-step guide and examples.
 
 ### Feet to Meters Converter — Convert ft to m Instantly
 - **Canonical URL:** https://converter.numanxstudio.com/guides/feet-to-meters
-- **Category:** undefined
+- **Category:** length
 - **Target Measurement System:** Convert feet to meters: 1 ft = 0.3048 m exactly. Free converter with formula, a 1–100 ft table, step-by-step guide and real-world examples.
+
+### Cups to Grams Converter — Volume to Weight Baking Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/cups-to-grams
+- **Category:** cooking
+- **Target Measurement System:** Convert cups to grams with density formula m = V × ρ. Free baking converter with flour, sugar, butter lookup table, step-by-step guide and kitchen FAQ.
+
+### PSI to Bar Converter — Pressure Conversion & Gauge Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/psi-to-bar
+- **Category:** pressure
+- **Target Measurement System:** Convert PSI to bar: 1 psi = 0.0689476 bar (1 bar = 14.5038 psi). Free converter with automotive tire table, gauge vs absolute pressure, and HVAC guide.
+
+### Kilowatts to Horsepower Converter — kW to HP Engine & EV Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/kw-to-hp
+- **Category:** power
+- **Target Measurement System:** Convert kW to HP: 1 kW = 1.34102 hp (1 hp = 0.7457 kW). Free power converter with EV battery ratings, metric PS vs imperial HP table, and dyno guide.
 
 ## 6. Technical Blog Articles (6 Articles)
 

@@ -1288,11 +1288,11 @@ var guideContent = {
       { q: "How do I convert meters to feet and inches?", a: "Multiply meters by 3.28084 to get decimal feet. Take the decimal part and multiply by 12 to get inches. For example: 1.83 m \xD7 3.28084 = 6.003 ft = 6 ft 0.04 in." }
     ],
     relatedGuides: [
+      { label: "Feet to Meters Converter", slug: "feet-to-meters" },
       { label: "Kilograms to Pounds Converter", slug: "kg-to-lbs" },
-      { label: "Celsius to Fahrenheit Converter", slug: "celsius-to-fahrenheit" },
-      { label: "Meters to Feet Converter", slug: "meters-to-feet" }
+      { label: "Celsius to Fahrenheit Converter", slug: "celsius-to-fahrenheit" }
     ],
-    relatedCat: "mass"
+    relatedCat: "length"
   },
   "kg-to-lbs": {
     title: "Kilograms to Pounds Converter \u2014 Convert kg to lb Instantly",
@@ -1441,6 +1441,149 @@ var guideContent = {
       { label: "Pounds to Kilograms Converter", slug: "lbs-to-kg" }
     ],
     relatedCat: "length"
+  },
+  "cups-to-grams": {
+    title: "Cups to Grams Converter \u2014 Volume to Weight Baking Guide",
+    metaDesc: "Convert cups to grams with density formula m = V \xD7 \u03C1. Free baking converter with flour, sugar, butter lookup table, step-by-step guide and kitchen FAQ.",
+    h1: "Cups to Grams Converter (cups \u2192 g)",
+    slug: "cups-to-grams",
+    intro: "Converting cups to grams is the single most common challenge in international baking. Unlike water where 1 mL equals 1 gram, dry ingredients like flour, sugar, and cocoa have vastly different bulk densities. A cup of all-purpose flour weighs approximately 125 grams, while a cup of granulated sugar weighs 200 grams. Professional pastry chefs always weigh dry ingredients on a digital scale to eliminate the 20% error inherent in measuring volume.",
+    formula: "g = cups \xD7 236.588 \xD7 density (g/mL)",
+    table: [
+      { from: 0.25, to: "31.25 g (flour) / 50 g (sugar)", rounded: "31 g / 50 g" },
+      { from: 0.33, to: "41.25 g (flour) / 66 g (sugar)", rounded: "41 g / 66 g" },
+      { from: 0.5, to: "62.5 g (flour) / 100 g (sugar)", rounded: "63 g / 100 g" },
+      { from: 0.67, to: "83.75 g (flour) / 134 g (sugar)", rounded: "84 g / 134 g" },
+      { from: 0.75, to: "93.75 g (flour) / 150 g (sugar)", rounded: "94 g / 150 g" },
+      { from: 1, to: "125 g (flour) / 200 g (sugar)", rounded: "125 g / 200 g" },
+      { from: 1.5, to: "187.5 g (flour) / 300 g (sugar)", rounded: "188 g / 300 g" },
+      { from: 2, to: "250 g (flour) / 400 g (sugar)", rounded: "250 g / 400 g" },
+      { from: 2.5, to: "312.5 g (flour) / 500 g (sugar)", rounded: "313 g / 500 g" },
+      { from: 3, to: "375 g (flour) / 600 g (sugar)", rounded: "375 g / 600 g" },
+      { from: 4, to: "500 g (flour) / 800 g (sugar)", rounded: "500 g / 800 g" }
+    ],
+    steps: [
+      "Identify the specific baking ingredient (e.g. all-purpose flour, granulated sugar, butter)",
+      "Look up the substance density or standard cup weight (flour = 125 g/cup, sugar = 200 g/cup, butter = 227 g/cup)",
+      "Multiply the number of cups by the ingredient unit weight in grams",
+      "Weigh your ingredient directly on a tared digital kitchen scale for accuracy"
+    ],
+    examples: [
+      "1 cup of all-purpose flour = 125 grams (spooned and leveled, not scooped)",
+      "1 cup of granulated sugar = 200 grams (white table sugar)",
+      "1 cup of unsalted butter = 227 grams (2 standard US sticks)",
+      "1 cup of brown sugar (packed) = 220 grams",
+      "1 cup of water or milk = 237 grams (liquid density ~1.0 g/mL)"
+    ],
+    faq: [
+      { q: "How many grams is 1 cup of flour?", a: "One US legal cup of all-purpose flour weighs approximately 125 grams when spooned into the cup and leveled with a knife. Scooping directly from the bag can compress flour to 140\u2013150 grams." },
+      { q: "How many grams is 1 cup of sugar?", a: "One cup of granulated white sugar weighs exactly 200 grams. One cup of powdered confectioners sugar weighs about 120 grams." },
+      { q: "Why do European recipes use grams instead of cups?", a: "European culinary schools and domestic recipes use weight (grams) because it is immune to settling, sifting, and humidity variations, guaranteeing reproducible pastry results." },
+      { q: "Is a US cup the same as a metric cup?", a: "A US legal cup is 240 mL, a US customary cup is 236.588 mL, and a metric cup (used in Australia and New Zealand) is exactly 250 mL." }
+    ],
+    relatedGuides: [
+      { label: "Pounds to Kilograms Converter", slug: "lbs-to-kg" },
+      { label: "Celsius to Fahrenheit Converter", slug: "celsius-to-fahrenheit" },
+      { label: "PSI to Bar Converter", slug: "psi-to-bar" }
+    ],
+    relatedCat: "cooking"
+  },
+  "psi-to-bar": {
+    title: "PSI to Bar Converter \u2014 Pressure Conversion & Gauge Guide",
+    metaDesc: "Convert PSI to bar: 1 psi = 0.0689476 bar (1 bar = 14.5038 psi). Free converter with automotive tire table, gauge vs absolute pressure, and HVAC guide.",
+    h1: "PSI to Bar Converter (psi \u2192 bar)",
+    slug: "psi-to-bar",
+    intro: "Converting PSI (pounds per square inch) to bar is standard in automotive maintenance, HVAC refrigerant servicing, scuba diving, and industrial hydraulics. One bar equals approximately 14.50377 psi, and one psi equals approximately 0.0689476 bar. Understanding whether a pressure reading represents gauge pressure (psig) or absolute pressure (psia) is critical for pneumatic systems and thermodynamic calculations.",
+    formula: "bar = psi \xD7 0.06894757",
+    table: [
+      { from: 10, to: "0.69 bar", rounded: "0.7 bar" },
+      { from: 15, to: "1.03 bar", rounded: "1.0 bar" },
+      { from: 20, to: "1.38 bar", rounded: "1.4 bar" },
+      { from: 25, to: "1.72 bar", rounded: "1.7 bar" },
+      { from: 30, to: "2.07 bar", rounded: "2.1 bar" },
+      { from: 32, to: "2.21 bar", rounded: "2.2 bar (passenger car tire)" },
+      { from: 35, to: "2.41 bar", rounded: "2.4 bar (standard tire)" },
+      { from: 40, to: "2.76 bar", rounded: "2.8 bar" },
+      { from: 50, to: "3.45 bar", rounded: "3.5 bar" },
+      { from: 60, to: "4.14 bar", rounded: "4.1 bar" },
+      { from: 80, to: "5.52 bar", rounded: "5.5 bar (bicycle/truck)" },
+      { from: 100, to: "6.89 bar", rounded: "6.9 bar (compressor)" },
+      { from: 120, to: "8.27 bar", rounded: "8.3 bar" },
+      { from: 150, to: "10.34 bar", rounded: "10.3 bar" },
+      { from: 200, to: "13.79 bar", rounded: "13.8 bar" }
+    ],
+    steps: [
+      "Take the pressure reading in PSI (pounds per square inch)",
+      "Multiply by 0.06894757 (or divide by 14.50377)",
+      "Round to 2 decimal places for tires or 4 decimal places for precision hydraulics",
+      'Add the "bar" unit label'
+    ],
+    examples: [
+      "32 psi \xD7 0.0689476 = 2.21 bar (recommended cold passenger car tire pressure)",
+      "35 psi \xD7 0.0689476 = 2.41 bar (common SUV / crossover tire pressure)",
+      "14.7 psi \xD7 0.0689476 = 1.013 bar (standard atmospheric pressure at sea level)",
+      "100 psi \xD7 0.0689476 = 6.89 bar (typical workshop air compressor output)"
+    ],
+    faq: [
+      { q: "How do I convert PSI to bar in my head?", a: "Divide the PSI value by 15 for a fast mental estimate. For example, 30 psi \xF7 15 = 2.0 bar (exact answer: 2.07 bar). 45 psi \xF7 15 = 3.0 bar (exact answer: 3.10 bar)." },
+      { q: "What is the difference between psig and psia?", a: "psig measures gauge pressure relative to ambient atmosphere (a tire gauge reads 0 psi when disconnected). psia measures absolute pressure including the 14.7 psi atmospheric pressure baseline." },
+      { q: "What is 32 PSI in bar?", a: "32 PSI equals approximately 2.21 bar, which is the standard tire pressure recommendation for most compact and midsize sedans." },
+      { q: "How many PSI is in 1 bar?", a: "One bar equals exactly 100,000 Pascals (100 kPa), which translates to approximately 14.50377 PSI." }
+    ],
+    relatedGuides: [
+      { label: "Kilowatts to Horsepower Converter", slug: "kw-to-hp" },
+      { label: "Meters to Feet Converter", slug: "meters-to-feet" },
+      { label: "Cups to Grams Converter", slug: "cups-to-grams" }
+    ],
+    relatedCat: "pressure"
+  },
+  "kw-to-hp": {
+    title: "Kilowatts to Horsepower Converter \u2014 kW to HP Engine & EV Guide",
+    metaDesc: "Convert kW to HP: 1 kW = 1.34102 hp (1 hp = 0.7457 kW). Free power converter with EV battery ratings, metric PS vs imperial HP table, and dyno guide.",
+    h1: "Kilowatts to Horsepower Converter (kW \u2192 HP)",
+    slug: "kw-to-hp",
+    intro: "Converting kilowatts (kW) to horsepower (hp) is essential for comparing electric vehicle (EV) motor outputs with internal combustion engines, industrial pump specifications, and dynamometer tuning results. One kilowatt equals approximately 1.34102 mechanical horsepower (or 1.35962 metric horsepower / PS). Modern electric cars quote motor power in kW internationally, while North American automotive markets still demand horsepower.",
+    formula: "hp = kW \xD7 1.341022",
+    table: [
+      { from: 10, to: "13.41 hp", rounded: "13 hp" },
+      { from: 25, to: "33.53 hp", rounded: "34 hp" },
+      { from: 50, to: "67.05 hp", rounded: "67 hp" },
+      { from: 75, to: "100.58 hp", rounded: "101 hp" },
+      { from: 100, to: "134.10 hp", rounded: "134 hp (entry EV)" },
+      { from: 150, to: "201.15 hp", rounded: "201 hp (compact EV)" },
+      { from: 200, to: "268.20 hp", rounded: "268 hp" },
+      { from: 250, to: "335.26 hp", rounded: "335 hp (performance EV)" },
+      { from: 300, to: "402.31 hp", rounded: "402 hp" },
+      { from: 350, to: "469.36 hp", rounded: "469 hp" },
+      { from: 400, to: "536.41 hp", rounded: "536 hp" },
+      { from: 500, to: "670.51 hp", rounded: "671 hp (supercar EV)" },
+      { from: 750, to: "1005.77 hp", rounded: "1,006 hp (hypercar)" },
+      { from: 1e3, to: "1341.02 hp", rounded: "1,341 hp" }
+    ],
+    steps: [
+      "Take the engine or motor power in kilowatts (kW)",
+      "Multiply by 1.341022 for mechanical horsepower (US/UK) or by 1.35962 for metric PS (Europe)",
+      "Round to the nearest whole horsepower or 1 decimal place",
+      'Add the "hp" unit label'
+    ],
+    examples: [
+      "150 kW \xD7 1.34102 = 201.15 hp (standard electric vehicle motor rating)",
+      "220 kW \xD7 1.34102 = 295.02 hp (performance electric sedan dual-motor setup)",
+      "74.57 kW \xD7 1.34102 = 100.00 hp (exact mechanical horsepower definition)",
+      "500 kW \xD7 1.34102 = 670.51 hp (high-performance electric hypercar)"
+    ],
+    faq: [
+      { q: "How do I convert kW to HP in my head?", a: "Multiply kW by 4 and divide by 3 (add one-third). For example, 150 kW \xD7 4/3 = 200 hp (exact answer: 201.15 hp). 300 kW \xD7 4/3 = 400 hp (exact answer: 402.3 hp)." },
+      { q: "What is the difference between mechanical HP and metric PS?", a: "Mechanical HP (imperial) is 745.69987 Watts. Metric HP (Pferdest\xE4rke / PS / CV) is 735.49875 Watts. 100 kW is 134.1 imperial hp or 136.0 metric PS." },
+      { q: "Why do electric vehicles use kW instead of HP?", a: "Kilowatt is the coherent SI unit for electrical power (Volts \xD7 Amperes \xF7 1000). Battery discharge capacity and charging speeds are quoted in kW and kWh, making kW mathematically consistent across the entire EV powertrain." },
+      { q: "How many kW is 300 horsepower?", a: "300 mechanical horsepower equals approximately 223.71 kW (300 \xF7 1.34102)." }
+    ],
+    relatedGuides: [
+      { label: "PSI to Bar Converter", slug: "psi-to-bar" },
+      { label: "Pounds to Kilograms Converter", slug: "lbs-to-kg" },
+      { label: "Celsius to Fahrenheit Converter", slug: "celsius-to-fahrenheit" }
+    ],
+    relatedCat: "power"
   }
 };
 

@@ -23,7 +23,7 @@ console.log('Home (1):', home.length, home)
 console.log('Core pages (8):', core.length, core)
 console.log('Categories (28):', categories.length)
 console.log('Pairs (123):', pairs.length)
-console.log('Guides (6):', guides.length, guides)
+console.log('Guides (9):', guides.length, guides)
 console.log('Blog articles (6):', blogArticles.length, blogArticles)
 console.log('Sum:', home.length + core.length + categories.length + pairs.length + guides.length + blogArticles.length)
 

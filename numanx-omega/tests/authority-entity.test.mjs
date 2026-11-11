@@ -2136,6 +2136,220 @@ var CATEGORY_METROLOGY = {
     contextNote: "Standardized under the W3C CSS Values and Units Module Level 3 where 1 inch is fixed at exactly 96 px and 72 pt (1 pt = 1.33333 px)."
   }
 };
+var PAIR_FIELD_NOTES = {
+  // Mass & Weight
+  "troy-ounce-to-gram": {
+    badge: "Jeweler & Bullion Advisory",
+    title: "Troy Ounce vs Avoirdupois Ounce Discrepancy",
+    note: "A Troy Ounce (oz t = 31.1035 g) is approximately 9.7% heavier than a standard US grocery avoirdupois ounce (oz = 28.3495 g). In precious metals trading, mistaking standard ounces for troy ounces leads to significant financial undervaluation.",
+    standard: "NIST SP 811 / US Mint Bullion Specifications"
+  },
+  "troy-ounce-to-ounce": {
+    badge: "Precious Metals Standard",
+    title: "1 oz t = 1.09714 oz Avoirdupois",
+    note: "Because gold and silver are quoted strictly in Troy weight (12 troy ounces per troy pound), never weigh precious metals on conventional grocery scales without applying the 1.09714 multiplier.",
+    standard: "BIPM SI Brochure (9th Edition) & LBMA Rules"
+  },
+  "kilogram-to-pounds": {
+    badge: "Aerospace & Medical Protocol",
+    title: "Exact Legal Ratio: 1 lb = 0.45359237 kg",
+    note: "The international avoirdupois pound is legally defined as exactly 0.45359237 kg. Critical medical dosing and aviation fuel calculations must never round this to 0.45 or 2.2 without accounting for cumulative patient weight errors.",
+    standard: "ISO 80000-4 / NIST Handbook 44"
+  },
+  "pounds-to-kilogram": {
+    badge: "Aviation & Clinical Standard",
+    title: "Compound Precision: Multiply by 0.45359237",
+    note: "Aviation weight-and-balance manifests mandate calculating passenger and cargo payloads to 4 decimal places before computing center-of-gravity moments.",
+    standard: "FAA Flight Weight & Balance Handbook"
+  },
+  // Pressure
+  "bar-to-psi": {
+    badge: "HVAC & Automotive Engineering",
+    title: "Gauge (psig) vs Absolute (psia) Offset",
+    note: "Most mechanical tire and pressure gauges measure relative to ambient atmosphere (reading 0 psi at sea level). For thermodynamics, engine boost, and altitude physics, add 14.696 psi (1.01325 bar) to gauge pressure to obtain absolute pressure.",
+    standard: "ASME B40.100 / ISO 5167"
+  },
+  "psi-to-bar": {
+    badge: "Pneumatics & Scuba Gotcha",
+    title: "Atmospheric Normalization at 1.01325 bar",
+    note: "1 standard atmosphere is 1.01325 bar (101.325 kPa), which equals 14.6959 psi. Industrial compressor ratings in bar frequently refer to bar gauge (barg); verify whether your equipment specification requires absolute or differential pressure.",
+    standard: "ISO 80000-4 / DIN EN 837"
+  },
+  "hectopascal-to-millibar": {
+    badge: "Meteorology & Altimetry",
+    title: "1:1 Identical Equivalence",
+    note: "1 hectopascal (hPa) is numerically and physically identical to 1 millibar (mbar = 100 Pa). Aviation altimeter subscale settings (QNH) in Europe use hPa, while marine weather barometers historically use mbar.",
+    standard: "WMO Technical Regulations / ICAO Annex 3"
+  },
+  "inches-of-mercury-to-psi": {
+    badge: "Aviation Barometry",
+    title: "Standard Altimeter Baseline: 29.92 inHg = 14.696 psi",
+    note: "US aircraft altimeters are calibrated to standard atmospheric pressure (29.92 inHg = 1013.25 hPa). Mercury column height varies slightly with ambient temperature, requiring barometric temperature compensation in laboratory manometers.",
+    standard: "NIST Monograph 8 / FAA AIM 7-2-1"
+  },
+  // Cooking
+  "stick-of-butter-to-tablespoon": {
+    badge: "Culinary Metrology",
+    title: "US Customary vs European Butter Blocks",
+    note: "In the United States, 1 standard stick of butter is exactly 8 tablespoons (1/2 cup, 4 oz, or ~113.4 grams). In the UK and Europe, butter is sold in 250 g or 500 g solid blocks; 1 European 250 g block is equivalent to roughly 2.2 US sticks.",
+    standard: "USDA National Nutrient Database"
+  },
+  // Length
+  "meter-to-feet": {
+    badge: "Survey & Architecture Note",
+    title: "Deprecation of the US Survey Foot",
+    note: "On January 1, 2023, the US National Geodetic Survey and NIST officially deprecated the historical US Survey Foot (1200/3937 m) in favor of the International Foot (0.3048 m exactly). In large-scale GIS and civil survey work, always ensure your coordinate projection matches the 1959 International standard.",
+    standard: "Federal Register Notice (85 FR 62698) / NIST SP 811"
+  },
+  "feet-to-meters": {
+    badge: "Civil Engineering Standard",
+    title: "Exact Metric Definition: 1 ft = 0.3048 m",
+    note: "Because 1 foot is exactly 304.8 millimeters by definition, compounding decimal conversions can be computed without rounding artifacts by dividing feet by 3.280839895 or multiplying by 0.3048.",
+    standard: "1959 International Yard and Pound Agreement"
+  },
+  "angstrom-to-nanometer": {
+    badge: "Semiconductor & Crystallography",
+    title: "1 \xC5 = 0.1 nm = 100 pm",
+    note: "The \xC5ngstr\xF6m is non-SI but universally employed in X-ray crystallography and optical coatings because chemical bond lengths and atomic radii range between 1 and 2 \xC5ngstr\xF6ms.",
+    standard: "IUCr International Tables for Crystallography"
+  },
+  "fathom-to-foot": {
+    badge: "Nautical Hydrography",
+    title: "Traditional Depth Measure: 1 fathom = 6 ft",
+    note: "1 fathom equals exactly 6 feet (1.8288 m), originally defined as the span of an adult sailor's outstretched arms. Modern bathymetric charts predominantly use meters, but nautical paper charts in US waters still report fathom depths.",
+    standard: "NOAA Office of Coast Survey Standards"
+  },
+  // Data
+  "gibibyte-to-gigabyte": {
+    badge: "SysAdmin & Storage Architecture",
+    title: "Binary (1024\xB3) vs Decimal (1000\xB3) Discrepancy",
+    note: "Operating systems like Windows calculate file system capacities in binary gibibytes (1 GiB = 1024\xB3 bytes), whereas drive manufacturers label hard drives in decimal gigabytes (1 GB = 1000\xB3 bytes). A physical 1 TB drive has 1,000,000,000,000 bytes, which equals 931.32 GiB in Windows.",
+    standard: "IEC 80000-13 / IEEE 1541"
+  },
+  // Torque
+  "newton-meter-to-pound-inch": {
+    badge: "Machinist & Fastener Caution",
+    title: "Pound-Foot vs Pound-Inch Confusion",
+    note: "Never confuse pound-inches (lb-in) with pound-feet (lb-ft). 1 N\xB7m is 8.8507 lb-in, but only 0.7376 lb-ft. Torquing a fastener to 25 lb-ft instead of 25 lb-in applies 12 times the intended torque, shearing small bolts and stripping aluminum threads.",
+    standard: "ISO 6789 / ASME B107.14"
+  },
+  "pound-foot-to-pound-inch": {
+    badge: "Automotive Mechanics",
+    title: "Exact Factor of 12",
+    note: "1 pound-foot equals exactly 12 pound-inches. Bicycle stems and small engine valve covers specify lb-in, while cylinder head bolts specify lb-ft. Always verify the scale on your click torque wrench before tightening.",
+    standard: "SAE J1701 / ASME B107.300"
+  },
+  // Power
+  "metric-horsepower-to-kilowatt": {
+    badge: "Automotive Dyno Standards",
+    title: "Metric HP (PS/CV) vs Mechanical HP (hp)",
+    note: "Metric horsepower (Pferdest\xE4rke / PS) equals 735.49875 W, whereas imperial mechanical horsepower equals 745.69987 W. A European car rated at 300 PS produces 220.65 kW, which translates to 295.9 mechanical hp.",
+    standard: "DIN 70020 / ISO 1585"
+  },
+  "ton-of-refrigeration-to-btu-h": {
+    badge: "HVAC Plant Engineering",
+    title: "Latent Heat of Ice Melting: 1 TR = 12,000 BTU/h",
+    note: "One refrigeration ton (TR) represents the rate of heat extraction required to freeze one short ton (2,000 lb) of water at 32\xB0F into ice in 24 hours (12,000 BTU/h or ~3.51685 kW).",
+    standard: "ASHRAE Handbook / AHRI 550/590"
+  },
+  // Temperature
+  "celsius-to-fahrenheit": {
+    badge: "Thermodynamics & Meteorology",
+    title: "Equal Point at -40\xB0 and Scale Offsets",
+    note: "Celsius and Fahrenheit intersect at exactly -40\xB0 (-40\xB0C = -40\xB0F). Because temperature is an affine scale with non-zero intercept, relative temperature differences (\u0394T) must not include the +32 offset: a change of 10\xB0C equals a change of 18\xB0F, not 50\xB0F.",
+    standard: "BIPM SI Brochure (9th Edition) / ITS-90"
+  },
+  // Flow Rate
+  "gallon-per-minute-to-liter-per-minute": {
+    badge: "Pumping & Piping Systems",
+    title: "US Liquid Gallon vs Imperial Gallon Flow",
+    note: "Standard US GPM uses 3.78541 L/min. UK and Commonwealth water works historically used Imperial GPM (4.54609 L/min), which is 20% greater volume per minute.",
+    standard: "Hydraulic Institute (HI) Standards / AWWA"
+  },
+  // Illuminance
+  "foot-candle-to-lux": {
+    badge: "Architectural Lighting Design",
+    title: "1 fc = 10.7639 lux (Square Foot to Square Meter)",
+    note: "A foot-candle represents 1 lumen per square foot, while lux represents 1 lumen per square meter. Because 1 m\xB2 = 10.7639 ft\xB2, multiplying foot-candles by ~10.76 yields exact lux.",
+    standard: "IESNA Lighting Handbook / EN 12464-1"
+  },
+  // Viscosity
+  "centipoise-to-pascal-second": {
+    badge: "Rheology & Lubrication",
+    title: "1 cP = 1 mPa\xB7s = 0.001 Pa\xB7s (Water Baseline)",
+    note: "At 20\xB0C, liquid water has a dynamic viscosity of almost exactly 1.002 cP (1.002 mPa\xB7s). Centipoise remains the dominant unit in petrochemical, paint, and polymer processing.",
+    standard: "ASTM D445 / ISO 3104"
+  },
+  // Typography
+  "pixel-to-point": {
+    badge: "Digital Publishing & DTP",
+    title: "96 DPI Screen vs 72 DPI PostScript Point",
+    note: "In modern CSS, 1 inch equals exactly 96 CSS pixels and 72 PostScript typographical points (pt). Thus, 1 pt equals 1.3333 CSS pixels, and 16 px equals 12 pt.",
+    standard: "W3C CSS Values and Units Level 3 / Adobe PostScript"
+  }
+};
+var CATEGORY_FIELD_NOTES = {
+  length: {
+    badge: "Dimensional Metrology",
+    title: "SI Base Traceability",
+    note: "All international length measures trace to the speed of light in vacuum (c = 299,792,458 m/s). 1 inch is legally fixed at exactly 25.4 mm.",
+    standard: "NIST SP 811 / ISO 80000-3"
+  },
+  mass: {
+    badge: "Metrology Traceability",
+    title: "Planck Constant Definition",
+    note: "Since 2019, the kilogram is defined by fixing the Planck constant h = 6.62607015 \xD7 10\u207B\xB3\u2074 J\xB7s. All imperial mass units derive directly from this definition.",
+    standard: "BIPM SI Brochure (9th Edition)"
+  },
+  volume: {
+    badge: "Volumetric Calibration",
+    title: "Thermal Expansion & Calibration",
+    note: "Liquid volumes expand with temperature. Standard volumetric glassware and hydrometers are calibrated at 20\xB0C (68\xB0F).",
+    standard: "ASTM E288 / ISO 4787"
+  },
+  pressure: {
+    badge: "Atmospheric Physics",
+    title: "Standard Atmospheric Baseline",
+    note: "Standard atmospheric pressure at mean sea level is defined as 101,325 Pa (1.01325 bar = 14.6959 psi = 760 mmHg).",
+    standard: "ISO 2533 / Standard Atmosphere"
+  },
+  temp: {
+    badge: "Thermodynamics",
+    title: "Absolute Zero Reference",
+    note: "Thermodynamic temperature begins at Absolute Zero (0 K = -273.15\xB0C = -459.67\xB0F), where molecular kinetic energy is minimal.",
+    standard: "BIPM SI Brochure (9th Edition)"
+  },
+  power: {
+    badge: "Electromechanical Conversion",
+    title: "Mechanical vs Electrical Horsepower",
+    note: "Mechanical horsepower is fixed at 550 ft\xB7lbf/s (\u2248745.7 W), while electrical horsepower is defined as exactly 746 W.",
+    standard: "IEEE Standards / ISO 80000-4"
+  },
+  energy: {
+    badge: "Work & Heat Thermodynamics",
+    title: "First Law Equivalence: 1 cal = 4.184 J",
+    note: "The mechanical equivalent of heat sets 1 thermochemical calorie to exactly 4.184 Joules. 1 kilowatt-hour equals exactly 3.6 Megajoules.",
+    standard: "ISO 80000-5 / CODATA"
+  },
+  data: {
+    badge: "Digital Information Standard",
+    title: "Binary vs Decimal Multiples",
+    note: "IEC 80000-13 standardizes binary prefixes (KiB = 1024 B, MiB = 1024\xB2 B) to distinguish them from SI decimal prefixes (kB = 1000 B, MB = 1000\xB2 B).",
+    standard: "IEC 80000-13 / IEEE 1541"
+  },
+  torque: {
+    badge: "Mechanical Engineering",
+    title: "Rotational Moment vs Energy",
+    note: "Although both torque (N\xB7m) and energy (Joules) have identical SI base dimensions (kg\xB7m\xB2/s\xB2), torque is a vector cross product and is never expressed in Joules.",
+    standard: "ISO 80000-4"
+  },
+  cooking: {
+    badge: "Culinary Precision",
+    title: "Weight vs Volume in Recipes",
+    note: "Professional baking recipes mandate mass (grams) over volume (cups) because ingredient settling, humidity, and sifting create up to 20% density fluctuations.",
+    standard: "Culinary Institute of America Standards"
+  }
+};
 var PAIR_USE_CASES = {
   "length:meter-to-feet": [
     { domain: "Architectural Framing & Blueprints", context: "Translating European and international metric architectural layouts into feet and inches for US residential framing and construction contractors." },
@@ -2900,6 +3114,8 @@ function getPairEditorial(cat, u1, u2, pairParam) {
       answer: isTemp ? `To convert from ${n2} to ${n1}, reverse the calculation formula: ${inverseSummary}` : isReciprocalFuel ? `Because fuel economy conversions between ${s1} and ${s2} are reciprocal, divide the exact conversion constant by your ${s2} value to get ${s1}.` : `To convert from ${n2} to ${n1}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ""} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ""}). Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`
     }
   ];
+  const pairSlug = cleanSlug(pairParam);
+  const fieldNote = PAIR_FIELD_NOTES[pairSlug] || CATEGORY_FIELD_NOTES[cat.id];
   return {
     directAnswer: {
       heading: `Direct Answer: 1 ${s1} to ${s2}`,
@@ -2917,7 +3133,8 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     },
     useCases: specificUseCases,
     reciprocal,
-    faqs
+    faqs,
+    fieldNote
   };
 }
 

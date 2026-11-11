@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useParams, useSearchParams, Link, useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, convert } from '../engine/converter'
@@ -12,6 +12,7 @@ import { findUnit, getPairEditorial, isCanonicalPair, cleanSlug } from '../confi
 import { categoryContent } from '../engine/categoryContent'
 import { getRelatedCategoryIds } from '../config/relatedCategories'
 import { unitSymbol, unitName, unitLabel, pairTitle, pairMetaDescription } from '../engine/unitSymbols'
+import { getFavorites, toggleFavorite } from '../services/storage'
 
 function PairLandingInner({
   catParam,
@@ -96,6 +97,33 @@ function PairLandingInner({
     const text = `${fromValue} ${unitName(u1, cat.id)} = ${fmt(convertedValue, 6)} ${unitName(u2, cat.id)}`
     navigator.clipboard.writeText(text)
     showToast('Copied to clipboard!', 'success')
+  }
+
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    if (!cat || !u1 || !u2) return
+    getFavorites().then(favs => {
+      setIsFavorite(favs.some(f => f.cat === cat.id && f.from === u1.id && f.to === u2.id))
+    }).catch(() => {})
+  }, [cat, u1, u2])
+
+  const handleToggleFavorite = async () => {
+    if (!cat || !u1 || !u2) return
+    const updated = await toggleFavorite({ cat: cat.id, from: u1.id, to: u2.id })
+    const nowFav = updated.some(f => f.cat === cat.id && f.from === u1.id && f.to === u2.id)
+    setIsFavorite(nowFav)
+    showToast(nowFav ? 'Pinned to Favorites ⭐' : 'Removed from Favorites', 'success')
+  }
+
+  const handleShare = () => {
+    const shareUrl = `${window.location.origin}${window.location.pathname}${fromValue && fromValue !== '1' ? `?val=${encodeURIComponent(fromValue)}` : ''}`
+    if (navigator.share) {
+      navigator.share({ title: pageTitle, url: shareUrl }).catch(() => {})
+    } else {
+      navigator.clipboard.writeText(shareUrl)
+      showToast('Shareable link copied to clipboard!', 'success')
+    }
   }
 
   const editorial = useMemo(() => {
@@ -206,11 +234,37 @@ function PairLandingInner({
 
       {/* Header */}
       <header className="space-y-1">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl" role="img" aria-hidden="true">{cat.ic}</span>
-          <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">
-            Convert {unitName(u1, cat.id)} to {unitName(u2, cat.id)}
-          </h1>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl" role="img" aria-hidden="true">{cat.ic}</span>
+            <h1 className="text-xl sm:text-2xl font-bold text-[var(--text)]">
+              Convert {unitName(u1, cat.id)} to {unitName(u2, cat.id)}
+            </h1>
+          </div>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <button
+              onClick={handleToggleFavorite}
+              className={`btn-chip text-xs py-1.5 px-3 min-h-[38px] flex items-center gap-1.5 rounded-xl border transition-all ${
+                isFavorite
+                  ? 'bg-amber-500/10 text-amber-500 border-amber-500/30'
+                  : 'border-[var(--border)] text-[var(--text2)] hover:text-[var(--text)]'
+              }`}
+              title={isFavorite ? 'Remove from favorites' : 'Pin to favorites'}
+              aria-label={isFavorite ? 'Remove from favorites' : 'Pin to favorites'}
+            >
+              <span aria-hidden="true">{isFavorite ? '★' : '☆'}</span>
+              <span>{isFavorite ? 'Saved' : 'Pin'}</span>
+            </button>
+            <button
+              onClick={handleShare}
+              className="btn-chip text-xs py-1.5 px-3 min-h-[38px] flex items-center gap-1.5 rounded-xl border border-[var(--border)] text-[var(--text2)] hover:text-[var(--text)] transition-all"
+              title="Share this calculation"
+              aria-label="Share this calculation"
+            >
+              <span aria-hidden="true">🔗</span>
+              <span>Share</span>
+            </button>
+          </div>
         </div>
         <p className="text-xs sm:text-sm text-[var(--text2)] opacity-85">
           Fast, precise online conversion tool from {unitLabel(u1, cat.id)} to {unitLabel(u2, cat.id)} with formula and cheat sheet table.
@@ -302,6 +356,31 @@ function PairLandingInner({
           <p className="text-xs text-[var(--text2)] opacity-85 leading-relaxed">
             {editorial.directAnswer.calculationRule}
           </p>
+        </section>
+      )}
+
+      {/* Engineering Field Note & Metrology Gotcha */}
+      {editorial?.fieldNote && (
+        <section aria-labelledby="field-note-heading" className="glass-liquid rounded-2xl p-4 sm:p-5 border border-amber-500/30 bg-amber-500/5 space-y-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-amber-500 text-white text-xs font-bold flex items-center justify-center shrink-0" aria-hidden="true">🛡️</span>
+              <h2 id="field-note-heading" className="text-sm font-bold text-[var(--text)]">
+                {editorial.fieldNote.title}
+              </h2>
+            </div>
+            <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 self-start sm:self-auto">
+              {editorial.fieldNote.badge}
+            </span>
+          </div>
+          <p className="text-xs text-[var(--text2)] leading-relaxed">
+            {editorial.fieldNote.note}
+          </p>
+          {editorial.fieldNote.standard && (
+            <div className="text-[11px] font-mono text-[var(--text2)] opacity-75 pt-1.5 border-t border-[var(--border)]/40 flex items-center gap-1.5">
+              <span className="font-semibold text-[var(--text)]">Governing Standard:</span> {editorial.fieldNote.standard}
+            </div>
+          )}
         </section>
       )}
 

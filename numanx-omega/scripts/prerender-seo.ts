@@ -987,7 +987,7 @@ for (const cat of Categories) {
 // ==========================================
 // 5. 6 EDUCATIONAL GUIDES (/guides/:slug)
 // ==========================================
-console.log('⚡ Prerendering 6 Educational Guides ...')
+console.log(`⚡ Prerendering ${Object.keys(guideContent).length} Educational Guides ...`)
 
 for (const guide of Object.values(guideContent)) {
   if (!guide.slug) continue
