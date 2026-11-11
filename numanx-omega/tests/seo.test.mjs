@@ -1605,9 +1605,11 @@ function run() {
   fs.writeFileSync(publicPath, xml, "utf-8");
   console.log(`\u2705 Updated public/sitemap.xml (${entries.length} URLs)`);
   const robots = buildRobotsTxt();
+  const rootRobotsPath = path.resolve(cwd, "robots.txt");
+  fs.writeFileSync(rootRobotsPath, robots, "utf-8");
   const publicRobotsPath = path.resolve(cwd, "public/robots.txt");
   fs.writeFileSync(publicRobotsPath, robots, "utf-8");
-  console.log(`\u2705 Updated public/robots.txt`);
+  console.log(`\u2705 Updated root and public robots.txt`);
   const distDir = path.resolve(cwd, "dist");
   if (fs.existsSync(distDir)) {
     const distPath = path.resolve(distDir, "sitemap.xml");

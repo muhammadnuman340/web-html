@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Prevent crawling of internal infrastructure configuration
+Disallow: /_redirects
+
+Sitemap: https://converter.numanxstudio.com/sitemap.xml

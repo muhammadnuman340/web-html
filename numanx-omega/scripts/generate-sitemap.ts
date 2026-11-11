@@ -129,9 +129,11 @@ export function run() {
   console.log(`✅ Updated public/sitemap.xml (${entries.length} URLs)`)
 
   const robots = buildRobotsTxt()
+  const rootRobotsPath = path.resolve(cwd, 'robots.txt')
+  fs.writeFileSync(rootRobotsPath, robots, 'utf-8')
   const publicRobotsPath = path.resolve(cwd, 'public/robots.txt')
   fs.writeFileSync(publicRobotsPath, robots, 'utf-8')
-  console.log(`✅ Updated public/robots.txt`)
+  console.log(`✅ Updated root and public robots.txt`)
 
   const distDir = path.resolve(cwd, 'dist')
   if (fs.existsSync(distDir)) {
