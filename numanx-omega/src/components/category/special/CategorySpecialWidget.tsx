@@ -1,27 +1,29 @@
-import TemperatureVisualizer from './TemperatureVisualizer'
-import LengthComparisonBar from './LengthComparisonBar'
-import MassWeightReference from './MassWeightReference'
-import DataTransferEstimator from './DataTransferEstimator'
-import CookingRecipeScaler from './CookingRecipeScaler'
-import SpeedVisualizer from './SpeedVisualizer'
-import FuelTripCalculator from './FuelTripCalculator'
-import AreaVisualizer from './AreaVisualizer'
-import VolumeVisualizer from './VolumeVisualizer'
-import TimeVisualizer from './TimeVisualizer'
-import EnergyVisualizer from './EnergyVisualizer'
-import PressureVisualizer from './PressureVisualizer'
-import PowerVisualizer from './PowerVisualizer'
-import AngleVisualizer from './AngleVisualizer'
-import ForceVisualizer from './ForceVisualizer'
-import TorqueVisualizer from './TorqueVisualizer'
-import FrequencyVisualizer from './FrequencyVisualizer'
-import DensityVisualizer from './DensityVisualizer'
+import { lazy, Suspense } from 'react'
+
+const TemperatureVisualizer = lazy(() => import('./TemperatureVisualizer'))
+const LengthComparisonBar = lazy(() => import('./LengthComparisonBar'))
+const MassWeightReference = lazy(() => import('./MassWeightReference'))
+const DataTransferEstimator = lazy(() => import('./DataTransferEstimator'))
+const CookingRecipeScaler = lazy(() => import('./CookingRecipeScaler'))
+const SpeedVisualizer = lazy(() => import('./SpeedVisualizer'))
+const FuelTripCalculator = lazy(() => import('./FuelTripCalculator'))
+const AreaVisualizer = lazy(() => import('./AreaVisualizer'))
+const VolumeVisualizer = lazy(() => import('./VolumeVisualizer'))
+const TimeVisualizer = lazy(() => import('./TimeVisualizer'))
+const EnergyVisualizer = lazy(() => import('./EnergyVisualizer'))
+const PressureVisualizer = lazy(() => import('./PressureVisualizer'))
+const PowerVisualizer = lazy(() => import('./PowerVisualizer'))
+const AngleVisualizer = lazy(() => import('./AngleVisualizer'))
+const ForceVisualizer = lazy(() => import('./ForceVisualizer'))
+const TorqueVisualizer = lazy(() => import('./TorqueVisualizer'))
+const FrequencyVisualizer = lazy(() => import('./FrequencyVisualizer'))
+const DensityVisualizer = lazy(() => import('./DensityVisualizer'))
 
 interface Props {
   category: string
 }
 
-export default function CategorySpecialWidget({ category }: Props) {
+function renderWidget(category: string) {
   switch (category) {
     case 'temp':
       return <TemperatureVisualizer />
@@ -63,4 +65,15 @@ export default function CategorySpecialWidget({ category }: Props) {
     default:
       return null
   }
+}
+
+export default function CategorySpecialWidget({ category }: Props) {
+  const widget = renderWidget(category)
+  if (!widget) return null
+
+  return (
+    <Suspense fallback={<div className="h-44 glass rounded-2xl animate-pulse flex items-center justify-center text-xs opacity-50">Loading interactive tool...</div>}>
+      {widget}
+    </Suspense>
+  )
 }

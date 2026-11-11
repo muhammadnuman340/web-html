@@ -1,7 +1,7 @@
 // Canonical entity: Omega X Converter · NumanX Studio
 /* Anti-Slop Gate · P5 H5 E5 S5 R5 V5 · Silhouette: Spatial Bento Workbench */
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import SEOHead from '../components/ui/SEOHead'
@@ -35,6 +35,7 @@ const GUIDES_AND_EDITORIAL = [
 ]
 
 export default function Home({ mode = 'pro' }: Props) {
+  const [showAllCategories, setShowAllCategories] = useState(false)
   const homeSchema = useMemo(() => buildHomeSchema(), [])
   const totalUnits = useMemo(() => Categories.reduce((acc, cat) => acc + cat.un.length, 0), [])
 
@@ -86,7 +87,19 @@ export default function Home({ mode = 'pro' }: Props) {
               Full Workbench Grid →
             </Link>
           </div>
-          <UniversalConverter mode={mode} variant="embedded" />
+          <UniversalConverter mode={mode} variant="embedded" hideComplexPanels={true} />
+        </div>
+
+        <div className="pt-1 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShowAllCategories(prev => !prev)}
+            className="btn-chip text-xs px-4 py-2 min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--link-text)] font-semibold flex items-center gap-1.5 transition-all"
+            aria-expanded={showAllCategories}
+          >
+            <span>{showAllCategories ? 'Show Less (Top 8 Categories)' : `Explore All 28 Measurement Domains (+${Categories.length - 8} more)`}</span>
+            <span aria-hidden="true">{showAllCategories ? '▲' : '▼'}</span>
+          </button>
         </div>
       </section>
 
@@ -105,7 +118,7 @@ export default function Home({ mode = 'pro' }: Props) {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
-          {Categories.map(cat => (
+          {(showAllCategories ? Categories : Categories.slice(0, 8)).map(cat => (
             <Link
               key={cat.id}
               to={`/convert/${cat.id}`}

@@ -27,9 +27,10 @@ interface Props {
   onHistoryAdd?: (cat: string, fv: number, fu: string, tv: number, tu: string) => void
   variant?: 'workbench' | 'embedded'
   compactOnMobile?: boolean
+  hideComplexPanels?: boolean
 }
 
-export default function UniversalConverter({ category: initialCat, mode = 'pro', initialFrom, initialTo, initialValue, hideCategoryPicker = false, onHistoryAdd, variant = 'embedded', compactOnMobile = false }: Props) {
+export default function UniversalConverter({ category: initialCat, mode = 'pro', initialFrom, initialTo, initialValue, hideCategoryPicker = false, onHistoryAdd, variant = 'embedded', compactOnMobile = false, hideComplexPanels = false }: Props) {
   const [catId, setCatId] = useState(initialCat || 'length')
   const [unitFamily, setUnitFamily] = useState<string>('all')
   const [fromVal, setFromVal] = useState(initialValue !== undefined ? String(initialValue) : '')
@@ -1797,7 +1798,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       )}
 
       {/* Precision */}
-      {mode !== 'fast' && !chainMode && (
+      {mode !== 'fast' && !chainMode && !hideComplexPanels && (
         <div className="flex items-center gap-3 min-h-[44px]">
           <label htmlFor="precision-slider" className="text-xs text-[var(--text2)] opacity-80">Precision: {prec}</label>
           <input
@@ -1816,8 +1817,17 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         </div>
       )}
 
+      {hideComplexPanels && (
+        <div className="text-center pt-2 border-t border-[var(--border)]/40 text-xs text-[var(--text2)]">
+          <a href="/converter" className="text-[var(--link-text)] hover:underline font-medium inline-flex items-center gap-1 min-h-[36px]">
+            <span>Need full multi-unit matrix, 12-decimal precision, or batch mode? Open Workbench Grid</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      )}
+
       {/* All conversions */}
-      {allResults.length > 0 && mode !== 'fast' && !chainMode && (
+      {allResults.length > 0 && mode !== 'fast' && !chainMode && !hideComplexPanels && (
         <div>
           <div className="text-xs font-semibold uppercase tracking-wide mb-2 text-[var(--text2)] opacity-85">All Conversions</div>
           <div className="space-y-0.5 max-h-48 overflow-y-auto" tabIndex={0} role="region" aria-label="All unit conversions">
