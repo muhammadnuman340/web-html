@@ -18,6 +18,7 @@
     "start": "node server.js",
     "prod": "node scripts/build-conversion-tests.mjs && vite build && node scripts/prerender-seo.mjs && node scripts/inject-canonical-robots.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs && node server.js",
     "seo:canonical": "node scripts/inject-canonical-robots.mjs",
+    "seo:indexnow": "node scripts/ping-indexnow.mjs",
     "audit": "node scripts/audit-site.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",

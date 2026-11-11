@@ -1618,4 +1618,22 @@ export const CATEGORY_TOOLKIT_MAP: Record<string, CategoryToolkitInfo> = {
     action: 'Open Force Visualizer',
     icon: '💪',
   },
+  torque: {
+    title: 'Torque & Fastener Mechanical Benchmarker',
+    desc: 'Compare bolt tightening specs across Newton-meters, foot-pounds, and wrench leverage forces.',
+    action: 'Open Torque Benchmarker',
+    icon: '🔧',
+  },
+  frequency: {
+    title: 'Frequency Spectrum & Wavelength Analyzer',
+    desc: 'Convert oscillation rates across Hertz, rotational RPM, and acoustic vs electromagnetic wavelengths.',
+    action: 'Open Frequency Analyzer',
+    icon: '📡',
+  },
+  density: {
+    title: 'Material Density & Archimedes Buoyancy Analyzer',
+    desc: 'Compare material mass per volume across metric, cgs, and imperial standards with flotation analysis.',
+    action: 'Open Density Analyzer',
+    icon: '⚖️',
+  },
 }

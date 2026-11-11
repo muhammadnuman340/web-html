@@ -13,6 +13,9 @@ import PressureVisualizer from './PressureVisualizer'
 import PowerVisualizer from './PowerVisualizer'
 import AngleVisualizer from './AngleVisualizer'
 import ForceVisualizer from './ForceVisualizer'
+import TorqueVisualizer from './TorqueVisualizer'
+import FrequencyVisualizer from './FrequencyVisualizer'
+import DensityVisualizer from './DensityVisualizer'
 
 interface Props {
   category: string
@@ -51,6 +54,12 @@ export default function CategorySpecialWidget({ category }: Props) {
       return <AngleVisualizer />
     case 'force':
       return <ForceVisualizer />
+    case 'torque':
+      return <TorqueVisualizer />
+    case 'frequency':
+      return <FrequencyVisualizer />
+    case 'density':
+      return <DensityVisualizer />
     default:
       return null
   }
