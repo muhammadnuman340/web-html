@@ -36,7 +36,7 @@ export const SITE = {
   url: `${getSiteUrl()}/`,
   defaultTitle: 'Omega X Converter — Universal Unit Calculator',
   defaultDescription:
-    'Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.',
+    'Free universal unit converter platform with 28 categories, 220+ units, formula charts, and offline PWA support.',
   license: 'https://creativecommons.org/licenses/by/4.0/',
 }
 

@@ -10,7 +10,7 @@ import { categoryContent } from '../src/engine/categoryContent'
 import { guideContent } from '../src/engine/guideContent'
 import { BLOG_POSTS } from '../src/data/blogPosts'
 import { canonicalUrl, DEFAULT_SITE_URL } from '../src/config/site'
-import { getPairEditorial, findUnit } from '../src/config/pairEditorial'
+import { getPairEditorial, findUnit, CANONICAL_PAIR_SET } from '../src/config/pairEditorial'
 
 // Count canonical URLs from the sitemap generated earlier in the build
 const sitemapXml = fs.readFileSync(path.resolve(process.cwd(), 'public/sitemap.xml'), 'utf-8')
@@ -54,7 +54,7 @@ All primary interactive features are accessed via deterministic canonical URLs:
 - **Universal Converter:** ${canonicalUrl('/converter')}
   Unified converter interface with category dropdown, unit selectors, swap function, and dynamic formula display.
 - **Categories Directory:** ${canonicalUrl('/categories')}
-  Full catalog of all 24 supported conversion categories with unit counts and measurement dimensions.
+  Full catalog of all ${Categories.length} supported conversion categories with unit counts and measurement dimensions.
 - **Formula Explorer:** ${canonicalUrl('/formulas')}
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
 - **Scientific Calculator:** ${canonicalUrl('/calculator')}
@@ -75,9 +75,9 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 `)
 
-  sections.push(`## 3. Supported Measurement Categories (24 Categories)
+  sections.push(`## 3. Supported Measurement Categories (${Categories.length} Categories)
 
-Omega X Converter provides complete unit coverage across 24 distinct physical and financial domains:
+Omega X Converter provides complete unit coverage across ${Categories.length} distinct physical and financial domains:
 `)
 
   for (const cat of Categories) {
@@ -92,7 +92,7 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 `)
   }
 
-  sections.push(`## 4. Curated Popular Conversion Pairs (99 Canonical Pairs)
+  sections.push(`## 4. Curated Popular Conversion Pairs (${CANONICAL_PAIR_SET.size} Canonical Pairs)
 
 Each curated pair page provides route-specific editorial commentary, exact conversion formulas, step-by-step arithmetic examples, and reciprocal pair navigation:
 `)
@@ -193,7 +193,7 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 export function generateLlmsSummaryText(): string {
   return `# Omega X Converter
 
-> Universal unit conversion platform with 24 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+> Universal unit conversion platform with ${Categories.length} physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
 
 Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 
@@ -206,8 +206,8 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 ## Primary Public Resources
 
 - [Home](${canonicalUrl('/')}): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
-- [Universal Converter](${canonicalUrl('/converter')}): Dedicated conversion tool interface supporting all 24 measurement categories.
-- [Categories Directory](${canonicalUrl('/categories')}): Complete index of all 24 conversion categories with unit counts and reference standards.
+- [Universal Converter](${canonicalUrl('/converter')}): Dedicated conversion tool interface supporting all ${Categories.length} measurement categories.
+- [Categories Directory](${canonicalUrl('/categories')}): Complete index of all ${Categories.length} conversion categories with unit counts and reference standards.
 - [Formula Explorer](${canonicalUrl('/formulas')}): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
 - [Scientific Calculator](${canonicalUrl('/calculator')}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](${canonicalUrl('/health')}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.

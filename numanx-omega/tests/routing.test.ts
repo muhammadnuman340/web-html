@@ -15,10 +15,10 @@ import { isIndexablePath } from '../src/config/site'
 import { generateSitemapEntries } from '../scripts/generate-sitemap'
 
 describe('Task 17.1 & 17.2: Canonical Category Route Integrity', () => {
-  it('guarantees all 24 categories have a canonical route', () => {
+  it('guarantees all 28 categories have a canonical route', () => {
     const routes = getAllCategoryRoutes()
-    assert.equal(routes.length, 24, 'Expected exactly 24 category route definitions')
-    assert.equal(Categories.length, 24, 'Expected Categories registry to have 24 definitions')
+    assert.equal(routes.length, 28, 'Expected exactly 28 category route definitions')
+    assert.equal(Categories.length, 28, 'Expected Categories registry to have 28 definitions')
 
     for (const cat of Categories) {
       const r = routes.find(entry => entry.categoryId === cat.id)
@@ -239,8 +239,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count remains the verified 149
-    assert.equal(entries.length, 147, `Expected exactly 147 sitemap entries, got ${entries.length}`)
+    // Verify count matches authoritative sitemap inventory (175 URLs)
+    assert.equal(entries.length, 175, `Expected exactly 175 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {

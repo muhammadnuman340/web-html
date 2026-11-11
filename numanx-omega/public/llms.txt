@@ -1,6 +1,6 @@
 # Omega X Converter
 
-> Universal unit conversion platform with 24 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+> Universal unit conversion platform with 28 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
 
 Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 
@@ -13,8 +13,8 @@ Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 ## Primary Public Resources
 
 - [Home](https://converter.numanxstudio.com/): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
-- [Universal Converter](https://converter.numanxstudio.com/converter): Dedicated conversion tool interface supporting all 24 measurement categories.
-- [Categories Directory](https://converter.numanxstudio.com/categories): Complete index of all 24 conversion categories with unit counts and reference standards.
+- [Universal Converter](https://converter.numanxstudio.com/converter): Dedicated conversion tool interface supporting all 28 measurement categories.
+- [Categories Directory](https://converter.numanxstudio.com/categories): Complete index of all 28 conversion categories with unit counts and reference standards.
 - [Formula Explorer](https://converter.numanxstudio.com/formulas): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
 - [Scientific Calculator](https://converter.numanxstudio.com/calculator): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](https://converter.numanxstudio.com/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.

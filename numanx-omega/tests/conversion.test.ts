@@ -32,9 +32,9 @@ function approxEqual(actual: number | null, expected: number, tolerance = 1e-4, 
 }
 
 describe('Task 2 & 3: Category Registry & Integrity', () => {
-  it('contains exactly 24 registered categories', () => {
-    assert.equal(Categories.length, 24)
-    assert.equal(getAllCategories().length, 24)
+  it('contains exactly 28 registered categories', () => {
+    assert.equal(Categories.length, 28)
+    assert.equal(getAllCategories().length, 28)
   })
 
   it('guarantees unique category IDs across the entire registry', () => {
@@ -288,10 +288,14 @@ describe('Task 13: Universal Category Coverage — All 24 Categories Tested', ()
     { cat: 'cooking', from: 'cup_c', to: 'tbsp_c', val: 1 },
     { cat: 'textile', from: 'gsm', to: 'tc', val: 1 },
     { cat: 'astronomy', from: 'ly_a', to: 'au_a', val: 1 },
+    { cat: 'flow', from: 'gpm', to: 'Lmin', val: 1 },
+    { cat: 'illuminance', from: 'fc', to: 'lx', val: 1 },
+    { cat: 'viscosity', from: 'cP', to: 'Pas', val: 1 },
+    { cat: 'typography', from: 'px', to: 'pt', val: 16 },
   ]
 
-  it('guarantees test execution for every one of the 24 registered categories', () => {
-    assert.equal(categoryTestCases.length, 24)
+  it('guarantees test execution for every one of the 28 registered categories', () => {
+    assert.equal(categoryTestCases.length, 28)
     for (const tc of categoryTestCases) {
       const res = convert(tc.val, tc.cat, tc.from, tc.to)
       assert.notEqual(res, null, `Category ${tc.cat} failed conversion from ${tc.from} to ${tc.to}`)
@@ -301,7 +305,8 @@ describe('Task 13: Universal Category Coverage — All 24 Categories Tested', ()
 
   it('verifies convertAll returns results for all units in a category', () => {
     const list = convertAll(10, 'length', 'm')
-    assert.equal(list.length, 23)
+    const lenCat = Categories.find(c => c.id === 'length')!
+    assert.equal(list.length, lenCat.un.length)
     const cmEntry = list.find(e => e.id === 'cm')
     assert.equal(cmEntry?.value, 1000)
   })

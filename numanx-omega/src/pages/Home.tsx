@@ -56,7 +56,7 @@ export default function Home({ mode = 'pro' }: Props) {
             <span>Omega X Converter</span>
           </h1>
           <p className="text-xs text-[var(--text2)] mt-0.5">
-            Precision metrology suite · 24 scientific domains · {totalUnits} category unit listings · Deterministic decimal engine
+            Precision metrology suite · 28 scientific domains · {totalUnits} category unit listings · Deterministic decimal engine
           </p>
         </div>
         {mode !== 'pro' && (
@@ -94,7 +94,7 @@ export default function Home({ mode = 'pro' }: Props) {
       <section aria-labelledby="domains-heading" className="space-y-3">
         <div className="flex items-center justify-between gap-2">
           <h2 id="domains-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
-            24 Metrological Domains
+            28 Metrological Domains
           </h2>
           <Link
             to="/categories"
@@ -193,7 +193,7 @@ export default function Home({ mode = 'pro' }: Props) {
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
           <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">24</div>
+            <div className="text-lg font-mono font-bold text-[var(--text)]">28</div>
             <div className="text-[11px] text-[var(--text2)]">Canonical Domains</div>
           </div>
           <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
@@ -201,7 +201,7 @@ export default function Home({ mode = 'pro' }: Props) {
             <div className="text-[11px] text-[var(--text2)]">Category Unit Listings</div>
           </div>
           <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">99</div>
+            <div className="text-lg font-mono font-bold text-[var(--text)]">123</div>
             <div className="text-[11px] text-[var(--text2)]">Published Pair Guides</div>
           </div>
           <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">

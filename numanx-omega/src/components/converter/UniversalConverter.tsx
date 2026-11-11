@@ -449,7 +449,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     type="text"
                     value={catFilter}
                     onChange={e => setCatFilter(e.target.value)}
-                    placeholder="Filter 24 categories..."
+                    placeholder="Filter 28 categories..."
                     aria-label="Filter categories"
                     className="w-full px-3 py-1.5 rounded-xl border border-[var(--border-control)] bg-[var(--surface-3)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] transition-colors min-h-[44px]"
                   />

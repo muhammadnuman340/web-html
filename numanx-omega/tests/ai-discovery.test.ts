@@ -110,10 +110,10 @@ describe('Phase 3 Step 7 — AI Discovery Files & Agent Readiness', () => {
       )
     })
 
-    it('references all 24 categories and all 99 canonical conversion pairs', () => {
+    it('references all 28 categories and all 123 canonical conversion pairs', () => {
       const content = fs.readFileSync(llmsFullPath, 'utf-8')
-      assert.ok(content.includes('Supported Measurement Categories (24 Categories)'), 'Must list 24 categories')
-      assert.ok(content.includes('Curated Popular Conversion Pairs (99 Canonical Pairs)'), 'Must list 99 pairs')
+      assert.ok(content.includes('Supported Measurement Categories (28 Categories)'), 'Must list 28 categories')
+      assert.ok(content.includes('Curated Popular Conversion Pairs (123 Canonical Pairs)'), 'Must list 123 pairs')
       assert.ok(content.includes('Educational Guides (6 Guides)'), 'Must list 6 guides')
       assert.ok(content.includes('Technical Blog Articles (6 Articles)'), 'Must list 6 blog articles')
     })
@@ -168,8 +168,8 @@ describe('Phase 3 Step 7 — AI Discovery Files & Agent Readiness', () => {
       )
     })
 
-    it('canonical inventory remains exactly 149 URLs', () => {
-      assert.strictEqual(canonicalEntries.length, 147, 'Canonical inventory must remain exactly 147 URLs')
+    it('canonical inventory remains exactly 175 URLs', () => {
+      assert.strictEqual(canonicalEntries.length, 175, 'Canonical inventory must remain exactly 175 URLs')
     })
   })
 })

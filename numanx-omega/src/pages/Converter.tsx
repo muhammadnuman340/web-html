@@ -23,7 +23,7 @@ export default function ConverterPage({ mode }: Props) {
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text)] flex items-center gap-2">
             <span aria-hidden="true" className="text-[var(--accent)] font-mono text-base px-2 py-0.5 rounded-lg bg-[var(--surface-2)] border border-[var(--border-subtle)]">NΩ</span> Universal Converter
           </h1>
-          <p className="text-xs text-[var(--text2)]">Precision metrology workbench · 24 scientific & engineering categories</p>
+          <p className="text-xs text-[var(--text2)]">Precision metrology workbench · 28 scientific & engineering categories</p>
         </div>
         {mode === 'student' && (
           <span className="text-xs px-2.5 py-1 rounded-full bg-[var(--surface-3)] border border-[var(--border-control)] text-[var(--link-text)] font-medium">

@@ -27,6 +27,10 @@ export const RELATED_CATEGORIES: Record<string, string[]> = {
   cooking: ['volume', 'mass', 'temp'],
   textile: ['area', 'mass', 'length'],
   astronomy: ['length', 'mass', 'time'],
+  flow: ['volume', 'time', 'pressure', 'speed'],
+  illuminance: ['energy', 'power', 'area'],
+  viscosity: ['density', 'pressure', 'flow', 'force'],
+  typography: ['length', 'area', 'data'],
 }
 
 export function getRelatedCategoryIds(catId: string): string[] {

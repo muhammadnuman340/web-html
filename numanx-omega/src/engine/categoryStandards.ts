@@ -105,6 +105,30 @@ export const CATEGORY_STANDARDS: Record<string, CategoryStandardInfo> = {
     standardsStatement:
       'Force calculations comply with BIPM standards and NIST SP 811, using the internationally accepted standard acceleration of free fall g₀ = 9.80665 m/s² for gravitational force units (kilogram-force, pound-force, and ounce-force).',
   },
+  flow: {
+    aeoCapsule:
+      'Volumetric flow rate conversion calculates fluid displacement volume per unit time. The SI base unit is cubic meters per second (m³/s). Common engineering units include US Gallons per Minute (1 GPM ≈ 0.00006309 m³/s ≈ 3.78541 L/min), Cubic Feet per Minute (1 CFM ≈ 0.00047195 m³/s ≈ 0.47195 L/s), and liters per minute (1 L/min = 0.00001667 m³/s).',
+    standardsStatement:
+      'Fluid flow calculations comply with ISO 5167 (Measurement of fluid flow by means of pressure differential devices), ASHRAE HVAC ventilation guidelines, and NIST Special Publication 811 volumetric time rate standards.',
+  },
+  illuminance: {
+    aeoCapsule:
+      'Illuminance conversion translates luminous flux received per unit surface area across metric and imperial lighting standards. The SI unit is the Lux (lx, 1 lumen/m²). The imperial unit is the Foot-candle (fc, 1 lumen/ft²). Because 1 square meter equals approx. 10.7639 square feet, 1 foot-candle equals exactly 10.7639104 lux.',
+    standardsStatement:
+      'Illuminance algorithms adhere to CIE (International Commission on Illumination) standards, the BIPM SI Brochure (candela base unit realization), and IESNA (Illuminating Engineering Society of North America) workplace lighting guidelines.',
+  },
+  viscosity: {
+    aeoCapsule:
+      'Dynamic viscosity conversion measures fluid resistance to gradual deformation by shear or tensile stress. The SI coherent derived unit is the Pascal-second (Pa·s, 1 N·s/m²). In laboratory science and lubrication, the CGS centipoise (cP) is standard: exactly 1 cP = 1 mPa·s = 0.001 Pa·s. Water at 20 °C exhibits a dynamic viscosity of ~1.002 cP.',
+    standardsStatement:
+      'Viscosity measurement factors conform to ASTM D445 / ISO 3104 petroleum product testing protocols, BIPM SI specifications, and standard rheological tables for Newtonian and non-Newtonian fluids.',
+  },
+  typography: {
+    aeoCapsule:
+      'Typography and digital layout conversion scales font sizes and spacing across CSS, screen pixels, and physical print units. Under the W3C CSS Values and Units Module Level 3, 1 physical inch equals exactly 96 CSS pixels and 72 desktop publishing points (pt), giving 1 pt = 1.33333 px. Standard browser root font size is 16 px (1 rem = 16 px).',
+    standardsStatement:
+      'Digital typography factors strictly comply with the W3C CSS Values and Units Module Level 3 specification (96 CSS px/inch standard) and traditional PostScript / DTP typesetting standards (72 points/inch, 12 points per pica).',
+  },
 }
 
 export function getCategoryStandards(

@@ -109,6 +109,7 @@ export function getCategoryAuthoritySources(catId: string): AuthoritySource[] {
     case 'density':
     case 'viscosity':
     case 'flow':
+    case 'illuminance':
       return [AUTHORITY_SOURCES['nist-sp811'], AUTHORITY_SOURCES['bipm-si-brochure']]
     case 'temp':
       return [AUTHORITY_SOURCES['bipm-base-units'], AUTHORITY_SOURCES['nist-sp811']]

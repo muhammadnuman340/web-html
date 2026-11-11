@@ -37,8 +37,8 @@ import { getRelatedCategoryIds } from '../src/config/relatedCategories'
 import { LEGAL, STORAGE_KEYS, buildSecurityTxt, getPrivacyPolicy, getTerms, getContactPage } from '../src/config/legal'
 
 describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', () => {
-  test('canonical pair set contains exactly 99 unique pairs across 24 categories', () => {
-    assert.equal(CANONICAL_PAIR_SET.size, 99, 'CANONICAL_PAIR_SET must contain exactly 99 pairs')
+  test('canonical pair set contains exactly 123 unique pairs across 28 categories', () => {
+    assert.equal(CANONICAL_PAIR_SET.size, 123, 'CANONICAL_PAIR_SET must contain exactly 123 pairs')
     assert.ok(isCanonicalPair('length', 'meter-to-feet'), 'meter-to-feet must be canonical')
     assert.ok(!isCanonicalPair('length', 'meter-to-invalid'), 'invalid pair must not be canonical')
   })
@@ -109,7 +109,7 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
       }
     }
 
-    assert.equal(verifiedCount, 99, 'Must have verified all 99 canonical pairs')
+    assert.equal(verifiedCount, 123, 'Must have verified all 123 canonical pairs')
   })
 
   test('every pair slug resolves to two distinct units and no two slugs share a unit pair', () => {
@@ -237,7 +237,7 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
         verifiedPrerenderCount++
       }
     }
-    assert.equal(verifiedPrerenderCount, 99, 'Must verify all 99 prerendered pair HTML files')
+    assert.equal(verifiedPrerenderCount, 123, 'Must verify all 123 prerendered pair HTML files')
   })
 
   test('prerendered blog posts contain the full article body', () => {

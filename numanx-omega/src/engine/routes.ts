@@ -40,7 +40,7 @@ export const STATIC_ROUTES: StaticRouteDef[] = [
   { path: '/', label: 'Home', type: 'core', description: 'Universal unit converter homepage' },
   { path: '/converter', label: 'Universal Converter', type: 'core', description: 'Standard converter workspace' },
   { path: '/convert', label: 'Converter Redirect', type: 'core', description: 'Root convert route rendering converter' },
-  { path: '/categories', label: 'Browse Categories', type: 'core', description: 'Directory of all 24 categories' },
+  { path: '/categories', label: 'Browse Categories', type: 'core', description: 'Directory of all 28 categories' },
   { path: '/dashboard', label: 'Dashboard', type: 'feature', description: 'Analytics and usage control center' },
   { path: '/formulas', label: 'Formula Explorer', type: 'feature', description: 'Interactive scientific and engineering formulas' },
   { path: '/calculator', label: 'Calculator', type: 'feature', description: 'Quick calculation and conversion interface' },

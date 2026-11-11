@@ -36,11 +36,13 @@
   <url><loc>https://converter.numanxstudio.com/convert/cooking/cup-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/cup-to-tablespoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/fluid-ounce-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/cooking/stick-of-butter-to-tablespoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/bits-to-bytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/gb-to-mb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/gb-to-tb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/data/gibibyte-to-gigabyte</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/kb-to-mb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/mb-to-gb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/datatransfer</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
@@ -61,6 +63,10 @@
   <url><loc>https://converter.numanxstudio.com/convert/energy/ev-to-joules</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/energy/joules-to-calories</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/energy/kwh-to-btu</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/flow</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/flow/cubic-feet-per-minute-to-liter-per-second</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/flow/cubic-meter-per-hour-to-gallon-per-minute</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/flow/gallon-per-minute-to-liter-per-minute</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/force</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/force/dynes-to-newtons</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/force/kgf-to-n</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -79,8 +85,13 @@
   <url><loc>https://converter.numanxstudio.com/convert/fuel/l-100km-to-mpg-us</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/fuel/mpg-uk-to-mpg-us</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/fuel/mpg-us-to-l-100km</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/illuminance</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/illuminance/foot-candle-to-lux</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/illuminance/lux-to-foot-candle</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/length/angstrom-to-nanometer</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/centimeter-to-inches</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/length/fathom-to-foot</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/feet-to-meters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/inches-to-centimeter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/kilometer-to-miles</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -94,15 +105,21 @@
   <url><loc>https://converter.numanxstudio.com/convert/mass/ounces-to-grams</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/pounds-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/stone-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/troy-ounce-to-gram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/troy-ounce-to-ounce</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/horsepower-to-kilowatts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/horsepower-to-watts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/kilowatts-to-horsepower</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/power/metric-horsepower-to-kilowatt</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/mw-to-kw</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/power/ton-of-refrigeration-to-btu-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/watts-to-btu-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/atm-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/bar-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pressure/hectopascal-to-millibar</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pressure/inches-of-mercury-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/mmhg-to-atm</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/pascals-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/psi-to-bar</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -129,9 +146,20 @@
   <url><loc>https://converter.numanxstudio.com/convert/torque</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/torque/foot-pound-to-newton-meter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/torque/newton-meter-to-foot-pound</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/torque/newton-meter-to-pound-inch</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/torque/pound-foot-to-pound-inch</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/typography</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/typography/pixel-to-point</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/typography/pixel-to-root-em</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/viscosity</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/viscosity/centipoise-to-millipascal-second</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/viscosity/centipoise-to-pascal-second</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume/cubic-meters-to-cubic-feet</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/volume/cubic-yard-to-cubic-meter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume/gallons-to-liters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/volume/imperial-gallon-to-gallon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/volume/liter-to-imperial-gallon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume/liters-to-gallons</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume/milliliters-to-fluid-ounces</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/volume/quarts-to-liters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>

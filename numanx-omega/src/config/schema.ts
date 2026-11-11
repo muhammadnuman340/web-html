@@ -86,8 +86,8 @@ export function buildHomeSchema(): SchemaGraph {
         operatingSystem: 'All',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         featureList: [
-          '24 unit categories including length, mass, volume, temperature',
-          '180+ units from metric, imperial, and scientific systems',
+          '28 unit categories including length, mass, volume, temperature',
+          '220+ units from metric, imperial, and scientific systems',
           'Natural language input: type "5 km in miles" or "(5m+20cm)×2"',
           'Batch conversion mode for 1000+ values at once',
           'Cross-category conversion chains: Energy→Cost, Speed→Distance, Fuel→Cost',
@@ -102,7 +102,7 @@ export function buildHomeSchema(): SchemaGraph {
 
 /**
  * Schema for the Categories Directory page (/categories).
- * Generates an ItemList with exactly 24 canonical category entries.
+ * Generates an ItemList with exactly 28 canonical category entries.
  */
 export function buildCategoriesDirectorySchema(categories: CategoryDef[]): SchemaGraph {
   const pageUrl = canonicalUrl('/categories')
@@ -115,7 +115,7 @@ export function buildCategoriesDirectorySchema(categories: CategoryDef[]): Schem
         '@id': `${pageUrl}#collection`,
         name: 'All Unit Conversion Categories',
         url: pageUrl,
-        description: 'Directory of all 24 dedicated unit conversion calculators across science, engineering, and commerce.',
+        description: 'Directory of all 28 dedicated unit conversion calculators across science, engineering, and commerce.',
       },
       {
         '@type': 'BreadcrumbList',

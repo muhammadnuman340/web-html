@@ -17,6 +17,8 @@ var Categories = [
     cl: "#6c63ff",
     al: ["distance", "meter", "kilometer", "mile", "foot", "inch"],
     un: [
+      { id: "angstrom", lb: "Angstrom", r: 1e-10, s: "S", al: ["\xC5"] },
+      { id: "pm", lb: "Picometer", r: 1e-12, s: "S" },
       { id: "nm", lb: "Nanometer", r: 1e-9, s: "M" },
       { id: "um", lb: "Micrometer", r: 1e-6, s: "M" },
       { id: "mm", lb: "Millimeter", r: 1e-3, s: "M" },
@@ -24,22 +26,25 @@ var Categories = [
       { id: "dm", lb: "Decimeter", r: 0.1, s: "M" },
       { id: "m", lb: "Meter", r: 1, s: "M" },
       { id: "km", lb: "Kilometer", r: 1e3, s: "M" },
+      { id: "mil", lb: "Thou / Mil", r: 254e-7, s: "I", al: ["thou"] },
+      { id: "pt", lb: "Point", r: 0.0254 / 72, s: "I", al: ["points"] },
       { id: "in", lb: "Inch", r: 0.0254, s: "I" },
+      { id: "hand", lb: "Hand", r: 0.1016, s: "I" },
       { id: "ft", lb: "Foot", r: 0.3048, s: "I", al: ["feet"] },
+      { id: "cubit", lb: "Cubit", r: 0.4572, s: "O" },
       { id: "yd", lb: "Yard", r: 0.9144, s: "I" },
+      { id: "fathom", lb: "Fathom", r: 1.8288, s: "I", al: ["fathoms"] },
+      { id: "rod", lb: "Rod", r: 5.0292, s: "I" },
+      { id: "chain", lb: "Chain", r: 20.1168, s: "I" },
+      { id: "furlong", lb: "Furlong", r: 201.168, s: "I" },
       { id: "mi", lb: "Mile", r: 1609.344, s: "I" },
       { id: "nmi", lb: "Nautical Mile", r: 1852, s: "O" },
-      { id: "furlong", lb: "Furlong", r: 201.168, s: "I" },
-      { id: "chain", lb: "Chain", r: 20.1168, s: "I" },
-      { id: "rod", lb: "Rod", r: 5.0292, s: "I" },
-      { id: "hand", lb: "Hand", r: 0.1016, s: "I" },
-      { id: "cubit", lb: "Cubit", r: 0.4572, s: "O" },
-      { id: "ly", lb: "Light Year", r: 9461e12, s: "S" },
-      { id: "au", lb: "Astronomical Unit", r: 1496e8, s: "S" },
-      { id: "pc", lb: "Parsec", r: 3086e13, s: "S" },
+      { id: "er", lb: "Earth Radius", r: 6371e3, s: "S" },
       { id: "ld", lb: "Lunar Distance", r: 3844e5, s: "S" },
       { id: "sr", lb: "Solar Radius", r: 6957e5, s: "S" },
-      { id: "er", lb: "Earth Radius", r: 6371e3, s: "S" }
+      { id: "au", lb: "Astronomical Unit", r: 1496e8, s: "S" },
+      { id: "ly", lb: "Light Year", r: 9461e12, s: "S" },
+      { id: "pc", lb: "Parsec", r: 3086e13, s: "S" }
     ]
   },
   {
@@ -48,18 +53,18 @@ var Categories = [
     ic: "\u25A3",
     cl: "#9b59b6",
     un: [
+      { id: "barn", lb: "Barn", r: 1e-28, s: "S" },
       { id: "mm2", lb: "mm\xB2", r: 1e-6, s: "M" },
       { id: "cm2", lb: "cm\xB2", r: 1e-4, s: "M" },
-      { id: "m2", lb: "m\xB2", r: 1, s: "M" },
-      { id: "km2", lb: "km\xB2", r: 1e6, s: "M" },
       { id: "in2", lb: "in\xB2", r: 64516e-8, s: "I" },
       { id: "ft2", lb: "ft\xB2", r: 0.092903, s: "I" },
       { id: "yd2", lb: "yd\xB2", r: 0.836127, s: "I" },
+      { id: "m2", lb: "m\xB2", r: 1, s: "M" },
       { id: "ac", lb: "Acre", r: 4046.86, s: "I" },
       { id: "ha", lb: "Hectare", r: 1e4, s: "M" },
+      { id: "km2", lb: "km\xB2", r: 1e6, s: "M" },
       { id: "mi2", lb: "mi\xB2", r: 259e4, s: "I" },
-      { id: "twp", lb: "Township", r: 9324e4, s: "I" },
-      { id: "barn", lb: "Barn", r: 1e-28, s: "S" }
+      { id: "twp", lb: "Township", r: 9324e4, s: "I" }
     ]
   },
   {
@@ -68,20 +73,27 @@ var Categories = [
     ic: "\u{1F9EA}",
     cl: "#3498db",
     un: [
+      { id: "drop", lb: "Drop", r: 5e-5, s: "O" },
       { id: "mL", lb: "Milliliter", r: 1e-3, s: "M" },
-      { id: "L", lb: "Liter", r: 1, s: "M" },
-      { id: "m3", lb: "Cubic Meter", r: 1e3, s: "M" },
-      { id: "in3", lb: "Cubic Inch", r: 0.0163871, s: "I" },
-      { id: "ft3", lb: "Cubic Foot", r: 28.3168, s: "I" },
-      { id: "gal", lb: "Gallon", r: 3.78541, s: "I" },
-      { id: "qt", lb: "Quart", r: 0.946353, s: "I" },
-      { id: "pt", lb: "Pint", r: 0.473176, s: "I" },
-      { id: "bbl", lb: "Barrel", r: 158.987, s: "I" },
-      { id: "floz", lb: "Fluid Ounce", r: 0.0295735, s: "I" },
-      { id: "tbsp", lb: "Tablespoon", r: 0.0147868, s: "I" },
+      { id: "cm3", lb: "Cubic Centimeter", r: 1e-3, s: "M", al: ["cc"] },
+      { id: "cL", lb: "Centiliter", r: 0.01, s: "M" },
+      { id: "dL", lb: "Deciliter", r: 0.1, s: "M" },
       { id: "tsp", lb: "Teaspoon", r: 492892e-8, s: "I" },
+      { id: "tbsp", lb: "Tablespoon", r: 0.0147868, s: "I" },
+      { id: "in3", lb: "Cubic Inch", r: 0.0163871, s: "I" },
+      { id: "impfloz", lb: "Imperial Fl Oz", r: 0.0284130625, s: "I", al: ["uk fluid ounce"] },
+      { id: "floz", lb: "Fluid Ounce", r: 0.0295735, s: "I", al: ["fl oz", "fluid ounces", "us fluid ounce"] },
       { id: "cup", lb: "Cup", r: 0.24, s: "I" },
-      { id: "drop", lb: "Drop", r: 5e-5, s: "O" }
+      { id: "pt", lb: "Pint", r: 0.473176, s: "I", al: ["pints", "us pint"] },
+      { id: "imppt", lb: "Imperial Pint", r: 0.56826125, s: "I", al: ["uk pint"] },
+      { id: "L", lb: "Liter", r: 1, s: "M" },
+      { id: "qt", lb: "Quart", r: 0.946353, s: "I" },
+      { id: "gal", lb: "Gallon", r: 3.78541, s: "I", al: ["gallons", "us gallon"] },
+      { id: "impgal", lb: "Imperial Gallon", r: 4.54609, s: "I", al: ["uk gallon"] },
+      { id: "ft3", lb: "Cubic Foot", r: 28.3168, s: "I" },
+      { id: "bbl", lb: "Barrel", r: 158.987, s: "I" },
+      { id: "yd3", lb: "Cubic Yard", r: 764.554857984, s: "I", al: ["cubic yards", "cu yd"] },
+      { id: "m3", lb: "Cubic Meter", r: 1e3, s: "M" }
     ]
   },
   {
@@ -91,19 +103,24 @@ var Categories = [
     cl: "#2ecc71",
     al: ["weight", "gram", "kilogram", "pound"],
     un: [
+      { id: "amu", lb: "Atomic Mass Unit", r: 1660539e-33, s: "S" },
       { id: "ug", lb: "Microgram", r: 1e-9, s: "M" },
       { id: "mg", lb: "Milligram", r: 1e-6, s: "M" },
-      { id: "g", lb: "Gram", r: 1e-3, s: "M" },
-      { id: "kg", lb: "Kilogram", r: 1, s: "M" },
-      { id: "t", lb: "Metric Ton", r: 1e3, s: "M" },
-      { id: "oz", lb: "Ounce", r: 0.0283495, s: "I" },
-      { id: "lb", lb: "Pound", r: 0.453592, s: "I", al: ["lbs"] },
-      { id: "stone", lb: "Stone", r: 6.35029, s: "I" },
-      { id: "sh tn", lb: "Short Ton", r: 907.185, s: "I" },
-      { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" },
-      { id: "ct", lb: "Carat", r: 2e-4, s: "O" },
       { id: "gr", lb: "Grain", r: 64799e-9, s: "I" },
-      { id: "amu", lb: "Atomic Mass Unit", r: 1660539e-33, s: "S" }
+      { id: "ct", lb: "Carat", r: 2e-4, s: "O" },
+      { id: "g", lb: "Gram", r: 1e-3, s: "M" },
+      { id: "dwt", lb: "Pennyweight", r: 0.00155517384, s: "O" },
+      { id: "oz", lb: "Ounce", r: 0.0283495, s: "I" },
+      { id: "ozt", lb: "Troy Ounce", r: 0.0311034768, s: "O", al: ["troy oz", "gold ounce"] },
+      { id: "lbt", lb: "Troy Pound", r: 0.3732417216, s: "O" },
+      { id: "lb", lb: "Pound", r: 0.453592, s: "I", al: ["lbs"] },
+      { id: "kg", lb: "Kilogram", r: 1, s: "M" },
+      { id: "stone", lb: "Stone", r: 6.35029, s: "I" },
+      { id: "slug", lb: "Slug", r: 14.5939029372, s: "I" },
+      { id: "q", lb: "Metric Quintal", r: 100, s: "M", al: ["quintal"] },
+      { id: "sh tn", lb: "Short Ton", r: 907.185, s: "I" },
+      { id: "t", lb: "Metric Ton", r: 1e3, s: "M" },
+      { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" }
     ]
   },
   {
@@ -174,11 +191,11 @@ var Categories = [
     ic: "\u{1F4AA}",
     cl: "#e91e63",
     un: [
-      { id: "N", lb: "Newton", r: 1, s: "M" },
-      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" },
       { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
+      { id: "N", lb: "Newton", r: 1, s: "M" },
       { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
-      { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" }
+      { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" },
+      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" }
     ]
   },
   {
@@ -188,13 +205,18 @@ var Categories = [
     cl: "#00bcd4",
     un: [
       { id: "Pa", lb: "Pascal", r: 1, s: "M" },
-      { id: "kPa", lb: "Kilopascal", r: 1e3, s: "M" },
-      { id: "MPa", lb: "Megapascal", r: 1e6, s: "M" },
-      { id: "bar", lb: "Bar", r: 1e5, s: "M" },
-      { id: "psi", lb: "PSI", r: 6894.76, s: "I" },
-      { id: "atm", lb: "Atmosphere", r: 101325, s: "O" },
+      { id: "hPa", lb: "Hectopascal", r: 100, s: "M" },
+      { id: "mbar", lb: "Millibar", r: 100, s: "M", al: ["mb"] },
       { id: "torr", lb: "Torr", r: 133.322, s: "O" },
-      { id: "mmHg", lb: "mmHg", r: 133.322, s: "O" }
+      { id: "mmHg", lb: "mmHg", r: 133.322, s: "O" },
+      { id: "inH2O", lb: "inH\u2082O", r: 249.08891, s: "I", al: ["inches of water"] },
+      { id: "kPa", lb: "Kilopascal", r: 1e3, s: "M" },
+      { id: "inHg", lb: "inHg", r: 3386.389, s: "O", al: ["inches of mercury"] },
+      { id: "psi", lb: "PSI", r: 6894.76, s: "I" },
+      { id: "bar", lb: "Bar", r: 1e5, s: "M" },
+      { id: "atm", lb: "Atmosphere", r: 101325, s: "O" },
+      { id: "MPa", lb: "Megapascal", r: 1e6, s: "M" },
+      { id: "ksi", lb: "ksi", r: 6894757293e-3, s: "I", al: ["kilopound per square inch"] }
     ]
   },
   {
@@ -203,14 +225,14 @@ var Categories = [
     ic: "\u26A1",
     cl: "#f39c12",
     un: [
-      { id: "J", lb: "Joule", r: 1, s: "M" },
-      { id: "kJ", lb: "Kilojoule", r: 1e3, s: "M" },
-      { id: "cal", lb: "Calorie", r: 4.184, s: "M" },
-      { id: "kcal", lb: "Kilocalorie", r: 4184, s: "M" },
-      { id: "Wh", lb: "Watt-hour", r: 3600, s: "O" },
-      { id: "kWh", lb: "Kilowatt-hour", r: 36e5, s: "O" },
       { id: "eV", lb: "Electronvolt", r: 1602e-22, s: "S" },
+      { id: "J", lb: "Joule", r: 1, s: "M" },
+      { id: "cal", lb: "Calorie", r: 4.184, s: "M" },
       { id: "BTU", lb: "BTU", r: 1055.06, s: "I" },
+      { id: "kJ", lb: "Kilojoule", r: 1e3, s: "M" },
+      { id: "Wh", lb: "Watt-hour", r: 3600, s: "O" },
+      { id: "kcal", lb: "Kilocalorie", r: 4184, s: "M" },
+      { id: "kWh", lb: "Kilowatt-hour", r: 36e5, s: "O" },
       { id: "therm", lb: "Therm", r: 1055e5, s: "I" }
     ]
   },
@@ -220,11 +242,14 @@ var Categories = [
     ic: "\u{1F4A1}",
     cl: "#ff9800",
     un: [
+      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" },
       { id: "W", lb: "Watt", r: 1, s: "M" },
-      { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
-      { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
+      { id: "ps", lb: "Metric Horsepower (PS)", r: 735.49875, s: "O", al: ["ch", "cv"] },
       { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
-      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" }
+      { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
+      { id: "tr", lb: "Ton of Refrigeration", r: 3516.852842, s: "I", al: ["refrigeration ton", "tons of ac"] },
+      { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
+      { id: "GW", lb: "Gigawatt", r: 1e9, s: "M" }
     ]
   },
   {
@@ -233,16 +258,16 @@ var Categories = [
     ic: "\u26A1",
     cl: "#00e5ff",
     un: [
-      { id: "A", lb: "Ampere", r: 1, s: "M" },
-      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
-      { id: "V", lb: "Volt", r: 1, s: "M" },
-      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
-      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
-      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
-      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" },
-      { id: "F", lb: "Farad", r: 1, s: "M" },
       { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
-      { id: "C", lb: "Coulomb", r: 1, s: "S" }
+      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
+      { id: "A", lb: "Ampere", r: 1, s: "M" },
+      { id: "V", lb: "Volt", r: 1, s: "M" },
+      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
+      { id: "C", lb: "Coulomb", r: 1, s: "S" },
+      { id: "F", lb: "Farad", r: 1, s: "M" },
+      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
+      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
+      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
     ]
   },
   {
@@ -251,8 +276,8 @@ var Categories = [
     ic: "\u{1F9F2}",
     cl: "#e040fb",
     un: [
-      { id: "T", lb: "Tesla", r: 1, s: "M" },
       { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
+      { id: "T", lb: "Tesla", r: 1, s: "M" },
       { id: "Wb", lb: "Weber", r: 1, s: "S" }
     ]
   },
@@ -262,12 +287,12 @@ var Categories = [
     ic: "\u3030\uFE0F",
     cl: "#607d8b",
     un: [
+      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" },
       { id: "Hz", lb: "Hertz", r: 1, s: "M" },
       { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
       { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
       { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
-      { id: "THz", lb: "THz", r: 1e12, s: "M" },
-      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" }
+      { id: "THz", lb: "THz", r: 1e12, s: "M" }
     ]
   },
   {
@@ -279,9 +304,13 @@ var Categories = [
       { id: "bit", lb: "Bit", r: 0.125, s: "M" },
       { id: "B", lb: "Byte", r: 1, s: "M" },
       { id: "KB", lb: "KB", r: 1e3, s: "M" },
+      { id: "KiB", lb: "Kibibyte (KiB)", r: 1024, s: "S" },
       { id: "MB", lb: "MB", r: 1e6, s: "M" },
-      { id: "GB", lb: "GB", r: 1e9, s: "M" },
+      { id: "MiB", lb: "Mebibyte (MiB)", r: 1048576, s: "S" },
+      { id: "GB", lb: "GB", r: 1e9, s: "M", al: ["gigabyte", "gigabytes"] },
+      { id: "GiB", lb: "Gibibyte (GiB)", r: 1073741824, s: "S", al: ["gibibyte", "gibibytes"] },
       { id: "TB", lb: "TB", r: 1e12, s: "M" },
+      { id: "TiB", lb: "Tebibyte (TiB)", r: 1099511627776, s: "S" },
       { id: "PB", lb: "PB", r: 1e15, s: "M" },
       { id: "EB", lb: "EB", r: 1e18, s: "M" },
       { id: "ZB", lb: "ZB", r: 1e21, s: "M" },
@@ -307,12 +336,12 @@ var Categories = [
     ic: "\u2221",
     cl: "#00bcd4",
     un: [
-      { id: "deg", lb: "Degree", r: 1, s: "M" },
-      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" },
+      { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" },
+      { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
       { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
       { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
-      { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
-      { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" }
+      { id: "deg", lb: "Degree", r: 1, s: "M" },
+      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" }
     ]
   },
   {
@@ -321,8 +350,13 @@ var Categories = [
     ic: "\u{1F527}",
     cl: "#ff5722",
     un: [
-      { id: "Nm", lb: "N\xB7m", r: 1, s: "M" },
-      { id: "lbft", lb: "lb-ft", r: 1.35582, s: "I" }
+      { id: "Nmm", lb: "N\xB7mm", r: 1e-3, s: "M" },
+      { id: "ozin", lb: "oz-in", r: 0.007061551814226044, s: "I", al: ["ounce-inch"] },
+      { id: "Ncm", lb: "N\xB7cm", r: 0.01, s: "M" },
+      { id: "lbin", lb: "lb-in", r: 0.1129848290276167, s: "I", al: ["in-lb", "pound-inch", "pound-inches", "inch-pound"] },
+      { id: "Nm", lb: "N\xB7m", r: 1, s: "M", al: ["newton-meter", "newton-meters"] },
+      { id: "lbft", lb: "lb-ft", r: 1.35582, s: "I", al: ["pound-foot", "pound-feet", "foot-pound", "foot-pounds"] },
+      { id: "kgfm", lb: "kgf\xB7m", r: 9.80665, s: "M", al: ["kgf-m"] }
     ]
   },
   {
@@ -345,8 +379,8 @@ var Categories = [
     cl: "#795548",
     un: [
       { id: "kgm3", lb: "kg/m\xB3", r: 1, s: "M" },
-      { id: "gcm3", lb: "g/cm\xB3", r: 1e3, s: "M" },
-      { id: "lbft3", lb: "lb/ft\xB3", r: 16.0185, s: "I" }
+      { id: "lbft3", lb: "lb/ft\xB3", r: 16.0185, s: "I" },
+      { id: "gcm3", lb: "g/cm\xB3", r: 1e3, s: "M" }
     ]
   },
   {
@@ -355,13 +389,15 @@ var Categories = [
     ic: "\u{1F373}",
     cl: "#ffc107",
     un: [
-      { id: "cup_c", lb: "Cup", r: 240, s: "I" },
-      { id: "tbsp_c", lb: "Tablespoon", r: 15, s: "I" },
-      { id: "tsp_c", lb: "Teaspoon", r: 5, s: "I" },
-      { id: "dash", lb: "Dash", r: 0.615, s: "I" },
       { id: "pinch", lb: "Pinch", r: 0.308, s: "I" },
+      { id: "dash", lb: "Dash", r: 0.615, s: "I" },
+      { id: "mL_c", lb: "Milliliter", r: 1, s: "M" },
+      { id: "tsp_c", lb: "Teaspoon", r: 5, s: "I" },
+      { id: "tbsp_c", lb: "Tablespoon", r: 15, s: "I" },
       { id: "floz_c", lb: "Fluid Ounce", r: 29.5735, s: "I" },
-      { id: "mL_c", lb: "Milliliter", r: 1, s: "M" }
+      { id: "jigger", lb: "Jigger", r: 44.36029434375, s: "I", al: ["jiggers"] },
+      { id: "stick_c", lb: "Stick of Butter", r: 120, s: "I", al: ["stick", "sticks"] },
+      { id: "cup_c", lb: "Cup", r: 240, s: "I" }
     ]
   },
   {
@@ -381,11 +417,71 @@ var Categories = [
     ic: "\u{1F30C}",
     cl: "#7c4dff",
     un: [
+      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
+      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
       { id: "au_a", lb: "AU", r: 1, s: "S" },
       { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
-      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" },
-      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
-      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" }
+      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
+    ]
+  },
+  {
+    id: "flow",
+    lb: "Flow Rate",
+    ic: "\u{1F4A7}",
+    cl: "#00bcd4",
+    al: ["volumetric flow", "discharge", "flow", "gpm", "cfm", "liters per minute"],
+    un: [
+      { id: "bpd", lb: "Barrels per Day", r: 18401307283333333e-22, s: "I", al: ["bpd", "barrel per day", "barrels per day"] },
+      { id: "Lmin", lb: "Liter per Minute", r: 16666666666666667e-21, s: "M", al: ["l/min", "lpm", "liters per minute"] },
+      { id: "gpm", lb: "Gallon per Minute", r: 630901964e-13, s: "I", al: ["gpm", "gallon per minute", "gallons per minute"] },
+      { id: "m3h", lb: "Cubic Meter per Hour", r: 2777777777777778e-19, s: "M", al: ["m3/h", "cubic meter per hour", "cubic meters per hour"] },
+      { id: "cfm", lb: "Cubic Feet per Minute", r: 4719474432e-13, s: "I", al: ["cfm", "cubic foot per minute", "cubic feet per minute"] },
+      { id: "Ls", lb: "Liter per Second", r: 1e-3, s: "M", al: ["l/s", "lps", "liter per second", "liters per second"] },
+      { id: "m3s", lb: "Cubic Meter per Second", r: 1, s: "M", al: ["m3/s", "cubic meter per second", "cubic meters per second"] }
+    ]
+  },
+  {
+    id: "illuminance",
+    lb: "Illuminance",
+    ic: "\u{1F4A1}",
+    cl: "#ffb300",
+    al: ["light", "lux", "foot-candle", "illumination", "phot"],
+    un: [
+      { id: "nox", lb: "Nox", r: 1e-3, s: "S", al: ["nox"] },
+      { id: "lx", lb: "Lux", r: 1, s: "M", al: ["lux", "lx"] },
+      { id: "fc", lb: "Foot-candle", r: 10.763910416709722, s: "I", al: ["fc", "foot-candles", "foot candles", "foot candle"] },
+      { id: "ph", lb: "Phot", r: 1e4, s: "S", al: ["phot", "phots"] }
+    ]
+  },
+  {
+    id: "viscosity",
+    lb: "Viscosity",
+    ic: "\u{1F36F}",
+    cl: "#8d6e63",
+    al: ["dynamic viscosity", "centipoise", "poise", "pascal second"],
+    un: [
+      { id: "cP", lb: "Centipoise", r: 1e-3, s: "O", al: ["cp", "centipoise"] },
+      { id: "mPas", lb: "Millipascal-second", r: 1e-3, s: "M", al: ["mpas", "mpa-s", "millipascal-second"] },
+      { id: "P", lb: "Poise", r: 0.1, s: "O", al: ["poise"] },
+      { id: "Pas", lb: "Pascal-second", r: 1, s: "M", al: ["pas", "pa-s", "pascal-second"] },
+      { id: "lbfts", lb: "Pound per Foot-second", r: 1.48816394357, s: "I", al: ["lb/ft-s", "pound per foot-second", "pound per foot second"] }
+    ]
+  },
+  {
+    id: "typography",
+    lb: "Typography",
+    ic: "\u{1F524}",
+    cl: "#ec407a",
+    al: ["css units", "font size", "pixels", "points", "rem", "em", "pica"],
+    un: [
+      { id: "px", lb: "Pixel", r: 1, s: "O", al: ["pixels", "pixel", "px"] },
+      { id: "pt", lb: "Point", r: 1.3333333333333333, s: "I", al: ["points", "point", "pt"] },
+      { id: "mm", lb: "Millimeter", r: 3.779527559055118, s: "M", al: ["millimeter", "millimeters", "mm"] },
+      { id: "pica", lb: "Pica", r: 16, s: "I", al: ["picas", "pica", "pc"] },
+      { id: "rem", lb: "Root EM", r: 16, s: "O", al: ["rem", "rems"] },
+      { id: "em", lb: "EM", r: 16, s: "O", al: ["em", "ems"] },
+      { id: "cm", lb: "Centimeter", r: 37.79527559055118, s: "M", al: ["centimeter", "centimeters", "cm"] },
+      { id: "in", lb: "Inch", r: 96, s: "I", al: ["inches", "inch", "in"] }
     ]
   }
 ];
@@ -450,7 +546,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 24 categories, 180+ units, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and offline PWA support.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path4 = "") {
@@ -592,7 +688,9 @@ var categoryContent = {
       { from: "Kilometer", to: "Miles", desc: "km \u2192 mi \u2014 road distance & travel planning" },
       { from: "Inches", to: "Centimeter", desc: "in \u2192 cm \u2014 screen sizes & clothing dimensions" },
       { from: "Feet", to: "Meters", desc: "ft \u2192 m \u2014 real estate & architecture" },
-      { from: "Centimeter", to: "Inches", desc: "cm \u2192 in \u2014 product dimensions & body measurements" }
+      { from: "Centimeter", to: "Inches", desc: "cm \u2192 in \u2014 product dimensions & body measurements" },
+      { from: "Angstrom", to: "Nanometer", desc: "\xC5 \u2192 nm \u2014 crystallography & optics" },
+      { from: "Fathom", to: "Foot", desc: "fath \u2192 ft \u2014 nautical depth & marine sounding" }
     ],
     useCases: ["Construction & architecture (ft\u2194m)", "Travel & navigation (km\u2194mi)", "Clothing & body measurements (in\u2194cm)", "Scientific research (nm, \u03BCm, ly)", "Real estate & property (ft\u2194m, ac\u2194ha)"],
     formula: "1 meter = 3.2808399 feet. 1 inch = exactly 25.4 millimeters (1959 International Yard Agreement). 1 kilometer = 0.6213712 miles.",
@@ -612,7 +710,9 @@ var categoryContent = {
       { from: "Pounds", to: "Kilogram", desc: "lb \u2192 kg \u2014 international shipping & travel" },
       { from: "Ounces", to: "Grams", desc: "oz \u2192 g \u2014 cooking & baking recipes" },
       { from: "Stone", to: "Kilogram", desc: "st \u2192 kg \u2014 UK body weight to metric" },
-      { from: "Metric Ton", to: "US Ton", desc: "t \u2192 ton \u2014 industrial & freight" }
+      { from: "Metric Ton", to: "US Ton", desc: "t \u2192 ton \u2014 industrial & freight" },
+      { from: "Troy Ounce", to: "Gram", desc: "oz t \u2192 g \u2014 gold bullion & precious jewelry trade" },
+      { from: "Troy Ounce", to: "Ounce", desc: "oz t \u2192 oz \u2014 precious metal vs avoirdupois weight" }
     ],
     useCases: ["Fitness & body weight (kg\u2194lb)", "Cooking & recipes (oz\u2194g, lb\u2194g)", "Shipping & logistics (kg\u2194lb, t\u2194ton)", "Science & chemistry (amu, g)", "Jewelry & precious metals (oz\u2194g)"],
     formula: "1 kilogram = 2.20462 pounds. 1 pound = 453.592 grams. 1 stone = 6.35029 kilograms.",
@@ -669,7 +769,10 @@ var categoryContent = {
       { from: "Gallons", to: "Liters", desc: "gal \u2192 L \u2014 international volume comparison" },
       { from: "Milliliters", to: "Fluid Ounces", desc: "mL \u2192 fl oz \u2014 cooking & recipes" },
       { from: "Cubic Meters", to: "Cubic Feet", desc: "m\xB3 \u2192 ft\xB3 \u2014 shipping & storage" },
-      { from: "Quarts", to: "Liters", desc: "qt \u2192 L \u2014 kitchen & cooking" }
+      { from: "Quarts", to: "Liters", desc: "qt \u2192 L \u2014 kitchen & cooking" },
+      { from: "Cubic Yard", to: "Cubic Meter", desc: "yd\xB3 \u2192 m\xB3 \u2014 concrete, earthwork & bulk freight" },
+      { from: "Imperial Gallon", to: "Gallon", desc: "gal (UK) \u2192 gal (US) \u2014 transatlantic fuel & fluid comparison" },
+      { from: "Liter", to: "Imperial Gallon", desc: "L \u2192 gal (UK) \u2014 UK fuel economy & volume measurement" }
     ],
     useCases: ["Cooking & baking (mL\u2194fl oz, cup)", "Fuel & automotive (L\u2194gal)", "Shipping & storage (m\xB3\u2194ft\xB3)", "Science & chemistry (mL\u2194L)", "Aquariums & pools (L\u2194gal)"],
     formula: "1 liter = 0.264172 gallons. 1 gallon = 3.78541 liters. 1 cubic meter = 35.3147 cubic feet.",
@@ -745,7 +848,9 @@ var categoryContent = {
       { from: "Bar", to: "PSI", desc: "bar \u2192 psi \u2014 industrial pressure gauges" },
       { from: "ATM", to: "PSI", desc: "atm \u2192 psi \u2014 scuba diving & depth" },
       { from: "Pascals", to: "PSI", desc: "Pa \u2192 psi \u2014 scientific measurements" },
-      { from: "mmHg", to: "ATM", desc: "mmHg \u2192 atm \u2014 blood pressure & weather" }
+      { from: "mmHg", to: "ATM", desc: "mmHg \u2192 atm \u2014 blood pressure & weather" },
+      { from: "Hectopascal", to: "Millibar", desc: "hPa \u2192 mbar \u2014 meteorology & barometric pressure" },
+      { from: "Inches of Mercury", to: "PSI", desc: "inHg \u2192 psi \u2014 manifold vacuum & aviation altimetry" }
     ],
     useCases: ["Tire pressure (PSI\u2194bar)", "Scuba diving (atm\u2194psi)", "Weather forecasting (hPa\u2194inHg)", "HVAC & refrigeration (PSI\u2194bar)", "Blood pressure (mmHg)"],
     formula: "1 bar = 14.5038 PSI = 100,000 Pa. 1 atm = 14.696 PSI = 101,325 Pa. 1 mmHg = 133.322 Pa.",
@@ -764,7 +869,9 @@ var categoryContent = {
       { from: "Kilowatts", to: "Horsepower", desc: "kW \u2192 hp \u2014 international specs" },
       { from: "Watts", to: "BTU/h", desc: "W \u2192 BTU/h \u2014 heating & cooling" },
       { from: "MW", to: "kW", desc: "MW \u2192 kW \u2014 power plant output" },
-      { from: "Horsepower", to: "Watts", desc: "hp \u2192 W \u2014 mechanical power" }
+      { from: "Horsepower", to: "Watts", desc: "hp \u2192 W \u2014 mechanical power" },
+      { from: "Metric Horsepower", to: "Kilowatt", desc: "PS \u2192 kW \u2014 European automotive power ratings" },
+      { from: "Ton of Refrigeration", to: "BTU/h", desc: "TR \u2192 BTU/h \u2014 HVAC capacity & chiller sizing" }
     ],
     useCases: ["Automotive engine specs (hp\u2194kW)", "Electrical appliances (W\u2194kW)", "HVAC systems (BTU/h\u2194W)", "Industrial machinery (MW\u2194kW)", "Fitness equipment (W\u2194hp)"],
     formula: "1 horsepower = 745.7 watts = 0.7457 kW. 1 kW = 1.341 horsepower. 1 W = 3.412 BTU/h.",
@@ -802,7 +909,8 @@ var categoryContent = {
       { from: "GB", to: "MB", desc: "GB \u2192 MB \u2014 memory & disk space" },
       { from: "GB", to: "TB", desc: "GB \u2192 TB \u2014 large storage planning" },
       { from: "KB", to: "MB", desc: "KB \u2192 MB \u2014 document & image sizes" },
-      { from: "Bits", to: "Bytes", desc: "b \u2192 B \u2014 networking & data transfer" }
+      { from: "Bits", to: "Bytes", desc: "b \u2192 B \u2014 networking & data transfer" },
+      { from: "Gibibyte", to: "Gigabyte", desc: "GiB \u2192 GB \u2014 RAM allocation vs advertised SSD drive capacity" }
     ],
     useCases: ["Storage capacity planning (GB\u2194TB)", "File size management (MB\u2194GB)", "Network bandwidth (bits\u2194bytes)", "Cloud storage (GB\u2194TB)", "Programming & development (KiB\u2194MiB)"],
     formula: "1 byte = 8 bits. 1 KB = 1,024 bytes. 1 MB = 1,024 KB. 1 GB = 1,024 MB. 1 TB = 1,024 GB.",
@@ -943,7 +1051,9 @@ var categoryContent = {
     intro: "Convert between metric and imperial rotational torque units: Newton-meters (N\xB7m) and pound-feet / foot-pounds (lb-ft). Crucial for automotive repair, lug nut tightening specs, bicycle maintenance, and engine dyno readouts.",
     popularPairs: [
       { from: "Newton-meter", to: "Foot-pound", desc: "N\xB7m \u2192 lb-ft \u2014 metric automotive specs to US wrench torque" },
-      { from: "Foot-pound", to: "Newton-meter", desc: "lb-ft \u2192 N\xB7m \u2014 torque wrench calibration and import vehicle service" }
+      { from: "Foot-pound", to: "Newton-meter", desc: "lb-ft \u2192 N\xB7m \u2014 torque wrench calibration and import vehicle service" },
+      { from: "Newton-meter", to: "Pound-inch", desc: "N\xB7m \u2192 lb\xB7in \u2014 electronics assembly & bicycle torque" },
+      { from: "Pound-foot", to: "Pound-inch", desc: "lb\xB7ft \u2192 lb\xB7in \u2014 automotive fasteners & machinery specs" }
     ],
     useCases: ["Wheel lug nut torque specifications", "Engine cylinder head and manifold bolt tightening", "Bicycle bottom bracket and pedal servicing", "Industrial machinery shaft calibration"],
     formula: "1 N\xB7m \u2248 0.737562 lb-ft. 1 lb-ft \u2248 1.355818 N\xB7m.",
@@ -977,7 +1087,8 @@ var categoryContent = {
       { from: "Cup", to: "Tablespoon", desc: "cup \u2192 tbsp \u2014 recipe subdivision (1 cup = 16 tbsp)" },
       { from: "Tablespoon", to: "Teaspoon", desc: "tbsp \u2192 tsp \u2014 seasoning and spice adjustments (1 tbsp = 3 tsp)" },
       { from: "Cup", to: "Milliliter", desc: "cup \u2192 mL \u2014 US cups to metric liquid volume (1 cup \u2248 240 mL)" },
-      { from: "Fluid Ounce", to: "Milliliter", desc: "fl oz \u2192 mL \u2014 liquid measuring cups (1 fl oz \u2248 29.57 mL)" }
+      { from: "Fluid Ounce", to: "Milliliter", desc: "fl oz \u2192 mL \u2014 liquid measuring cups (1 fl oz \u2248 29.57 mL)" },
+      { from: "Stick of Butter", to: "Tablespoon", desc: "stick \u2192 tbsp \u2014 baking & culinary recipe measurement" }
     ],
     useCases: ["Scaling baking and culinary recipes", "Converting US customary recipes to metric grams/milliliters", "Bartending and cocktail liquid measurement", "Dietary portion control and nutrition tracking"],
     formula: "1 US Cup = 16 tablespoons = 48 teaspoons = 240 mL = 8 fl oz. 1 tablespoon = 3 teaspoons = 15 mL.",
@@ -1018,6 +1129,75 @@ var categoryContent = {
       { q: "How far is one Astronomical Unit (AU)?", a: "One Astronomical Unit (AU) is approximately 149.6 million kilometers (92.96 million miles), roughly the mean distance from the Earth to the Sun." },
       { q: "How many light years are in one parsec?", a: "One parsec (pc) equals approximately 3.26156 light years (or 206,265 AU)." },
       { q: "How heavy is the Sun compared to the Earth?", a: "One Solar Mass is equal to approximately 333,000 Earth Masses." }
+    ]
+  },
+  flow: {
+    title: "Flow Rate Converter \u2014 GPM, CFM, L/min, m\xB3/s & Discharge Units",
+    metaDesc: "Precision flow rate converter for HVAC, plumbing, hydrology, and process engineering. Convert between GPM, CFM, L/min, m\xB3/h, L/s, and m\xB3/s with NIST SP 811 accuracy.",
+    h1: "Volumetric Flow Rate & Fluid Dynamics Converter",
+    intro: "Convert volumetric flow rate and discharge across metric, US customary, and imperial engineering units. Seamlessly calculate between Gallons per Minute (GPM), Cubic Feet per Minute (CFM), Liters per Minute (L/min), Cubic Meters per Hour (m\xB3/h), and SI base cubic meters per second (m\xB3/s) for HVAC duct sizing, plumbing calculations, hydraulics, and environmental hydrology.",
+    popularPairs: [
+      { from: "Gallon per Minute", to: "Liter per Minute", desc: "GPM \u2192 L/min \u2014 plumbing fixtures & hydraulic flow" },
+      { from: "Cubic Feet per Minute", to: "Liter per Second", desc: "CFM \u2192 L/s \u2014 HVAC airflow & ventilation sizing" },
+      { from: "Cubic Meter per Hour", to: "Gallon per Minute", desc: "m\xB3/h \u2192 GPM \u2014 industrial pumping & municipal water systems" }
+    ],
+    useCases: ["HVAC & ventilation engineering (CFM\u2194L/s)", "Plumbing & irrigation design (GPM\u2194L/min)", "Industrial pump specification (m\xB3/h\u2194GPM)", "Hydrology & open channel flow (m\xB3/s)", "Petroleum production & pipeline transport (bpd)"],
+    formula: "1 US GPM = 3.785411784 L/min. 1 CFM = 0.4719474432 L/s. 1 m\xB3/h = 4.40286754 GPM. 1 m\xB3/s = 1,000 L/s = 15,850.323 GPM.",
+    faq: [
+      { q: "How do I convert GPM to liters per minute?", a: "Multiply Gallons per Minute (US) by 3.785411784 to obtain Liters per Minute (L/min). For example, a 5 GPM shower fixture delivers approximately 18.93 L/min." },
+      { q: "What is the relationship between CFM and L/s in HVAC airflow?", a: "One Cubic Foot per Minute (CFM) equals exactly 0.028316846592 m\xB3/min, which converts to approximately 0.471947 L/s. To convert CFM to L/s, multiply CFM by 0.471947." },
+      { q: "How many gallons per minute are in 1 cubic meter per hour?", a: "One cubic meter per hour (m\xB3/h) equals approximately 4.4028675 US Gallons per Minute (GPM). Multiply m\xB3/h by 4.4028675 to calculate GPM." }
+    ]
+  },
+  illuminance: {
+    title: "Illuminance Converter \u2014 Lux, Foot-candles, Nox & Phot",
+    metaDesc: "Convert illuminance and luminous flux density between Lux (lx), Foot-candles (fc), Phot (ph), and Nox. Standardized for lighting design, OSHA compliance, and photography.",
+    h1: "Illuminance & Lighting Design Converter",
+    intro: "Convert luminous flux incident on a surface across SI metric and imperial lighting standards. Accurately translate between Lux (lumens per square meter, lx), Foot-candles (lumens per square foot, fc), Phot (ph), and Nox according to CIE (International Commission on Illumination) standards for architectural lighting, workspace safety, greenhouse horticulture, and cinematography.",
+    popularPairs: [
+      { from: "Foot-candle", to: "Lux", desc: "fc \u2192 lx \u2014 architectural lighting & workplace safety" },
+      { from: "Lux", to: "Foot-candle", desc: "lx \u2192 fc \u2014 commercial lighting fixtures & cinematography" }
+    ],
+    useCases: ["Architectural lighting design (fc\u2194lx)", "Workplace safety & OSHA compliance (fc)", "Commercial greenhouse horticulture (lx)", "Cinematography & photography exposure (fc\u2194lx)", "Street and tunnel illumination engineering (lx)"],
+    formula: "1 Foot-candle = exactly 1 lumen/ft\xB2 \u2248 10.7639104 Lux. 1 Lux = 1 lumen/m\xB2 \u2248 0.09290304 Foot-candles. 1 Phot = 10,000 Lux.",
+    faq: [
+      { q: "How do you convert foot-candles to lux?", a: "Multiply the illuminance in foot-candles by 10.76391 to calculate lux. For example, a standard 50 fc office desk illumination equals approximately 538.2 lx." },
+      { q: "What is the difference between lux and foot-candles?", a: "Both measure luminous flux per unit area: Lux is metric (1 lumen per square meter), while Foot-candle is imperial (1 lumen per square foot). Because 1 square meter is approximately 10.764 square feet, 1 foot-candle equals roughly 10.764 lux." },
+      { q: "What is the recommended lux level for office work?", a: "Standard commercial office and computer workstations typically require 300 to 500 lux (approx. 28 to 46 foot-candles) according to IESNA and OSHA guidelines." }
+    ]
+  },
+  viscosity: {
+    title: "Viscosity Converter \u2014 Centipoise, Pascal-seconds, Poise & mPa\xB7s",
+    metaDesc: "Dynamic viscosity converter for chemical engineering, lubrication, and fluid mechanics. Convert Centipoise (cP), Pascal-seconds (Pa\xB7s), Poise (P), and mPa\xB7s accurately.",
+    h1: "Dynamic Viscosity & Fluid Mechanics Converter",
+    intro: "Calculate dynamic fluid viscosity across international scientific and engineering units. Convert seamlessly between Centipoise (cP), Pascal-seconds (Pa\xB7s), Millipascal-seconds (mPa\xB7s), Poise (P), and imperial pound per foot-second according to ISO 3104 and ASTM D445 standards for lubricant formulation, polymer rheology, petroleum refining, and chemical processing.",
+    popularPairs: [
+      { from: "Centipoise", to: "Pascal-second", desc: "cP \u2192 Pa\xB7s \u2014 chemical process engineering & fluid mechanics" },
+      { from: "Centipoise", to: "Millipascal-second", desc: "cP \u2192 mPa\xB7s \u2014 1:1 direct scientific unit equivalence" }
+    ],
+    useCases: ["Lubrication & automotive motor oil grades (cP\u2194mPa\xB7s)", "Chemical process engineering (cP\u2194Pa\xB7s)", "Food & beverage rheology (honey, syrups, dairy)", "Paints, inks & polymer coatings manufacturing", "Petroleum pipeline hydraulics & crude oil transport"],
+    formula: "1 Centipoise (cP) = 1 Millipascal-second (mPa\xB7s) = 0.001 Pascal-second (Pa\xB7s). 1 Poise (P) = 100 cP = 0.1 Pa\xB7s. 1 Pa\xB7s = 1,000 cP.",
+    faq: [
+      { q: "Is 1 centipoise equal to 1 millipascal-second?", a: "Yes, exactly 1 Centipoise (cP) equals 1 Millipascal-second (mPa\xB7s). Centipoise is the CGS unit, while mPa\xB7s is the SI metric coherent derived unit. Both represent 0.001 Pascal-second (Pa\xB7s)." },
+      { q: "How do you convert centipoise to Pascal-seconds?", a: "Divide centipoise by 1,000 (or multiply by 0.001) to obtain Pascal-seconds. For example, water at 20 \xB0C has a viscosity of approximately 1.002 cP, which equals 0.001002 Pa\xB7s." },
+      { q: "What is the viscosity of common fluids?", a: "Water at 20 \xB0C is ~1 cP; olive oil is ~80 cP; motor oil SAE 30 is ~200 cP; honey is ~10,000 cP; and peanut butter is ~250,000 cP." }
+    ]
+  },
+  typography: {
+    title: "Typography & CSS Unit Converter \u2014 Pixels, Points, REM, EM & Picas",
+    metaDesc: "Precision typography and digital layout converter. Convert Pixels (px), Points (pt), REM, EM, Millimeters, and Picas using the 96 DPI CSS web standard.",
+    h1: "Typography & CSS Layout Scale Converter",
+    intro: "Convert font sizes and digital layout dimensions across CSS, print, and screen units. Translate between CSS Pixels (px), Points (pt), Root EM (rem), EM (em), Picas (pc), and Millimeters (mm) based on the W3C CSS Values and Units Module Level 3 standard (96 CSS pixels per inch, 16px root font default).",
+    popularPairs: [
+      { from: "Pixel", to: "Point", desc: "px \u2192 pt \u2014 web design to print layout translation" },
+      { from: "Pixel", to: "Root EM", desc: "px \u2192 rem \u2014 responsive CSS typography & design tokens" }
+    ],
+    useCases: ["Responsive web development (px\u2194rem)", "UI/UX design systems & Figma tokens (px\u2194pt)", "Print design & desktop publishing (pt\u2194pc, mm)", "Mobile app typography scaling (pt\u2194px)", "Accessible web typography audits"],
+    formula: "At 96 DPI: 1 inch = 96 px = 72 pt = 6 picas. Therefore 1 pt = 4/3 px (approx. 1.3333 px). Assuming 16px browser base font: 1 rem = 16 px.",
+    faq: [
+      { q: "How do you convert pixels to points?", a: "At the standard CSS resolution of 96 DPI, 1 point (1/72 inch) equals 1.33333 pixels (96 \xF7 72). To convert pixels to points, divide pixels by 1.33333 (or multiply by 0.75). For example, 16 px = 12 pt." },
+      { q: "How do you convert pixels to rem in CSS?", a: "Divide your pixel value by the root font size (browser default is 16 px). For example, 24 px \xF7 16 = 1.5 rem. 32 px \xF7 16 = 2 rem." },
+      { q: "Why is 1 pt equal to 1.333 px in digital design?", a: "Under the W3C CSS standard, 1 physical inch is fixed at exactly 96 CSS pixels and 72 typographical points. Dividing 96 by 72 gives 4/3 or 1.33333 px per point." }
     ]
   }
 };
@@ -1697,9 +1877,19 @@ import path2 from "node:path";
 var SCOPED = {
   "temp:C": "\xB0C",
   "temp:F": "\xB0F",
-  "acceleration:gal": "Gal"
+  "acceleration:gal": "Gal",
+  "typography:px": "px",
+  "typography:pt": "pt",
+  "typography:pica": "pc",
+  "typography:rem": "rem",
+  "typography:em": "em",
+  "typography:mm": "mm",
+  "typography:cm": "cm",
+  "typography:in": "in"
 };
 var SYMBOLS = {
+  angstrom: "\xC5",
+  pm: "pm",
   um: "\xB5m",
   ug: "\xB5g",
   us: "\xB5s",
@@ -1715,15 +1905,30 @@ var SYMBOLS = {
   m3: "m\xB3",
   in3: "in\xB3",
   ft3: "ft\xB3",
+  yd3: "yd\xB3",
+  cm3: "cm\xB3",
+  impgal: "gal (UK)",
+  imppt: "pt (UK)",
+  impfloz: "fl oz (UK)",
   floz: "fl oz",
   floz_c: "fl oz",
   cup_c: "cup",
   tbsp_c: "tbsp",
   tsp_c: "tsp",
   mL_c: "mL",
+  stick_c: "stick",
+  jigger: "jigger",
   stone: "st",
   R: "\xB0R",
   Re: "\xB0R\xE9",
+  ozt: "oz t",
+  lbt: "lb t",
+  slug: "slug",
+  dwt: "dwt",
+  q: "q",
+  fathom: "fath",
+  mil: "mil",
+  pt: "pt",
   mps: "m/s",
   kmh: "km/h",
   knot: "kn",
@@ -1736,6 +1941,41 @@ var SYMBOLS = {
   Mohm: "M\u03A9",
   Nm: "N\xB7m",
   lbft: "lb\xB7ft",
+  lbin: "lb\xB7in",
+  ozin: "oz\xB7in",
+  kgfm: "kgf\xB7m",
+  Ncm: "N\xB7cm",
+  Nmm: "N\xB7mm",
+  ps: "PS",
+  tr: "TR",
+  GW: "GW",
+  hPa: "hPa",
+  mbar: "mbar",
+  inHg: "inHg",
+  inH2O: "inH\u2082O",
+  ksi: "ksi",
+  bpd: "bbl/d",
+  Lmin: "L/min",
+  gpm: "GPM",
+  m3h: "m\xB3/h",
+  cfm: "CFM",
+  Ls: "L/s",
+  m3s: "m\xB3/s",
+  nox: "nox",
+  lx: "lx",
+  fc: "fc",
+  ph: "ph",
+  cP: "cP",
+  mPas: "mPa\xB7s",
+  P: "P",
+  Pas: "Pa\xB7s",
+  lbfts: "lb/(ft\xB7s)",
+  pica: "pc",
+  rem: "rem",
+  KiB: "KiB",
+  MiB: "MiB",
+  GiB: "GiB",
+  TiB: "TiB",
   kmL: "km/L",
   mpgUS: "MPG (US)",
   mpgUK: "MPG (UK)",
@@ -1758,7 +1998,15 @@ var SYMBOLS = {
 var SCOPED_NAMES = {
   "temp:C": "Celsius",
   "temp:F": "Fahrenheit",
-  "temp:K": "Kelvin"
+  "temp:K": "Kelvin",
+  "typography:px": "Pixel",
+  "typography:pt": "Point",
+  "typography:pica": "Pica",
+  "typography:rem": "Root EM",
+  "typography:em": "EM",
+  "typography:mm": "Millimeter",
+  "typography:cm": "Centimeter",
+  "typography:in": "Inch"
 };
 var NAMES = {
   KB: "Kilobyte",
@@ -1766,6 +2014,10 @@ var NAMES = {
   GB: "Gigabyte",
   TB: "Terabyte",
   PB: "Petabyte",
+  KiB: "Kibibyte",
+  MiB: "Mebibyte",
+  GiB: "Gibibyte",
+  TiB: "Tebibyte",
   kHz: "Kilohertz",
   MHz: "Megahertz",
   GHz: "Gigahertz",
@@ -1778,8 +2030,61 @@ var NAMES = {
   ft2: "Square Foot",
   yd2: "Square Yard",
   mi2: "Square Mile",
+  m3: "Cubic Meter",
+  in3: "Cubic Inch",
+  ft3: "Cubic Foot",
+  yd3: "Cubic Yard",
+  cm3: "Cubic Centimeter",
+  impgal: "Imperial Gallon",
+  imppt: "Imperial Pint",
+  impfloz: "Imperial Fluid Ounce",
+  cL: "Centiliter",
+  dL: "Deciliter",
+  ozt: "Troy Ounce",
+  lbt: "Troy Pound",
+  q: "Metric Quintal",
+  slug: "Slug",
+  dwt: "Pennyweight",
+  angstrom: "Angstrom",
+  pm: "Picometer",
+  mil: "Thou / Mil",
+  fathom: "Fathom",
+  pt: "Point",
   Nm: "Newton-meter",
   lbft: "Pound-foot",
+  lbin: "Pound-inch",
+  ozin: "Ounce-inch",
+  kgfm: "Kilogram-force meter",
+  Ncm: "Newton-centimeter",
+  Nmm: "Newton-millimeter",
+  ps: "Metric Horsepower",
+  tr: "Ton of Refrigeration",
+  GW: "Gigawatt",
+  hPa: "Hectopascal",
+  mbar: "Millibar",
+  inHg: "Inches of Mercury",
+  inH2O: "Inches of Water",
+  ksi: "Kilopound per Square Inch",
+  bpd: "Barrels per Day",
+  Lmin: "Liter per Minute",
+  gpm: "Gallon per Minute",
+  m3h: "Cubic Meter per Hour",
+  cfm: "Cubic Feet per Minute",
+  Ls: "Liter per Second",
+  m3s: "Cubic Meter per Second",
+  nox: "Nox",
+  lx: "Lux",
+  fc: "Foot-candle",
+  ph: "Phot",
+  cP: "Centipoise",
+  mPas: "Millipascal-second",
+  P: "Poise",
+  Pas: "Pascal-second",
+  lbfts: "Pound per Foot-second",
+  pica: "Pica",
+  rem: "Root EM",
+  stick_c: "Stick of Butter",
+  jigger: "Jigger",
   au_a: "Astronomical Unit"
 };
 function unitSymbol(u, catId) {
@@ -1856,6 +2161,13 @@ var PAIR_UNIT_SYNONYMS = {
   // Torque
   "newton-meter": "Nm",
   "foot-pound": "lbft",
+  "pound-foot": "lbft",
+  "pound-feet": "lbft",
+  "foot-pounds": "lbft",
+  "pound-inch": "lbin",
+  "pound-inches": "lbin",
+  "inch-pound": "lbin",
+  "inch-pounds": "lbin",
   // Density
   "g-cm": "gcm3",
   "kg-m": "kgm3",
@@ -1877,10 +2189,61 @@ var PAIR_UNIT_SYNONYMS = {
   // Data
   "bits": "bit",
   "bytes": "B",
+  "gigabyte": "GB",
+  "gigabytes": "GB",
+  "gibibyte": "GiB",
+  "gibibytes": "GiB",
   // Time
   "seconds": "s",
   "minutes": "min",
-  "hours": "hr"
+  "hours": "hr",
+  // Curated Pair Slugs & New Units
+  "cubic-yard": "yd3",
+  "cubic-yards": "yd3",
+  "imperial-gallon": "impgal",
+  "imperial-gallons": "impgal",
+  "troy-ounce": "ozt",
+  "troy-ounces": "ozt",
+  "angstrom": "angstrom",
+  "angstroms": "angstrom",
+  "nanometer": "nm",
+  "nanometers": "nm",
+  "fathom": "fathom",
+  "fathoms": "fathom",
+  "hectopascal": "hPa",
+  "hectopascals": "hPa",
+  "millibar": "mbar",
+  "millibars": "mbar",
+  "inches-of-mercury": "inHg",
+  "metric-horsepower": "ps",
+  "ton-of-refrigeration": "tr",
+  "tons-of-refrigeration": "tr",
+  "stick-of-butter": "stick_c",
+  "sticks-of-butter": "stick_c",
+  "gallon-per-minute": "gpm",
+  "gallons-per-minute": "gpm",
+  "liter-per-minute": "Lmin",
+  "liters-per-minute": "Lmin",
+  "cubic-feet-per-minute": "cfm",
+  "cubic-foot-per-minute": "cfm",
+  "liter-per-second": "Ls",
+  "liters-per-second": "Ls",
+  "cubic-meter-per-hour": "m3h",
+  "cubic-meters-per-hour": "m3h",
+  "foot-candle": "fc",
+  "foot-candles": "fc",
+  "lux": "lx",
+  "centipoise": "cP",
+  "pascal-second": "Pas",
+  "pascal-seconds": "Pas",
+  "millipascal-second": "mPas",
+  "millipascal-seconds": "mPas",
+  "pixel": "px",
+  "pixels": "px",
+  "point": "pt",
+  "points": "pt",
+  "root-em": "rem",
+  "rem": "rem"
 };
 function findUnit(cat, raw) {
   const q = raw.trim().toLowerCase();
@@ -2065,6 +2428,30 @@ var CATEGORY_METROLOGY = {
     siBase: "astronomical unit (au), light-year (ly), parsec (pc), solar mass ($M_\\odot$)",
     systems: "International Astronomical Union (IAU) astronomical constants",
     contextNote: "Standardized under IAU Resolution B2 (2012) fixing $1\\text{ au} = 149,597,870,700\\text{ m}$."
+  },
+  flow: {
+    dimension: "volumetric fluid flow rate and discharge per unit time ($L^3/T$)",
+    siBase: "cubic meters per second (m\xB3/s)",
+    systems: "SI cubic meters per second, metric liters per minute, and US engineering GPM/CFM",
+    contextNote: "Standardized under ISO 5167, ASHRAE guidelines for HVAC duct ventilation, and AWWA fluid distribution standards."
+  },
+  illuminance: {
+    dimension: "luminous flux incident on a surface per unit area ($J/L^2$)",
+    siBase: "lux (lx = lm/m\xB2)",
+    systems: "SI metric lux and imperial foot-candles (lm/ft\xB2)",
+    contextNote: "Standardized under CIE (International Commission on Illumination) and IESNA lighting engineering standards (1 fc \u2248 10.76391 lx)."
+  },
+  viscosity: {
+    dimension: "dynamic fluid shear resistance and internal friction ($M / (L \\cdot T)$)",
+    siBase: "pascal-second (Pa\xB7s)",
+    systems: "SI pascal-seconds (Pa\xB7s), metric millipascal-seconds (mPa\xB7s), and CGS poise/centipoise (cP)",
+    contextNote: "Standardized under ISO 3104 and ASTM D445 with 1 cP defined as exactly 1 mPa\xB7s = 0.001 Pa\xB7s."
+  },
+  typography: {
+    dimension: "typographical font sizing, digital screen scaling, and print layout dimensions",
+    siBase: "CSS pixel (px, 1/96 inch reference pixel)",
+    systems: "W3C CSS standard pixels and root-em (rem), alongside traditional DTP points (pt) and picas",
+    contextNote: "Standardized under the W3C CSS Values and Units Module Level 3 where 1 inch is fixed at exactly 96 px and 72 pt (1 pt = 1.33333 px)."
   }
 };
 var PAIR_USE_CASES = {
@@ -2562,6 +2949,102 @@ var PAIR_USE_CASES = {
     { domain: "Exoplanet Detection & Radial Velocity Studies", context: "Comparing exoplanetary masses with host star masses to calculate gravitational wobbles." },
     { domain: "Stellar Evolution & Black Hole Physics", context: "Visualizing the immense mass of stellar-mass black holes relative to the Earth." },
     { domain: "Celestial Mechanics & Planetary Orbit Modeling", context: "Inputting mass parameters into multi-body orbital simulations and gravitational models." }
+  ],
+  "volume:cubic-yard-to-cubic-meter": [
+    { domain: "Ready-Mix Concrete & Civil Engineering", context: "Converting concrete batching orders from US cubic yards into metric cubic meters for international building projects." },
+    { domain: "Excavation & Earthwork Contracting", context: "Calculating soil volume, fill material, and dump truck haulage capacities across regional measurement specifications." }
+  ],
+  "volume:imperial-gallon-to-gallon": [
+    { domain: "Transatlantic Automotive Fuel Analysis", context: "Translating UK automotive fuel tank volumes and fuel economy data into US customary gallons." },
+    { domain: "Maritime & Aviation Fluid Handling", context: "Reconciling Commonwealth bunker fuel logs with US gallon fluid storage and pumping equipment." }
+  ],
+  "volume:liter-to-imperial-gallon": [
+    { domain: "UK Fleet Management & Fuel Economy", context: "Converting European metric liter fuel dispensation into UK Imperial gallons for fleet efficiency auditing." },
+    { domain: "Brewing & Chemical Beverage Distribution", context: "Translating metric beverage packaging into traditional British Imperial casks and firkins." }
+  ],
+  "mass:troy-ounce-to-gram": [
+    { domain: "Bullion Trading & Precious Metals Minting", context: "Calculating fine gold, silver, and platinum market weights from standard troy ounces into grams for assay certification." },
+    { domain: "Jewelry Design & Gemological Valuation", context: "Translating precious metal alloy casting specifications into metric grams for high-precision weighing scales." }
+  ],
+  "mass:troy-ounce-to-ounce": [
+    { domain: "Precious Metal vs Avoirdupois Weight Comparison", context: "Reconciling heavy troy ounces (31.1035 g) with standard avoirdupois commercial ounces (28.3495 g) to prevent costly trading confusion." },
+    { domain: "Scrap Gold Buying & Estate Liquidation", context: "Converting postal scale kitchen ounces into true troy ounces for honest gold and silver scrap valuation." }
+  ],
+  "length:angstrom-to-nanometer": [
+    { domain: "Crystallography & X-Ray Diffraction", context: "Converting atomic lattice parameters and chemical bond lengths from historic angstroms into modern SI nanometers." },
+    { domain: "Semiconductor Lithography & Optics", context: "Translating extreme ultraviolet (EUV) laser wavelengths and dielectric film thicknesses between technical literature standards." }
+  ],
+  "length:fathom-to-foot": [
+    { domain: "Nautical Depth Sounding & Hydrographic Charts", context: "Translating historic marine nautical fathoms (6 feet) into precise feet for shallow-water vessel draft navigation." },
+    { domain: "Commercial Maritime Anchorage & Rigging", context: "Measuring anchor chain scope, mooring line lengths, and deep-sea cable laying depths." }
+  ],
+  "torque:newton-meter-to-pound-inch": [
+    { domain: "Precision Electronics & Medical Robotics Assembly", context: "Translating metric N\xB7m torque ratings into delicate lb\xB7in specifications for circuit board fasteners and chassis screws." },
+    { domain: "Bicycle Carbon Component Maintenance", context: "Calibrating fractional torque wrenches to prevent crushing lightweight carbon fiber handlebars and seatposts." }
+  ],
+  "torque:pound-foot-to-pound-inch": [
+    { domain: "Automotive Engine Fastener Tightening", context: "Converting between heavy-duty ft\xB7lb wheel lug ratings and smaller in\xB7lb valve cover and oil pan bolt tolerances." },
+    { domain: "Aerospace Mechanical Calibration", context: "Switching between high-torque airframe fasteners and low-torque instrument panel mounts on standardized maintenance sheets." }
+  ],
+  "pressure:hectopascal-to-millibar": [
+    { domain: "Aviation Altimetry & Barometric Pressure Reporting", context: "Confirming the 1:1 direct relationship between meteorological hectopascals (hPa) and barometric millibars (mbar) for altimeter setting." },
+    { domain: "Marine Weather Forecasting & Storm Tracking", context: "Logging atmospheric pressure drops during tropical cyclones across international meteorological bulletins." }
+  ],
+  "pressure:inches-of-mercury-to-psi": [
+    { domain: "Automotive Turbocharger & Supercharger Boost Tuning", context: "Translating engine manifold absolute pressure and vacuum from inHg into engineering pounds per square inch." },
+    { domain: "Aviation Flight Instruments & Barometric Altimeters", context: "Correlating FAA altimeter baro settings (inHg) with pneumatic system pressure instrumentation." }
+  ],
+  "power:metric-horsepower-to-kilowatt": [
+    { domain: "European Automotive Power Rating & Vehicle Registration", context: "Converting German DIN PferdeSt\xE4rke (PS) vehicle engine output into mandatory EU kilowatts." },
+    { domain: "Industrial Engine & Electric Motor Specification", context: "Comparing European commercial vehicle ratings with industrial electric drive power certifications." }
+  ],
+  "power:ton-of-refrigeration-to-btu-h": [
+    { domain: "Commercial HVAC Chiller Sizing & Engineering", context: "Translating standard cooling capacity from Tons of Refrigeration (TR) into BTU/h (1 TR = 12,000 BTU/h)." },
+    { domain: "Building Energy Modeling & Heat Load Calculation", context: "Determining total rooftop chiller and cooling tower thermal loads for architectural mechanical plans." }
+  ],
+  "data:gibibyte-to-gigabyte": [
+    { domain: "Server RAM Provisioning & Cloud Virtual Machines", context: "Translating binary IEC memory allocations (GiB) into advertised decimal storage capacity (GB)." },
+    { domain: "Operating System Drive Partitioning & Formatting", context: "Explaining why a 1,000 GB solid-state drive formats to approximately 931.3 GiB in Windows Disk Management." }
+  ],
+  "cooking:stick-of-butter-to-tablespoon": [
+    { domain: "Baking Recipe Rescaling & Kitchen Measurement", context: "Converting standard American butter sticks into tablespoons (1 stick = 8 tbsp = 1/2 cup) for pastry recipes." },
+    { domain: "Commercial Culinary Production & Portioning", context: "Scaling home recipe ingredients to commercial food service bulk prep sheets." }
+  ],
+  "flow:gallon-per-minute-to-liter-per-minute": [
+    { domain: "Plumbing Fixture Flow Compliance & Water Efficiency", context: "Converting showerhead and faucet aerator ratings from US GPM to metric L/min to verify green building standards." },
+    { domain: "Hydraulic Pumping & Irrigation System Design", context: "Sizing agricultural drip irrigation lines and submersible well pumps across global equipment catalogs." }
+  ],
+  "flow:cubic-feet-per-minute-to-liter-per-second": [
+    { domain: "HVAC Duct Sizing & Airflow Balancing", context: "Translating ventilation fan airflow from US CFM into metric liters per second (L/s) for building commissioning." },
+    { domain: "Cleanroom & Laboratory Fume Hood Exhaust", context: "Calibrating laminar flow hoods and hospital isolation room air change rates according to international air quality codes." }
+  ],
+  "flow:cubic-meter-per-hour-to-gallon-per-minute": [
+    { domain: "Municipal Water Distribution & Wastewater Treatment", context: "Converting bulk pumping station capacity from European m\xB3/h into US GPM for municipal engineers." },
+    { domain: "Industrial Chemical Process Cooling Circuits", context: "Sizing heat exchanger circulation pumps and cooling water flow rates across international plant designs." }
+  ],
+  "illuminance:foot-candle-to-lux": [
+    { domain: "Workplace Safety & OSHA Lighting Audits", context: "Converting American industrial foot-candle illumination requirements into European and international Lux standards." },
+    { domain: "Commercial Architectural Lighting Design", context: "Translating architectural lighting fixture schedules between US building codes and global photometric standards." }
+  ],
+  "illuminance:lux-to-foot-candle": [
+    { domain: "Cinematography & Photography Light Metering", context: "Translating ambient film set lighting measurements from digital lux meters into traditional foot-candles for exposure compensation." },
+    { domain: "Greenhouse Horticulture & Indoor Plant Cultivation", context: "Optimizing supplemental LED crop grow light arrays between metric target lux and foot-candle guidelines." }
+  ],
+  "viscosity:centipoise-to-pascal-second": [
+    { domain: "Chemical Process Rheology & Polymer Formulation", context: "Converting bench laboratory viscosity readings from CGS centipoise (cP) into SI coherent Pascal-seconds (Pa\xB7s)." },
+    { domain: "Industrial Pipe Flow & Pumping Friction Calculations", context: "Inputting dynamic fluid viscosity values into Navier-Stokes equations and Reynolds number flow models." }
+  ],
+  "viscosity:centipoise-to-millipascal-second": [
+    { domain: "Scientific Laboratory Reporting & ISO Equivalence", context: "Confirming the exact 1:1 identity between 1 Centipoise and 1 Millipascal-second across chemical databases." },
+    { domain: "Lubricant Quality Control & Motor Oil Grading", context: "Documenting high-temperature high-shear (HTHS) engine oil viscosity for ASTM standard compliance." }
+  ],
+  "typography:pixel-to-point": [
+    { domain: "Digital UI Design to Print Layout Translation", context: "Translating web application UI components (Figma/CSS 96 DPI) into desktop publishing points (72 DPI) for print manuals." },
+    { domain: "Mobile App Typography & Vector Rendering", context: "Harmonizing raster screen layout dimensions with vector font point sizes across iOS and Android design tokens." }
+  ],
+  "typography:pixel-to-root-em": [
+    { domain: "Responsive Web Design & Accessible CSS Typography", context: "Converting static Figma pixel mockups into scalable, accessible rem units based on browser root font sizes." },
+    { domain: "Design System Token Automation & Theme Engine", context: "Generating fluid typography clamp scales and layout spacing tokens for modern responsive frontend frameworks." }
   ]
 };
 function getPairEditorial(cat, u1, u2, pairParam) {
@@ -2794,7 +3277,7 @@ All primary interactive features are accessed via deterministic canonical URLs:
 - **Universal Converter:** ${canonicalUrl("/converter")}
   Unified converter interface with category dropdown, unit selectors, swap function, and dynamic formula display.
 - **Categories Directory:** ${canonicalUrl("/categories")}
-  Full catalog of all 24 supported conversion categories with unit counts and measurement dimensions.
+  Full catalog of all ${Categories.length} supported conversion categories with unit counts and measurement dimensions.
 - **Formula Explorer:** ${canonicalUrl("/formulas")}
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
 - **Scientific Calculator:** ${canonicalUrl("/calculator")}
@@ -2814,9 +3297,9 @@ All primary interactive features are accessed via deterministic canonical URLs:
 - **Terms of Use:** ${canonicalUrl("/terms")}
   Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 `);
-  sections.push(`## 3. Supported Measurement Categories (24 Categories)
+  sections.push(`## 3. Supported Measurement Categories (${Categories.length} Categories)
 
-Omega X Converter provides complete unit coverage across 24 distinct physical and financial domains:
+Omega X Converter provides complete unit coverage across ${Categories.length} distinct physical and financial domains:
 `);
   for (const cat of Categories) {
     const url = canonicalUrl(`/convert/${cat.id}`);
@@ -2829,7 +3312,7 @@ Omega X Converter provides complete unit coverage across 24 distinct physical an
 - **Description:** Deterministic measurement conversions for ${cat.lb.toLowerCase()}.
 `);
   }
-  sections.push(`## 4. Curated Popular Conversion Pairs (99 Canonical Pairs)
+  sections.push(`## 4. Curated Popular Conversion Pairs (${CANONICAL_PAIR_SET.size} Canonical Pairs)
 
 Each curated pair page provides route-specific editorial commentary, exact conversion formulas, step-by-step arithmetic examples, and reciprocal pair navigation:
 `);
@@ -2921,7 +3404,7 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 function generateLlmsSummaryText() {
   return `# Omega X Converter
 
-> Universal unit conversion platform with 24 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+> Universal unit conversion platform with ${Categories.length} physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
 
 Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 
@@ -2934,8 +3417,8 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 ## Primary Public Resources
 
 - [Home](${canonicalUrl("/")}): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
-- [Universal Converter](${canonicalUrl("/converter")}): Dedicated conversion tool interface supporting all 24 measurement categories.
-- [Categories Directory](${canonicalUrl("/categories")}): Complete index of all 24 conversion categories with unit counts and reference standards.
+- [Universal Converter](${canonicalUrl("/converter")}): Dedicated conversion tool interface supporting all ${Categories.length} measurement categories.
+- [Categories Directory](${canonicalUrl("/categories")}): Complete index of all ${Categories.length} conversion categories with unit counts and reference standards.
 - [Formula Explorer](${canonicalUrl("/formulas")}): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
 - [Scientific Calculator](${canonicalUrl("/calculator")}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](${canonicalUrl("/health")}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
@@ -3103,10 +3586,10 @@ describe("Phase 3 Step 7 \u2014 AI Discovery Files & Agent Readiness", () => {
         "Must include explicit non-endorsement disclaimer"
       );
     });
-    it("references all 24 categories and all 99 canonical conversion pairs", () => {
+    it("references all 28 categories and all 123 canonical conversion pairs", () => {
       const content = fs3.readFileSync(llmsFullPath, "utf-8");
-      assert.ok(content.includes("Supported Measurement Categories (24 Categories)"), "Must list 24 categories");
-      assert.ok(content.includes("Curated Popular Conversion Pairs (99 Canonical Pairs)"), "Must list 99 pairs");
+      assert.ok(content.includes("Supported Measurement Categories (28 Categories)"), "Must list 28 categories");
+      assert.ok(content.includes("Curated Popular Conversion Pairs (123 Canonical Pairs)"), "Must list 123 pairs");
       assert.ok(content.includes("Educational Guides (6 Guides)"), "Must list 6 guides");
       assert.ok(content.includes("Technical Blog Articles (6 Articles)"), "Must list 6 blog articles");
     });
@@ -3156,8 +3639,8 @@ describe("Phase 3 Step 7 \u2014 AI Discovery Files & Agent Readiness", () => {
         "Must not contain speculative crawler allowlists"
       );
     });
-    it("canonical inventory remains exactly 149 URLs", () => {
-      assert.strictEqual(canonicalEntries.length, 147, "Canonical inventory must remain exactly 147 URLs");
+    it("canonical inventory remains exactly 175 URLs", () => {
+      assert.strictEqual(canonicalEntries.length, 175, "Canonical inventory must remain exactly 175 URLs");
     });
   });
 });

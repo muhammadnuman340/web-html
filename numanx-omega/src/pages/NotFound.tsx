@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className="flex flex-col items-center justify-center min-h-[55vh] py-12 px-4 text-center">
       <SEOHead
         title="Page Not Found (404) — Omega X"
-        description="The page you requested does not exist or has been moved. Explore 24 unit conversion categories or return home."
+        description="The page you requested does not exist or has been moved. Explore 28 unit conversion categories or return home."
         path="/404"
         noindex={true}
       />

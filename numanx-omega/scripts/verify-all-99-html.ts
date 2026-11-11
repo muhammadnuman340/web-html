@@ -16,6 +16,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { getSiteUrl } from '../src/config/site'
+import { CANONICAL_PAIR_SET } from '../src/config/pairEditorial'
 
 const siteUrl = getSiteUrl()
 const distDir = path.resolve(process.cwd(), 'dist')
@@ -41,8 +42,8 @@ for (const cat of fs.readdirSync(distConvert)) {
 
 console.log(`Discovered ${discoveredPairs.length} pair pages in dist/convert/`)
 
-if (discoveredPairs.length !== 99) {
-  console.error(`FAIL: Expected exactly 99 canonical pair files, found ${discoveredPairs.length}`)
+if (discoveredPairs.length !== CANONICAL_PAIR_SET.size) {
+  console.error(`FAIL: Expected exactly ${CANONICAL_PAIR_SET.size} canonical pair files, found ${discoveredPairs.length}`)
   process.exit(1)
 }
 
@@ -146,14 +147,14 @@ for (const { cat, pair, htmlPath, relRoute } of discoveredPairs) {
   }
 }
 
-console.log('--- 99 PAIR PRERENDER VALIDATION RESULTS ---')
+console.log(`--- ${CANONICAL_PAIR_SET.size} PAIR PRERENDER VALIDATION RESULTS ---`)
 console.log(`Total canonical pairs validated: ${discoveredPairs.length}`)
-console.log(`Passed: ${totalPassed} / 99`)
-console.log(`Failed: ${totalErrors > 0 ? discoveredPairs.length - totalPassed : 0} / 99`)
+console.log(`Passed: ${totalPassed} / ${CANONICAL_PAIR_SET.size}`)
+console.log(`Failed: ${totalErrors > 0 ? discoveredPairs.length - totalPassed : 0} / ${CANONICAL_PAIR_SET.size}`)
 console.log(`Total invariant defects: ${totalErrors}`)
 
-if (totalPassed === 99 && totalErrors === 0) {
-  console.log('✅ ALL 99 CANONICAL PAIR PRERENDERED HTML FILES MEET ALL INVARIANTS.')
+if (totalPassed === CANONICAL_PAIR_SET.size && totalErrors === 0) {
+  console.log(`✅ ALL ${CANONICAL_PAIR_SET.size} CANONICAL PAIR PRERENDERED HTML FILES MEET ALL INVARIANTS.`)
   process.exit(0)
 } else {
   console.error('❌ VALIDATION FAILED.')

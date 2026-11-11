@@ -18,6 +18,7 @@ import { Categories } from '../src/engine/categories'
 import { categoryContent } from '../src/engine/categoryContent'
 import { guideContent } from '../src/engine/guideContent'
 import { BLOG_POSTS } from '../src/data/blogPosts'
+import { CANONICAL_PAIR_SET } from '../src/config/pairEditorial'
 
 const distDir = path.resolve(process.cwd(), 'dist')
 
@@ -100,7 +101,7 @@ describe('Phase 3 Step 3: Visible FAQ Parity & HowTo Acceptance Gate', () => {
       }
     }
 
-    assert.equal(pairCount, 99, 'Must verify all 99 popular pairs')
+    assert.equal(pairCount, CANONICAL_PAIR_SET.size, `Must verify all ${CANONICAL_PAIR_SET.size} popular pairs`)
   })
 
   test('educational guides satisfy both HowTo step parity and FAQ parity', () => {

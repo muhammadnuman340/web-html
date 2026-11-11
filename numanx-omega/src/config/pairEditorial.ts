@@ -87,6 +87,13 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   // Torque
   'newton-meter': 'Nm',
   'foot-pound': 'lbft',
+  'pound-foot': 'lbft',
+  'pound-feet': 'lbft',
+  'foot-pounds': 'lbft',
+  'pound-inch': 'lbin',
+  'pound-inches': 'lbin',
+  'inch-pound': 'lbin',
+  'inch-pounds': 'lbin',
 
   // Density
   'g-cm': 'gcm3',
@@ -113,11 +120,63 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   // Data
   'bits': 'bit',
   'bytes': 'B',
+  'gigabyte': 'GB',
+  'gigabytes': 'GB',
+  'gibibyte': 'GiB',
+  'gibibytes': 'GiB',
 
   // Time
   'seconds': 's',
   'minutes': 'min',
   'hours': 'hr',
+
+  // Curated Pair Slugs & New Units
+  'cubic-yard': 'yd3',
+  'cubic-yards': 'yd3',
+  'imperial-gallon': 'impgal',
+  'imperial-gallons': 'impgal',
+  'troy-ounce': 'ozt',
+  'troy-ounces': 'ozt',
+  'angstrom': 'angstrom',
+  'angstroms': 'angstrom',
+  'nanometer': 'nm',
+  'nanometers': 'nm',
+  'fathom': 'fathom',
+  'fathoms': 'fathom',
+  'hectopascal': 'hPa',
+  'hectopascals': 'hPa',
+  'millibar': 'mbar',
+  'millibars': 'mbar',
+  'inches-of-mercury': 'inHg',
+  'metric-horsepower': 'ps',
+  'ton-of-refrigeration': 'tr',
+  'tons-of-refrigeration': 'tr',
+  'stick-of-butter': 'stick_c',
+  'sticks-of-butter': 'stick_c',
+  'gallon-per-minute': 'gpm',
+  'gallons-per-minute': 'gpm',
+  'liter-per-minute': 'Lmin',
+  'liters-per-minute': 'Lmin',
+  'cubic-feet-per-minute': 'cfm',
+  'cubic-foot-per-minute': 'cfm',
+  'liter-per-second': 'Ls',
+  'liters-per-second': 'Ls',
+  'cubic-meter-per-hour': 'm3h',
+  'cubic-meters-per-hour': 'm3h',
+  'foot-candle': 'fc',
+  'foot-candles': 'fc',
+  'lux': 'lx',
+  'centipoise': 'cP',
+  'pascal-second': 'Pas',
+  'pascal-seconds': 'Pas',
+  'millipascal-second': 'mPas',
+  'millipascal-seconds': 'mPas',
+  'pixel': 'px',
+  'pixels': 'px',
+  'point': 'pt',
+  'points': 'pt',
+  'root-em': 'rem',
+  'rem': 'rem',
 }
 
 export function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
@@ -356,9 +415,33 @@ const CATEGORY_METROLOGY: Record<string, { dimension: string; siBase: string; sy
     systems: 'International Astronomical Union (IAU) astronomical constants',
     contextNote: 'Standardized under IAU Resolution B2 (2012) fixing $1\\text{ au} = 149,597,870,700\\text{ m}$.',
   },
+  flow: {
+    dimension: 'volumetric fluid flow rate and discharge per unit time ($L^3/T$)',
+    siBase: 'cubic meters per second (m³/s)',
+    systems: 'SI cubic meters per second, metric liters per minute, and US engineering GPM/CFM',
+    contextNote: 'Standardized under ISO 5167, ASHRAE guidelines for HVAC duct ventilation, and AWWA fluid distribution standards.',
+  },
+  illuminance: {
+    dimension: 'luminous flux incident on a surface per unit area ($J/L^2$)',
+    siBase: 'lux (lx = lm/m²)',
+    systems: 'SI metric lux and imperial foot-candles (lm/ft²)',
+    contextNote: 'Standardized under CIE (International Commission on Illumination) and IESNA lighting engineering standards (1 fc ≈ 10.76391 lx).',
+  },
+  viscosity: {
+    dimension: 'dynamic fluid shear resistance and internal friction ($M / (L \\cdot T)$)',
+    siBase: 'pascal-second (Pa·s)',
+    systems: 'SI pascal-seconds (Pa·s), metric millipascal-seconds (mPa·s), and CGS poise/centipoise (cP)',
+    contextNote: 'Standardized under ISO 3104 and ASTM D445 with 1 cP defined as exactly 1 mPa·s = 0.001 Pa·s.',
+  },
+  typography: {
+    dimension: 'typographical font sizing, digital screen scaling, and print layout dimensions',
+    siBase: 'CSS pixel (px, 1/96 inch reference pixel)',
+    systems: 'W3C CSS standard pixels and root-em (rem), alongside traditional DTP points (pt) and picas',
+    contextNote: 'Standardized under the W3C CSS Values and Units Module Level 3 where 1 inch is fixed at exactly 96 px and 72 pt (1 pt = 1.33333 px).',
+  },
 }
 
-// 99 Defensible Practical Use Case Catalog
+// 123 Defensible Practical Use Case Catalog
 const PAIR_USE_CASES: Record<string, PairEditorialUseCases[]> = {
   'length:meter-to-feet': [
     { domain: 'Architectural Framing & Blueprints', context: 'Translating European and international metric architectural layouts into feet and inches for US residential framing and construction contractors.' },
@@ -854,6 +937,102 @@ const PAIR_USE_CASES: Record<string, PairEditorialUseCases[]> = {
     { domain: 'Exoplanet Detection & Radial Velocity Studies', context: 'Comparing exoplanetary masses with host star masses to calculate gravitational wobbles.' },
     { domain: 'Stellar Evolution & Black Hole Physics', context: 'Visualizing the immense mass of stellar-mass black holes relative to the Earth.' },
     { domain: 'Celestial Mechanics & Planetary Orbit Modeling', context: 'Inputting mass parameters into multi-body orbital simulations and gravitational models.' },
+  ],
+  'volume:cubic-yard-to-cubic-meter': [
+    { domain: 'Ready-Mix Concrete & Civil Engineering', context: 'Converting concrete batching orders from US cubic yards into metric cubic meters for international building projects.' },
+    { domain: 'Excavation & Earthwork Contracting', context: 'Calculating soil volume, fill material, and dump truck haulage capacities across regional measurement specifications.' },
+  ],
+  'volume:imperial-gallon-to-gallon': [
+    { domain: 'Transatlantic Automotive Fuel Analysis', context: 'Translating UK automotive fuel tank volumes and fuel economy data into US customary gallons.' },
+    { domain: 'Maritime & Aviation Fluid Handling', context: 'Reconciling Commonwealth bunker fuel logs with US gallon fluid storage and pumping equipment.' },
+  ],
+  'volume:liter-to-imperial-gallon': [
+    { domain: 'UK Fleet Management & Fuel Economy', context: 'Converting European metric liter fuel dispensation into UK Imperial gallons for fleet efficiency auditing.' },
+    { domain: 'Brewing & Chemical Beverage Distribution', context: 'Translating metric beverage packaging into traditional British Imperial casks and firkins.' },
+  ],
+  'mass:troy-ounce-to-gram': [
+    { domain: 'Bullion Trading & Precious Metals Minting', context: 'Calculating fine gold, silver, and platinum market weights from standard troy ounces into grams for assay certification.' },
+    { domain: 'Jewelry Design & Gemological Valuation', context: 'Translating precious metal alloy casting specifications into metric grams for high-precision weighing scales.' },
+  ],
+  'mass:troy-ounce-to-ounce': [
+    { domain: 'Precious Metal vs Avoirdupois Weight Comparison', context: 'Reconciling heavy troy ounces (31.1035 g) with standard avoirdupois commercial ounces (28.3495 g) to prevent costly trading confusion.' },
+    { domain: 'Scrap Gold Buying & Estate Liquidation', context: 'Converting postal scale kitchen ounces into true troy ounces for honest gold and silver scrap valuation.' },
+  ],
+  'length:angstrom-to-nanometer': [
+    { domain: 'Crystallography & X-Ray Diffraction', context: 'Converting atomic lattice parameters and chemical bond lengths from historic angstroms into modern SI nanometers.' },
+    { domain: 'Semiconductor Lithography & Optics', context: 'Translating extreme ultraviolet (EUV) laser wavelengths and dielectric film thicknesses between technical literature standards.' },
+  ],
+  'length:fathom-to-foot': [
+    { domain: 'Nautical Depth Sounding & Hydrographic Charts', context: 'Translating historic marine nautical fathoms (6 feet) into precise feet for shallow-water vessel draft navigation.' },
+    { domain: 'Commercial Maritime Anchorage & Rigging', context: 'Measuring anchor chain scope, mooring line lengths, and deep-sea cable laying depths.' },
+  ],
+  'torque:newton-meter-to-pound-inch': [
+    { domain: 'Precision Electronics & Medical Robotics Assembly', context: 'Translating metric N·m torque ratings into delicate lb·in specifications for circuit board fasteners and chassis screws.' },
+    { domain: 'Bicycle Carbon Component Maintenance', context: 'Calibrating fractional torque wrenches to prevent crushing lightweight carbon fiber handlebars and seatposts.' },
+  ],
+  'torque:pound-foot-to-pound-inch': [
+    { domain: 'Automotive Engine Fastener Tightening', context: 'Converting between heavy-duty ft·lb wheel lug ratings and smaller in·lb valve cover and oil pan bolt tolerances.' },
+    { domain: 'Aerospace Mechanical Calibration', context: 'Switching between high-torque airframe fasteners and low-torque instrument panel mounts on standardized maintenance sheets.' },
+  ],
+  'pressure:hectopascal-to-millibar': [
+    { domain: 'Aviation Altimetry & Barometric Pressure Reporting', context: 'Confirming the 1:1 direct relationship between meteorological hectopascals (hPa) and barometric millibars (mbar) for altimeter setting.' },
+    { domain: 'Marine Weather Forecasting & Storm Tracking', context: 'Logging atmospheric pressure drops during tropical cyclones across international meteorological bulletins.' },
+  ],
+  'pressure:inches-of-mercury-to-psi': [
+    { domain: 'Automotive Turbocharger & Supercharger Boost Tuning', context: 'Translating engine manifold absolute pressure and vacuum from inHg into engineering pounds per square inch.' },
+    { domain: 'Aviation Flight Instruments & Barometric Altimeters', context: 'Correlating FAA altimeter baro settings (inHg) with pneumatic system pressure instrumentation.' },
+  ],
+  'power:metric-horsepower-to-kilowatt': [
+    { domain: 'European Automotive Power Rating & Vehicle Registration', context: 'Converting German DIN PferdeStärke (PS) vehicle engine output into mandatory EU kilowatts.' },
+    { domain: 'Industrial Engine & Electric Motor Specification', context: 'Comparing European commercial vehicle ratings with industrial electric drive power certifications.' },
+  ],
+  'power:ton-of-refrigeration-to-btu-h': [
+    { domain: 'Commercial HVAC Chiller Sizing & Engineering', context: 'Translating standard cooling capacity from Tons of Refrigeration (TR) into BTU/h (1 TR = 12,000 BTU/h).' },
+    { domain: 'Building Energy Modeling & Heat Load Calculation', context: 'Determining total rooftop chiller and cooling tower thermal loads for architectural mechanical plans.' },
+  ],
+  'data:gibibyte-to-gigabyte': [
+    { domain: 'Server RAM Provisioning & Cloud Virtual Machines', context: 'Translating binary IEC memory allocations (GiB) into advertised decimal storage capacity (GB).' },
+    { domain: 'Operating System Drive Partitioning & Formatting', context: 'Explaining why a 1,000 GB solid-state drive formats to approximately 931.3 GiB in Windows Disk Management.' },
+  ],
+  'cooking:stick-of-butter-to-tablespoon': [
+    { domain: 'Baking Recipe Rescaling & Kitchen Measurement', context: 'Converting standard American butter sticks into tablespoons (1 stick = 8 tbsp = 1/2 cup) for pastry recipes.' },
+    { domain: 'Commercial Culinary Production & Portioning', context: 'Scaling home recipe ingredients to commercial food service bulk prep sheets.' },
+  ],
+  'flow:gallon-per-minute-to-liter-per-minute': [
+    { domain: 'Plumbing Fixture Flow Compliance & Water Efficiency', context: 'Converting showerhead and faucet aerator ratings from US GPM to metric L/min to verify green building standards.' },
+    { domain: 'Hydraulic Pumping & Irrigation System Design', context: 'Sizing agricultural drip irrigation lines and submersible well pumps across global equipment catalogs.' },
+  ],
+  'flow:cubic-feet-per-minute-to-liter-per-second': [
+    { domain: 'HVAC Duct Sizing & Airflow Balancing', context: 'Translating ventilation fan airflow from US CFM into metric liters per second (L/s) for building commissioning.' },
+    { domain: 'Cleanroom & Laboratory Fume Hood Exhaust', context: 'Calibrating laminar flow hoods and hospital isolation room air change rates according to international air quality codes.' },
+  ],
+  'flow:cubic-meter-per-hour-to-gallon-per-minute': [
+    { domain: 'Municipal Water Distribution & Wastewater Treatment', context: 'Converting bulk pumping station capacity from European m³/h into US GPM for municipal engineers.' },
+    { domain: 'Industrial Chemical Process Cooling Circuits', context: 'Sizing heat exchanger circulation pumps and cooling water flow rates across international plant designs.' },
+  ],
+  'illuminance:foot-candle-to-lux': [
+    { domain: 'Workplace Safety & OSHA Lighting Audits', context: 'Converting American industrial foot-candle illumination requirements into European and international Lux standards.' },
+    { domain: 'Commercial Architectural Lighting Design', context: 'Translating architectural lighting fixture schedules between US building codes and global photometric standards.' },
+  ],
+  'illuminance:lux-to-foot-candle': [
+    { domain: 'Cinematography & Photography Light Metering', context: 'Translating ambient film set lighting measurements from digital lux meters into traditional foot-candles for exposure compensation.' },
+    { domain: 'Greenhouse Horticulture & Indoor Plant Cultivation', context: 'Optimizing supplemental LED crop grow light arrays between metric target lux and foot-candle guidelines.' },
+  ],
+  'viscosity:centipoise-to-pascal-second': [
+    { domain: 'Chemical Process Rheology & Polymer Formulation', context: 'Converting bench laboratory viscosity readings from CGS centipoise (cP) into SI coherent Pascal-seconds (Pa·s).' },
+    { domain: 'Industrial Pipe Flow & Pumping Friction Calculations', context: 'Inputting dynamic fluid viscosity values into Navier-Stokes equations and Reynolds number flow models.' },
+  ],
+  'viscosity:centipoise-to-millipascal-second': [
+    { domain: 'Scientific Laboratory Reporting & ISO Equivalence', context: 'Confirming the exact 1:1 identity between 1 Centipoise and 1 Millipascal-second across chemical databases.' },
+    { domain: 'Lubricant Quality Control & Motor Oil Grading', context: 'Documenting high-temperature high-shear (HTHS) engine oil viscosity for ASTM standard compliance.' },
+  ],
+  'typography:pixel-to-point': [
+    { domain: 'Digital UI Design to Print Layout Translation', context: 'Translating web application UI components (Figma/CSS 96 DPI) into desktop publishing points (72 DPI) for print manuals.' },
+    { domain: 'Mobile App Typography & Vector Rendering', context: 'Harmonizing raster screen layout dimensions with vector font point sizes across iOS and Android design tokens.' },
+  ],
+  'typography:pixel-to-root-em': [
+    { domain: 'Responsive Web Design & Accessible CSS Typography', context: 'Converting static Figma pixel mockups into scalable, accessible rem units based on browser root font sizes.' },
+    { domain: 'Design System Token Automation & Theme Engine', context: 'Generating fluid typography clamp scales and layout spacing tokens for modern responsive frontend frameworks.' },
   ],
 }
 
