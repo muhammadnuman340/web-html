@@ -4,7 +4,8 @@
  */
 export function cleanFloat(value: number, sigFigs: number = 14): number {
   if (!Number.isFinite(value) || value === 0) return 0
-  return Number(value.toPrecision(sigFigs))
+  const digits = Math.max(1, Math.min(100, sigFigs >= 1 ? Math.floor(sigFigs) : 14))
+  return Number(value.toPrecision(digits))
 }
 
 export function fmt(v: number | null | undefined, prec = 6): string {

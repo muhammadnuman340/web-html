@@ -162,7 +162,7 @@ export const Categories: CategoryDef[] = [
     ]
   },
   {
-    id: 'acceleration', lb: 'Acceleration', ic: '🚀', cl: '#e91e63',
+    id: 'acceleration', lb: 'Acceleration', ic: '📈', cl: '#e91e63',
     un: [
       { id: 'mps2', lb: 'm/s²', r: 1, s: 'M' },
       { id: 'gal', lb: 'Gal', r: 0.01, s: 'O' },
@@ -226,7 +226,7 @@ export const Categories: CategoryDef[] = [
     ]
   },
   {
-    id: 'electricity', lb: 'Electricity', ic: '⚡', cl: '#00e5ff',
+    id: 'electricity', lb: 'Electricity', ic: '🔌', cl: '#00e5ff',
     un: [
       { id: 'uF', lb: 'Microfarad', r: 1e-6, s: 'M' },
       { id: 'mA', lb: 'Milliampere', r: 0.001, s: 'M' },
@@ -345,7 +345,9 @@ export const Categories: CategoryDef[] = [
   {
     id: 'textile', lb: 'Textile', ic: '🧵', cl: '#ab47bc',
     un: [
-      { id: 'gsm', lb: 'GSM', r: 1, s: 'O' },
+      { id: 'gsm', lb: 'GSM (Grams per Sq Meter)', r: 1, s: 'O', al: ['gsm', 'g/m2'] },
+      { id: 'oz_yd2', lb: 'Ounce per Sq Yard (oz/yd²)', r: 33.9057474, s: 'O', al: ['oz/yd2', 'oz/sq yd', 'osy', 'ounce per square yard'] },
+      { id: 'momme', lb: 'Momme Silk (mm)', r: 4.340, s: 'O', al: ['momme', 'mm silk', 'silk momme'] },
       { id: 'tc', lb: 'Thread Count', r: 1, s: 'O' },
       { id: 'yc', lb: 'Yarn Count', r: 1, s: 'O' }
     ]
@@ -374,7 +376,7 @@ export const Categories: CategoryDef[] = [
     ]
   },
   {
-    id: 'illuminance', lb: 'Illuminance', ic: '💡', cl: '#ffb300',
+    id: 'illuminance', lb: 'Illuminance', ic: '☀️', cl: '#ffb300',
     al: ['light', 'lux', 'foot-candle', 'illumination', 'phot'],
     un: [
       { id: 'nox', lb: 'Nox', r: 0.001, s: 'S', al: ['nox'] },

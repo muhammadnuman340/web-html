@@ -48,6 +48,39 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   'mann': 'maund_pk',
   'karam': 'karam',
   'girah': 'girah',
+  'marla-soc': 'marla_soc',
+  'marla-cap': 'marla_cap',
+  'gaz-sq': 'gaz_sq',
+  'maund-pk': 'maund_pk',
+  'dec-real': 'dec_real',
+  'fp32': 'fp32',
+  'fp64': 'fp64',
+  'hex-float': 'hex_float',
+  'm-std': 'm_std',
+  'b-std': 'b_std',
+  'k-std': 'k_std',
+  't-std': 't_std',
+  'z-score': 'z_score',
+  'p-val-two': 'p_val_two',
+  'dec-odds': 'dec_odds',
+  'frac-odds': 'frac_odds',
+  'us-moneyline': 'us_moneyline',
+  'prob-pct': 'prob_pct',
+  'latex-b': 'latex_b',
+  'latex-p': 'latex_p',
+  'json-2d': 'json_2d',
+  'dec-std': 'dec_std',
+  'sci-micro': 'sci_micro',
+  'hec-gpa4': 'hec_gpa4',
+  'gpa5': 'gpa5',
+  'matric-fsc1100': 'matric_fsc1100',
+  'matric-fsc1200': 'matric_fsc1200',
+  'mdcat-agg': 'mdcat_agg',
+  'overs-balls': 'overs_balls',
+  'true-overs': 'true_overs',
+  'run-rate-6': 'run_rate_6',
+  'oz-yd2': 'oz_yd2',
+  'momme': 'momme',
   // Area
   'square-meter': 'm2',
   'square-meters': 'm2',
@@ -207,6 +240,7 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
 export function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
   const q = raw.trim().toLowerCase()
   const qSpaced = q.replace(/-/g, ' ')
+  const qUnderscored = q.replace(/-/g, '_')
 
   // 1. Check category-scoped synonym first
   const scopedKey = `${cat.id}:${q}`
@@ -222,7 +256,7 @@ export function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
   }
 
   // 3. Clean plural forms
-  const singularCandidates = [q, qSpaced]
+  const singularCandidates = [q, qSpaced, qUnderscored]
   if (q.endsWith('ies')) singularCandidates.push(q.slice(0, -3) + 'y')
   if (q.endsWith('es')) {
     singularCandidates.push(q.slice(0, -2))
@@ -232,9 +266,10 @@ export function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
 
   return cat.un.find(u => {
     const uid = u.id.toLowerCase()
+    const uidHyphen = uid.replace(/_/g, '-')
     const ulb = u.lb.toLowerCase()
     for (const cand of singularCandidates) {
-      if (uid === cand || ulb === cand) return true
+      if (uid === cand || uidHyphen === cand || ulb === cand) return true
       if (u.al?.some(a => a.toLowerCase() === cand)) return true
     }
     return false
@@ -1395,6 +1430,43 @@ export function getPairEditorial(
       const [constant, divisor] = rhs.split(' ÷ ')
       formulaDisplay = `${divisor} ${op} ${constant} ÷ ${lhs}`
     }
+  } else if (cat.id === 'cricket-overs') {
+    if (u2.id === 'balls') {
+      formulaDisplay = 'Balls = (Floor(Overs) × 6) + Remainder Deliveries'
+      summary = `1 over equals exactly 6 legal deliveries (balls). Cricket overs notation (e.g. 14.3 overs) denotes 14 overs and 3 balls (87 balls).`
+      calculationRule = `To convert cricket overs to balls, multiply completed overs by 6 and add the remainder balls after the decimal point.`
+      inverseSummary = `6 balls equal exactly 1 complete over (Overs = Floor(Balls ÷ 6) + (Balls mod 6) ÷ 10).`
+    } else {
+      formulaDisplay = 'True Decimal Overs = Floor(Overs) + (Remainder Balls ÷ 6)'
+      summary = `1 cricket over equals 1.00 true decimal over. Cricket notation uses base-6 (e.g. 14.3 overs = 14.50 true decimal overs).`
+      calculationRule = `To convert cricket overs to true decimal overs, take completed overs and add remainder balls divided by 6.`
+      inverseSummary = `1.00 true decimal over equals exactly 1.0 cricket over (6 balls).`
+    }
+  } else if (cat.id === 'ieee-754') {
+    formulaDisplay = 'Value = (-1)^sign × 2^(exponent - bias) × (1 + mantissa)'
+    summary = `Converts ${l1} to ${l2} with sign, exponent, and mantissa bitfields.`
+    calculationRule = `To convert between decimal real values and IEEE-754 representations, extract the sign bit, calculate the biased exponent, and determine the normalized mantissa bits.`
+    inverseSummary = `Converts ${l2} back to ${l1} with exact precision bitfield decoding.`
+  } else if (cat.id === 'matrix-format') {
+    formulaDisplay = 'Format Mapping: Parser Tokenizer → Structural AST → Target Matrix Syntax'
+    summary = `Converts ${l1} matrix syntax into ${l2} array representation.`
+    calculationRule = `To convert between matrix representations, parse row tokens, format column delimiters, and wrap in target syntax brackets.`
+    inverseSummary = `Converts ${l2} representation back to ${l1} matrix syntax.`
+  } else if (cat.id === 'number-base') {
+    formulaDisplay = 'Decimal Value = Sum(Digit × Radix^Position)'
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : '1'} ${l2}.`
+    calculationRule = `To convert between number bases, convert the source radix to decimal via Horner’s polynomial method, then repeatedly divide by the target radix.`
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : '1'} ${l1}.`
+  } else if (cat.id === 'pk-gpa') {
+    formulaDisplay = 'HEC Continuous Model: Percentage Marks ↔ 4.00 CGPA Scale'
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : '1'} ${l2}.`
+    calculationRule = `To convert marks to HEC CGPA, apply the Higher Education Commission of Pakistan continuous linear grading formula.`
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : '1'} ${l1}.`
+  } else if (cat.id === 'statistics') {
+    formulaDisplay = 'Z = (X - μ) / σ; Percentile = Φ(Z) × 100%'
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : '1'} ${l2}.`
+    calculationRule = `To convert statistical metrics, apply the cumulative Gaussian normal distribution function or implied probability formula.`
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : '1'} ${l1}.`
   } else {
     // Linear
     const rFmt = unitRatio !== null ? fmt(unitRatio, 6) : '—'
@@ -1493,6 +1565,22 @@ export function getPairEditorial(
     } else {
       workedExampleAnswer = `To convert 10 ${s1} to ${s2}: apply the reciprocal formula to calculate 10 ${s1} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id)!, 4) : ''} ${s2}.`
     }
+  } else if (cat.id === 'cricket-overs') {
+    if (u2.id === 'balls') {
+      workedExampleAnswer = `To convert 14.3 overs to balls: (14 × 6) + 3 = 84 + 3 = 87 legal deliveries.`
+    } else {
+      workedExampleAnswer = `To convert 14.3 overs to true decimal overs: 14 + (3 ÷ 6) = 14 + 0.50 = 14.50 true decimal overs.`
+    }
+  } else if (cat.id === 'ieee-754') {
+    workedExampleAnswer = `For decimal 1.0: Sign = 0 (+), Exponent = 127 (01111111 binary), Mantissa = 0. In hex, this yields 0x3F800000.`
+  } else if (cat.id === 'matrix-format') {
+    workedExampleAnswer = `To convert a 2×2 CSV grid "1, 2\\n3, 4" into LaTeX bmatrix: wrap rows in \\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}.`
+  } else if (cat.id === 'number-base') {
+    workedExampleAnswer = `To convert decimal 13 to binary: 13 ÷ 2 = 6 rem 1, 6 ÷ 2 = 3 rem 0, 3 ÷ 2 = 1 rem 1, 1 ÷ 2 = 0 rem 1. Reading remainders bottom to top gives binary 1101.`
+  } else if (cat.id === 'pk-gpa') {
+    workedExampleAnswer = `Under standard HEC rules, 85% and above yields a 4.00 CGPA, 73% yields approximately 3.00 CGPA, and 60% yields approximately 2.00 CGPA.`
+  } else if (cat.id === 'statistics') {
+    workedExampleAnswer = `A Z-score of +2.0 on a standard normal distribution corresponds to the 97.72 percentile (two standard deviations above the mean).`
   } else {
     const sampleVal = 10
     const sampleRes = convert(sampleVal, cat.id, u1.id, u2.id)

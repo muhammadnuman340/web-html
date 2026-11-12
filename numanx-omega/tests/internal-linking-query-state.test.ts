@@ -28,8 +28,8 @@ import { buildPairSchema } from '../src/config/schema'
 const distDir = path.resolve(process.cwd(), 'dist')
 
 describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', () => {
-  test('all 9 guides have valid category relationships in the 36-category registry', () => {
-    assert.equal(GUIDE_RELATIONSHIPS.length, 9, 'Exactly 9 guides must be registered')
+  test('all 15 guides have valid category relationships in the 36-category registry', () => {
+    assert.equal(GUIDE_RELATIONSHIPS.length, 15, 'Exactly 15 guides must be registered')
     const categoryIds = new Set(Categories.map(c => c.id))
 
     for (const rel of GUIDE_RELATIONSHIPS) {
@@ -54,9 +54,14 @@ describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', (
     assert.ok(lengthGuides.some(g => g.guideSlug === 'feet-to-meters'))
 
     const massGuides = getGuidesForCategory('mass')
-    assert.equal(massGuides.length, 2, 'Mass category must have 2 guides (lbs-to-kg, kg-to-lbs)')
+    assert.equal(massGuides.length, 3, 'Mass category must have 3 guides (lbs-to-kg, kg-to-lbs, tola-to-grams-gold-pakistan)')
     assert.ok(massGuides.some(g => g.guideSlug === 'lbs-to-kg'))
     assert.ok(massGuides.some(g => g.guideSlug === 'kg-to-lbs'))
+    assert.ok(massGuides.some(g => g.guideSlug === 'tola-to-grams-gold-pakistan'))
+
+    const areaGuides = getGuidesForCategory('area')
+    assert.equal(areaGuides.length, 1, 'Area category must have 1 guide (marla-to-square-feet-pakistan)')
+    assert.ok(areaGuides.some(g => g.guideSlug === 'marla-to-square-feet-pakistan'))
 
     const tempGuides = getGuidesForCategory('temp')
     assert.equal(tempGuides.length, 2, 'Temp category must have 2 guides (celsius-to-fahrenheit, fahrenheit-to-celsius)')

@@ -24,7 +24,17 @@
   <url><loc>https://converter.numanxstudio.com/convert/angle/radians-to-mrad</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/area</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/area/acres-to-hectares</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/ft2-to-marla</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/gaz-sq-to-marla</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/area/hectares-to-acres</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/kanal-to-marla</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/killa-to-kanal</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/marla-cap-to-ft2</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/marla-soc-to-ft2</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/marla-to-ft2</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/marla-to-gaz-sq</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/marla-to-kanal</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/area/murabba-to-killa</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/area/square-feet-to-square-meters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/area/square-kilometers-to-square-miles</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/area/square-meters-to-square-feet</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -39,6 +49,8 @@
   <url><loc>https://converter.numanxstudio.com/convert/cooking/stick-of-butter-to-tablespoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cricket-overs</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/cricket-overs/overs-balls-to-balls</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/cricket-overs/overs-balls-to-true-overs</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/bits-to-bytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/gb-to-mb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -87,6 +99,10 @@
   <url><loc>https://converter.numanxstudio.com/convert/fuel/mpg-uk-to-mpg-us</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/fuel/mpg-us-to-l-100km</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/ieee-754</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/ieee-754/dec-real-to-fp32</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/ieee-754/dec-real-to-fp64</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/ieee-754/fp32-to-dec-real</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/ieee-754/hex-float-to-fp32</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/illuminance</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/illuminance/foot-candle-to-lux</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/illuminance/lux-to-foot-candle</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -95,24 +111,62 @@
   <url><loc>https://converter.numanxstudio.com/convert/length/centimeter-to-inches</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/fathom-to-foot</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/feet-to-meters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/length/ft-to-karam</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/length/girah-to-in</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/inches-to-centimeter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/length/karam-to-ft</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/kilometer-to-miles</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/length/meter-to-feet</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/length/yd-to-ft</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/magnetism</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/magnetism/gauss-to-tesla</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/magnetism/tesla-to-gauss</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/g-to-tola</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/kg-to-maund-pk</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/kilogram-to-pounds</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/masha-to-ratti</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/maund-pk-to-kg</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/metric-ton-to-us-ton</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/ounces-to-grams</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/pounds-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/seer-to-kg</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/stone-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/tola-to-g</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/tola-to-masha</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/mass/tola-to-ozt</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/troy-ounce-to-gram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/troy-ounce-to-ounce</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/matrix-format</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format/csv-to-latex-b</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format/csv-to-latex-p</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format/csv-to-numpy</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format/json-2d-to-csv</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format/matlab-to-numpy</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format/numpy-to-latex-b</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/number-base</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/bin-to-dec</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/bin-to-gray</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/bin-to-hex</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/dec-to-bcd</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/dec-to-bin</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/dec-to-hex</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/hex-to-bin</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base/hex-to-dec</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pk-gpa</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-gpa/gpa5-to-hec-gpa4</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-gpa/hec-gpa4-to-percentage</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-gpa/matric-fsc1100-to-percentage</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-gpa/percentage-to-hec-gpa4</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pk-numbering</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/arab-to-b-std</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/crore-to-lakh</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/crore-to-m-std</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/hazar-to-lakh</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/kharab-to-b-std</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/lakh-to-m-std</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/m-std-to-crore</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering/m-std-to-lakh</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/horsepower-to-kilowatts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/horsepower-to-watts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -130,6 +184,10 @@
   <url><loc>https://converter.numanxstudio.com/convert/pressure/pascals-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/psi-to-bar</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/scientific-notation</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/scientific-notation/dec-std-to-sci-micro</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/scientific-notation/pct-to-ppm</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/scientific-notation/ppm-to-pct</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/scientific-notation/ppm-to-ppb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/km-h-to-mph</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/knots-to-mph</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -137,6 +195,12 @@
   <url><loc>https://converter.numanxstudio.com/convert/speed/mach-to-km-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/mph-to-km-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/statistics</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics/dec-odds-to-prob-pct</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics/frac-odds-to-prob-pct</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics/percentile-to-z-score</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics/us-moneyline-to-prob-pct</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics/z-score-to-p-val-two</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics/z-score-to-percentile</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp/celsius-to-fahrenheit</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp/celsius-to-kelvin</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -173,15 +237,21 @@
   <url><loc>https://converter.numanxstudio.com/convert/volume/quarts-to-liters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/converter</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/formulas</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides/binary-hex-ieee-754-guide</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides/cricket-overs-to-balls-nrr</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/cups-to-grams</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/fahrenheit-to-celsius</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides/hec-cgpa-to-percentage-pakistan</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/kg-to-lbs</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/kw-to-hp</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides/lakh-crore-to-million-billion</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/lbs-to-kg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides/marla-to-square-feet-pakistan</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/meters-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/psi-to-bar</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides/tola-to-grams-gold-pakistan</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/health</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/sitemap</loc><priority>0.5</priority><changefreq>weekly</changefreq></url>

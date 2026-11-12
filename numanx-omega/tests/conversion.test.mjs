@@ -214,7 +214,7 @@ var init_categories = __esm({
       {
         id: "acceleration",
         lb: "Acceleration",
-        ic: "\u{1F680}",
+        ic: "\u{1F4C8}",
         cl: "#e91e63",
         un: [
           { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
@@ -293,7 +293,7 @@ var init_categories = __esm({
       {
         id: "electricity",
         lb: "Electricity",
-        ic: "\u26A1",
+        ic: "\u{1F50C}",
         cl: "#00e5ff",
         un: [
           { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
@@ -444,7 +444,9 @@ var init_categories = __esm({
         ic: "\u{1F9F5}",
         cl: "#ab47bc",
         un: [
-          { id: "gsm", lb: "GSM", r: 1, s: "O" },
+          { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
+          { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
+          { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
           { id: "tc", lb: "Thread Count", r: 1, s: "O" },
           { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
         ]
@@ -481,7 +483,7 @@ var init_categories = __esm({
       {
         id: "illuminance",
         lb: "Illuminance",
-        ic: "\u{1F4A1}",
+        ic: "\u2600\uFE0F",
         cl: "#ffb300",
         al: ["light", "lux", "foot-candle", "illumination", "phot"],
         un: [
@@ -666,7 +668,8 @@ var init_categories = __esm({
 // src/utils/numbers.ts
 function cleanFloat(value, sigFigs = 14) {
   if (!Number.isFinite(value) || value === 0) return 0;
-  return Number(value.toPrecision(sigFigs));
+  const digits = Math.max(1, Math.min(100, sigFigs >= 1 ? Math.floor(sigFigs) : 14));
+  return Number(value.toPrecision(digits));
 }
 function fmt(v, prec = 6) {
   if (v === null || v === void 0 || !isFinite(v)) return "\u2014";
@@ -839,7 +842,7 @@ function convertFuel(v, from, to) {
 }
 function convertCricketOvers(v, from, to) {
   if (from === to) return cleanFloat(v);
-  let totalBalls = 0;
+  let totalBalls;
   if (from === "balls") {
     totalBalls = Math.round(v);
   } else if (from === "true_overs" || from === "run_rate_6") {
@@ -909,8 +912,8 @@ function convertStatistics(v, from, to) {
   if (to === "dec_odds") return cleanFloat(1 / p, 3);
   if (to === "frac_odds") return cleanFloat((1 - p) / p, 3);
   if (to === "us_moneyline") {
-    if (p <= 0.5) return cleanFloat((1 - p) / p * 100, 0);
-    return cleanFloat(-(p / (1 - p)) * 100, 0);
+    if (p <= 0.5) return Math.round((1 - p) / p * 100);
+    return Math.round(-(p / (1 - p)) * 100);
   }
   if (to === "p_val_two") {
     const tail = p > 0.5 ? 1 - p : p;
@@ -946,6 +949,8 @@ function convert(v, catId, fromId, toId) {
   if (cat.id === "pk-gpa") return convertPkGpa(v, fromId, toId);
   if (cat.id === "statistics") return convertStatistics(v, fromId, toId);
   if (cat.id === "number-base") return convertNumberBase(v, fromId, toId);
+  if (cat.id === "ieee-754") return 1;
+  if (cat.id === "matrix-format") return 1;
   const fu = getUnit(cat, fromId);
   const tu = getUnit(cat, toId);
   if (!fu || !tu || !fu.r || !tu.r) return null;

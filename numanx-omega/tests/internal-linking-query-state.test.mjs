@@ -125,6 +125,80 @@ var GUIDE_RELATIONSHIPS = [
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
+  },
+  {
+    guideSlug: "marla-to-square-feet-pakistan",
+    title: "Marla to Square Feet in Pakistan",
+    categoryId: "area",
+    categoryName: "Area",
+    categoryPath: "/convert/area",
+    pairSlug: "marla-to-ft2",
+    pairPath: "/convert/area/marla-to-ft2",
+    pairLabel: "Marla to Square Feet",
+    relatedPostSlugs: [
+      "metric-vs-imperial-engineering-guide"
+    ]
+  },
+  {
+    guideSlug: "tola-to-grams-gold-pakistan",
+    title: "1 Tola in Grams, Masha & Ratti",
+    categoryId: "mass",
+    categoryName: "Mass & Weight",
+    categoryPath: "/convert/mass",
+    pairSlug: "tola-to-g",
+    pairPath: "/convert/mass/tola-to-g",
+    pairLabel: "Tola to Grams",
+    relatedPostSlugs: [
+      "metric-vs-imperial-engineering-guide"
+    ]
+  },
+  {
+    guideSlug: "lakh-crore-to-million-billion",
+    title: "Lakh & Crore to Million & Billion",
+    categoryId: "pk-numbering",
+    categoryName: "South Asian Numbering",
+    categoryPath: "/convert/pk-numbering",
+    pairSlug: "lakh-to-m-std",
+    pairPath: "/convert/pk-numbering/lakh-to-m-std",
+    pairLabel: "Lakh to Million",
+    relatedPostSlugs: [
+      "digital-data-storage-units-guide"
+    ]
+  },
+  {
+    guideSlug: "hec-cgpa-to-percentage-pakistan",
+    title: "HEC CGPA to Percentage Guide",
+    categoryId: "pk-gpa",
+    categoryName: "HEC GPA & Marks",
+    categoryPath: "/convert/pk-gpa",
+    pairSlug: "hec-gpa4-to-percentage",
+    pairPath: "/convert/pk-gpa/hec-gpa4-to-percentage",
+    pairLabel: "HEC CGPA 4.0 to Percentage",
+    relatedPostSlugs: []
+  },
+  {
+    guideSlug: "cricket-overs-to-balls-nrr",
+    title: "Cricket Overs to Decimal Overs & NRR",
+    categoryId: "cricket-overs",
+    categoryName: "Cricket Base-6",
+    categoryPath: "/convert/cricket-overs",
+    pairSlug: "overs-balls-to-balls",
+    pairPath: "/convert/cricket-overs/overs-balls-to-balls",
+    pairLabel: "Cricket Overs to Balls",
+    relatedPostSlugs: []
+  },
+  {
+    guideSlug: "binary-hex-ieee-754-guide",
+    title: "Binary, Hex & IEEE-754 Float Guide",
+    categoryId: "number-base",
+    categoryName: "Number Base",
+    categoryPath: "/convert/number-base",
+    pairSlug: "bin-to-dec",
+    pairPath: "/convert/number-base/bin-to-dec",
+    pairLabel: "Binary to Decimal",
+    relatedPostSlugs: [
+      "digital-data-storage-units-guide"
+    ]
   }
 ];
 function getGuidesForCategory(categoryId) {
@@ -336,7 +410,7 @@ var Categories = [
   {
     id: "acceleration",
     lb: "Acceleration",
-    ic: "\u{1F680}",
+    ic: "\u{1F4C8}",
     cl: "#e91e63",
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
@@ -415,7 +489,7 @@ var Categories = [
   {
     id: "electricity",
     lb: "Electricity",
-    ic: "\u26A1",
+    ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
       { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
@@ -566,7 +640,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM", r: 1, s: "O" },
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
       { id: "tc", lb: "Thread Count", r: 1, s: "O" },
       { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
     ]
@@ -603,7 +679,7 @@ var Categories = [
   {
     id: "illuminance",
     lb: "Illuminance",
-    ic: "\u{1F4A1}",
+    ic: "\u2600\uFE0F",
     cl: "#ffb300",
     al: ["light", "lux", "foot-candle", "illumination", "phot"],
     un: [
@@ -1232,6 +1308,259 @@ var guideContent = {
       { label: "Celsius to Fahrenheit Converter", slug: "celsius-to-fahrenheit" }
     ],
     relatedCat: "power"
+  },
+  "marla-to-square-feet-pakistan": {
+    title: "Marla to Square Feet in Pakistan: 272.25 vs 250 vs 225 Sq Ft Standards",
+    metaDesc: "Convert Marla to Square Feet across Pakistan: 272.25 sq ft (Patwari / Revenue standard), 250 sq ft (CDA / Rawalpindi), and 225 sq ft (Housing societies / Bahria / DHA).",
+    h1: "Marla to Square Feet in Pakistan: 272.25 vs 250 vs 225 Sq Ft Standards",
+    slug: "marla-to-square-feet-pakistan",
+    intro: "In Pakistani real estate, a Marla does not have a single uniform size across the country. Official Land Revenue records (Patwari / Punjab Board of Revenue) define 1 Marla as 272.25 square feet (9 square karams or 30.25 square yards). However, modern private housing authorities (DHA, Bahria Town, LDA) standardise 1 Marla at 225 square feet, while civic agencies in Islamabad and Rawalpindi (CDA / RDA) commonly benchmark 1 Marla at 250 square feet. This guide provides exact formulas, comparison tables, and boundary verification steps for property buyers and civil engineers.",
+    formula: "Revenue: Sq Ft = Marla \xD7 272.25 | CDA: Sq Ft = Marla \xD7 250 | Society: Sq Ft = Marla \xD7 225",
+    table: [
+      { from: 1, to: "272.25 sq ft (Patwari)", rounded: "225 sq ft (Society)" },
+      { from: 2, to: "544.50 sq ft (Patwari)", rounded: "450 sq ft (Society)" },
+      { from: 3, to: "816.75 sq ft (Patwari)", rounded: "675 sq ft (Society)" },
+      { from: 5, to: "1,361.25 sq ft (Patwari)", rounded: "1,125 sq ft (Society)" },
+      { from: 7, to: "1,905.75 sq ft (Patwari)", rounded: "1,575 sq ft (Society)" },
+      { from: 10, to: "2,722.50 sq ft (Patwari)", rounded: "2,250 sq ft (Society)" },
+      { from: 15, to: "4,083.75 sq ft (Patwari)", rounded: "3,375 sq ft (Society)" },
+      { from: 20, to: "5,445.00 sq ft (1 Kanal Std)", rounded: "4,500 sq ft (1 Kanal Soc)" }
+    ],
+    steps: [
+      "Identify your land jurisdiction (Punjab Revenue Record, CDA Islamabad, or Private Housing Scheme like DHA / Bahria)",
+      "Select the applicable conversion benchmark: 272.25 sq ft (Revenue), 250 sq ft (Capital), or 225 sq ft (Society)",
+      "Multiply the number of marlas by the benchmark square footage",
+      "Verify the total square feet against your registered sale deed (Fard / Allotment Letter)"
+    ],
+    examples: [
+      "5 Marla plot in DHA / Bahria: 5 \xD7 225 = 1,125 sq ft (approx 125 square yards / gaz)",
+      "5 Marla plot in Rawalpindi / CDA Sector: 5 \xD7 250 = 1,250 sq ft",
+      "5 Marla rural plot under Patwari Revenue Record: 5 \xD7 272.25 = 1,361.25 sq ft",
+      "1 Kanal standard property: 20 Marlas \xD7 272.25 = 5,445 sq ft (or 4,500 sq ft in societies)"
+    ],
+    faq: [
+      { q: "Why is a Marla 225 sq ft in some housing societies and 272.25 sq ft in village records?", a: "Under traditional British Indian revenue measurement, 1 Karam equals 5.5 feet (66 inches), and 1 Sarsahi is 1 square Karam (30.25 sq ft). Nine Sarsahis make 1 Marla (9 \xD7 30.25 = 272.25 sq ft). Private urban developers adopted a simplified metric of 25 square yards (25 \xD7 9 = 225 sq ft) to allow neat decimal dimensions (e.g. 25 ft \xD7 45 ft for 5 Marla plots)." },
+      { q: "How many square yards (Gaz) is 1 Marla?", a: "In standard revenue records, 1 Marla = 30.25 square yards. In housing societies, 1 Marla = exactly 25 square yards (Gaz)." },
+      { q: "How many Marlas are in 1 Kanal?", a: "In all jurisdictions across Pakistan, 1 Kanal equals exactly 20 Marlas." },
+      { q: "What is a Sarsahi and how does it relate to a Marla?", a: "A Sarsahi is the foundational land unit in Punjab revenue records. Exactly 9 Sarsahis equal 1 Marla (1 Sarsahi = 30.25 square feet)." }
+    ],
+    relatedGuides: [
+      { label: "Meters to Feet Converter", slug: "meters-to-feet" },
+      { label: "Lakh & Crore to Million & Billion Converter", slug: "lakh-crore-to-million-billion" },
+      { label: "1 Tola in Grams Bullion Guide", slug: "tola-to-grams-gold-pakistan" }
+    ],
+    relatedCat: "area"
+  },
+  "tola-to-grams-gold-pakistan": {
+    title: "1 Tola in Grams, Masha & Ratti: Pakistan Gold Bullion Guide",
+    metaDesc: "Convert Tola to grams for gold and silver in Pakistan: 1 Tola = 11.6638 grams, 12 Masha, 96 Ratti. Full jewellers pricing formula and 24K to 22K karat calculator.",
+    h1: "1 Tola in Grams, Masha & Ratti: Pakistan Gold Bullion Guide",
+    slug: "tola-to-grams-gold-pakistan",
+    intro: "The Tola is the traditional trading weight for gold bullion, silver, and precious jewelry throughout Pakistan and South Asia. Under the British Indian Standard adopted by the Pakistan Sarafa Association and State Bank of Pakistan, 1 Tola equals exactly 11.6638038 grams (180 troy grains). Furthermore, 1 Tola subdivides into 12 Mashas, and each Masha subdivides into 8 Rattis (meaning 1 Tola = 96 Rattis). This guide details exact mass conversions, bullion calculation rules, and karat deductions for 24K, 22K, and 21K gold.",
+    formula: "Grams = Tola \xD7 11.6638038 | Masha = Tola \xD7 12 | Ratti = Tola \xD7 96",
+    table: [
+      { from: 0.25, to: "2.916 g", rounded: "3 Masha" },
+      { from: 0.5, to: "5.832 g", rounded: "6 Masha" },
+      { from: 1, to: "11.6638 g", rounded: "12 Masha / 96 Ratti" },
+      { from: 2, to: "23.328 g", rounded: "24 Masha" },
+      { from: 3, to: "34.991 g", rounded: "36 Masha" },
+      { from: 5, to: "58.319 g", rounded: "1 Chhatank" },
+      { from: 10, to: "116.638 g", rounded: "10 Tolas (Bar)" },
+      { from: 50, to: "583.190 g", rounded: "50 Tolas" },
+      { from: 100, to: "1,166.380 g", rounded: "100 Tolas (1.166 kg)" }
+    ],
+    steps: [
+      "Take the weight in Tolas from the bullion certificate or jeweller invoice",
+      "Multiply by 11.6638038 to calculate the equivalent mass in metric grams",
+      "For karat adjustments: multiply 24K pure bullion rate by 22/24 (0.9167) for 22K jewelry, or 21/24 (0.875) for 21K jewelry",
+      "Add jeweller making charges (ujrat) and stone deductions where applicable"
+    ],
+    examples: [
+      "1 Tola 24K pure gold bar = 11.6638 grams of pure 99.99% gold",
+      "10 grams into Tolas: 10 \xF7 11.6638 = 0.85735 Tolas (approx 10.29 Mashas)",
+      "1 Masha of gold: 11.6638 \xF7 12 = 0.97198 grams",
+      "1 Ratti of gold: 11.6638 \xF7 96 = 0.12150 grams"
+    ],
+    faq: [
+      { q: "How many grams are in exactly 1 Tola of gold in Pakistan?", a: "One Tola equals exactly 11.6638038 grams (often rounded by local sarafa bazaars to 11.664 grams)." },
+      { q: "How many Mashas and Rattis are in 1 Tola?", a: "There are exactly 12 Mashas in 1 Tola, and 8 Rattis in 1 Masha. Therefore, 1 Tola contains 96 Rattis." },
+      { q: "How do you calculate 22K gold price from the 24K Tola rate?", a: "Divide the 24K Tola rate by 24 and multiply by 22 (or multiply by 0.91667). For example, if 24K is PKR 240,000/tola, 22K gold is 240,000 \xD7 (22/24) = PKR 220,000/tola." },
+      { q: "What is a Chhatank in mass?", a: "A Chhatank is a traditional mass unit equal to exactly 5 Tolas (58.319 grams). Sixteen Chhatanks equal 1 Seer (933.1 grams)." }
+    ],
+    relatedGuides: [
+      { label: "Pounds to Kilograms Converter", slug: "lbs-to-kg" },
+      { label: "Kilograms to Pounds Converter", slug: "kg-to-lbs" },
+      { label: "Marla to Square Feet Guide", slug: "marla-to-square-feet-pakistan" }
+    ],
+    relatedCat: "mass"
+  },
+  "lakh-crore-to-million-billion": {
+    title: "Lakh & Crore to Million & Billion Converter Guide (2,2,3 Grouping)",
+    metaDesc: "Convert Lakh and Crore to Millions and Billions. Learn the South Asian 2,2,3 comma system: 1 Lakh = 100,000 (0.1M), 1 Crore = 10 Million, 1 Arab = 1 Billion.",
+    h1: "Lakh & Crore to Million & Billion Converter Guide (2,2,3 Grouping)",
+    slug: "lakh-crore-to-million-billion",
+    intro: "Financial reporting and commerce in Pakistan, India, Bangladesh, and Nepal use the South Asian numbering system consisting of Hazar (1,000), Lakh (100,000), Crore (10,000,000), Arab (1,000,000,000), and Kharab (100,000,000,000). While the international system places commas every 3 digits (1,000,000 = 1 Million), the South Asian system places the first comma after 3 digits, followed by commas every 2 digits (10,00,000 = 10 Lakh = 1 Million). Understanding this mapping is essential for real estate, banking, macroeconomic budgets, and multinational corporate accounting.",
+    formula: "Million = Crore \xD7 10 | Lakh = Million \xD7 10 | Billion = Arab \xD7 1",
+    table: [
+      { from: 1, to: "100,000 (0.10 M)", rounded: "1 Lakh" },
+      { from: 5, to: "500,000 (0.50 M)", rounded: "5 Lakh" },
+      { from: 10, to: "1,000,000 (1.00 M)", rounded: "10 Lakh (1 Million)" },
+      { from: 50, to: "5,000,000 (5.00 M)", rounded: "50 Lakh (5 Million)" },
+      { from: 100, to: "10,000,000 (10.00 M)", rounded: "1 Crore (10 Million)" },
+      { from: 500, to: "50,000,000 (50.00 M)", rounded: "5 Crore (50 Million)" },
+      { from: 1e3, to: "100,000,000 (100.00 M)", rounded: "10 Crore (100 Million)" },
+      { from: 1e4, to: "1,000,000,000 (1.00 B)", rounded: "1 Arab (1 Billion)" }
+    ],
+    steps: [
+      "To convert Lakhs to Millions: divide by 10 (e.g. 50 Lakh = 50 \xF7 10 = 5 Million)",
+      "To convert Millions to Lakhs: multiply by 10 (e.g. 2.5 Million = 2.5 \xD7 10 = 25 Lakhs)",
+      "To convert Crores to Millions: multiply by 10 (e.g. 3 Crore = 3 \xD7 10 = 30 Million)",
+      "To convert Millions to Crores: divide by 10 (e.g. 45 Million = 45 \xF7 10 = 4.5 Crore)"
+    ],
+    examples: [
+      "PKR 25 Lakh property = PKR 2,500,000 = 2.5 Million PKR",
+      "PKR 1.5 Crore house = PKR 15,000,000 = 15 Million PKR",
+      "PKR 1 Arab federal project = PKR 1,000,000,000 = 1 Billion PKR",
+      "PKR 2.5 Kharab national budget allocation = PKR 250 Billion"
+    ],
+    faq: [
+      { q: "How many Millions are in 1 Crore?", a: "One Crore equals exactly 10 Million. Therefore, 10 Crores equal 100 Million, and 100 Crores equal 1 Billion (1 Arab)." },
+      { q: "How does comma placement differ in South Asian numbers?", a: "The international system groups digits in triplets (1,000,000). The South Asian system places the first comma after three digits, then subsequent commas after every two digits (10,00,000 = 10 Lakh = 1 Million)." },
+      { q: "How many Lakhs make 1 Crore?", a: "One Crore equals exactly 100 Lakhs (100 \xD7 100,000 = 10,000,000)." },
+      { q: "What is 1 Arab in international terms?", a: "One Arab equals 1,000,000,000 (100 Crore), which is identical to 1 International Billion." }
+    ],
+    relatedGuides: [
+      { label: "Marla to Square Feet Guide", slug: "marla-to-square-feet-pakistan" },
+      { label: "HEC CGPA to Percentage Guide", slug: "hec-cgpa-to-percentage-pakistan" },
+      { label: "Binary & IEEE-754 Float Guide", slug: "binary-hex-ieee-754-guide" }
+    ],
+    relatedCat: "pk-numbering"
+  },
+  "hec-cgpa-to-percentage-pakistan": {
+    title: "HEC CGPA to Percentage & MDCAT Aggregate Formula Guide",
+    metaDesc: "Convert Pakistani HEC 4.00 CGPA to Percentage marks and calculate PMDC MDCAT / NUMS aggregate. Official continuous scale conversion guidelines.",
+    h1: "HEC CGPA to Percentage & MDCAT Aggregate Formula Guide",
+    slug: "hec-cgpa-to-percentage-pakistan",
+    intro: "The Higher Education Commission (HEC) of Pakistan standardises university grading on a 4.00 Cumulative Grade Point Average (CGPA) scale. When applying for foreign graduate scholarships, government civil service appointments (CSS/FPSC), or medical colleges, students frequently need to convert between 4.00 CGPA, 5.00 CGPA, and equivalent percentage marks. Additionally, prospective medical students require the PMDC weighted aggregate (50% MDCAT + 40% FSc Pre-Medical + 10% Matriculation). This guide explains the official HEC continuous linear model, division equivalence, and aggregate calculations.",
+    formula: "Percentage = ((CGPA - 1.0) / 3.0) \xD7 35 + 50 (for CGPA 1.00 - 4.00, with 4.00 = 85%+)",
+    table: [
+      { from: 2, to: "61.67%", rounded: "Second Division" },
+      { from: 2.5, to: "67.50%", rounded: "Second Division" },
+      { from: 2.8, to: "71.00%", rounded: "First Division" },
+      { from: 3, to: "73.33%", rounded: "First Division" },
+      { from: 3.2, to: "75.67%", rounded: "First Division" },
+      { from: 3.5, to: "79.17%", rounded: "First Division (High)" },
+      { from: 3.8, to: "82.67%", rounded: "Gold Medal / Honors" },
+      { from: 4, to: "85.00%+", rounded: "Distinction / Top" }
+    ],
+    steps: [
+      "Take your official university transcript CGPA on the 4.00 scale",
+      "For continuous HEC conversion: Percentage = ((CGPA - 1.0) \xF7 3.0) \xD7 35 + 50",
+      "For medical aggregate: Calculate (MDCAT/200 \xD7 50) + (FSc/1100 \xD7 40) + (Matric/1100 \xD7 10)",
+      "Sum all weighted components to verify your final admission merit percentage"
+    ],
+    examples: [
+      "CGPA 3.50 on HEC 4.0 scale: ((3.50 - 1.0)/3.0) \xD7 35 + 50 = 79.17% marks",
+      "CGPA 3.00 on HEC 4.0 scale: ((3.00 - 1.0)/3.0) \xD7 35 + 50 = 73.33% marks (First Division)",
+      "MDCAT Aggregate with 170/200, 1020/1100 FSc, 1000/1100 Matric: 42.5% + 37.09% + 9.09% = 88.68%",
+      "Converting 5.0 CGPA scale to 4.0 CGPA: CGPA 4.0 = (CGPA 5.0 \xF7 5.0) \xD7 4.0"
+    ],
+    faq: [
+      { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)." },
+      { q: "What is the standard PMDC MDCAT aggregate formula?", a: "The PMDC formula calculates aggregate as: 50% MDCAT entrance test score + 40% FSc Pre-Medical board score + 10% Matriculation board score." },
+      { q: "Does HEC provide an official formula on degree equivalence certificates?", a: "HEC evaluates semester transcripts using the university-specific grading curve if specified on the reverse of the transcript. In the absence of an institutional curve, the standard continuous formula Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 is applied." },
+      { q: "What CGPA is required for First Division in Pakistan?", a: "Under HEC regulations, a CGPA of 2.80 to 3.00 (depending on university grading criteria) or a minimum of 60% marks represents First Division." }
+    ],
+    relatedGuides: [
+      { label: "Lakh & Crore to Million & Billion Converter", slug: "lakh-crore-to-million-billion" },
+      { label: "Cricket Overs to Balls & NRR Guide", slug: "cricket-overs-to-balls-nrr" },
+      { label: "Binary & IEEE-754 Float Guide", slug: "binary-hex-ieee-754-guide" }
+    ],
+    relatedCat: "pk-gpa"
+  },
+  "cricket-overs-to-balls-nrr": {
+    title: "Cricket Overs (14.3) to Decimal Overs & ICC Net Run Rate Guide",
+    metaDesc: "Convert cricket overs notation (14.3) to legal balls (87) and true decimal overs (14.50). Complete ICC Net Run Rate (NRR) tournament tie-break formula.",
+    h1: "Cricket Overs (Base-6) to Decimal Overs & ICC Net Run Rate Guide",
+    slug: "cricket-overs-to-balls-nrr",
+    intro: 'In cricket, bowling overs are recorded in base-6 notation: "14.3 overs" means 14 complete overs of 6 balls plus 3 additional legal deliveries, totaling 87 balls. Treating "14.3" as a standard decimal number (14.30) is a major mathematical error: 3 balls out of 6 is exactly one-half (0.50), meaning 14.3 overs equals 14.50 true decimal overs. This difference is critical for calculating bowler economy rates, team run rates, and the ICC tournament Net Run Rate (NRR) formula.',
+    formula: "Balls = (Floor(Overs) \xD7 6) + Remainder Balls | Decimal Overs = Balls \xF7 6 | NRR = (Runs Scored / Overs Faced) - (Runs Conceded / Overs Bowled)",
+    table: [
+      { from: 1.1, to: "7 balls", rounded: "1.167 decimal overs" },
+      { from: 5.3, to: "33 balls", rounded: "5.500 decimal overs" },
+      { from: 10.2, to: "62 balls", rounded: "10.333 decimal overs" },
+      { from: 14.3, to: "87 balls", rounded: "14.500 decimal overs" },
+      { from: 16.4, to: "100 balls", rounded: "16.667 decimal overs" },
+      { from: 19.5, to: "119 balls", rounded: "19.833 decimal overs" },
+      { from: 20, to: "120 balls", rounded: "20.000 decimal overs (T20)" },
+      { from: 50, to: "300 balls", rounded: "50.000 decimal overs (ODI)" }
+    ],
+    steps: [
+      "Take completed overs (the integer portion before the dot)",
+      "Extract remainder deliveries (the digit after the dot: 1 to 5 balls)",
+      "Calculate total legal deliveries: (Completed Overs \xD7 6) + Remainder Deliveries",
+      "Divide total legal deliveries by 6 to obtain true decimal overs for NRR and Run Rate calculation"
+    ],
+    examples: [
+      "14.3 overs in a T20 match: (14 \xD7 6) + 3 = 87 balls = 87 \xF7 6 = 14.50 true decimal overs",
+      "Run rate for 116 runs in 14.3 overs: 116 \xF7 14.50 = 8.00 runs per over (NOT 116 \xF7 14.3 = 8.11)",
+      "Bowler bowling 3.4 overs conceding 22 runs: (3 \xD7 6) + 4 = 22 balls = 3.667 overs. Economy = 22 \xF7 3.667 = 6.00",
+      "ICC NRR calculation: Team A scores 180 in 20.0 ov (9.00 RR) and concedes 150 in 20.0 ov (7.50 RR) -> NRR = +1.500"
+    ],
+    faq: [
+      { q: "Why is 14.3 overs not equal to 14.30 decimal overs?", a: 'Cricket overs are recorded in base-6, not base-10. The ".3" means 3 balls out of 6 (3/6 = 0.50). Therefore, 14.3 overs equals exactly 14.50 true decimal overs.' },
+      { q: "How does ICC calculate Net Run Rate (NRR)?", a: "NRR = (Total Runs Scored \xF7 Total True Decimal Overs Faced) \u2212 (Total Runs Conceded \xF7 Total True Decimal Overs Bowled). If a team is bowled out before completing their overs, the full quota of overs (e.g., 20 or 50) is used." },
+      { q: "What happens if a team is all out in 16.2 overs?", a: "For ICC Net Run Rate calculations, if a team is bowled all out before completing their allocated overs, they are charged the full quota (e.g. 20.0 overs in T20 or 50.0 overs in ODIs) as their overs faced." },
+      { q: "How do you calculate required run rate (RRR)?", a: "RRR = Runs Required \xF7 True Decimal Remaining Overs. For example, 45 runs needed from 5.3 overs (33 balls = 5.5 overs) = 45 \xF7 5.5 = 8.18 runs per over." }
+    ],
+    relatedGuides: [
+      { label: "HEC CGPA to Percentage Guide", slug: "hec-cgpa-to-percentage-pakistan" },
+      { label: "Lakh & Crore to Million & Billion Converter", slug: "lakh-crore-to-million-billion" },
+      { label: "Kilowatts to Horsepower Converter", slug: "kw-to-hp" }
+    ],
+    relatedCat: "cricket-overs"
+  },
+  "binary-hex-ieee-754-guide": {
+    title: "Binary, Hexadecimal & IEEE-754 Floating-Point Conversion Guide",
+    metaDesc: "Master binary, hexadecimal, and IEEE-754 FP32/FP64 floating-point conversion. Step-by-step bitfield breakdowns: sign bit, biased exponent, and mantissa.",
+    h1: "Binary, Hexadecimal & IEEE-754 Floating-Point Conversion Guide",
+    slug: "binary-hex-ieee-754-guide",
+    intro: "Digital computers store all instructions and data as binary bit sequences (base 2). For human convenience, binary strings are grouped into 4-bit nibbles and written in hexadecimal (base 16). For fractional real numbers, computers implement the IEEE-754 standard, decomposing values into three discrete bitfields: a 1-bit sign, a biased exponent (8 bits for FP32, 11 bits for FP64), and a fractional mantissa (23 bits for FP32, 52 bits for FP64). This guide walks through radix conversions, bit shifting, and floating-point quantization.",
+    formula: "FP32 = (-1)^sign \xD7 2^(exponent - 127) \xD7 (1 + mantissa / 2^23)",
+    table: [
+      { from: 0, to: "0b0000 0000", rounded: "0x00 / FP32: 0x00000000" },
+      { from: 1, to: "0b0000 0001", rounded: "0x01 / FP32: 0x3F800000" },
+      { from: 2, to: "0b0000 0010", rounded: "0x02 / FP32: 0x40000000" },
+      { from: 15, to: "0b0000 1111", rounded: "0x0F / FP32: 0x41700000" },
+      { from: 16, to: "0b0001 0000", rounded: "0x10 / FP32: 0x41800000" },
+      { from: 127, to: "0b0111 1111", rounded: "0x7F / Exponent Bias" },
+      { from: 255, to: "0b1111 1111", rounded: "0xFF / Max Byte" },
+      { from: 1024, to: "0b100 0000 0000", rounded: "0x400 / 1 KiB" }
+    ],
+    steps: [
+      "To convert Decimal to Binary: divide by 2 repeatedly and record remainders in reverse order",
+      "To convert Binary to Hex: group bits into 4-bit nibbles from right to left and map each 4-bit block to 0-9, A-F",
+      "To encode IEEE-754 FP32: set sign bit (0 for positive, 1 for negative), calculate exponent + 127 bias, and encode 23-bit normalized mantissa",
+      "Combine Sign (1b) + Exponent (8b) + Mantissa (23b) into 32-bit hexadecimal word"
+    ],
+    examples: [
+      "Decimal 13 to Binary: 13 \xF7 2 = 6 r1, 6 \xF7 2 = 3 r0, 3 \xF7 2 = 1 r1, 1 \xF7 2 = 0 r1 -> 1101 binary",
+      "Binary 1101 1010 to Hex: 1101 = 13 (D), 1010 = 10 (A) -> 0xDA hex (218 decimal)",
+      "Decimal 1.0 in IEEE-754 FP32: Sign 0, Exp 127 (01111111), Mantissa 0 -> 0x3F800000",
+      "Decimal -2.5 in IEEE-754 FP32: -1.01 \xD7 2^1 -> Sign 1, Exp 128 (10000000), Mantissa 0100... -> 0xC0200000"
+    ],
+    faq: [
+      { q: "How many binary bits correspond to one hexadecimal digit?", a: "Exactly 4 binary bits (one nibble) correspond to one hexadecimal digit. For example, binary 1111 is hex F (15 decimal)." },
+      { q: "What is the IEEE-754 single precision structure?", a: "FP32 consists of 32 bits: 1 sign bit, 8 exponent bits (with bias 127), and 23 fraction/mantissa bits, providing ~7 decimal digits of precision." },
+      { q: "Why do floating point calculations have rounding errors?", a: "Many decimal fractions like 0.1 cannot be represented as finite terminating fractions in binary base 2, just as 1/3 cannot terminate in base 10." },
+      { q: "What is the difference between FP16, FP32, and FP64?", a: "FP16 (half precision) uses 16 bits (1-5-10) for machine learning; FP32 (single precision) uses 32 bits (1-8-23) for 3D graphics and general computing; FP64 (double precision) uses 64 bits (1-11-52) for scientific and financial calculations." }
+    ],
+    relatedGuides: [
+      { label: "Lakh & Crore to Million & Billion Converter", slug: "lakh-crore-to-million-billion" },
+      { label: "Cricket Overs to Balls & NRR Guide", slug: "cricket-overs-to-balls-nrr" },
+      { label: "HEC CGPA to Percentage Guide", slug: "hec-cgpa-to-percentage-pakistan" }
+    ],
+    relatedCat: "number-base"
   }
 };
 
@@ -1355,7 +1684,8 @@ function isIndexablePath(path2) {
 // src/utils/numbers.ts
 function cleanFloat(value, sigFigs = 14) {
   if (!Number.isFinite(value) || value === 0) return 0;
-  return Number(value.toPrecision(sigFigs));
+  const digits = Math.max(1, Math.min(100, sigFigs >= 1 ? Math.floor(sigFigs) : 14));
+  return Number(value.toPrecision(digits));
 }
 function fmt(v, prec = 6) {
   if (v === null || v === void 0 || !isFinite(v)) return "\u2014";
@@ -1479,6 +1809,8 @@ var SYMBOLS = {
   lbft3: "lb/ft\xB3",
   BTUh: "BTU/h",
   tc: "TC",
+  oz_yd2: "oz/yd\xB2",
+  momme: "mm",
   au: "AU",
   au_a: "AU",
   ly_a: "ly",
@@ -1487,7 +1819,62 @@ var SYMBOLS = {
   em: "M\u2295",
   ld: "LD",
   sr: "R\u2609",
-  er: "R\u2295"
+  er: "R\u2295",
+  marla_soc: "marla (soc)",
+  marla_cap: "marla (cap)",
+  gaz_sq: "sq yd (gaz)",
+  maund_pk: "maund (mandi)",
+  bin_radix: "bin",
+  oct_radix: "oct",
+  dec_radix: "dec",
+  hex_radix: "hex",
+  bcd_code: "BCD",
+  gray_code: "Gray",
+  twos_comp: "2s-comp",
+  dec_real: "real",
+  hex_float: "hex float",
+  fp16: "FP16",
+  fp32: "FP32",
+  fp64: "FP64",
+  m_std: "Million",
+  b_std: "Billion",
+  t_std: "Trillion",
+  k_std: "Thousand",
+  lakh: "lakh",
+  crore: "crore",
+  arab: "arab",
+  kharab: "kharab",
+  hazar: "hazar",
+  z_score: "z",
+  p_val_two: "p-val (2-tail)",
+  p_val_one: "p-val (1-tail)",
+  dec_odds: "dec odds",
+  frac_odds: "frac odds",
+  us_moneyline: "moneyline",
+  pct_odds: "%",
+  csv: "CSV",
+  latex_b: "bmatrix",
+  latex_p: "pmatrix",
+  numpy: "NumPy",
+  matlab: "MATLAB",
+  json_2d: "JSON 2D",
+  dec_std: "dec",
+  sci_std: "sci",
+  eng_std: "eng",
+  sci_micro: "micro",
+  sci_nano: "nano",
+  sci_pico: "pico",
+  ppm: "ppm",
+  ppb: "ppb",
+  pct: "%",
+  hec_gpa4: "CGPA 4.0",
+  gpa5: "GPA 5.0",
+  matric_fsc1100: "marks (1100)",
+  mdcat200: "marks (200)",
+  percentage: "%",
+  overs_balls: "overs",
+  balls: "balls",
+  true_overs: "dec overs"
 };
 var SCOPED_NAMES = {
   "temp:C": "Celsius",
@@ -1579,7 +1966,64 @@ var NAMES = {
   rem: "Root EM",
   stick_c: "Stick of Butter",
   jigger: "Jigger",
-  au_a: "Astronomical Unit"
+  au_a: "Astronomical Unit",
+  oz_yd2: "Ounce per Square Yard",
+  momme: "Momme Silk",
+  marla_soc: "Marla (Society 225 sq ft)",
+  marla_cap: "Marla (Capital 250 sq ft)",
+  gaz_sq: "Square Yard (Gaz)",
+  maund_pk: "Maund (40 kg Mandi)",
+  bin_radix: "Binary (Base-2)",
+  oct_radix: "Octal (Base-8)",
+  dec_radix: "Decimal (Base-10)",
+  hex_radix: "Hexadecimal (Base-16)",
+  bcd_code: "Binary Coded Decimal",
+  gray_code: "Gray Code",
+  twos_comp: "Two's Complement",
+  dec_real: "Decimal Real",
+  hex_float: "Hexadecimal Float",
+  fp16: "Half Precision FP16",
+  fp32: "Single Precision FP32",
+  fp64: "Double Precision FP64",
+  m_std: "Million (Standard)",
+  b_std: "Billion (Standard)",
+  t_std: "Trillion (Standard)",
+  k_std: "Thousand (Standard)",
+  lakh: "Lakh",
+  crore: "Crore",
+  arab: "Arab",
+  kharab: "Kharab",
+  hazar: "Hazar",
+  z_score: "Z-Score",
+  p_val_two: "Two-Tailed P-Value",
+  p_val_one: "One-Tailed P-Value",
+  dec_odds: "Decimal Odds",
+  frac_odds: "Fractional Odds",
+  us_moneyline: "American Moneyline",
+  pct_odds: "Probability Percentage",
+  csv: "CSV Grid",
+  latex_b: "LaTeX bmatrix",
+  latex_p: "LaTeX pmatrix",
+  numpy: "Python NumPy Array",
+  matlab: "MATLAB Matrix",
+  json_2d: "JSON 2D Array",
+  dec_std: "Standard Decimal",
+  sci_std: "Scientific Notation",
+  eng_std: "Engineering Notation",
+  sci_micro: "Scientific Micro",
+  sci_nano: "Scientific Nano",
+  sci_pico: "Scientific Pico",
+  ppm: "Parts Per Million",
+  ppb: "Parts Per Billion",
+  pct: "Percentage",
+  hec_gpa4: "HEC CGPA (4.00 Scale)",
+  gpa5: "5.00 GPA Scale",
+  matric_fsc1100: "Matric / FSc Total (1100)",
+  mdcat200: "MDCAT Score (200)",
+  percentage: "Percentage Marks",
+  overs_balls: "Cricket Overs (O.B)",
+  balls: "Legal Deliveries (Balls)",
+  true_overs: "True Decimal Overs"
 };
 function unitSymbol(u, catId) {
   return catId && SCOPED[`${catId}:${u.id}`] || SYMBOLS[u.id] || u.id;
@@ -1671,8 +2115,8 @@ function buildPairSchema(category, u1, u2, unitRatio, inverseUnitRatio, pairPara
 // tests/internal-linking-query-state.test.ts
 var distDir = path.resolve(process.cwd(), "dist");
 describe("Phase 3 Step 4: Guide Relationship Architecture & Internal Linking", () => {
-  test("all 9 guides have valid category relationships in the 36-category registry", () => {
-    assert.equal(GUIDE_RELATIONSHIPS.length, 9, "Exactly 9 guides must be registered");
+  test("all 15 guides have valid category relationships in the 36-category registry", () => {
+    assert.equal(GUIDE_RELATIONSHIPS.length, 15, "Exactly 15 guides must be registered");
     const categoryIds = new Set(Categories.map((c) => c.id));
     for (const rel of GUIDE_RELATIONSHIPS) {
       assert.ok(guideContent[rel.guideSlug], `Guide ${rel.guideSlug} must exist in guideContent`);
@@ -1693,9 +2137,13 @@ describe("Phase 3 Step 4: Guide Relationship Architecture & Internal Linking", (
     assert.ok(lengthGuides.some((g) => g.guideSlug === "meters-to-feet"));
     assert.ok(lengthGuides.some((g) => g.guideSlug === "feet-to-meters"));
     const massGuides = getGuidesForCategory("mass");
-    assert.equal(massGuides.length, 2, "Mass category must have 2 guides (lbs-to-kg, kg-to-lbs)");
+    assert.equal(massGuides.length, 3, "Mass category must have 3 guides (lbs-to-kg, kg-to-lbs, tola-to-grams-gold-pakistan)");
     assert.ok(massGuides.some((g) => g.guideSlug === "lbs-to-kg"));
     assert.ok(massGuides.some((g) => g.guideSlug === "kg-to-lbs"));
+    assert.ok(massGuides.some((g) => g.guideSlug === "tola-to-grams-gold-pakistan"));
+    const areaGuides = getGuidesForCategory("area");
+    assert.equal(areaGuides.length, 1, "Area category must have 1 guide (marla-to-square-feet-pakistan)");
+    assert.ok(areaGuides.some((g) => g.guideSlug === "marla-to-square-feet-pakistan"));
     const tempGuides = getGuidesForCategory("temp");
     assert.equal(tempGuides.length, 2, "Temp category must have 2 guides (celsius-to-fahrenheit, fahrenheit-to-celsius)");
     assert.ok(tempGuides.some((g) => g.guideSlug === "celsius-to-fahrenheit"));

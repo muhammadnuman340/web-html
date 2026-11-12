@@ -42,6 +42,7 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))
 const OnboardingTour = lazy(() => import('./components/ui/OnboardingTour'))
 const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))
+const ProPassModal = lazy(() => import('./components/monetization/ProPassModal'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -167,6 +168,7 @@ function AppContent() {
       </a>
       <JSONLD />
       <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
+      <Suspense fallback={null}><ProPassModal /></Suspense>
       {shortcutsOpen && (
         <Suspense fallback={null}>
           <ShortcutsPanel open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />

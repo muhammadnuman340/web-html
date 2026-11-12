@@ -188,7 +188,7 @@ var Categories = [
   {
     id: "acceleration",
     lb: "Acceleration",
-    ic: "\u{1F680}",
+    ic: "\u{1F4C8}",
     cl: "#e91e63",
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
@@ -267,7 +267,7 @@ var Categories = [
   {
     id: "electricity",
     lb: "Electricity",
-    ic: "\u26A1",
+    ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
       { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
@@ -418,7 +418,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM", r: 1, s: "O" },
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
       { id: "tc", lb: "Thread Count", r: 1, s: "O" },
       { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
     ]
@@ -455,7 +457,7 @@ var Categories = [
   {
     id: "illuminance",
     lb: "Illuminance",
-    ic: "\u{1F4A1}",
+    ic: "\u2600\uFE0F",
     cl: "#ffb300",
     al: ["light", "lux", "foot-candle", "illumination", "phot"],
     un: [
@@ -696,10 +698,10 @@ var blogArticles = urls.filter((u) => u.match(/\/blog\/[a-z0-9_-]+$/));
 var core = urls.filter((u) => !categories.includes(u) && !pairs.includes(u) && !guides.includes(u) && !blogArticles.includes(u) && !home.includes(u));
 console.log("Breakdown:");
 console.log("Home (1):", home.length, home);
-console.log("Core pages (8):", core.length, core);
+console.log("Core pages (11):", core.length, core);
 console.log("Categories (36):", categories.length);
-console.log("Pairs (123):", pairs.length);
-console.log("Guides (9):", guides.length, guides);
+console.log("Pairs (187):", pairs.length);
+console.log("Guides (15):", guides.length, guides);
 console.log("Blog articles (6):", blogArticles.length, blogArticles);
 console.log("Sum:", home.length + core.length + categories.length + pairs.length + guides.length + blogArticles.length);
 var missingPrerender = 0;

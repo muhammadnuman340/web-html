@@ -58,7 +58,7 @@ export function convertFuel(v: number, from: string, to: string): number | null 
 
 export function convertCricketOvers(v: number, from: string, to: string): number {
   if (from === to) return cleanFloat(v)
-  let totalBalls = 0
+  let totalBalls: number
   if (from === 'balls') {
     totalBalls = Math.round(v)
   } else if (from === 'true_overs' || from === 'run_rate_6') {
@@ -134,8 +134,8 @@ export function convertStatistics(v: number, from: string, to: string): number {
   if (to === 'dec_odds') return cleanFloat(1 / p, 3)
   if (to === 'frac_odds') return cleanFloat((1 - p) / p, 3)
   if (to === 'us_moneyline') {
-    if (p <= 0.5) return cleanFloat(((1 - p) / p) * 100, 0)
-    return cleanFloat(-(p / (1 - p)) * 100, 0)
+    if (p <= 0.5) return Math.round(((1 - p) / p) * 100)
+    return Math.round(-(p / (1 - p)) * 100)
   }
   if (to === 'p_val_two') {
     const tail = p > 0.5 ? 1 - p : p
@@ -175,6 +175,8 @@ export function convert(v: number, catId: string, fromId: string, toId: string):
   if (cat.id === 'pk-gpa') return convertPkGpa(v, fromId, toId)
   if (cat.id === 'statistics') return convertStatistics(v, fromId, toId)
   if (cat.id === 'number-base') return convertNumberBase(v, fromId, toId)
+  if (cat.id === 'ieee-754') return 1
+  if (cat.id === 'matrix-format') return 1
 
   const fu = getUnit(cat, fromId)
   const tu = getUnit(cat, toId)

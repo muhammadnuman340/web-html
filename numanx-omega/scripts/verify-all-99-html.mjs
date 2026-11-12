@@ -189,7 +189,7 @@ var Categories = [
   {
     id: "acceleration",
     lb: "Acceleration",
-    ic: "\u{1F680}",
+    ic: "\u{1F4C8}",
     cl: "#e91e63",
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
@@ -268,7 +268,7 @@ var Categories = [
   {
     id: "electricity",
     lb: "Electricity",
-    ic: "\u26A1",
+    ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
       { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
@@ -419,7 +419,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM", r: 1, s: "O" },
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
       { id: "tc", lb: "Thread Count", r: 1, s: "O" },
       { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
     ]
@@ -456,7 +458,7 @@ var Categories = [
   {
     id: "illuminance",
     lb: "Illuminance",
-    ic: "\u{1F4A1}",
+    ic: "\u2600\uFE0F",
     cl: "#ffb300",
     al: ["light", "lux", "foot-candle", "illumination", "phot"],
     un: [
@@ -695,7 +697,11 @@ var categoryContent = {
       { from: "Feet", to: "Meters", desc: "ft \u2192 m \u2014 real estate & architecture" },
       { from: "Centimeter", to: "Inches", desc: "cm \u2192 in \u2014 product dimensions & body measurements" },
       { from: "Angstrom", to: "Nanometer", desc: "\xC5 \u2192 nm \u2014 crystallography & optics" },
-      { from: "Fathom", to: "Foot", desc: "fath \u2192 ft \u2014 nautical depth & marine sounding" }
+      { from: "Fathom", to: "Foot", desc: "fath \u2192 ft \u2014 nautical depth & marine sounding" },
+      { from: "karam", to: "ft", desc: "karam \u2192 ft \u2014 Pakistani revenue pace unit (1 karam = 5.5 feet)" },
+      { from: "ft", to: "karam", desc: "ft \u2192 karam \u2014 convert field feet measurements to patwari karams" },
+      { from: "girah", to: "in", desc: "girah \u2192 in \u2014 traditional textile & fabric unit (1 girah = 2.25 inches)" },
+      { from: "yd", to: "ft", desc: "yd \u2192 ft \u2014 international yard to feet conversion (1 yd = 3 ft)" }
     ],
     useCases: ["Construction & architecture (ft\u2194m)", "Travel & navigation (km\u2194mi)", "Clothing & body measurements (in\u2194cm)", "Scientific research (nm, \u03BCm, ly)", "Real estate & property (ft\u2194m, ac\u2194ha)"],
     formula: "1 meter = 3.2808399 feet. 1 inch = exactly 25.4 millimeters (1959 International Yard Agreement). 1 kilometer = 0.6213712 miles.",
@@ -717,7 +723,15 @@ var categoryContent = {
       { from: "Stone", to: "Kilogram", desc: "st \u2192 kg \u2014 UK body weight to metric" },
       { from: "Metric Ton", to: "US Ton", desc: "t \u2192 ton \u2014 industrial & freight" },
       { from: "Troy Ounce", to: "Gram", desc: "oz t \u2192 g \u2014 gold bullion & precious jewelry trade" },
-      { from: "Troy Ounce", to: "Ounce", desc: "oz t \u2192 oz \u2014 precious metal vs avoirdupois weight" }
+      { from: "Troy Ounce", to: "Ounce", desc: "oz t \u2192 oz \u2014 precious metal vs avoirdupois weight" },
+      { from: "tola", to: "g", desc: "tola \u2192 g \u2014 Pakistani gold bullion & jewelry standard (11.6638 grams)" },
+      { from: "g", to: "tola", desc: "g \u2192 tola \u2014 convert grams of gold or silver into tolas" },
+      { from: "tola", to: "masha", desc: "tola \u2192 masha \u2014 1 tola equals exactly 12 mashas in bullion trade" },
+      { from: "masha", to: "ratti", desc: "masha \u2192 ratti \u2014 1 masha equals 8 traditional rattis" },
+      { from: "tola", to: "ozt", desc: "tola \u2192 troy ounce \u2014 Pakistani bullion to international precious metal standard" },
+      { from: "maund_pk", to: "kg", desc: "maund (mandi) \u2192 kg \u2014 modern Pakistani mandi trading standard (40 kg)" },
+      { from: "kg", to: "maund_pk", desc: "kg \u2192 maund \u2014 convert agricultural grain weights to Pakistani maunds" },
+      { from: "seer", to: "kg", desc: "seer \u2192 kg \u2014 1 traditional seer equals 0.9331 kg (16 chhatanks)" }
     ],
     useCases: ["Fitness & body weight (kg\u2194lb)", "Cooking & recipes (oz\u2194g, lb\u2194g)", "Shipping & logistics (kg\u2194lb, t\u2194ton)", "Science & chemistry (amu, g)", "Jewelry & precious metals (oz\u2194g)"],
     formula: "1 kilogram = 2.20462 pounds. 1 pound = 453.592 grams. 1 stone = 6.35029 kilograms.",
@@ -755,7 +769,17 @@ var categoryContent = {
       { from: "Acres", to: "Hectares", desc: "ac \u2192 ha \u2014 farmland & land measurement" },
       { from: "Square Feet", to: "Square Meters", desc: "ft\xB2 \u2192 m\xB2 \u2014 international property comparison" },
       { from: "Hectares", to: "Acres", desc: "ha \u2192 ac \u2014 agricultural land" },
-      { from: "Square Kilometers", to: "Square Miles", desc: "km\xB2 \u2192 mi\xB2 \u2014 country & region areas" }
+      { from: "Square Kilometers", to: "Square Miles", desc: "km\xB2 \u2192 mi\xB2 \u2014 country & region areas" },
+      { from: "marla", to: "ft2", desc: "marla \u2192 sq ft \u2014 standard Pakistani land measurement (272.25 sq ft)" },
+      { from: "ft2", to: "marla", desc: "sq ft \u2192 marla \u2014 calculate marlas from plot square footage" },
+      { from: "marla_soc", to: "ft2", desc: "marla (society) \u2192 sq ft \u2014 private housing societies standard (225 sq ft)" },
+      { from: "marla_cap", to: "ft2", desc: "marla (capital) \u2192 sq ft \u2014 Islamabad / Rawalpindi CDA standard (250 sq ft)" },
+      { from: "kanal", to: "marla", desc: "kanal \u2192 marla \u2014 1 kanal equals exactly 20 marlas in revenue records" },
+      { from: "marla", to: "kanal", desc: "marla \u2192 kanal \u2014 convert marlas to kanals" },
+      { from: "gaz_sq", to: "marla", desc: "square gaz \u2192 marla \u2014 South Asian urban plot measurement to marla" },
+      { from: "marla", to: "gaz_sq", desc: "marla \u2192 square gaz \u2014 convert marlas to square yards / gaz" },
+      { from: "killa", to: "kanal", desc: "killa / acre \u2192 kanal \u2014 1 agricultural killa equals exactly 8 kanals" },
+      { from: "murabba", to: "killa", desc: "murabba \u2192 killa \u2014 1 revenue murabba equals exactly 25 killas / acres" }
     ],
     useCases: ["Real estate & property (m\xB2\u2194ft\xB2)", "Agriculture & land (ac\u2194ha)", "Construction & flooring (ft\xB2\u2194m\xB2)", "Geography & mapping (km\xB2\u2194mi\xB2)", "Science (barn, mm\xB2)"],
     formula: "1 square meter = 10.7639 square feet. 1 acre = 0.404686 hectares. 1 hectare = 107,639 square feet.",
@@ -1193,7 +1217,16 @@ var categoryContent = {
     metaDesc: "Convert numbers across Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16). Supports Gray code, BCD, and two's complement.",
     h1: "Number Base & Radix Precision Converter",
     intro: "Convert integers between number bases instantly. Supports binary (base 2), octal (base 8), decimal (base 10), hexadecimal (base 16), base 32, base 36, Gray code, and BCD. Designed for computer scientists, embedded firmware engineers, and digital electronics designers.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "bin", to: "dec", desc: "bin \u2192 dec \u2014 binary base-2 to decimal base-10 radix conversion" },
+      { from: "dec", to: "bin", desc: "dec \u2192 bin \u2014 decimal integer to binary bit sequence" },
+      { from: "hex", to: "dec", desc: "hex \u2192 dec \u2014 hexadecimal base-16 to decimal base-10 conversion" },
+      { from: "dec", to: "hex", desc: "dec \u2192 hex \u2014 decimal integer to hexadecimal representation" },
+      { from: "bin", to: "hex", desc: "bin \u2192 hex \u2014 binary 4-bit nibbles to hexadecimal characters" },
+      { from: "hex", to: "bin", desc: "hex \u2192 bin \u2014 hexadecimal characters to 4-bit binary nibbles" },
+      { from: "dec", to: "bcd", desc: "dec \u2192 bcd \u2014 decimal integer to 8421 binary-coded decimal" },
+      { from: "bin", to: "gray", desc: "bin \u2192 gray \u2014 natural binary to reflected Gray code" }
+    ],
     useCases: ["Firmware & embedded systems", "Network subnetting & IP address calculation", "Web colors & RGB/hex mapping", "Computer architecture coursework"],
     formula: "Decimal value = Sum(digit \xD7 base^position). Hexadecimal utilizes digits 0-9 and A-F representing values 10-15.",
     faq: [
@@ -1206,7 +1239,12 @@ var categoryContent = {
     metaDesc: "Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.",
     h1: "IEEE-754 Floating-Point Visualizer & Bitfield Inspector",
     intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "dec_real", to: "fp32", desc: "real \u2192 fp32 \u2014 decimal real number to 32-bit single precision IEEE-754" },
+      { from: "fp32", to: "dec_real", desc: "fp32 \u2192 real \u2014 32-bit single precision bitfield to decimal real" },
+      { from: "dec_real", to: "fp64", desc: "real \u2192 fp64 \u2014 decimal real number to 64-bit double precision IEEE-754" },
+      { from: "hex_float", to: "fp32", desc: "0x hex \u2192 fp32 \u2014 hexadecimal bit representation to IEEE-754 single float" }
+    ],
     useCases: ["Graphics programming & shaders", "Machine learning quantization (FP16 / BF16)", "Numerical analysis & rounding error debugging", "Compilers & runtime engineering"],
     formula: "Value = (-1)^sign \xD7 2^(exponent - bias) \xD7 (1 + mantissa). Bias is 127 for FP32 and 1023 for FP64.",
     faq: [
@@ -1219,7 +1257,16 @@ var categoryContent = {
     metaDesc: "Convert between Pakistani & Indian Lakh, Crore, Arab, Kharab and Western Millions, Billions, and Trillions. Free deterministic financial converter.",
     h1: "South Asian & International Numbering System Converter",
     intro: "Convert values seamlessly between the South Asian numbering system (Hazar, Lakh, Crore, Arab, Kharab) and the international system (Thousands, Millions, Billions, Trillions). Follows State Bank of Pakistan financial reporting standards and 2,2,3 comma grouping rules.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "lakh", to: "m_std", desc: "lakh \u2192 million \u2014 1 lakh equals 0.1 million (100,000)" },
+      { from: "m_std", to: "lakh", desc: "million \u2192 lakh \u2014 1 million equals exactly 10 lakhs (10,00,000)" },
+      { from: "crore", to: "m_std", desc: "crore \u2192 million \u2014 1 crore equals exactly 10 million (10,000,000)" },
+      { from: "m_std", to: "crore", desc: "million \u2192 crore \u2014 convert international millions to South Asian crores" },
+      { from: "arab", to: "b_std", desc: "arab \u2192 billion \u2014 1 arab equals exactly 1 billion (1,000,000,000)" },
+      { from: "crore", to: "lakh", desc: "crore \u2192 lakh \u2014 1 crore equals exactly 100 lakhs" },
+      { from: "kharab", to: "b_std", desc: "kharab \u2192 billion \u2014 1 kharab equals exactly 100 billion" },
+      { from: "hazar", to: "lakh", desc: "hazar \u2192 lakh \u2014 100 hazar equals 1 lakh (100,000)" }
+    ],
     useCases: ["Real estate transactions in Pakistan (Lakhs & Crores)", "Government budgets & macroeconomic reporting", "Banking & cross-border financial reconciliation", "Contract drafting & legal property deeds"],
     formula: "1 Lakh = 100,000 (0.1 Million). 1 Crore = 10,000,000 (10 Million). 1 Arab = 1,000,000,000 (1 Billion). 1 Kharab = 100,000,000,000 (100 Billion).",
     faq: [
@@ -1232,7 +1279,14 @@ var categoryContent = {
     metaDesc: "Convert between Z-scores, normal percentiles, two-tailed P-values, decimal odds, fractional odds, and American moneyline. Free statistical calculator.",
     h1: "Statistics, Normal Distribution & Betting Odds Converter",
     intro: "Calculate equivalent measures across statistical metrics and sports betting odds. Convert between standard normal Z-scores, percentiles, two-tailed P-values, decimal odds, fractional odds, and American moneyline with exact Gaussian probability formulas.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "z_score", to: "percentile", desc: "z-score \u2192 percentile \u2014 standard normal deviation to cumulative probability percentile" },
+      { from: "percentile", to: "z_score", desc: "percentile \u2192 z-score \u2014 cumulative distribution percentile to standard normal z-value" },
+      { from: "z_score", to: "p_val_two", desc: "z-score \u2192 p-value \u2014 standard normal z to two-tailed significance p-value" },
+      { from: "dec_odds", to: "prob_pct", desc: "decimal odds \u2192 prob % \u2014 European decimal odds to implied probability percentage" },
+      { from: "frac_odds", to: "prob_pct", desc: "fractional odds \u2192 prob % \u2014 UK fractional odds to implied probability percentage" },
+      { from: "us_moneyline", to: "prob_pct", desc: "moneyline \u2192 prob % \u2014 American +/- odds to implied probability percentage" }
+    ],
     useCases: ["Academic statistics & hypothesis testing", "Financial risk management & VaR", "Sports analytics & market making", "Psychometrics & standardized test scoring"],
     formula: "Decimal Odds = 1 / Probability. American Moneyline (for p \u2264 0.5) = +((1 - p)/p) \xD7 100. Z = (X - \u03BC) / \u03C3.",
     faq: [
@@ -1245,7 +1299,14 @@ var categoryContent = {
     metaDesc: "Convert matrix arrays between CSV, LaTeX bmatrix/pmatrix, Python NumPy, MATLAB, and JSON 2D arrays. Instant academic & programming syntax tool.",
     h1: "Matrix Syntax & 2D Numerical Array Converter",
     intro: "Transform 2D numerical matrices between different syntax formats instantly. Supports CSV/TSV grids, LaTeX bmatrix and pmatrix, Python NumPy array declarations, MATLAB/Octave syntax, and nested JSON 2D arrays.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "csv", to: "latex_b", desc: "csv \u2192 latex bmatrix \u2014 tabular data to LaTeX bracketed matrix syntax" },
+      { from: "csv", to: "numpy", desc: "csv \u2192 numpy \u2014 delimited matrix to Python np.array definition" },
+      { from: "matlab", to: "numpy", desc: "matlab \u2192 numpy \u2014 MATLAB bracket array to Python NumPy array" },
+      { from: "numpy", to: "latex_b", desc: "numpy \u2192 latex bmatrix \u2014 Python NumPy array to LaTeX bmatrix math" },
+      { from: "json_2d", to: "csv", desc: "json 2d \u2192 csv \u2014 nested 2D JSON array to comma-separated values" },
+      { from: "csv", to: "latex_p", desc: "csv \u2192 latex pmatrix \u2014 tabular data to LaTeX parenthesized matrix syntax" }
+    ],
     useCases: ["Academic paper preparation (LaTeX amsmath)", "Data science pipeline scripting (Python NumPy)", "Engineering calculations (MATLAB / Octave)", "API data interchange (JSON 2D)"],
     formula: "Deterministic syntax formatting preserving rows, columns, decimal points, and brackets.",
     faq: [
@@ -1258,7 +1319,12 @@ var categoryContent = {
     metaDesc: "Convert numbers between standard decimal, scientific notation (a \xD7 10\u207F), engineering notation, ppm, ppb, and percentages. Instant analytical tool.",
     h1: "Scientific, Engineering & Parts-Per Concentration Converter",
     intro: "Convert values across scientific notation, engineering notation (powers of 3), standard decimals, and parts-per concentration metrics (ppm, ppb, ppt). Essential for chemistry, physics, and electrical engineering.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "ppm", to: "pct", desc: "ppm \u2192 % \u2014 parts-per-million to percentage (1% = 10,000 ppm)" },
+      { from: "pct", to: "ppm", desc: "% \u2192 ppm \u2014 percentage concentration to parts-per-million" },
+      { from: "ppm", to: "ppb", desc: "ppm \u2192 ppb \u2014 parts-per-million to parts-per-billion (1 ppm = 1,000 ppb)" },
+      { from: "dec_std", to: "sci_micro", desc: "decimal \u2192 micro \u2014 standard decimal to micro (10\u207B\u2076) scientific prefix" }
+    ],
     useCases: ["Environmental monitoring & air quality (ppm/ppb)", "Water quality testing (TDS & lead concentration)", "Electrical engineering (micro/nano/pico units)", "Astronomy & quantum physics calculations"],
     formula: "Scientific notation expresses a number as a \xD7 10^b where 1 \u2264 |a| < 10. 1 ppm = 1 part in 10^6 (0.0001%). 1 ppb = 1 part in 10^9.",
     faq: [
@@ -1271,7 +1337,12 @@ var categoryContent = {
     metaDesc: "Convert Pakistani HEC 4.00 CGPA, 5.00 CGPA, percentage marks, matric/FSc marks (out of 1100/1200), and MDCAT aggregate. Official HEC guidelines.",
     h1: "HEC Pakistan CGPA, Percentage & Academic Marks Converter",
     intro: "Convert academic results according to Higher Education Commission (HEC) Pakistan and PMDC standards. Calculate equivalent CGPA on the 4.00 and 5.00 scales, percentage marks, FSc/Matriculation board marks (out of 1100 and 1200), and medical/engineering aggregate scores.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "hec_gpa4", to: "percentage", desc: "hec gpa 4.0 \u2192 % \u2014 Pakistani HEC CGPA to equivalent percentage marks" },
+      { from: "percentage", to: "hec_gpa4", desc: "% \u2192 hec gpa 4.0 \u2014 percentage marks to official HEC 4.00 CGPA scale" },
+      { from: "gpa5", to: "hec_gpa4", desc: "gpa 5.0 \u2192 hec gpa 4.0 \u2014 5.00 scale CGPA to HEC 4.00 scale conversion" },
+      { from: "matric_fsc1100", to: "percentage", desc: "fsc/matric 1100 \u2192 % \u2014 Pakistani Board marks out of 1100 to percentage" }
+    ],
     useCases: ["Pakistani university admissions & foreign scholarship applications", "HEC degree attestation and equivalence", "MDCAT / NUMS medical entrance aggregate calculation", "Job recruitment & civil service (CSS) minimum mark verification"],
     formula: "HEC 4.00 continuous model: 85%+ = 4.00; below 85% scales linearly down to 50% = 1.00. Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
     faq: [
@@ -1284,7 +1355,10 @@ var categoryContent = {
     metaDesc: "Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).",
     h1: "Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter",
     intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    popularPairs: [],
+    popularPairs: [
+      { from: "overs_balls", to: "balls", desc: "cricket overs \u2192 balls \u2014 cricket overs notation (e.g. 14.3) to legal deliveries" },
+      { from: "overs_balls", to: "true_overs", desc: "cricket overs \u2192 decimal overs \u2014 cricket notation to true decimal overs for run rate" }
+    ],
     useCases: ["ICC Tournament Net Run Rate (NRR) calculations", "Live match run rate and required run rate (RRR) analysis", "Bowler economy rate calculation (Runs / True Decimal Overs)", "Cricket database statistics & scorebook bookkeeping"],
     formula: "Total Balls = (Floor(Overs) \xD7 6) + Remainder Balls. True Decimal Overs = Total Balls \xF7 6. Run Rate = Total Runs \xF7 True Decimal Overs.",
     faq: [

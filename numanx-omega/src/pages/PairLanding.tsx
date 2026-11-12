@@ -15,6 +15,7 @@ import { unitSymbol, unitName, unitLabel, pairTitle, pairMetaDescription } from 
 import { getFavorites, toggleFavorite } from '../services/storage'
 import VisualComparisonCard from '../components/widgets/VisualComparisonCard'
 import ConversionQuiz from '../components/widgets/ConversionQuiz'
+import { AdSlotBanner, AdSlotRectangle, AdSlotRail } from '../components/monetization/AdSlot3Tier'
 
 function PairLandingInner({
   catParam,
@@ -214,7 +215,8 @@ function PairLandingInner({
   }
 
   return (
-    <article className="space-y-6">
+    <div className="relative flex justify-center gap-6">
+      <article className="space-y-6 max-w-4xl min-w-0 flex-1">
       <SEOHead
         title={pageTitle}
         description={metaDescription}
@@ -339,6 +341,9 @@ function PairLandingInner({
           1 {unitSymbol(u2, cat.id)} = <strong className="text-[var(--text)] font-semibold">{inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : '—'} {unitSymbol(u1, cat.id)}</strong>
         </div>
       </section>
+
+      {/* Monetization Slot 2: Mid-Page Banner */}
+      <AdSlotBanner />
 
       {/* AEO Direct-Answer Block */}
       {editorial && (
@@ -534,6 +539,19 @@ function PairLandingInner({
               <span aria-hidden="true">📥</span>
               <span>CSV</span>
             </button>
+            <button
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('open-pro-modal', {
+                  detail: { reason: 'Export high-resolution LaTeX formulas & printable PDF engineering reference sheets with Omega X Pro.' }
+                }))
+              }}
+              className="btn-secondary text-xs gap-1.5 min-h-[44px] flex items-center px-3 py-2 text-[var(--accent)] font-semibold border-[var(--accent)]/40 hover:bg-[var(--accent)]/10 cursor-pointer"
+              title="Export Printable PDF / LaTeX Sheet (Pro)"
+              aria-label="Export Printable PDF or LaTeX Sheet with Pro"
+            >
+              <span aria-hidden="true">⭐</span>
+              <span>LaTeX / PDF (Pro)</span>
+            </button>
           </div>
         </div>
 
@@ -603,6 +621,9 @@ function PairLandingInner({
         )}
       </section>
 
+      {/* Monetization Slot 3: Pre-FAQ Rectangle */}
+      <AdSlotRectangle />
+
       {/* Frequently Asked Questions — Visible FAQ Parity */}
       <section aria-labelledby="pair-faq-heading" className="space-y-3">
         <h2 id="pair-faq-heading" className="text-sm font-semibold flex items-center gap-2 text-[var(--text)]">
@@ -642,6 +663,8 @@ function PairLandingInner({
         </Link>
       </div>
     </article>
+      <AdSlotRail />
+    </div>
   )
 }
 

@@ -192,7 +192,7 @@ var Categories = [
   {
     id: "acceleration",
     lb: "Acceleration",
-    ic: "\u{1F680}",
+    ic: "\u{1F4C8}",
     cl: "#e91e63",
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
@@ -271,7 +271,7 @@ var Categories = [
   {
     id: "electricity",
     lb: "Electricity",
-    ic: "\u26A1",
+    ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
       { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
@@ -422,7 +422,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM", r: 1, s: "O" },
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
       { id: "tc", lb: "Thread Count", r: 1, s: "O" },
       { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
     ]
@@ -459,7 +461,7 @@ var Categories = [
   {
     id: "illuminance",
     lb: "Illuminance",
-    ic: "\u{1F4A1}",
+    ic: "\u2600\uFE0F",
     cl: "#ffb300",
     al: ["light", "lux", "foot-candle", "illumination", "phot"],
     un: [
@@ -642,7 +644,8 @@ var Categories = [
 // src/utils/numbers.ts
 function cleanFloat(value, sigFigs = 14) {
   if (!Number.isFinite(value) || value === 0) return 0;
-  return Number(value.toPrecision(sigFigs));
+  const digits = Math.max(1, Math.min(100, sigFigs >= 1 ? Math.floor(sigFigs) : 14));
+  return Number(value.toPrecision(digits));
 }
 function fmt(v, prec = 6) {
   if (v === null || v === void 0 || !isFinite(v)) return "\u2014";
@@ -703,7 +706,7 @@ function convertFuel(v, from, to) {
 }
 function convertCricketOvers(v, from, to) {
   if (from === to) return cleanFloat(v);
-  let totalBalls = 0;
+  let totalBalls;
   if (from === "balls") {
     totalBalls = Math.round(v);
   } else if (from === "true_overs" || from === "run_rate_6") {
@@ -773,8 +776,8 @@ function convertStatistics(v, from, to) {
   if (to === "dec_odds") return cleanFloat(1 / p, 3);
   if (to === "frac_odds") return cleanFloat((1 - p) / p, 3);
   if (to === "us_moneyline") {
-    if (p <= 0.5) return cleanFloat((1 - p) / p * 100, 0);
-    return cleanFloat(-(p / (1 - p)) * 100, 0);
+    if (p <= 0.5) return Math.round((1 - p) / p * 100);
+    return Math.round(-(p / (1 - p)) * 100);
   }
   if (to === "p_val_two") {
     const tail = p > 0.5 ? 1 - p : p;
@@ -810,6 +813,8 @@ function convert(v, catId, fromId, toId) {
   if (cat.id === "pk-gpa") return convertPkGpa(v, fromId, toId);
   if (cat.id === "statistics") return convertStatistics(v, fromId, toId);
   if (cat.id === "number-base") return convertNumberBase(v, fromId, toId);
+  if (cat.id === "ieee-754") return 1;
+  if (cat.id === "matrix-format") return 1;
   const fu = getUnit(cat, fromId);
   const tu = getUnit(cat, toId);
   if (!fu || !tu || !fu.r || !tu.r) return null;
@@ -1367,6 +1372,8 @@ var SYMBOLS = {
   lbft3: "lb/ft\xB3",
   BTUh: "BTU/h",
   tc: "TC",
+  oz_yd2: "oz/yd\xB2",
+  momme: "mm",
   au: "AU",
   au_a: "AU",
   ly_a: "ly",
@@ -1375,7 +1382,62 @@ var SYMBOLS = {
   em: "M\u2295",
   ld: "LD",
   sr: "R\u2609",
-  er: "R\u2295"
+  er: "R\u2295",
+  marla_soc: "marla (soc)",
+  marla_cap: "marla (cap)",
+  gaz_sq: "sq yd (gaz)",
+  maund_pk: "maund (mandi)",
+  bin_radix: "bin",
+  oct_radix: "oct",
+  dec_radix: "dec",
+  hex_radix: "hex",
+  bcd_code: "BCD",
+  gray_code: "Gray",
+  twos_comp: "2s-comp",
+  dec_real: "real",
+  hex_float: "hex float",
+  fp16: "FP16",
+  fp32: "FP32",
+  fp64: "FP64",
+  m_std: "Million",
+  b_std: "Billion",
+  t_std: "Trillion",
+  k_std: "Thousand",
+  lakh: "lakh",
+  crore: "crore",
+  arab: "arab",
+  kharab: "kharab",
+  hazar: "hazar",
+  z_score: "z",
+  p_val_two: "p-val (2-tail)",
+  p_val_one: "p-val (1-tail)",
+  dec_odds: "dec odds",
+  frac_odds: "frac odds",
+  us_moneyline: "moneyline",
+  pct_odds: "%",
+  csv: "CSV",
+  latex_b: "bmatrix",
+  latex_p: "pmatrix",
+  numpy: "NumPy",
+  matlab: "MATLAB",
+  json_2d: "JSON 2D",
+  dec_std: "dec",
+  sci_std: "sci",
+  eng_std: "eng",
+  sci_micro: "micro",
+  sci_nano: "nano",
+  sci_pico: "pico",
+  ppm: "ppm",
+  ppb: "ppb",
+  pct: "%",
+  hec_gpa4: "CGPA 4.0",
+  gpa5: "GPA 5.0",
+  matric_fsc1100: "marks (1100)",
+  mdcat200: "marks (200)",
+  percentage: "%",
+  overs_balls: "overs",
+  balls: "balls",
+  true_overs: "dec overs"
 };
 var SCOPED_NAMES = {
   "temp:C": "Celsius",
@@ -1467,7 +1529,64 @@ var NAMES = {
   rem: "Root EM",
   stick_c: "Stick of Butter",
   jigger: "Jigger",
-  au_a: "Astronomical Unit"
+  au_a: "Astronomical Unit",
+  oz_yd2: "Ounce per Square Yard",
+  momme: "Momme Silk",
+  marla_soc: "Marla (Society 225 sq ft)",
+  marla_cap: "Marla (Capital 250 sq ft)",
+  gaz_sq: "Square Yard (Gaz)",
+  maund_pk: "Maund (40 kg Mandi)",
+  bin_radix: "Binary (Base-2)",
+  oct_radix: "Octal (Base-8)",
+  dec_radix: "Decimal (Base-10)",
+  hex_radix: "Hexadecimal (Base-16)",
+  bcd_code: "Binary Coded Decimal",
+  gray_code: "Gray Code",
+  twos_comp: "Two's Complement",
+  dec_real: "Decimal Real",
+  hex_float: "Hexadecimal Float",
+  fp16: "Half Precision FP16",
+  fp32: "Single Precision FP32",
+  fp64: "Double Precision FP64",
+  m_std: "Million (Standard)",
+  b_std: "Billion (Standard)",
+  t_std: "Trillion (Standard)",
+  k_std: "Thousand (Standard)",
+  lakh: "Lakh",
+  crore: "Crore",
+  arab: "Arab",
+  kharab: "Kharab",
+  hazar: "Hazar",
+  z_score: "Z-Score",
+  p_val_two: "Two-Tailed P-Value",
+  p_val_one: "One-Tailed P-Value",
+  dec_odds: "Decimal Odds",
+  frac_odds: "Fractional Odds",
+  us_moneyline: "American Moneyline",
+  pct_odds: "Probability Percentage",
+  csv: "CSV Grid",
+  latex_b: "LaTeX bmatrix",
+  latex_p: "LaTeX pmatrix",
+  numpy: "Python NumPy Array",
+  matlab: "MATLAB Matrix",
+  json_2d: "JSON 2D Array",
+  dec_std: "Standard Decimal",
+  sci_std: "Scientific Notation",
+  eng_std: "Engineering Notation",
+  sci_micro: "Scientific Micro",
+  sci_nano: "Scientific Nano",
+  sci_pico: "Scientific Pico",
+  ppm: "Parts Per Million",
+  ppb: "Parts Per Billion",
+  pct: "Percentage",
+  hec_gpa4: "HEC CGPA (4.00 Scale)",
+  gpa5: "5.00 GPA Scale",
+  matric_fsc1100: "Matric / FSc Total (1100)",
+  mdcat200: "MDCAT Score (200)",
+  percentage: "Percentage Marks",
+  overs_balls: "Cricket Overs (O.B)",
+  balls: "Legal Deliveries (Balls)",
+  true_overs: "True Decimal Overs"
 };
 function unitSymbol(u, catId) {
   return catId && SCOPED[`${catId}:${u.id}`] || SYMBOLS[u.id] || u.id;
@@ -1529,7 +1648,11 @@ var categoryContent = {
       { from: "Feet", to: "Meters", desc: "ft \u2192 m \u2014 real estate & architecture" },
       { from: "Centimeter", to: "Inches", desc: "cm \u2192 in \u2014 product dimensions & body measurements" },
       { from: "Angstrom", to: "Nanometer", desc: "\xC5 \u2192 nm \u2014 crystallography & optics" },
-      { from: "Fathom", to: "Foot", desc: "fath \u2192 ft \u2014 nautical depth & marine sounding" }
+      { from: "Fathom", to: "Foot", desc: "fath \u2192 ft \u2014 nautical depth & marine sounding" },
+      { from: "karam", to: "ft", desc: "karam \u2192 ft \u2014 Pakistani revenue pace unit (1 karam = 5.5 feet)" },
+      { from: "ft", to: "karam", desc: "ft \u2192 karam \u2014 convert field feet measurements to patwari karams" },
+      { from: "girah", to: "in", desc: "girah \u2192 in \u2014 traditional textile & fabric unit (1 girah = 2.25 inches)" },
+      { from: "yd", to: "ft", desc: "yd \u2192 ft \u2014 international yard to feet conversion (1 yd = 3 ft)" }
     ],
     useCases: ["Construction & architecture (ft\u2194m)", "Travel & navigation (km\u2194mi)", "Clothing & body measurements (in\u2194cm)", "Scientific research (nm, \u03BCm, ly)", "Real estate & property (ft\u2194m, ac\u2194ha)"],
     formula: "1 meter = 3.2808399 feet. 1 inch = exactly 25.4 millimeters (1959 International Yard Agreement). 1 kilometer = 0.6213712 miles.",
@@ -1551,7 +1674,15 @@ var categoryContent = {
       { from: "Stone", to: "Kilogram", desc: "st \u2192 kg \u2014 UK body weight to metric" },
       { from: "Metric Ton", to: "US Ton", desc: "t \u2192 ton \u2014 industrial & freight" },
       { from: "Troy Ounce", to: "Gram", desc: "oz t \u2192 g \u2014 gold bullion & precious jewelry trade" },
-      { from: "Troy Ounce", to: "Ounce", desc: "oz t \u2192 oz \u2014 precious metal vs avoirdupois weight" }
+      { from: "Troy Ounce", to: "Ounce", desc: "oz t \u2192 oz \u2014 precious metal vs avoirdupois weight" },
+      { from: "tola", to: "g", desc: "tola \u2192 g \u2014 Pakistani gold bullion & jewelry standard (11.6638 grams)" },
+      { from: "g", to: "tola", desc: "g \u2192 tola \u2014 convert grams of gold or silver into tolas" },
+      { from: "tola", to: "masha", desc: "tola \u2192 masha \u2014 1 tola equals exactly 12 mashas in bullion trade" },
+      { from: "masha", to: "ratti", desc: "masha \u2192 ratti \u2014 1 masha equals 8 traditional rattis" },
+      { from: "tola", to: "ozt", desc: "tola \u2192 troy ounce \u2014 Pakistani bullion to international precious metal standard" },
+      { from: "maund_pk", to: "kg", desc: "maund (mandi) \u2192 kg \u2014 modern Pakistani mandi trading standard (40 kg)" },
+      { from: "kg", to: "maund_pk", desc: "kg \u2192 maund \u2014 convert agricultural grain weights to Pakistani maunds" },
+      { from: "seer", to: "kg", desc: "seer \u2192 kg \u2014 1 traditional seer equals 0.9331 kg (16 chhatanks)" }
     ],
     useCases: ["Fitness & body weight (kg\u2194lb)", "Cooking & recipes (oz\u2194g, lb\u2194g)", "Shipping & logistics (kg\u2194lb, t\u2194ton)", "Science & chemistry (amu, g)", "Jewelry & precious metals (oz\u2194g)"],
     formula: "1 kilogram = 2.20462 pounds. 1 pound = 453.592 grams. 1 stone = 6.35029 kilograms.",
@@ -1589,7 +1720,17 @@ var categoryContent = {
       { from: "Acres", to: "Hectares", desc: "ac \u2192 ha \u2014 farmland & land measurement" },
       { from: "Square Feet", to: "Square Meters", desc: "ft\xB2 \u2192 m\xB2 \u2014 international property comparison" },
       { from: "Hectares", to: "Acres", desc: "ha \u2192 ac \u2014 agricultural land" },
-      { from: "Square Kilometers", to: "Square Miles", desc: "km\xB2 \u2192 mi\xB2 \u2014 country & region areas" }
+      { from: "Square Kilometers", to: "Square Miles", desc: "km\xB2 \u2192 mi\xB2 \u2014 country & region areas" },
+      { from: "marla", to: "ft2", desc: "marla \u2192 sq ft \u2014 standard Pakistani land measurement (272.25 sq ft)" },
+      { from: "ft2", to: "marla", desc: "sq ft \u2192 marla \u2014 calculate marlas from plot square footage" },
+      { from: "marla_soc", to: "ft2", desc: "marla (society) \u2192 sq ft \u2014 private housing societies standard (225 sq ft)" },
+      { from: "marla_cap", to: "ft2", desc: "marla (capital) \u2192 sq ft \u2014 Islamabad / Rawalpindi CDA standard (250 sq ft)" },
+      { from: "kanal", to: "marla", desc: "kanal \u2192 marla \u2014 1 kanal equals exactly 20 marlas in revenue records" },
+      { from: "marla", to: "kanal", desc: "marla \u2192 kanal \u2014 convert marlas to kanals" },
+      { from: "gaz_sq", to: "marla", desc: "square gaz \u2192 marla \u2014 South Asian urban plot measurement to marla" },
+      { from: "marla", to: "gaz_sq", desc: "marla \u2192 square gaz \u2014 convert marlas to square yards / gaz" },
+      { from: "killa", to: "kanal", desc: "killa / acre \u2192 kanal \u2014 1 agricultural killa equals exactly 8 kanals" },
+      { from: "murabba", to: "killa", desc: "murabba \u2192 killa \u2014 1 revenue murabba equals exactly 25 killas / acres" }
     ],
     useCases: ["Real estate & property (m\xB2\u2194ft\xB2)", "Agriculture & land (ac\u2194ha)", "Construction & flooring (ft\xB2\u2194m\xB2)", "Geography & mapping (km\xB2\u2194mi\xB2)", "Science (barn, mm\xB2)"],
     formula: "1 square meter = 10.7639 square feet. 1 acre = 0.404686 hectares. 1 hectare = 107,639 square feet.",
@@ -2027,7 +2168,16 @@ var categoryContent = {
     metaDesc: "Convert numbers across Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16). Supports Gray code, BCD, and two's complement.",
     h1: "Number Base & Radix Precision Converter",
     intro: "Convert integers between number bases instantly. Supports binary (base 2), octal (base 8), decimal (base 10), hexadecimal (base 16), base 32, base 36, Gray code, and BCD. Designed for computer scientists, embedded firmware engineers, and digital electronics designers.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "bin", to: "dec", desc: "bin \u2192 dec \u2014 binary base-2 to decimal base-10 radix conversion" },
+      { from: "dec", to: "bin", desc: "dec \u2192 bin \u2014 decimal integer to binary bit sequence" },
+      { from: "hex", to: "dec", desc: "hex \u2192 dec \u2014 hexadecimal base-16 to decimal base-10 conversion" },
+      { from: "dec", to: "hex", desc: "dec \u2192 hex \u2014 decimal integer to hexadecimal representation" },
+      { from: "bin", to: "hex", desc: "bin \u2192 hex \u2014 binary 4-bit nibbles to hexadecimal characters" },
+      { from: "hex", to: "bin", desc: "hex \u2192 bin \u2014 hexadecimal characters to 4-bit binary nibbles" },
+      { from: "dec", to: "bcd", desc: "dec \u2192 bcd \u2014 decimal integer to 8421 binary-coded decimal" },
+      { from: "bin", to: "gray", desc: "bin \u2192 gray \u2014 natural binary to reflected Gray code" }
+    ],
     useCases: ["Firmware & embedded systems", "Network subnetting & IP address calculation", "Web colors & RGB/hex mapping", "Computer architecture coursework"],
     formula: "Decimal value = Sum(digit \xD7 base^position). Hexadecimal utilizes digits 0-9 and A-F representing values 10-15.",
     faq: [
@@ -2040,7 +2190,12 @@ var categoryContent = {
     metaDesc: "Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.",
     h1: "IEEE-754 Floating-Point Visualizer & Bitfield Inspector",
     intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "dec_real", to: "fp32", desc: "real \u2192 fp32 \u2014 decimal real number to 32-bit single precision IEEE-754" },
+      { from: "fp32", to: "dec_real", desc: "fp32 \u2192 real \u2014 32-bit single precision bitfield to decimal real" },
+      { from: "dec_real", to: "fp64", desc: "real \u2192 fp64 \u2014 decimal real number to 64-bit double precision IEEE-754" },
+      { from: "hex_float", to: "fp32", desc: "0x hex \u2192 fp32 \u2014 hexadecimal bit representation to IEEE-754 single float" }
+    ],
     useCases: ["Graphics programming & shaders", "Machine learning quantization (FP16 / BF16)", "Numerical analysis & rounding error debugging", "Compilers & runtime engineering"],
     formula: "Value = (-1)^sign \xD7 2^(exponent - bias) \xD7 (1 + mantissa). Bias is 127 for FP32 and 1023 for FP64.",
     faq: [
@@ -2053,7 +2208,16 @@ var categoryContent = {
     metaDesc: "Convert between Pakistani & Indian Lakh, Crore, Arab, Kharab and Western Millions, Billions, and Trillions. Free deterministic financial converter.",
     h1: "South Asian & International Numbering System Converter",
     intro: "Convert values seamlessly between the South Asian numbering system (Hazar, Lakh, Crore, Arab, Kharab) and the international system (Thousands, Millions, Billions, Trillions). Follows State Bank of Pakistan financial reporting standards and 2,2,3 comma grouping rules.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "lakh", to: "m_std", desc: "lakh \u2192 million \u2014 1 lakh equals 0.1 million (100,000)" },
+      { from: "m_std", to: "lakh", desc: "million \u2192 lakh \u2014 1 million equals exactly 10 lakhs (10,00,000)" },
+      { from: "crore", to: "m_std", desc: "crore \u2192 million \u2014 1 crore equals exactly 10 million (10,000,000)" },
+      { from: "m_std", to: "crore", desc: "million \u2192 crore \u2014 convert international millions to South Asian crores" },
+      { from: "arab", to: "b_std", desc: "arab \u2192 billion \u2014 1 arab equals exactly 1 billion (1,000,000,000)" },
+      { from: "crore", to: "lakh", desc: "crore \u2192 lakh \u2014 1 crore equals exactly 100 lakhs" },
+      { from: "kharab", to: "b_std", desc: "kharab \u2192 billion \u2014 1 kharab equals exactly 100 billion" },
+      { from: "hazar", to: "lakh", desc: "hazar \u2192 lakh \u2014 100 hazar equals 1 lakh (100,000)" }
+    ],
     useCases: ["Real estate transactions in Pakistan (Lakhs & Crores)", "Government budgets & macroeconomic reporting", "Banking & cross-border financial reconciliation", "Contract drafting & legal property deeds"],
     formula: "1 Lakh = 100,000 (0.1 Million). 1 Crore = 10,000,000 (10 Million). 1 Arab = 1,000,000,000 (1 Billion). 1 Kharab = 100,000,000,000 (100 Billion).",
     faq: [
@@ -2066,7 +2230,14 @@ var categoryContent = {
     metaDesc: "Convert between Z-scores, normal percentiles, two-tailed P-values, decimal odds, fractional odds, and American moneyline. Free statistical calculator.",
     h1: "Statistics, Normal Distribution & Betting Odds Converter",
     intro: "Calculate equivalent measures across statistical metrics and sports betting odds. Convert between standard normal Z-scores, percentiles, two-tailed P-values, decimal odds, fractional odds, and American moneyline with exact Gaussian probability formulas.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "z_score", to: "percentile", desc: "z-score \u2192 percentile \u2014 standard normal deviation to cumulative probability percentile" },
+      { from: "percentile", to: "z_score", desc: "percentile \u2192 z-score \u2014 cumulative distribution percentile to standard normal z-value" },
+      { from: "z_score", to: "p_val_two", desc: "z-score \u2192 p-value \u2014 standard normal z to two-tailed significance p-value" },
+      { from: "dec_odds", to: "prob_pct", desc: "decimal odds \u2192 prob % \u2014 European decimal odds to implied probability percentage" },
+      { from: "frac_odds", to: "prob_pct", desc: "fractional odds \u2192 prob % \u2014 UK fractional odds to implied probability percentage" },
+      { from: "us_moneyline", to: "prob_pct", desc: "moneyline \u2192 prob % \u2014 American +/- odds to implied probability percentage" }
+    ],
     useCases: ["Academic statistics & hypothesis testing", "Financial risk management & VaR", "Sports analytics & market making", "Psychometrics & standardized test scoring"],
     formula: "Decimal Odds = 1 / Probability. American Moneyline (for p \u2264 0.5) = +((1 - p)/p) \xD7 100. Z = (X - \u03BC) / \u03C3.",
     faq: [
@@ -2079,7 +2250,14 @@ var categoryContent = {
     metaDesc: "Convert matrix arrays between CSV, LaTeX bmatrix/pmatrix, Python NumPy, MATLAB, and JSON 2D arrays. Instant academic & programming syntax tool.",
     h1: "Matrix Syntax & 2D Numerical Array Converter",
     intro: "Transform 2D numerical matrices between different syntax formats instantly. Supports CSV/TSV grids, LaTeX bmatrix and pmatrix, Python NumPy array declarations, MATLAB/Octave syntax, and nested JSON 2D arrays.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "csv", to: "latex_b", desc: "csv \u2192 latex bmatrix \u2014 tabular data to LaTeX bracketed matrix syntax" },
+      { from: "csv", to: "numpy", desc: "csv \u2192 numpy \u2014 delimited matrix to Python np.array definition" },
+      { from: "matlab", to: "numpy", desc: "matlab \u2192 numpy \u2014 MATLAB bracket array to Python NumPy array" },
+      { from: "numpy", to: "latex_b", desc: "numpy \u2192 latex bmatrix \u2014 Python NumPy array to LaTeX bmatrix math" },
+      { from: "json_2d", to: "csv", desc: "json 2d \u2192 csv \u2014 nested 2D JSON array to comma-separated values" },
+      { from: "csv", to: "latex_p", desc: "csv \u2192 latex pmatrix \u2014 tabular data to LaTeX parenthesized matrix syntax" }
+    ],
     useCases: ["Academic paper preparation (LaTeX amsmath)", "Data science pipeline scripting (Python NumPy)", "Engineering calculations (MATLAB / Octave)", "API data interchange (JSON 2D)"],
     formula: "Deterministic syntax formatting preserving rows, columns, decimal points, and brackets.",
     faq: [
@@ -2092,7 +2270,12 @@ var categoryContent = {
     metaDesc: "Convert numbers between standard decimal, scientific notation (a \xD7 10\u207F), engineering notation, ppm, ppb, and percentages. Instant analytical tool.",
     h1: "Scientific, Engineering & Parts-Per Concentration Converter",
     intro: "Convert values across scientific notation, engineering notation (powers of 3), standard decimals, and parts-per concentration metrics (ppm, ppb, ppt). Essential for chemistry, physics, and electrical engineering.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "ppm", to: "pct", desc: "ppm \u2192 % \u2014 parts-per-million to percentage (1% = 10,000 ppm)" },
+      { from: "pct", to: "ppm", desc: "% \u2192 ppm \u2014 percentage concentration to parts-per-million" },
+      { from: "ppm", to: "ppb", desc: "ppm \u2192 ppb \u2014 parts-per-million to parts-per-billion (1 ppm = 1,000 ppb)" },
+      { from: "dec_std", to: "sci_micro", desc: "decimal \u2192 micro \u2014 standard decimal to micro (10\u207B\u2076) scientific prefix" }
+    ],
     useCases: ["Environmental monitoring & air quality (ppm/ppb)", "Water quality testing (TDS & lead concentration)", "Electrical engineering (micro/nano/pico units)", "Astronomy & quantum physics calculations"],
     formula: "Scientific notation expresses a number as a \xD7 10^b where 1 \u2264 |a| < 10. 1 ppm = 1 part in 10^6 (0.0001%). 1 ppb = 1 part in 10^9.",
     faq: [
@@ -2105,7 +2288,12 @@ var categoryContent = {
     metaDesc: "Convert Pakistani HEC 4.00 CGPA, 5.00 CGPA, percentage marks, matric/FSc marks (out of 1100/1200), and MDCAT aggregate. Official HEC guidelines.",
     h1: "HEC Pakistan CGPA, Percentage & Academic Marks Converter",
     intro: "Convert academic results according to Higher Education Commission (HEC) Pakistan and PMDC standards. Calculate equivalent CGPA on the 4.00 and 5.00 scales, percentage marks, FSc/Matriculation board marks (out of 1100 and 1200), and medical/engineering aggregate scores.",
-    popularPairs: [],
+    popularPairs: [
+      { from: "hec_gpa4", to: "percentage", desc: "hec gpa 4.0 \u2192 % \u2014 Pakistani HEC CGPA to equivalent percentage marks" },
+      { from: "percentage", to: "hec_gpa4", desc: "% \u2192 hec gpa 4.0 \u2014 percentage marks to official HEC 4.00 CGPA scale" },
+      { from: "gpa5", to: "hec_gpa4", desc: "gpa 5.0 \u2192 hec gpa 4.0 \u2014 5.00 scale CGPA to HEC 4.00 scale conversion" },
+      { from: "matric_fsc1100", to: "percentage", desc: "fsc/matric 1100 \u2192 % \u2014 Pakistani Board marks out of 1100 to percentage" }
+    ],
     useCases: ["Pakistani university admissions & foreign scholarship applications", "HEC degree attestation and equivalence", "MDCAT / NUMS medical entrance aggregate calculation", "Job recruitment & civil service (CSS) minimum mark verification"],
     formula: "HEC 4.00 continuous model: 85%+ = 4.00; below 85% scales linearly down to 50% = 1.00. Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
     faq: [
@@ -2118,7 +2306,10 @@ var categoryContent = {
     metaDesc: "Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).",
     h1: "Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter",
     intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    popularPairs: [],
+    popularPairs: [
+      { from: "overs_balls", to: "balls", desc: "cricket overs \u2192 balls \u2014 cricket overs notation (e.g. 14.3) to legal deliveries" },
+      { from: "overs_balls", to: "true_overs", desc: "cricket overs \u2192 decimal overs \u2014 cricket notation to true decimal overs for run rate" }
+    ],
     useCases: ["ICC Tournament Net Run Rate (NRR) calculations", "Live match run rate and required run rate (RRR) analysis", "Bowler economy rate calculation (Runs / True Decimal Overs)", "Cricket database statistics & scorebook bookkeeping"],
     formula: "Total Balls = (Floor(Overs) \xD7 6) + Remainder Balls. True Decimal Overs = Total Balls \xF7 6. Run Rate = Total Runs \xF7 True Decimal Overs.",
     faq: [
@@ -2175,6 +2366,39 @@ var PAIR_UNIT_SYNONYMS = {
   "mann": "maund_pk",
   "karam": "karam",
   "girah": "girah",
+  "marla-soc": "marla_soc",
+  "marla-cap": "marla_cap",
+  "gaz-sq": "gaz_sq",
+  "maund-pk": "maund_pk",
+  "dec-real": "dec_real",
+  "fp32": "fp32",
+  "fp64": "fp64",
+  "hex-float": "hex_float",
+  "m-std": "m_std",
+  "b-std": "b_std",
+  "k-std": "k_std",
+  "t-std": "t_std",
+  "z-score": "z_score",
+  "p-val-two": "p_val_two",
+  "dec-odds": "dec_odds",
+  "frac-odds": "frac_odds",
+  "us-moneyline": "us_moneyline",
+  "prob-pct": "prob_pct",
+  "latex-b": "latex_b",
+  "latex-p": "latex_p",
+  "json-2d": "json_2d",
+  "dec-std": "dec_std",
+  "sci-micro": "sci_micro",
+  "hec-gpa4": "hec_gpa4",
+  "gpa5": "gpa5",
+  "matric-fsc1100": "matric_fsc1100",
+  "matric-fsc1200": "matric_fsc1200",
+  "mdcat-agg": "mdcat_agg",
+  "overs-balls": "overs_balls",
+  "true-overs": "true_overs",
+  "run-rate-6": "run_rate_6",
+  "oz-yd2": "oz_yd2",
+  "momme": "momme",
   // Area
   "square-meter": "m2",
   "square-meters": "m2",
@@ -2319,6 +2543,7 @@ var PAIR_UNIT_SYNONYMS = {
 function findUnit(cat, raw) {
   const q = raw.trim().toLowerCase();
   const qSpaced = q.replace(/-/g, " ");
+  const qUnderscored = q.replace(/-/g, "_");
   const scopedKey = `${cat.id}:${q}`;
   if (PAIR_UNIT_SYNONYMS[scopedKey]) {
     const direct = cat.un.find((u) => u.id.toLowerCase() === PAIR_UNIT_SYNONYMS[scopedKey].toLowerCase());
@@ -2328,7 +2553,7 @@ function findUnit(cat, raw) {
     const direct = cat.un.find((u) => u.id.toLowerCase() === PAIR_UNIT_SYNONYMS[q].toLowerCase());
     if (direct) return direct;
   }
-  const singularCandidates = [q, qSpaced];
+  const singularCandidates = [q, qSpaced, qUnderscored];
   if (q.endsWith("ies")) singularCandidates.push(q.slice(0, -3) + "y");
   if (q.endsWith("es")) {
     singularCandidates.push(q.slice(0, -2));
@@ -2337,9 +2562,10 @@ function findUnit(cat, raw) {
   if (q.endsWith("s")) singularCandidates.push(q.slice(0, -1));
   return cat.un.find((u) => {
     const uid = u.id.toLowerCase();
+    const uidHyphen = uid.replace(/_/g, "-");
     const ulb = u.lb.toLowerCase();
     for (const cand of singularCandidates) {
-      if (uid === cand || ulb === cand) return true;
+      if (uid === cand || uidHyphen === cand || ulb === cand) return true;
       if (u.al?.some((a) => a.toLowerCase() === cand)) return true;
     }
     return false;
@@ -3423,6 +3649,43 @@ function getPairEditorial(cat, u1, u2, pairParam) {
       const [constant, divisor] = rhs.split(" \xF7 ");
       formulaDisplay = `${divisor} ${op} ${constant} \xF7 ${lhs}`;
     }
+  } else if (cat.id === "cricket-overs") {
+    if (u2.id === "balls") {
+      formulaDisplay = "Balls = (Floor(Overs) \xD7 6) + Remainder Deliveries";
+      summary = `1 over equals exactly 6 legal deliveries (balls). Cricket overs notation (e.g. 14.3 overs) denotes 14 overs and 3 balls (87 balls).`;
+      calculationRule = `To convert cricket overs to balls, multiply completed overs by 6 and add the remainder balls after the decimal point.`;
+      inverseSummary = `6 balls equal exactly 1 complete over (Overs = Floor(Balls \xF7 6) + (Balls mod 6) \xF7 10).`;
+    } else {
+      formulaDisplay = "True Decimal Overs = Floor(Overs) + (Remainder Balls \xF7 6)";
+      summary = `1 cricket over equals 1.00 true decimal over. Cricket notation uses base-6 (e.g. 14.3 overs = 14.50 true decimal overs).`;
+      calculationRule = `To convert cricket overs to true decimal overs, take completed overs and add remainder balls divided by 6.`;
+      inverseSummary = `1.00 true decimal over equals exactly 1.0 cricket over (6 balls).`;
+    }
+  } else if (cat.id === "ieee-754") {
+    formulaDisplay = "Value = (-1)^sign \xD7 2^(exponent - bias) \xD7 (1 + mantissa)";
+    summary = `Converts ${l1} to ${l2} with sign, exponent, and mantissa bitfields.`;
+    calculationRule = `To convert between decimal real values and IEEE-754 representations, extract the sign bit, calculate the biased exponent, and determine the normalized mantissa bits.`;
+    inverseSummary = `Converts ${l2} back to ${l1} with exact precision bitfield decoding.`;
+  } else if (cat.id === "matrix-format") {
+    formulaDisplay = "Format Mapping: Parser Tokenizer \u2192 Structural AST \u2192 Target Matrix Syntax";
+    summary = `Converts ${l1} matrix syntax into ${l2} array representation.`;
+    calculationRule = `To convert between matrix representations, parse row tokens, format column delimiters, and wrap in target syntax brackets.`;
+    inverseSummary = `Converts ${l2} representation back to ${l1} matrix syntax.`;
+  } else if (cat.id === "number-base") {
+    formulaDisplay = "Decimal Value = Sum(Digit \xD7 Radix^Position)";
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
+    calculationRule = `To convert between number bases, convert the source radix to decimal via Horner\u2019s polynomial method, then repeatedly divide by the target radix.`;
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
+  } else if (cat.id === "pk-gpa") {
+    formulaDisplay = "HEC Continuous Model: Percentage Marks \u2194 4.00 CGPA Scale";
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
+    calculationRule = `To convert marks to HEC CGPA, apply the Higher Education Commission of Pakistan continuous linear grading formula.`;
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
+  } else if (cat.id === "statistics") {
+    formulaDisplay = "Z = (X - \u03BC) / \u03C3; Percentile = \u03A6(Z) \xD7 100%";
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
+    calculationRule = `To convert statistical metrics, apply the cumulative Gaussian normal distribution function or implied probability formula.`;
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
   } else {
     const rFmt = unitRatio !== null ? fmt(unitRatio, 6) : "\u2014";
     const invFmt = inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : "\u2014";
@@ -3491,6 +3754,22 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     } else {
       workedExampleAnswer = `To convert 10 ${s1} to ${s2}: apply the reciprocal formula to calculate 10 ${s1} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id), 4) : ""} ${s2}.`;
     }
+  } else if (cat.id === "cricket-overs") {
+    if (u2.id === "balls") {
+      workedExampleAnswer = `To convert 14.3 overs to balls: (14 \xD7 6) + 3 = 84 + 3 = 87 legal deliveries.`;
+    } else {
+      workedExampleAnswer = `To convert 14.3 overs to true decimal overs: 14 + (3 \xF7 6) = 14 + 0.50 = 14.50 true decimal overs.`;
+    }
+  } else if (cat.id === "ieee-754") {
+    workedExampleAnswer = `For decimal 1.0: Sign = 0 (+), Exponent = 127 (01111111 binary), Mantissa = 0. In hex, this yields 0x3F800000.`;
+  } else if (cat.id === "matrix-format") {
+    workedExampleAnswer = `To convert a 2\xD72 CSV grid "1, 2\\n3, 4" into LaTeX bmatrix: wrap rows in \\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}.`;
+  } else if (cat.id === "number-base") {
+    workedExampleAnswer = `To convert decimal 13 to binary: 13 \xF7 2 = 6 rem 1, 6 \xF7 2 = 3 rem 0, 3 \xF7 2 = 1 rem 1, 1 \xF7 2 = 0 rem 1. Reading remainders bottom to top gives binary 1101.`;
+  } else if (cat.id === "pk-gpa") {
+    workedExampleAnswer = `Under standard HEC rules, 85% and above yields a 4.00 CGPA, 73% yields approximately 3.00 CGPA, and 60% yields approximately 2.00 CGPA.`;
+  } else if (cat.id === "statistics") {
+    workedExampleAnswer = `A Z-score of +2.0 on a standard normal distribution corresponds to the 97.72 percentile (two standard deviations above the mean).`;
   } else {
     const sampleVal = 10;
     const sampleRes = convert(sampleVal, cat.id, u1.id, u2.id);

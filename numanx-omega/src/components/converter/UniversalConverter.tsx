@@ -303,7 +303,14 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   }
 
   const handleBatchConvert = () => {
-    const values = parseCSV(batchInput)
+    const allValues = parseCSV(batchInput)
+    const isPro = typeof window !== 'undefined' && localStorage.getItem('nx_pro') === 'true'
+    if (allValues.length > 10 && !isPro) {
+      window.dispatchEvent(new CustomEvent('open-pro-modal', {
+        detail: { reason: `Batch converting ${allValues.length} rows requires Omega X Pro (Free tier limit is 10 rows).` }
+      }))
+    }
+    const values = !isPro && allValues.length > 10 ? allValues.slice(0, 10) : allValues
     if (values.length === 0) return
     const results = executeBatch({ values, catId, fromUnit, toUnit })
     setBatchResults(results.map(r => ({ input: r.input, result: r.result })))
@@ -1031,6 +1038,16 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   <textarea
                     value={batchInput}
                     onChange={e => setBatchInput(e.target.value)}
+                    onPaste={e => {
+                      const text = e.clipboardData.getData('text')
+                      const lineCount = text.split(/[\r\n,]+/).filter(Boolean).length
+                      const isPro = typeof window !== 'undefined' && localStorage.getItem('nx_pro') === 'true'
+                      if (lineCount > 10 && !isPro) {
+                        window.dispatchEvent(new CustomEvent('open-pro-modal', {
+                          detail: { reason: `Pasting ${lineCount} bulk values triggers Omega X Pro Batch limits (Free tier limit: 10 rows).` }
+                        }))
+                      }
+                    }}
                     placeholder="Enter comma or newline separated values (e.g. 1, 5, 10, 25, 50)"
                     aria-label="Values to batch convert"
                     className="w-full p-2.5 rounded-lg border border-[var(--border-control)] bg-[var(--surface-3)] text-xs font-mono text-[var(--text)] outline-none min-h-[70px] resize-none"
@@ -1740,6 +1757,16 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           <div className="glass rounded-xl p-3 space-y-2">
             <div className="text-xs font-semibold"><span aria-hidden="true">📋</span> Batch Convert</div>
             <textarea value={batchInput} onChange={e => setBatchInput(e.target.value)}
+              onPaste={e => {
+                const text = e.clipboardData.getData('text')
+                const lineCount = text.split(/[\r\n,]+/).filter(Boolean).length
+                const isPro = typeof window !== 'undefined' && localStorage.getItem('nx_pro') === 'true'
+                if (lineCount > 10 && !isPro) {
+                  window.dispatchEvent(new CustomEvent('open-pro-modal', {
+                    detail: { reason: `Pasting ${lineCount} bulk values triggers Omega X Pro Batch limits (Free tier limit: 10 rows).` }
+                  }))
+                }
+              }}
               placeholder="Enter values (comma, newline, or semicolon separated)&#10;e.g.: 1, 2, 5, 10, 100&#10;or: 1&#10;2&#10;3"
               aria-label="Values to batch convert"
               className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--card2)] text-sm outline-none min-h-[60px] resize-none" />

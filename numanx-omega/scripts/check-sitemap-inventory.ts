@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import path from 'node:path'
 import { getSiteUrl } from '../src/config/site'
 
 const siteUrl = getSiteUrl()
@@ -20,10 +19,10 @@ const core = urls.filter(u => !categories.includes(u) && !pairs.includes(u) && !
 
 console.log('Breakdown:')
 console.log('Home (1):', home.length, home)
-console.log('Core pages (8):', core.length, core)
+console.log('Core pages (11):', core.length, core)
 console.log('Categories (36):', categories.length)
-console.log('Pairs (123):', pairs.length)
-console.log('Guides (9):', guides.length, guides)
+console.log('Pairs (187):', pairs.length)
+console.log('Guides (15):', guides.length, guides)
 console.log('Blog articles (6):', blogArticles.length, blogArticles)
 console.log('Sum:', home.length + core.length + categories.length + pairs.length + guides.length + blogArticles.length)
 

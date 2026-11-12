@@ -126,7 +126,7 @@ Each curated pair page provides route-specific editorial commentary, exact conve
     }
   }
 
-  sections.push(`## 5. Educational Guides (6 Guides)
+  sections.push(`## 5. Educational Guides (${Object.keys(guideContent).length} Guides)
 
 Comprehensive technical guides detailing unit origins, math shortcuts, and real-world applications:
 `)
@@ -134,10 +134,11 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
   for (const guide of Object.values(guideContent)) {
     if (guide.slug) {
       const url = canonicalUrl(`/guides/${guide.slug}`)
+      const guideRecord = guide as Record<string, unknown>
       sections.push(`### ${guide.title}
 - **Canonical URL:** ${url}
-- **Category:** ${guide.relatedCat || (guide as any).category || 'General'}
-- **Target Measurement System:** ${guide.metaDesc || (guide as any).subtitle || 'Educational conversion guide.'}
+- **Category:** ${(typeof guide.relatedCat === 'string' && guide.relatedCat) || (typeof guideRecord.category === 'string' && guideRecord.category) || 'General'}
+- **Target Measurement System:** ${(typeof guide.metaDesc === 'string' && guide.metaDesc) || (typeof guideRecord.subtitle === 'string' && guideRecord.subtitle) || 'Educational conversion guide.'}
 `)
     }
   }
@@ -242,8 +243,16 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Fuel Economy](${canonicalUrl('/convert/fuel')}): Miles per gallon (US), liters per 100 km, kilometers per liter.
 - [Density](${canonicalUrl('/convert/density')}): Kilograms per cubic meter, grams per cubic centimeter, pounds per cubic foot.
 - [Cooking](${canonicalUrl('/convert/cooking')}): Cups, tablespoons, teaspoons, fluid ounces, milliliters, grams (ingredient-aware).
-- [Textile & Yarn Count](${canonicalUrl('/convert/textile')}): Tex, denier, cotton count (Ne), worsted count, metric count (Nm).
+- [Textile & Yarn Count](${canonicalUrl('/convert/textile')}): Tex, denier, cotton count (Ne), worsted count, metric count (Nm), oz/yd², and momme.
 - [Astronomy](${canonicalUrl('/convert/astronomy')}): Astronomical units (au), light-years, parsecs, kilometers, miles.
+- [Number Base & Radix](${canonicalUrl('/convert/number-base')}): Binary, octal, decimal, hexadecimal, BCD, Gray code, and two's complement.
+- [IEEE-754 Floating-Point](${canonicalUrl('/convert/ieee-754')}): Half (FP16), single (FP32), double (FP64), and hexadecimal float bitfield inspection.
+- [South Asian Numbering](${canonicalUrl('/convert/pk-numbering')}): Hazar, Lakh, Crore, Arab, Kharab, and Million/Billion 2,2,3 grouping.
+- [Statistics & Odds](${canonicalUrl('/convert/statistics')}): Z-score, percentiles, two-tailed p-values, decimal odds, fractional odds, and American moneyline.
+- [Matrix & Array Formats](${canonicalUrl('/convert/matrix-format')}): CSV grids, LaTeX bmatrix/pmatrix, Python NumPy, MATLAB, and JSON 2D arrays.
+- [Scientific & Parts-Per](${canonicalUrl('/convert/scientific-notation')}): Standard decimal, engineering notation, ppm, ppb, and percentages.
+- [HEC GPA & Marks](${canonicalUrl('/convert/pk-gpa')}): Pakistani HEC 4.00/5.00 CGPA, percentage marks, matric/FSc, and MDCAT aggregate.
+- [Cricket Base-6 Overs](${canonicalUrl('/convert/cricket-overs')}): Cricket overs notation (14.3), legal balls (87), and true decimal overs (14.50) for ICC Net Run Rate (NRR).
 
 ## Educational Guides
 
@@ -253,6 +262,15 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Fahrenheit to Celsius Conversion Guide](${canonicalUrl('/guides/fahrenheit-to-celsius')}): Reverse thermal conversion reference with exact 5/9 interval ratios.
 - [Kilograms to Pounds Conversion Guide](${canonicalUrl('/guides/kg-to-lbs')}): Mass conversion standard (NIST / international avoirdupois pound) with conversion tables.
 - [Pounds to Kilograms Conversion Guide](${canonicalUrl('/guides/lbs-to-kg')}): Standard mass conversion reference from avoirdupois pounds to SI kilograms.
+- [Marla to Square Feet Pakistan Guide](${canonicalUrl('/guides/marla-to-square-feet-pakistan')}): Land measurement standards in Pakistan: 272.25 vs 250 vs 225 sq ft.
+- [1 Tola in Grams Bullion Guide](${canonicalUrl('/guides/tola-to-grams-gold-pakistan')}): Pakistani gold bullion mass conversion: 1 tola = 11.6638 grams, 12 masha, 96 ratti.
+- [Lakh & Crore to Million & Billion Converter Guide](${canonicalUrl('/guides/lakh-crore-to-million-billion')}): South Asian 2,2,3 comma grouping and international conversion.
+- [HEC CGPA to Percentage Guide](${canonicalUrl('/guides/hec-cgpa-to-percentage-pakistan')}): Pakistani HEC continuous model and PMDC MDCAT aggregate formula.
+- [Cricket Overs to Decimal Overs & NRR Guide](${canonicalUrl('/guides/cricket-overs-to-balls-nrr')}): Base-6 cricket overs to balls and ICC Net Run Rate formulas.
+- [Binary, Hex & IEEE-754 Floating-Point Guide](${canonicalUrl('/guides/binary-hex-ieee-754-guide')}): Radix conversion and bitfield inspection for FP16, FP32, and FP64.
+- [Cups to Grams Cooking Guide](${canonicalUrl('/guides/cups-to-grams')}): Ingredient-specific volumetric kitchen conversion.
+- [PSI to Bar Pressure Guide](${canonicalUrl('/guides/psi-to-bar')}): Metric and imperial pressure conversion.
+- [Kilowatts to Horsepower Guide](${canonicalUrl('/guides/kw-to-hp')}): Mechanical and electrical powertrain power conversion.
 
 ## Technical Articles
 

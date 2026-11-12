@@ -250,7 +250,7 @@ var Categories = [
   {
     id: "acceleration",
     lb: "Acceleration",
-    ic: "\u{1F680}",
+    ic: "\u{1F4C8}",
     cl: "#e91e63",
     un: [
       { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
@@ -329,7 +329,7 @@ var Categories = [
   {
     id: "electricity",
     lb: "Electricity",
-    ic: "\u26A1",
+    ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
       { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
@@ -480,7 +480,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM", r: 1, s: "O" },
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
       { id: "tc", lb: "Thread Count", r: 1, s: "O" },
       { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
     ]
@@ -517,7 +519,7 @@ var Categories = [
   {
     id: "illuminance",
     lb: "Illuminance",
-    ic: "\u{1F4A1}",
+    ic: "\u2600\uFE0F",
     cl: "#ffb300",
     al: ["light", "lux", "foot-candle", "illumination", "phot"],
     un: [

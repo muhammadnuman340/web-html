@@ -7,7 +7,7 @@
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
 - Concise Agent Guide: https://converter.numanxstudio.com/llms.txt
-- Total Canonical Indexable Inventory: 186 URLs
+- Total Canonical Indexable Inventory: 256 URLs
 
 ## 1. System Architecture & Metrology Standards
 
@@ -189,8 +189,8 @@ Omega X Converter provides complete unit coverage across 36 distinct physical an
 
 ### Textile (`textile`)
 - **Canonical URL:** https://converter.numanxstudio.com/convert/textile
-- **Base Reference Unit:** GSM
-- **Registered Units (3):** GSM (gsm), Thread Count (tc), Yarn Count (yc)
+- **Base Reference Unit:** GSM (Grams per Sq Meter)
+- **Registered Units (5):** GSM (Grams per Sq Meter) (gsm), Ounce per Sq Yard (oz/yd²) (oz_yd2), Momme Silk (mm) (momme), Thread Count (tc), Yarn Count (yc)
 - **Description:** Deterministic measurement conversions for textile.
 
 ### Astronomy (`astronomy`)
@@ -271,7 +271,7 @@ Omega X Converter provides complete unit coverage across 36 distinct physical an
 - **Registered Units (4):** Cricket Overs (e.g. 14.3) (overs_balls), True Decimal Overs (14.50) (true_overs), Legal Deliveries / Balls (balls), Run Rate Metric (Per 6 Balls) (run_rate_6)
 - **Description:** Deterministic measurement conversions for cricket base-6.
 
-## 4. Curated Popular Conversion Pairs (123 Canonical Pairs)
+## 4. Curated Popular Conversion Pairs (187 Canonical Pairs)
 
 Each curated pair page provides route-specific editorial commentary, exact conversion formulas, step-by-step arithmetic examples, and reciprocal pair navigation:
 
@@ -303,471 +303,727 @@ Each curated pair page provides route-specific editorial commentary, exact conve
    - URL: https://converter.numanxstudio.com/convert/length/fathom-to-foot
    - Formula: Multiply Fathom by conversion factor to obtain Foot.
 
-8. **Square Meters to Square Feet** (`area`)
+8. **karam to ft** (`length`)
+   - URL: https://converter.numanxstudio.com/convert/length/karam-to-ft
+   - Formula: Multiply karam by conversion factor to obtain ft.
+
+9. **ft to karam** (`length`)
+   - URL: https://converter.numanxstudio.com/convert/length/ft-to-karam
+   - Formula: Multiply ft by conversion factor to obtain karam.
+
+10. **girah to in** (`length`)
+   - URL: https://converter.numanxstudio.com/convert/length/girah-to-in
+   - Formula: Multiply girah by conversion factor to obtain in.
+
+11. **yd to ft** (`length`)
+   - URL: https://converter.numanxstudio.com/convert/length/yd-to-ft
+   - Formula: Multiply yd by conversion factor to obtain ft.
+
+12. **Square Meters to Square Feet** (`area`)
    - URL: https://converter.numanxstudio.com/convert/area/square-meters-to-square-feet
    - Formula: Multiply Square Meters by conversion factor to obtain Square Feet.
 
-9. **Acres to Hectares** (`area`)
+13. **Acres to Hectares** (`area`)
    - URL: https://converter.numanxstudio.com/convert/area/acres-to-hectares
    - Formula: Multiply Acres by conversion factor to obtain Hectares.
 
-10. **Square Feet to Square Meters** (`area`)
+14. **Square Feet to Square Meters** (`area`)
    - URL: https://converter.numanxstudio.com/convert/area/square-feet-to-square-meters
    - Formula: Multiply Square Feet by conversion factor to obtain Square Meters.
 
-11. **Hectares to Acres** (`area`)
+15. **Hectares to Acres** (`area`)
    - URL: https://converter.numanxstudio.com/convert/area/hectares-to-acres
    - Formula: Multiply Hectares by conversion factor to obtain Acres.
 
-12. **Square Kilometers to Square Miles** (`area`)
+16. **Square Kilometers to Square Miles** (`area`)
    - URL: https://converter.numanxstudio.com/convert/area/square-kilometers-to-square-miles
    - Formula: Multiply Square Kilometers by conversion factor to obtain Square Miles.
 
-13. **Liters to Gallons** (`volume`)
+17. **marla to ft2** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/marla-to-ft2
+   - Formula: Multiply marla by conversion factor to obtain ft2.
+
+18. **ft2 to marla** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/ft2-to-marla
+   - Formula: Multiply ft2 by conversion factor to obtain marla.
+
+19. **marla_soc to ft2** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/marla-soc-to-ft2
+   - Formula: Multiply marla_soc by conversion factor to obtain ft2.
+
+20. **marla_cap to ft2** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/marla-cap-to-ft2
+   - Formula: Multiply marla_cap by conversion factor to obtain ft2.
+
+21. **kanal to marla** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/kanal-to-marla
+   - Formula: Multiply kanal by conversion factor to obtain marla.
+
+22. **marla to kanal** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/marla-to-kanal
+   - Formula: Multiply marla by conversion factor to obtain kanal.
+
+23. **gaz_sq to marla** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/gaz-sq-to-marla
+   - Formula: Multiply gaz_sq by conversion factor to obtain marla.
+
+24. **marla to gaz_sq** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/marla-to-gaz-sq
+   - Formula: Multiply marla by conversion factor to obtain gaz_sq.
+
+25. **killa to kanal** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/killa-to-kanal
+   - Formula: Multiply killa by conversion factor to obtain kanal.
+
+26. **murabba to killa** (`area`)
+   - URL: https://converter.numanxstudio.com/convert/area/murabba-to-killa
+   - Formula: Multiply murabba by conversion factor to obtain killa.
+
+27. **Liters to Gallons** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/liters-to-gallons
    - Formula: Multiply Liters by conversion factor to obtain Gallons.
 
-14. **Gallons to Liters** (`volume`)
+28. **Gallons to Liters** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/gallons-to-liters
    - Formula: Multiply Gallons by conversion factor to obtain Liters.
 
-15. **Milliliters to Fluid Ounces** (`volume`)
+29. **Milliliters to Fluid Ounces** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/milliliters-to-fluid-ounces
    - Formula: Multiply Milliliters by conversion factor to obtain Fluid Ounces.
 
-16. **Cubic Meters to Cubic Feet** (`volume`)
+30. **Cubic Meters to Cubic Feet** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/cubic-meters-to-cubic-feet
    - Formula: Multiply Cubic Meters by conversion factor to obtain Cubic Feet.
 
-17. **Quarts to Liters** (`volume`)
+31. **Quarts to Liters** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/quarts-to-liters
    - Formula: Multiply Quarts by conversion factor to obtain Liters.
 
-18. **Cubic Yard to Cubic Meter** (`volume`)
+32. **Cubic Yard to Cubic Meter** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/cubic-yard-to-cubic-meter
    - Formula: Multiply Cubic Yard by conversion factor to obtain Cubic Meter.
 
-19. **Imperial Gallon to Gallon** (`volume`)
+33. **Imperial Gallon to Gallon** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/imperial-gallon-to-gallon
    - Formula: Multiply Imperial Gallon by conversion factor to obtain Gallon.
 
-20. **Liter to Imperial Gallon** (`volume`)
+34. **Liter to Imperial Gallon** (`volume`)
    - URL: https://converter.numanxstudio.com/convert/volume/liter-to-imperial-gallon
    - Formula: Multiply Liter by conversion factor to obtain Imperial Gallon.
 
-21. **Kilogram to Pounds** (`mass`)
+35. **Kilogram to Pounds** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/kilogram-to-pounds
    - Formula: Multiply Kilogram by conversion factor to obtain Pounds.
 
-22. **Pounds to Kilogram** (`mass`)
+36. **Pounds to Kilogram** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/pounds-to-kilogram
    - Formula: Multiply Pounds by conversion factor to obtain Kilogram.
 
-23. **Ounces to Grams** (`mass`)
+37. **Ounces to Grams** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/ounces-to-grams
    - Formula: Multiply Ounces by conversion factor to obtain Grams.
 
-24. **Stone to Kilogram** (`mass`)
+38. **Stone to Kilogram** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/stone-to-kilogram
    - Formula: Multiply Stone by conversion factor to obtain Kilogram.
 
-25. **Metric Ton to US Ton** (`mass`)
+39. **Metric Ton to US Ton** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/metric-ton-to-us-ton
    - Formula: Multiply Metric Ton by conversion factor to obtain US Ton.
 
-26. **Troy Ounce to Gram** (`mass`)
+40. **Troy Ounce to Gram** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/troy-ounce-to-gram
    - Formula: Multiply Troy Ounce by conversion factor to obtain Gram.
 
-27. **Troy Ounce to Ounce** (`mass`)
+41. **Troy Ounce to Ounce** (`mass`)
    - URL: https://converter.numanxstudio.com/convert/mass/troy-ounce-to-ounce
    - Formula: Multiply Troy Ounce by conversion factor to obtain Ounce.
 
-28. **Celsius to Fahrenheit** (`temp`)
+42. **tola to g** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/tola-to-g
+   - Formula: Multiply tola by conversion factor to obtain g.
+
+43. **g to tola** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/g-to-tola
+   - Formula: Multiply g by conversion factor to obtain tola.
+
+44. **tola to masha** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/tola-to-masha
+   - Formula: Multiply tola by conversion factor to obtain masha.
+
+45. **masha to ratti** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/masha-to-ratti
+   - Formula: Multiply masha by conversion factor to obtain ratti.
+
+46. **tola to ozt** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/tola-to-ozt
+   - Formula: Multiply tola by conversion factor to obtain ozt.
+
+47. **maund_pk to kg** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/maund-pk-to-kg
+   - Formula: Multiply maund_pk by conversion factor to obtain kg.
+
+48. **kg to maund_pk** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/kg-to-maund-pk
+   - Formula: Multiply kg by conversion factor to obtain maund_pk.
+
+49. **seer to kg** (`mass`)
+   - URL: https://converter.numanxstudio.com/convert/mass/seer-to-kg
+   - Formula: Multiply seer by conversion factor to obtain kg.
+
+50. **Celsius to Fahrenheit** (`temp`)
    - URL: https://converter.numanxstudio.com/convert/temp/celsius-to-fahrenheit
    - Formula: Multiply Celsius by conversion factor to obtain Fahrenheit.
 
-29. **Fahrenheit to Celsius** (`temp`)
+51. **Fahrenheit to Celsius** (`temp`)
    - URL: https://converter.numanxstudio.com/convert/temp/fahrenheit-to-celsius
    - Formula: Multiply Fahrenheit by conversion factor to obtain Celsius.
 
-30. **Celsius to Kelvin** (`temp`)
+52. **Celsius to Kelvin** (`temp`)
    - URL: https://converter.numanxstudio.com/convert/temp/celsius-to-kelvin
    - Formula: Multiply Celsius by conversion factor to obtain Kelvin.
 
-31. **Kelvin to Celsius** (`temp`)
+53. **Kelvin to Celsius** (`temp`)
    - URL: https://converter.numanxstudio.com/convert/temp/kelvin-to-celsius
    - Formula: Multiply Kelvin by conversion factor to obtain Celsius.
 
-32. **Fahrenheit to Kelvin** (`temp`)
+54. **Fahrenheit to Kelvin** (`temp`)
    - URL: https://converter.numanxstudio.com/convert/temp/fahrenheit-to-kelvin
    - Formula: Multiply Fahrenheit by conversion factor to obtain Kelvin.
 
-33. **Hours to Minutes** (`time`)
+55. **Hours to Minutes** (`time`)
    - URL: https://converter.numanxstudio.com/convert/time/hours-to-minutes
    - Formula: Multiply Hours by conversion factor to obtain Minutes.
 
-34. **Days to Hours** (`time`)
+56. **Days to Hours** (`time`)
    - URL: https://converter.numanxstudio.com/convert/time/days-to-hours
    - Formula: Multiply Days by conversion factor to obtain Hours.
 
-35. **Minutes to Seconds** (`time`)
+57. **Minutes to Seconds** (`time`)
    - URL: https://converter.numanxstudio.com/convert/time/minutes-to-seconds
    - Formula: Multiply Minutes by conversion factor to obtain Seconds.
 
-36. **Weeks to Days** (`time`)
+58. **Weeks to Days** (`time`)
    - URL: https://converter.numanxstudio.com/convert/time/weeks-to-days
    - Formula: Multiply Weeks by conversion factor to obtain Days.
 
-37. **Years to Days** (`time`)
+59. **Years to Days** (`time`)
    - URL: https://converter.numanxstudio.com/convert/time/years-to-days
    - Formula: Multiply Years by conversion factor to obtain Days.
 
-38. **km/h to mph** (`speed`)
+60. **km/h to mph** (`speed`)
    - URL: https://converter.numanxstudio.com/convert/speed/km-h-to-mph
    - Formula: Multiply km/h by conversion factor to obtain mph.
 
-39. **mph to km/h** (`speed`)
+61. **mph to km/h** (`speed`)
    - URL: https://converter.numanxstudio.com/convert/speed/mph-to-km-h
    - Formula: Multiply mph by conversion factor to obtain km/h.
 
-40. **Knots to mph** (`speed`)
+62. **Knots to mph** (`speed`)
    - URL: https://converter.numanxstudio.com/convert/speed/knots-to-mph
    - Formula: Multiply Knots by conversion factor to obtain mph.
 
-41. **m/s to km/h** (`speed`)
+63. **m/s to km/h** (`speed`)
    - URL: https://converter.numanxstudio.com/convert/speed/m-s-to-km-h
    - Formula: Multiply m/s by conversion factor to obtain km/h.
 
-42. **Mach to km/h** (`speed`)
+64. **Mach to km/h** (`speed`)
    - URL: https://converter.numanxstudio.com/convert/speed/mach-to-km-h
    - Formula: Multiply Mach by conversion factor to obtain km/h.
 
-43. **m/s² to g-force** (`acceleration`)
+65. **m/s² to g-force** (`acceleration`)
    - URL: https://converter.numanxstudio.com/convert/acceleration/m-s-to-g-force
    - Formula: Multiply m/s² by conversion factor to obtain g-force.
 
-44. **g-force to m/s²** (`acceleration`)
+66. **g-force to m/s²** (`acceleration`)
    - URL: https://converter.numanxstudio.com/convert/acceleration/g-force-to-m-s
    - Formula: Multiply g-force by conversion factor to obtain m/s².
 
-45. **ft/s² to m/s²** (`acceleration`)
+67. **ft/s² to m/s²** (`acceleration`)
    - URL: https://converter.numanxstudio.com/convert/acceleration/ft-s-to-m-s
    - Formula: Multiply ft/s² by conversion factor to obtain m/s².
 
-46. **Newtons to Pound-Force** (`force`)
+68. **Newtons to Pound-Force** (`force`)
    - URL: https://converter.numanxstudio.com/convert/force/newtons-to-pound-force
    - Formula: Multiply Newtons by conversion factor to obtain Pound-Force.
 
-47. **Pound-Force to Newtons** (`force`)
+69. **Pound-Force to Newtons** (`force`)
    - URL: https://converter.numanxstudio.com/convert/force/pound-force-to-newtons
    - Formula: Multiply Pound-Force by conversion factor to obtain Newtons.
 
-48. **kN to lbf** (`force`)
+70. **kN to lbf** (`force`)
    - URL: https://converter.numanxstudio.com/convert/force/kn-to-lbf
    - Formula: Multiply kN by conversion factor to obtain lbf.
 
-49. **Dynes to Newtons** (`force`)
+71. **Dynes to Newtons** (`force`)
    - URL: https://converter.numanxstudio.com/convert/force/dynes-to-newtons
    - Formula: Multiply Dynes by conversion factor to obtain Newtons.
 
-50. **kgf to N** (`force`)
+72. **kgf to N** (`force`)
    - URL: https://converter.numanxstudio.com/convert/force/kgf-to-n
    - Formula: Multiply kgf by conversion factor to obtain N.
 
-51. **PSI to Bar** (`pressure`)
+73. **PSI to Bar** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/psi-to-bar
    - Formula: Multiply PSI by conversion factor to obtain Bar.
 
-52. **Bar to PSI** (`pressure`)
+74. **Bar to PSI** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/bar-to-psi
    - Formula: Multiply Bar by conversion factor to obtain PSI.
 
-53. **ATM to PSI** (`pressure`)
+75. **ATM to PSI** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/atm-to-psi
    - Formula: Multiply ATM by conversion factor to obtain PSI.
 
-54. **Pascals to PSI** (`pressure`)
+76. **Pascals to PSI** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/pascals-to-psi
    - Formula: Multiply Pascals by conversion factor to obtain PSI.
 
-55. **mmHg to ATM** (`pressure`)
+77. **mmHg to ATM** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/mmhg-to-atm
    - Formula: Multiply mmHg by conversion factor to obtain ATM.
 
-56. **Hectopascal to Millibar** (`pressure`)
+78. **Hectopascal to Millibar** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/hectopascal-to-millibar
    - Formula: Multiply Hectopascal by conversion factor to obtain Millibar.
 
-57. **Inches of Mercury to PSI** (`pressure`)
+79. **Inches of Mercury to PSI** (`pressure`)
    - URL: https://converter.numanxstudio.com/convert/pressure/inches-of-mercury-to-psi
    - Formula: Multiply Inches of Mercury by conversion factor to obtain PSI.
 
-58. **Joules to Calories** (`energy`)
+80. **Joules to Calories** (`energy`)
    - URL: https://converter.numanxstudio.com/convert/energy/joules-to-calories
    - Formula: Multiply Joules by conversion factor to obtain Calories.
 
-59. **kWh to BTU** (`energy`)
+81. **kWh to BTU** (`energy`)
    - URL: https://converter.numanxstudio.com/convert/energy/kwh-to-btu
    - Formula: Multiply kWh by conversion factor to obtain BTU.
 
-60. **Calories to Joules** (`energy`)
+82. **Calories to Joules** (`energy`)
    - URL: https://converter.numanxstudio.com/convert/energy/calories-to-joules
    - Formula: Multiply Calories by conversion factor to obtain Joules.
 
-61. **eV to Joules** (`energy`)
+83. **eV to Joules** (`energy`)
    - URL: https://converter.numanxstudio.com/convert/energy/ev-to-joules
    - Formula: Multiply eV by conversion factor to obtain Joules.
 
-62. **BTU to kWh** (`energy`)
+84. **BTU to kWh** (`energy`)
    - URL: https://converter.numanxstudio.com/convert/energy/btu-to-kwh
    - Formula: Multiply BTU by conversion factor to obtain kWh.
 
-63. **Horsepower to Kilowatts** (`power`)
+85. **Horsepower to Kilowatts** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/horsepower-to-kilowatts
    - Formula: Multiply Horsepower by conversion factor to obtain Kilowatts.
 
-64. **Kilowatts to Horsepower** (`power`)
+86. **Kilowatts to Horsepower** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/kilowatts-to-horsepower
    - Formula: Multiply Kilowatts by conversion factor to obtain Horsepower.
 
-65. **Watts to BTU/h** (`power`)
+87. **Watts to BTU/h** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/watts-to-btu-h
    - Formula: Multiply Watts by conversion factor to obtain BTU/h.
 
-66. **MW to kW** (`power`)
+88. **MW to kW** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/mw-to-kw
    - Formula: Multiply MW by conversion factor to obtain kW.
 
-67. **Horsepower to Watts** (`power`)
+89. **Horsepower to Watts** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/horsepower-to-watts
    - Formula: Multiply Horsepower by conversion factor to obtain Watts.
 
-68. **Metric Horsepower to Kilowatt** (`power`)
+90. **Metric Horsepower to Kilowatt** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/metric-horsepower-to-kilowatt
    - Formula: Multiply Metric Horsepower by conversion factor to obtain Kilowatt.
 
-69. **Ton of Refrigeration to BTU/h** (`power`)
+91. **Ton of Refrigeration to BTU/h** (`power`)
    - URL: https://converter.numanxstudio.com/convert/power/ton-of-refrigeration-to-btu-h
    - Formula: Multiply Ton of Refrigeration by conversion factor to obtain BTU/h.
 
-70. **Volt to Kilovolt** (`electricity`)
+92. **Volt to Kilovolt** (`electricity`)
    - URL: https://converter.numanxstudio.com/convert/electricity/volt-to-kilovolt
    - Formula: Multiply Volt by conversion factor to obtain Kilovolt.
 
-71. **Milliampere to Ampere** (`electricity`)
+93. **Milliampere to Ampere** (`electricity`)
    - URL: https://converter.numanxstudio.com/convert/electricity/milliampere-to-ampere
    - Formula: Multiply Milliampere by conversion factor to obtain Ampere.
 
-72. **Kilo-ohm to Ohm** (`electricity`)
+94. **Kilo-ohm to Ohm** (`electricity`)
    - URL: https://converter.numanxstudio.com/convert/electricity/kilo-ohm-to-ohm
    - Formula: Multiply Kilo-ohm by conversion factor to obtain Ohm.
 
-73. **Microfarad to Farad** (`electricity`)
+95. **Microfarad to Farad** (`electricity`)
    - URL: https://converter.numanxstudio.com/convert/electricity/microfarad-to-farad
    - Formula: Multiply Microfarad by conversion factor to obtain Farad.
 
-74. **Tesla to Gauss** (`magnetism`)
+96. **Tesla to Gauss** (`magnetism`)
    - URL: https://converter.numanxstudio.com/convert/magnetism/tesla-to-gauss
    - Formula: Multiply Tesla by conversion factor to obtain Gauss.
 
-75. **Gauss to Tesla** (`magnetism`)
+97. **Gauss to Tesla** (`magnetism`)
    - URL: https://converter.numanxstudio.com/convert/magnetism/gauss-to-tesla
    - Formula: Multiply Gauss by conversion factor to obtain Tesla.
 
-76. **MHz to GHz** (`frequency`)
+98. **MHz to GHz** (`frequency`)
    - URL: https://converter.numanxstudio.com/convert/frequency/mhz-to-ghz
    - Formula: Multiply MHz by conversion factor to obtain GHz.
 
-77. **GHz to MHz** (`frequency`)
+99. **GHz to MHz** (`frequency`)
    - URL: https://converter.numanxstudio.com/convert/frequency/ghz-to-mhz
    - Formula: Multiply GHz by conversion factor to obtain MHz.
 
-78. **kHz to MHz** (`frequency`)
+100. **kHz to MHz** (`frequency`)
    - URL: https://converter.numanxstudio.com/convert/frequency/khz-to-mhz
    - Formula: Multiply kHz by conversion factor to obtain MHz.
 
-79. **Hz to kHz** (`frequency`)
+101. **Hz to kHz** (`frequency`)
    - URL: https://converter.numanxstudio.com/convert/frequency/hz-to-khz
    - Formula: Multiply Hz by conversion factor to obtain kHz.
 
-80. **RPM to Hz** (`frequency`)
+102. **RPM to Hz** (`frequency`)
    - URL: https://converter.numanxstudio.com/convert/frequency/rpm-to-hz
    - Formula: Multiply RPM by conversion factor to obtain Hz.
 
-81. **MB to GB** (`data`)
+103. **MB to GB** (`data`)
    - URL: https://converter.numanxstudio.com/convert/data/mb-to-gb
    - Formula: Multiply MB by conversion factor to obtain GB.
 
-82. **GB to MB** (`data`)
+104. **GB to MB** (`data`)
    - URL: https://converter.numanxstudio.com/convert/data/gb-to-mb
    - Formula: Multiply GB by conversion factor to obtain MB.
 
-83. **GB to TB** (`data`)
+105. **GB to TB** (`data`)
    - URL: https://converter.numanxstudio.com/convert/data/gb-to-tb
    - Formula: Multiply GB by conversion factor to obtain TB.
 
-84. **KB to MB** (`data`)
+106. **KB to MB** (`data`)
    - URL: https://converter.numanxstudio.com/convert/data/kb-to-mb
    - Formula: Multiply KB by conversion factor to obtain MB.
 
-85. **Bits to Bytes** (`data`)
+107. **Bits to Bytes** (`data`)
    - URL: https://converter.numanxstudio.com/convert/data/bits-to-bytes
    - Formula: Multiply Bits by conversion factor to obtain Bytes.
 
-86. **Gibibyte to Gigabyte** (`data`)
+108. **Gibibyte to Gigabyte** (`data`)
    - URL: https://converter.numanxstudio.com/convert/data/gibibyte-to-gigabyte
    - Formula: Multiply Gibibyte by conversion factor to obtain Gigabyte.
 
-87. **Mbps to Gbps** (`datatransfer`)
+109. **Mbps to Gbps** (`datatransfer`)
    - URL: https://converter.numanxstudio.com/convert/datatransfer/mbps-to-gbps
    - Formula: Multiply Mbps by conversion factor to obtain Gbps.
 
-88. **Gbps to Mbps** (`datatransfer`)
+110. **Gbps to Mbps** (`datatransfer`)
    - URL: https://converter.numanxstudio.com/convert/datatransfer/gbps-to-mbps
    - Formula: Multiply Gbps by conversion factor to obtain Mbps.
 
-89. **Kbps to Mbps** (`datatransfer`)
+111. **Kbps to Mbps** (`datatransfer`)
    - URL: https://converter.numanxstudio.com/convert/datatransfer/kbps-to-mbps
    - Formula: Multiply Kbps by conversion factor to obtain Mbps.
 
-90. **Degrees to Radians** (`angle`)
+112. **Degrees to Radians** (`angle`)
    - URL: https://converter.numanxstudio.com/convert/angle/degrees-to-radians
    - Formula: Multiply Degrees by conversion factor to obtain Radians.
 
-91. **Radians to Degrees** (`angle`)
+113. **Radians to Degrees** (`angle`)
    - URL: https://converter.numanxstudio.com/convert/angle/radians-to-degrees
    - Formula: Multiply Radians by conversion factor to obtain Degrees.
 
-92. **Degrees to Gradians** (`angle`)
+114. **Degrees to Gradians** (`angle`)
    - URL: https://converter.numanxstudio.com/convert/angle/degrees-to-gradians
    - Formula: Multiply Degrees by conversion factor to obtain Gradians.
 
-93. **Arcminutes to Degrees** (`angle`)
+115. **Arcminutes to Degrees** (`angle`)
    - URL: https://converter.numanxstudio.com/convert/angle/arcminutes-to-degrees
    - Formula: Multiply Arcminutes by conversion factor to obtain Degrees.
 
-94. **Radians to mrad** (`angle`)
+116. **Radians to mrad** (`angle`)
    - URL: https://converter.numanxstudio.com/convert/angle/radians-to-mrad
    - Formula: Multiply Radians by conversion factor to obtain mrad.
 
-95. **Newton-meter to Foot-pound** (`torque`)
+117. **Newton-meter to Foot-pound** (`torque`)
    - URL: https://converter.numanxstudio.com/convert/torque/newton-meter-to-foot-pound
    - Formula: Multiply Newton-meter by conversion factor to obtain Foot-pound.
 
-96. **Foot-pound to Newton-meter** (`torque`)
+118. **Foot-pound to Newton-meter** (`torque`)
    - URL: https://converter.numanxstudio.com/convert/torque/foot-pound-to-newton-meter
    - Formula: Multiply Foot-pound by conversion factor to obtain Newton-meter.
 
-97. **Newton-meter to Pound-inch** (`torque`)
+119. **Newton-meter to Pound-inch** (`torque`)
    - URL: https://converter.numanxstudio.com/convert/torque/newton-meter-to-pound-inch
    - Formula: Multiply Newton-meter by conversion factor to obtain Pound-inch.
 
-98. **Pound-foot to Pound-inch** (`torque`)
+120. **Pound-foot to Pound-inch** (`torque`)
    - URL: https://converter.numanxstudio.com/convert/torque/pound-foot-to-pound-inch
    - Formula: Multiply Pound-foot by conversion factor to obtain Pound-inch.
 
-99. **MPG (US) to L/100km** (`fuel`)
+121. **MPG (US) to L/100km** (`fuel`)
    - URL: https://converter.numanxstudio.com/convert/fuel/mpg-us-to-l-100km
    - Formula: Multiply MPG (US) by conversion factor to obtain L/100km.
 
-100. **L/100km to MPG (US)** (`fuel`)
+122. **L/100km to MPG (US)** (`fuel`)
    - URL: https://converter.numanxstudio.com/convert/fuel/l-100km-to-mpg-us
    - Formula: Multiply L/100km by conversion factor to obtain MPG (US).
 
-101. **km/L to MPG (US)** (`fuel`)
+123. **km/L to MPG (US)** (`fuel`)
    - URL: https://converter.numanxstudio.com/convert/fuel/km-l-to-mpg-us
    - Formula: Multiply km/L by conversion factor to obtain MPG (US).
 
-102. **MPG (UK) to MPG (US)** (`fuel`)
+124. **MPG (UK) to MPG (US)** (`fuel`)
    - URL: https://converter.numanxstudio.com/convert/fuel/mpg-uk-to-mpg-us
    - Formula: Multiply MPG (UK) by conversion factor to obtain MPG (US).
 
-103. **L/100km to km/L** (`fuel`)
+125. **L/100km to km/L** (`fuel`)
    - URL: https://converter.numanxstudio.com/convert/fuel/l-100km-to-km-l
    - Formula: Multiply L/100km by conversion factor to obtain km/L.
 
-104. **g/cm³ to kg/m³** (`density`)
+126. **g/cm³ to kg/m³** (`density`)
    - URL: https://converter.numanxstudio.com/convert/density/g-cm-to-kg-m
    - Formula: Multiply g/cm³ by conversion factor to obtain kg/m³.
 
-105. **kg/m³ to lb/ft³** (`density`)
+127. **kg/m³ to lb/ft³** (`density`)
    - URL: https://converter.numanxstudio.com/convert/density/kg-m-to-lb-ft
    - Formula: Multiply kg/m³ by conversion factor to obtain lb/ft³.
 
-106. **Cup to Tablespoon** (`cooking`)
+128. **Cup to Tablespoon** (`cooking`)
    - URL: https://converter.numanxstudio.com/convert/cooking/cup-to-tablespoon
    - Formula: Multiply Cup by conversion factor to obtain Tablespoon.
 
-107. **Tablespoon to Teaspoon** (`cooking`)
+129. **Tablespoon to Teaspoon** (`cooking`)
    - URL: https://converter.numanxstudio.com/convert/cooking/tablespoon-to-teaspoon
    - Formula: Multiply Tablespoon by conversion factor to obtain Teaspoon.
 
-108. **Cup to Milliliter** (`cooking`)
+130. **Cup to Milliliter** (`cooking`)
    - URL: https://converter.numanxstudio.com/convert/cooking/cup-to-milliliter
    - Formula: Multiply Cup by conversion factor to obtain Milliliter.
 
-109. **Fluid Ounce to Milliliter** (`cooking`)
+131. **Fluid Ounce to Milliliter** (`cooking`)
    - URL: https://converter.numanxstudio.com/convert/cooking/fluid-ounce-to-milliliter
    - Formula: Multiply Fluid Ounce by conversion factor to obtain Milliliter.
 
-110. **Stick of Butter to Tablespoon** (`cooking`)
+132. **Stick of Butter to Tablespoon** (`cooking`)
    - URL: https://converter.numanxstudio.com/convert/cooking/stick-of-butter-to-tablespoon
    - Formula: Multiply Stick of Butter by conversion factor to obtain Tablespoon.
 
-111. **GSM to Thread Count** (`textile`)
+133. **GSM to Thread Count** (`textile`)
    - URL: https://converter.numanxstudio.com/convert/textile/gsm-to-thread-count
    - Formula: Multiply GSM by conversion factor to obtain Thread Count.
 
-112. **Light Year to AU** (`astronomy`)
+134. **Light Year to AU** (`astronomy`)
    - URL: https://converter.numanxstudio.com/convert/astronomy/light-year-to-au
    - Formula: Multiply Light Year by conversion factor to obtain AU.
 
-113. **Parsec to Light Year** (`astronomy`)
+135. **Parsec to Light Year** (`astronomy`)
    - URL: https://converter.numanxstudio.com/convert/astronomy/parsec-to-light-year
    - Formula: Multiply Parsec by conversion factor to obtain Light Year.
 
-114. **Solar Mass to Earth Mass** (`astronomy`)
+136. **Solar Mass to Earth Mass** (`astronomy`)
    - URL: https://converter.numanxstudio.com/convert/astronomy/solar-mass-to-earth-mass
    - Formula: Multiply Solar Mass by conversion factor to obtain Earth Mass.
 
-115. **Gallon per Minute to Liter per Minute** (`flow`)
+137. **Gallon per Minute to Liter per Minute** (`flow`)
    - URL: https://converter.numanxstudio.com/convert/flow/gallon-per-minute-to-liter-per-minute
    - Formula: Multiply Gallon per Minute by conversion factor to obtain Liter per Minute.
 
-116. **Cubic Feet per Minute to Liter per Second** (`flow`)
+138. **Cubic Feet per Minute to Liter per Second** (`flow`)
    - URL: https://converter.numanxstudio.com/convert/flow/cubic-feet-per-minute-to-liter-per-second
    - Formula: Multiply Cubic Feet per Minute by conversion factor to obtain Liter per Second.
 
-117. **Cubic Meter per Hour to Gallon per Minute** (`flow`)
+139. **Cubic Meter per Hour to Gallon per Minute** (`flow`)
    - URL: https://converter.numanxstudio.com/convert/flow/cubic-meter-per-hour-to-gallon-per-minute
    - Formula: Multiply Cubic Meter per Hour by conversion factor to obtain Gallon per Minute.
 
-118. **Foot-candle to Lux** (`illuminance`)
+140. **Foot-candle to Lux** (`illuminance`)
    - URL: https://converter.numanxstudio.com/convert/illuminance/foot-candle-to-lux
    - Formula: Multiply Foot-candle by conversion factor to obtain Lux.
 
-119. **Lux to Foot-candle** (`illuminance`)
+141. **Lux to Foot-candle** (`illuminance`)
    - URL: https://converter.numanxstudio.com/convert/illuminance/lux-to-foot-candle
    - Formula: Multiply Lux by conversion factor to obtain Foot-candle.
 
-120. **Centipoise to Pascal-second** (`viscosity`)
+142. **Centipoise to Pascal-second** (`viscosity`)
    - URL: https://converter.numanxstudio.com/convert/viscosity/centipoise-to-pascal-second
    - Formula: Multiply Centipoise by conversion factor to obtain Pascal-second.
 
-121. **Centipoise to Millipascal-second** (`viscosity`)
+143. **Centipoise to Millipascal-second** (`viscosity`)
    - URL: https://converter.numanxstudio.com/convert/viscosity/centipoise-to-millipascal-second
    - Formula: Multiply Centipoise by conversion factor to obtain Millipascal-second.
 
-122. **Pixel to Point** (`typography`)
+144. **Pixel to Point** (`typography`)
    - URL: https://converter.numanxstudio.com/convert/typography/pixel-to-point
    - Formula: Multiply Pixel by conversion factor to obtain Point.
 
-123. **Pixel to Root EM** (`typography`)
+145. **Pixel to Root EM** (`typography`)
    - URL: https://converter.numanxstudio.com/convert/typography/pixel-to-root-em
    - Formula: Multiply Pixel by conversion factor to obtain Root EM.
 
-## 5. Educational Guides (6 Guides)
+146. **bin to dec** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/bin-to-dec
+   - Formula: Multiply bin by conversion factor to obtain dec.
+
+147. **dec to bin** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/dec-to-bin
+   - Formula: Multiply dec by conversion factor to obtain bin.
+
+148. **hex to dec** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/hex-to-dec
+   - Formula: Multiply hex by conversion factor to obtain dec.
+
+149. **dec to hex** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/dec-to-hex
+   - Formula: Multiply dec by conversion factor to obtain hex.
+
+150. **bin to hex** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/bin-to-hex
+   - Formula: Multiply bin by conversion factor to obtain hex.
+
+151. **hex to bin** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/hex-to-bin
+   - Formula: Multiply hex by conversion factor to obtain bin.
+
+152. **dec to bcd** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/dec-to-bcd
+   - Formula: Multiply dec by conversion factor to obtain bcd.
+
+153. **bin to gray** (`number-base`)
+   - URL: https://converter.numanxstudio.com/convert/number-base/bin-to-gray
+   - Formula: Multiply bin by conversion factor to obtain gray.
+
+154. **dec_real to fp32** (`ieee-754`)
+   - URL: https://converter.numanxstudio.com/convert/ieee-754/dec-real-to-fp32
+   - Formula: Multiply dec_real by conversion factor to obtain fp32.
+
+155. **fp32 to dec_real** (`ieee-754`)
+   - URL: https://converter.numanxstudio.com/convert/ieee-754/fp32-to-dec-real
+   - Formula: Multiply fp32 by conversion factor to obtain dec_real.
+
+156. **dec_real to fp64** (`ieee-754`)
+   - URL: https://converter.numanxstudio.com/convert/ieee-754/dec-real-to-fp64
+   - Formula: Multiply dec_real by conversion factor to obtain fp64.
+
+157. **hex_float to fp32** (`ieee-754`)
+   - URL: https://converter.numanxstudio.com/convert/ieee-754/hex-float-to-fp32
+   - Formula: Multiply hex_float by conversion factor to obtain fp32.
+
+158. **lakh to m_std** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/lakh-to-m-std
+   - Formula: Multiply lakh by conversion factor to obtain m_std.
+
+159. **m_std to lakh** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/m-std-to-lakh
+   - Formula: Multiply m_std by conversion factor to obtain lakh.
+
+160. **crore to m_std** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/crore-to-m-std
+   - Formula: Multiply crore by conversion factor to obtain m_std.
+
+161. **m_std to crore** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/m-std-to-crore
+   - Formula: Multiply m_std by conversion factor to obtain crore.
+
+162. **arab to b_std** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/arab-to-b-std
+   - Formula: Multiply arab by conversion factor to obtain b_std.
+
+163. **crore to lakh** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/crore-to-lakh
+   - Formula: Multiply crore by conversion factor to obtain lakh.
+
+164. **kharab to b_std** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/kharab-to-b-std
+   - Formula: Multiply kharab by conversion factor to obtain b_std.
+
+165. **hazar to lakh** (`pk-numbering`)
+   - URL: https://converter.numanxstudio.com/convert/pk-numbering/hazar-to-lakh
+   - Formula: Multiply hazar by conversion factor to obtain lakh.
+
+166. **z_score to percentile** (`statistics`)
+   - URL: https://converter.numanxstudio.com/convert/statistics/z-score-to-percentile
+   - Formula: Multiply z_score by conversion factor to obtain percentile.
+
+167. **percentile to z_score** (`statistics`)
+   - URL: https://converter.numanxstudio.com/convert/statistics/percentile-to-z-score
+   - Formula: Multiply percentile by conversion factor to obtain z_score.
+
+168. **z_score to p_val_two** (`statistics`)
+   - URL: https://converter.numanxstudio.com/convert/statistics/z-score-to-p-val-two
+   - Formula: Multiply z_score by conversion factor to obtain p_val_two.
+
+169. **dec_odds to prob_pct** (`statistics`)
+   - URL: https://converter.numanxstudio.com/convert/statistics/dec-odds-to-prob-pct
+   - Formula: Multiply dec_odds by conversion factor to obtain prob_pct.
+
+170. **frac_odds to prob_pct** (`statistics`)
+   - URL: https://converter.numanxstudio.com/convert/statistics/frac-odds-to-prob-pct
+   - Formula: Multiply frac_odds by conversion factor to obtain prob_pct.
+
+171. **us_moneyline to prob_pct** (`statistics`)
+   - URL: https://converter.numanxstudio.com/convert/statistics/us-moneyline-to-prob-pct
+   - Formula: Multiply us_moneyline by conversion factor to obtain prob_pct.
+
+172. **csv to latex_b** (`matrix-format`)
+   - URL: https://converter.numanxstudio.com/convert/matrix-format/csv-to-latex-b
+   - Formula: Multiply csv by conversion factor to obtain latex_b.
+
+173. **csv to numpy** (`matrix-format`)
+   - URL: https://converter.numanxstudio.com/convert/matrix-format/csv-to-numpy
+   - Formula: Multiply csv by conversion factor to obtain numpy.
+
+174. **matlab to numpy** (`matrix-format`)
+   - URL: https://converter.numanxstudio.com/convert/matrix-format/matlab-to-numpy
+   - Formula: Multiply matlab by conversion factor to obtain numpy.
+
+175. **numpy to latex_b** (`matrix-format`)
+   - URL: https://converter.numanxstudio.com/convert/matrix-format/numpy-to-latex-b
+   - Formula: Multiply numpy by conversion factor to obtain latex_b.
+
+176. **json_2d to csv** (`matrix-format`)
+   - URL: https://converter.numanxstudio.com/convert/matrix-format/json-2d-to-csv
+   - Formula: Multiply json_2d by conversion factor to obtain csv.
+
+177. **csv to latex_p** (`matrix-format`)
+   - URL: https://converter.numanxstudio.com/convert/matrix-format/csv-to-latex-p
+   - Formula: Multiply csv by conversion factor to obtain latex_p.
+
+178. **ppm to pct** (`scientific-notation`)
+   - URL: https://converter.numanxstudio.com/convert/scientific-notation/ppm-to-pct
+   - Formula: Multiply ppm by conversion factor to obtain pct.
+
+179. **pct to ppm** (`scientific-notation`)
+   - URL: https://converter.numanxstudio.com/convert/scientific-notation/pct-to-ppm
+   - Formula: Multiply pct by conversion factor to obtain ppm.
+
+180. **ppm to ppb** (`scientific-notation`)
+   - URL: https://converter.numanxstudio.com/convert/scientific-notation/ppm-to-ppb
+   - Formula: Multiply ppm by conversion factor to obtain ppb.
+
+181. **dec_std to sci_micro** (`scientific-notation`)
+   - URL: https://converter.numanxstudio.com/convert/scientific-notation/dec-std-to-sci-micro
+   - Formula: Multiply dec_std by conversion factor to obtain sci_micro.
+
+182. **hec_gpa4 to percentage** (`pk-gpa`)
+   - URL: https://converter.numanxstudio.com/convert/pk-gpa/hec-gpa4-to-percentage
+   - Formula: Multiply hec_gpa4 by conversion factor to obtain percentage.
+
+183. **percentage to hec_gpa4** (`pk-gpa`)
+   - URL: https://converter.numanxstudio.com/convert/pk-gpa/percentage-to-hec-gpa4
+   - Formula: Multiply percentage by conversion factor to obtain hec_gpa4.
+
+184. **gpa5 to hec_gpa4** (`pk-gpa`)
+   - URL: https://converter.numanxstudio.com/convert/pk-gpa/gpa5-to-hec-gpa4
+   - Formula: Multiply gpa5 by conversion factor to obtain hec_gpa4.
+
+185. **matric_fsc1100 to percentage** (`pk-gpa`)
+   - URL: https://converter.numanxstudio.com/convert/pk-gpa/matric-fsc1100-to-percentage
+   - Formula: Multiply matric_fsc1100 by conversion factor to obtain percentage.
+
+186. **overs_balls to balls** (`cricket-overs`)
+   - URL: https://converter.numanxstudio.com/convert/cricket-overs/overs-balls-to-balls
+   - Formula: Multiply overs_balls by conversion factor to obtain balls.
+
+187. **overs_balls to true_overs** (`cricket-overs`)
+   - URL: https://converter.numanxstudio.com/convert/cricket-overs/overs-balls-to-true-overs
+   - Formula: Multiply overs_balls by conversion factor to obtain true_overs.
+
+## 5. Educational Guides (15 Guides)
 
 Comprehensive technical guides detailing unit origins, math shortcuts, and real-world applications:
 
@@ -815,6 +1071,36 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
 - **Canonical URL:** https://converter.numanxstudio.com/guides/kw-to-hp
 - **Category:** power
 - **Target Measurement System:** Convert kW to HP: 1 kW = 1.34102 hp (1 hp = 0.7457 kW). Free power converter with EV battery ratings, metric PS vs imperial HP table, and dyno guide.
+
+### Marla to Square Feet in Pakistan: 272.25 vs 250 vs 225 Sq Ft Standards
+- **Canonical URL:** https://converter.numanxstudio.com/guides/marla-to-square-feet-pakistan
+- **Category:** area
+- **Target Measurement System:** Convert Marla to Square Feet across Pakistan: 272.25 sq ft (Patwari / Revenue standard), 250 sq ft (CDA / Rawalpindi), and 225 sq ft (Housing societies / Bahria / DHA).
+
+### 1 Tola in Grams, Masha & Ratti: Pakistan Gold Bullion Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/tola-to-grams-gold-pakistan
+- **Category:** mass
+- **Target Measurement System:** Convert Tola to grams for gold and silver in Pakistan: 1 Tola = 11.6638 grams, 12 Masha, 96 Ratti. Full jewellers pricing formula and 24K to 22K karat calculator.
+
+### Lakh & Crore to Million & Billion Converter Guide (2,2,3 Grouping)
+- **Canonical URL:** https://converter.numanxstudio.com/guides/lakh-crore-to-million-billion
+- **Category:** pk-numbering
+- **Target Measurement System:** Convert Lakh and Crore to Millions and Billions. Learn the South Asian 2,2,3 comma system: 1 Lakh = 100,000 (0.1M), 1 Crore = 10 Million, 1 Arab = 1 Billion.
+
+### HEC CGPA to Percentage & MDCAT Aggregate Formula Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/hec-cgpa-to-percentage-pakistan
+- **Category:** pk-gpa
+- **Target Measurement System:** Convert Pakistani HEC 4.00 CGPA to Percentage marks and calculate PMDC MDCAT / NUMS aggregate. Official continuous scale conversion guidelines.
+
+### Cricket Overs (14.3) to Decimal Overs & ICC Net Run Rate Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/cricket-overs-to-balls-nrr
+- **Category:** cricket-overs
+- **Target Measurement System:** Convert cricket overs notation (14.3) to legal balls (87) and true decimal overs (14.50). Complete ICC Net Run Rate (NRR) tournament tie-break formula.
+
+### Binary, Hexadecimal & IEEE-754 Floating-Point Conversion Guide
+- **Canonical URL:** https://converter.numanxstudio.com/guides/binary-hex-ieee-754-guide
+- **Category:** number-base
+- **Target Measurement System:** Master binary, hexadecimal, and IEEE-754 FP32/FP64 floating-point conversion. Step-by-step bitfield breakdowns: sign bit, biased exponent, and mantissa.
 
 ## 6. Technical Blog Articles (6 Articles)
 

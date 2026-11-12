@@ -23,6 +23,7 @@ import { getGuidesForCategory } from '../config/guideRelations'
 import { getCategoryAuthoritySources } from '../config/authoritySources'
 import { cleanSlug } from '../config/pairEditorial'
 import { SystemLabels, type UnitSystem } from '../types'
+import { AdSlotBanner, AdSlotRectangle, AdSlotRail } from '../components/monetization/AdSlot3Tier'
 
 const SI_BASE_UNIT_IDS = new Set(['m', 'kg', 's', 'A', 'K'])
 
@@ -122,7 +123,8 @@ export default function CategoryLanding({ categorySlug }: Props) {
   const nextCat = currentIndex < allCats.length - 1 ? allCats[currentIndex + 1] : allCats[0]
 
   return (
-    <article className="space-y-4 sm:space-y-6">
+    <div className="relative flex justify-center gap-6">
+      <article className="space-y-4 sm:space-y-6 max-w-4xl min-w-0 flex-1">
       <SEOHead
         title={pageTitle}
         description={pageDesc}
@@ -218,6 +220,9 @@ export default function CategoryLanding({ categorySlug }: Props) {
           <UniversalConverter category={cat.id} hideCategoryPicker={true} compactOnMobile={true} initialValue={1} />
         </div>
       </section>
+
+      {/* Monetization Slot 2: Mid-Page 728x90 Banner */}
+      <AdSlotBanner />
 
       {/* 3. Category Unit Discovery Directory (Swiss Technical Grid) */}
       <section aria-labelledby="units-heading" className="space-y-3">
@@ -542,6 +547,9 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </section>
       )}
 
+      {/* Monetization Slot 3: Pre-FAQ 300x250 Rectangle */}
+      <AdSlotRectangle />
+
       {/* 10. Accessible Structured FAQ Accordion */}
       {content.faq && content.faq.length > 0 && (
         <section aria-labelledby="faq-heading" className="space-y-3">
@@ -623,5 +631,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
         </div>
       </section>
     </article>
+      <AdSlotRail />
+    </div>
   )
 }
