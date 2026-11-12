@@ -7,7 +7,7 @@
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
 - Concise Agent Guide: https://converter.numanxstudio.com/llms.txt
-- Total Canonical Indexable Inventory: 178 URLs
+- Total Canonical Indexable Inventory: 186 URLs
 
 ## 1. System Architecture & Metrology Standards
 
@@ -31,7 +31,7 @@ All primary interactive features are accessed via deterministic canonical URLs:
 - **Universal Converter:** https://converter.numanxstudio.com/converter
   Unified converter interface with category dropdown, unit selectors, swap function, and dynamic formula display.
 - **Categories Directory:** https://converter.numanxstudio.com/categories
-  Full catalog of all 28 supported conversion categories with unit counts and measurement dimensions.
+  Full catalog of all 36 supported conversion categories with unit counts and measurement dimensions.
 - **Formula Explorer:** https://converter.numanxstudio.com/formulas
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
 - **Scientific Calculator:** https://converter.numanxstudio.com/calculator
@@ -51,20 +51,20 @@ All primary interactive features are accessed via deterministic canonical URLs:
 - **Terms of Use:** https://converter.numanxstudio.com/terms
   Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
 
-## 3. Supported Measurement Categories (28 Categories)
+## 3. Supported Measurement Categories (36 Categories)
 
-Omega X Converter provides complete unit coverage across 28 distinct physical and financial domains:
+Omega X Converter provides complete unit coverage across 36 distinct physical and financial domains:
 
 ### Length (`length`)
 - **Canonical URL:** https://converter.numanxstudio.com/convert/length
 - **Base Reference Unit:** Meter
-- **Registered Units (28):** Angstrom (angstrom), Picometer (pm), Nanometer (nm), Micrometer (um), Millimeter (mm), Centimeter (cm), Decimeter (dm), Meter (m), Kilometer (km), Thou / Mil (mil), Point (pt), Inch (in), Hand (hand), Foot (ft), Cubit (cubit), Yard (yd), Fathom (fathom), Rod (rod), Chain (chain), Furlong (furlong), Mile (mi), Nautical Mile (nmi), Earth Radius (er), Lunar Distance (ld), Solar Radius (sr), Astronomical Unit (au), Light Year (ly), Parsec (pc)
+- **Registered Units (30):** Angstrom (angstrom), Picometer (pm), Nanometer (nm), Micrometer (um), Millimeter (mm), Centimeter (cm), Decimeter (dm), Meter (m), Kilometer (km), Thou / Mil (mil), Point (pt), Inch (in), Hand (hand), Foot (ft), Cubit (cubit), Yard (yd), Girah (Fabric - 2.25 in) (girah), Karam / Gatha (5.5 ft) (karam), Fathom (fathom), Rod (rod), Chain (chain), Furlong (furlong), Mile (mi), Nautical Mile (nmi), Earth Radius (er), Lunar Distance (ld), Solar Radius (sr), Astronomical Unit (au), Light Year (ly), Parsec (pc)
 - **Description:** Deterministic measurement conversions for length.
 
 ### Area (`area`)
 - **Canonical URL:** https://converter.numanxstudio.com/convert/area
 - **Base Reference Unit:** m²
-- **Registered Units (12):** Barn (barn), mm² (mm2), cm² (cm2), in² (in2), ft² (ft2), yd² (yd2), m² (m2), Acre (ac), Hectare (ha), km² (km2), mi² (mi2), Township (twp)
+- **Registered Units (20):** Barn (barn), mm² (mm2), cm² (cm2), in² (in2), ft² (ft2), yd² (yd2), m² (m2), Acre (ac), Hectare (ha), km² (km2), mi² (mi2), Township (twp), Marla (Society - 225 sq ft) (marla_soc), Marla (Capital - 250 sq ft) (marla_cap), Marla (Standard/Govt - 272.25 sq ft) (marla), Square Yard / Gaz (gaz_sq), Sarsahi (Sq Karam) (sarsahi), Kanal (20 Marlas) (kanal), Killa / Acre (PK) (killa), Murabba (25 Acres) (murabba)
 - **Description:** Deterministic measurement conversions for area.
 
 ### Volume (`volume`)
@@ -76,7 +76,7 @@ Omega X Converter provides complete unit coverage across 28 distinct physical an
 ### Mass (`mass`)
 - **Canonical URL:** https://converter.numanxstudio.com/convert/mass
 - **Base Reference Unit:** Kilogram
-- **Registered Units (18):** Atomic Mass Unit (amu), Microgram (ug), Milligram (mg), Grain (gr), Carat (ct), Gram (g), Pennyweight (dwt), Ounce (oz), Troy Ounce (ozt), Troy Pound (lbt), Pound (lb), Kilogram (kg), Stone (stone), Slug (slug), Metric Quintal (q), Short Ton (sh tn), Metric Ton (t), Long Ton (lg tn)
+- **Registered Units (27):** Atomic Mass Unit (amu), Microgram (ug), Milligram (mg), Grain (gr), Carat (ct), Gram (g), Pennyweight (dwt), Ounce (oz), Troy Ounce (ozt), Troy Pound (lbt), Pound (lb), Kilogram (kg), Stone (stone), Slug (slug), Metric Quintal (q), Short Ton (sh tn), Metric Ton (t), Long Ton (lg tn), Ratti (ratti), Masha (masha), Tola (PK Standard) (tola), Chhatank (chhatank), Pao (250g) (pao), Seer (seer), Dhari (5 kg) (dhari), Maund (Traditional Imperial - 37.32 kg) (maund_trad), Maund / Mann (Mandi Standard - 40 kg) (maund_pk)
 - **Description:** Deterministic measurement conversions for mass.
 
 ### Temperature (`temp`)
@@ -222,6 +222,54 @@ Omega X Converter provides complete unit coverage across 28 distinct physical an
 - **Base Reference Unit:** Pixel
 - **Registered Units (8):** Pixel (px), Point (pt), Millimeter (mm), Pica (pica), Root EM (rem), EM (em), Centimeter (cm), Inch (in)
 - **Description:** Deterministic measurement conversions for typography.
+
+### Number Base (`number-base`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/number-base
+- **Base Reference Unit:** Decimal (Base 10)
+- **Registered Units (8):** Decimal (Base 10) (dec), Binary (Base 2) (bin), Octal (Base 8) (oct), Hexadecimal (Base 16) (hex), Base 32 (base32), Base 36 (base36), BCD (8421 Binary Coded) (bcd), Gray Code (Reflected Binary) (gray)
+- **Description:** Deterministic measurement conversions for number base.
+
+### IEEE-754 Float (`ieee-754`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/ieee-754
+- **Base Reference Unit:** Decimal Real Number
+- **Registered Units (5):** Decimal Real Number (dec_real), FP16 Half Precision (1-5-10) (fp16), FP32 Single Precision (1-8-23) (fp32), FP64 Double Precision (1-11-52) (fp64), Hexadecimal Float (0x...) (hex_float)
+- **Description:** Deterministic measurement conversions for ieee-754 float.
+
+### South Asian Numbering (`pk-numbering`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/pk-numbering
+- **Base Reference Unit:** Units / Ones
+- **Registered Units (11):** Units / Ones (ones), Hazar (1,000) (hazar), Lakh (100,000 / 10⁵) (lakh), Crore (10 Million / 10⁷) (crore), Arab (1 Billion / 10⁹) (arab), Kharab (100 Billion / 10¹¹) (kharab), Neel (10 Trillion / 10¹³) (neel), Thousand (K / 10³) (k_std), Million (M / 10⁶) (m_std), Billion (B / 10⁹) (b_std), Trillion (T / 10¹²) (t_std)
+- **Description:** Deterministic measurement conversions for south asian numbering.
+
+### Statistics & Odds (`statistics`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/statistics
+- **Base Reference Unit:** Implied Probability (%)
+- **Registered Units (7):** Implied Probability (%) (prob_pct), Percentile Rank (%) (percentile), Z-Score (σ) (z_score), Two-Tailed P-Value (p_val_two), Decimal Odds (European) (dec_odds), Fractional Odds (UK/Traditional) (frac_odds), American Moneyline (+/-) (us_moneyline)
+- **Description:** Deterministic measurement conversions for statistics & odds.
+
+### Matrix & Arrays (`matrix-format`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/matrix-format
+- **Base Reference Unit:** CSV / TSV Grid
+- **Registered Units (6):** CSV / TSV Grid (csv), LaTeX bmatrix ([...]) (latex_b), LaTeX pmatrix ((...)) (latex_p), Python NumPy (np.array) (numpy), MATLAB / Octave ([a b; c d]) (matlab), JSON 2D Array (json_2d)
+- **Description:** Deterministic measurement conversions for matrix & arrays.
+
+### Scientific & Fractions (`scientific-notation`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/scientific-notation
+- **Base Reference Unit:** Standard Decimal
+- **Registered Units (12):** Standard Decimal (dec_std), Kilo (10³) (sci_kilo), Mega (10⁶) (sci_mega), Giga (10⁹) (sci_giga), Milli (10⁻³) (sci_milli), Micro (10⁻⁶) (sci_micro), Nano (10⁻⁹) (sci_nano), Parts-Per-Million (ppm / 10⁻⁶) (ppm), Parts-Per-Billion (ppb / 10⁻⁹) (ppb), Parts-Per-Trillion (ppt / 10⁻¹²) (ppt), Percentage (%) (pct), Permille (‰) (permille)
+- **Description:** Deterministic measurement conversions for scientific & fractions.
+
+### HEC GPA & Marks (`pk-gpa`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/pk-gpa
+- **Base Reference Unit:** Percentage Marks (%)
+- **Registered Units (6):** Percentage Marks (%) (percentage), HEC 4.00 Scale CGPA (hec_gpa4), 5.00 Scale CGPA (gpa5), Matric / FSc Marks (Out of 1100) (matric_fsc1100), Matric / FSc Marks (Out of 1200) (matric_fsc1200), MDCAT / ECAT Aggregate (%) (mdcat_agg)
+- **Description:** Deterministic measurement conversions for hec gpa & marks.
+
+### Cricket Base-6 (`cricket-overs`)
+- **Canonical URL:** https://converter.numanxstudio.com/convert/cricket-overs
+- **Base Reference Unit:** Cricket Overs (e.g. 14.3)
+- **Registered Units (4):** Cricket Overs (e.g. 14.3) (overs_balls), True Decimal Overs (14.50) (true_overs), Legal Deliveries / Balls (balls), Run Rate Metric (Per 6 Balls) (run_rate_6)
+- **Description:** Deterministic measurement conversions for cricket base-6.
 
 ## 4. Curated Popular Conversion Pairs (123 Canonical Pairs)
 

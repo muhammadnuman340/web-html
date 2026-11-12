@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 
 const FEATURES = [
-  { icon: '📏', label: '28 Conversion Categories', desc: '220+ units across length, mass, temp, and more' },  { icon: '🧠', label: 'Natural Language Input', desc: 'Try "5 km in miles" or "(5m + 20cm) × 2"' },
+  { icon: '📏', label: '36 Conversion Categories', desc: '220+ units across length, mass, temp, and more' },  { icon: '🧠', label: 'Natural Language Input', desc: 'Try "5 km in miles" or "(5m + 20cm) × 2"' },
   { icon: '📋', label: 'Batch Convert', desc: 'Convert hundreds of values at once, export CSV/JSON' },
   { icon: '⚒️', label: 'Custom Units', desc: 'Define your own units and conversion factors' },
   { icon: '❤️', label: 'Health Calculators', desc: 'BMI, BMR, and body metrics' },

@@ -1,484 +1,667 @@
-// tests/conversion.test.ts
-import { describe, it } from "node:test";
-import assert from "node:assert/strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __esm = (fn, res, err) => function __init() {
+  if (err) throw err[0];
+  try {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  } catch (e) {
+    throw err = [e], e;
+  }
+};
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/engine/categories.ts
-var Categories = [
-  {
-    id: "length",
-    lb: "Length",
-    ic: "\u{1F4CF}",
-    cl: "#6c63ff",
-    al: ["distance", "meter", "kilometer", "mile", "foot", "inch"],
-    un: [
-      { id: "angstrom", lb: "Angstrom", r: 1e-10, s: "S", al: ["\xC5"] },
-      { id: "pm", lb: "Picometer", r: 1e-12, s: "S" },
-      { id: "nm", lb: "Nanometer", r: 1e-9, s: "M" },
-      { id: "um", lb: "Micrometer", r: 1e-6, s: "M" },
-      { id: "mm", lb: "Millimeter", r: 1e-3, s: "M" },
-      { id: "cm", lb: "Centimeter", r: 0.01, s: "M" },
-      { id: "dm", lb: "Decimeter", r: 0.1, s: "M" },
-      { id: "m", lb: "Meter", r: 1, s: "M" },
-      { id: "km", lb: "Kilometer", r: 1e3, s: "M" },
-      { id: "mil", lb: "Thou / Mil", r: 254e-7, s: "I", al: ["thou"] },
-      { id: "pt", lb: "Point", r: 0.0254 / 72, s: "I", al: ["points"] },
-      { id: "in", lb: "Inch", r: 0.0254, s: "I" },
-      { id: "hand", lb: "Hand", r: 0.1016, s: "I" },
-      { id: "ft", lb: "Foot", r: 0.3048, s: "I", al: ["feet"] },
-      { id: "cubit", lb: "Cubit", r: 0.4572, s: "O" },
-      { id: "yd", lb: "Yard", r: 0.9144, s: "I" },
-      { id: "fathom", lb: "Fathom", r: 1.8288, s: "I", al: ["fathoms"] },
-      { id: "rod", lb: "Rod", r: 5.0292, s: "I" },
-      { id: "chain", lb: "Chain", r: 20.1168, s: "I" },
-      { id: "furlong", lb: "Furlong", r: 201.168, s: "I" },
-      { id: "mi", lb: "Mile", r: 1609.344, s: "I" },
-      { id: "nmi", lb: "Nautical Mile", r: 1852, s: "O" },
-      { id: "er", lb: "Earth Radius", r: 6371e3, s: "S" },
-      { id: "ld", lb: "Lunar Distance", r: 3844e5, s: "S" },
-      { id: "sr", lb: "Solar Radius", r: 6957e5, s: "S" },
-      { id: "au", lb: "Astronomical Unit", r: 1496e8, s: "S" },
-      { id: "ly", lb: "Light Year", r: 9461e12, s: "S" },
-      { id: "pc", lb: "Parsec", r: 3086e13, s: "S" }
-    ]
-  },
-  {
-    id: "area",
-    lb: "Area",
-    ic: "\u25A3",
-    cl: "#9b59b6",
-    un: [
-      { id: "barn", lb: "Barn", r: 1e-28, s: "S" },
-      { id: "mm2", lb: "mm\xB2", r: 1e-6, s: "M" },
-      { id: "cm2", lb: "cm\xB2", r: 1e-4, s: "M" },
-      { id: "in2", lb: "in\xB2", r: 64516e-8, s: "I" },
-      { id: "ft2", lb: "ft\xB2", r: 0.092903, s: "I" },
-      { id: "yd2", lb: "yd\xB2", r: 0.836127, s: "I" },
-      { id: "m2", lb: "m\xB2", r: 1, s: "M" },
-      { id: "ac", lb: "Acre", r: 4046.86, s: "I" },
-      { id: "ha", lb: "Hectare", r: 1e4, s: "M" },
-      { id: "km2", lb: "km\xB2", r: 1e6, s: "M" },
-      { id: "mi2", lb: "mi\xB2", r: 259e4, s: "I" },
-      { id: "twp", lb: "Township", r: 9324e4, s: "I" }
-    ]
-  },
-  {
-    id: "volume",
-    lb: "Volume",
-    ic: "\u{1F9EA}",
-    cl: "#3498db",
-    un: [
-      { id: "drop", lb: "Drop", r: 5e-5, s: "O" },
-      { id: "mL", lb: "Milliliter", r: 1e-3, s: "M" },
-      { id: "cm3", lb: "Cubic Centimeter", r: 1e-3, s: "M", al: ["cc"] },
-      { id: "cL", lb: "Centiliter", r: 0.01, s: "M" },
-      { id: "dL", lb: "Deciliter", r: 0.1, s: "M" },
-      { id: "tsp", lb: "Teaspoon", r: 492892e-8, s: "I" },
-      { id: "tbsp", lb: "Tablespoon", r: 0.0147868, s: "I" },
-      { id: "in3", lb: "Cubic Inch", r: 0.0163871, s: "I" },
-      { id: "impfloz", lb: "Imperial Fl Oz", r: 0.0284130625, s: "I", al: ["uk fluid ounce"] },
-      { id: "floz", lb: "Fluid Ounce", r: 0.0295735, s: "I", al: ["fl oz", "fluid ounces", "us fluid ounce"] },
-      { id: "cup", lb: "Cup", r: 0.24, s: "I" },
-      { id: "pt", lb: "Pint", r: 0.473176, s: "I", al: ["pints", "us pint"] },
-      { id: "imppt", lb: "Imperial Pint", r: 0.56826125, s: "I", al: ["uk pint"] },
-      { id: "L", lb: "Liter", r: 1, s: "M" },
-      { id: "qt", lb: "Quart", r: 0.946353, s: "I" },
-      { id: "gal", lb: "Gallon", r: 3.78541, s: "I", al: ["gallons", "us gallon"] },
-      { id: "impgal", lb: "Imperial Gallon", r: 4.54609, s: "I", al: ["uk gallon"] },
-      { id: "ft3", lb: "Cubic Foot", r: 28.3168, s: "I" },
-      { id: "bbl", lb: "Barrel", r: 158.987, s: "I" },
-      { id: "yd3", lb: "Cubic Yard", r: 764.554857984, s: "I", al: ["cubic yards", "cu yd"] },
-      { id: "m3", lb: "Cubic Meter", r: 1e3, s: "M" }
-    ]
-  },
-  {
-    id: "mass",
-    lb: "Mass",
-    ic: "\u2696\uFE0F",
-    cl: "#2ecc71",
-    al: ["weight", "gram", "kilogram", "pound"],
-    un: [
-      { id: "amu", lb: "Atomic Mass Unit", r: 1660539e-33, s: "S" },
-      { id: "ug", lb: "Microgram", r: 1e-9, s: "M" },
-      { id: "mg", lb: "Milligram", r: 1e-6, s: "M" },
-      { id: "gr", lb: "Grain", r: 64799e-9, s: "I" },
-      { id: "ct", lb: "Carat", r: 2e-4, s: "O" },
-      { id: "g", lb: "Gram", r: 1e-3, s: "M" },
-      { id: "dwt", lb: "Pennyweight", r: 0.00155517384, s: "O" },
-      { id: "oz", lb: "Ounce", r: 0.0283495, s: "I" },
-      { id: "ozt", lb: "Troy Ounce", r: 0.0311034768, s: "O", al: ["troy oz", "gold ounce"] },
-      { id: "lbt", lb: "Troy Pound", r: 0.3732417216, s: "O" },
-      { id: "lb", lb: "Pound", r: 0.453592, s: "I", al: ["lbs"] },
-      { id: "kg", lb: "Kilogram", r: 1, s: "M" },
-      { id: "stone", lb: "Stone", r: 6.35029, s: "I" },
-      { id: "slug", lb: "Slug", r: 14.5939029372, s: "I" },
-      { id: "q", lb: "Metric Quintal", r: 100, s: "M", al: ["quintal"] },
-      { id: "sh tn", lb: "Short Ton", r: 907.185, s: "I" },
-      { id: "t", lb: "Metric Ton", r: 1e3, s: "M" },
-      { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" }
-    ]
-  },
-  {
-    id: "temp",
-    lb: "Temperature",
-    ic: "\u{1F321}\uFE0F",
-    cl: "#e74c3c",
-    sp: true,
-    al: ["celsius", "fahrenheit", "kelvin"],
-    un: [
-      { id: "C", lb: "\xB0C", s: "M", al: ["celsius"] },
-      { id: "F", lb: "\xB0F", s: "I", al: ["fahrenheit"] },
-      { id: "K", lb: "K", s: "S", al: ["kelvin"] },
-      { id: "R", lb: "\xB0Rankine", s: "S" },
-      { id: "Re", lb: "\xB0R\xE9aumur", s: "O" }
-    ]
-  },
-  {
-    id: "time",
-    lb: "Time",
-    ic: "\u23F1\uFE0F",
-    cl: "#1abc9c",
-    un: [
-      { id: "ns", lb: "Nanosecond", r: 1e-9, s: "S" },
-      { id: "us", lb: "Microsecond", r: 1e-6, s: "S" },
-      { id: "ms", lb: "Millisecond", r: 1e-3, s: "S" },
-      { id: "s", lb: "Second", r: 1, s: "S" },
-      { id: "min", lb: "Minute", r: 60, s: "S" },
-      { id: "hr", lb: "Hour", r: 3600, s: "S" },
-      { id: "day", lb: "Day", r: 86400, s: "S" },
-      { id: "week", lb: "Week", r: 604800, s: "S" },
-      { id: "mo", lb: "Month", r: 2629800, s: "S" },
-      { id: "yr", lb: "Year", r: 31557600, s: "S" },
-      { id: "decade", lb: "Decade", r: 31558e4, s: "S" },
-      { id: "century", lb: "Century", r: 31558e5, s: "S" },
-      { id: "millennium", lb: "Millennium", r: 31558e6, s: "S" }
-    ]
-  },
-  {
-    id: "speed",
-    lb: "Speed",
-    ic: "\u{1F680}",
-    cl: "#e67e22",
-    un: [
-      { id: "mps", lb: "m/s", r: 1, s: "M" },
-      { id: "kmh", lb: "km/h", r: 0.277778, s: "M" },
-      { id: "mph", lb: "mph", r: 0.44704, s: "I" },
-      { id: "knot", lb: "Knot", r: 0.514444, s: "O" },
-      { id: "mach", lb: "Mach", r: 343, s: "O" },
-      { id: "c", lb: "Speed of Light", r: 299792458, s: "S" }
-    ]
-  },
-  {
-    id: "acceleration",
-    lb: "Acceleration",
-    ic: "\u{1F680}",
-    cl: "#e91e63",
-    un: [
-      { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
-      { id: "gal", lb: "Gal", r: 0.01, s: "O" },
-      { id: "ftps2", lb: "ft/s\xB2", r: 0.3048, s: "I" },
-      { id: "gforce", lb: "g-force", r: 9.80665, s: "O" }
-    ]
-  },
-  {
-    id: "force",
-    lb: "Force",
-    ic: "\u{1F4AA}",
-    cl: "#e91e63",
-    un: [
-      { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
-      { id: "N", lb: "Newton", r: 1, s: "M" },
-      { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
-      { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" },
-      { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" }
-    ]
-  },
-  {
-    id: "pressure",
-    lb: "Pressure",
-    ic: "\u{1F535}",
-    cl: "#00bcd4",
-    un: [
-      { id: "Pa", lb: "Pascal", r: 1, s: "M" },
-      { id: "hPa", lb: "Hectopascal", r: 100, s: "M" },
-      { id: "mbar", lb: "Millibar", r: 100, s: "M", al: ["mb"] },
-      { id: "torr", lb: "Torr", r: 133.322, s: "O" },
-      { id: "mmHg", lb: "mmHg", r: 133.322, s: "O" },
-      { id: "inH2O", lb: "inH\u2082O", r: 249.08891, s: "I", al: ["inches of water"] },
-      { id: "kPa", lb: "Kilopascal", r: 1e3, s: "M" },
-      { id: "inHg", lb: "inHg", r: 3386.389, s: "O", al: ["inches of mercury"] },
-      { id: "psi", lb: "PSI", r: 6894.76, s: "I" },
-      { id: "bar", lb: "Bar", r: 1e5, s: "M" },
-      { id: "atm", lb: "Atmosphere", r: 101325, s: "O" },
-      { id: "MPa", lb: "Megapascal", r: 1e6, s: "M" },
-      { id: "ksi", lb: "ksi", r: 6894757293e-3, s: "I", al: ["kilopound per square inch"] }
-    ]
-  },
-  {
-    id: "energy",
-    lb: "Energy",
-    ic: "\u26A1",
-    cl: "#f39c12",
-    un: [
-      { id: "eV", lb: "Electronvolt", r: 1602e-22, s: "S" },
-      { id: "J", lb: "Joule", r: 1, s: "M" },
-      { id: "cal", lb: "Calorie", r: 4.184, s: "M" },
-      { id: "BTU", lb: "BTU", r: 1055.06, s: "I" },
-      { id: "kJ", lb: "Kilojoule", r: 1e3, s: "M" },
-      { id: "Wh", lb: "Watt-hour", r: 3600, s: "O" },
-      { id: "kcal", lb: "Kilocalorie", r: 4184, s: "M" },
-      { id: "kWh", lb: "Kilowatt-hour", r: 36e5, s: "O" },
-      { id: "therm", lb: "Therm", r: 1055e5, s: "I" }
-    ]
-  },
-  {
-    id: "power",
-    lb: "Power",
-    ic: "\u{1F4A1}",
-    cl: "#ff9800",
-    un: [
-      { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" },
-      { id: "W", lb: "Watt", r: 1, s: "M" },
-      { id: "ps", lb: "Metric Horsepower (PS)", r: 735.49875, s: "O", al: ["ch", "cv"] },
-      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
-      { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
-      { id: "tr", lb: "Ton of Refrigeration", r: 3516.852842, s: "I", al: ["refrigeration ton", "tons of ac"] },
-      { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
-      { id: "GW", lb: "Gigawatt", r: 1e9, s: "M" }
-    ]
-  },
-  {
-    id: "electricity",
-    lb: "Electricity",
-    ic: "\u26A1",
-    cl: "#00e5ff",
-    un: [
-      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
-      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
-      { id: "A", lb: "Ampere", r: 1, s: "M" },
-      { id: "V", lb: "Volt", r: 1, s: "M" },
-      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
-      { id: "C", lb: "Coulomb", r: 1, s: "S" },
-      { id: "F", lb: "Farad", r: 1, s: "M" },
-      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
-      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
-      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
-    ]
-  },
-  {
-    id: "magnetism",
-    lb: "Magnetism",
-    ic: "\u{1F9F2}",
-    cl: "#e040fb",
-    un: [
-      { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
-      { id: "T", lb: "Tesla", r: 1, s: "M" },
-      { id: "Wb", lb: "Weber", r: 1, s: "S" }
-    ]
-  },
-  {
-    id: "frequency",
-    lb: "Frequency",
-    ic: "\u3030\uFE0F",
-    cl: "#607d8b",
-    un: [
-      { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" },
-      { id: "Hz", lb: "Hertz", r: 1, s: "M" },
-      { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
-      { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
-      { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
-      { id: "THz", lb: "THz", r: 1e12, s: "M" }
-    ]
-  },
-  {
-    id: "data",
-    lb: "Data Storage",
-    ic: "\u{1F4BE}",
-    cl: "#34495e",
-    un: [
-      { id: "bit", lb: "Bit", r: 0.125, s: "M" },
-      { id: "B", lb: "Byte", r: 1, s: "M" },
-      { id: "KB", lb: "KB", r: 1e3, s: "M" },
-      { id: "KiB", lb: "Kibibyte (KiB)", r: 1024, s: "S" },
-      { id: "MB", lb: "MB", r: 1e6, s: "M" },
-      { id: "MiB", lb: "Mebibyte (MiB)", r: 1048576, s: "S" },
-      { id: "GB", lb: "GB", r: 1e9, s: "M", al: ["gigabyte", "gigabytes"] },
-      { id: "GiB", lb: "Gibibyte (GiB)", r: 1073741824, s: "S", al: ["gibibyte", "gibibytes"] },
-      { id: "TB", lb: "TB", r: 1e12, s: "M" },
-      { id: "TiB", lb: "Tebibyte (TiB)", r: 1099511627776, s: "S" },
-      { id: "PB", lb: "PB", r: 1e15, s: "M" },
-      { id: "EB", lb: "EB", r: 1e18, s: "M" },
-      { id: "ZB", lb: "ZB", r: 1e21, s: "M" },
-      { id: "YB", lb: "YB", r: 1e24, s: "M" }
-    ]
-  },
-  {
-    id: "datatransfer",
-    lb: "Data Transfer",
-    ic: "\u{1F310}",
-    cl: "#00acc1",
-    un: [
-      { id: "bps", lb: "bps", r: 1, s: "M" },
-      { id: "kbps", lb: "Kbps", r: 1e3, s: "M" },
-      { id: "Mbps", lb: "Mbps", r: 1e6, s: "M" },
-      { id: "Gbps", lb: "Gbps", r: 1e9, s: "M" },
-      { id: "Tbps", lb: "Tbps", r: 1e12, s: "M" }
-    ]
-  },
-  {
-    id: "angle",
-    lb: "Angle",
-    ic: "\u2221",
-    cl: "#00bcd4",
-    un: [
-      { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" },
-      { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
-      { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
-      { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
-      { id: "deg", lb: "Degree", r: 1, s: "M" },
-      { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" }
-    ]
-  },
-  {
-    id: "torque",
-    lb: "Torque",
-    ic: "\u{1F527}",
-    cl: "#ff5722",
-    un: [
-      { id: "Nmm", lb: "N\xB7mm", r: 1e-3, s: "M" },
-      { id: "ozin", lb: "oz-in", r: 0.007061551814226044, s: "I", al: ["ounce-inch"] },
-      { id: "Ncm", lb: "N\xB7cm", r: 0.01, s: "M" },
-      { id: "lbin", lb: "lb-in", r: 0.1129848290276167, s: "I", al: ["in-lb", "pound-inch", "pound-inches", "inch-pound"] },
-      { id: "Nm", lb: "N\xB7m", r: 1, s: "M", al: ["newton-meter", "newton-meters"] },
-      { id: "lbft", lb: "lb-ft", r: 1.35582, s: "I", al: ["pound-foot", "pound-feet", "foot-pound", "foot-pounds"] },
-      { id: "kgfm", lb: "kgf\xB7m", r: 9.80665, s: "M", al: ["kgf-m"] }
-    ]
-  },
-  {
-    id: "fuel",
-    lb: "Fuel Economy",
-    ic: "\u26FD",
-    cl: "#4caf50",
-    sp: true,
-    un: [
-      { id: "mpgUS", lb: "MPG (US)" },
-      { id: "mpgUK", lb: "MPG (UK)" },
-      { id: "kmL", lb: "km/L" },
-      { id: "L100km", lb: "L/100km" }
-    ]
-  },
-  {
-    id: "density",
-    lb: "Density",
-    ic: "\u2B21",
-    cl: "#795548",
-    un: [
-      { id: "kgm3", lb: "kg/m\xB3", r: 1, s: "M" },
-      { id: "lbft3", lb: "lb/ft\xB3", r: 16.0185, s: "I" },
-      { id: "gcm3", lb: "g/cm\xB3", r: 1e3, s: "M" }
-    ]
-  },
-  {
-    id: "cooking",
-    lb: "Cooking",
-    ic: "\u{1F373}",
-    cl: "#ffc107",
-    un: [
-      { id: "pinch", lb: "Pinch", r: 0.308, s: "I" },
-      { id: "dash", lb: "Dash", r: 0.615, s: "I" },
-      { id: "mL_c", lb: "Milliliter", r: 1, s: "M" },
-      { id: "tsp_c", lb: "Teaspoon", r: 5, s: "I" },
-      { id: "tbsp_c", lb: "Tablespoon", r: 15, s: "I" },
-      { id: "floz_c", lb: "Fluid Ounce", r: 29.5735, s: "I" },
-      { id: "jigger", lb: "Jigger", r: 44.36029434375, s: "I", al: ["jiggers"] },
-      { id: "stick_c", lb: "Stick of Butter", r: 120, s: "I", al: ["stick", "sticks"] },
-      { id: "cup_c", lb: "Cup", r: 240, s: "I" }
-    ]
-  },
-  {
-    id: "textile",
-    lb: "Textile",
-    ic: "\u{1F9F5}",
-    cl: "#ab47bc",
-    un: [
-      { id: "gsm", lb: "GSM", r: 1, s: "O" },
-      { id: "tc", lb: "Thread Count", r: 1, s: "O" },
-      { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
-    ]
-  },
-  {
-    id: "astronomy",
-    lb: "Astronomy",
-    ic: "\u{1F30C}",
-    cl: "#7c4dff",
-    un: [
-      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
-      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
-      { id: "au_a", lb: "AU", r: 1, s: "S" },
-      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
-      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
-    ]
-  },
-  {
-    id: "flow",
-    lb: "Flow Rate",
-    ic: "\u{1F4A7}",
-    cl: "#00bcd4",
-    al: ["volumetric flow", "discharge", "flow", "gpm", "cfm", "liters per minute"],
-    un: [
-      { id: "bpd", lb: "Barrels per Day", r: 18401307283333333e-22, s: "I", al: ["bpd", "barrel per day", "barrels per day"] },
-      { id: "Lmin", lb: "Liter per Minute", r: 16666666666666667e-21, s: "M", al: ["l/min", "lpm", "liters per minute"] },
-      { id: "gpm", lb: "Gallon per Minute", r: 630901964e-13, s: "I", al: ["gpm", "gallon per minute", "gallons per minute"] },
-      { id: "m3h", lb: "Cubic Meter per Hour", r: 2777777777777778e-19, s: "M", al: ["m3/h", "cubic meter per hour", "cubic meters per hour"] },
-      { id: "cfm", lb: "Cubic Feet per Minute", r: 4719474432e-13, s: "I", al: ["cfm", "cubic foot per minute", "cubic feet per minute"] },
-      { id: "Ls", lb: "Liter per Second", r: 1e-3, s: "M", al: ["l/s", "lps", "liter per second", "liters per second"] },
-      { id: "m3s", lb: "Cubic Meter per Second", r: 1, s: "M", al: ["m3/s", "cubic meter per second", "cubic meters per second"] }
-    ]
-  },
-  {
-    id: "illuminance",
-    lb: "Illuminance",
-    ic: "\u{1F4A1}",
-    cl: "#ffb300",
-    al: ["light", "lux", "foot-candle", "illumination", "phot"],
-    un: [
-      { id: "nox", lb: "Nox", r: 1e-3, s: "S", al: ["nox"] },
-      { id: "lx", lb: "Lux", r: 1, s: "M", al: ["lux", "lx"] },
-      { id: "fc", lb: "Foot-candle", r: 10.763910416709722, s: "I", al: ["fc", "foot-candles", "foot candles", "foot candle"] },
-      { id: "ph", lb: "Phot", r: 1e4, s: "S", al: ["phot", "phots"] }
-    ]
-  },
-  {
-    id: "viscosity",
-    lb: "Viscosity",
-    ic: "\u{1F36F}",
-    cl: "#8d6e63",
-    al: ["dynamic viscosity", "centipoise", "poise", "pascal second"],
-    un: [
-      { id: "cP", lb: "Centipoise", r: 1e-3, s: "O", al: ["cp", "centipoise"] },
-      { id: "mPas", lb: "Millipascal-second", r: 1e-3, s: "M", al: ["mpas", "mpa-s", "millipascal-second"] },
-      { id: "P", lb: "Poise", r: 0.1, s: "O", al: ["poise"] },
-      { id: "Pas", lb: "Pascal-second", r: 1, s: "M", al: ["pas", "pa-s", "pascal-second"] },
-      { id: "lbfts", lb: "Pound per Foot-second", r: 1.48816394357, s: "I", al: ["lb/ft-s", "pound per foot-second", "pound per foot second"] }
-    ]
-  },
-  {
-    id: "typography",
-    lb: "Typography",
-    ic: "\u{1F524}",
-    cl: "#ec407a",
-    al: ["css units", "font size", "pixels", "points", "rem", "em", "pica"],
-    un: [
-      { id: "px", lb: "Pixel", r: 1, s: "O", al: ["pixels", "pixel", "px"] },
-      { id: "pt", lb: "Point", r: 1.3333333333333333, s: "I", al: ["points", "point", "pt"] },
-      { id: "mm", lb: "Millimeter", r: 3.779527559055118, s: "M", al: ["millimeter", "millimeters", "mm"] },
-      { id: "pica", lb: "Pica", r: 16, s: "I", al: ["picas", "pica", "pc"] },
-      { id: "rem", lb: "Root EM", r: 16, s: "O", al: ["rem", "rems"] },
-      { id: "em", lb: "EM", r: 16, s: "O", al: ["em", "ems"] },
-      { id: "cm", lb: "Centimeter", r: 37.79527559055118, s: "M", al: ["centimeter", "centimeters", "cm"] },
-      { id: "in", lb: "Inch", r: 96, s: "I", al: ["inches", "inch", "in"] }
-    ]
+var Categories;
+var init_categories = __esm({
+  "src/engine/categories.ts"() {
+    Categories = [
+      {
+        id: "length",
+        lb: "Length",
+        ic: "\u{1F4CF}",
+        cl: "#6c63ff",
+        al: ["distance", "meter", "kilometer", "mile", "foot", "inch"],
+        un: [
+          { id: "angstrom", lb: "Angstrom", r: 1e-10, s: "S", al: ["\xC5"] },
+          { id: "pm", lb: "Picometer", r: 1e-12, s: "S" },
+          { id: "nm", lb: "Nanometer", r: 1e-9, s: "M" },
+          { id: "um", lb: "Micrometer", r: 1e-6, s: "M" },
+          { id: "mm", lb: "Millimeter", r: 1e-3, s: "M" },
+          { id: "cm", lb: "Centimeter", r: 0.01, s: "M" },
+          { id: "dm", lb: "Decimeter", r: 0.1, s: "M" },
+          { id: "m", lb: "Meter", r: 1, s: "M" },
+          { id: "km", lb: "Kilometer", r: 1e3, s: "M" },
+          { id: "mil", lb: "Thou / Mil", r: 254e-7, s: "I", al: ["thou"] },
+          { id: "pt", lb: "Point", r: 0.0254 / 72, s: "I", al: ["points"] },
+          { id: "in", lb: "Inch", r: 0.0254, s: "I" },
+          { id: "hand", lb: "Hand", r: 0.1016, s: "I" },
+          { id: "ft", lb: "Foot", r: 0.3048, s: "I", al: ["feet"] },
+          { id: "cubit", lb: "Cubit", r: 0.4572, s: "O" },
+          { id: "yd", lb: "Yard", r: 0.9144, s: "I", al: ["gaz"] },
+          { id: "girah", lb: "Girah (Fabric - 2.25 in)", r: 0.05715, s: "O", al: ["girah", "gira"] },
+          { id: "karam", lb: "Karam / Gatha (5.5 ft)", r: 1.6764, s: "O", al: ["karam", "gatha", "land pace"] },
+          { id: "fathom", lb: "Fathom", r: 1.8288, s: "I", al: ["fathoms"] },
+          { id: "rod", lb: "Rod", r: 5.0292, s: "I" },
+          { id: "chain", lb: "Chain", r: 20.1168, s: "I" },
+          { id: "furlong", lb: "Furlong", r: 201.168, s: "I" },
+          { id: "mi", lb: "Mile", r: 1609.344, s: "I" },
+          { id: "nmi", lb: "Nautical Mile", r: 1852, s: "O" },
+          { id: "er", lb: "Earth Radius", r: 6371e3, s: "S" },
+          { id: "ld", lb: "Lunar Distance", r: 3844e5, s: "S" },
+          { id: "sr", lb: "Solar Radius", r: 6957e5, s: "S" },
+          { id: "au", lb: "Astronomical Unit", r: 1496e8, s: "S" },
+          { id: "ly", lb: "Light Year", r: 9461e12, s: "S" },
+          { id: "pc", lb: "Parsec", r: 3086e13, s: "S" }
+        ]
+      },
+      {
+        id: "area",
+        lb: "Area",
+        ic: "\u25A3",
+        cl: "#9b59b6",
+        un: [
+          { id: "barn", lb: "Barn", r: 1e-28, s: "S" },
+          { id: "mm2", lb: "mm\xB2", r: 1e-6, s: "M" },
+          { id: "cm2", lb: "cm\xB2", r: 1e-4, s: "M" },
+          { id: "in2", lb: "in\xB2", r: 64516e-8, s: "I" },
+          { id: "ft2", lb: "ft\xB2", r: 0.092903, s: "I" },
+          { id: "yd2", lb: "yd\xB2", r: 0.836127, s: "I" },
+          { id: "m2", lb: "m\xB2", r: 1, s: "M" },
+          { id: "ac", lb: "Acre", r: 4046.86, s: "I" },
+          { id: "ha", lb: "Hectare", r: 1e4, s: "M" },
+          { id: "km2", lb: "km\xB2", r: 1e6, s: "M" },
+          { id: "mi2", lb: "mi\xB2", r: 259e4, s: "I" },
+          { id: "twp", lb: "Township", r: 9324e4, s: "I" },
+          { id: "marla_soc", lb: "Marla (Society - 225 sq ft)", r: 20.903184, s: "O", al: ["marla 225", "marla society", "dha marla", "bahria marla"] },
+          { id: "marla_cap", lb: "Marla (Capital - 250 sq ft)", r: 23.22576, s: "O", al: ["marla 250", "cda marla", "islamabad marla", "rawalpindi marla"] },
+          { id: "marla", lb: "Marla (Standard/Govt - 272.25 sq ft)", r: 25.29285264, s: "O", al: ["marla", "marlas", "standard marla", "punjab marla", "patwari marla"] },
+          { id: "gaz_sq", lb: "Square Yard / Gaz", r: 0.83612736, s: "O", al: ["gaz", "square gaz", "sq gaz", "square yard gaz"] },
+          { id: "sarsahi", lb: "Sarsahi (Sq Karam)", r: 2.81031696, s: "O", al: ["sarsahi", "sq karam"] },
+          { id: "kanal", lb: "Kanal (20 Marlas)", r: 505.8570528, s: "O", al: ["kanal", "kanals"] },
+          { id: "killa", lb: "Killa / Acre (PK)", r: 4046.8564224, s: "O", al: ["killa", "qila"] },
+          { id: "murabba", lb: "Murabba (25 Acres)", r: 101171.41056, s: "O", al: ["murabba", "morabba"] }
+        ]
+      },
+      {
+        id: "volume",
+        lb: "Volume",
+        ic: "\u{1F9EA}",
+        cl: "#3498db",
+        un: [
+          { id: "drop", lb: "Drop", r: 5e-5, s: "O" },
+          { id: "mL", lb: "Milliliter", r: 1e-3, s: "M" },
+          { id: "cm3", lb: "Cubic Centimeter", r: 1e-3, s: "M", al: ["cc"] },
+          { id: "cL", lb: "Centiliter", r: 0.01, s: "M" },
+          { id: "dL", lb: "Deciliter", r: 0.1, s: "M" },
+          { id: "tsp", lb: "Teaspoon", r: 492892e-8, s: "I" },
+          { id: "tbsp", lb: "Tablespoon", r: 0.0147868, s: "I" },
+          { id: "in3", lb: "Cubic Inch", r: 0.0163871, s: "I" },
+          { id: "impfloz", lb: "Imperial Fl Oz", r: 0.0284130625, s: "I", al: ["uk fluid ounce"] },
+          { id: "floz", lb: "Fluid Ounce", r: 0.0295735, s: "I", al: ["fl oz", "fluid ounces", "us fluid ounce"] },
+          { id: "cup", lb: "Cup", r: 0.24, s: "I" },
+          { id: "pt", lb: "Pint", r: 0.473176, s: "I", al: ["pints", "us pint"] },
+          { id: "imppt", lb: "Imperial Pint", r: 0.56826125, s: "I", al: ["uk pint"] },
+          { id: "L", lb: "Liter", r: 1, s: "M" },
+          { id: "qt", lb: "Quart", r: 0.946353, s: "I" },
+          { id: "gal", lb: "Gallon", r: 3.78541, s: "I", al: ["gallons", "us gallon"] },
+          { id: "impgal", lb: "Imperial Gallon", r: 4.54609, s: "I", al: ["uk gallon"] },
+          { id: "ft3", lb: "Cubic Foot", r: 28.3168, s: "I" },
+          { id: "bbl", lb: "Barrel", r: 158.987, s: "I" },
+          { id: "yd3", lb: "Cubic Yard", r: 764.554857984, s: "I", al: ["cubic yards", "cu yd"] },
+          { id: "m3", lb: "Cubic Meter", r: 1e3, s: "M" }
+        ]
+      },
+      {
+        id: "mass",
+        lb: "Mass",
+        ic: "\u2696\uFE0F",
+        cl: "#2ecc71",
+        al: ["weight", "gram", "kilogram", "pound"],
+        un: [
+          { id: "amu", lb: "Atomic Mass Unit", r: 1660539e-33, s: "S" },
+          { id: "ug", lb: "Microgram", r: 1e-9, s: "M" },
+          { id: "mg", lb: "Milligram", r: 1e-6, s: "M" },
+          { id: "gr", lb: "Grain", r: 64799e-9, s: "I" },
+          { id: "ct", lb: "Carat", r: 2e-4, s: "O" },
+          { id: "g", lb: "Gram", r: 1e-3, s: "M" },
+          { id: "dwt", lb: "Pennyweight", r: 0.00155517384, s: "O" },
+          { id: "oz", lb: "Ounce", r: 0.0283495, s: "I" },
+          { id: "ozt", lb: "Troy Ounce", r: 0.0311034768, s: "O", al: ["troy oz", "gold ounce"] },
+          { id: "lbt", lb: "Troy Pound", r: 0.3732417216, s: "O" },
+          { id: "lb", lb: "Pound", r: 0.453592, s: "I", al: ["lbs"] },
+          { id: "kg", lb: "Kilogram", r: 1, s: "M" },
+          { id: "stone", lb: "Stone", r: 6.35029, s: "I" },
+          { id: "slug", lb: "Slug", r: 14.5939029372, s: "I" },
+          { id: "q", lb: "Metric Quintal", r: 100, s: "M", al: ["quintal"] },
+          { id: "sh tn", lb: "Short Ton", r: 907.185, s: "I" },
+          { id: "t", lb: "Metric Ton", r: 1e3, s: "M" },
+          { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" },
+          { id: "ratti", lb: "Ratti", r: 121497956e-12, s: "O", al: ["ratti"] },
+          { id: "masha", lb: "Masha", r: 97198365e-11, s: "O", al: ["masha"] },
+          { id: "tola", lb: "Tola (PK Standard)", r: 0.0116638038, s: "O", al: ["tola", "tolas", "bhori"] },
+          { id: "chhatank", lb: "Chhatank", r: 0.058319019, s: "O", al: ["chhatank", "chatank"] },
+          { id: "pao", lb: "Pao (250g)", r: 0.25, s: "O", al: ["pao", "paao", "pow"] },
+          { id: "seer", lb: "Seer", r: 0.9331043, s: "O", al: ["seer", "ser"] },
+          { id: "dhari", lb: "Dhari (5 kg)", r: 5, s: "O", al: ["dhari"] },
+          { id: "maund_trad", lb: "Maund (Traditional Imperial - 37.32 kg)", r: 37.324172, s: "O", al: ["traditional maund", "bengal maund"] },
+          { id: "maund_pk", lb: "Maund / Mann (Mandi Standard - 40 kg)", r: 40, s: "O", al: ["maund", "mann", "mon", "pakistani maund"] }
+        ]
+      },
+      {
+        id: "temp",
+        lb: "Temperature",
+        ic: "\u{1F321}\uFE0F",
+        cl: "#e74c3c",
+        sp: true,
+        al: ["celsius", "fahrenheit", "kelvin"],
+        un: [
+          { id: "C", lb: "\xB0C", s: "M", al: ["celsius"] },
+          { id: "F", lb: "\xB0F", s: "I", al: ["fahrenheit"] },
+          { id: "K", lb: "K", s: "S", al: ["kelvin"] },
+          { id: "R", lb: "\xB0Rankine", s: "S" },
+          { id: "Re", lb: "\xB0R\xE9aumur", s: "O" }
+        ]
+      },
+      {
+        id: "time",
+        lb: "Time",
+        ic: "\u23F1\uFE0F",
+        cl: "#1abc9c",
+        un: [
+          { id: "ns", lb: "Nanosecond", r: 1e-9, s: "S" },
+          { id: "us", lb: "Microsecond", r: 1e-6, s: "S" },
+          { id: "ms", lb: "Millisecond", r: 1e-3, s: "S" },
+          { id: "s", lb: "Second", r: 1, s: "S" },
+          { id: "min", lb: "Minute", r: 60, s: "S" },
+          { id: "hr", lb: "Hour", r: 3600, s: "S" },
+          { id: "day", lb: "Day", r: 86400, s: "S" },
+          { id: "week", lb: "Week", r: 604800, s: "S" },
+          { id: "mo", lb: "Month", r: 2629800, s: "S" },
+          { id: "yr", lb: "Year", r: 31557600, s: "S" },
+          { id: "decade", lb: "Decade", r: 31558e4, s: "S" },
+          { id: "century", lb: "Century", r: 31558e5, s: "S" },
+          { id: "millennium", lb: "Millennium", r: 31558e6, s: "S" }
+        ]
+      },
+      {
+        id: "speed",
+        lb: "Speed",
+        ic: "\u{1F680}",
+        cl: "#e67e22",
+        un: [
+          { id: "mps", lb: "m/s", r: 1, s: "M" },
+          { id: "kmh", lb: "km/h", r: 0.277778, s: "M" },
+          { id: "mph", lb: "mph", r: 0.44704, s: "I" },
+          { id: "knot", lb: "Knot", r: 0.514444, s: "O" },
+          { id: "mach", lb: "Mach", r: 343, s: "O" },
+          { id: "c", lb: "Speed of Light", r: 299792458, s: "S" }
+        ]
+      },
+      {
+        id: "acceleration",
+        lb: "Acceleration",
+        ic: "\u{1F680}",
+        cl: "#e91e63",
+        un: [
+          { id: "mps2", lb: "m/s\xB2", r: 1, s: "M" },
+          { id: "gal", lb: "Gal", r: 0.01, s: "O" },
+          { id: "ftps2", lb: "ft/s\xB2", r: 0.3048, s: "I" },
+          { id: "gforce", lb: "g-force", r: 9.80665, s: "O" }
+        ]
+      },
+      {
+        id: "force",
+        lb: "Force",
+        ic: "\u{1F4AA}",
+        cl: "#e91e63",
+        un: [
+          { id: "dyn", lb: "Dyne", r: 1e-5, s: "M" },
+          { id: "N", lb: "Newton", r: 1, s: "M" },
+          { id: "lbf", lb: "Pound-force", r: 4.4482216152605, s: "I" },
+          { id: "kgf", lb: "Kilogram-force", r: 9.80665, s: "M" },
+          { id: "kN", lb: "Kilonewton", r: 1e3, s: "M" }
+        ]
+      },
+      {
+        id: "pressure",
+        lb: "Pressure",
+        ic: "\u{1F535}",
+        cl: "#00bcd4",
+        un: [
+          { id: "Pa", lb: "Pascal", r: 1, s: "M" },
+          { id: "hPa", lb: "Hectopascal", r: 100, s: "M" },
+          { id: "mbar", lb: "Millibar", r: 100, s: "M", al: ["mb"] },
+          { id: "torr", lb: "Torr", r: 133.322, s: "O" },
+          { id: "mmHg", lb: "mmHg", r: 133.322, s: "O" },
+          { id: "inH2O", lb: "inH\u2082O", r: 249.08891, s: "I", al: ["inches of water"] },
+          { id: "kPa", lb: "Kilopascal", r: 1e3, s: "M" },
+          { id: "inHg", lb: "inHg", r: 3386.389, s: "O", al: ["inches of mercury"] },
+          { id: "psi", lb: "PSI", r: 6894.76, s: "I" },
+          { id: "bar", lb: "Bar", r: 1e5, s: "M" },
+          { id: "atm", lb: "Atmosphere", r: 101325, s: "O" },
+          { id: "MPa", lb: "Megapascal", r: 1e6, s: "M" },
+          { id: "ksi", lb: "ksi", r: 6894757293e-3, s: "I", al: ["kilopound per square inch"] }
+        ]
+      },
+      {
+        id: "energy",
+        lb: "Energy",
+        ic: "\u26A1",
+        cl: "#f39c12",
+        un: [
+          { id: "eV", lb: "Electronvolt", r: 1602e-22, s: "S" },
+          { id: "J", lb: "Joule", r: 1, s: "M" },
+          { id: "cal", lb: "Calorie", r: 4.184, s: "M" },
+          { id: "BTU", lb: "BTU", r: 1055.06, s: "I" },
+          { id: "kJ", lb: "Kilojoule", r: 1e3, s: "M" },
+          { id: "Wh", lb: "Watt-hour", r: 3600, s: "O" },
+          { id: "kcal", lb: "Kilocalorie", r: 4184, s: "M" },
+          { id: "kWh", lb: "Kilowatt-hour", r: 36e5, s: "O" },
+          { id: "therm", lb: "Therm", r: 1055e5, s: "I" }
+        ]
+      },
+      {
+        id: "power",
+        lb: "Power",
+        ic: "\u{1F4A1}",
+        cl: "#ff9800",
+        un: [
+          { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" },
+          { id: "W", lb: "Watt", r: 1, s: "M" },
+          { id: "ps", lb: "Metric Horsepower (PS)", r: 735.49875, s: "O", al: ["ch", "cv"] },
+          { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
+          { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
+          { id: "tr", lb: "Ton of Refrigeration", r: 3516.852842, s: "I", al: ["refrigeration ton", "tons of ac"] },
+          { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
+          { id: "GW", lb: "Gigawatt", r: 1e9, s: "M" }
+        ]
+      },
+      {
+        id: "electricity",
+        lb: "Electricity",
+        ic: "\u26A1",
+        cl: "#00e5ff",
+        un: [
+          { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
+          { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
+          { id: "A", lb: "Ampere", r: 1, s: "M" },
+          { id: "V", lb: "Volt", r: 1, s: "M" },
+          { id: "ohm", lb: "Ohm", r: 1, s: "M" },
+          { id: "C", lb: "Coulomb", r: 1, s: "S" },
+          { id: "F", lb: "Farad", r: 1, s: "M" },
+          { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
+          { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
+          { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
+        ]
+      },
+      {
+        id: "magnetism",
+        lb: "Magnetism",
+        ic: "\u{1F9F2}",
+        cl: "#e040fb",
+        un: [
+          { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
+          { id: "T", lb: "Tesla", r: 1, s: "M" },
+          { id: "Wb", lb: "Weber", r: 1, s: "S" }
+        ]
+      },
+      {
+        id: "frequency",
+        lb: "Frequency",
+        ic: "\u3030\uFE0F",
+        cl: "#607d8b",
+        un: [
+          { id: "rpm", lb: "RPM", r: 1 / 60, s: "O" },
+          { id: "Hz", lb: "Hertz", r: 1, s: "M" },
+          { id: "kHz", lb: "kHz", r: 1e3, s: "M" },
+          { id: "MHz", lb: "MHz", r: 1e6, s: "M" },
+          { id: "GHz", lb: "GHz", r: 1e9, s: "M" },
+          { id: "THz", lb: "THz", r: 1e12, s: "M" }
+        ]
+      },
+      {
+        id: "data",
+        lb: "Data Storage",
+        ic: "\u{1F4BE}",
+        cl: "#34495e",
+        un: [
+          { id: "bit", lb: "Bit", r: 0.125, s: "M" },
+          { id: "B", lb: "Byte", r: 1, s: "M" },
+          { id: "KB", lb: "KB", r: 1e3, s: "M" },
+          { id: "KiB", lb: "Kibibyte (KiB)", r: 1024, s: "S" },
+          { id: "MB", lb: "MB", r: 1e6, s: "M" },
+          { id: "MiB", lb: "Mebibyte (MiB)", r: 1048576, s: "S" },
+          { id: "GB", lb: "GB", r: 1e9, s: "M", al: ["gigabyte", "gigabytes"] },
+          { id: "GiB", lb: "Gibibyte (GiB)", r: 1073741824, s: "S", al: ["gibibyte", "gibibytes"] },
+          { id: "TB", lb: "TB", r: 1e12, s: "M" },
+          { id: "TiB", lb: "Tebibyte (TiB)", r: 1099511627776, s: "S" },
+          { id: "PB", lb: "PB", r: 1e15, s: "M" },
+          { id: "EB", lb: "EB", r: 1e18, s: "M" },
+          { id: "ZB", lb: "ZB", r: 1e21, s: "M" },
+          { id: "YB", lb: "YB", r: 1e24, s: "M" }
+        ]
+      },
+      {
+        id: "datatransfer",
+        lb: "Data Transfer",
+        ic: "\u{1F310}",
+        cl: "#00acc1",
+        un: [
+          { id: "bps", lb: "bps", r: 1, s: "M" },
+          { id: "kbps", lb: "Kbps", r: 1e3, s: "M" },
+          { id: "Mbps", lb: "Mbps", r: 1e6, s: "M" },
+          { id: "Gbps", lb: "Gbps", r: 1e9, s: "M" },
+          { id: "Tbps", lb: "Tbps", r: 1e12, s: "M" }
+        ]
+      },
+      {
+        id: "angle",
+        lb: "Angle",
+        ic: "\u2221",
+        cl: "#00bcd4",
+        un: [
+          { id: "arcsec", lb: "Arcsecond", r: 1 / 3600, s: "O" },
+          { id: "arcmin", lb: "Arcminute", r: 1 / 60, s: "O" },
+          { id: "mrad", lb: "Milliradian", r: 0.18 / Math.PI, s: "S" },
+          { id: "grad", lb: "Gradian", r: 0.9, s: "O" },
+          { id: "deg", lb: "Degree", r: 1, s: "M" },
+          { id: "rad", lb: "Radian", r: 180 / Math.PI, s: "S" }
+        ]
+      },
+      {
+        id: "torque",
+        lb: "Torque",
+        ic: "\u{1F527}",
+        cl: "#ff5722",
+        un: [
+          { id: "Nmm", lb: "N\xB7mm", r: 1e-3, s: "M" },
+          { id: "ozin", lb: "oz-in", r: 0.007061551814226044, s: "I", al: ["ounce-inch"] },
+          { id: "Ncm", lb: "N\xB7cm", r: 0.01, s: "M" },
+          { id: "lbin", lb: "lb-in", r: 0.1129848290276167, s: "I", al: ["in-lb", "pound-inch", "pound-inches", "inch-pound"] },
+          { id: "Nm", lb: "N\xB7m", r: 1, s: "M", al: ["newton-meter", "newton-meters"] },
+          { id: "lbft", lb: "lb-ft", r: 1.35582, s: "I", al: ["pound-foot", "pound-feet", "foot-pound", "foot-pounds"] },
+          { id: "kgfm", lb: "kgf\xB7m", r: 9.80665, s: "M", al: ["kgf-m"] }
+        ]
+      },
+      {
+        id: "fuel",
+        lb: "Fuel Economy",
+        ic: "\u26FD",
+        cl: "#4caf50",
+        sp: true,
+        un: [
+          { id: "mpgUS", lb: "MPG (US)" },
+          { id: "mpgUK", lb: "MPG (UK)" },
+          { id: "kmL", lb: "km/L" },
+          { id: "L100km", lb: "L/100km" }
+        ]
+      },
+      {
+        id: "density",
+        lb: "Density",
+        ic: "\u2B21",
+        cl: "#795548",
+        un: [
+          { id: "kgm3", lb: "kg/m\xB3", r: 1, s: "M" },
+          { id: "lbft3", lb: "lb/ft\xB3", r: 16.0185, s: "I" },
+          { id: "gcm3", lb: "g/cm\xB3", r: 1e3, s: "M" }
+        ]
+      },
+      {
+        id: "cooking",
+        lb: "Cooking",
+        ic: "\u{1F373}",
+        cl: "#ffc107",
+        un: [
+          { id: "pinch", lb: "Pinch", r: 0.308, s: "I" },
+          { id: "dash", lb: "Dash", r: 0.615, s: "I" },
+          { id: "mL_c", lb: "Milliliter", r: 1, s: "M" },
+          { id: "tsp_c", lb: "Teaspoon", r: 5, s: "I" },
+          { id: "tbsp_c", lb: "Tablespoon", r: 15, s: "I" },
+          { id: "floz_c", lb: "Fluid Ounce", r: 29.5735, s: "I" },
+          { id: "jigger", lb: "Jigger", r: 44.36029434375, s: "I", al: ["jiggers"] },
+          { id: "stick_c", lb: "Stick of Butter", r: 120, s: "I", al: ["stick", "sticks"] },
+          { id: "cup_c", lb: "Cup", r: 240, s: "I" }
+        ]
+      },
+      {
+        id: "textile",
+        lb: "Textile",
+        ic: "\u{1F9F5}",
+        cl: "#ab47bc",
+        un: [
+          { id: "gsm", lb: "GSM", r: 1, s: "O" },
+          { id: "tc", lb: "Thread Count", r: 1, s: "O" },
+          { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
+        ]
+      },
+      {
+        id: "astronomy",
+        lb: "Astronomy",
+        ic: "\u{1F30C}",
+        cl: "#7c4dff",
+        un: [
+          { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
+          { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
+          { id: "au_a", lb: "AU", r: 1, s: "S" },
+          { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
+          { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
+        ]
+      },
+      {
+        id: "flow",
+        lb: "Flow Rate",
+        ic: "\u{1F4A7}",
+        cl: "#00bcd4",
+        al: ["volumetric flow", "discharge", "flow", "gpm", "cfm", "liters per minute"],
+        un: [
+          { id: "bpd", lb: "Barrels per Day", r: 18401307283333333e-22, s: "I", al: ["bpd", "barrel per day", "barrels per day"] },
+          { id: "Lmin", lb: "Liter per Minute", r: 16666666666666667e-21, s: "M", al: ["l/min", "lpm", "liters per minute"] },
+          { id: "gpm", lb: "Gallon per Minute", r: 630901964e-13, s: "I", al: ["gpm", "gallon per minute", "gallons per minute"] },
+          { id: "m3h", lb: "Cubic Meter per Hour", r: 2777777777777778e-19, s: "M", al: ["m3/h", "cubic meter per hour", "cubic meters per hour"] },
+          { id: "cfm", lb: "Cubic Feet per Minute", r: 4719474432e-13, s: "I", al: ["cfm", "cubic foot per minute", "cubic feet per minute"] },
+          { id: "Ls", lb: "Liter per Second", r: 1e-3, s: "M", al: ["l/s", "lps", "liter per second", "liters per second"] },
+          { id: "m3s", lb: "Cubic Meter per Second", r: 1, s: "M", al: ["m3/s", "cubic meter per second", "cubic meters per second"] }
+        ]
+      },
+      {
+        id: "illuminance",
+        lb: "Illuminance",
+        ic: "\u{1F4A1}",
+        cl: "#ffb300",
+        al: ["light", "lux", "foot-candle", "illumination", "phot"],
+        un: [
+          { id: "nox", lb: "Nox", r: 1e-3, s: "S", al: ["nox"] },
+          { id: "lx", lb: "Lux", r: 1, s: "M", al: ["lux", "lx"] },
+          { id: "fc", lb: "Foot-candle", r: 10.763910416709722, s: "I", al: ["fc", "foot-candles", "foot candles", "foot candle"] },
+          { id: "ph", lb: "Phot", r: 1e4, s: "S", al: ["phot", "phots"] }
+        ]
+      },
+      {
+        id: "viscosity",
+        lb: "Viscosity",
+        ic: "\u{1F36F}",
+        cl: "#8d6e63",
+        al: ["dynamic viscosity", "centipoise", "poise", "pascal second"],
+        un: [
+          { id: "cP", lb: "Centipoise", r: 1e-3, s: "O", al: ["cp", "centipoise"] },
+          { id: "mPas", lb: "Millipascal-second", r: 1e-3, s: "M", al: ["mpas", "mpa-s", "millipascal-second"] },
+          { id: "P", lb: "Poise", r: 0.1, s: "O", al: ["poise"] },
+          { id: "Pas", lb: "Pascal-second", r: 1, s: "M", al: ["pas", "pa-s", "pascal-second"] },
+          { id: "lbfts", lb: "Pound per Foot-second", r: 1.48816394357, s: "I", al: ["lb/ft-s", "pound per foot-second", "pound per foot second"] }
+        ]
+      },
+      {
+        id: "typography",
+        lb: "Typography",
+        ic: "\u{1F524}",
+        cl: "#ec407a",
+        al: ["css units", "font size", "pixels", "points", "rem", "em", "pica"],
+        un: [
+          { id: "px", lb: "Pixel", r: 1, s: "O", al: ["pixels", "pixel", "px"] },
+          { id: "pt", lb: "Point", r: 1.3333333333333333, s: "I", al: ["points", "point", "pt"] },
+          { id: "mm", lb: "Millimeter", r: 3.779527559055118, s: "M", al: ["millimeter", "millimeters", "mm"] },
+          { id: "pica", lb: "Pica", r: 16, s: "I", al: ["picas", "pica", "pc"] },
+          { id: "rem", lb: "Root EM", r: 16, s: "O", al: ["rem", "rems"] },
+          { id: "em", lb: "EM", r: 16, s: "O", al: ["em", "ems"] },
+          { id: "cm", lb: "Centimeter", r: 37.79527559055118, s: "M", al: ["centimeter", "centimeters", "cm"] },
+          { id: "in", lb: "Inch", r: 96, s: "I", al: ["inches", "inch", "in"] }
+        ]
+      },
+      {
+        id: "number-base",
+        lb: "Number Base",
+        ic: "\u{1F522}",
+        cl: "#00bcd4",
+        sp: true,
+        al: ["radix", "binary", "hexadecimal", "octal", "decimal", "base conversion", "gray code", "bcd"],
+        un: [
+          { id: "dec", lb: "Decimal (Base 10)", r: 1, s: "M", al: ["base 10", "denary"] },
+          { id: "bin", lb: "Binary (Base 2)", s: "S", al: ["base 2"] },
+          { id: "oct", lb: "Octal (Base 8)", s: "S", al: ["base 8"] },
+          { id: "hex", lb: "Hexadecimal (Base 16)", s: "S", al: ["base 16", "hex"] },
+          { id: "base32", lb: "Base 32", s: "S" },
+          { id: "base36", lb: "Base 36", s: "S" },
+          { id: "bcd", lb: "BCD (8421 Binary Coded)", s: "S" },
+          { id: "gray", lb: "Gray Code (Reflected Binary)", s: "S" }
+        ]
+      },
+      {
+        id: "ieee-754",
+        lb: "IEEE-754 Float",
+        ic: "\u{1F9EE}",
+        cl: "#ff9800",
+        sp: true,
+        al: ["floating point", "fp16", "fp32", "fp64", "single precision", "double precision", "half precision", "hex float"],
+        un: [
+          { id: "dec_real", lb: "Decimal Real Number", r: 1, s: "M" },
+          { id: "fp16", lb: "FP16 Half Precision (1-5-10)", s: "S" },
+          { id: "fp32", lb: "FP32 Single Precision (1-8-23)", s: "S" },
+          { id: "fp64", lb: "FP64 Double Precision (1-11-52)", s: "S" },
+          { id: "hex_float", lb: "Hexadecimal Float (0x...)", s: "S" }
+        ]
+      },
+      {
+        id: "pk-numbering",
+        lb: "South Asian Numbering",
+        ic: "\u{1F3E6}",
+        cl: "#4caf50",
+        al: ["lakh", "crore", "arab", "kharab", "hazar", "pakistani numbering", "desi numbers", "million billion"],
+        un: [
+          { id: "ones", lb: "Units / Ones", r: 1, s: "M", al: ["one", "units"] },
+          { id: "hazar", lb: "Hazar (1,000)", r: 1e3, s: "O", al: ["hazar", "thousand pk"] },
+          { id: "lakh", lb: "Lakh (100,000 / 10\u2075)", r: 1e5, s: "O", al: ["lakh", "lac", "lac rupees"] },
+          { id: "crore", lb: "Crore (10 Million / 10\u2077)", r: 1e7, s: "O", al: ["crore", "karor", "cr"] },
+          { id: "arab", lb: "Arab (1 Billion / 10\u2079)", r: 1e9, s: "O", al: ["arab", "billion pk"] },
+          { id: "kharab", lb: "Kharab (100 Billion / 10\xB9\xB9)", r: 1e11, s: "O", al: ["kharab"] },
+          { id: "neel", lb: "Neel (10 Trillion / 10\xB9\xB3)", r: 1e13, s: "O", al: ["neel"] },
+          { id: "k_std", lb: "Thousand (K / 10\xB3)", r: 1e3, s: "S" },
+          { id: "m_std", lb: "Million (M / 10\u2076)", r: 1e6, s: "S" },
+          { id: "b_std", lb: "Billion (B / 10\u2079)", r: 1e9, s: "S" },
+          { id: "t_std", lb: "Trillion (T / 10\xB9\xB2)", r: 1e12, s: "S" }
+        ]
+      },
+      {
+        id: "statistics",
+        lb: "Statistics & Odds",
+        ic: "\u{1F4CA}",
+        cl: "#3f51b5",
+        sp: true,
+        al: ["z-score", "percentile", "probability", "betting odds", "moneyline", "p-value", "odds converter"],
+        un: [
+          { id: "prob_pct", lb: "Implied Probability (%)", r: 1, s: "M", al: ["probability", "chance"] },
+          { id: "percentile", lb: "Percentile Rank (%)", s: "S" },
+          { id: "z_score", lb: "Z-Score (\u03C3)", s: "S", al: ["z score", "standard score"] },
+          { id: "p_val_two", lb: "Two-Tailed P-Value", s: "S" },
+          { id: "dec_odds", lb: "Decimal Odds (European)", s: "O", al: ["decimal odds"] },
+          { id: "frac_odds", lb: "Fractional Odds (UK/Traditional)", s: "O", al: ["fractional odds"] },
+          { id: "us_moneyline", lb: "American Moneyline (+/-)", s: "O", al: ["moneyline", "american odds"] }
+        ]
+      },
+      {
+        id: "matrix-format",
+        lb: "Matrix & Arrays",
+        ic: "\u{1F9F1}",
+        cl: "#009688",
+        sp: true,
+        al: ["matrix", "latex matrix", "numpy array", "matlab matrix", "csv grid", "json 2d array"],
+        un: [
+          { id: "csv", lb: "CSV / TSV Grid", r: 1, s: "M", al: ["csv", "tsv"] },
+          { id: "latex_b", lb: "LaTeX bmatrix ([...])", s: "S", al: ["bmatrix"] },
+          { id: "latex_p", lb: "LaTeX pmatrix ((...))", s: "S", al: ["pmatrix"] },
+          { id: "numpy", lb: "Python NumPy (np.array)", s: "S", al: ["numpy", "python array"] },
+          { id: "matlab", lb: "MATLAB / Octave ([a b; c d])", s: "S", al: ["matlab", "octave"] },
+          { id: "json_2d", lb: "JSON 2D Array", s: "S", al: ["json", "nested array"] }
+        ]
+      },
+      {
+        id: "scientific-notation",
+        lb: "Scientific & Fractions",
+        ic: "\u{1F52C}",
+        cl: "#9c27b0",
+        al: ["scientific notation", "engineering notation", "e notation", "ppm", "ppb", "ppt", "parts per million"],
+        un: [
+          { id: "dec_std", lb: "Standard Decimal", r: 1, s: "M" },
+          { id: "sci_kilo", lb: "Kilo (10\xB3)", r: 1e3, s: "S" },
+          { id: "sci_mega", lb: "Mega (10\u2076)", r: 1e6, s: "S" },
+          { id: "sci_giga", lb: "Giga (10\u2079)", r: 1e9, s: "S" },
+          { id: "sci_milli", lb: "Milli (10\u207B\xB3)", r: 1e-3, s: "S" },
+          { id: "sci_micro", lb: "Micro (10\u207B\u2076)", r: 1e-6, s: "S" },
+          { id: "sci_nano", lb: "Nano (10\u207B\u2079)", r: 1e-9, s: "S" },
+          { id: "ppm", lb: "Parts-Per-Million (ppm / 10\u207B\u2076)", r: 1e-6, s: "S", al: ["ppm"] },
+          { id: "ppb", lb: "Parts-Per-Billion (ppb / 10\u207B\u2079)", r: 1e-9, s: "S", al: ["ppb"] },
+          { id: "ppt", lb: "Parts-Per-Trillion (ppt / 10\u207B\xB9\xB2)", r: 1e-12, s: "S", al: ["ppt"] },
+          { id: "pct", lb: "Percentage (%)", r: 0.01, s: "M", al: ["percent", "%"] },
+          { id: "permille", lb: "Permille (\u2030)", r: 1e-3, s: "M", al: ["permille", "per thousand"] }
+        ]
+      },
+      {
+        id: "pk-gpa",
+        lb: "HEC GPA & Marks",
+        ic: "\u{1F393}",
+        cl: "#e91e63",
+        sp: true,
+        al: ["hec gpa", "gpa converter", "fsc marks", "matric marks", "mdcat aggregate", "percentage to gpa", "ecat"],
+        un: [
+          { id: "percentage", lb: "Percentage Marks (%)", r: 1, s: "M", al: ["percent", "%"] },
+          { id: "hec_gpa4", lb: "HEC 4.00 Scale CGPA", s: "O", al: ["hec gpa", "cgpa 4"] },
+          { id: "gpa5", lb: "5.00 Scale CGPA", s: "O", al: ["cgpa 5"] },
+          { id: "matric_fsc1100", lb: "Matric / FSc Marks (Out of 1100)", s: "O", al: ["fsc marks", "matric marks", "1100"] },
+          { id: "matric_fsc1200", lb: "Matric / FSc Marks (Out of 1200)", s: "O", al: ["1200"] },
+          { id: "mdcat_agg", lb: "MDCAT / ECAT Aggregate (%)", s: "O", al: ["mdcat", "aggregate"] }
+        ]
+      },
+      {
+        id: "cricket-overs",
+        lb: "Cricket Base-6",
+        ic: "\u{1F3CF}",
+        cl: "#8bc34a",
+        sp: true,
+        al: ["cricket overs", "overs to balls", "run rate", "cricket balls", "net run rate", "base 6 overs"],
+        un: [
+          { id: "overs_balls", lb: "Cricket Overs (e.g. 14.3)", r: 1, s: "O", al: ["overs", "overs.balls"] },
+          { id: "true_overs", lb: "True Decimal Overs (14.50)", s: "S", al: ["decimal overs"] },
+          { id: "balls", lb: "Legal Deliveries / Balls", s: "S", al: ["balls", "deliveries"] },
+          { id: "run_rate_6", lb: "Run Rate Metric (Per 6 Balls)", s: "O", al: ["rr", "run rate"] }
+        ]
+      }
+    ];
   }
-];
+});
 
 // src/utils/numbers.ts
 function cleanFloat(value, sigFigs = 14) {
@@ -603,9 +786,12 @@ function toShopFraction(decimalInches, maxDenominator = 64) {
     isExact: Math.abs(errorIn) < 1e-6
   };
 }
+var init_numbers = __esm({
+  "src/utils/numbers.ts"() {
+  }
+});
 
 // src/engine/converter.ts
-var customCategories = [];
 function getCategory(id) {
   return Categories.find((c) => c.id === id) || customCategories.find((c) => c.id === id);
 }
@@ -651,11 +837,115 @@ function convertFuel(v, from, to) {
   if (from === to) return cleanFloat(v);
   return cleanFloat(fromBase[to](toBase[from](v)));
 }
+function convertCricketOvers(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let totalBalls = 0;
+  if (from === "balls") {
+    totalBalls = Math.round(v);
+  } else if (from === "true_overs" || from === "run_rate_6") {
+    totalBalls = Math.round(v * 6);
+  } else {
+    const overs = Math.floor(Math.abs(v));
+    const frac = Math.round((Math.abs(v) - overs) * 10);
+    const validFrac = Math.min(5, Math.max(0, frac));
+    totalBalls = (overs * 6 + validFrac) * (v < 0 ? -1 : 1);
+  }
+  if (to === "balls") return totalBalls;
+  if (to === "true_overs" || to === "run_rate_6") return cleanFloat(totalBalls / 6, 4);
+  const sign = totalBalls < 0 ? -1 : 1;
+  const absBalls = Math.abs(totalBalls);
+  const fullOvers = Math.floor(absBalls / 6);
+  const remBalls = absBalls % 6;
+  return cleanFloat(sign * (fullOvers + remBalls / 10), 1);
+}
+function convertPkGpa(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let pct = v;
+  if (from === "percentage" || from === "mdcat_agg") {
+    pct = v;
+  } else if (from === "hec_gpa4") {
+    pct = Math.min(100, Math.max(0, v <= 0 ? 0 : v >= 4 ? 85 : 50 + (v - 1) * (35 / 3)));
+  } else if (from === "gpa5") {
+    pct = Math.min(100, Math.max(0, v / 5 * 100));
+  } else if (from === "matric_fsc1100") {
+    pct = v / 1100 * 100;
+  } else if (from === "matric_fsc1200") {
+    pct = v / 1200 * 100;
+  }
+  if (to === "percentage" || to === "mdcat_agg") return cleanFloat(pct, 2);
+  if (to === "matric_fsc1100") return cleanFloat(pct / 100 * 1100, 1);
+  if (to === "matric_fsc1200") return cleanFloat(pct / 100 * 1200, 1);
+  if (to === "gpa5") return cleanFloat(pct / 100 * 5, 2);
+  if (to === "hec_gpa4") {
+    if (pct >= 85) return 4;
+    if (pct < 50) return 0;
+    return cleanFloat(1 + (pct - 50) * (3 / 35), 2);
+  }
+  return cleanFloat(pct, 2);
+}
+function convertStatistics(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let p = 0.5;
+  if (from === "prob_pct" || from === "percentile") {
+    p = Math.min(0.99999, Math.max(1e-5, v / 100));
+  } else if (from === "dec_odds") {
+    p = v > 1 ? 1 / v : 0.5;
+  } else if (from === "frac_odds") {
+    p = v > 0 ? 1 / (v + 1) : 0.5;
+  } else if (from === "us_moneyline") {
+    if (v > 0) p = 100 / (v + 100);
+    else if (v < 0) p = Math.abs(v) / (Math.abs(v) + 100);
+  } else if (from === "z_score") {
+    const t = 1 / (1 + 0.2316419 * Math.abs(v));
+    const d = 0.3989423 * Math.exp(-v * v / 2);
+    const prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    p = v > 0 ? 1 - prob : prob;
+    p = Math.min(0.99999, Math.max(1e-5, p));
+  } else if (from === "p_val_two") {
+    p = Math.min(0.99999, Math.max(1e-5, 1 - v / 2));
+  }
+  if (to === "prob_pct") return cleanFloat(p * 100, 2);
+  if (to === "percentile") return cleanFloat(p * 100, 2);
+  if (to === "dec_odds") return cleanFloat(1 / p, 3);
+  if (to === "frac_odds") return cleanFloat((1 - p) / p, 3);
+  if (to === "us_moneyline") {
+    if (p <= 0.5) return cleanFloat((1 - p) / p * 100, 0);
+    return cleanFloat(-(p / (1 - p)) * 100, 0);
+  }
+  if (to === "p_val_two") {
+    const tail = p > 0.5 ? 1 - p : p;
+    return cleanFloat(2 * tail, 4);
+  }
+  if (to === "z_score") {
+    const q = p > 0.5 ? 1 - p : p;
+    const w = Math.sqrt(-2 * Math.log(q));
+    const z = w - ((0.010328 * w + 0.802853) * w + 2.515517) / (((1308e-6 * w + 0.189269) * w + 1.432788) * w + 1);
+    return cleanFloat(p > 0.5 ? z : -z, 3);
+  }
+  return cleanFloat(p * 100, 2);
+}
+function convertNumberBase(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let dec = Math.floor(v);
+  if (from === "bin") {
+    dec = parseInt(String(Math.abs(Math.floor(v))), 2) || 0;
+  } else if (from === "oct") {
+    dec = parseInt(String(Math.abs(Math.floor(v))), 8) || 0;
+  }
+  if (to === "dec") return dec;
+  if (to === "bin") return parseInt(dec.toString(2), 10) || 0;
+  if (to === "oct") return parseInt(dec.toString(8), 10) || 0;
+  return dec;
+}
 function convert(v, catId, fromId, toId) {
   const cat = getCategory(catId);
   if (!cat || v !== 0 && !v || !Number.isFinite(v)) return null;
   if (cat.id === "temp") return convertTemp(v, fromId, toId);
   if (cat.id === "fuel") return convertFuel(v, fromId, toId);
+  if (cat.id === "cricket-overs") return convertCricketOvers(v, fromId, toId);
+  if (cat.id === "pk-gpa") return convertPkGpa(v, fromId, toId);
+  if (cat.id === "statistics") return convertStatistics(v, fromId, toId);
+  if (cat.id === "number-base") return convertNumberBase(v, fromId, toId);
   const fu = getUnit(cat, fromId);
   const tu = getUnit(cat, toId);
   if (!fu || !tu || !fu.r || !tu.r) return null;
@@ -696,6 +986,17 @@ function getFormula(catId, fromId, toId) {
     const sample = convert(1, "fuel", fromId, toId);
     return sample !== null ? `1 ${fromId} \u2248 ${cleanFloat(sample, 6)} ${toId}` : "";
   }
+  if (cat.id === "cricket-overs") {
+    if (fromId === "overs_balls" && toId === "balls") return "Balls = (Floor(Overs) \xD7 6) + Remainder Balls";
+    if (fromId === "balls" && toId === "true_overs") return "True Decimal Overs = Legal Deliveries \xF7 6";
+    return "1 Over = 6 Legal Deliveries (ICC Standard)";
+  }
+  if (cat.id === "pk-gpa") {
+    return "CGPA / Percentage Scale: Continuous HEC / PMDC Academic Model";
+  }
+  if (cat.id === "statistics") {
+    return "Implied Probability = 1 \xF7 Decimal Odds";
+  }
   const fu = getUnit(cat, fromId);
   const tu = getUnit(cat, toId);
   if (!fu || !tu || !fu.r || !tu.r) return "";
@@ -709,6 +1010,186 @@ function addCustomUnit(catId, id, label, rate) {
   cat.un.push({ id, lb: label, r: rate, s: "C", custom: true });
   return true;
 }
+var customCategories;
+var init_converter = __esm({
+  "src/engine/converter.ts"() {
+    init_categories();
+    init_numbers();
+    customCategories = [];
+  }
+});
+
+// src/engine/conversionChains.ts
+var conversionChains_exports = {};
+__export(conversionChains_exports, {
+  executeChain: () => executeChain,
+  getAllChains: () => getAllChains,
+  getChain: () => getChain,
+  suggestChain: () => suggestChain
+});
+function getAllChains() {
+  return CHAINS;
+}
+function getChain(id) {
+  return CHAINS.find((c) => c.id === id);
+}
+function executeChain(chainId, value, fromUnit) {
+  const chain = getChain(chainId);
+  if (!chain) return null;
+  const links = [];
+  let currentVal = value;
+  let currentUnit = fromUnit || chain.links[0]?.fromUnit || "";
+  for (const link of chain.links) {
+    const cat = getCategory(link.catId);
+    if (!cat) continue;
+    if (link.fromUnit !== link.toUnit) {
+      const srcUnit = cat.un.some((u) => u.id === currentUnit) ? currentUnit : link.fromUnit;
+      const result = convert(currentVal, link.catId, srcUnit, link.toUnit);
+      if (result !== null) {
+        currentVal = result;
+      }
+    }
+    currentUnit = link.toUnit;
+    links.push({
+      label: link.label,
+      value: currentVal,
+      unit: link.toUnit
+    });
+  }
+  return {
+    links,
+    total: currentVal,
+    finalUnit: currentUnit
+  };
+}
+function suggestChain(fromCat, toHint) {
+  if (fromCat === "energy" && toHint === "cost") return "energy-cost";
+  if (fromCat === "speed") return "speed-distance";
+  if (fromCat === "fuel") return "fuel-cost";
+  if (fromCat === "data") return "data-time";
+  if (fromCat === "pressure") return "pressure-force";
+  if (fromCat === "area") return "area-plot-price";
+  if (fromCat === "mass") return "gold-karat-price";
+  if (fromCat === "cricket-overs") return "cricket-nrr";
+  if (fromCat === "power") return "ups-battery-backup";
+  return null;
+}
+var CHAINS;
+var init_conversionChains = __esm({
+  "src/engine/conversionChains.ts"() {
+    init_converter();
+    init_converter();
+    CHAINS = [
+      {
+        id: "energy-cost",
+        label: "Energy \u2192 Cost",
+        icon: "\u26A1",
+        links: [
+          { catId: "energy", fromUnit: "kWh", toUnit: "kWh", label: "Energy (kWh)" },
+          { catId: "power", fromUnit: "kW", toUnit: "W", label: "Power (W)" },
+          { catId: "time", fromUnit: "hr", toUnit: "s", label: "Time (hours)" }
+        ]
+      },
+      {
+        id: "speed-distance",
+        label: "Speed \u2192 Distance",
+        icon: "\u{1F680}",
+        links: [
+          { catId: "speed", fromUnit: "kmh", toUnit: "mps", label: "Speed (m/s)" },
+          { catId: "time", fromUnit: "hr", toUnit: "s", label: "Time (s)" }
+        ]
+      },
+      {
+        id: "fuel-cost",
+        label: "Fuel \u2192 Cost",
+        icon: "\u26FD",
+        links: [
+          { catId: "fuel", fromUnit: "L100km", toUnit: "kmL", label: "Fuel Economy" },
+          { catId: "volume", fromUnit: "L", toUnit: "gal", label: "Fuel Volume" }
+        ]
+      },
+      {
+        id: "pressure-force",
+        label: "Pressure \u2192 Force",
+        icon: "\u{1F535}",
+        links: [
+          { catId: "pressure", fromUnit: "Pa", toUnit: "bar", label: "Pressure" },
+          { catId: "area", fromUnit: "m2", toUnit: "cm2", label: "Area" },
+          { catId: "force", fromUnit: "N", toUnit: "lbf", label: "Force" }
+        ]
+      },
+      {
+        id: "data-time",
+        label: "Data \u2192 Transfer Time",
+        icon: "\u{1F4BE}",
+        links: [
+          { catId: "data", fromUnit: "GB", toUnit: "MB", label: "Data Size" },
+          { catId: "datatransfer", fromUnit: "Mbps", toUnit: "bps", label: "Transfer Speed" },
+          { catId: "time", fromUnit: "s", toUnit: "min", label: "Time" }
+        ]
+      },
+      {
+        id: "area-plot-price",
+        label: "Area \u2192 Plot Measurement",
+        icon: "\u{1F3E0}",
+        links: [
+          { catId: "area", fromUnit: "marla", toUnit: "marla", label: "Land Area (Standard Marla)" },
+          { catId: "area", fromUnit: "marla", toUnit: "ft2", label: "Square Feet (ft\xB2)" },
+          { catId: "area", fromUnit: "ft2", toUnit: "gaz_sq", label: "Square Yards / Gaz" },
+          { catId: "area", fromUnit: "gaz_sq", toUnit: "kanal", label: "Kanal Proportion" }
+        ]
+      },
+      {
+        id: "gold-karat-price",
+        label: "Gold Mass \u2192 Bullion Units",
+        icon: "\u{1FA99}",
+        links: [
+          { catId: "mass", fromUnit: "tola", toUnit: "tola", label: "Bullion (Tola)" },
+          { catId: "mass", fromUnit: "tola", toUnit: "g", label: "Pure Mass (Grams)" },
+          { catId: "mass", fromUnit: "g", toUnit: "ratti", label: "Traditional Ratti" },
+          { catId: "mass", fromUnit: "ratti", toUnit: "ozt", label: "Troy Ounces (oz t)" }
+        ]
+      },
+      {
+        id: "cricket-nrr",
+        label: "Overs & Balls \u2192 NRR Basis",
+        icon: "\u{1F3CF}",
+        links: [
+          { catId: "cricket-overs", fromUnit: "overs_balls", toUnit: "overs_balls", label: "Cricket Notation (Overs.Balls)" },
+          { catId: "cricket-overs", fromUnit: "overs_balls", toUnit: "balls", label: "Legal Deliveries (Balls)" },
+          { catId: "cricket-overs", fromUnit: "balls", toUnit: "true_overs", label: "True Decimal Overs" }
+        ]
+      },
+      {
+        id: "ups-battery-backup",
+        label: "Power Load \u2192 Inverter Demand",
+        icon: "\u{1F50B}",
+        links: [
+          { catId: "power", fromUnit: "W", toUnit: "W", label: "Appliance Load (Watts)" },
+          { catId: "power", fromUnit: "W", toUnit: "kW", label: "Kilowatt Demand (kW)" },
+          { catId: "power", fromUnit: "kW", toUnit: "hp", label: "Mechanical Equiv (HP)" }
+        ]
+      },
+      {
+        id: "solar-units-saved",
+        label: "Solar kW \u2192 Energy Yield",
+        icon: "\u2600\uFE0F",
+        links: [
+          { catId: "power", fromUnit: "kW", toUnit: "kW", label: "System Capacity (kW)" },
+          { catId: "energy", fromUnit: "kWh", toUnit: "kWh", label: "Energy Generation (kWh)" },
+          { catId: "energy", fromUnit: "kWh", toUnit: "MJ", label: "Thermal Equivalent (MJ)" }
+        ]
+      }
+    ];
+  }
+});
+
+// tests/conversion.test.ts
+init_converter();
+init_categories();
+init_numbers();
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
 
 // src/engine/smartParser.ts
 var UNIT_PATTERNS = [
@@ -935,9 +1416,9 @@ function approxEqual(actual, expected, tolerance = 1e-4, msg = "") {
   );
 }
 describe("Task 2 & 3: Category Registry & Integrity", () => {
-  it("contains exactly 28 registered categories", () => {
-    assert.equal(Categories.length, 28);
-    assert.equal(getAllCategories().length, 28);
+  it("contains exactly 36 registered categories", () => {
+    assert.equal(Categories.length, 36);
+    assert.equal(getAllCategories().length, 36);
   });
   it("guarantees unique category IDs across the entire registry", () => {
     const ids = Categories.map((c) => c.id);
@@ -969,7 +1450,7 @@ describe("Task 2 & 3: Category Registry & Integrity", () => {
       for (const u of cat.un) {
         assert.ok(typeof u.id === "string" && u.id.length > 0, `Unit missing id in ${cat.id}`);
         assert.ok(typeof u.lb === "string" && u.lb.length > 0, `Unit ${u.id} missing lb in ${cat.id}`);
-        if (cat.id !== "temp" && cat.id !== "fuel") {
+        if (!cat.sp && cat.id !== "temp" && cat.id !== "fuel") {
           assert.ok(
             typeof u.r === "number" && Number.isFinite(u.r) && u.r > 0,
             `Unit ${u.id} in ${cat.id} has invalid conversion rate ${u.r}`
@@ -985,7 +1466,7 @@ describe("Task 2 & 3: Category Registry & Integrity", () => {
     assert.equal(getCategory("nonexistent"), void 0);
   });
   it("verifies base reference units exist for linear categories", () => {
-    const linearCats = Categories.filter((c) => c.id !== "temp" && c.id !== "fuel");
+    const linearCats = Categories.filter((c) => !c.sp && c.id !== "temp" && c.id !== "fuel");
     for (const cat of linearCats) {
       const baseUnit = cat.un.find((u) => u.r === 1);
       assert.ok(baseUnit !== void 0, `Category ${cat.id} is missing a base unit with r === 1`);
@@ -1165,10 +1646,18 @@ describe("Task 13: Universal Category Coverage \u2014 All 24 Categories Tested",
     { cat: "flow", from: "gpm", to: "Lmin", val: 1 },
     { cat: "illuminance", from: "fc", to: "lx", val: 1 },
     { cat: "viscosity", from: "cP", to: "Pas", val: 1 },
-    { cat: "typography", from: "px", to: "pt", val: 16 }
+    { cat: "typography", from: "px", to: "pt", val: 16 },
+    { cat: "number-base", from: "dec", to: "bin", val: 42 },
+    { cat: "ieee-754", from: "dec_real", to: "dec_real", val: 3.14159 },
+    { cat: "pk-numbering", from: "lakh", to: "ones", val: 1 },
+    { cat: "statistics", from: "prob_pct", to: "dec_odds", val: 50 },
+    { cat: "matrix-format", from: "csv", to: "csv", val: 1 },
+    { cat: "scientific-notation", from: "sci_kilo", to: "dec_std", val: 1 },
+    { cat: "pk-gpa", from: "percentage", to: "hec_gpa4", val: 85 },
+    { cat: "cricket-overs", from: "overs_balls", to: "balls", val: 14.3 }
   ];
-  it("guarantees test execution for every one of the 28 registered categories", () => {
-    assert.equal(categoryTestCases.length, 28);
+  it("guarantees test execution for every one of the 36 registered categories", () => {
+    assert.equal(categoryTestCases.length, 36);
     for (const tc of categoryTestCases) {
       const res = convert(tc.val, tc.cat, tc.from, tc.to);
       assert.notEqual(res, null, `Category ${tc.cat} failed conversion from ${tc.from} to ${tc.to}`);
@@ -1476,5 +1965,43 @@ describe("Pinned exact conversion factors and category integrity", () => {
         `Duplicate unit label found in category "${cat.id}"`
       );
     }
+  });
+});
+describe("Task: Pakistani Regional Units & Multi-Step Chains Verification", () => {
+  it("converts Pakistani Area units accurately", () => {
+    approxEqual(convert(1, "area", "marla_soc", "ft2") || 0, 225, 1e-3, "marla_soc to ft2");
+    approxEqual(convert(1, "area", "marla_cap", "ft2") || 0, 250, 1e-3, "marla_cap to ft2");
+    approxEqual(convert(1, "area", "marla", "ft2") || 0, 272.25, 1e-3, "marla to ft2");
+    approxEqual(convert(1, "area", "kanal", "marla") || 0, 20, 1e-3, "kanal to marla");
+    approxEqual(convert(1, "area", "killa", "kanal") || 0, 8, 1e-3, "killa to kanal");
+    approxEqual(convert(1, "area", "murabba", "killa") || 0, 25, 1e-3, "murabba to killa");
+    approxEqual(convert(1, "area", "marla", "sarsahi") || 0, 9, 1e-3, "marla to sarsahi");
+  });
+  it("converts Pakistani Mass units accurately against Mandi and Jeweler standards", () => {
+    approxEqual(convert(1, "mass", "tola", "g") || 0, 11.6638038, 1e-4, "tola to g");
+    approxEqual(convert(1, "mass", "tola", "masha") || 0, 12, 1e-4, "tola to masha");
+    approxEqual(convert(1, "mass", "tola", "ratti") || 0, 96, 1e-4, "tola to ratti");
+    approxEqual(convert(1, "mass", "maund_pk", "kg") || 0, 40, 1e-4, "maund_pk to kg");
+    approxEqual(convert(1, "mass", "seer", "tola") || 0, 80, 1e-4, "seer to tola");
+    approxEqual(convert(1, "mass", "pao", "g") || 0, 250, 1e-4, "pao to g");
+    approxEqual(convert(1, "mass", "dhari", "kg") || 0, 5, 1e-4, "dhari to kg");
+  });
+  it("converts Pakistani Length units accurately", () => {
+    assert.equal(convert(1, "length", "karam", "m"), 1.6764);
+    assert.equal(convert(1, "length", "girah", "m"), 0.05715);
+  });
+  it("verifies 10 total conversion chains including 5 new chains", () => {
+    const { getAllChains: getAllChains2, executeChain: executeChain2 } = (init_conversionChains(), __toCommonJS(conversionChains_exports));
+    const chains = getAllChains2();
+    assert.equal(chains.length, 10);
+    const areaRes = executeChain2("area-plot-price", 1);
+    assert.ok(areaRes !== null);
+    assert.equal(areaRes.links.length, 4);
+    const goldRes = executeChain2("gold-karat-price", 1);
+    assert.ok(goldRes !== null);
+    assert.equal(goldRes.links.length, 4);
+    const nrrRes = executeChain2("cricket-nrr", 14.3);
+    assert.ok(nrrRes !== null);
+    assert.equal(nrrRes.links.length, 3);
   });
 });

@@ -28,13 +28,13 @@ import { buildPairSchema } from '../src/config/schema'
 const distDir = path.resolve(process.cwd(), 'dist')
 
 describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', () => {
-  test('all 9 guides have valid category relationships in the 28-category registry', () => {
+  test('all 9 guides have valid category relationships in the 36-category registry', () => {
     assert.equal(GUIDE_RELATIONSHIPS.length, 9, 'Exactly 9 guides must be registered')
     const categoryIds = new Set(Categories.map(c => c.id))
 
     for (const rel of GUIDE_RELATIONSHIPS) {
       assert.ok(guideContent[rel.guideSlug], `Guide ${rel.guideSlug} must exist in guideContent`)
-      assert.ok(categoryIds.has(rel.categoryId), `Category ${rel.categoryId} must exist in 28-category registry`)
+      assert.ok(categoryIds.has(rel.categoryId), `Category ${rel.categoryId} must exist in 36-category registry`)
       assert.equal(rel.categoryPath, `/convert/${rel.categoryId}`, 'Category path must be canonical')
     }
   })

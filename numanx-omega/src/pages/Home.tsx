@@ -57,7 +57,7 @@ export default function Home({ mode = 'pro' }: Props) {
             <span>Omega X Converter</span>
           </h1>
           <p className="text-xs text-[var(--text2)] mt-0.5">
-            Precision metrology suite · 28 scientific domains · {totalUnits} category unit listings · Deterministic decimal engine
+            Precision metrology suite · {Categories.length} scientific domains · {totalUnits} category unit listings · Deterministic decimal engine
           </p>
         </div>
         {mode !== 'pro' && (
@@ -97,7 +97,7 @@ export default function Home({ mode = 'pro' }: Props) {
             className="btn-chip text-xs px-4 py-2 min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--link-text)] font-semibold flex items-center gap-1.5 transition-all"
             aria-expanded={showAllCategories}
           >
-            <span>{showAllCategories ? 'Show Less (Top 8 Categories)' : `Explore All 28 Measurement Domains (+${Categories.length - 8} more)`}</span>
+            <span>{showAllCategories ? 'Show Less (Top 8 Categories)' : `Explore All ${Categories.length} Measurement Domains (+${Categories.length - 8} more)`}</span>
             <span aria-hidden="true">{showAllCategories ? '▲' : '▼'}</span>
           </button>
         </div>
@@ -107,7 +107,7 @@ export default function Home({ mode = 'pro' }: Props) {
       <section aria-labelledby="domains-heading" className="space-y-3">
         <div className="flex items-center justify-between gap-2">
           <h2 id="domains-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
-            28 Metrological Domains
+            {Categories.length} Metrological Domains
           </h2>
           <Link
             to="/categories"
@@ -206,7 +206,7 @@ export default function Home({ mode = 'pro' }: Props) {
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
           <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">28</div>
+            <div className="text-lg font-mono font-bold text-[var(--text)]">{Categories.length}</div>
             <div className="text-[11px] text-[var(--text2)]">Canonical Domains</div>
           </div>
           <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">

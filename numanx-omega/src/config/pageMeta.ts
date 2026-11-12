@@ -23,7 +23,7 @@ export interface PageMeta {
 export const PAGE_META = {
   '/': {
     title: 'Omega X Converter — Free Unit Converter',
-    description: 'Free unit converter with 28 categories and 220+ units, plus formulas and offline support. Runs in your browser.',
+    description: 'Free unit converter with 36 categories and 220+ units, plus formulas and offline support. Runs in your browser.',
   },
   '/about': {
     title: 'About Omega X Converter — NumanX Studio',
@@ -38,16 +38,16 @@ export const PAGE_META = {
     description: 'Free scientific and engineering calculator with trigonometric functions, memory, formula history and built-in unit conversion.',
   },
   '/categories': {
-    title: 'All 28 Unit Conversion Categories | Omega X',
-    description: 'Browse all 28 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter.',
+    title: 'All 36 Unit Conversion Categories | Omega X',
+    description: 'Browse all 36 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter.',
   },
   '/converter': {
     title: 'Universal Unit Converter — 28 Categories | Omega X',
-    description: 'Convert metric, imperial, scientific and astronomical units across 28 categories. Type naturally, like "5 km in miles", and get an instant answer.',
+    description: 'Convert metric, imperial, scientific and astronomical units across 36 categories. Type naturally, like "5 km in miles", and get an instant answer.',
   },
   '/formulas': {
     title: 'Unit Conversion Formulas & Constants | Omega X',
-    description: 'Reference library of conversion formulas, constants and worked derivations across all 28 measurement categories.',
+    description: 'Reference library of conversion formulas, constants and worked derivations across all 36 measurement categories.',
   },
   '/health': {
     title: 'Health Calculators — BMI, BMR & Body Metrics | Omega X',
@@ -55,7 +55,7 @@ export const PAGE_META = {
   },
   '/sitemap': {
     title: 'Sitemap — All Converters, Guides & Articles | Omega X',
-    description: 'Directory of every public page on Omega X: core tools, 28 conversion categories, popular conversion pairs, guides and blog articles.',
+    description: 'Directory of every public page on Omega X: core tools, 36 conversion categories, popular conversion pairs, guides and blog articles.',
   },
   '/privacy': {
     title: 'Privacy Policy — No Tracking, Local-Only Data | Omega X',

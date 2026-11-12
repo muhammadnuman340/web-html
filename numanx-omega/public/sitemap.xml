@@ -38,6 +38,7 @@
   <url><loc>https://converter.numanxstudio.com/convert/cooking/fluid-ounce-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/stick-of-butter-to-tablespoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/cricket-overs</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/bits-to-bytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/gb-to-mb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -85,6 +86,7 @@
   <url><loc>https://converter.numanxstudio.com/convert/fuel/l-100km-to-mpg-us</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/fuel/mpg-uk-to-mpg-us</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/fuel/mpg-us-to-l-100km</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/ieee-754</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/illuminance</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/illuminance/foot-candle-to-lux</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/illuminance/lux-to-foot-candle</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -107,6 +109,10 @@
   <url><loc>https://converter.numanxstudio.com/convert/mass/stone-to-kilogram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/troy-ounce-to-gram</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/mass/troy-ounce-to-ounce</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/matrix-format</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/number-base</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-gpa</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/pk-numbering</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/horsepower-to-kilowatts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/power/horsepower-to-watts</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -123,12 +129,14 @@
   <url><loc>https://converter.numanxstudio.com/convert/pressure/mmhg-to-atm</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/pascals-to-psi</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/pressure/psi-to-bar</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/scientific-notation</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/km-h-to-mph</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/knots-to-mph</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/m-s-to-km-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/mach-to-km-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/speed/mph-to-km-h</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/statistics</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp/celsius-to-fahrenheit</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp/celsius-to-kelvin</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>

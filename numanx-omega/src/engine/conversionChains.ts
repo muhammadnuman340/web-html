@@ -63,6 +63,58 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
       { catId: 'time', fromUnit: 's', toUnit: 'min', label: 'Time' },
     ]
   },
+  {
+    id: 'area-plot-price',
+    label: 'Area → Plot Measurement',
+    icon: '🏠',
+    links: [
+      { catId: 'area', fromUnit: 'marla', toUnit: 'marla', label: 'Land Area (Standard Marla)' },
+      { catId: 'area', fromUnit: 'marla', toUnit: 'ft2', label: 'Square Feet (ft²)' },
+      { catId: 'area', fromUnit: 'ft2', toUnit: 'gaz_sq', label: 'Square Yards / Gaz' },
+      { catId: 'area', fromUnit: 'gaz_sq', toUnit: 'kanal', label: 'Kanal Proportion' },
+    ]
+  },
+  {
+    id: 'gold-karat-price',
+    label: 'Gold Mass → Bullion Units',
+    icon: '🪙',
+    links: [
+      { catId: 'mass', fromUnit: 'tola', toUnit: 'tola', label: 'Bullion (Tola)' },
+      { catId: 'mass', fromUnit: 'tola', toUnit: 'g', label: 'Pure Mass (Grams)' },
+      { catId: 'mass', fromUnit: 'g', toUnit: 'ratti', label: 'Traditional Ratti' },
+      { catId: 'mass', fromUnit: 'ratti', toUnit: 'ozt', label: 'Troy Ounces (oz t)' },
+    ]
+  },
+  {
+    id: 'cricket-nrr',
+    label: 'Overs & Balls → NRR Basis',
+    icon: '🏏',
+    links: [
+      { catId: 'cricket-overs', fromUnit: 'overs_balls', toUnit: 'overs_balls', label: 'Cricket Notation (Overs.Balls)' },
+      { catId: 'cricket-overs', fromUnit: 'overs_balls', toUnit: 'balls', label: 'Legal Deliveries (Balls)' },
+      { catId: 'cricket-overs', fromUnit: 'balls', toUnit: 'true_overs', label: 'True Decimal Overs' },
+    ]
+  },
+  {
+    id: 'ups-battery-backup',
+    label: 'Power Load → Inverter Demand',
+    icon: '🔋',
+    links: [
+      { catId: 'power', fromUnit: 'W', toUnit: 'W', label: 'Appliance Load (Watts)' },
+      { catId: 'power', fromUnit: 'W', toUnit: 'kW', label: 'Kilowatt Demand (kW)' },
+      { catId: 'power', fromUnit: 'kW', toUnit: 'hp', label: 'Mechanical Equiv (HP)' },
+    ]
+  },
+  {
+    id: 'solar-units-saved',
+    label: 'Solar kW → Energy Yield',
+    icon: '☀️',
+    links: [
+      { catId: 'power', fromUnit: 'kW', toUnit: 'kW', label: 'System Capacity (kW)' },
+      { catId: 'energy', fromUnit: 'kWh', toUnit: 'kWh', label: 'Energy Generation (kWh)' },
+      { catId: 'energy', fromUnit: 'kWh', toUnit: 'MJ', label: 'Thermal Equivalent (MJ)' },
+    ]
+  },
 ]
 
 export function getAllChains() {
@@ -86,9 +138,11 @@ export function executeChain(chainId: string, value: number, fromUnit?: string):
     if (!cat) continue
 
     if (link.fromUnit !== link.toUnit) {
-      const result = convert(currentVal, link.catId, currentUnit || link.fromUnit, link.toUnit)
-      if (result === null) continue
-      currentVal = result
+      const srcUnit = cat.un.some(u => u.id === currentUnit) ? currentUnit : link.fromUnit
+      const result = convert(currentVal, link.catId, srcUnit, link.toUnit)
+      if (result !== null) {
+        currentVal = result
+      }
     }
 
     currentUnit = link.toUnit
@@ -112,5 +166,9 @@ export function suggestChain(fromCat: string, toHint?: string): string | null {
   if (fromCat === 'fuel') return 'fuel-cost'
   if (fromCat === 'data') return 'data-time'
   if (fromCat === 'pressure') return 'pressure-force'
+  if (fromCat === 'area') return 'area-plot-price'
+  if (fromCat === 'mass') return 'gold-karat-price'
+  if (fromCat === 'cricket-overs') return 'cricket-nrr'
+  if (fromCat === 'power') return 'ups-battery-backup'
   return null
 }

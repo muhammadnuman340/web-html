@@ -31,6 +31,14 @@ export const RELATED_CATEGORIES: Record<string, string[]> = {
   illuminance: ['energy', 'power', 'area'],
   viscosity: ['density', 'pressure', 'flow', 'force'],
   typography: ['length', 'area', 'data'],
+  'number-base': ['data', 'datatransfer', 'matrix-format', 'scientific-notation'],
+  'ieee-754': ['data', 'number-base', 'scientific-notation'],
+  'pk-numbering': ['mass', 'area', 'scientific-notation'],
+  statistics: ['scientific-notation', 'data', 'pk-gpa'],
+  'matrix-format': ['number-base', 'data', 'statistics'],
+  'scientific-notation': ['number-base', 'data', 'statistics', 'length'],
+  'pk-gpa': ['statistics', 'pk-numbering'],
+  'cricket-overs': ['time', 'speed', 'statistics'],
 }
 
 export function getRelatedCategoryIds(catId: string): string[] {

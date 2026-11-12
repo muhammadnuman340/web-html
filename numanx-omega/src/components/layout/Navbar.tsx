@@ -172,7 +172,7 @@ export default function Navbar({
                       onClick={() => setToolsOpen(false)}
                       className="block text-center py-2 text-xs font-bold text-[var(--link-text)] hover:text-[var(--link-hover)] hover:underline min-h-[44px] flex items-center justify-center"
                     >
-                      Browse All 28 Categories →
+                      Browse All 36 Categories →
                     </Link>
                   </div>
                 </motion.div>

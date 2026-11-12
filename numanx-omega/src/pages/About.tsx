@@ -73,7 +73,7 @@ export default function About() {
             <span>🏛️ Authoritative Standards & Primary References</span>
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed">
-            Omega X Converter relies exclusively on primary institutional metrological sources to ensure mathematical correctness, exact definitions, and transparent scientific grounding across all 28 categories.
+            Omega X Converter relies exclusively on primary institutional metrological sources to ensure mathematical correctness, exact definitions, and transparent scientific grounding across all 36 categories.
           </p>
         </div>
 
@@ -117,7 +117,7 @@ export default function About() {
       <section className="p-6 rounded-2xl bg-[var(--card2)] border border-[var(--border)] space-y-4 text-center">
         <h2 className="text-lg font-bold text-[var(--text)]">Ready to Explore?</h2>
         <p className="text-xs sm:text-sm text-[var(--text2)] max-w-md mx-auto">
-          Access all 28 conversion categories, interactive formula calculators, and in-depth blog tutorials.
+          Access all 36 conversion categories, interactive formula calculators, and in-depth blog tutorials.
         </p>
         <div className="flex items-center justify-center gap-3 flex-wrap pt-2">
           <Link

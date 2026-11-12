@@ -28,7 +28,9 @@ var Categories = [
       { id: "hand", lb: "Hand", r: 0.1016, s: "I" },
       { id: "ft", lb: "Foot", r: 0.3048, s: "I", al: ["feet"] },
       { id: "cubit", lb: "Cubit", r: 0.4572, s: "O" },
-      { id: "yd", lb: "Yard", r: 0.9144, s: "I" },
+      { id: "yd", lb: "Yard", r: 0.9144, s: "I", al: ["gaz"] },
+      { id: "girah", lb: "Girah (Fabric - 2.25 in)", r: 0.05715, s: "O", al: ["girah", "gira"] },
+      { id: "karam", lb: "Karam / Gatha (5.5 ft)", r: 1.6764, s: "O", al: ["karam", "gatha", "land pace"] },
       { id: "fathom", lb: "Fathom", r: 1.8288, s: "I", al: ["fathoms"] },
       { id: "rod", lb: "Rod", r: 5.0292, s: "I" },
       { id: "chain", lb: "Chain", r: 20.1168, s: "I" },
@@ -60,7 +62,15 @@ var Categories = [
       { id: "ha", lb: "Hectare", r: 1e4, s: "M" },
       { id: "km2", lb: "km\xB2", r: 1e6, s: "M" },
       { id: "mi2", lb: "mi\xB2", r: 259e4, s: "I" },
-      { id: "twp", lb: "Township", r: 9324e4, s: "I" }
+      { id: "twp", lb: "Township", r: 9324e4, s: "I" },
+      { id: "marla_soc", lb: "Marla (Society - 225 sq ft)", r: 20.903184, s: "O", al: ["marla 225", "marla society", "dha marla", "bahria marla"] },
+      { id: "marla_cap", lb: "Marla (Capital - 250 sq ft)", r: 23.22576, s: "O", al: ["marla 250", "cda marla", "islamabad marla", "rawalpindi marla"] },
+      { id: "marla", lb: "Marla (Standard/Govt - 272.25 sq ft)", r: 25.29285264, s: "O", al: ["marla", "marlas", "standard marla", "punjab marla", "patwari marla"] },
+      { id: "gaz_sq", lb: "Square Yard / Gaz", r: 0.83612736, s: "O", al: ["gaz", "square gaz", "sq gaz", "square yard gaz"] },
+      { id: "sarsahi", lb: "Sarsahi (Sq Karam)", r: 2.81031696, s: "O", al: ["sarsahi", "sq karam"] },
+      { id: "kanal", lb: "Kanal (20 Marlas)", r: 505.8570528, s: "O", al: ["kanal", "kanals"] },
+      { id: "killa", lb: "Killa / Acre (PK)", r: 4046.8564224, s: "O", al: ["killa", "qila"] },
+      { id: "murabba", lb: "Murabba (25 Acres)", r: 101171.41056, s: "O", al: ["murabba", "morabba"] }
     ]
   },
   {
@@ -116,7 +126,16 @@ var Categories = [
       { id: "q", lb: "Metric Quintal", r: 100, s: "M", al: ["quintal"] },
       { id: "sh tn", lb: "Short Ton", r: 907.185, s: "I" },
       { id: "t", lb: "Metric Ton", r: 1e3, s: "M" },
-      { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" }
+      { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" },
+      { id: "ratti", lb: "Ratti", r: 121497956e-12, s: "O", al: ["ratti"] },
+      { id: "masha", lb: "Masha", r: 97198365e-11, s: "O", al: ["masha"] },
+      { id: "tola", lb: "Tola (PK Standard)", r: 0.0116638038, s: "O", al: ["tola", "tolas", "bhori"] },
+      { id: "chhatank", lb: "Chhatank", r: 0.058319019, s: "O", al: ["chhatank", "chatank"] },
+      { id: "pao", lb: "Pao (250g)", r: 0.25, s: "O", al: ["pao", "paao", "pow"] },
+      { id: "seer", lb: "Seer", r: 0.9331043, s: "O", al: ["seer", "ser"] },
+      { id: "dhari", lb: "Dhari (5 kg)", r: 5, s: "O", al: ["dhari"] },
+      { id: "maund_trad", lb: "Maund (Traditional Imperial - 37.32 kg)", r: 37.324172, s: "O", al: ["traditional maund", "bengal maund"] },
+      { id: "maund_pk", lb: "Maund / Mann (Mandi Standard - 40 kg)", r: 40, s: "O", al: ["maund", "mann", "mon", "pakistani maund"] }
     ]
   },
   {
@@ -478,6 +497,143 @@ var Categories = [
       { id: "em", lb: "EM", r: 16, s: "O", al: ["em", "ems"] },
       { id: "cm", lb: "Centimeter", r: 37.79527559055118, s: "M", al: ["centimeter", "centimeters", "cm"] },
       { id: "in", lb: "Inch", r: 96, s: "I", al: ["inches", "inch", "in"] }
+    ]
+  },
+  {
+    id: "number-base",
+    lb: "Number Base",
+    ic: "\u{1F522}",
+    cl: "#00bcd4",
+    sp: true,
+    al: ["radix", "binary", "hexadecimal", "octal", "decimal", "base conversion", "gray code", "bcd"],
+    un: [
+      { id: "dec", lb: "Decimal (Base 10)", r: 1, s: "M", al: ["base 10", "denary"] },
+      { id: "bin", lb: "Binary (Base 2)", s: "S", al: ["base 2"] },
+      { id: "oct", lb: "Octal (Base 8)", s: "S", al: ["base 8"] },
+      { id: "hex", lb: "Hexadecimal (Base 16)", s: "S", al: ["base 16", "hex"] },
+      { id: "base32", lb: "Base 32", s: "S" },
+      { id: "base36", lb: "Base 36", s: "S" },
+      { id: "bcd", lb: "BCD (8421 Binary Coded)", s: "S" },
+      { id: "gray", lb: "Gray Code (Reflected Binary)", s: "S" }
+    ]
+  },
+  {
+    id: "ieee-754",
+    lb: "IEEE-754 Float",
+    ic: "\u{1F9EE}",
+    cl: "#ff9800",
+    sp: true,
+    al: ["floating point", "fp16", "fp32", "fp64", "single precision", "double precision", "half precision", "hex float"],
+    un: [
+      { id: "dec_real", lb: "Decimal Real Number", r: 1, s: "M" },
+      { id: "fp16", lb: "FP16 Half Precision (1-5-10)", s: "S" },
+      { id: "fp32", lb: "FP32 Single Precision (1-8-23)", s: "S" },
+      { id: "fp64", lb: "FP64 Double Precision (1-11-52)", s: "S" },
+      { id: "hex_float", lb: "Hexadecimal Float (0x...)", s: "S" }
+    ]
+  },
+  {
+    id: "pk-numbering",
+    lb: "South Asian Numbering",
+    ic: "\u{1F3E6}",
+    cl: "#4caf50",
+    al: ["lakh", "crore", "arab", "kharab", "hazar", "pakistani numbering", "desi numbers", "million billion"],
+    un: [
+      { id: "ones", lb: "Units / Ones", r: 1, s: "M", al: ["one", "units"] },
+      { id: "hazar", lb: "Hazar (1,000)", r: 1e3, s: "O", al: ["hazar", "thousand pk"] },
+      { id: "lakh", lb: "Lakh (100,000 / 10\u2075)", r: 1e5, s: "O", al: ["lakh", "lac", "lac rupees"] },
+      { id: "crore", lb: "Crore (10 Million / 10\u2077)", r: 1e7, s: "O", al: ["crore", "karor", "cr"] },
+      { id: "arab", lb: "Arab (1 Billion / 10\u2079)", r: 1e9, s: "O", al: ["arab", "billion pk"] },
+      { id: "kharab", lb: "Kharab (100 Billion / 10\xB9\xB9)", r: 1e11, s: "O", al: ["kharab"] },
+      { id: "neel", lb: "Neel (10 Trillion / 10\xB9\xB3)", r: 1e13, s: "O", al: ["neel"] },
+      { id: "k_std", lb: "Thousand (K / 10\xB3)", r: 1e3, s: "S" },
+      { id: "m_std", lb: "Million (M / 10\u2076)", r: 1e6, s: "S" },
+      { id: "b_std", lb: "Billion (B / 10\u2079)", r: 1e9, s: "S" },
+      { id: "t_std", lb: "Trillion (T / 10\xB9\xB2)", r: 1e12, s: "S" }
+    ]
+  },
+  {
+    id: "statistics",
+    lb: "Statistics & Odds",
+    ic: "\u{1F4CA}",
+    cl: "#3f51b5",
+    sp: true,
+    al: ["z-score", "percentile", "probability", "betting odds", "moneyline", "p-value", "odds converter"],
+    un: [
+      { id: "prob_pct", lb: "Implied Probability (%)", r: 1, s: "M", al: ["probability", "chance"] },
+      { id: "percentile", lb: "Percentile Rank (%)", s: "S" },
+      { id: "z_score", lb: "Z-Score (\u03C3)", s: "S", al: ["z score", "standard score"] },
+      { id: "p_val_two", lb: "Two-Tailed P-Value", s: "S" },
+      { id: "dec_odds", lb: "Decimal Odds (European)", s: "O", al: ["decimal odds"] },
+      { id: "frac_odds", lb: "Fractional Odds (UK/Traditional)", s: "O", al: ["fractional odds"] },
+      { id: "us_moneyline", lb: "American Moneyline (+/-)", s: "O", al: ["moneyline", "american odds"] }
+    ]
+  },
+  {
+    id: "matrix-format",
+    lb: "Matrix & Arrays",
+    ic: "\u{1F9F1}",
+    cl: "#009688",
+    sp: true,
+    al: ["matrix", "latex matrix", "numpy array", "matlab matrix", "csv grid", "json 2d array"],
+    un: [
+      { id: "csv", lb: "CSV / TSV Grid", r: 1, s: "M", al: ["csv", "tsv"] },
+      { id: "latex_b", lb: "LaTeX bmatrix ([...])", s: "S", al: ["bmatrix"] },
+      { id: "latex_p", lb: "LaTeX pmatrix ((...))", s: "S", al: ["pmatrix"] },
+      { id: "numpy", lb: "Python NumPy (np.array)", s: "S", al: ["numpy", "python array"] },
+      { id: "matlab", lb: "MATLAB / Octave ([a b; c d])", s: "S", al: ["matlab", "octave"] },
+      { id: "json_2d", lb: "JSON 2D Array", s: "S", al: ["json", "nested array"] }
+    ]
+  },
+  {
+    id: "scientific-notation",
+    lb: "Scientific & Fractions",
+    ic: "\u{1F52C}",
+    cl: "#9c27b0",
+    al: ["scientific notation", "engineering notation", "e notation", "ppm", "ppb", "ppt", "parts per million"],
+    un: [
+      { id: "dec_std", lb: "Standard Decimal", r: 1, s: "M" },
+      { id: "sci_kilo", lb: "Kilo (10\xB3)", r: 1e3, s: "S" },
+      { id: "sci_mega", lb: "Mega (10\u2076)", r: 1e6, s: "S" },
+      { id: "sci_giga", lb: "Giga (10\u2079)", r: 1e9, s: "S" },
+      { id: "sci_milli", lb: "Milli (10\u207B\xB3)", r: 1e-3, s: "S" },
+      { id: "sci_micro", lb: "Micro (10\u207B\u2076)", r: 1e-6, s: "S" },
+      { id: "sci_nano", lb: "Nano (10\u207B\u2079)", r: 1e-9, s: "S" },
+      { id: "ppm", lb: "Parts-Per-Million (ppm / 10\u207B\u2076)", r: 1e-6, s: "S", al: ["ppm"] },
+      { id: "ppb", lb: "Parts-Per-Billion (ppb / 10\u207B\u2079)", r: 1e-9, s: "S", al: ["ppb"] },
+      { id: "ppt", lb: "Parts-Per-Trillion (ppt / 10\u207B\xB9\xB2)", r: 1e-12, s: "S", al: ["ppt"] },
+      { id: "pct", lb: "Percentage (%)", r: 0.01, s: "M", al: ["percent", "%"] },
+      { id: "permille", lb: "Permille (\u2030)", r: 1e-3, s: "M", al: ["permille", "per thousand"] }
+    ]
+  },
+  {
+    id: "pk-gpa",
+    lb: "HEC GPA & Marks",
+    ic: "\u{1F393}",
+    cl: "#e91e63",
+    sp: true,
+    al: ["hec gpa", "gpa converter", "fsc marks", "matric marks", "mdcat aggregate", "percentage to gpa", "ecat"],
+    un: [
+      { id: "percentage", lb: "Percentage Marks (%)", r: 1, s: "M", al: ["percent", "%"] },
+      { id: "hec_gpa4", lb: "HEC 4.00 Scale CGPA", s: "O", al: ["hec gpa", "cgpa 4"] },
+      { id: "gpa5", lb: "5.00 Scale CGPA", s: "O", al: ["cgpa 5"] },
+      { id: "matric_fsc1100", lb: "Matric / FSc Marks (Out of 1100)", s: "O", al: ["fsc marks", "matric marks", "1100"] },
+      { id: "matric_fsc1200", lb: "Matric / FSc Marks (Out of 1200)", s: "O", al: ["1200"] },
+      { id: "mdcat_agg", lb: "MDCAT / ECAT Aggregate (%)", s: "O", al: ["mdcat", "aggregate"] }
+    ]
+  },
+  {
+    id: "cricket-overs",
+    lb: "Cricket Base-6",
+    ic: "\u{1F3CF}",
+    cl: "#8bc34a",
+    sp: true,
+    al: ["cricket overs", "overs to balls", "run rate", "cricket balls", "net run rate", "base 6 overs"],
+    un: [
+      { id: "overs_balls", lb: "Cricket Overs (e.g. 14.3)", r: 1, s: "O", al: ["overs", "overs.balls"] },
+      { id: "true_overs", lb: "True Decimal Overs (14.50)", s: "S", al: ["decimal overs"] },
+      { id: "balls", lb: "Legal Deliveries / Balls", s: "S", al: ["balls", "deliveries"] },
+      { id: "run_rate_6", lb: "Run Rate Metric (Per 6 Balls)", s: "O", al: ["rr", "run rate"] }
     ]
   }
 ];
@@ -989,6 +1145,110 @@ var categoryContent = {
       { q: "What is the viscosity of common fluids?", a: "Water at 20 \xB0C is ~1 cP; olive oil is ~80 cP; motor oil SAE 30 is ~200 cP; honey is ~10,000 cP; and peanut butter is ~250,000 cP." }
     ]
   },
+  "number-base": {
+    title: "Number Base Converter \u2014 Binary, Hexadecimal, Octal & Decimal Radix",
+    metaDesc: "Convert numbers across Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16). Supports Gray code, BCD, and two's complement.",
+    h1: "Number Base & Radix Precision Converter",
+    intro: "Convert integers between number bases instantly. Supports binary (base 2), octal (base 8), decimal (base 10), hexadecimal (base 16), base 32, base 36, Gray code, and BCD. Designed for computer scientists, embedded firmware engineers, and digital electronics designers.",
+    popularPairs: [],
+    useCases: ["Firmware & embedded systems", "Network subnetting & IP address calculation", "Web colors & RGB/hex mapping", "Computer architecture coursework"],
+    formula: "Decimal value = Sum(digit \xD7 base^position). Hexadecimal utilizes digits 0-9 and A-F representing values 10-15.",
+    faq: [
+      { q: "How do you convert decimal to binary?", a: "Divide the decimal integer by 2 repeatedly and record the remainders in reverse order. For example, 13 \xF7 2 = 6 rem 1, 6 \xF7 2 = 3 rem 0, 3 \xF7 2 = 1 rem 1, 1 \xF7 2 = 0 rem 1. Reading bottom to top gives 1101." },
+      { q: "Why is hexadecimal so common in computing?", a: "Each hexadecimal digit represents exactly 4 binary bits (one nibble). Two hexadecimal digits represent exactly 8 bits (one byte), making hex much more compact and human-readable than long binary strings." }
+    ]
+  },
+  "ieee-754": {
+    title: "IEEE-754 Floating-Point Converter \u2014 FP16, FP32, FP64 & Hex Float",
+    metaDesc: "Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.",
+    h1: "IEEE-754 Floating-Point Visualizer & Bitfield Inspector",
+    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.",
+    popularPairs: [],
+    useCases: ["Graphics programming & shaders", "Machine learning quantization (FP16 / BF16)", "Numerical analysis & rounding error debugging", "Compilers & runtime engineering"],
+    formula: "Value = (-1)^sign \xD7 2^(exponent - bias) \xD7 (1 + mantissa). Bias is 127 for FP32 and 1023 for FP64.",
+    faq: [
+      { q: "What is the IEEE-754 single precision structure?", a: "FP32 consists of 32 bits: 1 sign bit, 8 exponent bits (with bias 127), and 23 fraction/mantissa bits, providing ~7 decimal digits of precision." },
+      { q: "Why do floating point calculations have rounding errors?", a: "Many decimal fractions like 0.1 cannot be represented as finite terminating fractions in binary base 2, just as 1/3 cannot terminate in base 10." }
+    ]
+  },
+  "pk-numbering": {
+    title: "South Asian Numbering Converter \u2014 Lakh, Crore, Arab & Kharab",
+    metaDesc: "Convert between Pakistani & Indian Lakh, Crore, Arab, Kharab and Western Millions, Billions, and Trillions. Free deterministic financial converter.",
+    h1: "South Asian & International Numbering System Converter",
+    intro: "Convert values seamlessly between the South Asian numbering system (Hazar, Lakh, Crore, Arab, Kharab) and the international system (Thousands, Millions, Billions, Trillions). Follows State Bank of Pakistan financial reporting standards and 2,2,3 comma grouping rules.",
+    popularPairs: [],
+    useCases: ["Real estate transactions in Pakistan (Lakhs & Crores)", "Government budgets & macroeconomic reporting", "Banking & cross-border financial reconciliation", "Contract drafting & legal property deeds"],
+    formula: "1 Lakh = 100,000 (0.1 Million). 1 Crore = 10,000,000 (10 Million). 1 Arab = 1,000,000,000 (1 Billion). 1 Kharab = 100,000,000,000 (100 Billion).",
+    faq: [
+      { q: "How many Millions are in 1 Crore?", a: "One Crore equals exactly 10 Million. 10 Crores equal 100 Million, and 100 Crores equal 1 Billion (1 Arab)." },
+      { q: "How does comma placement differ in South Asian numbers?", a: "The international system groups digits in triplets (1,000,000). The South Asian system places the first comma after three digits, then subsequent commas after every two digits (10,00,000 = 10 Lakh = 1 Million)." }
+    ]
+  },
+  statistics: {
+    title: "Statistics & Odds Converter \u2014 Z-Score, P-Value & Betting Odds",
+    metaDesc: "Convert between Z-scores, normal percentiles, two-tailed P-values, decimal odds, fractional odds, and American moneyline. Free statistical calculator.",
+    h1: "Statistics, Normal Distribution & Betting Odds Converter",
+    intro: "Calculate equivalent measures across statistical metrics and sports betting odds. Convert between standard normal Z-scores, percentiles, two-tailed P-values, decimal odds, fractional odds, and American moneyline with exact Gaussian probability formulas.",
+    popularPairs: [],
+    useCases: ["Academic statistics & hypothesis testing", "Financial risk management & VaR", "Sports analytics & market making", "Psychometrics & standardized test scoring"],
+    formula: "Decimal Odds = 1 / Probability. American Moneyline (for p \u2264 0.5) = +((1 - p)/p) \xD7 100. Z = (X - \u03BC) / \u03C3.",
+    faq: [
+      { q: "How do you convert decimal odds to probability?", a: "Divide 1 by the decimal odds. For example, decimal odds of 2.50 equal 1 / 2.50 = 0.40, or 40% implied probability." },
+      { q: "What percentile does a Z-score of 2.0 represent?", a: "A Z-score of +2.0 on a standard normal distribution corresponds to approximately the 97.72 percentile (two standard deviations above the mean)." }
+    ]
+  },
+  "matrix-format": {
+    title: "Matrix Format Converter \u2014 CSV, LaTeX, NumPy, MATLAB & JSON",
+    metaDesc: "Convert matrix arrays between CSV, LaTeX bmatrix/pmatrix, Python NumPy, MATLAB, and JSON 2D arrays. Instant academic & programming syntax tool.",
+    h1: "Matrix Syntax & 2D Numerical Array Converter",
+    intro: "Transform 2D numerical matrices between different syntax formats instantly. Supports CSV/TSV grids, LaTeX bmatrix and pmatrix, Python NumPy array declarations, MATLAB/Octave syntax, and nested JSON 2D arrays.",
+    popularPairs: [],
+    useCases: ["Academic paper preparation (LaTeX amsmath)", "Data science pipeline scripting (Python NumPy)", "Engineering calculations (MATLAB / Octave)", "API data interchange (JSON 2D)"],
+    formula: "Deterministic syntax formatting preserving rows, columns, decimal points, and brackets.",
+    faq: [
+      { q: "What is the difference between LaTeX bmatrix and pmatrix?", a: "LaTeX bmatrix renders square brackets [A], whereas pmatrix renders curved parentheses (A). Both are part of the amsmath package." },
+      { q: "How does MATLAB represent a 2D matrix?", a: "MATLAB separates columns by spaces or commas and rows by semicolons, e.g., [1 2; 3 4]." }
+    ]
+  },
+  "scientific-notation": {
+    title: "Scientific Notation Converter \u2014 Engineering, Decimals, PPM & PPB",
+    metaDesc: "Convert numbers between standard decimal, scientific notation (a \xD7 10\u207F), engineering notation, ppm, ppb, and percentages. Instant analytical tool.",
+    h1: "Scientific, Engineering & Parts-Per Concentration Converter",
+    intro: "Convert values across scientific notation, engineering notation (powers of 3), standard decimals, and parts-per concentration metrics (ppm, ppb, ppt). Essential for chemistry, physics, and electrical engineering.",
+    popularPairs: [],
+    useCases: ["Environmental monitoring & air quality (ppm/ppb)", "Water quality testing (TDS & lead concentration)", "Electrical engineering (micro/nano/pico units)", "Astronomy & quantum physics calculations"],
+    formula: "Scientific notation expresses a number as a \xD7 10^b where 1 \u2264 |a| < 10. 1 ppm = 1 part in 10^6 (0.0001%). 1 ppb = 1 part in 10^9.",
+    faq: [
+      { q: "How many ppm are in 1 percent?", a: "1 percent equals exactly 10,000 ppm (parts-per-million). To convert percent to ppm, multiply by 10,000." },
+      { q: "What is the difference between scientific and engineering notation?", a: "Scientific notation allows any integer exponent (e.g., 4.5 \xD7 10^4), whereas engineering notation restricts exponents to multiples of 3 (e.g., 45 \xD7 10^3), corresponding to SI prefixes like kilo, mega, milli, and micro." }
+    ]
+  },
+  "pk-gpa": {
+    title: "HEC GPA & Marks Converter \u2014 CGPA 4.0, 5.0, Percentage & Matric/FSc",
+    metaDesc: "Convert Pakistani HEC 4.00 CGPA, 5.00 CGPA, percentage marks, matric/FSc marks (out of 1100/1200), and MDCAT aggregate. Official HEC guidelines.",
+    h1: "HEC Pakistan CGPA, Percentage & Academic Marks Converter",
+    intro: "Convert academic results according to Higher Education Commission (HEC) Pakistan and PMDC standards. Calculate equivalent CGPA on the 4.00 and 5.00 scales, percentage marks, FSc/Matriculation board marks (out of 1100 and 1200), and medical/engineering aggregate scores.",
+    popularPairs: [],
+    useCases: ["Pakistani university admissions & foreign scholarship applications", "HEC degree attestation and equivalence", "MDCAT / NUMS medical entrance aggregate calculation", "Job recruitment & civil service (CSS) minimum mark verification"],
+    formula: "HEC 4.00 continuous model: 85%+ = 4.00; below 85% scales linearly down to 50% = 1.00. Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
+    faq: [
+      { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)." },
+      { q: "What is the standard MDCAT aggregate formula in Pakistan?", a: "The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation." }
+    ]
+  },
+  "cricket-overs": {
+    title: "Cricket Overs to Balls Converter \u2014 Run Rate & ICC Net Run Rate (NRR)",
+    metaDesc: "Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).",
+    h1: "Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter",
+    intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
+    popularPairs: [],
+    useCases: ["ICC Tournament Net Run Rate (NRR) calculations", "Live match run rate and required run rate (RRR) analysis", "Bowler economy rate calculation (Runs / True Decimal Overs)", "Cricket database statistics & scorebook bookkeeping"],
+    formula: "Total Balls = (Floor(Overs) \xD7 6) + Remainder Balls. True Decimal Overs = Total Balls \xF7 6. Run Rate = Total Runs \xF7 True Decimal Overs.",
+    faq: [
+      { q: "Why is 14.3 overs not equal to 14.30 decimal overs?", a: 'Cricket overs are recorded in base-6, not base-10. The ".3" means 3 balls out of 6 (3/6 = 0.50). Therefore, 14.3 overs equals exactly 14.50 true decimal overs.' },
+      { q: "How does ICC calculate Net Run Rate (NRR)?", a: "NRR = (Total Runs Scored \xF7 Total True Decimal Overs Faced) \u2212 (Total Runs Conceded \xF7 Total True Decimal Overs Bowled). If a team is bowled out before completing their overs, the full quota of overs (e.g., 20 or 50) is used." }
+    ]
+  },
   typography: {
     title: "Typography & CSS Unit Converter \u2014 Pixels, Points, REM, EM & Picas",
     metaDesc: "Precision typography and digital layout converter. Convert Pixels (px), Points (pt), REM, EM, Millimeters, and Picas using the 96 DPI CSS web standard.",
@@ -1067,11 +1327,115 @@ function convertFuel(v, from, to) {
   if (from === to) return cleanFloat(v);
   return cleanFloat(fromBase[to](toBase[from](v)));
 }
+function convertCricketOvers(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let totalBalls = 0;
+  if (from === "balls") {
+    totalBalls = Math.round(v);
+  } else if (from === "true_overs" || from === "run_rate_6") {
+    totalBalls = Math.round(v * 6);
+  } else {
+    const overs = Math.floor(Math.abs(v));
+    const frac = Math.round((Math.abs(v) - overs) * 10);
+    const validFrac = Math.min(5, Math.max(0, frac));
+    totalBalls = (overs * 6 + validFrac) * (v < 0 ? -1 : 1);
+  }
+  if (to === "balls") return totalBalls;
+  if (to === "true_overs" || to === "run_rate_6") return cleanFloat(totalBalls / 6, 4);
+  const sign = totalBalls < 0 ? -1 : 1;
+  const absBalls = Math.abs(totalBalls);
+  const fullOvers = Math.floor(absBalls / 6);
+  const remBalls = absBalls % 6;
+  return cleanFloat(sign * (fullOvers + remBalls / 10), 1);
+}
+function convertPkGpa(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let pct = v;
+  if (from === "percentage" || from === "mdcat_agg") {
+    pct = v;
+  } else if (from === "hec_gpa4") {
+    pct = Math.min(100, Math.max(0, v <= 0 ? 0 : v >= 4 ? 85 : 50 + (v - 1) * (35 / 3)));
+  } else if (from === "gpa5") {
+    pct = Math.min(100, Math.max(0, v / 5 * 100));
+  } else if (from === "matric_fsc1100") {
+    pct = v / 1100 * 100;
+  } else if (from === "matric_fsc1200") {
+    pct = v / 1200 * 100;
+  }
+  if (to === "percentage" || to === "mdcat_agg") return cleanFloat(pct, 2);
+  if (to === "matric_fsc1100") return cleanFloat(pct / 100 * 1100, 1);
+  if (to === "matric_fsc1200") return cleanFloat(pct / 100 * 1200, 1);
+  if (to === "gpa5") return cleanFloat(pct / 100 * 5, 2);
+  if (to === "hec_gpa4") {
+    if (pct >= 85) return 4;
+    if (pct < 50) return 0;
+    return cleanFloat(1 + (pct - 50) * (3 / 35), 2);
+  }
+  return cleanFloat(pct, 2);
+}
+function convertStatistics(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let p = 0.5;
+  if (from === "prob_pct" || from === "percentile") {
+    p = Math.min(0.99999, Math.max(1e-5, v / 100));
+  } else if (from === "dec_odds") {
+    p = v > 1 ? 1 / v : 0.5;
+  } else if (from === "frac_odds") {
+    p = v > 0 ? 1 / (v + 1) : 0.5;
+  } else if (from === "us_moneyline") {
+    if (v > 0) p = 100 / (v + 100);
+    else if (v < 0) p = Math.abs(v) / (Math.abs(v) + 100);
+  } else if (from === "z_score") {
+    const t = 1 / (1 + 0.2316419 * Math.abs(v));
+    const d = 0.3989423 * Math.exp(-v * v / 2);
+    const prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    p = v > 0 ? 1 - prob : prob;
+    p = Math.min(0.99999, Math.max(1e-5, p));
+  } else if (from === "p_val_two") {
+    p = Math.min(0.99999, Math.max(1e-5, 1 - v / 2));
+  }
+  if (to === "prob_pct") return cleanFloat(p * 100, 2);
+  if (to === "percentile") return cleanFloat(p * 100, 2);
+  if (to === "dec_odds") return cleanFloat(1 / p, 3);
+  if (to === "frac_odds") return cleanFloat((1 - p) / p, 3);
+  if (to === "us_moneyline") {
+    if (p <= 0.5) return cleanFloat((1 - p) / p * 100, 0);
+    return cleanFloat(-(p / (1 - p)) * 100, 0);
+  }
+  if (to === "p_val_two") {
+    const tail = p > 0.5 ? 1 - p : p;
+    return cleanFloat(2 * tail, 4);
+  }
+  if (to === "z_score") {
+    const q = p > 0.5 ? 1 - p : p;
+    const w = Math.sqrt(-2 * Math.log(q));
+    const z = w - ((0.010328 * w + 0.802853) * w + 2.515517) / (((1308e-6 * w + 0.189269) * w + 1.432788) * w + 1);
+    return cleanFloat(p > 0.5 ? z : -z, 3);
+  }
+  return cleanFloat(p * 100, 2);
+}
+function convertNumberBase(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let dec = Math.floor(v);
+  if (from === "bin") {
+    dec = parseInt(String(Math.abs(Math.floor(v))), 2) || 0;
+  } else if (from === "oct") {
+    dec = parseInt(String(Math.abs(Math.floor(v))), 8) || 0;
+  }
+  if (to === "dec") return dec;
+  if (to === "bin") return parseInt(dec.toString(2), 10) || 0;
+  if (to === "oct") return parseInt(dec.toString(8), 10) || 0;
+  return dec;
+}
 function convert(v, catId, fromId, toId) {
   const cat = getCategory(catId);
   if (!cat || v !== 0 && !v || !Number.isFinite(v)) return null;
   if (cat.id === "temp") return convertTemp(v, fromId, toId);
   if (cat.id === "fuel") return convertFuel(v, fromId, toId);
+  if (cat.id === "cricket-overs") return convertCricketOvers(v, fromId, toId);
+  if (cat.id === "pk-gpa") return convertPkGpa(v, fromId, toId);
+  if (cat.id === "statistics") return convertStatistics(v, fromId, toId);
+  if (cat.id === "number-base") return convertNumberBase(v, fromId, toId);
   const fu = getUnit(cat, fromId);
   const tu = getUnit(cat, toId);
   if (!fu || !tu || !fu.r || !tu.r) return null;
@@ -1328,6 +1692,31 @@ function cleanSlug(s) {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 var PAIR_UNIT_SYNONYMS = {
+  // Pakistani & Regional Units
+  "marla": "marla",
+  "marlas": "marla",
+  "standard-marla": "marla",
+  "marla-society": "marla_soc",
+  "marla-capital": "marla_cap",
+  "kanal": "kanal",
+  "kanals": "kanal",
+  "killa": "killa",
+  "murabba": "murabba",
+  "gaz": "gaz_sq",
+  "square-gaz": "gaz_sq",
+  "sarsahi": "sarsahi",
+  "tola": "tola",
+  "tolas": "tola",
+  "masha": "masha",
+  "ratti": "ratti",
+  "seer": "seer",
+  "pao": "pao",
+  "chhatank": "chhatank",
+  "dhari": "dhari",
+  "maund": "maund_pk",
+  "mann": "maund_pk",
+  "karam": "karam",
+  "girah": "girah",
   // Area
   "square-meter": "m2",
   "square-meters": "m2",
@@ -1682,6 +2071,18 @@ var CATEGORY_METROLOGY = {
   }
 };
 var PAIR_FIELD_NOTES = {
+  "area:marla-to-ft2": {
+    badge: "Regional Metrology Gotcha",
+    title: "Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla",
+    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
+    standard: "Punjab Land Revenue Act / LDA Manual"
+  },
+  "mass:tola-to-g": {
+    badge: "Bullion Standard Gotcha",
+    title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
+    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
+    standard: "APGJA / British Indian Currency Act"
+  },
   // Mass & Weight
   "troy-ounce-to-gram": {
     badge: "Jeweler & Bullion Advisory",
@@ -3087,7 +3488,7 @@ function withBrand(title) {
 var PAGE_META = {
   "/": {
     title: "Omega X Converter \u2014 Free Unit Converter",
-    description: "Free unit converter with 28 categories and 220+ units, plus formulas and offline support. Runs in your browser."
+    description: "Free unit converter with 36 categories and 220+ units, plus formulas and offline support. Runs in your browser."
   },
   "/about": {
     title: "About Omega X Converter \u2014 NumanX Studio",
@@ -3102,16 +3503,16 @@ var PAGE_META = {
     description: "Free scientific and engineering calculator with trigonometric functions, memory, formula history and built-in unit conversion."
   },
   "/categories": {
-    title: "All 28 Unit Conversion Categories | Omega X",
-    description: "Browse all 28 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
+    title: "All 36 Unit Conversion Categories | Omega X",
+    description: "Browse all 36 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
   },
   "/converter": {
     title: "Universal Unit Converter \u2014 28 Categories | Omega X",
-    description: 'Convert metric, imperial, scientific and astronomical units across 28 categories. Type naturally, like "5 km in miles", and get an instant answer.'
+    description: 'Convert metric, imperial, scientific and astronomical units across 36 categories. Type naturally, like "5 km in miles", and get an instant answer.'
   },
   "/formulas": {
     title: "Unit Conversion Formulas & Constants | Omega X",
-    description: "Reference library of conversion formulas, constants and worked derivations across all 28 measurement categories."
+    description: "Reference library of conversion formulas, constants and worked derivations across all 36 measurement categories."
   },
   "/health": {
     title: "Health Calculators \u2014 BMI, BMR & Body Metrics | Omega X",
@@ -3119,7 +3520,7 @@ var PAGE_META = {
   },
   "/sitemap": {
     title: "Sitemap \u2014 All Converters, Guides & Articles | Omega X",
-    description: "Directory of every public page on Omega X: core tools, 28 conversion categories, popular conversion pairs, guides and blog articles."
+    description: "Directory of every public page on Omega X: core tools, 36 conversion categories, popular conversion pairs, guides and blog articles."
   },
   "/privacy": {
     title: "Privacy Policy \u2014 No Tracking, Local-Only Data | Omega X",
@@ -3213,6 +3614,38 @@ var CATEGORY_STANDARDS = {
     aeoCapsule: "Dynamic viscosity conversion measures fluid resistance to gradual deformation by shear or tensile stress. The SI coherent derived unit is the Pascal-second (Pa\xB7s, 1 N\xB7s/m\xB2). In laboratory science and lubrication, the CGS centipoise (cP) is standard: exactly 1 cP = 1 mPa\xB7s = 0.001 Pa\xB7s. Water at 20 \xB0C exhibits a dynamic viscosity of ~1.002 cP.",
     standardsStatement: "Viscosity measurement factors conform to ASTM D445 / ISO 3104 petroleum product testing protocols, BIPM SI specifications, and standard rheological tables for Newtonian and non-Newtonian fluids."
   },
+  "number-base": {
+    aeoCapsule: "Number base conversion calculates positional radix transformations across Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16). Governed by IEEE and ANSI/ISO computer science standards, radix conversion translates positional polynomial coefficients into equivalent integer values.",
+    standardsStatement: "Radix transformation algorithms adhere to standard Horner scheme polynomial integer conversion, IEEE Computer Society standards, and ISO/IEC 9899 integer arithmetic specifications."
+  },
+  "ieee-754": {
+    aeoCapsule: "IEEE-754 floating point conversion analyzes 16-bit half precision (FP16), 32-bit single precision (FP32), and 64-bit double precision (FP64) bitfield representations, breaking numbers into sign bit, biased exponent, and normalized mantissa.",
+    standardsStatement: "Floating-point representation complies strictly with IEEE Std 754-2019 (Standard for Floating-Point Arithmetic), properly encoding subnormal values, exponent bias, signed zeros, and special quantities."
+  },
+  "pk-numbering": {
+    aeoCapsule: "South Asian numbering conversion translates between the traditional Indian/Pakistani naming system \u2014 Hazar (1,000), Lakh (100,000 / 10\u2075), Crore (10 Million / 10\u2077), Arab (1 Billion / 10\u2079), and Kharab (100 Billion / 10\xB9\xB9) \u2014 and international Million/Billion/Trillion scales.",
+    standardsStatement: "Grouping formats conform to State Bank of Pakistan statutory reporting conventions, Reserve Bank 2,2,3 comma separation rules, and international ISO financial reporting criteria."
+  },
+  statistics: {
+    aeoCapsule: "Statistical and betting odds conversion calculates implied probabilities, standard normal Z-scores, percentiles, two-tailed P-values, decimal odds, and American moneyline. Grounded in Gaussian normal distributions and actuarial probability theory.",
+    standardsStatement: "Statistical transformations utilize the Abramowitz & Stegun rational polynomial approximation for the Gaussian standard normal cumulative distribution function (absolute error < 7.5 \xD7 10\u207B\u2078) and deterministic actuarial odds formulas."
+  },
+  "matrix-format": {
+    aeoCapsule: "Matrix format conversion serializes 2D numerical array data across CSV/TSV spreadsheets, LaTeX bmatrix/pmatrix notation, Python NumPy array syntax, MATLAB/Octave matrices, and JSON 2D arrays.",
+    standardsStatement: "Serializers strictly comply with RFC 4180 (CSV MIME specifications), AMS-LaTeX amsmath standards for mathematical typesetting, and NumPy/SciPy array parsing protocols."
+  },
+  "scientific-notation": {
+    aeoCapsule: "Scientific and engineering notation conversion translates standard decimals into powers of ten (a \xD7 10\u207F), engineering triplets (10\xB3\u207F), and analytical concentrations including parts-per-million (ppm), parts-per-billion (ppb), and percentages.",
+    standardsStatement: "Concentration calculations comply with IUPAC Gold Book analytical chemistry definitions, ISO 80000-1 quantities and units, and NIST SP 811 notation guidelines."
+  },
+  "pk-gpa": {
+    aeoCapsule: "Academic marks and GPA conversion translates between the Pakistani Higher Education Commission (HEC) 4.00 CGPA scale, 5.00 CGPA, percentage marks, matric/FSc examination marks (out of 1100 and 1200), and PMDC/MDCAT medical entrance aggregates.",
+    standardsStatement: "Grading curves align with the Higher Education Commission (HEC) Pakistan Uniform Policy for Semester Examination System and PM&DC admission aggregate regulations."
+  },
+  "cricket-overs": {
+    aeoCapsule: "Cricket overs and ball conversion calculates base-6 bowling delivery arithmetic. 1 cricket over consists of exactly 6 legal deliveries. Notation 14.3 denotes 14 overs and 3 balls (87 balls), translating to exactly 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.",
+    standardsStatement: "Cricket delivery arithmetic conforms to the Marylebone Cricket Club (MCC) Laws of Cricket (Law 17: The Over) and International Cricket Council (ICC) Standard Playing Conditions Appendix G for Net Run Rate determination."
+  },
   typography: {
     aeoCapsule: "Typography and digital layout conversion scales font sizes and spacing across CSS, screen pixels, and physical print units. Under the W3C CSS Values and Units Module Level 3, 1 physical inch equals exactly 96 CSS pixels and 72 desktop publishing points (pt), giving 1 pt = 1.33333 px. Standard browser root font size is 16 px (1 rem = 16 px).",
     standardsStatement: "Digital typography factors strictly comply with the W3C CSS Values and Units Module Level 3 specification (96 CSS px/inch standard) and traditional PostScript / DTP typesetting standards (72 points/inch, 12 points per pica)."
@@ -3257,7 +3690,15 @@ var RELATED_CATEGORIES = {
   flow: ["volume", "time", "pressure", "speed"],
   illuminance: ["energy", "power", "area"],
   viscosity: ["density", "pressure", "flow", "force"],
-  typography: ["length", "area", "data"]
+  typography: ["length", "area", "data"],
+  "number-base": ["data", "datatransfer", "matrix-format", "scientific-notation"],
+  "ieee-754": ["data", "number-base", "scientific-notation"],
+  "pk-numbering": ["mass", "area", "scientific-notation"],
+  statistics: ["scientific-notation", "data", "pk-gpa"],
+  "matrix-format": ["number-base", "data", "statistics"],
+  "scientific-notation": ["number-base", "data", "statistics", "length"],
+  "pk-gpa": ["statistics", "pk-numbering"],
+  "cricket-overs": ["time", "speed", "statistics"]
 };
 function getRelatedCategoryIds(catId) {
   return RELATED_CATEGORIES[catId] ?? [];
@@ -3463,7 +3904,7 @@ function buildSecurityTxt(siteUrl, now = /* @__PURE__ */ new Date()) {
 
 // tests/pseo-aeo-content.test.ts
 describe("Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality", () => {
-  test("canonical pair set contains exactly 123 unique pairs across 28 categories", () => {
+  test("canonical pair set contains exactly 123 unique pairs across 36 categories", () => {
     assert.equal(CANONICAL_PAIR_SET.size, 123, "CANONICAL_PAIR_SET must contain exactly 123 pairs");
     assert.ok(isCanonicalPair("length", "meter-to-feet"), "meter-to-feet must be canonical");
     assert.ok(!isCanonicalPair("length", "meter-to-invalid"), "invalid pair must not be canonical");

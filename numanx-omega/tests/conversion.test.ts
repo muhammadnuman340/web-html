@@ -32,9 +32,9 @@ function approxEqual(actual: number | null, expected: number, tolerance = 1e-4, 
 }
 
 describe('Task 2 & 3: Category Registry & Integrity', () => {
-  it('contains exactly 28 registered categories', () => {
-    assert.equal(Categories.length, 28)
-    assert.equal(getAllCategories().length, 28)
+  it('contains exactly 36 registered categories', () => {
+    assert.equal(Categories.length, 36)
+    assert.equal(getAllCategories().length, 36)
   })
 
   it('guarantees unique category IDs across the entire registry', () => {
@@ -71,7 +71,7 @@ describe('Task 2 & 3: Category Registry & Integrity', () => {
         assert.ok(typeof u.id === 'string' && u.id.length > 0, `Unit missing id in ${cat.id}`)
         assert.ok(typeof u.lb === 'string' && u.lb.length > 0, `Unit ${u.id} missing lb in ${cat.id}`)
 
-        if (cat.id !== 'temp' && cat.id !== 'fuel') {
+        if (!cat.sp && cat.id !== 'temp' && cat.id !== 'fuel') {
           assert.ok(
             typeof u.r === 'number' && Number.isFinite(u.r) && u.r > 0,
             `Unit ${u.id} in ${cat.id} has invalid conversion rate ${u.r}`
@@ -89,7 +89,7 @@ describe('Task 2 & 3: Category Registry & Integrity', () => {
   })
 
   it('verifies base reference units exist for linear categories', () => {
-    const linearCats = Categories.filter(c => c.id !== 'temp' && c.id !== 'fuel')
+    const linearCats = Categories.filter(c => !c.sp && c.id !== 'temp' && c.id !== 'fuel')
     for (const cat of linearCats) {
       const baseUnit = cat.un.find(u => u.r === 1)
       assert.ok(baseUnit !== undefined, `Category ${cat.id} is missing a base unit with r === 1`)
@@ -292,10 +292,18 @@ describe('Task 13: Universal Category Coverage — All 24 Categories Tested', ()
     { cat: 'illuminance', from: 'fc', to: 'lx', val: 1 },
     { cat: 'viscosity', from: 'cP', to: 'Pas', val: 1 },
     { cat: 'typography', from: 'px', to: 'pt', val: 16 },
+    { cat: 'number-base', from: 'dec', to: 'bin', val: 42 },
+    { cat: 'ieee-754', from: 'dec_real', to: 'dec_real', val: 3.14159 },
+    { cat: 'pk-numbering', from: 'lakh', to: 'ones', val: 1 },
+    { cat: 'statistics', from: 'prob_pct', to: 'dec_odds', val: 50 },
+    { cat: 'matrix-format', from: 'csv', to: 'csv', val: 1 },
+    { cat: 'scientific-notation', from: 'sci_kilo', to: 'dec_std', val: 1 },
+    { cat: 'pk-gpa', from: 'percentage', to: 'hec_gpa4', val: 85 },
+    { cat: 'cricket-overs', from: 'overs_balls', to: 'balls', val: 14.3 },
   ]
 
-  it('guarantees test execution for every one of the 28 registered categories', () => {
-    assert.equal(categoryTestCases.length, 28)
+  it('guarantees test execution for every one of the 36 registered categories', () => {
+    assert.equal(categoryTestCases.length, 36)
     for (const tc of categoryTestCases) {
       const res = convert(tc.val, tc.cat, tc.from, tc.to)
       assert.notEqual(res, null, `Category ${tc.cat} failed conversion from ${tc.from} to ${tc.to}`)
@@ -660,5 +668,53 @@ describe('Pinned exact conversion factors and category integrity', () => {
         `Duplicate unit label found in category "${cat.id}"`
       )
     }
+  })
+})
+
+describe('Task: Pakistani Regional Units & Multi-Step Chains Verification', () => {
+  it('converts Pakistani Area units accurately', () => {
+    approxEqual(convert(1, 'area', 'marla_soc', 'ft2') || 0, 225, 1e-3, 'marla_soc to ft2')
+    approxEqual(convert(1, 'area', 'marla_cap', 'ft2') || 0, 250, 1e-3, 'marla_cap to ft2')
+    approxEqual(convert(1, 'area', 'marla', 'ft2') || 0, 272.25, 1e-3, 'marla to ft2')
+    approxEqual(convert(1, 'area', 'kanal', 'marla') || 0, 20, 1e-3, 'kanal to marla')
+    approxEqual(convert(1, 'area', 'killa', 'kanal') || 0, 8, 1e-3, 'killa to kanal')
+    approxEqual(convert(1, 'area', 'murabba', 'killa') || 0, 25, 1e-3, 'murabba to killa')
+    approxEqual(convert(1, 'area', 'marla', 'sarsahi') || 0, 9, 1e-3, 'marla to sarsahi')
+  })
+
+  it('converts Pakistani Mass units accurately against Mandi and Jeweler standards', () => {
+    approxEqual(convert(1, 'mass', 'tola', 'g') || 0, 11.6638038, 1e-4, 'tola to g')
+    approxEqual(convert(1, 'mass', 'tola', 'masha') || 0, 12, 1e-4, 'tola to masha')
+    approxEqual(convert(1, 'mass', 'tola', 'ratti') || 0, 96, 1e-4, 'tola to ratti')
+    approxEqual(convert(1, 'mass', 'maund_pk', 'kg') || 0, 40, 1e-4, 'maund_pk to kg')
+    approxEqual(convert(1, 'mass', 'seer', 'tola') || 0, 80, 1e-4, 'seer to tola')
+    approxEqual(convert(1, 'mass', 'pao', 'g') || 0, 250, 1e-4, 'pao to g')
+    approxEqual(convert(1, 'mass', 'dhari', 'kg') || 0, 5, 1e-4, 'dhari to kg')
+  })
+
+  it('converts Pakistani Length units accurately', () => {
+    assert.equal(convert(1, 'length', 'karam', 'm'), 1.6764)
+    assert.equal(convert(1, 'length', 'girah', 'm'), 0.05715)
+  })
+
+  it('verifies 10 total conversion chains including 5 new chains', () => {
+    const { getAllChains, executeChain } = require('../src/engine/conversionChains')
+    const chains = getAllChains()
+    assert.equal(chains.length, 10)
+    
+    // Test area-plot-price chain
+    const areaRes = executeChain('area-plot-price', 1)
+    assert.ok(areaRes !== null)
+    assert.equal(areaRes.links.length, 4)
+
+    // Test gold-karat-price chain
+    const goldRes = executeChain('gold-karat-price', 1)
+    assert.ok(goldRes !== null)
+    assert.equal(goldRes.links.length, 4)
+
+    // Test cricket-nrr chain
+    const nrrRes = executeChain('cricket-nrr', 14.3)
+    assert.ok(nrrRes !== null)
+    assert.equal(nrrRes.links.length, 3)
   })
 })

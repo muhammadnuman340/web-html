@@ -15,10 +15,10 @@ import { isIndexablePath } from '../src/config/site'
 import { generateSitemapEntries } from '../scripts/generate-sitemap'
 
 describe('Task 17.1 & 17.2: Canonical Category Route Integrity', () => {
-  it('guarantees all 28 categories have a canonical route', () => {
+  it('guarantees all 36 categories have a canonical route', () => {
     const routes = getAllCategoryRoutes()
-    assert.equal(routes.length, 28, 'Expected exactly 28 category route definitions')
-    assert.equal(Categories.length, 28, 'Expected Categories registry to have 28 definitions')
+    assert.equal(routes.length, 36, 'Expected exactly 36 category route definitions')
+    assert.equal(Categories.length, 36, 'Expected Categories registry to have 36 definitions')
 
     for (const cat of Categories) {
       const r = routes.find(entry => entry.categoryId === cat.id)
@@ -34,7 +34,7 @@ describe('Task 17.1 & 17.2: Canonical Category Route Integrity', () => {
     assert.equal(uniquePaths.size, paths.length, 'Canonical paths must be strictly unique')
 
     for (const p of paths) {
-      assert.match(p, /^\/convert\/[a-zA-Z0-9]+$/, `Canonical path "${p}" is not URL-safe`)
+      assert.match(p, /^\/convert\/[a-zA-Z0-9_-]+$/, `Canonical path "${p}" is not URL-safe`)
       assert.ok(!p.includes(' '), `Canonical path "${p}" must not contain spaces`)
     }
   })
@@ -239,8 +239,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count matches authoritative sitemap inventory (178 URLs)
-    assert.equal(entries.length, 178, `Expected exactly 178 sitemap entries, got ${entries.length}`)
+    // Verify count matches authoritative sitemap inventory (186 URLs)
+    assert.equal(entries.length, 186, `Expected exactly 186 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {

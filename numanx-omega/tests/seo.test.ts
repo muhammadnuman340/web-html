@@ -71,10 +71,10 @@ describe('SEO Architecture: Canonical URL & Alias Resolution', () => {
     assert.equal(canonicalUrl('/convert/length/meter-to-feet'), `${origin}/convert/length/meter-to-feet`)
   })
 
-  it('resolves canonical category routes to /convert/:id for all 28 categories', () => {
+  it('resolves canonical category routes to /convert/:id for all 36 categories', () => {
     const origin = getSiteUrl()
     const categories = getAllCategories()
-    assert.equal(categories.length, 28)
+    assert.equal(categories.length, 36)
 
     for (const cat of categories) {
       const canonical = canonicalUrl(`/convert/${cat.id}`)
@@ -178,7 +178,7 @@ describe('SEO Architecture: XML Sitemap Generator', () => {
     assert.ok(xml.trimEnd().endsWith('</urlset>'))
   })
 
-  it('includes all 28 canonical category URLs', () => {
+  it('includes all 36 canonical category URLs', () => {
     const entries = generateSitemapEntries()
     const locs = new Set(entries.map(e => e.loc))
 

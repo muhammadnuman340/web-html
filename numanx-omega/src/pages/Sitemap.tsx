@@ -10,7 +10,7 @@ import { BLOG_POSTS } from '../data/blogPosts'
 const CORE_ROUTES = [
   { path: '/', label: 'Home Page', icon: '🏠', desc: 'Main converter dashboard with instant input and quick pairs' },
   { path: '/converter', label: 'Universal Converter', icon: '🔄', desc: 'Precision conversion engine supporting chains & batch processing' },
-  { path: '/categories', label: 'Browse Categories', icon: '📂', desc: 'Interactive directory of all 28 scientific and everyday unit systems' },
+  { path: '/categories', label: 'Browse Categories', icon: '📂', desc: 'Interactive directory of all 36 scientific and everyday unit systems' },
   { path: '/blog', label: 'Blog & Articles Hub', icon: '📰', desc: 'Expert guides, tutorials, precision formulas, and cheat sheets' },
   { path: '/about', label: 'About NumanX Omega', icon: 'ℹ️', desc: 'Mission, NIST metrology compliance, privacy, and scientific engine' },
   { path: '/calculator', label: 'Smart Calculator', icon: '🧮', desc: 'Instant calculation and conversion hybrid tool' },
@@ -173,7 +173,7 @@ export default function Sitemap() {
         </div>
       </section>
 
-      {/* Section 2: All 28 Conversion Categories */}
+      {/* Section 2: All 36 Conversion Categories */}
       <section aria-labelledby="categories-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
           <h2 id="categories-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">

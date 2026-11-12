@@ -123,6 +123,54 @@ export const CATEGORY_STANDARDS: Record<string, CategoryStandardInfo> = {
     standardsStatement:
       'Viscosity measurement factors conform to ASTM D445 / ISO 3104 petroleum product testing protocols, BIPM SI specifications, and standard rheological tables for Newtonian and non-Newtonian fluids.',
   },
+  'number-base': {
+    aeoCapsule:
+      'Number base conversion calculates positional radix transformations across Binary (Base 2), Octal (Base 8), Decimal (Base 10), and Hexadecimal (Base 16). Governed by IEEE and ANSI/ISO computer science standards, radix conversion translates positional polynomial coefficients into equivalent integer values.',
+    standardsStatement:
+      'Radix transformation algorithms adhere to standard Horner scheme polynomial integer conversion, IEEE Computer Society standards, and ISO/IEC 9899 integer arithmetic specifications.',
+  },
+  'ieee-754': {
+    aeoCapsule:
+      'IEEE-754 floating point conversion analyzes 16-bit half precision (FP16), 32-bit single precision (FP32), and 64-bit double precision (FP64) bitfield representations, breaking numbers into sign bit, biased exponent, and normalized mantissa.',
+    standardsStatement:
+      'Floating-point representation complies strictly with IEEE Std 754-2019 (Standard for Floating-Point Arithmetic), properly encoding subnormal values, exponent bias, signed zeros, and special quantities.',
+  },
+  'pk-numbering': {
+    aeoCapsule:
+      'South Asian numbering conversion translates between the traditional Indian/Pakistani naming system — Hazar (1,000), Lakh (100,000 / 10⁵), Crore (10 Million / 10⁷), Arab (1 Billion / 10⁹), and Kharab (100 Billion / 10¹¹) — and international Million/Billion/Trillion scales.',
+    standardsStatement:
+      'Grouping formats conform to State Bank of Pakistan statutory reporting conventions, Reserve Bank 2,2,3 comma separation rules, and international ISO financial reporting criteria.',
+  },
+  statistics: {
+    aeoCapsule:
+      'Statistical and betting odds conversion calculates implied probabilities, standard normal Z-scores, percentiles, two-tailed P-values, decimal odds, and American moneyline. Grounded in Gaussian normal distributions and actuarial probability theory.',
+    standardsStatement:
+      'Statistical transformations utilize the Abramowitz & Stegun rational polynomial approximation for the Gaussian standard normal cumulative distribution function (absolute error < 7.5 × 10⁻⁸) and deterministic actuarial odds formulas.',
+  },
+  'matrix-format': {
+    aeoCapsule:
+      'Matrix format conversion serializes 2D numerical array data across CSV/TSV spreadsheets, LaTeX bmatrix/pmatrix notation, Python NumPy array syntax, MATLAB/Octave matrices, and JSON 2D arrays.',
+    standardsStatement:
+      'Serializers strictly comply with RFC 4180 (CSV MIME specifications), AMS-LaTeX amsmath standards for mathematical typesetting, and NumPy/SciPy array parsing protocols.',
+  },
+  'scientific-notation': {
+    aeoCapsule:
+      'Scientific and engineering notation conversion translates standard decimals into powers of ten (a × 10ⁿ), engineering triplets (10³ⁿ), and analytical concentrations including parts-per-million (ppm), parts-per-billion (ppb), and percentages.',
+    standardsStatement:
+      'Concentration calculations comply with IUPAC Gold Book analytical chemistry definitions, ISO 80000-1 quantities and units, and NIST SP 811 notation guidelines.',
+  },
+  'pk-gpa': {
+    aeoCapsule:
+      'Academic marks and GPA conversion translates between the Pakistani Higher Education Commission (HEC) 4.00 CGPA scale, 5.00 CGPA, percentage marks, matric/FSc examination marks (out of 1100 and 1200), and PMDC/MDCAT medical entrance aggregates.',
+    standardsStatement:
+      'Grading curves align with the Higher Education Commission (HEC) Pakistan Uniform Policy for Semester Examination System and PM&DC admission aggregate regulations.',
+  },
+  'cricket-overs': {
+    aeoCapsule:
+      'Cricket overs and ball conversion calculates base-6 bowling delivery arithmetic. 1 cricket over consists of exactly 6 legal deliveries. Notation 14.3 denotes 14 overs and 3 balls (87 balls), translating to exactly 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
+    standardsStatement:
+      'Cricket delivery arithmetic conforms to the Marylebone Cricket Club (MCC) Laws of Cricket (Law 17: The Over) and International Cricket Council (ICC) Standard Playing Conditions Appendix G for Net Run Rate determination.',
+  },
   typography: {
     aeoCapsule:
       'Typography and digital layout conversion scales font sizes and spacing across CSS, screen pixels, and physical print units. Under the W3C CSS Values and Units Module Level 3, 1 physical inch equals exactly 96 CSS pixels and 72 desktop publishing points (pt), giving 1 pt = 1.33333 px. Standard browser root font size is 16 px (1 rem = 16 px).',

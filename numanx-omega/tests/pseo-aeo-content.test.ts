@@ -37,7 +37,7 @@ import { getRelatedCategoryIds } from '../src/config/relatedCategories'
 import { LEGAL, STORAGE_KEYS, buildSecurityTxt, getPrivacyPolicy, getTerms, getContactPage } from '../src/config/legal'
 
 describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', () => {
-  test('canonical pair set contains exactly 123 unique pairs across 28 categories', () => {
+  test('canonical pair set contains exactly 123 unique pairs across 36 categories', () => {
     assert.equal(CANONICAL_PAIR_SET.size, 123, 'CANONICAL_PAIR_SET must contain exactly 123 pairs')
     assert.ok(isCanonicalPair('length', 'meter-to-feet'), 'meter-to-feet must be canonical')
     assert.ok(!isCanonicalPair('length', 'meter-to-invalid'), 'invalid pair must not be canonical')

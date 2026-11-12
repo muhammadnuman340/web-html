@@ -20,7 +20,9 @@ export const Categories: CategoryDef[] = [
       { id: 'hand', lb: 'Hand', r: 0.1016, s: 'I' },
       { id: 'ft', lb: 'Foot', r: 0.3048, s: 'I', al: ['feet'] },
       { id: 'cubit', lb: 'Cubit', r: 0.4572, s: 'O' },
-      { id: 'yd', lb: 'Yard', r: 0.9144, s: 'I' },
+      { id: 'yd', lb: 'Yard', r: 0.9144, s: 'I', al: ['gaz'] },
+      { id: 'girah', lb: 'Girah (Fabric - 2.25 in)', r: 0.05715, s: 'O', al: ['girah', 'gira'] },
+      { id: 'karam', lb: 'Karam / Gatha (5.5 ft)', r: 1.6764, s: 'O', al: ['karam', 'gatha', 'land pace'] },
       { id: 'fathom', lb: 'Fathom', r: 1.8288, s: 'I', al: ['fathoms'] },
       { id: 'rod', lb: 'Rod', r: 5.0292, s: 'I' },
       { id: 'chain', lb: 'Chain', r: 20.1168, s: 'I' },
@@ -49,7 +51,15 @@ export const Categories: CategoryDef[] = [
       { id: 'ha', lb: 'Hectare', r: 10000, s: 'M' },
       { id: 'km2', lb: 'km²', r: 1e6, s: 'M' },
       { id: 'mi2', lb: 'mi²', r: 2.59e6, s: 'I' },
-      { id: 'twp', lb: 'Township', r: 9.324e7, s: 'I' }
+      { id: 'twp', lb: 'Township', r: 9.324e7, s: 'I' },
+      { id: 'marla_soc', lb: 'Marla (Society - 225 sq ft)', r: 20.903184, s: 'O', al: ['marla 225', 'marla society', 'dha marla', 'bahria marla'] },
+      { id: 'marla_cap', lb: 'Marla (Capital - 250 sq ft)', r: 23.22576, s: 'O', al: ['marla 250', 'cda marla', 'islamabad marla', 'rawalpindi marla'] },
+      { id: 'marla', lb: 'Marla (Standard/Govt - 272.25 sq ft)', r: 25.29285264, s: 'O', al: ['marla', 'marlas', 'standard marla', 'punjab marla', 'patwari marla'] },
+      { id: 'gaz_sq', lb: 'Square Yard / Gaz', r: 0.83612736, s: 'O', al: ['gaz', 'square gaz', 'sq gaz', 'square yard gaz'] },
+      { id: 'sarsahi', lb: 'Sarsahi (Sq Karam)', r: 2.81031696, s: 'O', al: ['sarsahi', 'sq karam'] },
+      { id: 'kanal', lb: 'Kanal (20 Marlas)', r: 505.8570528, s: 'O', al: ['kanal', 'kanals'] },
+      { id: 'killa', lb: 'Killa / Acre (PK)', r: 4046.8564224, s: 'O', al: ['killa', 'qila'] },
+      { id: 'murabba', lb: 'Murabba (25 Acres)', r: 101171.41056, s: 'O', al: ['murabba', 'morabba'] }
     ]
   },
   {
@@ -99,7 +109,16 @@ export const Categories: CategoryDef[] = [
       { id: 'q', lb: 'Metric Quintal', r: 100, s: 'M', al: ['quintal'] },
       { id: 'sh tn', lb: 'Short Ton', r: 907.185, s: 'I' },
       { id: 't', lb: 'Metric Ton', r: 1000, s: 'M' },
-      { id: 'lg tn', lb: 'Long Ton', r: 1016.05, s: 'I' }
+      { id: 'lg tn', lb: 'Long Ton', r: 1016.05, s: 'I' },
+      { id: 'ratti', lb: 'Ratti', r: 0.000121497956, s: 'O', al: ['ratti'] },
+      { id: 'masha', lb: 'Masha', r: 0.00097198365, s: 'O', al: ['masha'] },
+      { id: 'tola', lb: 'Tola (PK Standard)', r: 0.0116638038, s: 'O', al: ['tola', 'tolas', 'bhori'] },
+      { id: 'chhatank', lb: 'Chhatank', r: 0.058319019, s: 'O', al: ['chhatank', 'chatank'] },
+      { id: 'pao', lb: 'Pao (250g)', r: 0.25, s: 'O', al: ['pao', 'paao', 'pow'] },
+      { id: 'seer', lb: 'Seer', r: 0.9331043, s: 'O', al: ['seer', 'ser'] },
+      { id: 'dhari', lb: 'Dhari (5 kg)', r: 5, s: 'O', al: ['dhari'] },
+      { id: 'maund_trad', lb: 'Maund (Traditional Imperial - 37.32 kg)', r: 37.324172, s: 'O', al: ['traditional maund', 'bengal maund'] },
+      { id: 'maund_pk', lb: 'Maund / Mann (Mandi Standard - 40 kg)', r: 40, s: 'O', al: ['maund', 'mann', 'mon', 'pakistani maund'] }
     ]
   },
   {
@@ -389,4 +408,112 @@ export const Categories: CategoryDef[] = [
       { id: 'in', lb: 'Inch', r: 96, s: 'I', al: ['inches', 'inch', 'in'] }
     ]
   },
+  {
+    id: 'number-base', lb: 'Number Base', ic: '🔢', cl: '#00bcd4', sp: true,
+    al: ['radix', 'binary', 'hexadecimal', 'octal', 'decimal', 'base conversion', 'gray code', 'bcd'],
+    un: [
+      { id: 'dec', lb: 'Decimal (Base 10)', r: 1, s: 'M', al: ['base 10', 'denary'] },
+      { id: 'bin', lb: 'Binary (Base 2)', s: 'S', al: ['base 2'] },
+      { id: 'oct', lb: 'Octal (Base 8)', s: 'S', al: ['base 8'] },
+      { id: 'hex', lb: 'Hexadecimal (Base 16)', s: 'S', al: ['base 16', 'hex'] },
+      { id: 'base32', lb: 'Base 32', s: 'S' },
+      { id: 'base36', lb: 'Base 36', s: 'S' },
+      { id: 'bcd', lb: 'BCD (8421 Binary Coded)', s: 'S' },
+      { id: 'gray', lb: 'Gray Code (Reflected Binary)', s: 'S' }
+    ]
+  },
+  {
+    id: 'ieee-754', lb: 'IEEE-754 Float', ic: '🧮', cl: '#ff9800', sp: true,
+    al: ['floating point', 'fp16', 'fp32', 'fp64', 'single precision', 'double precision', 'half precision', 'hex float'],
+    un: [
+      { id: 'dec_real', lb: 'Decimal Real Number', r: 1, s: 'M' },
+      { id: 'fp16', lb: 'FP16 Half Precision (1-5-10)', s: 'S' },
+      { id: 'fp32', lb: 'FP32 Single Precision (1-8-23)', s: 'S' },
+      { id: 'fp64', lb: 'FP64 Double Precision (1-11-52)', s: 'S' },
+      { id: 'hex_float', lb: 'Hexadecimal Float (0x...)', s: 'S' }
+    ]
+  },
+  {
+    id: 'pk-numbering', lb: 'South Asian Numbering', ic: '🏦', cl: '#4caf50',
+    al: ['lakh', 'crore', 'arab', 'kharab', 'hazar', 'pakistani numbering', 'desi numbers', 'million billion'],
+    un: [
+      { id: 'ones', lb: 'Units / Ones', r: 1, s: 'M', al: ['one', 'units'] },
+      { id: 'hazar', lb: 'Hazar (1,000)', r: 1e3, s: 'O', al: ['hazar', 'thousand pk'] },
+      { id: 'lakh', lb: 'Lakh (100,000 / 10⁵)', r: 1e5, s: 'O', al: ['lakh', 'lac', 'lac rupees'] },
+      { id: 'crore', lb: 'Crore (10 Million / 10⁷)', r: 1e7, s: 'O', al: ['crore', 'karor', 'cr'] },
+      { id: 'arab', lb: 'Arab (1 Billion / 10⁹)', r: 1e9, s: 'O', al: ['arab', 'billion pk'] },
+      { id: 'kharab', lb: 'Kharab (100 Billion / 10¹¹)', r: 1e11, s: 'O', al: ['kharab'] },
+      { id: 'neel', lb: 'Neel (10 Trillion / 10¹³)', r: 1e13, s: 'O', al: ['neel'] },
+      { id: 'k_std', lb: 'Thousand (K / 10³)', r: 1e3, s: 'S' },
+      { id: 'm_std', lb: 'Million (M / 10⁶)', r: 1e6, s: 'S' },
+      { id: 'b_std', lb: 'Billion (B / 10⁹)', r: 1e9, s: 'S' },
+      { id: 't_std', lb: 'Trillion (T / 10¹²)', r: 1e12, s: 'S' }
+    ]
+  },
+  {
+    id: 'statistics', lb: 'Statistics & Odds', ic: '📊', cl: '#3f51b5', sp: true,
+    al: ['z-score', 'percentile', 'probability', 'betting odds', 'moneyline', 'p-value', 'odds converter'],
+    un: [
+      { id: 'prob_pct', lb: 'Implied Probability (%)', r: 1, s: 'M', al: ['probability', 'chance'] },
+      { id: 'percentile', lb: 'Percentile Rank (%)', s: 'S' },
+      { id: 'z_score', lb: 'Z-Score (σ)', s: 'S', al: ['z score', 'standard score'] },
+      { id: 'p_val_two', lb: 'Two-Tailed P-Value', s: 'S' },
+      { id: 'dec_odds', lb: 'Decimal Odds (European)', s: 'O', al: ['decimal odds'] },
+      { id: 'frac_odds', lb: 'Fractional Odds (UK/Traditional)', s: 'O', al: ['fractional odds'] },
+      { id: 'us_moneyline', lb: 'American Moneyline (+/-)', s: 'O', al: ['moneyline', 'american odds'] }
+    ]
+  },
+  {
+    id: 'matrix-format', lb: 'Matrix & Arrays', ic: '🧱', cl: '#009688', sp: true,
+    al: ['matrix', 'latex matrix', 'numpy array', 'matlab matrix', 'csv grid', 'json 2d array'],
+    un: [
+      { id: 'csv', lb: 'CSV / TSV Grid', r: 1, s: 'M', al: ['csv', 'tsv'] },
+      { id: 'latex_b', lb: 'LaTeX bmatrix ([...])', s: 'S', al: ['bmatrix'] },
+      { id: 'latex_p', lb: 'LaTeX pmatrix ((...))', s: 'S', al: ['pmatrix'] },
+      { id: 'numpy', lb: 'Python NumPy (np.array)', s: 'S', al: ['numpy', 'python array'] },
+      { id: 'matlab', lb: 'MATLAB / Octave ([a b; c d])', s: 'S', al: ['matlab', 'octave'] },
+      { id: 'json_2d', lb: 'JSON 2D Array', s: 'S', al: ['json', 'nested array'] }
+    ]
+  },
+  {
+    id: 'scientific-notation', lb: 'Scientific & Fractions', ic: '🔬', cl: '#9c27b0',
+    al: ['scientific notation', 'engineering notation', 'e notation', 'ppm', 'ppb', 'ppt', 'parts per million'],
+    un: [
+      { id: 'dec_std', lb: 'Standard Decimal', r: 1, s: 'M' },
+      { id: 'sci_kilo', lb: 'Kilo (10³)', r: 1e3, s: 'S' },
+      { id: 'sci_mega', lb: 'Mega (10⁶)', r: 1e6, s: 'S' },
+      { id: 'sci_giga', lb: 'Giga (10⁹)', r: 1e9, s: 'S' },
+      { id: 'sci_milli', lb: 'Milli (10⁻³)', r: 1e-3, s: 'S' },
+      { id: 'sci_micro', lb: 'Micro (10⁻⁶)', r: 1e-6, s: 'S' },
+      { id: 'sci_nano', lb: 'Nano (10⁻⁹)', r: 1e-9, s: 'S' },
+      { id: 'ppm', lb: 'Parts-Per-Million (ppm / 10⁻⁶)', r: 1e-6, s: 'S', al: ['ppm'] },
+      { id: 'ppb', lb: 'Parts-Per-Billion (ppb / 10⁻⁹)', r: 1e-9, s: 'S', al: ['ppb'] },
+      { id: 'ppt', lb: 'Parts-Per-Trillion (ppt / 10⁻¹²)', r: 1e-12, s: 'S', al: ['ppt'] },
+      { id: 'pct', lb: 'Percentage (%)', r: 0.01, s: 'M', al: ['percent', '%'] },
+      { id: 'permille', lb: 'Permille (‰)', r: 0.001, s: 'M', al: ['permille', 'per thousand'] }
+    ]
+  },
+  {
+    id: 'pk-gpa', lb: 'HEC GPA & Marks', ic: '🎓', cl: '#e91e63', sp: true,
+    al: ['hec gpa', 'gpa converter', 'fsc marks', 'matric marks', 'mdcat aggregate', 'percentage to gpa', 'ecat'],
+    un: [
+      { id: 'percentage', lb: 'Percentage Marks (%)', r: 1, s: 'M', al: ['percent', '%'] },
+      { id: 'hec_gpa4', lb: 'HEC 4.00 Scale CGPA', s: 'O', al: ['hec gpa', 'cgpa 4'] },
+      { id: 'gpa5', lb: '5.00 Scale CGPA', s: 'O', al: ['cgpa 5'] },
+      { id: 'matric_fsc1100', lb: 'Matric / FSc Marks (Out of 1100)', s: 'O', al: ['fsc marks', 'matric marks', '1100'] },
+      { id: 'matric_fsc1200', lb: 'Matric / FSc Marks (Out of 1200)', s: 'O', al: ['1200'] },
+      { id: 'mdcat_agg', lb: 'MDCAT / ECAT Aggregate (%)', s: 'O', al: ['mdcat', 'aggregate'] }
+    ]
+  },
+  {
+    id: 'cricket-overs', lb: 'Cricket Base-6', ic: '🏏', cl: '#8bc34a', sp: true,
+    al: ['cricket overs', 'overs to balls', 'run rate', 'cricket balls', 'net run rate', 'base 6 overs'],
+    un: [
+      { id: 'overs_balls', lb: 'Cricket Overs (e.g. 14.3)', r: 1, s: 'O', al: ['overs', 'overs.balls'] },
+      { id: 'true_overs', lb: 'True Decimal Overs (14.50)', s: 'S', al: ['decimal overs'] },
+      { id: 'balls', lb: 'Legal Deliveries / Balls', s: 'S', al: ['balls', 'deliveries'] },
+      { id: 'run_rate_6', lb: 'Run Rate Metric (Per 6 Balls)', s: 'O', al: ['rr', 'run rate'] }
+    ]
+  }
 ]
+

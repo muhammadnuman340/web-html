@@ -23,6 +23,31 @@ export function cleanSlug(s: string): string {
 }
 
 export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
+  // Pakistani & Regional Units
+  'marla': 'marla',
+  'marlas': 'marla',
+  'standard-marla': 'marla',
+  'marla-society': 'marla_soc',
+  'marla-capital': 'marla_cap',
+  'kanal': 'kanal',
+  'kanals': 'kanal',
+  'killa': 'killa',
+  'murabba': 'murabba',
+  'gaz': 'gaz_sq',
+  'square-gaz': 'gaz_sq',
+  'sarsahi': 'sarsahi',
+  'tola': 'tola',
+  'tolas': 'tola',
+  'masha': 'masha',
+  'ratti': 'ratti',
+  'seer': 'seer',
+  'pao': 'pao',
+  'chhatank': 'chhatank',
+  'dhari': 'dhari',
+  'maund': 'maund_pk',
+  'mann': 'maund_pk',
+  'karam': 'karam',
+  'girah': 'girah',
   // Area
   'square-meter': 'm2',
   'square-meters': 'm2',
@@ -449,6 +474,18 @@ const CATEGORY_METROLOGY: Record<string, { dimension: string; siBase: string; sy
 
 // Field Notes & Engineering Gotchas (E-E-A-T & Practical Domain Wisdom)
 export const PAIR_FIELD_NOTES: Record<string, { badge: string; title: string; note: string; standard?: string }> = {
+  'area:marla-to-ft2': {
+    badge: 'Regional Metrology Gotcha',
+    title: 'Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla',
+    note: 'In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.',
+    standard: 'Punjab Land Revenue Act / LDA Manual',
+  },
+  'mass:tola-to-g': {
+    badge: 'Bullion Standard Gotcha',
+    title: 'Pakistani Tola (11.6638 g) vs 10-Gram Rates',
+    note: 'The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.',
+    standard: 'APGJA / British Indian Currency Act',
+  },
   // Mass & Weight
   'troy-ounce-to-gram': {
     badge: 'Jeweler & Bullion Advisory',
