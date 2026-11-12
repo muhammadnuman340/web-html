@@ -237,6 +237,7 @@
   <url><loc>https://converter.numanxstudio.com/convert/volume/quarts-to-liters</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/converter</loc><priority>0.9</priority><changefreq>daily</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/formulas</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/guides</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/binary-hex-ieee-754-guide</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/cricket-overs-to-balls-nrr</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>

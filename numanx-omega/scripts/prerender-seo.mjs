@@ -778,6 +778,10 @@ var PAGE_META = {
   "/contact": {
     title: "Contact Omega X Converter \u2014 NumanX Studio",
     description: "Contact NumanX Studio about Omega X Converter: report a wrong conversion, a security issue or a privacy question."
+  },
+  "/guides": {
+    title: "Conversion Guides & Metrology Reference | Omega X",
+    description: "Step-by-step conversion guides with formula derivations, worked examples, reference tables and metrological standards for engineering and regional units."
   }
 };
 
@@ -5754,6 +5758,46 @@ var corePages = [
                   Published on ${post.date} \xB7 By ${post.author} \xB7 ${post.readTime}
                 </div>
                 <p style="margin:0;color:#444;font-size:0.95rem;line-height:1.5;">${post.excerpt}</p>
+              </article>
+            `).join("")}
+          </div>
+        </section>
+      </main>
+    `
+  },
+  {
+    routePath: "/guides",
+    title: PAGE_META["/guides"].title,
+    description: PAGE_META["/guides"].description,
+    schema: buildCorePageSchema(
+      "/guides",
+      PAGE_META["/guides"].title,
+      PAGE_META["/guides"].description,
+      { pageType: "CollectionPage" }
+    ),
+    staticBodyHtml: `
+      <main class="max-w-5xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
+        <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
+          <a href="/">Home</a> / <strong>Guides</strong>
+        </nav>
+        <header>
+          <h1 style="font-size:2rem;font-weight:700;">Conversion Guides & Metrology Reference</h1>
+          <p style="font-size:1.1rem;color:#555;line-height:1.6;">
+            Step-by-step conversion guides with formula derivations, worked examples, reference tables and metrological standards for engineering and regional units.
+          </p>
+        </header>
+        <section>
+          <h2>All 15 Conversion Guides</h2>
+          <div style="display:flex;flex-direction:column;gap:1.5rem;">
+            ${Object.values(guideContent).map((g) => `
+              <article style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;">
+                <h3 style="margin:0 0 0.5rem 0;font-size:1.25rem;">
+                  <a href="/guides/${g.slug}" style="color:#0066cc;text-decoration:none;">${escapeHtml(g.title)}</a>
+                </h3>
+                <div style="font-size:0.85rem;color:#777;margin-bottom:0.5rem;">
+                  Category: ${g.relatedCat} \xB7 Formula: ${escapeHtml(g.formula)}
+                </div>
+                <p style="margin:0;color:#444;font-size:0.95rem;line-height:1.5;">${g.intro}</p>
               </article>
             `).join("")}
           </div>

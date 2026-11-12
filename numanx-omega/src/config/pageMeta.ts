@@ -69,6 +69,10 @@ export const PAGE_META = {
     title: 'Contact Omega X Converter — NumanX Studio',
     description: 'Contact NumanX Studio about Omega X Converter: report a wrong conversion, a security issue or a privacy question.',
   },
+  '/guides': {
+    title: 'Conversion Guides & Metrology Reference | Omega X',
+    description: 'Step-by-step conversion guides with formula derivations, worked examples, reference tables and metrological standards for engineering and regional units.',
+  },
 } satisfies Record<string, PageMeta>
 
 export type StaticPagePath = keyof typeof PAGE_META

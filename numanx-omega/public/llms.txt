@@ -19,6 +19,7 @@ Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 - [Scientific Calculator](https://converter.numanxstudio.com/calculator): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](https://converter.numanxstudio.com/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](https://converter.numanxstudio.com/blog): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
+- [Conversion Guides Hub](https://converter.numanxstudio.com/guides): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across 15 scientific and regional units.
 - [About & Standards Methodology](https://converter.numanxstudio.com/about): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
 - [HTML Sitemap](https://converter.numanxstudio.com/sitemap): Authoritative index of every canonical public page.
 - [Contact](https://converter.numanxstudio.com/contact): How to report a wrong conversion, a security issue or a privacy question.

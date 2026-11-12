@@ -17,6 +17,7 @@ const NAV_MAIN = [
   { path: '/', icon: '🏠', label: 'Home' },
   { path: '/converter', icon: '🔄', label: 'Converter' },
   { path: '/categories', icon: '📂', label: 'All Categories' },
+  { path: '/guides', icon: '📚', label: 'Guides' },
 ]
 
 const NAV_CATEGORIES = [

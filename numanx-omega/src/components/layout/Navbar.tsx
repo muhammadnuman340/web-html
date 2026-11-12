@@ -217,6 +217,20 @@ export default function Navbar({
             About
           </NavLink>
 
+          {/* Guides Link */}
+          <NavLink
+            to="/guides"
+            className={({ isActive }) =>
+              `px-3.5 py-2 rounded-xl text-sm font-medium transition-colors min-h-[44px] flex items-center ${
+                isActive
+                  ? 'text-[var(--link-text)] bg-[var(--primary-muted)] font-semibold'
+                  : 'text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--card2)]'
+              }`
+            }
+          >
+            Guides
+          </NavLink>
+
           {/* Blog Link */}
           <NavLink
             to="/blog"

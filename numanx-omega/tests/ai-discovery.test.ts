@@ -168,8 +168,8 @@ describe('Phase 3 Step 7 — AI Discovery Files & Agent Readiness', () => {
       )
     })
 
-    it('canonical inventory remains exactly 256 URLs', () => {
-      assert.strictEqual(canonicalEntries.length, 256, 'Canonical inventory must remain exactly 256 URLs')
+    it('canonical inventory remains exactly 257 URLs', () => {
+      assert.strictEqual(canonicalEntries.length, 257, 'Canonical inventory must remain exactly 257 URLs')
     })
   })
 })

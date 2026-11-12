@@ -673,6 +673,7 @@ var STATIC_ROUTES = [
   { path: "/help", label: "Help", type: "utility", description: "Keyboard shortcuts and documentation" },
   { path: "/sitemap", label: "Sitemap", type: "utility", description: "Complete HTML sitemap directory" },
   { path: "/blog", label: "Blog", type: "editorial", description: "Metrology guides and conversion articles" },
+  { path: "/guides", label: "Guides Hub", type: "editorial", description: "Complete library of 15 conversion guides and formulas" },
   { path: "/about", label: "About", type: "editorial", description: "Standards compliance and project info" }
 ];
 var categoryById = /* @__PURE__ */ new Map();
@@ -2499,6 +2500,7 @@ function generateSitemapEntries() {
   add("/calculator", "0.7", "daily");
   add("/health", "0.6", "weekly");
   add("/blog", "0.7", "weekly");
+  add("/guides", "0.8", "weekly");
   add("/about", "0.6", "monthly");
   add("/sitemap", "0.5", "weekly");
   add("/contact", "0.4", "yearly");
@@ -2777,7 +2779,7 @@ describe("Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment"
       assert.ok(!entry.loc.includes("404"), `404 route leaked into sitemap: ${entry.loc}`);
       assert.ok(!entry.loc.includes("not-found"), `Not found path leaked into sitemap: ${entry.loc}`);
     }
-    assert.equal(entries.length, 256, `Expected exactly 256 sitemap entries, got ${entries.length}`);
+    assert.equal(entries.length, 257, `Expected exactly 257 sitemap entries, got ${entries.length}`);
   });
   it("ensures /404 path is excluded by indexability policy and invalid routes fail resolution", () => {
     assert.equal(isIndexablePath("/404"), false, "/404 must not be indexable");

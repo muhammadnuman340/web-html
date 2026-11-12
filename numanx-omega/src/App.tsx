@@ -32,6 +32,7 @@ const CustomUnits = lazy(() => import('./pages/CustomUnits'))
 const Help = lazy(() => import('./pages/Help'))
 const CategoryLanding = lazy(() => import('./pages/CategoryLanding'))
 const PairLanding = lazy(() => import('./pages/PairLanding'))
+const GuidesHub = lazy(() => import('./pages/GuidesHub'))
 const GuidePage = lazy(() => import('./pages/GuidePage'))
 const Sitemap = lazy(() => import('./pages/Sitemap'))
 const Blog = lazy(() => import('./pages/Blog'))
@@ -249,6 +250,7 @@ function AppContent() {
                       <Route path="/help" element={<Help />} />
                       <Route path="/calculator" element={<ConverterPage mode={mode} />} />
                       <Route path="/health" element={<Dashboard />} />
+                      <Route path="/guides" element={<GuidesHub />} />
                       <Route path="/guides/:slug" element={<GuidePage />} />
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/blog/:slug" element={<BlogPost />} />

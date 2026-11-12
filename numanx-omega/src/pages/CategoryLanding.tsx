@@ -516,10 +516,10 @@ export default function CategoryLanding({ categorySlug }: Props) {
               Conversion Guides & Editorial Reference
             </h2>
             <Link
-              to="/blog"
+              to="/guides"
               className="text-xs font-medium text-[var(--link-text)] hover:underline min-h-[44px] px-2 flex items-center"
             >
-              All Articles →
+              All 15 Guides →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

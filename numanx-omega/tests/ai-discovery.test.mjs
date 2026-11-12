@@ -2620,6 +2620,7 @@ function generateSitemapEntries() {
   add("/calculator", "0.7", "daily");
   add("/health", "0.6", "weekly");
   add("/blog", "0.7", "weekly");
+  add("/guides", "0.8", "weekly");
   add("/about", "0.6", "monthly");
   add("/sitemap", "0.5", "weekly");
   add("/contact", "0.4", "yearly");
@@ -4717,6 +4718,7 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Scientific Calculator](${canonicalUrl("/calculator")}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](${canonicalUrl("/health")}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](${canonicalUrl("/blog")}): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
+- [Conversion Guides Hub](${canonicalUrl("/guides")}): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across 15 scientific and regional units.
 - [About & Standards Methodology](${canonicalUrl("/about")}): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
 - [HTML Sitemap](${canonicalUrl("/sitemap")}): Authoritative index of every canonical public page.
 - [Contact](${canonicalUrl("/contact")}): How to report a wrong conversion, a security issue or a privacy question.
@@ -4950,8 +4952,8 @@ describe("Phase 3 Step 7 \u2014 AI Discovery Files & Agent Readiness", () => {
         "Must not contain speculative crawler allowlists"
       );
     });
-    it("canonical inventory remains exactly 256 URLs", () => {
-      assert.strictEqual(canonicalEntries.length, 256, "Canonical inventory must remain exactly 256 URLs");
+    it("canonical inventory remains exactly 257 URLs", () => {
+      assert.strictEqual(canonicalEntries.length, 257, "Canonical inventory must remain exactly 257 URLs");
     });
   });
 });

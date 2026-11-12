@@ -497,7 +497,10 @@ function PairLandingInner({
                 Need detailed formula derivations or worked calculation steps?
               </h2>
               <p className="text-xs text-[var(--text2)] opacity-85 mt-1">
-                Read our in-depth {relatedGuide.title} Conversion Guide with step-by-step mathematical proofs, lookup tables, and worked examples.
+                Read our in-depth {relatedGuide.title} Conversion Guide with step-by-step mathematical proofs, lookup tables, and worked examples.{' '}
+                <Link to="/guides" className="text-[var(--link-text)] underline hover:text-[var(--primary)] font-medium">
+                  Browse all 15 guides &rarr;
+                </Link>
               </p>
             </div>
             <Link

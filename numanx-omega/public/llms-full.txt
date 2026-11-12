@@ -7,7 +7,7 @@
 - License: Creative Commons Attribution 4.0 International (CC BY 4.0)
 - Canonical XML Sitemap: https://converter.numanxstudio.com/sitemap.xml
 - Concise Agent Guide: https://converter.numanxstudio.com/llms.txt
-- Total Canonical Indexable Inventory: 256 URLs
+- Total Canonical Indexable Inventory: 257 URLs
 
 ## 1. System Architecture & Metrology Standards
 

@@ -19,7 +19,7 @@ const core = urls.filter(u => !categories.includes(u) && !pairs.includes(u) && !
 
 console.log('Breakdown:')
 console.log('Home (1):', home.length, home)
-console.log('Core pages (11):', core.length, core)
+console.log('Core pages (12):', core.length, core)
 console.log('Categories (36):', categories.length)
 console.log('Pairs (187):', pairs.length)
 console.log('Guides (15):', guides.length, guides)
