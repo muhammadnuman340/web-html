@@ -3563,6 +3563,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "pounds-to-kilogram",
     pairPath: "/convert/mass/pounds-to-kilogram",
     pairLabel: "Pounds to Kilogram",
+    fromUnit: "lb",
+    toUnit: "kg",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -3576,6 +3578,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "kilogram-to-pounds",
     pairPath: "/convert/mass/kilogram-to-pounds",
     pairLabel: "Kilogram to Pounds",
+    fromUnit: "kg",
+    toUnit: "lb",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -3589,6 +3593,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "meter-to-feet",
     pairPath: "/convert/length/meter-to-feet",
     pairLabel: "Meter to Feet",
+    fromUnit: "m",
+    toUnit: "ft",
     relatedPostSlugs: [
       "compound-length-units-guide",
       "fractional-inches-to-mm-best-practices",
@@ -3604,6 +3610,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "feet-to-meters",
     pairPath: "/convert/length/feet-to-meters",
     pairLabel: "Feet to Meters",
+    fromUnit: "ft",
+    toUnit: "m",
     relatedPostSlugs: [
       "compound-length-units-guide",
       "metric-vs-imperial-engineering-guide"
@@ -3618,6 +3626,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "celsius-to-fahrenheit",
     pairPath: "/convert/temp/celsius-to-fahrenheit",
     pairLabel: "Celsius to Fahrenheit",
+    fromUnit: "C",
+    toUnit: "F",
     relatedPostSlugs: [
       "temperature-scales-celsius-fahrenheit-kelvin"
     ]
@@ -3631,6 +3641,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "fahrenheit-to-celsius",
     pairPath: "/convert/temp/fahrenheit-to-celsius",
     pairLabel: "Fahrenheit to Celsius",
+    fromUnit: "F",
+    toUnit: "C",
     relatedPostSlugs: [
       "temperature-scales-celsius-fahrenheit-kelvin"
     ]
@@ -3644,6 +3656,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "stick-of-butter-to-tablespoon",
     pairPath: "/convert/cooking/stick-of-butter-to-tablespoon",
     pairLabel: "Stick of Butter to Tablespoon",
+    fromUnit: "cup_c",
+    toUnit: "mL_c",
     relatedPostSlugs: [
       "ai-powered-unit-conversions-in-2026"
     ]
@@ -3657,6 +3671,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "bar-to-psi",
     pairPath: "/convert/pressure/bar-to-psi",
     pairLabel: "Bar to PSI",
+    fromUnit: "psi",
+    toUnit: "bar",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -3670,6 +3686,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "metric-horsepower-to-kilowatt",
     pairPath: "/convert/power/metric-horsepower-to-kilowatt",
     pairLabel: "Metric Horsepower to Kilowatt",
+    fromUnit: "kW",
+    toUnit: "hp",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -3683,6 +3701,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "marla-to-ft2",
     pairPath: "/convert/area/marla-to-ft2",
     pairLabel: "Marla to Square Feet",
+    fromUnit: "marla",
+    toUnit: "ft2",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -3696,6 +3716,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "tola-to-g",
     pairPath: "/convert/mass/tola-to-g",
     pairLabel: "Tola to Grams",
+    fromUnit: "tola",
+    toUnit: "g",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -3709,6 +3731,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "lakh-to-m-std",
     pairPath: "/convert/pk-numbering/lakh-to-m-std",
     pairLabel: "Lakh to Million",
+    fromUnit: "lakh",
+    toUnit: "m_std",
     relatedPostSlugs: [
       "digital-data-storage-units-guide"
     ]
@@ -3722,6 +3746,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "hec-gpa4-to-percentage",
     pairPath: "/convert/pk-gpa/hec-gpa4-to-percentage",
     pairLabel: "HEC CGPA 4.0 to Percentage",
+    fromUnit: "hec_gpa4",
+    toUnit: "percentage",
     relatedPostSlugs: []
   },
   {
@@ -3733,6 +3759,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "overs-balls-to-balls",
     pairPath: "/convert/cricket-overs/overs-balls-to-balls",
     pairLabel: "Cricket Overs to Balls",
+    fromUnit: "overs_balls",
+    toUnit: "balls",
     relatedPostSlugs: []
   },
   {
@@ -3744,6 +3772,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "bin-to-dec",
     pairPath: "/convert/number-base/bin-to-dec",
     pairLabel: "Binary to Decimal",
+    fromUnit: "bin_radix",
+    toUnit: "hex_radix",
     relatedPostSlugs: [
       "digital-data-storage-units-guide"
     ]
@@ -6413,12 +6443,18 @@ for (const guide of Object.values(guideContent)) {
   const guideBodyHtml = `
     <article class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
       <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-        <a href="/">Home</a> / <a href="/converter">Converter</a> / <a href="/convert/${guide.relatedCat}">${guide.relatedCat}</a> / <strong>${guide.slug}</strong>
+        <a href="/">Home</a> / <a href="/guides">Guides</a> / <a href="/convert/${guide.relatedCat}">${guide.relatedCat}</a> / <strong>${guide.slug}</strong>
       </nav>
       <header>
         <h1 style="font-size:2rem;font-weight:700;">${guide.h1}</h1>
         <p style="font-size:1.1rem;color:#555;line-height:1.6;">${guide.intro}</p>
       </header>
+
+      <section aria-labelledby="convert-heading" style="border:1px solid #e2e8f0;border-radius:8px;padding:1.25rem;background:#f8fafc;margin-bottom:1rem;">
+        <h2 id="convert-heading" style="font-size:1.15rem;margin-top:0;">\u26A1 Interactive Conversion Calculator</h2>
+        <p style="font-size:0.95rem;color:#555;">Use our real-time metrology engine to calculate exact conversions for <strong>${guide.h1}</strong>.</p>
+        ${rel ? `<p style="margin:0;"><a href="${rel.pairPath}" style="display:inline-block;padding:0.5rem 1rem;background:#0066cc;color:#fff;text-decoration:none;border-radius:6px;font-size:0.9rem;font-weight:600;">Launch Interactive ${rel.pairLabel} Converter &rarr;</a></p>` : ""}
+      </section>
 
       <section aria-labelledby="formula-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
         <h2 id="formula-heading" style="font-size:1.2rem;margin-top:0;">Conversion Formula & Step-by-Step Method</h2>

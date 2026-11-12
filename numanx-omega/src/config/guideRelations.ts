@@ -3,9 +3,9 @@
  * Centralized, typed relationship architecture for educational conversion guides.
  *
  * Connects:
- * - 6 Educational Guides (/guides/:slug)
- * - 24 Canonical Categories (/convert/:id)
- * - 99 Curated Popular Pairs (/convert/:category/:pair)
+ * - 15 Educational Guides (/guides/:slug)
+ * - 36 Canonical Categories (/convert/:id)
+ * - 187 Curated Popular Pairs (/convert/:category/:pair)
  * - Relevant Metrology Blog Articles (/blog/:slug)
  */
 
@@ -18,6 +18,8 @@ export interface GuideRelationship {
   pairSlug: string
   pairPath: string
   pairLabel: string
+  fromUnit: string
+  toUnit: string
   relatedPostSlugs: string[]
 }
 
@@ -31,6 +33,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'pounds-to-kilogram',
     pairPath: '/convert/mass/pounds-to-kilogram',
     pairLabel: 'Pounds to Kilogram',
+    fromUnit: 'lb',
+    toUnit: 'kg',
     relatedPostSlugs: [
       'metric-vs-imperial-engineering-guide',
     ],
@@ -44,6 +48,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'kilogram-to-pounds',
     pairPath: '/convert/mass/kilogram-to-pounds',
     pairLabel: 'Kilogram to Pounds',
+    fromUnit: 'kg',
+    toUnit: 'lb',
     relatedPostSlugs: [
       'metric-vs-imperial-engineering-guide',
     ],
@@ -57,6 +63,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'meter-to-feet',
     pairPath: '/convert/length/meter-to-feet',
     pairLabel: 'Meter to Feet',
+    fromUnit: 'm',
+    toUnit: 'ft',
     relatedPostSlugs: [
       'compound-length-units-guide',
       'fractional-inches-to-mm-best-practices',
@@ -72,6 +80,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'feet-to-meters',
     pairPath: '/convert/length/feet-to-meters',
     pairLabel: 'Feet to Meters',
+    fromUnit: 'ft',
+    toUnit: 'm',
     relatedPostSlugs: [
       'compound-length-units-guide',
       'metric-vs-imperial-engineering-guide',
@@ -86,6 +96,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'celsius-to-fahrenheit',
     pairPath: '/convert/temp/celsius-to-fahrenheit',
     pairLabel: 'Celsius to Fahrenheit',
+    fromUnit: 'C',
+    toUnit: 'F',
     relatedPostSlugs: [
       'temperature-scales-celsius-fahrenheit-kelvin',
     ],
@@ -99,6 +111,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'fahrenheit-to-celsius',
     pairPath: '/convert/temp/fahrenheit-to-celsius',
     pairLabel: 'Fahrenheit to Celsius',
+    fromUnit: 'F',
+    toUnit: 'C',
     relatedPostSlugs: [
       'temperature-scales-celsius-fahrenheit-kelvin',
     ],
@@ -112,6 +126,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'stick-of-butter-to-tablespoon',
     pairPath: '/convert/cooking/stick-of-butter-to-tablespoon',
     pairLabel: 'Stick of Butter to Tablespoon',
+    fromUnit: 'cup_c',
+    toUnit: 'mL_c',
     relatedPostSlugs: [
       'ai-powered-unit-conversions-in-2026',
     ],
@@ -125,6 +141,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'bar-to-psi',
     pairPath: '/convert/pressure/bar-to-psi',
     pairLabel: 'Bar to PSI',
+    fromUnit: 'psi',
+    toUnit: 'bar',
     relatedPostSlugs: [
       'metric-vs-imperial-engineering-guide',
     ],
@@ -138,6 +156,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'metric-horsepower-to-kilowatt',
     pairPath: '/convert/power/metric-horsepower-to-kilowatt',
     pairLabel: 'Metric Horsepower to Kilowatt',
+    fromUnit: 'kW',
+    toUnit: 'hp',
     relatedPostSlugs: [
       'metric-vs-imperial-engineering-guide',
     ],
@@ -151,6 +171,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'marla-to-ft2',
     pairPath: '/convert/area/marla-to-ft2',
     pairLabel: 'Marla to Square Feet',
+    fromUnit: 'marla',
+    toUnit: 'ft2',
     relatedPostSlugs: [
       'metric-vs-imperial-engineering-guide',
     ],
@@ -164,6 +186,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'tola-to-g',
     pairPath: '/convert/mass/tola-to-g',
     pairLabel: 'Tola to Grams',
+    fromUnit: 'tola',
+    toUnit: 'g',
     relatedPostSlugs: [
       'metric-vs-imperial-engineering-guide',
     ],
@@ -177,6 +201,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'lakh-to-m-std',
     pairPath: '/convert/pk-numbering/lakh-to-m-std',
     pairLabel: 'Lakh to Million',
+    fromUnit: 'lakh',
+    toUnit: 'm_std',
     relatedPostSlugs: [
       'digital-data-storage-units-guide',
     ],
@@ -190,6 +216,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'hec-gpa4-to-percentage',
     pairPath: '/convert/pk-gpa/hec-gpa4-to-percentage',
     pairLabel: 'HEC CGPA 4.0 to Percentage',
+    fromUnit: 'hec_gpa4',
+    toUnit: 'percentage',
     relatedPostSlugs: [],
   },
   {
@@ -201,6 +229,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'overs-balls-to-balls',
     pairPath: '/convert/cricket-overs/overs-balls-to-balls',
     pairLabel: 'Cricket Overs to Balls',
+    fromUnit: 'overs_balls',
+    toUnit: 'balls',
     relatedPostSlugs: [],
   },
   {
@@ -212,6 +242,8 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     pairSlug: 'bin-to-dec',
     pairPath: '/convert/number-base/bin-to-dec',
     pairLabel: 'Binary to Decimal',
+    fromUnit: 'bin_radix',
+    toUnit: 'hex_radix',
     relatedPostSlugs: [
       'digital-data-storage-units-guide',
     ],
@@ -241,25 +273,20 @@ export function getGuideRelationship(guideSlug: string): GuideRelationship | und
   return GUIDE_RELATIONSHIPS.find(r => r.guideSlug === guideSlug)
 }
 
-// Strict decimal number pattern: optional sign, digits with optional decimal point, or leading decimal, optional scientific notation exponent
-// Explicitly rejects hex (0x..), binary (0b..), and octal (0o..) prefixes
-const STRICT_DECIMAL_REGEX = /^[+-]?(?:(?:\d+\.?\d*)|(?:\.\d+))(?:[eE][+-]?\d+)?$/
-
 /**
- * Deterministic pair query-state parsing.
- * Validates that ?val= is a strict, finite decimal numeric string.
- * Safely falls back to default '1' for missing, empty, non-decimal, or non-finite inputs.
+ * Robust ?val= parameter parser strictly designed for Step 4.
  */
-export function parsePairQueryVal(rawParam: string | null | undefined): string {
-  if (rawParam === null || rawParam === undefined) return '1'
-  const trimmed = rawParam.trim()
+export function parsePairQueryVal(rawVal: string | null | undefined): string {
+  if (!rawVal) return '1'
+  const trimmed = rawVal.trim()
   if (!trimmed) return '1'
 
-  // Reject non-decimal syntax (such as 0x10 hex, 0b10 binary, or alphanumeric garbage)
-  if (!STRICT_DECIMAL_REGEX.test(trimmed)) return '1'
+  if (/^0[xXoObB]/.test(trimmed)) return '1'
+  if (!/^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(trimmed)) return '1'
 
-  const num = Number(trimmed)
-  if (!Number.isFinite(num)) return '1'
+  const parsed = Number(trimmed)
+  if (isNaN(parsed) || !isFinite(parsed)) return '1'
+  if (Math.abs(parsed) > 1e100 || (parsed !== 0 && Math.abs(parsed) < 1e-100)) return '1'
 
   return trimmed
 }

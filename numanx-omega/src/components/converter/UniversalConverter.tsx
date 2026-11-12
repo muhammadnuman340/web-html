@@ -121,21 +121,49 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   }
 
   useEffect(() => {
+    if (initialCat && initialCat !== catId) {
+      setCatId(initialCat)
+    }
+  }, [initialCat, catId])
+
+  useEffect(() => {
+    if (initialFrom) {
+      setFromUnit(initialFrom)
+    }
+  }, [initialFrom])
+
+  useEffect(() => {
+    if (initialTo) {
+      setToUnit(initialTo)
+    }
+  }, [initialTo])
+
+  useEffect(() => {
+    if (initialValue !== undefined) {
+      setFromVal(String(initialValue))
+    }
+  }, [initialValue])
+
+  useEffect(() => {
     if (cat) {
       const saved = loadDefaults(catId)
       startTransition(() => {
         if (!fromUnit || !cat.un.find(u => u.id === fromUnit)) {
-          const first = saved.from && cat.un.find(u => u.id === saved.from) ? saved.from : (initialFrom && cat.un.find(u => u.id === initialFrom) ? initialFrom : cat.un[0]?.id)
+          const first = (initialFrom && cat.un.find(u => u.id === initialFrom))
+            ? initialFrom
+            : (saved.from && cat.un.find(u => u.id === saved.from) ? saved.from : cat.un[0]?.id)
           setFromUnit(first || '')
         }
         if (!toUnit || !cat.un.find(u => u.id === toUnit)) {
-          const second = saved.to && cat.un.find(u => u.id === saved.to) ? saved.to : (initialTo && cat.un.find(u => u.id === initialTo) ? initialTo : cat.un[Math.min(1, cat.un.length - 1)]?.id)
+          const second = (initialTo && cat.un.find(u => u.id === initialTo))
+            ? initialTo
+            : (saved.to && cat.un.find(u => u.id === saved.to) ? saved.to : cat.un[Math.min(1, cat.un.length - 1)]?.id)
           setToUnit(second || '')
         }
       })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catId])
+  }, [catId, initialFrom, initialTo])
 
   // Save defaults when units change
 

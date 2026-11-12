@@ -1040,12 +1040,18 @@ for (const guide of Object.values(guideContent)) {
   const guideBodyHtml = `
     <article class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
       <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-        <a href="/">Home</a> / <a href="/converter">Converter</a> / <a href="/convert/${guide.relatedCat}">${guide.relatedCat}</a> / <strong>${guide.slug}</strong>
+        <a href="/">Home</a> / <a href="/guides">Guides</a> / <a href="/convert/${guide.relatedCat}">${guide.relatedCat}</a> / <strong>${guide.slug}</strong>
       </nav>
       <header>
         <h1 style="font-size:2rem;font-weight:700;">${guide.h1}</h1>
         <p style="font-size:1.1rem;color:#555;line-height:1.6;">${guide.intro}</p>
       </header>
+
+      <section aria-labelledby="convert-heading" style="border:1px solid #e2e8f0;border-radius:8px;padding:1.25rem;background:#f8fafc;margin-bottom:1rem;">
+        <h2 id="convert-heading" style="font-size:1.15rem;margin-top:0;">⚡ Interactive Conversion Calculator</h2>
+        <p style="font-size:0.95rem;color:#555;">Use our real-time metrology engine to calculate exact conversions for <strong>${guide.h1}</strong>.</p>
+        ${rel ? `<p style="margin:0;"><a href="${rel.pairPath}" style="display:inline-block;padding:0.5rem 1rem;background:#0066cc;color:#fff;text-decoration:none;border-radius:6px;font-size:0.9rem;font-weight:600;">Launch Interactive ${rel.pairLabel} Converter &rarr;</a></p>` : ''}
+      </section>
 
       <section aria-labelledby="formula-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
         <h2 id="formula-heading" style="font-size:1.2rem;margin-top:0;">Conversion Formula & Step-by-Step Method</h2>

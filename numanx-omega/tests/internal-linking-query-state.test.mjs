@@ -15,6 +15,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "pounds-to-kilogram",
     pairPath: "/convert/mass/pounds-to-kilogram",
     pairLabel: "Pounds to Kilogram",
+    fromUnit: "lb",
+    toUnit: "kg",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -28,6 +30,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "kilogram-to-pounds",
     pairPath: "/convert/mass/kilogram-to-pounds",
     pairLabel: "Kilogram to Pounds",
+    fromUnit: "kg",
+    toUnit: "lb",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -41,6 +45,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "meter-to-feet",
     pairPath: "/convert/length/meter-to-feet",
     pairLabel: "Meter to Feet",
+    fromUnit: "m",
+    toUnit: "ft",
     relatedPostSlugs: [
       "compound-length-units-guide",
       "fractional-inches-to-mm-best-practices",
@@ -56,6 +62,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "feet-to-meters",
     pairPath: "/convert/length/feet-to-meters",
     pairLabel: "Feet to Meters",
+    fromUnit: "ft",
+    toUnit: "m",
     relatedPostSlugs: [
       "compound-length-units-guide",
       "metric-vs-imperial-engineering-guide"
@@ -70,6 +78,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "celsius-to-fahrenheit",
     pairPath: "/convert/temp/celsius-to-fahrenheit",
     pairLabel: "Celsius to Fahrenheit",
+    fromUnit: "C",
+    toUnit: "F",
     relatedPostSlugs: [
       "temperature-scales-celsius-fahrenheit-kelvin"
     ]
@@ -83,6 +93,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "fahrenheit-to-celsius",
     pairPath: "/convert/temp/fahrenheit-to-celsius",
     pairLabel: "Fahrenheit to Celsius",
+    fromUnit: "F",
+    toUnit: "C",
     relatedPostSlugs: [
       "temperature-scales-celsius-fahrenheit-kelvin"
     ]
@@ -96,6 +108,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "stick-of-butter-to-tablespoon",
     pairPath: "/convert/cooking/stick-of-butter-to-tablespoon",
     pairLabel: "Stick of Butter to Tablespoon",
+    fromUnit: "cup_c",
+    toUnit: "mL_c",
     relatedPostSlugs: [
       "ai-powered-unit-conversions-in-2026"
     ]
@@ -109,6 +123,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "bar-to-psi",
     pairPath: "/convert/pressure/bar-to-psi",
     pairLabel: "Bar to PSI",
+    fromUnit: "psi",
+    toUnit: "bar",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -122,6 +138,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "metric-horsepower-to-kilowatt",
     pairPath: "/convert/power/metric-horsepower-to-kilowatt",
     pairLabel: "Metric Horsepower to Kilowatt",
+    fromUnit: "kW",
+    toUnit: "hp",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -135,6 +153,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "marla-to-ft2",
     pairPath: "/convert/area/marla-to-ft2",
     pairLabel: "Marla to Square Feet",
+    fromUnit: "marla",
+    toUnit: "ft2",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -148,6 +168,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "tola-to-g",
     pairPath: "/convert/mass/tola-to-g",
     pairLabel: "Tola to Grams",
+    fromUnit: "tola",
+    toUnit: "g",
     relatedPostSlugs: [
       "metric-vs-imperial-engineering-guide"
     ]
@@ -161,6 +183,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "lakh-to-m-std",
     pairPath: "/convert/pk-numbering/lakh-to-m-std",
     pairLabel: "Lakh to Million",
+    fromUnit: "lakh",
+    toUnit: "m_std",
     relatedPostSlugs: [
       "digital-data-storage-units-guide"
     ]
@@ -174,6 +198,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "hec-gpa4-to-percentage",
     pairPath: "/convert/pk-gpa/hec-gpa4-to-percentage",
     pairLabel: "HEC CGPA 4.0 to Percentage",
+    fromUnit: "hec_gpa4",
+    toUnit: "percentage",
     relatedPostSlugs: []
   },
   {
@@ -185,6 +211,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "overs-balls-to-balls",
     pairPath: "/convert/cricket-overs/overs-balls-to-balls",
     pairLabel: "Cricket Overs to Balls",
+    fromUnit: "overs_balls",
+    toUnit: "balls",
     relatedPostSlugs: []
   },
   {
@@ -196,6 +224,8 @@ var GUIDE_RELATIONSHIPS = [
     pairSlug: "bin-to-dec",
     pairPath: "/convert/number-base/bin-to-dec",
     pairLabel: "Binary to Decimal",
+    fromUnit: "bin_radix",
+    toUnit: "hex_radix",
     relatedPostSlugs: [
       "digital-data-storage-units-guide"
     ]
@@ -212,14 +242,15 @@ function getGuideForPair(categoryId, pairSlug) {
 function getGuideRelationship(guideSlug) {
   return GUIDE_RELATIONSHIPS.find((r) => r.guideSlug === guideSlug);
 }
-var STRICT_DECIMAL_REGEX = /^[+-]?(?:(?:\d+\.?\d*)|(?:\.\d+))(?:[eE][+-]?\d+)?$/;
-function parsePairQueryVal(rawParam) {
-  if (rawParam === null || rawParam === void 0) return "1";
-  const trimmed = rawParam.trim();
+function parsePairQueryVal(rawVal) {
+  if (!rawVal) return "1";
+  const trimmed = rawVal.trim();
   if (!trimmed) return "1";
-  if (!STRICT_DECIMAL_REGEX.test(trimmed)) return "1";
-  const num = Number(trimmed);
-  if (!Number.isFinite(num)) return "1";
+  if (/^0[xXoObB]/.test(trimmed)) return "1";
+  if (!/^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(trimmed)) return "1";
+  const parsed = Number(trimmed);
+  if (isNaN(parsed) || !isFinite(parsed)) return "1";
+  if (Math.abs(parsed) > 1e100 || parsed !== 0 && Math.abs(parsed) < 1e-100) return "1";
   return trimmed;
 }
 
