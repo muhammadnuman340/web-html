@@ -646,11 +646,8 @@ var STATIC_ROUTES = [
   { path: "/converter", label: "Universal Converter", type: "core", description: "Standard converter workspace" },
   { path: "/convert", label: "Converter Redirect", type: "core", description: "Root convert route rendering converter" },
   { path: "/categories", label: "Browse Categories", type: "core", description: "Directory of all 28 categories" },
-  { path: "/dashboard", label: "Dashboard", type: "feature", description: "Analytics and usage control center" },
   { path: "/formulas", label: "Formula Explorer", type: "feature", description: "Interactive scientific and engineering formulas" },
   { path: "/calculator", label: "Calculator", type: "feature", description: "Quick calculation and conversion interface" },
-  { path: "/favorites", label: "Favorites", type: "utility", description: "Bookmarked conversion pairs" },
-  { path: "/history", label: "History", type: "utility", description: "Calculation history and log" },
   { path: "/custom-units", label: "Custom Units", type: "utility", description: "User-defined custom unit manager" },
   { path: "/settings", label: "Settings", type: "utility", description: "Preferences and theme settings" },
   { path: "/help", label: "Help", type: "utility", description: "Keyboard shortcuts and documentation" },
@@ -1839,46 +1836,6 @@ var BLOG_POSTS = [
         { q: "Why is internet speed measured in Megabits (Mbps)?", a: "Telecom standards measure serialized physical bitstreams over cable or fiber. 8 bits equal 1 Byte. A 100 Mbps broadband connection transfers at most 12.5 MB/s of file data." }
       ]
     }
-  },
-  {
-    slug: "ai-powered-unit-conversions-in-2026",
-    title: "AI-Powered Unit Conversions in 2026: Natural Language Calculations",
-    seoTitle: "AI Unit Conversions in 2026: Natural Language Math",
-    excerpt: 'How modern neural parsers and LLM tool-calling engines translate ambiguous human prompts like "3 cups of milk in grams" into precise physical quantities.',
-    category: "AI",
-    date: "2026-01-05",
-    readTime: "7 min read",
-    author: "NumanX AI Research",
-    relatedCat: "cooking",
-    coverIcon: "\u{1F916}",
-    tags: ["AI", "Natural Language", "LLM", "Future Tech"],
-    content: {
-      intro: 'Traditional calculators require structured dropdowns: pick Category, choose Unit A, pick Unit B. In 2026, AI-augmented utility platforms allow users to type or speak natural sentences like "How much is 2.5 gallons of olive oil in kilograms?" and dynamically infer fluid densities, substance profiles, and multi-step dimensional analysis.',
-      keyTakeaways: [
-        "Natural language input parsing strips linguistic noise and extracts numerical quantities, source units, target units, and substance identities.",
-        "Converting volume to mass requires substance density (e.g. water = 1.0 g/cm\xB3, olive oil = 0.92 g/cm\xB3, honey = 1.42 g/cm\xB3).",
-        "Hybrid architectures run lightweight deterministic WebAssembly regex locally for sub-millisecond execution, falling back to LLMs only for semantic ambiguity."
-      ],
-      sections: [
-        {
-          title: "The Density Bridging Formula",
-          body: "To convert volume (cups, gallons, milliliters) into mass (grams, kilograms, pounds), you must multiply volume by the density of the specific substance:",
-          formula: "Mass = Volume \xD7 Density (\u03C1)\nExample: 1 cup (236.59 mL) of all-purpose flour (\u03C1 = 0.53 g/mL) = 125.4 grams",
-          table: [
-            { col1: "Substance", col2: "Density (g/mL)", col3: "Weight of 1 US Cup" },
-            { col1: "Water", col2: "1.000 g/mL", col3: "236.6 g (8.35 oz)" },
-            { col1: "Milk (whole)", col2: "1.030 g/mL", col3: "243.7 g (8.60 oz)" },
-            { col1: "All-Purpose Flour", col2: "0.528 g/mL", col3: "125.0 g (4.41 oz)" },
-            { col1: "Granulated Sugar", col2: "0.845 g/mL", col3: "200.0 g (7.05 oz)" },
-            { col1: "Olive Oil", col2: "0.918 g/mL", col3: "217.2 g (7.66 oz)" },
-            { col1: "Honey", col2: "1.420 g/mL", col3: "336.0 g (11.85 oz)" }
-          ]
-        }
-      ],
-      faq: [
-        { q: "Can NumanX parse natural language inputs today?", a: 'Yes! Use the AI tab or press \u2318K to open the Natural Language Command Bar and type queries like "50 miles in km" or "100 F in C".' }
-      ]
-    }
   }
 ];
 
@@ -2092,11 +2049,8 @@ describe("Task 7 & 8: Static & Special Route Audit", () => {
       "/converter",
       "/convert",
       "/categories",
-      "/dashboard",
       "/formulas",
       "/calculator",
-      "/favorites",
-      "/history",
       "/custom-units",
       "/settings",
       "/help",
@@ -2109,9 +2063,12 @@ describe("Task 7 & 8: Static & Special Route Audit", () => {
       assert.ok(registered.has(path3), `Static route "${path3}" is missing from STATIC_ROUTES registry`);
     }
   });
-  it('verifies "/health" is retired from STATIC_ROUTES and redirected to ToolsHub', () => {
-    const health = STATIC_ROUTES.find((s) => s.path === "/health");
-    assert.ok(!health, 'Route "/health" must be removed from STATIC_ROUTES');
+  it('verifies "/health", "/dashboard", "/favorites", "/history" are retired from STATIC_ROUTES and redirected', () => {
+    const retiredRoutes = ["/health", "/dashboard", "/favorites", "/history"];
+    for (const retired of retiredRoutes) {
+      const match = STATIC_ROUTES.find((s) => s.path === retired);
+      assert.ok(!match, `Route "${retired}" must be removed from STATIC_ROUTES`);
+    }
   });
   it("guarantees static route paths are unique", () => {
     const paths = STATIC_ROUTES.map((s) => s.path);
@@ -2176,7 +2133,7 @@ describe("Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment"
       assert.ok(!entry.loc.includes("404"), `404 route leaked into sitemap: ${entry.loc}`);
       assert.ok(!entry.loc.includes("not-found"), `Not found path leaked into sitemap: ${entry.loc}`);
     }
-    assert.equal(entries.length, 242, `Expected exactly 242 sitemap entries, got ${entries.length}`);
+    assert.equal(entries.length, 241, `Expected exactly 241 sitemap entries, got ${entries.length}`);
   });
   it("ensures /404 path is excluded by indexability policy and invalid routes fail resolution", () => {
     assert.equal(isIndexablePath("/404"), false, "/404 must not be indexable");
@@ -2213,13 +2170,19 @@ describe("Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(content.includes("e.key === 'Escape'"), "CommandBar must handle Escape key navigation");
     assert.ok(content.includes("e.key === 'Tab'"), "CommandBar must manage Tab focus cycling");
   });
-  it("verifies AIAssistant drawer implements dialog semantics, input auto-focus, and escape listener", () => {
-    const aiPath = path2.resolve(process.cwd(), "src/components/widgets/AIAssistant.tsx");
-    const content = fs2.readFileSync(aiPath, "utf8");
-    assert.ok(content.includes('role="dialog"'), 'AIAssistant must have role="dialog"');
-    assert.ok(content.includes('aria-label="NX-COS AI Assistant"'), "AIAssistant must have accessible name");
-    assert.ok(content.includes('aria-label="Ask Omega X AI assistant"'), "AIAssistant input must have accessible name");
-    assert.ok(content.includes("e.key === 'Escape'"), "AIAssistant must handle Escape key dismissal");
+  it("verifies non-converting widgets (AIAssistant, AIFloatingButton, ContextBar, ConversionStreaks, AdSlot3Tier) are deleted", () => {
+    const deletedComponents = [
+      "src/components/widgets/AIAssistant.tsx",
+      "src/components/widgets/AIFloatingButton.tsx",
+      "src/components/widgets/ContextBar.tsx",
+      "src/components/widgets/ConversionStreaks.tsx",
+      "src/engine/appKnowledge.ts",
+      "src/components/monetization/AdSlot3Tier.tsx"
+    ];
+    for (const relPath of deletedComponents) {
+      const fullPath = path2.resolve(process.cwd(), relPath);
+      assert.ok(!fs2.existsSync(fullPath), `${relPath} must be completely removed`);
+    }
   });
   it("verifies ShortcutsPanel implements modal dialog semantics and title associations, and OnboardingTour is deleted", () => {
     const tourPath = path2.resolve(process.cwd(), "src/components/ui/OnboardingTour.tsx");
@@ -2231,7 +2194,7 @@ describe("Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(shortcutsContent.includes('aria-labelledby="shortcuts-title"'), "ShortcutsPanel must reference shortcuts title");
     assert.ok(shortcutsContent.includes('id="shortcuts-title"'), 'ShortcutsPanel must define id="shortcuts-title"');
   });
-  it("verifies form controls in CustomUnits, History, Settings, and Dashboard have accessible names", () => {
+  it("verifies form controls in CustomUnits and Settings have accessible names, and retired pages are removed", () => {
     const customUnitsPath = path2.resolve(process.cwd(), "src/pages/CustomUnits.tsx");
     const cuContent = fs2.readFileSync(customUnitsPath, "utf8");
     assert.ok(cuContent.includes('aria-label="Target category for custom unit"'), "CustomUnits category selector must have accessible name");
@@ -2239,16 +2202,15 @@ describe("Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(cuContent.includes('aria-label="Custom unit symbol"'), "CustomUnits symbol input must have accessible name");
     assert.ok(cuContent.includes('aria-label="Conversion rate relative to base unit"'), "CustomUnits rate input must have accessible name");
     assert.ok(cuContent.includes('aria-describedby="custom-unit-rate-hint"'), "CustomUnits rate input must have aria-describedby");
-    const historyPath = path2.resolve(process.cwd(), "src/pages/History.tsx");
-    const historyContent = fs2.readFileSync(historyPath, "utf8");
-    assert.ok(historyContent.includes('aria-label="Search conversion history"'), "History search input must have accessible name");
     const settingsPath = path2.resolve(process.cwd(), "src/pages/Settings.tsx");
     const settingsContent = fs2.readFileSync(settingsPath, "utf8");
     assert.ok(settingsContent.includes('aria-label="Default conversion precision in decimal places"'), "Settings precision range must have accessible name");
+    const historyPath = path2.resolve(process.cwd(), "src/pages/History.tsx");
+    assert.ok(!fs2.existsSync(historyPath), "src/pages/History.tsx must be removed");
     const dashPath = path2.resolve(process.cwd(), "src/pages/Dashboard.tsx");
-    const dashContent = fs2.readFileSync(dashPath, "utf8");
-    assert.ok(dashContent.includes('role="tablist"'), 'Dashboard tab nav must have role="tablist"');
-    assert.ok(dashContent.includes('role="tab"'), 'Dashboard tab buttons must have role="tab"');
+    assert.ok(!fs2.existsSync(dashPath), "src/pages/Dashboard.tsx must be removed");
+    const favPath = path2.resolve(process.cwd(), "src/pages/Favorites.tsx");
+    assert.ok(!fs2.existsSync(favPath), "src/pages/Favorites.tsx must be removed");
   });
   it("verifies dynamic notifications implement accessible status/error announcements in useToast", () => {
     const toastPath = path2.resolve(process.cwd(), "src/hooks/useToast.tsx");
@@ -2283,13 +2245,13 @@ describe("Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture", ()
     assert.ok(!appContent.includes("chart.js"), "src/App.tsx must not import chart.js");
     assert.ok(!appContent.includes("react-chartjs-2"), "src/App.tsx must not import react-chartjs-2");
   });
-  it("verifies heavy interactive widgets (AIAssistant, ShortcutsPanel) are code-split and lazy-loaded in App.tsx", () => {
+  it("verifies heavy interactive widgets (ShortcutsPanel) are code-split and lazy-loaded in App.tsx and AIAssistant is removed", () => {
     const appPath = path2.resolve(process.cwd(), "src/App.tsx");
     const appContent = fs2.readFileSync(appPath, "utf8");
-    assert.ok(appContent.includes("const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))"), "AIAssistant must be lazy loaded");
     assert.ok(appContent.includes("const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))"), "ShortcutsPanel must be lazy loaded");
     assert.ok(!appContent.includes("OnboardingTour"), "OnboardingTour must be completely removed from App.tsx");
-    assert.ok(!appContent.includes("import AIAssistant from './components/widgets/AIAssistant'"), "AIAssistant must not be statically imported");
+    assert.ok(!appContent.includes("AIAssistant"), "AIAssistant must be completely removed from App.tsx");
+    assert.ok(!appContent.includes("ContextBar"), "ContextBar must be completely removed from App.tsx");
     assert.ok(!appContent.includes("import ShortcutsPanel from './components/ui/ShortcutsPanel'"), "ShortcutsPanel must not be statically imported");
   });
   it("verifies vite.config.ts configures vendor-motion manual chunking without monolithic bundle", () => {
@@ -2436,7 +2398,11 @@ describe("Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
       ["/convert/textile/gsm-to-thread-count", "/convert/textile"],
       ["/health", "https://toolshub.numanxstudio.com/tools/bmi-calculator/"],
       ["/convert/cricket-overs", "https://toolshub.numanxstudio.com/tools/cricket-over-calculator/"],
-      ["/convert/cricket-overs/*", "https://toolshub.numanxstudio.com/tools/cricket-over-calculator/"]
+      ["/convert/cricket-overs/*", "https://toolshub.numanxstudio.com/tools/cricket-over-calculator/"],
+      ["/dashboard", "/"],
+      ["/favorites", "/"],
+      ["/history", "/"],
+      ["/blog/ai-powered-unit-conversions-in-2026", "/blog"]
     ];
     const lines = content.split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#"));
     const rules = lines.map((l) => {

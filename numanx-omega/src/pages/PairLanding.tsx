@@ -7,15 +7,12 @@ import Breadcrumbs from '../components/ui/Breadcrumbs'
 import { useToast } from '../hooks/useToast'
 import { resolveCategoryId } from '../engine/routes'
 import { buildPairSchema } from '../config/schema'
-import { parsePairQueryVal, getGuideForPair } from '../config/guideRelations'
-import { findUnit, getPairEditorial, isCanonicalPair, cleanSlug, CATEGORY_TOOLKIT_MAP } from '../config/pairEditorial'
+import { parsePairQueryVal } from '../config/guideRelations'
+import { findUnit, getPairEditorial, isCanonicalPair, cleanSlug } from '../config/pairEditorial'
 import { categoryContent } from '../engine/categoryContent'
 import { getRelatedCategoryIds } from '../config/relatedCategories'
 import { unitSymbol, unitName, unitLabel, pairTitle, pairMetaDescription } from '../engine/unitSymbols'
 import { getFavorites, toggleFavorite } from '../services/storage'
-import VisualComparisonCard from '../components/widgets/VisualComparisonCard'
-import ConversionQuiz from '../components/widgets/ConversionQuiz'
-import { AdSlotBanner, AdSlotRectangle, AdSlotRail } from '../components/monetization/AdSlot3Tier'
 
 function PairLandingInner({
   catParam,
@@ -155,11 +152,6 @@ function PairLandingInner({
     ? getRelatedCategoryIds(cat.id).map(id => allCats.find(c => c.id === id)).filter(c => c !== undefined)
     : []
   const metaDescription = u1 && u2 && cat && editorial ? pairMetaDescription(u1, u2, cat.id, editorial.directAnswer.summary) : ''
-
-  const relatedGuide = useMemo(() => {
-    if (!cat || !pairParam) return undefined
-    return getGuideForPair(cat.id, pairParam)
-  }, [cat, pairParam])
 
   const schema = useMemo(() => {
     if (!cat || !u1 || !u2) return null
@@ -342,9 +334,6 @@ function PairLandingInner({
         </div>
       </section>
 
-      {/* Monetization Slot 2: Mid-Page Banner */}
-      <AdSlotBanner />
-
       {/* AEO Direct-Answer Block */}
       {editorial && (
         <section aria-labelledby="aeo-answer-heading" className="glass-liquid rounded-2xl p-4 sm:p-5 border border-[var(--primary)]/30 bg-[var(--primary)]/5 space-y-2.5">
@@ -391,39 +380,6 @@ function PairLandingInner({
         </section>
       )}
 
-      {/* Real-World Physical Reference Anchor */}
-      <VisualComparisonCard
-        category={cat.id}
-        value={numFrom || 1}
-        unitId={u1.id}
-        unitLabel={unitName(u1, cat.id)}
-      />
-
-      {/* Category Interactive Toolkit Spotlight */}
-      {CATEGORY_TOOLKIT_MAP[cat.id] && (
-        <section aria-labelledby="toolkit-spotlight-heading" className="glass rounded-2xl p-4 sm:p-5 border border-indigo-500/25 bg-indigo-500/[0.03] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-500 text-xs font-bold flex items-center justify-center shrink-0" aria-hidden="true">
-                {CATEGORY_TOOLKIT_MAP[cat.id].icon}
-              </span>
-              <h2 id="toolkit-spotlight-heading" className="text-xs sm:text-sm font-bold text-[var(--text)]">
-                {CATEGORY_TOOLKIT_MAP[cat.id].title}
-              </h2>
-            </div>
-            <p className="text-xs text-[var(--text2)] opacity-85">
-              {CATEGORY_TOOLKIT_MAP[cat.id].desc}
-            </p>
-          </div>
-          <Link
-            to={`/convert/${cat.id}`}
-            className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-500 transition-all whitespace-nowrap self-start sm:self-center shadow-sm"
-          >
-            {CATEGORY_TOOLKIT_MAP[cat.id].action} &rarr;
-          </Link>
-        </section>
-      )}
-
       {/* Pair-Specific Metrological Explanation */}
       {editorial && (
         <section aria-labelledby="explanation-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
@@ -437,28 +393,6 @@ function PairLandingInner({
           </div>
           <div className="text-xs text-[var(--text2)] opacity-75 pt-1 border-t border-[var(--border)]/40 flex items-center gap-1.5 font-mono">
             <span className="font-semibold text-[var(--text)]">Standard Metrology:</span> {editorial.explanation.systemContext}
-          </div>
-        </section>
-      )}
-
-      {/* Practical Real-World Use Cases */}
-      {editorial && editorial.useCases.length > 0 && (
-        <section aria-labelledby="usecases-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
-          <h2 id="usecases-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
-            <span role="img" aria-hidden="true">🎯</span> Common Practical Applications
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {editorial.useCases.map((uc, i) => (
-              <div key={i} className="p-3 rounded-xl bg-[var(--card2)] border border-[var(--border)] space-y-1">
-                <h3 className="text-xs font-bold text-[var(--text)] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--primary)]" aria-hidden="true" />
-                  {uc.domain}
-                </h3>
-                <p className="text-xs text-[var(--text2)] opacity-85 leading-relaxed">
-                  {uc.context}
-                </p>
-              </div>
-            ))}
           </div>
         </section>
       )}
@@ -505,56 +439,6 @@ function PairLandingInner({
                 {ex}
               </div>
             ))}
-          </div>
-        </section>
-      )}
-
-      {/* Reciprocal Relationship & Cross-Linking */}
-      {editorial && (
-        <section aria-labelledby="reciprocal-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">
-                {editorial.reciprocal.badgeText}
-              </span>
-              <h2 id="reciprocal-heading" className="text-xs font-bold text-[var(--text)]">
-                Reverse Conversion Option
-              </h2>
-            </div>
-            <p className="text-xs text-[var(--text2)] opacity-85">
-              {editorial.reciprocal.description}
-            </p>
-          </div>
-          <Link
-            to={editorial.reciprocal.url}
-            className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all whitespace-nowrap self-start sm:self-center"
-          >
-            {editorial.reciprocal.anchorText} &rarr;
-          </Link>
-        </section>
-      )}
-
-      {/* Contextual Educational Guide Callout */}
-      {relatedGuide && (
-        <section aria-labelledby="guide-callout-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--primary)]/30 bg-[var(--primary)]/5 space-y-2">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <h2 id="guide-callout-heading" className="text-sm font-bold text-[var(--text)]">
-                Need detailed formula derivations or worked calculation steps?
-              </h2>
-              <p className="text-xs text-[var(--text2)] opacity-85 mt-1">
-                Read our in-depth {relatedGuide.title} Conversion Guide with step-by-step mathematical proofs, lookup tables, and worked examples.{' '}
-                <Link to="/guides" className="text-[var(--link-text)] underline hover:text-[var(--primary)] font-medium">
-                  Browse all guides &rarr;
-                </Link>
-              </p>
-            </div>
-            <Link
-              to={`/guides/${relatedGuide.guideSlug}`}
-              className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 transition-opacity whitespace-nowrap self-start sm:self-center"
-            >
-              Read {relatedGuide.title} Guide &rarr;
-            </Link>
           </div>
         </section>
       )}
@@ -641,6 +525,33 @@ function PairLandingInner({
         </div>
       </section>
 
+
+
+      {/* Reciprocal Relationship & Cross-Linking */}
+      {editorial && (
+        <section aria-labelledby="reciprocal-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] text-[10px] font-bold uppercase tracking-wider">
+                {editorial.reciprocal.badgeText}
+              </span>
+              <h2 id="reciprocal-heading" className="text-xs font-bold text-[var(--text)]">
+                Reverse Conversion Option
+              </h2>
+            </div>
+            <p className="text-xs text-[var(--text2)] opacity-85">
+              {editorial.reciprocal.description}
+            </p>
+          </div>
+          <Link
+            to={editorial.reciprocal.url}
+            className="px-4 py-2.5 min-h-[44px] inline-flex items-center rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all whitespace-nowrap self-start sm:self-center"
+          >
+            {editorial.reciprocal.anchorText} &rarr;
+          </Link>
+        </section>
+      )}
+
       {/* Related Pairs in Category */}
       <section aria-labelledby="related-pairs-heading" className="glass rounded-2xl p-4 border border-[var(--border)] space-y-3">
         <h2 id="related-pairs-heading" className="text-sm font-bold text-[var(--text)]">
@@ -670,9 +581,6 @@ function PairLandingInner({
         )}
       </section>
 
-      {/* Monetization Slot 3: Pre-FAQ Rectangle */}
-      <AdSlotRectangle />
-
       {/* Frequently Asked Questions — Visible FAQ Parity */}
       <section aria-labelledby="pair-faq-heading" className="space-y-3">
         <h2 id="pair-faq-heading" className="text-sm font-semibold flex items-center gap-2 text-[var(--text)]">
@@ -696,12 +604,6 @@ function PairLandingInner({
         </div>
       </section>
 
-      {/* Metrology Interactive Knowledge Check */}
-      <ConversionQuiz
-        category={cat.id}
-        title={`${cat.lb} Metrology Knowledge Check`}
-      />
-
       {/* Return to Category */}
       <div className="pt-2 text-center">
         <Link
@@ -712,7 +614,6 @@ function PairLandingInner({
         </Link>
       </div>
     </article>
-      <AdSlotRail />
     </div>
   )
 }

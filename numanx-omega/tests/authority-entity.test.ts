@@ -114,8 +114,8 @@ describe('Phase 3 Step 6 — GEO Authority, Source Citations & Entity Harmonizat
   })
 
   describe('3. Blog Editorial Provenance & Persona Elimination', () => {
-    test('all 6 blog posts have non-empty truthful editorial team bylines', () => {
-      assert.equal(BLOG_POSTS.length, 6, 'Must have exactly 6 blog posts')
+    test('all 5 blog posts have non-empty truthful editorial team bylines', () => {
+      assert.equal(BLOG_POSTS.length, 5, 'Must have exactly 5 blog posts')
       for (const post of BLOG_POSTS) {
         assert.ok(post.author && post.author.length > 0, `Post ${post.slug} missing author`)
       }

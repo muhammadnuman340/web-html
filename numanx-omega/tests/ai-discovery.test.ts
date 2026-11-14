@@ -115,7 +115,7 @@ describe('Phase 3 Step 7 — AI Discovery Files & Agent Readiness', () => {
       assert.ok(content.includes('Supported Measurement Categories (35 Categories)'), 'Must list 35 categories')
       assert.ok(content.includes('Curated Popular Conversion Pairs (186 Canonical Pairs)'), 'Must list 186 pairs')
       assert.ok(content.includes('Educational Guides (3 Guides)'), 'Must list 3 guides')
-      assert.ok(content.includes('Technical Blog Articles (6 Articles)'), 'Must list 6 blog articles')
+      assert.ok(content.includes('Technical Blog Articles (5 Articles)'), 'Must list 5 blog articles')
     })
 
     it('contains truthful WebMCP and accurate IndexNow public-key semantics', () => {
@@ -168,9 +168,9 @@ describe('Phase 3 Step 7 — AI Discovery Files & Agent Readiness', () => {
       )
     })
 
-    // Canonical inventory: 257 baseline - 12 removed guide routes (11 merged + 1 cricket removed) = 245
-    it('canonical inventory remains exactly 242 URLs', () => {
-      assert.strictEqual(canonicalEntries.length, 242, 'Canonical inventory must remain exactly 242 URLs')
+    // Canonical inventory: 242 - 1 removed AI blog post = 241
+    it('canonical inventory remains exactly 241 URLs', () => {
+      assert.strictEqual(canonicalEntries.length, 241, 'Canonical inventory must remain exactly 241 URLs')
     })
   })
 })

@@ -5,8 +5,6 @@ import Sidebar from './components/layout/Sidebar'
 import CommandBar from './components/ui/CommandBar'
 import type { AppMode } from './components/widgets/ModeSwitcher'
 import FloatingTools from './components/widgets/FloatingTools'
-import AIFloatingButton from './components/widgets/AIFloatingButton'
-import ContextBar from './components/widgets/ContextBar'
 import ErrorBoundary from './components/ui/ErrorBoundary'
 import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
@@ -20,12 +18,9 @@ import { useGlobalShortcuts } from './hooks/useKeyboard'
 import { useSwipe } from './hooks/useSwipe'
 
 const Home = lazy(() => import('./pages/Home'))
-const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Categories = lazy(() => import('./pages/Categories'))
 const ConverterPage = lazy(() => import('./pages/Converter'))
 const FormulaExplorer = lazy(() => import('./pages/FormulaExplorer'))
-const Favorites = lazy(() => import('./pages/Favorites'))
-const History = lazy(() => import('./pages/History'))
 const Settings = lazy(() => import('./pages/Settings'))
 const CustomUnits = lazy(() => import('./pages/CustomUnits'))
 const Help = lazy(() => import('./pages/Help'))
@@ -39,7 +34,6 @@ const BlogPost = lazy(() => import('./pages/BlogPost'))
 const About = lazy(() => import('./pages/About'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
-const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))
 const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))
 const ProPassModal = lazy(() => import('./components/monetization/ProPassModal'))
 
@@ -47,7 +41,6 @@ function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [commandBarOpen, setCommandBarOpen] = useState(false)
   const [mode, setMode] = useLocalStorage<AppMode>('uc_mode', 'pro')
-  const [aiAssistantOpen, setAiAssistantOpen] = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [isDark, setIsDark] = useState(() => {
@@ -114,20 +107,8 @@ function AppContent() {
 
   useGlobalShortcuts({
     onCommandBar: () => setCommandBarOpen(p => !p),
-    onHistory: () => navigate('/history'),
     onDarkMode: toggleDark,
   })
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'a') {
-        e.preventDefault()
-        setAiAssistantOpen(p => !p)
-      }
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [])
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -174,12 +155,6 @@ function AppContent() {
         </Suspense>
       )}
       <div className="distraction"><FloatingTools /></div>
-      {aiAssistantOpen && (
-        <Suspense fallback={null}>
-          <AIAssistant onClose={() => setAiAssistantOpen(false)} currentPage={location.pathname} />
-        </Suspense>
-      )}
-      <AIFloatingButton open={aiAssistantOpen} onToggle={() => setAiAssistantOpen(p => !p)} />
 
       <AmbientBackground />
       <div className="relative z-10 flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
@@ -213,7 +188,6 @@ function AppContent() {
                   >
                     <Routes location={location}>
                       <Route path="/" element={<Home mode={mode} />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
                       <Route path="/categories" element={<Categories />} />
                       <Route path="/converter" element={<ConverterPage mode={mode} />} />
                       <Route path="/convert" element={<ConverterPage mode={mode} />} />
@@ -233,8 +207,6 @@ function AppContent() {
                         ))
                       )}
                       <Route path="/formulas" element={<FormulaExplorer />} />
-                      <Route path="/favorites" element={<Favorites />} />
-                      <Route path="/history" element={<History />} />
                       <Route path="/settings" element={<Settings />} />
                       <Route path="/custom-units" element={<CustomUnits />} />
                       <Route path="/help" element={<Help />} />
@@ -255,11 +227,6 @@ function AppContent() {
               </AnimatePresence>
             </ErrorBoundary>
           </main>
-
-          {/* Context AI Bar */}
-          <div className="max-w-5xl mx-auto w-full distraction">
-            <ContextBar />
-          </div>
 
           {/* Footer (mobile keeps space for the fixed bottom nav) */}
           <footer className="px-5 py-4 mb-20 lg:mb-4 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction space-y-3">

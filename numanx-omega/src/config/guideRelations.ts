@@ -36,7 +36,6 @@ export const GUIDE_RELATIONSHIPS: GuideRelationship[] = [
     fromUnit: 'cup_c',
     toUnit: 'mL_c',
     relatedPostSlugs: [
-      'ai-powered-unit-conversions-in-2026',
     ],
   },
   {

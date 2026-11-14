@@ -85,10 +85,6 @@ describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', (
   })
 
   test('guide-to-blog post relationships reference real blog posts', () => {
-    const cookingRel = getGuideRelationship('cups-to-grams')
-    assert.ok(cookingRel)
-    assert.ok(cookingRel.relatedPostSlugs.includes('ai-powered-unit-conversions-in-2026'))
-
     const numBaseRel = getGuideRelationship('binary-hex-ieee-754-guide')
     assert.ok(numBaseRel)
     assert.ok(numBaseRel.relatedPostSlugs.includes('digital-data-storage-units-guide'))
@@ -99,15 +95,13 @@ describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', (
     const cookingCatHtml = fs.readFileSync(path.join(distDir, 'convert/cooking.html'), 'utf-8')
     assert.ok(cookingCatHtml.includes('/guides/cups-to-grams'), 'Cooking category HTML must link to cups-to-grams guide')
 
-    // 2. Pair page contains link to its guide callout
-    const pairHtml = fs.readFileSync(path.join(distDir, 'convert/cooking/stick-of-butter-to-tablespoon.html'), 'utf-8')
-    assert.ok(pairHtml.includes('/guides/cups-to-grams'), 'stick-of-butter-to-tablespoon pair HTML must link to cups-to-grams guide')
-
-    // 3. Guide page contains links back to pair converter and category
+    // 2. Guide page contains links back to pair converter and category
     const guideHtml = fs.readFileSync(path.join(distDir, 'guides/cups-to-grams.html'), 'utf-8')
     assert.ok(guideHtml.includes('/convert/cooking/stick-of-butter-to-tablespoon'), 'cups-to-grams guide HTML must link to stick-of-butter-to-tablespoon pair')
     assert.ok(guideHtml.includes('/convert/cooking'), 'cups-to-grams guide HTML must link to cooking category')
-    assert.ok(guideHtml.includes('/blog/ai-powered-unit-conversions-in-2026'), 'cups-to-grams guide HTML must link to related blog article')
+
+    const numBaseGuideHtml = fs.readFileSync(path.join(distDir, 'guides/binary-hex-ieee-754-guide.html'), 'utf-8')
+    assert.ok(numBaseGuideHtml.includes('/blog/digital-data-storage-units-guide'), 'binary-hex guide HTML must link to related blog article')
   })
 })
 
