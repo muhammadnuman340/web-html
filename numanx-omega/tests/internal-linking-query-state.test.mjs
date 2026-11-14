@@ -702,7 +702,7 @@ var guideContent = {
     metaDesc: "Convert cups to grams with density formula m = V \xD7 \u03C1. Free baking converter with flour, sugar, butter lookup table, step-by-step guide and kitchen FAQ.",
     h1: "Cups to Grams Converter (cups \u2192 g)",
     slug: "cups-to-grams",
-    intro: "Converting cups to grams is the single most common challenge in international baking. Unlike water where 1 mL equals 1 gram, dry ingredients like flour, sugar, and cocoa have vastly different bulk densities. A cup of all-purpose flour weighs approximately 125 grams, while a cup of granulated sugar weighs 200 grams. Professional pastry chefs always weigh dry ingredients on a digital scale to eliminate the 20% error inherent in measuring volume.",
+    intro: "Converting cups to grams is the single most common challenge in international baking. Unlike water where 1 mL equals 1 gram, dry ingredients like flour, sugar, and cocoa have vastly different bulk densities. A cup of all-purpose flour weighs approximately 125 grams, while a cup of granulated sugar weighs 200 grams, based on USDA FoodData Central / King Arthur Baking ingredient weights. Professional pastry chefs always weigh dry ingredients on a digital scale to eliminate the 20% error inherent in measuring volume.",
     formula: "g = cups \xD7 236.588 \xD7 density (g/mL)",
     table: [
       { from: 0.25, to: "31.25 g (flour) / 50 g (sugar)", rounded: "31 g / 50 g" },
@@ -719,7 +719,7 @@ var guideContent = {
     ],
     steps: [
       "Identify the specific baking ingredient (e.g. all-purpose flour, granulated sugar, butter)",
-      "Look up the substance density or standard cup weight (flour = 125 g/cup, sugar = 200 g/cup, butter = 227 g/cup)",
+      "Look up the substance density or standard cup weight from USDA FoodData Central / King Arthur Baking ingredient weights (flour = 125 g/cup, sugar = 200 g/cup, butter = 227 g/cup)",
       "Multiply the number of cups by the ingredient unit weight in grams",
       "Weigh your ingredient directly on a tared digital kitchen scale for accuracy"
     ],
@@ -731,8 +731,8 @@ var guideContent = {
       "1 cup of water or milk = 237 grams (liquid density ~1.0 g/mL)"
     ],
     faq: [
-      { q: "How many grams is 1 cup of flour?", a: "One US legal cup of all-purpose flour weighs approximately 125 grams when spooned into the cup and leveled with a knife. Scooping directly from the bag can compress flour to 140\u2013150 grams." },
-      { q: "How many grams is 1 cup of sugar?", a: "One cup of granulated white sugar weighs exactly 200 grams. One cup of powdered confectioners sugar weighs about 120 grams." },
+      { q: "How many grams is 1 cup of flour?", a: "One US legal cup of all-purpose flour weighs approximately 125 grams when spooned into the cup and leveled with a knife (source: USDA FoodData Central / King Arthur Baking ingredient weights). Scooping directly from the bag can compress flour to 140\u2013150 grams." },
+      { q: "How many grams is 1 cup of sugar?", a: "One cup of granulated white sugar weighs exactly 200 grams (source: USDA FoodData Central / King Arthur Baking ingredient weights). One cup of powdered confectioners sugar weighs about 120 grams." },
       { q: "Why do European recipes use grams instead of cups?", a: "European culinary schools and domestic recipes use weight (grams) because it is immune to settling, sifting, and humidity variations, guaranteeing reproducible pastry results." },
       { q: "Is a US cup the same as a metric cup?", a: "A US legal cup is 240 mL, a US customary cup is 236.588 mL, and a metric cup (used in Australia and New Zealand) is exactly 250 mL." }
     ],
@@ -740,7 +740,8 @@ var guideContent = {
       { label: "Lakh & Crore to Million & Billion Converter", slug: "lakh-crore-to-million-billion" },
       { label: "Binary & IEEE-754 Float Guide", slug: "binary-hex-ieee-754-guide" }
     ],
-    relatedCat: "cooking"
+    relatedCat: "cooking",
+    source: "USDA FoodData Central / King Arthur Baking ingredient weights"
   },
   "lakh-crore-to-million-billion": {
     title: "Lakh & Crore to Million & Billion Converter Guide (2,2,3 Grouping)",

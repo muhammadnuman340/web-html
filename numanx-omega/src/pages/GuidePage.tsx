@@ -70,7 +70,7 @@ export default function GuidePage() {
             ⏱️ ~5 min read
           </span>
           <span className="text-[11px] opacity-70 bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
-            🏛️ NIST & Regional Standard
+            🏛️ {content.source ? 'Culinary Standards' : 'NIST & Regional Standard'}
           </span>
           {rel?.pairLabel && (
             <span className="text-[11px] font-medium text-[var(--text2)] bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
@@ -319,7 +319,10 @@ export default function GuidePage() {
           <span id="standards-grounding-heading">Standards Reference & Metrological Grounding</span>
         </div>
         <p className="leading-relaxed text-[11px]">
-          Calculations and conversion factors in this guide adhere to NIST Special Publication 811, BIPM SI brochure, and official provincial real estate / Mandi standards. Review our complete <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">institutional standards and sources directory</Link>.
+          {content.source
+            ? `Calculations and ingredient reference weights in this guide are sourced from ${content.source}. Review our complete `
+            : 'Calculations and conversion factors in this guide adhere to NIST Special Publication 811, BIPM SI brochure, and official provincial real estate / Mandi standards. Review our complete '}
+          <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">institutional standards and sources directory</Link>.
         </p>
       </section>
     </article>

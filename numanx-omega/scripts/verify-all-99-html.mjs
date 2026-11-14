@@ -1335,9 +1335,9 @@ var categoryContent = {
       { from: "matric_fsc1100", to: "percentage", desc: "fsc/matric 1100 \u2192 % \u2014 Pakistani Board marks out of 1100 to percentage" }
     ],
     useCases: ["Pakistani university admissions & foreign scholarship applications", "HEC degree attestation and equivalence", "MDCAT / NUMS medical entrance aggregate calculation", "Job recruitment & civil service (CSS) minimum mark verification"],
-    formula: "HEC 4.00 continuous model: 85%+ = 4.00; below 85% scales linearly down to 50% = 1.00. Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
+    formula: "Linear grade-band approximation: maps HEC grade-band floors linearly (1.0 = 50%, 4.0 = 85%). Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
     faq: [
-      { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)." },
+      { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "The formula ((CGPA - 1) / 3) \xD7 35 + 50 is an approximation that maps HEC grade-band floors linearly (1.0 = 50%, 4.0 = 85%), giving 73.33% for 3.00 CGPA. HEC has no single nationwide CGPA-to-percentage formula. Many universities use CGPA \xD7 25; others use their own tables. For official use, get a percentage letter from your registrar." },
       { q: "What is the standard MDCAT aggregate formula in Pakistan?", a: "The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation." }
     ]
   },

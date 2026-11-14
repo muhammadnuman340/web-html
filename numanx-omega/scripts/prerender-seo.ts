@@ -1127,7 +1127,7 @@ for (const guide of Object.values(guideContent)) {
 
       <section aria-labelledby="standards-grounding-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;background:#fafafa;">
         <h2 id="standards-grounding-heading" style="font-size:1.1rem;margin-top:0;">Standards Reference & Metrological Grounding</h2>
-        <p style="margin:0;font-size:0.85rem;color:#777;">Calculations and conversion factors in this guide adhere to NIST Special Publication 811 and BIPM SI brochure definitions. Review our complete <a href="/about" style="color:#0066cc;">institutional standards and sources directory</a>.</p>
+        <p style="margin:0;font-size:0.85rem;color:#777;">${guide.source ? `Calculations and ingredient reference weights in this guide are sourced from ${guide.source}.` : 'Calculations and conversion factors in this guide adhere to NIST Special Publication 811 and BIPM SI brochure definitions.'} Review our complete <a href="/about" style="color:#0066cc;">institutional standards and sources directory</a>.</p>
       </section>
     </article>
   `

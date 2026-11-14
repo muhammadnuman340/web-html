@@ -1572,9 +1572,9 @@ var categoryContent = {
       { from: "matric_fsc1100", to: "percentage", desc: "fsc/matric 1100 \u2192 % \u2014 Pakistani Board marks out of 1100 to percentage" }
     ],
     useCases: ["Pakistani university admissions & foreign scholarship applications", "HEC degree attestation and equivalence", "MDCAT / NUMS medical entrance aggregate calculation", "Job recruitment & civil service (CSS) minimum mark verification"],
-    formula: "HEC 4.00 continuous model: 85%+ = 4.00; below 85% scales linearly down to 50% = 1.00. Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
+    formula: "Linear grade-band approximation: maps HEC grade-band floors linearly (1.0 = 50%, 4.0 = 85%). Board marks = (Percentage \xF7 100) \xD7 Total Marks (1100 or 1200).",
     faq: [
-      { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)." },
+      { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "The formula ((CGPA - 1) / 3) \xD7 35 + 50 is an approximation that maps HEC grade-band floors linearly (1.0 = 50%, 4.0 = 85%), giving 73.33% for 3.00 CGPA. HEC has no single nationwide CGPA-to-percentage formula. Many universities use CGPA \xD7 25; others use their own tables. For official use, get a percentage letter from your registrar." },
       { q: "What is the standard MDCAT aggregate formula in Pakistan?", a: "The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation." }
     ]
   },
@@ -1604,7 +1604,7 @@ var guideContent = {
     metaDesc: "Convert cups to grams with density formula m = V \xD7 \u03C1. Free baking converter with flour, sugar, butter lookup table, step-by-step guide and kitchen FAQ.",
     h1: "Cups to Grams Converter (cups \u2192 g)",
     slug: "cups-to-grams",
-    intro: "Converting cups to grams is the single most common challenge in international baking. Unlike water where 1 mL equals 1 gram, dry ingredients like flour, sugar, and cocoa have vastly different bulk densities. A cup of all-purpose flour weighs approximately 125 grams, while a cup of granulated sugar weighs 200 grams. Professional pastry chefs always weigh dry ingredients on a digital scale to eliminate the 20% error inherent in measuring volume.",
+    intro: "Converting cups to grams is the single most common challenge in international baking. Unlike water where 1 mL equals 1 gram, dry ingredients like flour, sugar, and cocoa have vastly different bulk densities. A cup of all-purpose flour weighs approximately 125 grams, while a cup of granulated sugar weighs 200 grams, based on USDA FoodData Central / King Arthur Baking ingredient weights. Professional pastry chefs always weigh dry ingredients on a digital scale to eliminate the 20% error inherent in measuring volume.",
     formula: "g = cups \xD7 236.588 \xD7 density (g/mL)",
     table: [
       { from: 0.25, to: "31.25 g (flour) / 50 g (sugar)", rounded: "31 g / 50 g" },
@@ -1621,7 +1621,7 @@ var guideContent = {
     ],
     steps: [
       "Identify the specific baking ingredient (e.g. all-purpose flour, granulated sugar, butter)",
-      "Look up the substance density or standard cup weight (flour = 125 g/cup, sugar = 200 g/cup, butter = 227 g/cup)",
+      "Look up the substance density or standard cup weight from USDA FoodData Central / King Arthur Baking ingredient weights (flour = 125 g/cup, sugar = 200 g/cup, butter = 227 g/cup)",
       "Multiply the number of cups by the ingredient unit weight in grams",
       "Weigh your ingredient directly on a tared digital kitchen scale for accuracy"
     ],
@@ -1633,8 +1633,8 @@ var guideContent = {
       "1 cup of water or milk = 237 grams (liquid density ~1.0 g/mL)"
     ],
     faq: [
-      { q: "How many grams is 1 cup of flour?", a: "One US legal cup of all-purpose flour weighs approximately 125 grams when spooned into the cup and leveled with a knife. Scooping directly from the bag can compress flour to 140\u2013150 grams." },
-      { q: "How many grams is 1 cup of sugar?", a: "One cup of granulated white sugar weighs exactly 200 grams. One cup of powdered confectioners sugar weighs about 120 grams." },
+      { q: "How many grams is 1 cup of flour?", a: "One US legal cup of all-purpose flour weighs approximately 125 grams when spooned into the cup and leveled with a knife (source: USDA FoodData Central / King Arthur Baking ingredient weights). Scooping directly from the bag can compress flour to 140\u2013150 grams." },
+      { q: "How many grams is 1 cup of sugar?", a: "One cup of granulated white sugar weighs exactly 200 grams (source: USDA FoodData Central / King Arthur Baking ingredient weights). One cup of powdered confectioners sugar weighs about 120 grams." },
       { q: "Why do European recipes use grams instead of cups?", a: "European culinary schools and domestic recipes use weight (grams) because it is immune to settling, sifting, and humidity variations, guaranteeing reproducible pastry results." },
       { q: "Is a US cup the same as a metric cup?", a: "A US legal cup is 240 mL, a US customary cup is 236.588 mL, and a metric cup (used in Australia and New Zealand) is exactly 250 mL." }
     ],
@@ -1642,7 +1642,8 @@ var guideContent = {
       { label: "Lakh & Crore to Million & Billion Converter", slug: "lakh-crore-to-million-billion" },
       { label: "Binary & IEEE-754 Float Guide", slug: "binary-hex-ieee-754-guide" }
     ],
-    relatedCat: "cooking"
+    relatedCat: "cooking",
+    source: "USDA FoodData Central / King Arthur Baking ingredient weights"
   },
   "lakh-crore-to-million-billion": {
     title: "Lakh & Crore to Million & Billion Converter Guide (2,2,3 Grouping)",
@@ -2852,32 +2853,31 @@ var PAIR_FIELD_NOTES = {
   "area:marla-to-ft2": {
     badge: "Regional Metrology Gotcha",
     title: "Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla",
-    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
+    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Some authorities use other sizes \u2014 check your deed.",
     standard: "Punjab Land Revenue Act / LDA Manual"
   },
   "marla-to-ft2": {
     badge: "Regional Metrology Gotcha",
     title: "Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla",
-    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
+    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Some authorities use other sizes \u2014 check your deed.",
     standard: "Punjab Land Revenue Act / LDA Manual"
   },
   "mass:tola-to-g": {
     badge: "Bullion Standard Gotcha",
     title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
-    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
-    standard: "APGJA / British Indian Currency Act"
+    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (180 troy grains British-India standard). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
+    standard: "180 troy grains (British-India standard)"
   },
   "tola-to-g": {
     badge: "Bullion Standard Gotcha",
     title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
-    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
-    standard: "APGJA / British Indian Currency Act"
+    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (180 troy grains British-India standard). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
+    standard: "180 troy grains (British-India standard)"
   },
   "hec-gpa4-to-percentage": {
-    badge: "HEC Grading Regulation",
-    title: "Continuous Linear Model vs Institutional Curves",
-    note: "The Higher Education Commission (HEC) of Pakistan standardises degree equivalence via the continuous formula: Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 for transcripts without an institutional grading curve. First Division requires minimum 60% or ~2.80\u20133.00 CGPA.",
-    standard: "HEC Policy Guidelines for Uniform Semester System"
+    badge: "Academic Grading Note",
+    title: "Linear Grade-Band Mapping vs University Formulas",
+    note: "The formula Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 is an approximation that maps HEC grade-band floors linearly (1.0 = 50%, 4.0 = 85%). HEC has no single nationwide CGPA-to-percentage formula. Many universities use CGPA \xD7 25; others use their own tables. For official use, get a percentage letter from your registrar."
   },
   "kilowatts-to-horsepower": {
     badge: "EV & Powertrain Metrology",
@@ -3809,9 +3809,9 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     calculationRule = `To convert between number bases, convert the source radix to decimal via Horner\u2019s polynomial method, then repeatedly divide by the target radix.`;
     inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
   } else if (cat.id === "pk-gpa") {
-    formulaDisplay = "HEC Continuous Model: Percentage Marks \u2194 4.00 CGPA Scale";
+    formulaDisplay = "Linear Grade-Band Mapping: Percentage Marks \u2194 4.00 CGPA Scale";
     summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
-    calculationRule = `To convert marks to HEC CGPA, apply the Higher Education Commission of Pakistan continuous linear grading formula.`;
+    calculationRule = `To approximate equivalent marks or CGPA, apply the linear grade-band floor mapping (1.0 = 50%, 4.0 = 85%). Note that many Pakistani universities use CGPA \xD7 25 or institutional tables.`;
     inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
   } else if (cat.id === "statistics") {
     formulaDisplay = "Z = (X - \u03BC) / \u03C3; Percentile = \u03A6(Z) \xD7 100%";
@@ -3899,7 +3899,7 @@ function getPairEditorial(cat, u1, u2, pairParam) {
   } else if (cat.id === "number-base") {
     workedExampleAnswer = `To convert decimal 13 to binary: 13 \xF7 2 = 6 rem 1, 6 \xF7 2 = 3 rem 0, 3 \xF7 2 = 1 rem 1, 1 \xF7 2 = 0 rem 1. Reading remainders bottom to top gives binary 1101.`;
   } else if (cat.id === "pk-gpa") {
-    workedExampleAnswer = `Under standard HEC rules, 85% and above yields a 4.00 CGPA, 73% yields approximately 3.00 CGPA, and 60% yields approximately 2.00 CGPA.`;
+    workedExampleAnswer = `Under the linear grade-band approximation, 85% yields a 4.00 CGPA, 73.33% yields a 3.00 CGPA, and 61.67% yields a 2.00 CGPA. Using CGPA \xD7 25, 3.00 yields 75.00%.`;
   } else if (cat.id === "statistics") {
     workedExampleAnswer = `A Z-score of +2.0 on a standard normal distribution corresponds to the 97.72 percentile (two standard deviations above the mean).`;
   } else {
@@ -4167,21 +4167,20 @@ function getPairEditorial(cat, u1, u2, pairParam) {
   } else if (cat.id === "area" && pairSlug === "marla-to-ft2") {
     referenceTable = [
       { label: "1 Marla (Patwari / Revenue Standard)", value: "272.25 sq ft", extra: "9 square karams / 30.25 sq yards" },
-      { label: "1 Marla (CDA / Rawalpindi Standard)", value: "250.00 sq ft", extra: "Islamabad Capital Territory sector benchmark" },
       { label: "1 Marla (Private Housing Society / DHA / Bahria)", value: "225.00 sq ft", extra: "25 square yards (Gaz)" },
       { label: "1 Kanal (Revenue Standard)", value: "5,445.00 sq ft", extra: "20 Marlas (Revenue)" },
       { label: "1 Kanal (Housing Society)", value: "4,500.00 sq ft", extra: "20 Marlas (Society)" }
     ];
     workedExamples = [
       "5 Marla plot in DHA / Bahria: 5 \xD7 225 = 1,125 sq ft (approx 125 square yards / gaz)",
-      "5 Marla plot in Rawalpindi / CDA Sector: 5 \xD7 250 = 1,250 sq ft",
       "5 Marla rural plot under Patwari Revenue Record: 5 \xD7 272.25 = 1,361.25 sq ft",
-      "1 Kanal standard property: 20 Marlas \xD7 272.25 = 5,445 sq ft (or 4,500 sq ft in societies)"
+      "1 Kanal standard property: 20 Marlas \xD7 272.25 = 5,445 sq ft (or 4,500 sq ft in societies)",
+      "Regional Variance: Some authorities use other sizes \u2014 check your deed."
     ];
     faqs.push(
       {
         question: "Why is a Marla 225 sq ft in some housing societies and 272.25 sq ft in village records?",
-        answer: "Under traditional British Indian revenue measurement, 1 Karam equals 5.5 feet (66 inches), and 1 Sarsahi is 1 square Karam (30.25 sq ft). Nine Sarsahis make 1 Marla (9 \xD7 30.25 = 272.25 sq ft). Private urban developers adopted a simplified metric of 25 square yards (25 \xD7 9 = 225 sq ft) to allow neat decimal dimensions (e.g. 25 ft \xD7 45 ft for 5 Marla plots)."
+        answer: "Under traditional British Indian revenue measurement, 1 Karam equals 5.5 feet (66 inches), and 1 Sarsahi is 1 square Karam (30.25 sq ft). Nine Sarsahis make 1 Marla (9 \xD7 30.25 = 272.25 sq ft). Private urban developers adopted a simplified metric of 25 square yards (25 \xD7 9 = 225 sq ft) to allow neat decimal dimensions (e.g. 25 ft \xD7 45 ft for 5 Marla plots). Some authorities use other sizes \u2014 check your deed."
       },
       {
         question: "How many square yards (Gaz) is 1 Marla?",
@@ -4198,34 +4197,34 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     );
   } else if (cat.id === "pk-gpa" && pairSlug === "hec-gpa4-to-percentage") {
     referenceTable = [
-      { label: "CGPA 4.00", value: "85.00%+", extra: "Distinction / Honors" },
-      { label: "CGPA 3.50", value: "79.17%", extra: "High First Division" },
-      { label: "CGPA 3.00", value: "73.33%", extra: "First Division (B Grade)" },
-      { label: "CGPA 2.50", value: "67.50%", extra: "Second Division" },
-      { label: "CGPA 2.00", value: "61.67%", extra: "Minimum Passing / Second Division" }
+      { label: "CGPA 4.00", value: "85.00%+", extra: "Top grade band (A floor)" },
+      { label: "CGPA 3.50", value: "79.17%", extra: "B+ grade band floor" },
+      { label: "CGPA 3.00", value: "73.33%", extra: "B grade band floor" },
+      { label: "CGPA 2.50", value: "67.50%", extra: "C+ grade band floor" },
+      { label: "CGPA 2.00", value: "61.67%", extra: "C grade band floor" }
     ];
     workedExamples = [
-      "CGPA 3.50 on HEC 4.0 scale: ((3.50 - 1.0)/3.0) \xD7 35 + 50 = 79.17% marks",
-      "CGPA 3.00 on HEC 4.0 scale: ((3.00 - 1.0)/3.0) \xD7 35 + 50 = 73.33% marks (First Division)",
-      "MDCAT Aggregate with 170/200, 1020/1100 FSc, 1000/1100 Matric: 42.5% + 37.09% + 9.09% = 88.68%",
+      "Linear grade-band approximation for CGPA 3.50: ((3.50 - 1.0) / 3.0) \xD7 35 + 50 = 79.17% marks",
+      "Linear grade-band approximation for CGPA 3.00: ((3.00 - 1.0) / 3.0) \xD7 35 + 50 = 73.33% marks",
+      "University multiplier method for CGPA 3.00: 3.00 \xD7 25 = 75.00% marks (comparison method used by many institutions)",
       "Converting 5.0 CGPA scale to 4.0 CGPA: CGPA 4.0 = (CGPA 5.0 \xF7 5.0) \xD7 4.0"
     ];
     faqs.push(
       {
         question: "What percentage is a 3.00 CGPA in Pakistan under HEC?",
-        answer: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)."
+        answer: "The formula ((CGPA - 1) / 3) \xD7 35 + 50 is an approximation that maps HEC grade-band floors linearly (1.0 = 50%, 4.0 = 85%), giving 73.33% for 3.00 CGPA. HEC has no single nationwide CGPA-to-percentage formula. Many universities use CGPA \xD7 25; others use their own tables. For official use, get a percentage letter from your registrar."
       },
       {
-        question: "What is the standard PMDC MDCAT aggregate formula?",
-        answer: "The PMDC formula calculates aggregate as: 50% MDCAT entrance test score + 40% FSc Pre-Medical board score + 10% Matriculation board score."
+        question: "Does HEC have a single nationwide CGPA-to-percentage formula?",
+        answer: "No. HEC has no single nationwide CGPA-to-percentage formula. Many universities use CGPA \xD7 25; others use their own tables. For official use, get a percentage letter from your registrar."
       },
       {
-        question: "Does HEC provide an official formula on degree equivalence certificates?",
-        answer: "HEC evaluates semester transcripts using the university-specific grading curve if specified on the reverse of the transcript. In the absence of an institutional curve, the standard continuous formula Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 is applied."
+        question: "How do universities convert 3.00 CGPA to percentage using the multiplier method?",
+        answer: "Many Pakistani universities multiply CGPA by 25. For example, 3.00 CGPA \xD7 25 = 75.00% marks, compared to 73.33% under the linear grade-band floor approximation."
       },
       {
-        question: "What CGPA is required for First Division in Pakistan?",
-        answer: "Under HEC regulations, a CGPA of 2.80 to 3.00 (depending on university grading criteria) or a minimum of 60% marks represents First Division."
+        question: "What is required for First Division in Pakistan?",
+        answer: "In Pakistan, First Division is traditionally defined by a minimum of 60% aggregate marks. HEC does not prescribe a single nationwide CGPA threshold for First Division, as grading curves and passing criteria vary by university."
       }
     );
   }
