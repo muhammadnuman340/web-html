@@ -49,9 +49,9 @@ export default function Dashboard() {
       </div>
 
       {/* Tab nav */}
-      <div className="flex gap-1 overflow-x-auto pb-1">
+      <div role="tablist" aria-label="Dashboard sections" className="flex gap-1 overflow-x-auto pb-1">
         {TABS.map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+          <button key={tab.id} role="tab" aria-selected={activeTab === tab.id} onClick={() => setActiveTab(tab.id)}
             className={`relative px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all interact-lift ${
               activeTab === tab.id
                 ? 'bg-[var(--primary-muted)] text-[var(--primary)] font-semibold shadow-sm'

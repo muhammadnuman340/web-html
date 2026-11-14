@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
  * Hook to reactively check if user holds an active Pro Pass.
  * Reads from localStorage('nx_pro') and listens for real-time status change events.
  */
-export function useIsPro(): boolean {
+function useIsPro(): boolean {
   const [isPro, setIsPro] = useState(() => {
     try {
       if (typeof window === 'undefined') return false
@@ -36,7 +36,7 @@ export function useIsPro(): boolean {
   return isPro
 }
 
-export function openProModal() {
+function openProModal() {
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent('open-pro-modal'))
   }

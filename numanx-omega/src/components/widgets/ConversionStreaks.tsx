@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const STORAGE_KEY = 'uc_streaks'
@@ -43,11 +43,7 @@ function updateStreaks(): StreakData {
 const MILESTONES = [3, 7, 14, 21, 30, 50, 100]
 
 export default function ConversionStreaks({ compact }: { compact?: boolean }) {
-  const [data, setData] = useState<StreakData>(() => updateStreaks())
-
-  useEffect(() => {
-    setData(updateStreaks())
-  }, [])
+  const [data] = useState<StreakData>(() => updateStreaks())
 
   const nextMilestone = MILESTONES.find(m => m > data.currentStreak) || MILESTONES[MILESTONES.length - 1]
   const progress = nextMilestone > 0 ? (data.currentStreak / nextMilestone) * 100 : 0

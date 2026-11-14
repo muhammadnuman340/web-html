@@ -33,6 +33,12 @@ export default function Navbar({
   const dropdownRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
   const navigate = useNavigate()
+  const [prevPath, setPrevPath] = useState(location.pathname)
+  if (prevPath !== location.pathname) {
+    setPrevPath(location.pathname)
+    setToolsOpen(false)
+    setMobileMenuOpen(false)
+  }
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -45,11 +51,7 @@ export default function Navbar({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Close menus on route change
-  useEffect(() => {
-    setToolsOpen(false)
-    setMobileMenuOpen(false)
-  }, [location.pathname])
+
 
   // Close mobile menu on Escape key and restore focus
   useEffect(() => {

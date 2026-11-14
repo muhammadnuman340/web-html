@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { smartBehavior } from '../../engine/smartBehavior'
@@ -65,11 +65,13 @@ export default function ContextBar() {
   const location = useLocation()
   const [dismissed, setDismissed] = useState(false)
   const [currentTipIndex, setCurrentTipIndex] = useState(0)
+  const [prevPath, setPrevPath] = useState(location.pathname)
 
-  useEffect(() => {
+  if (prevPath !== location.pathname) {
+    setPrevPath(location.pathname)
     setDismissed(false)
     setCurrentTipIndex(0)
-  }, [location.pathname])
+  }
 
   const pageTips = useMemo(() => {
     const base = getPageTips(location.pathname)

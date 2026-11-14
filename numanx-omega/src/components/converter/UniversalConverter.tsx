@@ -61,8 +61,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [showAllUnits, setShowAllUnits] = useState(false)
   const [showAIExplain, setShowAIExplain] = useState(false)
   const [showFavSuggestion, setShowFavSuggestion] = useState(false)
-  const [modeSuggestion, setModeSuggestion] = useState<{ mode: string; label: string; icon: string } | null>(null)
-  const [learningTip, setLearningTip] = useState<{ title: string; text: string } | null>(null)
+  const [prevFavKey, setPrevFavKey] = useState('')
+  const [prevFromUnit, setPrevFromUnit] = useState(fromUnit)
+  const [tipDismissed, setTipDismissed] = useState(false)
+  const [prevTipKey, setPrevTipKey] = useState<string>('')
   const [showQuiz, setShowQuiz] = useState(false)
   const [catFilter, setCatFilter] = useState('')
   const [unitSuggestions, setUnitSuggestions] = useState<{ id: string; lb: string; cat: string; ic: string }[]>([])
@@ -128,29 +130,32 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     }
   }
 
-  useEffect(() => {
+  const [prevProps, setPrevProps] = useState({
+    cat: initialCat,
+    from: initialFrom,
+    to: initialTo,
+    val: initialValue,
+  })
+  if (
+    prevProps.cat !== initialCat ||
+    prevProps.from !== initialFrom ||
+    prevProps.to !== initialTo ||
+    prevProps.val !== initialValue
+  ) {
+    setPrevProps({ cat: initialCat, from: initialFrom, to: initialTo, val: initialValue })
     if (initialCat && initialCat !== catId) {
       setCatId(initialCat)
     }
-  }, [initialCat, catId])
-
-  useEffect(() => {
     if (initialFrom) {
       setFromUnit(initialFrom)
     }
-  }, [initialFrom])
-
-  useEffect(() => {
     if (initialTo) {
       setToUnit(initialTo)
     }
-  }, [initialTo])
-
-  useEffect(() => {
     if (initialValue !== undefined) {
       setFromVal(String(initialValue))
     }
-  }, [initialValue])
+  }
 
   useEffect(() => {
     if (cat) {
@@ -173,18 +178,19 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catId, initialFrom, initialTo])
 
-  useEffect(() => {
+  if (prevFromUnit !== fromUnit) {
+    setPrevFromUnit(fromUnit)
     if (cat && fromUnit) {
       const fu = cat.un.find(u => u.id === fromUnit)
       if (fu?.dim) {
         const tu = cat.un.find(u => u.id === toUnit)
         if (tu?.dim && tu.dim !== fu.dim) {
           const nextTu = cat.un.find(u => u.dim === fu.dim && u.id !== fu.id) || cat.un.find(u => u.dim === fu.dim)
-          if (nextTu) setToUnit(nextTu.id)
+          if (nextTu && nextTu.id !== toUnit) setToUnit(nextTu.id)
         }
       }
     }
-  }, [cat, fromUnit, toUnit])
+  }
 
   // Save defaults when units change
 
@@ -275,7 +281,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         startTransition(() => { setResult(null); setAllResults([]); setFormula(''); setExplanation(null); setSteps([]) })
       }
     }
-  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat])
+  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat, cats])
 
   const handleConvert = useCallback(() => {
     const v = parseSmart(fromVal)
@@ -297,45 +303,57 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     }
   }, [result])
 
+  const favKey = `${fromUnit}→${toUnit}`
+  if ((prevFavKey !== favKey || !result) && showFavSuggestion) {
+    setPrevFavKey(favKey)
+    setShowFavSuggestion(false)
+  }
+
   // Smart favorites suggestion — prompt after 3+ conversions of same pair
   useEffect(() => {
-    if (!result || !fromUnit || !toUnit) { setShowFavSuggestion(false); return }
+    if (!result || !fromUnit || !toUnit) return
     const pairKey = `${fromUnit}→${toUnit}`
     const count = analytics.getSummary().unitPairs[pairKey] || 0
     if (count >= 3) {
       getFavorites().then(favs => {
         const already = favs.some(f => f.cat === catId && f.from === fromUnit && f.to === toUnit)
-        setShowFavSuggestion(!already)
+        if (!already) setShowFavSuggestion(true)
       })
-    } else {
-      setShowFavSuggestion(false)
     }
   }, [result, fromUnit, toUnit, catId])
 
   // AI mode suggestion — detect patterns and suggest mode switch
-  useEffect(() => {
-    if (!catId || !result) { setModeSuggestion(null); return }
+  const modeSuggestion = useMemo(() => {
+    if (!catId || !result) return null
     const sciCats = ['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy']
     const basicCats = ['length', 'mass', 'volume', 'temp']
     if (sciCats.includes(catId) && mode === 'pro') {
-      setModeSuggestion({ mode: 'scientist', label: 'Scientist mode', icon: '🔬' })
+      return { mode: 'scientist', label: 'Scientist mode', icon: '🔬' }
     } else if (basicCats.includes(catId) && showExplanation && mode !== 'student') {
-      setModeSuggestion({ mode: 'student', label: 'Student mode', icon: '🎓' })
-    } else {
-      setModeSuggestion(null)
+      return { mode: 'student', label: 'Student mode', icon: '🎓' }
     }
+    return null
   }, [catId, result, mode, showExplanation])
 
   // AI learning tip — show a "Did you know?" after conversion
-  useEffect(() => {
-    if (!result) { setLearningTip(null); return }
+  const tipKey = `${catId}:${result ?? ''}`
+  if (prevTipKey !== tipKey) {
+    setPrevTipKey(tipKey)
+    setTipDismissed(false)
+  }
+
+  const learningTip = useMemo(() => {
+    if (!result || tipDismissed) return null
     const exps = getExplanations(catId)
-    if (exps.length > 0) {
-      const idx = Math.floor(Math.random() * exps.length)
-      const tip = exps[idx]
-      setLearningTip({ title: tip.title, text: tip.explanation.length > 120 ? tip.explanation.slice(0, 120) + '…' : tip.explanation })
+    if (exps.length === 0) return null
+    const seed = Math.abs(Math.round(result * 1000)) + catId.length
+    const idx = seed % exps.length
+    const tip = exps[idx]
+    return {
+      title: tip.title,
+      text: tip.explanation.length > 120 ? tip.explanation.slice(0, 120) + '…' : tip.explanation,
     }
-  }, [result, catId])
+  }, [result, catId, tipDismissed])
 
   // Close context menu on click outside
   useEffect(() => {
@@ -1632,7 +1650,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
             <span className="font-semibold text-xs text-[var(--text)]">{learningTip.title}</span>
             <p className="text-[var(--text2)] opacity-85 mt-0.5">{learningTip.text}</p>
           </div>
-          <button onClick={() => setLearningTip(null)}
+          <button onClick={() => setTipDismissed(true)}
             className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] shrink-0 ml-auto" aria-label="Dismiss tip">✕</button>
         </motion.div>
       )}

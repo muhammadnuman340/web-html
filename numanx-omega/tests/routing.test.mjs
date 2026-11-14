@@ -2246,10 +2246,8 @@ describe("Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(settingsContent.includes('aria-label="Default conversion precision in decimal places"'), "Settings precision range must have accessible name");
     const dashPath = path2.resolve(process.cwd(), "src/pages/Dashboard.tsx");
     const dashContent = fs2.readFileSync(dashPath, "utf8");
-    assert.ok(dashContent.includes('htmlFor="health-weight"'), "Dashboard weight label must be associated");
-    assert.ok(dashContent.includes('id="health-weight"'), 'Dashboard weight input must have id="health-weight"');
-    assert.ok(dashContent.includes('role="radiogroup"'), 'Dashboard sex selector must have role="radiogroup"');
-    assert.ok(dashContent.includes('role="radio"'), 'Dashboard sex buttons must have role="radio"');
+    assert.ok(dashContent.includes('role="tablist"'), 'Dashboard tab nav must have role="tablist"');
+    assert.ok(dashContent.includes('role="tab"'), 'Dashboard tab buttons must have role="tab"');
   });
   it("verifies dynamic notifications implement accessible status/error announcements in useToast", () => {
     const toastPath = path2.resolve(process.cwd(), "src/hooks/useToast.tsx");

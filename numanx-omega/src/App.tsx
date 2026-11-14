@@ -63,13 +63,13 @@ function AppContent() {
     if (savedTheme === null) {
       document.body.className = 'dark'
       localStorage.setItem('uc_theme_class', 'dark')
-      setIsDark(true)
+
     } else if (savedTheme) {
       document.body.className = savedTheme
-      setIsDark(savedTheme === 'dark' || savedTheme === 'theme-cosmic' || savedTheme === 'theme-amoled' || savedTheme === 'theme-cyberpunk' || savedTheme === 'theme-rgb')
+
     } else {
       document.body.className = ''
-      setIsDark(false)
+
     }
     const savedFont = localStorage.getItem('uc_font') || 'inter'
     const classes = ['font-system', 'font-inter']
