@@ -11,7 +11,7 @@
 
 ## 1. System Architecture & Metrology Standards
 
-Omega X Converter is a client-side progressive web application (PWA) built with TypeScript, React 19, and Vite. The conversion engine evaluates conversions deterministically in the user's browser using floating-point and affine transformations based on authoritative international standards.
+Omega X Converter is a client-side web application built with TypeScript, React 19, and Vite. The conversion engine evaluates conversions deterministically in the user's browser using floating-point and affine transformations based on authoritative international standards.
 
 ### Standards Grounding & Institutional Provenance
 - **BIPM (Bureau International des Poids et Mesures):** SI Brochure (9th Edition, 2019) defining the redefinition of base SI units in terms of invariant fundamental physical constants.

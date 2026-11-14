@@ -8,7 +8,6 @@ import FloatingTools from './components/widgets/FloatingTools'
 import AIFloatingButton from './components/widgets/AIFloatingButton'
 import ContextBar from './components/widgets/ContextBar'
 import ErrorBoundary from './components/ui/ErrorBoundary'
-import InstallPWA from './components/widgets/InstallPWA'
 import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
 import AmbientBackground from './components/ui/AmbientBackground'
@@ -198,11 +197,6 @@ function AppContent() {
 
           {/* Gradient accent bar below header */}
           <div className="gradient-accent" />
-
-          {/* Install PWA banner */}
-          <div className="max-w-5xl mx-auto w-full pt-1 px-3 sm:px-5 distraction">
-            <InstallPWA />
-          </div>
 
           {/* Main content */}
           <main id="main-content" tabIndex={-1} className={`flex-1 px-3 sm:px-5 py-4 sm:py-6 max-w-5xl mx-auto w-full min-w-0 outline-none ${mode === 'fast' ? 'pt-8' : ''}`}>

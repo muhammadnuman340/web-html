@@ -110,7 +110,7 @@ export function AdSlotRail({ className = '' }: { className?: string }) {
             Omega X Pro Metrology Suite
           </div>
           <p className="text-[11px] text-[var(--text2,#94a3b8)] leading-relaxed">
-            Deterministic decimal conversions, zero rounding drift & offline PWA capabilities.
+            Deterministic decimal conversions, zero rounding drift & instant browser calculations.
           </p>
         </div>
         <button

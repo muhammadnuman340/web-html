@@ -297,7 +297,7 @@ const corePages: PrerenderPageConfig[] = [
             <li><strong>100% Client-Side Privacy:</strong> All calculations execute directly in your browser. No personal data or calculation numbers are transmitted or stored remotely.</li>
             <li><strong>NIST & BIPM Standards:</strong> Conversion factors adhere to published ratios defined in NIST Special Publication 811 and BIPM SI definitions.</li>
             <li><strong>Sub-Nanometer Precision:</strong> 14-digit floating-point mathematical engine prevents rounding cascade errors.</li>
-            <li><strong>Offline PWA Support:</strong> Full offline readiness via progressive web application architecture.</li>
+            <li><strong>Zero-Latency Execution:</strong> Instant calculations and derivations execute directly in your browser.</li>
           </ul>
         </section>
         <section aria-labelledby="standards-heading">

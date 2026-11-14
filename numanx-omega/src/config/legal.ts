@@ -71,12 +71,6 @@ export function getPrivacyPolicy(): LegalDoc {
         ],
       },
       {
-        heading: 'Offline support',
-        paragraphs: [
-          'The app installs a service worker that stores copies of its pages and files in your browser cache, so it can load without an internet connection. Like local storage, this cache stays on your device.',
-        ],
-      },
-      {
         heading: 'Requests to other services',
         paragraphs: [
           'A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent.',
@@ -94,7 +88,7 @@ export function getPrivacyPolicy(): LegalDoc {
       {
         heading: 'Deleting your data',
         paragraphs: [
-          'Use "Clear All Data" on the Settings page to delete your history, favorites, custom units, chat history, usage statistics and cached rates. Clearing your browser\'s site data for this website removes everything, including settings and the offline cache.',
+          'Use "Clear All Data" on the Settings page to delete your history, favorites, custom units, chat history, usage statistics and cached rates. Clearing your browser\'s site data for this website removes everything, including settings and local storage preferences.',
         ],
       },
       {

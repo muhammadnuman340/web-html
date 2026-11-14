@@ -127,7 +127,7 @@ export default function Settings() {
           <div className="text-xs opacity-60 space-y-1">
             <p>Omega X Converter v2.0</p>
             <p>NumanX Studio</p>
-            <p>Frontend-Only · PWA · Offline-Ready</p>
+            <p>Frontend-Only · Client-Side Execution</p>
             <p>React + TypeScript + Vite + Tailwind CSS</p>
             <p className="pt-2">© 2026 NumanX Studio. All rights reserved.</p>
           </div>

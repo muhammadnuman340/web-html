@@ -59,9 +59,9 @@ export default function About() {
 
         <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-2">
           <div className="text-2xl" aria-hidden="true">📱</div>
-          <h2 className="text-base font-bold text-[var(--text)]">Offline PWA Architecture</h2>
+          <h2 className="text-base font-bold text-[var(--text)]">Zero-Latency Client Engine</h2>
           <p className="text-xs text-[var(--text2)] leading-relaxed">
-            Equipped with service workers and local caching so you can calculate anywhere—on flights, job sites, and offline remote locations without internet access.
+            All calculations run directly in your browser with zero network latency, instant recalculation, and complete client-side data privacy.
           </p>
         </div>
       </div>

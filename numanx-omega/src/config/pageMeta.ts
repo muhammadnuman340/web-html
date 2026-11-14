@@ -23,11 +23,11 @@ export interface PageMeta {
 export const PAGE_META = {
   '/': {
     title: 'Omega X Converter — Free Unit Converter',
-    description: 'Free unit converter with 36 categories and 220+ units, plus formulas and offline support. Runs in your browser.',
+    description: 'Free unit converter with 36 categories and 220+ units, plus formulas. Runs privately in your browser.',
   },
   '/about': {
     title: 'About Omega X Converter — NumanX Studio',
-    description: 'About Omega X Converter by NumanX Studio: private, client-side unit conversion built on NIST SP 811 and SI standards, with offline PWA support.',
+    description: 'About Omega X Converter by NumanX Studio: private, client-side unit conversion built on NIST SP 811 and SI standards.',
   },
   '/blog': {
     title: 'Unit Conversion Blog — Guides & Tips | Omega X',

@@ -682,7 +682,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path = "") {
@@ -1141,7 +1141,7 @@ function buildHomeSchema() {
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",
           "Step-by-step conversion explanations and learning content",
-          "PWA support: installable, works fully offline",
+          "Zero-latency client-side calculations with local privacy",
           "Custom unit creator for user-defined conversions"
         ]
       }

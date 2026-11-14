@@ -11,7 +11,7 @@ const FEATURES = [
   { icon: '📐', label: 'Formula Explorer', desc: 'Physics, chemistry & engineering formulas' },
   { icon: '🔬', label: 'Scientific Mode', desc: 'Constants, scientific notation, precision control' },
   { icon: '💎', label: '5 Themes', desc: 'AMOLED, Light, Cyberpunk, RGB, Holographic' },
-  { icon: '📱', label: 'PWA & Offline', desc: 'Install as app, works without internet' },
+  { icon: '⚡', label: 'Client-Side Privacy', desc: 'Instant calculations, zero data collection' },
 ]
 
 export default function Help() {
@@ -80,7 +80,7 @@ export default function Help() {
             <p>• Use the search bar to quickly find categories or units</p>
             <p>• Click any row in "All Conversions" to set it as your target unit</p>
             <p>• Pin your most-used conversions with the ☆ star button</p>
-            <p>• Install the app via browser menu for offline access</p>
+            <p>• Bookmark the page for fast instant access anytime</p>
           </div>
         </div>
       </motion.div>

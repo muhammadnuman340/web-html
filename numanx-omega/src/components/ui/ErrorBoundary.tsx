@@ -42,7 +42,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               {isChunkError ? '🔄' : '⚠️'}
             </div>
             <h2 className="text-lg font-bold text-[var(--text)]">
-              {isChunkError ? 'Application Update Available' : 'Something went wrong'}
+              {isChunkError ? 'Application Reload Required' : 'Something went wrong'}
             </h2>
             <p className="text-sm opacity-70 text-[var(--text2)] leading-relaxed">
               {isChunkError
@@ -55,7 +55,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                 onClick={() => { this.setState({ hasError: false, error: null }); window.location.reload() }}
                 className="px-5 py-2 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold interact-lift"
               >
-                {isChunkError ? 'Update & Reload' : 'Reload Page'}
+                {isChunkError ? 'Reload Application' : 'Reload Page'}
               </button>
               <button
                 type="button"

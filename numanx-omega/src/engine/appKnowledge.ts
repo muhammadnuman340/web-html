@@ -11,7 +11,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['what is', 'about', 'app', 'numanx', 'omega', 'overview', 'what does'],
     title: 'About NumanX Omega',
-    content: 'NumanX Omega is a universal unit converter that handles 25+ categories including length, mass, volume, temperature, and more. Features include natural language input (type "5 km in miles"), batch conversion, conversion chains, step-by-step explanations, real-world comparisons, and AI-powered suggestions. It works offline as a PWA and supports 6 user modes.',
+    content: 'NumanX Omega is a universal unit converter that handles 25+ categories including length, mass, volume, temperature, and more. Features include natural language input (type "5 km in miles"), batch conversion, conversion chains, step-by-step explanations, real-world comparisons, and AI-powered suggestions. It runs privately in your browser and supports 6 user modes.',
     category: 'feature',
     related: ['pages', 'modes', 'how to convert']
   },
@@ -175,13 +175,13 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['focus mode', 'distraction free', 'minimal'],
     title: 'Focus Mode',
-    content: 'Toggle Focus Mode from the header 🎯 button to hide distractions like FloatingTools, the Install PWA banner, and the footer. Great for late-night or concentrated conversion sessions.',
+    content: 'Toggle Focus Mode from the header 🎯 button to hide distractions like FloatingTools, contextual toolbars, and the footer. Great for late-night or concentrated conversion sessions.',
     category: 'feature'
   },
   {
-    keywords: ['pwa', 'offline', 'install', 'progressive web app'],
-    title: 'PWA & Offline Support',
-    content: 'NumanX Omega is a Progressive Web App. You can install it on your device for a native-like experience. The app works offline for previously visited pages and supports the command bar (⌘K) for quick navigation.',
+    keywords: ['privacy', 'client-side', 'zero data collection'],
+    title: 'Client-Side Privacy',
+    content: 'NumanX Omega runs 100% in your browser. All calculations, custom units, and history remain local on your device without server transmission.',
     category: 'feature'
   },
   {
@@ -299,11 +299,11 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     related: ['history', 'settings']
   },
   {
-    keywords: ['how to install', 'install app', 'add to home screen', 'pwa install'],
-    title: 'How to Install the App',
-    content: 'When you visit the app in a supported browser, an Install banner may appear. Click it to add NumanX Omega to your device\'s home screen. You can also use the browser\'s "Add to Home Screen" or "Install" menu option for a native-like experience with offline support.',
+    keywords: ['how to bookmark', 'save app', 'favorite'],
+    title: 'How to Bookmark the App',
+    content: 'Press ⌘D (Mac) or Ctrl+D (Windows) in your browser to bookmark Omega X Converter for instant access anytime.',
     category: 'howto',
-    related: ['pwa']
+    related: ['shortcuts']
   },
 
   // ── Keyboard Shortcuts ──
@@ -319,7 +319,7 @@ const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     keywords: ['not working', 'bug', 'error', 'issue', 'problem', 'broken', 'troubleshoot'],
     title: 'Troubleshooting',
-    content: 'Common issues: If conversion fails, check that you selected compatible units (you can\'t convert length to mass). If the app doesn\'t load, try clearing localStorage or using a private/incognito window. For PWA issues, reinstall the app.',
+    content: 'Common issues: If conversion fails, check that you selected compatible units (you can\'t convert length to mass). If the app doesn\'t load, try clearing localStorage or using a private/incognito window. If calculations seem stuck, reload the page.',
     category: 'trouble',
     related: ['settings']
   },

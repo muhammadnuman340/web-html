@@ -32,14 +32,16 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 )
 
-// Register service worker in production / preview environments
-if ('serviceWorker' in navigator && (import.meta.env.PROD || import.meta.env.MODE === 'production')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch((err) => {
-      if (import.meta.env.DEV) {
-        console.warn('Service worker registration failed:', err)
+// Unregister any active or redundant service workers
+if ('serviceWorker' in navigator) {
+  try {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister().catch(() => {})
       }
-    })
-  })
+    }).catch(() => {})
+  } catch {
+    // no-op if unsupported
+  }
 }
 

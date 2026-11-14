@@ -688,7 +688,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path4 = "") {
@@ -4270,7 +4270,7 @@ function generateLlmsFullText() {
 `);
   sections.push(`## 1. System Architecture & Metrology Standards
 
-Omega X Converter is a client-side progressive web application (PWA) built with TypeScript, React 19, and Vite. The conversion engine evaluates conversions deterministically in the user's browser using floating-point and affine transformations based on authoritative international standards.
+Omega X Converter is a client-side web application built with TypeScript, React 19, and Vite. The conversion engine evaluates conversions deterministically in the user's browser using floating-point and affine transformations based on authoritative international standards.
 
 ### Standards Grounding & Institutional Provenance
 - **BIPM (Bureau International des Poids et Mesures):** SI Brochure (9th Edition, 2019) defining the redefinition of base SI units in terms of invariant fundamental physical constants.
@@ -4416,7 +4416,7 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 function generateLlmsSummaryText() {
   return `# Omega X Converter
 
-> Universal unit conversion platform with ${Categories.length} physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+> Universal unit conversion platform with ${Categories.length} physical categories, deterministic conversion algorithms, instant in-browser execution, and authoritative scientific standards alignment.
 
 Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 

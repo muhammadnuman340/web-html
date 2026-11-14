@@ -20,7 +20,6 @@
     "categories_count": 28,
     "canonical_pairs_count": 99,
     "total_indexable_pages": 178,
-    "offline_support": "PWA Service Worker Cache",
     "metrology_standards": [
       "BIPM SI Brochure 9th Edition (2019)",
       "NIST Special Publication 811 (Guide for the Use of the International System of Units)",

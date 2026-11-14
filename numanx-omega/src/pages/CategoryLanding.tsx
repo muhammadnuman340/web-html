@@ -193,8 +193,6 @@ export default function CategoryLanding({ categorySlug }: Props) {
                 )}
                 <span aria-hidden="true" className="opacity-50 hidden sm:inline">·</span>
                 <span className="hidden sm:inline">Deterministic Decimal Engine</span>
-                <span aria-hidden="true" className="opacity-50 hidden sm:inline">·</span>
-                <span className="hidden sm:inline">PWA Offline</span>
               </div>
             </div>
           </div>

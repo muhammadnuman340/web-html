@@ -254,7 +254,7 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
     assert.ok(boundaryContent.includes('dynamically imported module'), 'ErrorBoundary must handle dynamically imported module failures')
     assert.ok(boundaryContent.includes('Loading chunk'), 'ErrorBoundary must handle loading chunk failures')
     assert.ok(boundaryContent.includes('Failed to fetch'), 'ErrorBoundary must handle failed to fetch failures')
-    assert.ok(boundaryContent.includes('Application Update Available'), 'ErrorBoundary must present update banner for chunk errors')
+    assert.ok(boundaryContent.includes('Application Reload Required'), 'ErrorBoundary must present reload banner for chunk errors')
     assert.ok(boundaryContent.includes('Return Home'), 'ErrorBoundary must present return home recovery option')
   })
 })

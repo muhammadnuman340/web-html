@@ -1,7 +1,7 @@
 {
   "name": "Omega X Converter — NumanX Studio",
   "short_name": "Omega X",
-  "description": "The most advanced universal unit converter. 24 categories, 200+ units, natural language input, offline capable.",
+  "description": "The most advanced universal unit converter. 24 categories, 200+ units, natural language input, instant precision.",
   "start_url": "/",
   "display": "standalone",
   "display_override": [

@@ -682,7 +682,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and offline PWA support.",
+  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -717,11 +717,11 @@ function withBrand(title) {
 var PAGE_META = {
   "/": {
     title: "Omega X Converter \u2014 Free Unit Converter",
-    description: "Free unit converter with 36 categories and 220+ units, plus formulas and offline support. Runs in your browser."
+    description: "Free unit converter with 36 categories and 220+ units, plus formulas. Runs privately in your browser."
   },
   "/about": {
     title: "About Omega X Converter \u2014 NumanX Studio",
-    description: "About Omega X Converter by NumanX Studio: private, client-side unit conversion built on NIST SP 811 and SI standards, with offline PWA support."
+    description: "About Omega X Converter by NumanX Studio: private, client-side unit conversion built on NIST SP 811 and SI standards."
   },
   "/blog": {
     title: "Unit Conversion Blog \u2014 Guides & Tips | Omega X",
@@ -795,12 +795,6 @@ function getPrivacyPolicy() {
         ]
       },
       {
-        heading: "Offline support",
-        paragraphs: [
-          "The app installs a service worker that stores copies of its pages and files in your browser cache, so it can load without an internet connection. Like local storage, this cache stays on your device."
-        ]
-      },
-      {
         heading: "Requests to other services",
         paragraphs: [
           "A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent."
@@ -818,7 +812,7 @@ function getPrivacyPolicy() {
       {
         heading: "Deleting your data",
         paragraphs: [
-          `Use "Clear All Data" on the Settings page to delete your history, favorites, custom units, chat history, usage statistics and cached rates. Clearing your browser's site data for this website removes everything, including settings and the offline cache.`
+          `Use "Clear All Data" on the Settings page to delete your history, favorites, custom units, chat history, usage statistics and cached rates. Clearing your browser's site data for this website removes everything, including settings and local storage preferences.`
         ]
       },
       {
@@ -1383,7 +1377,7 @@ function buildHomeSchema() {
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",
           "Step-by-step conversion explanations and learning content",
-          "PWA support: installable, works fully offline",
+          "Zero-latency client-side calculations with local privacy",
           "Custom unit creator for user-defined conversions"
         ]
       }
@@ -5265,7 +5259,7 @@ var corePages = [
             <li><strong>100% Client-Side Privacy:</strong> All calculations execute directly in your browser. No personal data or calculation numbers are transmitted or stored remotely.</li>
             <li><strong>NIST & BIPM Standards:</strong> Conversion factors adhere to published ratios defined in NIST Special Publication 811 and BIPM SI definitions.</li>
             <li><strong>Sub-Nanometer Precision:</strong> 14-digit floating-point mathematical engine prevents rounding cascade errors.</li>
-            <li><strong>Offline PWA Support:</strong> Full offline readiness via progressive web application architecture.</li>
+            <li><strong>Zero-Latency Execution:</strong> Instant calculations and derivations execute directly in your browser.</li>
           </ul>
         </section>
         <section aria-labelledby="standards-heading">

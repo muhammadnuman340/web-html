@@ -92,7 +92,7 @@ export function buildHomeSchema(): SchemaGraph {
           'Batch conversion mode for 1000+ values at once',
           'Cross-category conversion chains: Energy→Cost, Speed→Distance, Fuel→Cost',
           'Step-by-step conversion explanations and learning content',
-          'PWA support: installable, works fully offline',
+          'Zero-latency client-side calculations with local privacy',
           'Custom unit creator for user-defined conversions',
         ],
       },

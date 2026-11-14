@@ -194,7 +194,7 @@ export default function Categories() {
         <div>
           <h1 className="text-xl font-bold page-header text-[var(--text)] flex items-center gap-2"><span role="img" aria-hidden="true">📂</span> All Conversion Categories</h1>
           <p className="text-xs text-[var(--text2)] opacity-80 mt-0.5">
-            {cats.length} dedicated calculators · {totalUnits} precision units · Offline-ready
+            {cats.length} dedicated calculators · {totalUnits} precision units
           </p>
         </div>
 
