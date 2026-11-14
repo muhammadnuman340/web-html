@@ -26,7 +26,7 @@ export default function Blog() {
   const [selectedCat, setSelectedCat] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Unify blog posts and 15 educational conversion guides
+  // Unify blog posts and educational conversion guides
   const allItems = useMemo<FeedItem[]>(() => {
     const postItems: FeedItem[] = BLOG_POSTS.map(post => ({
       id: `post-${post.slug}`,
@@ -98,7 +98,7 @@ export default function Blog() {
             to="/guides"
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[var(--primary-muted)] text-[var(--link-text)] hover:bg-[var(--primary)] hover:text-white transition-colors"
           >
-            <span>📚</span> Browse All 15 Step-by-Step Conversion Guides &rarr;
+            <span>📚</span> Browse All Conversion Guides &rarr;
           </Link>
         </div>
       </header>

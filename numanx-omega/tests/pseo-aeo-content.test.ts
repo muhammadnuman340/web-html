@@ -95,8 +95,8 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
           assert.equal(editorial.reciprocal.url, `/convert/${cat.id}`, `Non-pair reciprocal must point to category hub for ${cat.id}:${pairParam}`)
         }
 
-        // 5. FAQs
-        assert.equal(editorial.faqs.length, 4, `Must have exactly 4 FAQ items for ${cat.id}:${pairParam}`)
+        // 5. FAQs (Baseline 4 items, enriched to 6-8 items for merged guide pairs)
+        assert.ok(editorial.faqs.length >= 4, `Must have at least 4 FAQ items for ${cat.id}:${pairParam}`)
         for (const f of editorial.faqs) {
           assert.ok(f.question, `FAQ question required for ${cat.id}:${pairParam}`)
           assert.ok(f.answer, `FAQ answer required for ${cat.id}:${pairParam}`)

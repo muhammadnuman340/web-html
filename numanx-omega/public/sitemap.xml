@@ -239,20 +239,8 @@
   <url><loc>https://converter.numanxstudio.com/formulas</loc><priority>0.7</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/binary-hex-ieee-754-guide</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/celsius-to-fahrenheit</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/cricket-overs-to-balls-nrr</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/cups-to-grams</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/fahrenheit-to-celsius</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/feet-to-meters</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/hec-cgpa-to-percentage-pakistan</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/kg-to-lbs</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/kw-to-hp</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/lakh-crore-to-million-billion</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/lbs-to-kg</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/marla-to-square-feet-pakistan</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/meters-to-feet</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/psi-to-bar</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/guides/tola-to-grams-gold-pakistan</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/health</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/sitemap</loc><priority>0.5</priority><changefreq>weekly</changefreq></url>

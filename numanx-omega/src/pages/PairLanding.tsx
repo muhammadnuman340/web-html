@@ -463,6 +463,52 @@ function PairLandingInner({
         </section>
       )}
 
+      {/* Authoritative Metrology Reference Standards (Merged Guide Reference Table) */}
+      {editorial?.referenceTable && editorial.referenceTable.length > 0 && (
+        <section aria-labelledby="reference-table-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
+          <h2 id="reference-table-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
+            <span role="img" aria-hidden="true">📊</span> Authoritative Metrology Reference Standards
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-[var(--border)] text-[var(--text2)]">
+                  <th className="py-2 pr-3 font-semibold">Standard Unit / Benchmark</th>
+                  <th className="py-2 px-3 font-semibold">Equivalent Value</th>
+                  <th className="py-2 pl-3 font-semibold">Regulatory / Historical Context</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border)]/40 font-mono">
+                {editorial.referenceTable.map((row, i) => (
+                  <tr key={i} className="hover:bg-[var(--card2)] transition-colors">
+                    <td className="py-2 pr-3 font-medium text-[var(--text)]">{row.label}</td>
+                    <td className="py-2 px-3 font-bold text-[var(--primary)]">{row.value}</td>
+                    <td className="py-2 pl-3 text-[var(--text2)] opacity-85 font-sans">{row.extra || '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {/* Step-by-Step Worked Conversion Examples (Merged Guide Worked Examples) */}
+      {editorial?.workedExamples && editorial.workedExamples.length > 0 && (
+        <section aria-labelledby="worked-examples-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
+          <h2 id="worked-examples-heading" className="text-sm font-bold text-[var(--text)] flex items-center gap-2">
+            <span role="img" aria-hidden="true">📝</span> Step-by-Step Worked Conversion Examples
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {editorial.workedExamples.map((ex, i) => (
+              <div key={i} className="p-3 rounded-xl bg-[var(--card2)] border border-[var(--border)] text-xs text-[var(--text2)] font-mono leading-relaxed">
+                <span className="text-[var(--primary)] font-bold mr-1.5">#{i + 1}</span>
+                {ex}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Reciprocal Relationship & Cross-Linking */}
       {editorial && (
         <section aria-labelledby="reciprocal-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -499,7 +545,7 @@ function PairLandingInner({
               <p className="text-xs text-[var(--text2)] opacity-85 mt-1">
                 Read our in-depth {relatedGuide.title} Conversion Guide with step-by-step mathematical proofs, lookup tables, and worked examples.{' '}
                 <Link to="/guides" className="text-[var(--link-text)] underline hover:text-[var(--primary)] font-medium">
-                  Browse all 15 guides &rarr;
+                  Browse all guides &rarr;
                 </Link>
               </p>
             </div>

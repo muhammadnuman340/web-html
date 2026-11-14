@@ -66,10 +66,12 @@ const siteOrigin = getSiteUrl()
 const ogImageUrl = `${siteOrigin}/og-image.png`
 
 // 0. Neutral SPA shell: emit dist/spa.html before homepage prerender injection
-// (empty #root, generic title, no canonical, no homepage JSON-LD)
+// (empty #root, generic title, no canonical, no homepage JSON-LD, robots noindex, follow)
 const spaHtml = baseHtml
   .replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>\s*/gi, '')
   .replace(/<meta[^>]*property=["']og:url["'][^>]*\/?>\s*/gi, '')
+  .replace(/<meta[^>]*name=["']robots["'][^>]*\/?>\s*/gi, '<meta name="robots" content="noindex, follow" />\n    ')
+  .replace(/<meta[^>]*name=["']googlebot["'][^>]*\/?>\s*/gi, '')
 fs.writeFileSync(path.join(distDir, 'spa.html'), spaHtml, 'utf-8')
 console.log('⚡ Emitted neutral SPA shell (dist/spa.html)')
 
@@ -376,7 +378,7 @@ const corePages: PrerenderPageConfig[] = [
           </p>
         </header>
         <section>
-          <h2>All 15 Conversion Guides</h2>
+          <h2>All ${Object.keys(guideContent).length} Conversion Guides</h2>
           <div style="display:flex;flex-direction:column;gap:1.5rem;">
             ${Object.values(guideContent).map(g => `
               <article style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;">
@@ -940,6 +942,49 @@ for (const cat of Categories) {
             `).join('')}
           </div>
         </section>
+
+        ${editorial.referenceTable && editorial.referenceTable.length > 0 ? `
+          <section aria-labelledby="reference-table-heading" style="border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;background:#fafafa;margin-bottom:1.5rem;">
+            <h2 id="reference-table-heading" style="font-size:1.2rem;font-weight:700;margin-top:0;margin-bottom:0.75rem;color:#222;">
+              📊 Authoritative Metrology Reference Standards
+            </h2>
+            <div style="overflow-x:auto;">
+              <table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;text-align:left;border:1px solid #ddd;font-size:0.9rem;background:#fff;">
+                <thead style="background:#f0f0f0;">
+                  <tr>
+                    <th scope="col">Standard Unit / Benchmark</th>
+                    <th scope="col">Equivalent Value</th>
+                    <th scope="col">Regulatory / Historical Context</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${editorial.referenceTable.map(row => `
+                    <tr>
+                      <td style="font-weight:600;">${escapeHtml(row.label)}</td>
+                      <td style="font-weight:700;color:#0066cc;">${escapeHtml(row.value)}</td>
+                      <td style="color:#555;">${escapeHtml(row.extra || '—')}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ` : ''}
+
+        ${editorial.workedExamples && editorial.workedExamples.length > 0 ? `
+          <section aria-labelledby="worked-examples-heading" style="border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;background:#fafafa;margin-bottom:1.5rem;">
+            <h2 id="worked-examples-heading" style="font-size:1.2rem;font-weight:700;margin-top:0;margin-bottom:0.75rem;color:#222;">
+              📝 Step-by-Step Worked Conversion Examples
+            </h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0.75rem;">
+              ${editorial.workedExamples.map((ex, i) => `
+                <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:0.85rem;font-family:monospace;font-size:0.85rem;color:#333;line-height:1.5;">
+                  <strong style="color:#0066cc;">#${i + 1}</strong> ${escapeHtml(ex)}
+                </div>
+              `).join('')}
+            </div>
+          </section>
+        ` : ''}
 
         <section aria-labelledby="reciprocal-heading" style="border:1px solid #e2e8f0;border-radius:12px;padding:1.25rem 1.5rem;background:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
           <div>

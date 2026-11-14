@@ -19,7 +19,7 @@ Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 - [Scientific Calculator](https://converter.numanxstudio.com/calculator): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](https://converter.numanxstudio.com/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](https://converter.numanxstudio.com/blog): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
-- [Conversion Guides Hub](https://converter.numanxstudio.com/guides): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across 15 scientific and regional units.
+- [Conversion Guides Hub](https://converter.numanxstudio.com/guides): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across scientific, regional, and computing units.
 - [About & Standards Methodology](https://converter.numanxstudio.com/about): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
 - [HTML Sitemap](https://converter.numanxstudio.com/sitemap): Authoritative index of every canonical public page.
 - [Contact](https://converter.numanxstudio.com/contact): How to report a wrong conversion, a security issue or a privacy question.
@@ -63,21 +63,9 @@ Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 
 ## Educational Guides
 
-- [Meters to Feet Conversion Guide](https://converter.numanxstudio.com/guides/meters-to-feet): Detailed conversion methodology, practical height and construction examples, and historical background.
-- [Feet to Meters Conversion Guide](https://converter.numanxstudio.com/guides/feet-to-meters): Reverse length conversion reference from international feet to SI meters.
-- [Celsius to Fahrenheit Conversion Guide](https://converter.numanxstudio.com/guides/celsius-to-fahrenheit): Exact affine formula breakdown, mental math shortcuts, and meteorological references.
-- [Fahrenheit to Celsius Conversion Guide](https://converter.numanxstudio.com/guides/fahrenheit-to-celsius): Reverse thermal conversion reference with exact 5/9 interval ratios.
-- [Kilograms to Pounds Conversion Guide](https://converter.numanxstudio.com/guides/kg-to-lbs): Mass conversion standard (NIST / international avoirdupois pound) with conversion tables.
-- [Pounds to Kilograms Conversion Guide](https://converter.numanxstudio.com/guides/lbs-to-kg): Standard mass conversion reference from avoirdupois pounds to SI kilograms.
-- [Marla to Square Feet Pakistan Guide](https://converter.numanxstudio.com/guides/marla-to-square-feet-pakistan): Land measurement standards in Pakistan: 272.25 vs 250 vs 225 sq ft.
-- [1 Tola in Grams Bullion Guide](https://converter.numanxstudio.com/guides/tola-to-grams-gold-pakistan): Pakistani gold bullion mass conversion: 1 tola = 11.6638 grams, 12 masha, 96 ratti.
-- [Lakh & Crore to Million & Billion Converter Guide](https://converter.numanxstudio.com/guides/lakh-crore-to-million-billion): South Asian 2,2,3 comma grouping and international conversion.
-- [HEC CGPA to Percentage Guide](https://converter.numanxstudio.com/guides/hec-cgpa-to-percentage-pakistan): Pakistani HEC continuous model and PMDC MDCAT aggregate formula.
-- [Cricket Overs to Decimal Overs & NRR Guide](https://converter.numanxstudio.com/guides/cricket-overs-to-balls-nrr): Base-6 cricket overs to balls and ICC Net Run Rate formulas.
 - [Binary, Hex & IEEE-754 Floating-Point Guide](https://converter.numanxstudio.com/guides/binary-hex-ieee-754-guide): Radix conversion and bitfield inspection for FP16, FP32, and FP64.
 - [Cups to Grams Cooking Guide](https://converter.numanxstudio.com/guides/cups-to-grams): Ingredient-specific volumetric kitchen conversion.
-- [PSI to Bar Pressure Guide](https://converter.numanxstudio.com/guides/psi-to-bar): Metric and imperial pressure conversion.
-- [Kilowatts to Horsepower Guide](https://converter.numanxstudio.com/guides/kw-to-hp): Mechanical and electrical powertrain power conversion.
+- [Lakh & Crore to Million & Billion Converter Guide](https://converter.numanxstudio.com/guides/lakh-crore-to-million-billion): South Asian 2,2,3 comma grouping and international conversion.
 
 ## Technical Articles
 

@@ -57,13 +57,13 @@ export default function GuidesHub() {
       {/* Hero Header */}
       <header className="text-center space-y-3 pt-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--primary-muted)] text-[var(--link-text)]">
-          <span>📚</span> 15 Authoritative Conversion Guides
+          <span>📚</span> {allGuides.length} Authoritative Conversion Guides
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text)]">
           Conversion Guides & Metrology Reference
         </h1>
         <p className="text-sm sm:text-base text-[var(--text2)] max-w-2xl mx-auto font-normal">
-          In-depth mathematical proofs, worked engineering examples, reference tables, and statutory definitions for international SI, Pakistani regional, and computer science units.
+          In-depth mathematical proofs, worked engineering examples, reference tables, and statutory definitions for culinary, Pakistani regional, and computer science units.
         </p>
       </header>
 
@@ -86,7 +86,7 @@ export default function GuidesHub() {
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder="Search guides by keyword, unit, or formula (e.g. marla, tola, nrr, ieee, psi)..."
+            placeholder="Search guides by keyword, unit, or formula (e.g. cups, grams, lakh, crore, ieee, binary)..."
             className="w-full pl-11 pr-10 py-3 rounded-full border border-[var(--border)] bg-[var(--card)] text-sm text-[var(--text)] placeholder-[var(--text3)] outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-muted)] transition-all shadow-sm"
             aria-label="Search conversion guides"
           />

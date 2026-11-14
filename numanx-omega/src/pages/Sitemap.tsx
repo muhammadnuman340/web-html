@@ -11,7 +11,7 @@ const CORE_ROUTES = [
   { path: '/', label: 'Home Page', icon: '🏠', desc: 'Main converter dashboard with instant input and quick pairs' },
   { path: '/converter', label: 'Universal Converter', icon: '🔄', desc: 'Precision conversion engine supporting chains & batch processing' },
   { path: '/categories', label: 'Browse Categories', icon: '📂', desc: 'Interactive directory of all 36 scientific and everyday unit systems' },
-  { path: '/guides', label: 'Conversion Guides Hub', icon: '📚', desc: '15 step-by-step masterclass conversion guides with worked examples' },
+  { path: '/guides', label: 'Conversion Guides Hub', icon: '📚', desc: 'Step-by-step masterclass conversion guides with worked examples' },
   { path: '/blog', label: 'Blog & Articles Hub', icon: '📰', desc: 'Expert guides, tutorials, precision formulas, and cheat sheets' },
   { path: '/about', label: 'About NumanX Omega', icon: 'ℹ️', desc: 'Mission, NIST metrology compliance, privacy, and scientific engine' },
   { path: '/calculator', label: 'Smart Calculator', icon: '🧮', desc: 'Instant calculation and conversion hybrid tool' },

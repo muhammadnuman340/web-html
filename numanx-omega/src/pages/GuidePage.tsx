@@ -228,7 +228,7 @@ export default function GuidePage() {
             <span>Related Conversion Guides</span>
           </h2>
           <Link to="/guides" className="text-xs text-[var(--primary)] hover:underline font-medium">
-            Browse all 15 guides &rarr;
+            Browse all guides &rarr;
           </Link>
         </div>
         <div className="flex gap-2 flex-wrap">

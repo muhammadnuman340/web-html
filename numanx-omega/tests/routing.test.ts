@@ -239,8 +239,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count matches authoritative sitemap inventory (257 URLs)
-    assert.equal(entries.length, 257, `Expected exactly 257 sitemap entries, got ${entries.length}`)
+    // Verify count matches authoritative sitemap inventory (245 URLs: 257 baseline - 12 removed guide routes)
+    assert.equal(entries.length, 245, `Expected exactly 245 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {
@@ -520,6 +520,45 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     const distRedirectsPath = path.resolve(process.cwd(), 'dist/_redirects')
     if (fs.existsSync(path.resolve(process.cwd(), 'dist'))) {
       assert.ok(fs.existsSync(distRedirectsPath), 'dist/_redirects must exist in production build')
+    }
+  })
+
+  it('verifies all 12 merged/removed guides have 301 permanent redirects without redirect chains', () => {
+    const publicRedirectsPath = path.resolve(process.cwd(), 'public/_redirects')
+    const content = fs.readFileSync(publicRedirectsPath, 'utf8')
+
+    const expectedRedirects: [string, string][] = [
+      ['/guides/celsius-to-fahrenheit', '/convert/temp/celsius-to-fahrenheit'],
+      ['/guides/fahrenheit-to-celsius', '/convert/temp/fahrenheit-to-celsius'],
+      ['/guides/kg-to-lbs', '/convert/mass/kilogram-to-pounds'],
+      ['/guides/lbs-to-kg', '/convert/mass/pounds-to-kilogram'],
+      ['/guides/feet-to-meters', '/convert/length/feet-to-meters'],
+      ['/guides/meters-to-feet', '/convert/length/meter-to-feet'],
+      ['/guides/psi-to-bar', '/convert/pressure/psi-to-bar'],
+      ['/guides/kw-to-hp', '/convert/power/kilowatts-to-horsepower'],
+      ['/guides/tola-to-grams-gold-pakistan', '/convert/mass/tola-to-g'],
+      ['/guides/marla-to-square-feet-pakistan', '/convert/area/marla-to-ft2'],
+      ['/guides/hec-cgpa-to-percentage-pakistan', '/convert/pk-gpa/hec-gpa4-to-percentage'],
+      ['/guides/cricket-overs-to-balls-nrr', 'https://toolshub.numanxstudio.com/tools/cricket-over-calculator/']
+    ]
+
+    // Parse all redirect rules from file
+    const lines = content.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'))
+    const rules = lines.map(l => {
+      const parts = l.split(/\s+/)
+      return { from: parts[0], to: parts[1], code: parts[2] }
+    })
+
+    const sourcePaths = new Set(rules.map(r => r.from))
+
+    for (const [from, to] of expectedRedirects) {
+      const match = rules.find(r => r.from === from)
+      assert.ok(match, `Missing 301 redirect for ${from}`)
+      assert.equal(match.to, to, `Expected ${from} to redirect to ${to}, got ${match.to}`)
+      assert.equal(match.code, '301', `Expected 301 status for ${from}`)
+
+      // Ensure no redirect chain: the destination must not be redirected again by another rule
+      assert.ok(!sourcePaths.has(to), `Redirect chain detected: ${from} -> ${to} which is also redirected`)
     }
   })
 

@@ -213,7 +213,7 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Scientific Calculator](${canonicalUrl('/calculator')}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
 - [Health & Fitness Metrics](${canonicalUrl('/health')}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](${canonicalUrl('/blog')}): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
-- [Conversion Guides Hub](${canonicalUrl('/guides')}): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across 15 scientific and regional units.
+- [Conversion Guides Hub](${canonicalUrl('/guides')}): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across scientific, regional, and computing units.
 - [About & Standards Methodology](${canonicalUrl('/about')}): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
 - [HTML Sitemap](${canonicalUrl('/sitemap')}): Authoritative index of every canonical public page.
 - [Contact](${canonicalUrl('/contact')}): How to report a wrong conversion, a security issue or a privacy question.
@@ -257,21 +257,9 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 
 ## Educational Guides
 
-- [Meters to Feet Conversion Guide](${canonicalUrl('/guides/meters-to-feet')}): Detailed conversion methodology, practical height and construction examples, and historical background.
-- [Feet to Meters Conversion Guide](${canonicalUrl('/guides/feet-to-meters')}): Reverse length conversion reference from international feet to SI meters.
-- [Celsius to Fahrenheit Conversion Guide](${canonicalUrl('/guides/celsius-to-fahrenheit')}): Exact affine formula breakdown, mental math shortcuts, and meteorological references.
-- [Fahrenheit to Celsius Conversion Guide](${canonicalUrl('/guides/fahrenheit-to-celsius')}): Reverse thermal conversion reference with exact 5/9 interval ratios.
-- [Kilograms to Pounds Conversion Guide](${canonicalUrl('/guides/kg-to-lbs')}): Mass conversion standard (NIST / international avoirdupois pound) with conversion tables.
-- [Pounds to Kilograms Conversion Guide](${canonicalUrl('/guides/lbs-to-kg')}): Standard mass conversion reference from avoirdupois pounds to SI kilograms.
-- [Marla to Square Feet Pakistan Guide](${canonicalUrl('/guides/marla-to-square-feet-pakistan')}): Land measurement standards in Pakistan: 272.25 vs 250 vs 225 sq ft.
-- [1 Tola in Grams Bullion Guide](${canonicalUrl('/guides/tola-to-grams-gold-pakistan')}): Pakistani gold bullion mass conversion: 1 tola = 11.6638 grams, 12 masha, 96 ratti.
-- [Lakh & Crore to Million & Billion Converter Guide](${canonicalUrl('/guides/lakh-crore-to-million-billion')}): South Asian 2,2,3 comma grouping and international conversion.
-- [HEC CGPA to Percentage Guide](${canonicalUrl('/guides/hec-cgpa-to-percentage-pakistan')}): Pakistani HEC continuous model and PMDC MDCAT aggregate formula.
-- [Cricket Overs to Decimal Overs & NRR Guide](${canonicalUrl('/guides/cricket-overs-to-balls-nrr')}): Base-6 cricket overs to balls and ICC Net Run Rate formulas.
 - [Binary, Hex & IEEE-754 Floating-Point Guide](${canonicalUrl('/guides/binary-hex-ieee-754-guide')}): Radix conversion and bitfield inspection for FP16, FP32, and FP64.
 - [Cups to Grams Cooking Guide](${canonicalUrl('/guides/cups-to-grams')}): Ingredient-specific volumetric kitchen conversion.
-- [PSI to Bar Pressure Guide](${canonicalUrl('/guides/psi-to-bar')}): Metric and imperial pressure conversion.
-- [Kilowatts to Horsepower Guide](${canonicalUrl('/guides/kw-to-hp')}): Mechanical and electrical powertrain power conversion.
+- [Lakh & Crore to Million & Billion Converter Guide](${canonicalUrl('/guides/lakh-crore-to-million-billion')}): South Asian 2,2,3 comma grouping and international conversion.
 
 ## Technical Articles
 

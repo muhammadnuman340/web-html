@@ -128,7 +128,22 @@ describe('SEO Architecture: Indexability & Robots Policy', () => {
     assert.equal(isIndexablePath('/about'), true)
     assert.equal(isIndexablePath('/formulas'), true)
     assert.equal(isIndexablePath('/blog'), true)
-    assert.equal(isIndexablePath('/guides/lbs-to-kg'), true)
+    assert.equal(isIndexablePath('/guides/cups-to-grams'), true)
+  })
+
+  it('strictly ensures dist/spa.html carries robots noindex, follow and zero canonical URL', () => {
+    const spaPath = path.resolve(process.cwd(), 'dist/spa.html')
+    if (fs.existsSync(spaPath)) {
+      const content = fs.readFileSync(spaPath, 'utf8')
+      assert.ok(!content.includes('rel="canonical"'), 'spa.html must not declare a canonical URL')
+      assert.match(
+        content,
+        /<meta[^>]*name=["']robots["'][^>]*content=["']noindex,\s*follow["']/i,
+        'spa.html must have meta robots noindex, follow'
+      )
+      assert.ok(!/<meta[^>]*name=["']robots["'][^>]*content=["'][^"']*\bindex,\s*follow/i.test(content), 'spa.html must not be indexable')
+      assert.ok(!/<meta[^>]*name=["']googlebot["'][^>]*content=["'][^"']*(?<!no)index/i.test(content), 'spa.html must not have googlebot index tag')
+    }
   })
 
   it('strictly excludes local state, user utility, and session routes from indexing', () => {

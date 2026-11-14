@@ -2758,11 +2758,41 @@ var PAIR_FIELD_NOTES = {
     note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
     standard: "Punjab Land Revenue Act / LDA Manual"
   },
+  "marla-to-ft2": {
+    badge: "Regional Metrology Gotcha",
+    title: "Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla",
+    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
+    standard: "Punjab Land Revenue Act / LDA Manual"
+  },
   "mass:tola-to-g": {
     badge: "Bullion Standard Gotcha",
     title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
     note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
     standard: "APGJA / British Indian Currency Act"
+  },
+  "tola-to-g": {
+    badge: "Bullion Standard Gotcha",
+    title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
+    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
+    standard: "APGJA / British Indian Currency Act"
+  },
+  "hec-gpa4-to-percentage": {
+    badge: "HEC Grading Regulation",
+    title: "Continuous Linear Model vs Institutional Curves",
+    note: "The Higher Education Commission (HEC) of Pakistan standardises degree equivalence via the continuous formula: Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 for transcripts without an institutional grading curve. First Division requires minimum 60% or ~2.80\u20133.00 CGPA.",
+    standard: "HEC Policy Guidelines for Uniform Semester System"
+  },
+  "kilowatts-to-horsepower": {
+    badge: "EV & Powertrain Metrology",
+    title: "Mechanical Horsepower (745.7 W) vs Metric PS (735.5 W)",
+    note: "1 kilowatt equals 1.34102 mechanical horsepower (imperial) or 1.35962 metric horsepower (PS). Electric vehicle powertrain specs quote kW internationally, while North American automotive markets use mechanical hp.",
+    standard: "SAE J1349 / ISO 1585"
+  },
+  "fahrenheit-to-celsius": {
+    badge: "Thermodynamics & Meteorology",
+    title: "Scale Coincidence at -40\xB0 and Offset Subtraction",
+    note: "Fahrenheit and Celsius intersect at exactly -40\xB0 (-40\xB0F = -40\xB0C). Converting Fahrenheit requires subtracting the 32\xB0 freezing offset before scaling by 5/9. Absolute zero is -459.67\xB0F or -273.15\xB0C.",
+    standard: "BIPM SI Brochure / ITS-90"
   },
   // Mass & Weight
   "troy-ounce-to-gram": {
@@ -3796,6 +3826,266 @@ function getPairEditorial(cat, u1, u2, pairParam) {
   ];
   const pairSlug = cleanSlug(pairParam);
   const fieldNote = PAIR_FIELD_NOTES[pairSlug] || CATEGORY_FIELD_NOTES[cat.id];
+  let workedExamples;
+  let referenceTable;
+  if (cat.id === "temp" && pairSlug === "celsius-to-fahrenheit") {
+    workedExamples = [
+      "25\xB0C \xD7 9/5 + 32 = 77\xB0F (a warm summer day in Europe is 77\xB0F)",
+      "0\xB0C \xD7 9/5 + 32 = 32\xB0F (water freezes at 0\xB0C or 32\xB0F)",
+      "37\xB0C \xD7 9/5 + 32 = 98.6\xB0F (normal human body temperature)",
+      "100\xB0C \xD7 9/5 + 32 = 212\xB0F (water boils at 100\xB0C or 212\xB0F)",
+      "-40\xB0C \xD7 9/5 + 32 = -40\xB0F (the only point where Celsius and Fahrenheit are equal)"
+    ];
+    faqs.push(
+      {
+        question: "What is the easiest way to convert Celsius to Fahrenheit?",
+        answer: "Double the Celsius value and add 30 for a quick estimate. For example, 20\xB0C \xD7 2 + 30 = 70\xB0F (real answer: 68\xB0F). For precise math, use the formula \xB0F = \xB0C \xD7 9/5 + 32."
+      },
+      {
+        question: "At what temperature are Celsius and Fahrenheit equal?",
+        answer: "-40\xB0C = -40\xB0F. This is the only temperature where both scales read the same value."
+      },
+      {
+        question: "What is normal body temperature in Fahrenheit?",
+        answer: "Normal human body temperature is 37\xB0C, which equals 98.6\xB0F."
+      }
+    );
+  } else if (cat.id === "temp" && pairSlug === "fahrenheit-to-celsius") {
+    workedExamples = [
+      "98.6\xB0F \u2212 32 = 66.6, \xD7 5/9 = 37.0\xB0C (normal body temperature)",
+      "32\xB0F \u2212 32 = 0, \xD7 5/9 = 0\xB0C (water freezes at 32\xB0F or 0\xB0C)",
+      "212\xB0F \u2212 32 = 180, \xD7 5/9 = 100\xB0C (water boils at 212\xB0F or 100\xB0C)",
+      "72\xB0F \u2212 32 = 40, \xD7 5/9 = 22.2\xB0C (room temperature is about 22\xB0C)"
+    ];
+    faqs.push(
+      {
+        question: "What is the easiest way to convert Fahrenheit to Celsius?",
+        answer: "Subtract 30 from Fahrenheit then divide by 2 for a quick estimate. For example, 70\xB0F \u2212 30 = 40, \xF7 2 = 20\xB0C (real answer: 21.1\xB0C)."
+      },
+      {
+        question: "What is 0\xB0F in Celsius?",
+        answer: "0\xB0F equals approximately -17.78\xB0C."
+      },
+      {
+        question: "What is 100\xB0F in Celsius?",
+        answer: "100\xB0F equals approximately 37.78\xB0C, which is near human body temperature."
+      }
+    );
+  } else if (cat.id === "mass" && pairSlug === "kilogram-to-pounds") {
+    workedExamples = [
+      "68 kg \xD7 2.20462 = 149.91 lb (a 68 kg person weighs about 150 lb)",
+      "5 kg \xD7 2.20462 = 11.02 lb (a 5 kg bag of rice is about 11 lb)",
+      "100 kg \xD7 2.20462 = 220.46 lb (100 kg is roughly 220 lb)",
+      "0.5 kg \xD7 2.20462 = 1.10 lb (half a kilogram is just over 1 pound)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert kg to lbs in my head?",
+        answer: "Double the kg value and add 10%. For example, 50 kg \xD7 2 = 100, plus 10% = 110 lb (real answer: 110.23 lb)."
+      },
+      {
+        question: "What is the difference between kg and lbs?",
+        answer: "Kilogram (kg) is the SI base unit of mass used by most countries. Pound (lb) is an imperial unit used mainly in the US and UK."
+      }
+    );
+  } else if (cat.id === "mass" && pairSlug === "pounds-to-kilogram") {
+    workedExamples = [
+      "150 lb \xD7 0.45359237 = 68.04 kg (a person weighing 150 lb weighs 68 kg)",
+      "10 lb \xD7 0.45359237 = 4.54 kg (a 10 lb bag of flour is 4.54 kg)",
+      "1 lb \xD7 0.45359237 = 0.45 kg (one pound is just under half a kilogram)",
+      "200 lb \xD7 0.45359237 = 90.72 kg (an adult male weighing 200 lb is about 91 kg)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert pounds to kilograms in my head?",
+        answer: "Divide pounds by 2.2 for a rough estimate. For example, 150 lb \xF7 2.2 \u2248 68 kg. For precise conversions, multiply by 0.45359237."
+      },
+      {
+        question: "What is the difference between lb and lbs?",
+        answer: 'Both are the same \u2014 "lb" is the singular abbreviation for pound (from Latin libra), and "lbs" is the plural form.'
+      },
+      {
+        question: "Why do Americans use pounds instead of kilograms?",
+        answer: "The US is one of three countries (along with Liberia and Myanmar) that still use the imperial system. Most of the world uses kilograms."
+      }
+    );
+  } else if (cat.id === "length" && pairSlug === "feet-to-meters") {
+    workedExamples = [
+      "10 ft \xD7 0.3048 = 3.05 m (a 10-foot room is about 3 meters)",
+      "6 ft \xD7 0.3048 = 1.83 m (a person who is 6 feet tall is 1.83 meters)",
+      "100 ft \xD7 0.3048 = 30.48 m (a 100-foot building is about 30 meters)",
+      "5280 ft \xD7 0.3048 = 1609.34 m (one mile in meters)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert feet to meters in my head?",
+        answer: "Divide feet by 3.3 for a quick estimate. For example, 10 ft \xF7 3.3 \u2248 3.03 m (real answer: 3.05 m)."
+      },
+      {
+        question: "What is 6 feet tall in meters?",
+        answer: "6 feet equals approximately 1.83 meters, which is considered tall in many countries."
+      }
+    );
+  } else if (cat.id === "length" && pairSlug === "meter-to-feet") {
+    workedExamples = [
+      "10 m \xD7 3.28084 = 32.81 ft (a 10-meter room is about 33 feet long)",
+      "1.83 m \xD7 3.28084 = 6.00 ft (a person who is 1.83 m tall is exactly 6 feet)",
+      "100 m \xD7 3.28084 = 328.08 ft (a football field is about 100 meters)",
+      "0.3048 m \xD7 3.28084 = 1.00 ft (one foot is exactly 0.3048 meters)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert meters to feet in my head?",
+        answer: "Multiply meters by 3.3 for a quick estimate. For example, 10 m \xD7 3.3 \u2248 33 ft (real answer: 32.81 ft)."
+      },
+      {
+        question: "What is the difference between a meter and a foot?",
+        answer: "A meter is the base SI unit of length used in most countries. A foot is an imperial unit used mainly in the US. One meter = 3.28084 feet."
+      },
+      {
+        question: "How do I convert meters to feet and inches?",
+        answer: "Multiply meters by 3.28084 to get decimal feet. Take the decimal part and multiply by 12 to get inches. For example: 1.83 m \xD7 3.28084 = 6.003 ft = 6 ft 0.04 in."
+      }
+    );
+  } else if (cat.id === "pressure" && pairSlug === "psi-to-bar") {
+    workedExamples = [
+      "32 psi \xD7 0.0689476 = 2.21 bar (recommended cold passenger car tire pressure)",
+      "35 psi \xD7 0.0689476 = 2.41 bar (common SUV / crossover tire pressure)",
+      "14.7 psi \xD7 0.0689476 = 1.013 bar (standard atmospheric pressure at sea level)",
+      "100 psi \xD7 0.0689476 = 6.89 bar (typical workshop air compressor output)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert PSI to bar in my head?",
+        answer: "Divide the PSI value by 15 for a fast mental estimate. For example, 30 psi \xF7 15 = 2.0 bar (exact answer: 2.07 bar). 45 psi \xF7 15 = 3.0 bar (exact answer: 3.10 bar)."
+      },
+      {
+        question: "What is the difference between psig and psia?",
+        answer: "psig measures gauge pressure relative to ambient atmosphere (a tire gauge reads 0 psi when disconnected). psia measures absolute pressure including the 14.7 psi atmospheric pressure baseline."
+      },
+      {
+        question: "What is 32 PSI in bar?",
+        answer: "32 PSI equals approximately 2.21 bar, which is the standard tire pressure recommendation for most compact and midsize sedans."
+      }
+    );
+  } else if (cat.id === "power" && pairSlug === "kilowatts-to-horsepower") {
+    workedExamples = [
+      "150 kW \xD7 1.34102 = 201.15 hp (standard electric vehicle motor rating)",
+      "220 kW \xD7 1.34102 = 295.02 hp (performance electric sedan dual-motor setup)",
+      "74.57 kW \xD7 1.34102 = 100.00 hp (exact mechanical horsepower definition)",
+      "500 kW \xD7 1.34102 = 670.51 hp (high-performance electric hypercar)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert kW to HP in my head?",
+        answer: "Multiply kW by 4 and divide by 3 (add one-third). For example, 150 kW \xD7 4/3 = 200 hp (exact answer: 201.15 hp). 300 kW \xD7 4/3 = 400 hp (exact answer: 402.3 hp)."
+      },
+      {
+        question: "What is the difference between mechanical HP and metric PS?",
+        answer: "Mechanical HP (imperial) is 745.69987 Watts. Metric HP (Pferdest\xE4rke / PS / CV) is 735.49875 Watts. 100 kW is 134.1 imperial hp or 136.0 metric PS."
+      },
+      {
+        question: "Why do electric vehicles use kW instead of HP?",
+        answer: "Kilowatt is the coherent SI unit for electrical power (Volts \xD7 Amperes \xF7 1000). Battery discharge capacity and charging speeds are quoted in kW and kWh, making kW mathematically consistent across the entire EV powertrain."
+      },
+      {
+        question: "How many kW is 300 horsepower?",
+        answer: "300 mechanical horsepower equals approximately 223.71 kW (300 \xF7 1.34102)."
+      }
+    );
+  } else if (cat.id === "mass" && pairSlug === "tola-to-g") {
+    referenceTable = [
+      { label: "1 Tola", value: "11.6638 g", extra: "180 troy grains / 12 Masha / 96 Ratti" },
+      { label: "1 Masha", value: "0.9720 g", extra: "8 Ratti (1/12 Tola)" },
+      { label: "1 Ratti", value: "0.1215 g", extra: "1/96 Tola" },
+      { label: "1 Chhatank", value: "58.3190 g", extra: "5 Tolas" },
+      { label: "1 Seer", value: "933.1043 g", extra: "16 Chhatanks / 80 Tolas" }
+    ];
+    workedExamples = [
+      "1 Tola 24K pure gold bar = 11.6638 grams of pure 99.99% gold",
+      "10 grams into Tolas: 10 \xF7 11.6638 = 0.85735 Tolas (approx 10.29 Mashas)",
+      "1 Masha of gold: 11.6638 \xF7 12 = 0.97198 grams",
+      "1 Ratti of gold: 11.6638 \xF7 96 = 0.12150 grams"
+    ];
+    faqs.push(
+      {
+        question: "How many Mashas and Rattis are in 1 Tola?",
+        answer: "There are exactly 12 Mashas in 1 Tola, and 8 Rattis in 1 Masha. Therefore, 1 Tola contains 96 Rattis."
+      },
+      {
+        question: "How do you calculate 22K gold price from the 24K Tola rate?",
+        answer: "Divide the 24K Tola rate by 24 and multiply by 22 (or multiply by 0.91667). For example, if 24K is PKR 240,000/tola, 22K gold is 240,000 \xD7 (22/24) = PKR 220,000/tola."
+      },
+      {
+        question: "What is a Chhatank in mass?",
+        answer: "A Chhatank is a traditional mass unit equal to exactly 5 Tolas (58.319 grams). Sixteen Chhatanks equal 1 Seer (933.1 grams)."
+      }
+    );
+  } else if (cat.id === "area" && pairSlug === "marla-to-ft2") {
+    referenceTable = [
+      { label: "1 Marla (Patwari / Revenue Standard)", value: "272.25 sq ft", extra: "9 square karams / 30.25 sq yards" },
+      { label: "1 Marla (CDA / Rawalpindi Standard)", value: "250.00 sq ft", extra: "Islamabad Capital Territory sector benchmark" },
+      { label: "1 Marla (Private Housing Society / DHA / Bahria)", value: "225.00 sq ft", extra: "25 square yards (Gaz)" },
+      { label: "1 Kanal (Revenue Standard)", value: "5,445.00 sq ft", extra: "20 Marlas (Revenue)" },
+      { label: "1 Kanal (Housing Society)", value: "4,500.00 sq ft", extra: "20 Marlas (Society)" }
+    ];
+    workedExamples = [
+      "5 Marla plot in DHA / Bahria: 5 \xD7 225 = 1,125 sq ft (approx 125 square yards / gaz)",
+      "5 Marla plot in Rawalpindi / CDA Sector: 5 \xD7 250 = 1,250 sq ft",
+      "5 Marla rural plot under Patwari Revenue Record: 5 \xD7 272.25 = 1,361.25 sq ft",
+      "1 Kanal standard property: 20 Marlas \xD7 272.25 = 5,445 sq ft (or 4,500 sq ft in societies)"
+    ];
+    faqs.push(
+      {
+        question: "Why is a Marla 225 sq ft in some housing societies and 272.25 sq ft in village records?",
+        answer: "Under traditional British Indian revenue measurement, 1 Karam equals 5.5 feet (66 inches), and 1 Sarsahi is 1 square Karam (30.25 sq ft). Nine Sarsahis make 1 Marla (9 \xD7 30.25 = 272.25 sq ft). Private urban developers adopted a simplified metric of 25 square yards (25 \xD7 9 = 225 sq ft) to allow neat decimal dimensions (e.g. 25 ft \xD7 45 ft for 5 Marla plots)."
+      },
+      {
+        question: "How many square yards (Gaz) is 1 Marla?",
+        answer: "In standard revenue records, 1 Marla = 30.25 square yards. In housing societies, 1 Marla = exactly 25 square yards (Gaz)."
+      },
+      {
+        question: "How many Marlas are in 1 Kanal?",
+        answer: "In all jurisdictions across Pakistan, 1 Kanal equals exactly 20 Marlas."
+      },
+      {
+        question: "What is a Sarsahi and how does it relate to a Marla?",
+        answer: "A Sarsahi is the foundational land unit in Punjab revenue records. Exactly 9 Sarsahis equal 1 Marla (1 Sarsahi = 30.25 square feet)."
+      }
+    );
+  } else if (cat.id === "pk-gpa" && pairSlug === "hec-gpa4-to-percentage") {
+    referenceTable = [
+      { label: "CGPA 4.00", value: "85.00%+", extra: "Distinction / Honors" },
+      { label: "CGPA 3.50", value: "79.17%", extra: "High First Division" },
+      { label: "CGPA 3.00", value: "73.33%", extra: "First Division (B Grade)" },
+      { label: "CGPA 2.50", value: "67.50%", extra: "Second Division" },
+      { label: "CGPA 2.00", value: "61.67%", extra: "Minimum Passing / Second Division" }
+    ];
+    workedExamples = [
+      "CGPA 3.50 on HEC 4.0 scale: ((3.50 - 1.0)/3.0) \xD7 35 + 50 = 79.17% marks",
+      "CGPA 3.00 on HEC 4.0 scale: ((3.00 - 1.0)/3.0) \xD7 35 + 50 = 73.33% marks (First Division)",
+      "MDCAT Aggregate with 170/200, 1020/1100 FSc, 1000/1100 Matric: 42.5% + 37.09% + 9.09% = 88.68%",
+      "Converting 5.0 CGPA scale to 4.0 CGPA: CGPA 4.0 = (CGPA 5.0 \xF7 5.0) \xD7 4.0"
+    ];
+    faqs.push(
+      {
+        question: "What percentage is a 3.00 CGPA in Pakistan under HEC?",
+        answer: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)."
+      },
+      {
+        question: "What is the standard PMDC MDCAT aggregate formula?",
+        answer: "The PMDC formula calculates aggregate as: 50% MDCAT entrance test score + 40% FSc Pre-Medical board score + 10% Matriculation board score."
+      },
+      {
+        question: "Does HEC provide an official formula on degree equivalence certificates?",
+        answer: "HEC evaluates semester transcripts using the university-specific grading curve if specified on the reverse of the transcript. In the absence of an institutional curve, the standard continuous formula Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 is applied."
+      },
+      {
+        question: "What CGPA is required for First Division in Pakistan?",
+        answer: "Under HEC regulations, a CGPA of 2.80 to 3.00 (depending on university grading criteria) or a minimum of 60% marks represents First Division."
+      }
+    );
+  }
   return {
     directAnswer: {
       heading: `Direct Answer: 1 ${s1} to ${s2}`,
@@ -3814,7 +4104,9 @@ function getPairEditorial(cat, u1, u2, pairParam) {
     useCases: specificUseCases,
     reciprocal,
     faqs,
-    fieldNote
+    fieldNote,
+    workedExamples,
+    referenceTable
   };
 }
 

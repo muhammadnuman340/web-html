@@ -26,9 +26,9 @@ const POPULAR_PAIRS = [
 ]
 
 const GUIDES_AND_EDITORIAL = [
-  { title: 'Meters to Feet Conversion Guide', path: '/guides/meters-to-feet', desc: 'Precision conversion factors, architectural scale, and NIST formulas.' },
-  { title: 'Pounds to Kilograms Reference', path: '/guides/lbs-to-kg', desc: 'International avoirdupois pound conversion and SI mass traceability.' },
-  { title: 'Celsius to Fahrenheit Scale Guide', path: '/guides/celsius-to-fahrenheit', desc: 'Thermodynamic zero, freezing points, and temperature conversion.' },
+  { title: 'Meters to Feet Conversion Guide', path: '/convert/length/meter-to-feet', desc: 'Precision conversion factors, architectural scale, and NIST formulas.' },
+  { title: 'Pounds to Kilograms Reference', path: '/convert/mass/pounds-to-kilogram', desc: 'International avoirdupois pound conversion and SI mass traceability.' },
+  { title: 'Celsius to Fahrenheit Scale Guide', path: '/convert/temp/celsius-to-fahrenheit', desc: 'Thermodynamic zero, freezing points, and temperature conversion.' },
   { title: 'Metric vs Imperial: Engineering Guide', path: '/blog/metric-vs-imperial-engineering-guide', desc: 'Historical origins, industrial standardization, and dual-unit drafting.' },
   { title: 'Temperature Scales & Thermodynamic Zero', path: '/blog/temperature-scales-celsius-fahrenheit-kelvin', desc: 'Comparative metrology across Celsius, Fahrenheit, Kelvin, and Rankine.' },
   { title: 'Fractional Inches to Millimeters', path: '/blog/fractional-inches-to-mm-best-practices', desc: 'Machinist tolerances, 1/64 tape fraction lookup, and metric offsets.' },

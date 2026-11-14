@@ -28,8 +28,8 @@ import { buildPairSchema } from '../src/config/schema'
 const distDir = path.resolve(process.cwd(), 'dist')
 
 describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', () => {
-  test('all 15 guides have valid category relationships in the 36-category registry', () => {
-    assert.equal(GUIDE_RELATIONSHIPS.length, 15, 'Exactly 15 guides must be registered')
+  test('all 3 guides have valid category relationships in the 36-category registry', () => {
+    assert.equal(GUIDE_RELATIONSHIPS.length, 3, 'Exactly 3 kept guides must be registered (12 merged/removed)')
     const categoryIds = new Set(Categories.map(c => c.id))
 
     for (const rel of GUIDE_RELATIONSHIPS) {
@@ -47,75 +47,67 @@ describe('Phase 3 Step 4: Guide Relationship Architecture & Internal Linking', (
     }
   })
 
-  test('category-to-guide lookup resolves matching guides for length, mass, and temp', () => {
-    const lengthGuides = getGuidesForCategory('length')
-    assert.equal(lengthGuides.length, 2, 'Length category must have 2 guides (meters-to-feet, feet-to-meters)')
-    assert.ok(lengthGuides.some(g => g.guideSlug === 'meters-to-feet'))
-    assert.ok(lengthGuides.some(g => g.guideSlug === 'feet-to-meters'))
+  test('category-to-guide lookup resolves matching guides for cooking, pk-numbering, and number-base', () => {
+    const cookingGuides = getGuidesForCategory('cooking')
+    assert.equal(cookingGuides.length, 1, 'Cooking category must have 1 guide (cups-to-grams)')
+    assert.ok(cookingGuides.some(g => g.guideSlug === 'cups-to-grams'))
 
-    const massGuides = getGuidesForCategory('mass')
-    assert.equal(massGuides.length, 3, 'Mass category must have 3 guides (lbs-to-kg, kg-to-lbs, tola-to-grams-gold-pakistan)')
-    assert.ok(massGuides.some(g => g.guideSlug === 'lbs-to-kg'))
-    assert.ok(massGuides.some(g => g.guideSlug === 'kg-to-lbs'))
-    assert.ok(massGuides.some(g => g.guideSlug === 'tola-to-grams-gold-pakistan'))
+    const pkGuides = getGuidesForCategory('pk-numbering')
+    assert.equal(pkGuides.length, 1, 'pk-numbering category must have 1 guide (lakh-crore-to-million-billion)')
+    assert.ok(pkGuides.some(g => g.guideSlug === 'lakh-crore-to-million-billion'))
 
-    const areaGuides = getGuidesForCategory('area')
-    assert.equal(areaGuides.length, 1, 'Area category must have 1 guide (marla-to-square-feet-pakistan)')
-    assert.ok(areaGuides.some(g => g.guideSlug === 'marla-to-square-feet-pakistan'))
+    const numberBaseGuides = getGuidesForCategory('number-base')
+    assert.equal(numberBaseGuides.length, 1, 'number-base category must have 1 guide (binary-hex-ieee-754-guide)')
+    assert.ok(numberBaseGuides.some(g => g.guideSlug === 'binary-hex-ieee-754-guide'))
 
-    const tempGuides = getGuidesForCategory('temp')
-    assert.equal(tempGuides.length, 2, 'Temp category must have 2 guides (celsius-to-fahrenheit, fahrenheit-to-celsius)')
-    assert.ok(tempGuides.some(g => g.guideSlug === 'celsius-to-fahrenheit'))
-    assert.ok(tempGuides.some(g => g.guideSlug === 'fahrenheit-to-celsius'))
-
-    // Categories without guides return empty array
-    const digitalGuides = getGuidesForCategory('digital')
-    assert.equal(digitalGuides.length, 0)
+    // Merged categories no longer return guides
+    assert.equal(getGuidesForCategory('length').length, 0)
+    assert.equal(getGuidesForCategory('mass').length, 0)
+    assert.equal(getGuidesForCategory('temp').length, 0)
   })
 
-  test('pair-to-guide lookup resolves bidirectional pair relationships', () => {
-    const meterToFeetGuide = getGuideForPair('length', 'meter-to-feet')
-    assert.ok(meterToFeetGuide, 'meter-to-feet must resolve to a guide')
-    assert.equal(meterToFeetGuide.guideSlug, 'meters-to-feet')
+  test('pair-to-guide lookup resolves pair relationships for kept guides', () => {
+    const cookingGuide = getGuideForPair('cooking', 'stick-of-butter-to-tablespoon')
+    assert.ok(cookingGuide, 'stick-of-butter-to-tablespoon must resolve to a guide')
+    assert.equal(cookingGuide.guideSlug, 'cups-to-grams')
 
-    const feetToMeterGuide = getGuideForPair('length', 'feet-to-meters')
-    assert.ok(feetToMeterGuide, 'feet-to-meters must resolve to a guide')
-    assert.equal(feetToMeterGuide.guideSlug, 'feet-to-meters')
+    const pkGuide = getGuideForPair('pk-numbering', 'lakh-to-m-std')
+    assert.ok(pkGuide, 'lakh-to-m-std must resolve to a guide')
+    assert.equal(pkGuide.guideSlug, 'lakh-crore-to-million-billion')
 
-    const celsiusGuide = getGuideForPair('temp', 'celsius-to-fahrenheit')
-    assert.ok(celsiusGuide, 'celsius-to-fahrenheit must resolve to a guide')
-    assert.equal(celsiusGuide.guideSlug, 'celsius-to-fahrenheit')
+    const numBaseGuide = getGuideForPair('number-base', 'bin-to-dec')
+    assert.ok(numBaseGuide, 'bin-to-dec must resolve to a guide')
+    assert.equal(numBaseGuide.guideSlug, 'binary-hex-ieee-754-guide')
 
-    // Unrelated pair returns undefined
-    const kmToMilesGuide = getGuideForPair('length', 'kilometer-to-miles')
+    // Merged/unrelated pair returns undefined
+    const kmToMilesGuide = getGuideForPair('length', 'meter-to-feet')
     assert.equal(kmToMilesGuide, undefined)
   })
 
   test('guide-to-blog post relationships reference real blog posts', () => {
-    const lengthRel = getGuideRelationship('meters-to-feet')
-    assert.ok(lengthRel)
-    assert.ok(lengthRel.relatedPostSlugs.includes('compound-length-units-guide'))
+    const cookingRel = getGuideRelationship('cups-to-grams')
+    assert.ok(cookingRel)
+    assert.ok(cookingRel.relatedPostSlugs.includes('ai-powered-unit-conversions-in-2026'))
 
-    const tempRel = getGuideRelationship('celsius-to-fahrenheit')
-    assert.ok(tempRel)
-    assert.ok(tempRel.relatedPostSlugs.includes('temperature-scales-celsius-fahrenheit-kelvin'))
+    const numBaseRel = getGuideRelationship('binary-hex-ieee-754-guide')
+    assert.ok(numBaseRel)
+    assert.ok(numBaseRel.relatedPostSlugs.includes('digital-data-storage-units-guide'))
   })
 
   test('prerendered HTML contains contextual internal links on category, pair, and guide pages', () => {
     // 1. Category page contains link to its guides
-    const lengthCatHtml = fs.readFileSync(path.join(distDir, 'convert/length.html'), 'utf-8')
-    assert.ok(lengthCatHtml.includes('/guides/meters-to-feet'), 'Length category HTML must link to meters-to-feet guide')
-    assert.ok(lengthCatHtml.includes('/guides/feet-to-meters'), 'Length category HTML must link to feet-to-meters guide')
+    const cookingCatHtml = fs.readFileSync(path.join(distDir, 'convert/cooking.html'), 'utf-8')
+    assert.ok(cookingCatHtml.includes('/guides/cups-to-grams'), 'Cooking category HTML must link to cups-to-grams guide')
 
     // 2. Pair page contains link to its guide callout
-    const pairHtml = fs.readFileSync(path.join(distDir, 'convert/length/meter-to-feet.html'), 'utf-8')
-    assert.ok(pairHtml.includes('/guides/meters-to-feet'), 'meter-to-feet pair HTML must link to meters-to-feet guide')
+    const pairHtml = fs.readFileSync(path.join(distDir, 'convert/cooking/stick-of-butter-to-tablespoon.html'), 'utf-8')
+    assert.ok(pairHtml.includes('/guides/cups-to-grams'), 'stick-of-butter-to-tablespoon pair HTML must link to cups-to-grams guide')
 
     // 3. Guide page contains links back to pair converter and category
-    const guideHtml = fs.readFileSync(path.join(distDir, 'guides/meters-to-feet.html'), 'utf-8')
-    assert.ok(guideHtml.includes('/convert/length/meter-to-feet'), 'meters-to-feet guide HTML must link to meter-to-feet pair')
-    assert.ok(guideHtml.includes('/convert/length'), 'meters-to-feet guide HTML must link to length category')
-    assert.ok(guideHtml.includes('/blog/compound-length-units-guide'), 'meters-to-feet guide HTML must link to related blog article')
+    const guideHtml = fs.readFileSync(path.join(distDir, 'guides/cups-to-grams.html'), 'utf-8')
+    assert.ok(guideHtml.includes('/convert/cooking/stick-of-butter-to-tablespoon'), 'cups-to-grams guide HTML must link to stick-of-butter-to-tablespoon pair')
+    assert.ok(guideHtml.includes('/convert/cooking'), 'cups-to-grams guide HTML must link to cooking category')
+    assert.ok(guideHtml.includes('/blog/ai-powered-unit-conversions-in-2026'), 'cups-to-grams guide HTML must link to related blog article')
   })
 })
 

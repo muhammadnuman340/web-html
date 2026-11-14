@@ -701,7 +701,7 @@ console.log("Home (1):", home.length, home);
 console.log("Core pages (12):", core.length, core);
 console.log("Categories (36):", categories.length);
 console.log("Pairs (187):", pairs.length);
-console.log("Guides (15):", guides.length, guides);
+console.log("Guides (3):", guides.length, guides);
 console.log("Blog articles (6):", blogArticles.length, blogArticles);
 console.log("Sum:", home.length + core.length + categories.length + pairs.length + guides.length + blogArticles.length);
 var missingPrerender = 0;

@@ -519,7 +519,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
               to="/guides"
               className="text-xs font-medium text-[var(--link-text)] hover:underline min-h-[44px] px-2 flex items-center"
             >
-              All 15 Guides →
+              All Guides →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

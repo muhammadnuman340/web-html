@@ -67,6 +67,22 @@
 /category/*                   /convert/:splat          301
 
 # ------------------------------------------------------------------------------
+# 1b. Merged Educational Guides (301 Permanent Redirects to Canonical Pair Pages)
+# ------------------------------------------------------------------------------
+/guides/celsius-to-fahrenheit           /convert/temp/celsius-to-fahrenheit           301
+/guides/fahrenheit-to-celsius           /convert/temp/fahrenheit-to-celsius           301
+/guides/kg-to-lbs                       /convert/mass/kilogram-to-pounds              301
+/guides/lbs-to-kg                       /convert/mass/pounds-to-kilogram              301
+/guides/feet-to-meters                  /convert/length/feet-to-meters                301
+/guides/meters-to-feet                  /convert/length/meter-to-feet                 301
+/guides/psi-to-bar                      /convert/pressure/psi-to-bar                  301
+/guides/kw-to-hp                        /convert/power/kilowatts-to-horsepower        301
+/guides/tola-to-grams-gold-pakistan     /convert/mass/tola-to-g                       301
+/guides/marla-to-square-feet-pakistan   /convert/area/marla-to-ft2                    301
+/guides/hec-cgpa-to-percentage-pakistan /convert/pk-gpa/hec-gpa4-to-percentage        301
+/guides/cricket-overs-to-balls-nrr      https://toolshub.numanxstudio.com/tools/cricket-over-calculator/ 301
+
+# ------------------------------------------------------------------------------
 # 2. Client-Side SPA Routes (200 Rewrites to Neutral Shell)
 # ------------------------------------------------------------------------------
 /dashboard                    /spa                     200

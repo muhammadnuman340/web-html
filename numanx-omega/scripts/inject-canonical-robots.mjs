@@ -108,12 +108,33 @@ for (const filePath of htmlFiles) {
     continue;
   }
 
-  // Skip SPA fallback shell (neutral shell for dynamic client routes; must not declare canonical)
+  // Skip SPA fallback shell (neutral shell for dynamic client routes; must not declare canonical, must be noindex)
   if (relPath === 'spa.html') {
+    let spaModified = false;
     // Ensure no canonical is accidentally present in spa.html
     if (content.includes('rel="canonical"')) {
       content = content.replace(/<link[^>]*rel=["']canonical["'][^>]*\/?>\s*/gi, '');
-      if (!isDryRun) fs.writeFileSync(filePath, content, 'utf-8');
+      spaModified = true;
+    }
+    // Ensure robots is strictly noindex, follow
+    const robotsTagRegex = /<meta[^>]*name=["']robots["'][^>]*>/i;
+    const robotsMatch = content.match(robotsTagRegex);
+    if (robotsMatch) {
+      if (!robotsMatch[0].includes('noindex')) {
+        content = content.replace(robotsTagRegex, '<meta name="robots" content="noindex, follow" />');
+        spaModified = true;
+      }
+    } else {
+      content = content.replace('</head>', '    <meta name="robots" content="noindex, follow" />\n  </head>');
+      spaModified = true;
+    }
+    // Remove any googlebot index tag if present
+    if (content.includes('name="googlebot"')) {
+      content = content.replace(/<meta[^>]*name=["']googlebot["'][^>]*\/?>\s*/gi, '');
+      spaModified = true;
+    }
+    if (spaModified && !isDryRun) {
+      fs.writeFileSync(filePath, content, 'utf-8');
     }
     skippedCount++;
     continue;

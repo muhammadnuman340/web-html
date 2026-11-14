@@ -52,7 +52,7 @@ export const STATIC_ROUTES: StaticRouteDef[] = [
   { path: '/help', label: 'Help', type: 'utility', description: 'Keyboard shortcuts and documentation' },
   { path: '/sitemap', label: 'Sitemap', type: 'utility', description: 'Complete HTML sitemap directory' },
   { path: '/blog', label: 'Blog', type: 'editorial', description: 'Metrology guides and conversion articles' },
-  { path: '/guides', label: 'Guides Hub', type: 'editorial', description: 'Complete library of 15 conversion guides and formulas' },
+  { path: '/guides', label: 'Guides Hub', type: 'editorial', description: 'Complete library of conversion guides and formulas' },
   { path: '/about', label: 'About', type: 'editorial', description: 'Standards compliance and project info' },
 ]
 

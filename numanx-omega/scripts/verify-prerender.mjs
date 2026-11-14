@@ -842,6 +842,13 @@ if (!fs.existsSync(spaPath)) {
   if (/<h1\b/i.test(spaHtml)) {
     failures.push({ url: "/spa.html", routePath: "/spa.html", reason: "dist/spa.html must not contain an <h1>" });
   }
+  const robotsMatch = spaHtml.match(/<meta[^>]*name=["']robots["'][^>]*content=["']([^"']*)["'][^>]*>/i);
+  if (!robotsMatch || !robotsMatch[1].includes("noindex")) {
+    failures.push({ url: "/spa.html", routePath: "/spa.html", reason: 'dist/spa.html must declare <meta name="robots" content="noindex, follow">' });
+  }
+  if (/<meta[^>]*name=["']robots["'][^>]*content=["'][^"']*\bindex,\s*follow[^"']*["']/i.test(spaHtml) || /<meta[^>]*name=["']googlebot["'][^>]*content=["'][^"']*(?<!no)index/i.test(spaHtml)) {
+    failures.push({ url: "/spa.html", routePath: "/spa.html", reason: "dist/spa.html must not declare indexable robots directives" });
+  }
 }
 var notFoundPath = path.join(distDir, "404.html");
 if (!fs.existsSync(notFoundPath)) {

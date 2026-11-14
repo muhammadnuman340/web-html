@@ -131,7 +131,7 @@ describe('Phase 3 Step 3: Schema Graph Architecture & Identity Integrity', () =>
   })
 
   test('guide schema includes HowTo and FAQPage with step alignment', () => {
-    const guide = guideContent['lbs-to-kg']
+    const guide = guideContent['cups-to-grams']
     const schema = buildGuideSchema(guide)
 
     const types = schema['@graph'].map(n => n['@type'])
