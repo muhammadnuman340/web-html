@@ -56,29 +56,6 @@ export function convertFuel(v: number, from: string, to: string): number | null 
 }
 
 
-export function convertCricketOvers(v: number, from: string, to: string): number {
-  if (from === to) return cleanFloat(v)
-  let totalBalls: number
-  if (from === 'balls') {
-    totalBalls = Math.round(v)
-  } else if (from === 'true_overs' || from === 'run_rate_6') {
-    totalBalls = Math.round(v * 6)
-  } else {
-    // overs_balls notation (e.g. 14.3 -> 14 overs and 3 balls)
-    const overs = Math.floor(Math.abs(v))
-    const frac = Math.round((Math.abs(v) - overs) * 10)
-    const validFrac = Math.min(5, Math.max(0, frac))
-    totalBalls = (overs * 6 + validFrac) * (v < 0 ? -1 : 1)
-  }
-
-  if (to === 'balls') return totalBalls
-  if (to === 'true_overs' || to === 'run_rate_6') return cleanFloat(totalBalls / 6, 4)
-  const sign = totalBalls < 0 ? -1 : 1
-  const absBalls = Math.abs(totalBalls)
-  const fullOvers = Math.floor(absBalls / 6)
-  const remBalls = absBalls % 6
-  return cleanFloat(sign * (fullOvers + remBalls / 10), 1)
-}
 
 export function convertPkGpa(v: number, from: string, to: string): number {
   if (from === to) return cleanFloat(v)
@@ -171,7 +148,6 @@ export function convert(v: number, catId: string, fromId: string, toId: string):
 
   if (cat.id === 'temp') return convertTemp(v, fromId, toId)
   if (cat.id === 'fuel') return convertFuel(v, fromId, toId)
-  if (cat.id === 'cricket-overs') return convertCricketOvers(v, fromId, toId)
   if (cat.id === 'pk-gpa') return convertPkGpa(v, fromId, toId)
   if (cat.id === 'statistics') return convertStatistics(v, fromId, toId)
   if (cat.id === 'number-base') return convertNumberBase(v, fromId, toId)
@@ -181,6 +157,7 @@ export function convert(v: number, catId: string, fromId: string, toId: string):
   const fu = getUnit(cat, fromId)
   const tu = getUnit(cat, toId)
   if (!fu || !tu || !fu.r || !tu.r) return null
+  if (fu.dim && tu.dim && fu.dim !== tu.dim) return null
 
   return cleanFloat((v * fu.r) / tu.r)
 }
@@ -188,7 +165,9 @@ export function convert(v: number, catId: string, fromId: string, toId: string):
 export function convertAll(v: number, catId: string, fromId: string): { id: string; label: string; value: number | null }[] {
   const cat = getCategory(catId)
   if (!cat) return []
-  return cat.un.map(u => ({
+  const fu = getUnit(cat, fromId)
+  const units = fu?.dim ? cat.un.filter(u => !u.dim || u.dim === fu.dim) : cat.un
+  return units.map(u => ({
     id: u.id,
     label: u.lb,
     value: u.id === fromId ? v : convert(v, catId, fromId, u.id)
@@ -224,11 +203,6 @@ export function getFormula(catId: string, fromId: string, toId: string): string 
     return sample !== null ? `1 ${fromId} ≈ ${cleanFloat(sample, 6)} ${toId}` : ''
   }
 
-  if (cat.id === 'cricket-overs') {
-    if (fromId === 'overs_balls' && toId === 'balls') return 'Balls = (Floor(Overs) × 6) + Remainder Balls'
-    if (fromId === 'balls' && toId === 'true_overs') return 'True Decimal Overs = Legal Deliveries ÷ 6'
-    return '1 Over = 6 Legal Deliveries (ICC Standard)'
-  }
 
   if (cat.id === 'pk-gpa') {
     return 'CGPA / Percentage Scale: Continuous HEC / PMDC Academic Model'

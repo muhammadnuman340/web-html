@@ -2,7 +2,7 @@ export type UnitSystem = 'M' | 'I' | 'S' | 'O' | 'C'
 export const SystemLabels: Record<UnitSystem, string> = { M: 'Metric', I: 'Imperial', S: 'Scientific', O: 'Other', C: 'Custom' }
 
 export interface UnitDef {
-  id: string; lb: string; r?: number; s?: UnitSystem; al?: string[]; custom?: boolean
+  id: string; lb: string; r?: number; s?: UnitSystem; al?: string[]; custom?: boolean; dim?: string
 }
 
 export interface CategoryDef {
@@ -30,5 +30,3 @@ export interface AppState {
   theme: ThemeMode; category: string; precision: number; sci: boolean; frac: boolean
   sidebarOpen: boolean; history: HistoryEntry[]; favorites: FavoriteEntry[]
 }
-
-

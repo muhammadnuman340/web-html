@@ -15,10 +15,10 @@ import { isIndexablePath } from '../src/config/site'
 import { generateSitemapEntries } from '../scripts/generate-sitemap'
 
 describe('Task 17.1 & 17.2: Canonical Category Route Integrity', () => {
-  it('guarantees all 36 categories have a canonical route', () => {
+  it('guarantees all 35 categories have a canonical route', () => {
     const routes = getAllCategoryRoutes()
-    assert.equal(routes.length, 36, 'Expected exactly 36 category route definitions')
-    assert.equal(Categories.length, 36, 'Expected Categories registry to have 36 definitions')
+    assert.equal(routes.length, 35, 'Expected exactly 35 category route definitions')
+    assert.equal(Categories.length, 35, 'Expected Categories registry to have 35 definitions')
 
     for (const cat of Categories) {
       const r = routes.find(entry => entry.categoryId === cat.id)
@@ -141,7 +141,6 @@ describe('Task 7 & 8: Static & Special Route Audit', () => {
       '/dashboard',
       '/formulas',
       '/calculator',
-      '/health',
       '/favorites',
       '/history',
       '/custom-units',
@@ -158,11 +157,9 @@ describe('Task 7 & 8: Static & Special Route Audit', () => {
     }
   })
 
-  it('verifies "/health" is documented and categorized as a user-facing feature route', () => {
+  it('verifies "/health" is retired from STATIC_ROUTES and redirected to ToolsHub', () => {
     const health = STATIC_ROUTES.find(s => s.path === '/health')
-    assert.ok(health, 'Route "/health" must exist')
-    assert.equal(health?.type, 'feature')
-    assert.equal(health?.label, 'Health Hub')
+    assert.ok(!health, 'Route "/health" must be removed from STATIC_ROUTES')
   })
 
   it('guarantees static route paths are unique', () => {
@@ -239,8 +236,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count matches authoritative sitemap inventory (245 URLs: 257 baseline - 12 removed guide routes)
-    assert.equal(entries.length, 245, `Expected exactly 245 sitemap entries, got ${entries.length}`)
+    // Verify count matches authoritative sitemap inventory (242 URLs: 245 - 5 removed + 2 added)
+    assert.equal(entries.length, 242, `Expected exactly 242 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {
@@ -291,13 +288,9 @@ describe('Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(content.includes("e.key === 'Escape'"), 'AIAssistant must handle Escape key dismissal')
   })
 
-  it('verifies OnboardingTour and ShortcutsPanel implement modal dialog semantics and title associations', () => {
+  it('verifies ShortcutsPanel implements modal dialog semantics and title associations, and OnboardingTour is deleted', () => {
     const tourPath = path.resolve(process.cwd(), 'src/components/ui/OnboardingTour.tsx')
-    const tourContent = fs.readFileSync(tourPath, 'utf8')
-    assert.ok(tourContent.includes('role="dialog"'), 'OnboardingTour must have role="dialog"')
-    assert.ok(!tourContent.includes('aria-modal="true"'), 'OnboardingTour must be non-modal (no aria-modal="true")')
-    assert.ok(tourContent.includes('aria-labelledby="tour-heading"'), 'OnboardingTour must reference tour heading')
-    assert.ok(tourContent.includes('id="tour-heading"'), 'OnboardingTour must define id="tour-heading"')
+    assert.ok(!fs.existsSync(tourPath), 'OnboardingTour must be completely removed from src/components/ui/')
 
     const shortcutsPath = path.resolve(process.cwd(), 'src/components/ui/ShortcutsPanel.tsx')
     const shortcutsContent = fs.readFileSync(shortcutsPath, 'utf8')
@@ -371,17 +364,16 @@ describe('Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture', ()
     assert.ok(!appContent.includes('react-chartjs-2'), 'src/App.tsx must not import react-chartjs-2')
   })
 
-  it('verifies heavy interactive widgets (AIAssistant, ShortcutsPanel, OnboardingTour) are code-split and lazy-loaded in App.tsx', () => {
+  it('verifies heavy interactive widgets (AIAssistant, ShortcutsPanel) are code-split and lazy-loaded in App.tsx', () => {
     const appPath = path.resolve(process.cwd(), 'src/App.tsx')
     const appContent = fs.readFileSync(appPath, 'utf8')
 
     assert.ok(appContent.includes("const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))"), 'AIAssistant must be lazy loaded')
     assert.ok(appContent.includes("const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))"), 'ShortcutsPanel must be lazy loaded')
-    assert.ok(appContent.includes("const OnboardingTour = lazy(() => import('./components/ui/OnboardingTour'))"), 'OnboardingTour must be lazy loaded')
+    assert.ok(!appContent.includes('OnboardingTour'), 'OnboardingTour must be completely removed from App.tsx')
 
     assert.ok(!appContent.includes("import AIAssistant from './components/widgets/AIAssistant'"), 'AIAssistant must not be statically imported')
     assert.ok(!appContent.includes("import ShortcutsPanel from './components/ui/ShortcutsPanel'"), 'ShortcutsPanel must not be statically imported')
-    assert.ok(!appContent.includes("import OnboardingTour from './components/ui/OnboardingTour'"), 'OnboardingTour must not be statically imported')
   })
 
   it('verifies vite.config.ts configures vendor-motion manual chunking without monolithic bundle', () => {
@@ -558,6 +550,35 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
       assert.equal(match.code, '301', `Expected 301 status for ${from}`)
 
       // Ensure no redirect chain: the destination must not be redirected again by another rule
+      assert.ok(!sourcePaths.has(to), `Redirect chain detected: ${from} -> ${to} which is also redirected`)
+    }
+  })
+
+
+  it('verifies out-of-scope and quality-retired routes have 301 permanent redirects without redirect chains', () => {
+    const publicRedirectsPath = path.resolve(process.cwd(), 'public/_redirects')
+    const content = fs.readFileSync(publicRedirectsPath, 'utf8')
+
+    const expectedQualityRedirects: [string, string][] = [
+      ['/convert/textile/gsm-to-thread-count', '/convert/textile'],
+      ['/health', 'https://toolshub.numanxstudio.com/tools/bmi-calculator/'],
+      ['/convert/cricket-overs', 'https://toolshub.numanxstudio.com/tools/cricket-over-calculator/'],
+      ['/convert/cricket-overs/*', 'https://toolshub.numanxstudio.com/tools/cricket-over-calculator/']
+    ]
+
+    const lines = content.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'))
+    const rules = lines.map(l => {
+      const parts = l.split(/\s+/)
+      return { from: parts[0], to: parts[1], code: parts[2] }
+    })
+
+    const sourcePaths = new Set(rules.map(r => r.from))
+
+    for (const [from, to] of expectedQualityRedirects) {
+      const match = rules.find(r => r.from === from)
+      assert.ok(match, `Missing 301 redirect for ${from}`)
+      assert.equal(match.to, to, `Expected ${from} to redirect to ${to}, got ${match.to}`)
+      assert.equal(match.code, '301', `Expected 301 status for ${from}`)
       assert.ok(!sourcePaths.has(to), `Redirect chain detected: ${from} -> ${to} which is also redirected`)
     }
   })

@@ -25,7 +25,7 @@ export const STORAGE_KEYS = {
     'uc_hist', 'uc_fav', 'uc_custom', 'uc_custom_units', 'uc_unit_defaults',
     'uc_ai_chat', 'uc_analytics', 'uc_streaks', 'uc_patterns',
   ],
-  preferences: ['uc_theme_class', 'uc_font', 'uc_prec', 'uc_mode', 'uc_haptic', 'uc_onboarded'],
+  preferences: ['uc_theme_class', 'uc_font', 'uc_prec', 'uc_mode', 'uc_haptic'],
 }
 
 /** Short notices shown next to health and money tools. */

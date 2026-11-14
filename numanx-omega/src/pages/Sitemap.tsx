@@ -16,7 +16,6 @@ const CORE_ROUTES = [
   { path: '/about', label: 'About NumanX Omega', icon: 'ℹ️', desc: 'Mission, NIST metrology compliance, privacy, and scientific engine' },
   { path: '/calculator', label: 'Smart Calculator', icon: '🧮', desc: 'Instant calculation and conversion hybrid tool' },
   { path: '/formulas', label: 'Formula Explorer', icon: '📐', desc: 'Interactive mathematical formulas and conversion steps' },
-  { path: '/health', label: 'Health & Fitness Hub', icon: '❤️', desc: 'BMI, body mass, and fitness unit conversion utilities' },
   { path: '/contact', label: 'Contact', icon: '✉️', desc: 'Report a wrong conversion, a security issue or a privacy question' },
   { path: '/privacy', label: 'Privacy Policy', icon: '🔒', desc: 'What stays in your browser and which outside services the app uses' },
   { path: '/terms', label: 'Terms of Use', icon: '📄', desc: 'Accuracy, price data, health calculator limits and content licensing' },

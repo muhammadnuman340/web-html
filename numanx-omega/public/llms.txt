@@ -1,6 +1,6 @@
 # Omega X Converter
 
-> Universal unit conversion platform with 36 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
+> Universal unit conversion platform with 35 physical categories, deterministic conversion algorithms, offline PWA capabilities, and authoritative scientific standards alignment.
 
 Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
 
@@ -13,18 +13,17 @@ Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 ## Primary Public Resources
 
 - [Home](https://converter.numanxstudio.com/): Main interactive universal conversion workspace with multi-category search, unit selection, and real-time computation.
-- [Universal Converter](https://converter.numanxstudio.com/converter): Dedicated conversion tool interface supporting all 36 measurement categories.
-- [Categories Directory](https://converter.numanxstudio.com/categories): Complete index of all 36 conversion categories with unit counts and reference standards.
+- [Universal Converter](https://converter.numanxstudio.com/converter): Dedicated conversion tool interface supporting all 35 measurement categories.
+- [Categories Directory](https://converter.numanxstudio.com/categories): Complete index of all 35 conversion categories with unit counts and reference standards.
 - [Formula Explorer](https://converter.numanxstudio.com/formulas): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
 - [Scientific Calculator](https://converter.numanxstudio.com/calculator): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
-- [Health & Fitness Metrics](https://converter.numanxstudio.com/health): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](https://converter.numanxstudio.com/blog): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
 - [Conversion Guides Hub](https://converter.numanxstudio.com/guides): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across scientific, regional, and computing units.
 - [About & Standards Methodology](https://converter.numanxstudio.com/about): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
 - [HTML Sitemap](https://converter.numanxstudio.com/sitemap): Authoritative index of every canonical public page.
 - [Contact](https://converter.numanxstudio.com/contact): How to report a wrong conversion, a security issue or a privacy question.
 - [Privacy Policy](https://converter.numanxstudio.com/privacy): No accounts, ads, cookies or analytics; history and settings stay in the browser.
-- [Terms of Use](https://converter.numanxstudio.com/terms): Accuracy, third-party price data, health calculator limits and content licensing.
+- [Terms of Use](https://converter.numanxstudio.com/terms): Accuracy, third-party price data and content licensing.
 
 ## Category Landings
 
@@ -59,7 +58,6 @@ Full Agent Documentation: https://converter.numanxstudio.com/llms-full.txt
 - [Matrix & Array Formats](https://converter.numanxstudio.com/convert/matrix-format): CSV grids, LaTeX bmatrix/pmatrix, Python NumPy, MATLAB, and JSON 2D arrays.
 - [Scientific & Parts-Per](https://converter.numanxstudio.com/convert/scientific-notation): Standard decimal, engineering notation, ppm, ppb, and percentages.
 - [HEC GPA & Marks](https://converter.numanxstudio.com/convert/pk-gpa): Pakistani HEC 4.00/5.00 CGPA, percentage marks, matric/FSc, and MDCAT aggregate.
-- [Cricket Base-6 Overs](https://converter.numanxstudio.com/convert/cricket-overs): Cricket overs notation (14.3), legal balls (87), and true decimal overs (14.50) for ICC Net Run Rate (NRR).
 
 ## Educational Guides
 

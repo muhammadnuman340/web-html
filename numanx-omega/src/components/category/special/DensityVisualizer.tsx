@@ -29,7 +29,6 @@ export default function DensityVisualizer() {
 
   const gCm3 = useMemo(() => kgM3 / 1000, [kgM3])
   const lbFt3 = useMemo(() => kgM3 * 0.062428, [kgM3])
-  const lbIn3 = useMemo(() => kgM3 * 0.000036127, [kgM3])
 
   // Archimedes buoyancy in freshwater (1000 kg/m3)
   const specificGravity = useMemo(() => kgM3 / 1000, [kgM3])

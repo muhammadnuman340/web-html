@@ -273,16 +273,16 @@ var Categories = [
     ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
-      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
-      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
-      { id: "A", lb: "Ampere", r: 1, s: "M" },
-      { id: "V", lb: "Volt", r: 1, s: "M" },
-      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
-      { id: "C", lb: "Coulomb", r: 1, s: "S" },
-      { id: "F", lb: "Farad", r: 1, s: "M" },
-      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
-      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
-      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
+      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M", dim: "capacitance" },
+      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M", dim: "current" },
+      { id: "A", lb: "Ampere", r: 1, s: "M", dim: "current" },
+      { id: "V", lb: "Volt", r: 1, s: "M", dim: "voltage" },
+      { id: "ohm", lb: "Ohm", r: 1, s: "M", dim: "resistance" },
+      { id: "C", lb: "Coulomb", r: 1, s: "S", dim: "charge" },
+      { id: "F", lb: "Farad", r: 1, s: "M", dim: "capacitance" },
+      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M", dim: "voltage" },
+      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M", dim: "resistance" },
+      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M", dim: "resistance" }
     ]
   },
   {
@@ -291,9 +291,9 @@ var Categories = [
     ic: "\u{1F9F2}",
     cl: "#e040fb",
     un: [
-      { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
-      { id: "T", lb: "Tesla", r: 1, s: "M" },
-      { id: "Wb", lb: "Weber", r: 1, s: "S" }
+      { id: "G", lb: "Gauss", r: 1e-4, s: "M", dim: "b_field" },
+      { id: "T", lb: "Tesla", r: 1, s: "M", dim: "b_field" },
+      { id: "Wb", lb: "Weber", r: 1, s: "S", dim: "flux" }
     ]
   },
   {
@@ -421,11 +421,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
-      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
-      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
-      { id: "tc", lb: "Thread Count", r: 1, s: "O" },
-      { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"], dim: "areal_density" },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz", "oz/yd2", "oz-yd2", "oz/sq yd", "osy", "ounce per square yard", "ounces per square yard"], dim: "areal_density" },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"], dim: "areal_density" }
     ]
   },
   {
@@ -434,11 +432,11 @@ var Categories = [
     ic: "\u{1F30C}",
     cl: "#7c4dff",
     un: [
-      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
-      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
-      { id: "au_a", lb: "AU", r: 1, s: "S" },
-      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
-      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
+      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S", dim: "mass" },
+      { id: "sm", lb: "Solar Mass", r: 1, s: "S", dim: "mass" },
+      { id: "au_a", lb: "AU", r: 1, s: "S", dim: "distance" },
+      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S", dim: "distance" },
+      { id: "pc_a", lb: "Parsec", r: 206265, s: "S", dim: "distance" }
     ]
   },
   {
@@ -623,20 +621,6 @@ var Categories = [
       { id: "matric_fsc1200", lb: "Matric / FSc Marks (Out of 1200)", s: "O", al: ["1200"] },
       { id: "mdcat_agg", lb: "MDCAT / ECAT Aggregate (%)", s: "O", al: ["mdcat", "aggregate"] }
     ]
-  },
-  {
-    id: "cricket-overs",
-    lb: "Cricket Base-6",
-    ic: "\u{1F3CF}",
-    cl: "#8bc34a",
-    sp: true,
-    al: ["cricket overs", "overs to balls", "run rate", "cricket balls", "net run rate", "base 6 overs"],
-    un: [
-      { id: "overs_balls", lb: "Cricket Overs (e.g. 14.3)", r: 1, s: "O", al: ["overs", "overs.balls"] },
-      { id: "true_overs", lb: "True Decimal Overs (14.50)", s: "S", al: ["decimal overs"] },
-      { id: "balls", lb: "Legal Deliveries / Balls", s: "S", al: ["balls", "deliveries"] },
-      { id: "run_rate_6", lb: "Run Rate Metric (Per 6 Balls)", s: "O", al: ["rr", "run rate"] }
-    ]
   }
 ];
 
@@ -665,7 +649,6 @@ var STATIC_ROUTES = [
   { path: "/dashboard", label: "Dashboard", type: "feature", description: "Analytics and usage control center" },
   { path: "/formulas", label: "Formula Explorer", type: "feature", description: "Interactive scientific and engineering formulas" },
   { path: "/calculator", label: "Calculator", type: "feature", description: "Quick calculation and conversion interface" },
-  { path: "/health", label: "Health Hub", type: "feature", description: "BMI, BMR, and body composition calculators" },
   { path: "/favorites", label: "Favorites", type: "utility", description: "Bookmarked conversion pairs" },
   { path: "/history", label: "History", type: "utility", description: "Calculation history and log" },
   { path: "/custom-units", label: "Custom Units", type: "utility", description: "User-defined custom unit manager" },
@@ -1266,18 +1249,25 @@ var categoryContent = {
     ]
   },
   textile: {
-    title: "Textile Fabric Converter \u2014 GSM, Thread Count & Yarn Count",
-    metaDesc: "Convert fabric weight and textile specifications online: Grams per Square Meter (GSM), Thread Count (TC), and Yarn Count (YC) for bedding, apparel, and canvas.",
-    h1: "Textile & Fabric Units Conversion",
-    intro: "Convert textile density and quality metrics: Grams per Square Meter (GSM, fabric weight), Thread Count (TC, bedsheet weave density), and Yarn Count (YC). Essential for fashion designers, clothing manufacturers, bedding shoppers, and textile importers.",
+    title: "Textile Fabric Converter \u2014 GSM to oz/yd\xB2 & Fabric Weight",
+    metaDesc: "Convert fabric weight and textile density online: Grams per Square Meter (GSM) to Ounces per Square Yard (oz/yd\xB2), momme, and linear mass density.",
+    h1: "Textile & Fabric Weight Conversion",
+    intro: "Convert textile areal weight and density metrics: Grams per Square Meter (GSM, g/m\xB2) and Ounces per Square Yard (oz/yd\xB2). Essential for fashion designers, apparel manufacturers, garment importers, and fabric sourcing specialists.",
     popularPairs: [
-      { from: "GSM", to: "Thread Count", desc: "GSM \u2194 TC \u2014 evaluate fabric heaviness vs weave tightness" }
+      { from: "GSM", to: "oz", desc: "GSM \u2192 oz/yd\xB2 \u2014 fabric weight for apparel and canvas (1 oz/yd\xB2 \u2248 33.906 GSM)" },
+      { from: "oz", to: "GSM", desc: "oz/yd\xB2 \u2192 GSM \u2014 convert US imperial fabric specifications to international metric GSM" }
     ],
-    useCases: ["T-shirt and hoodie weight selection (e.g. 180 GSM vs 350 GSM)", "Bedding and sheet thread count quality evaluation", "Towel absorbency assessment (400-600 GSM)", "Industrial canvas and denim specification"],
-    formula: "GSM = weight in grams / area in square meters. Thread count = warp threads + weft threads per square inch.",
+    useCases: [
+      "T-shirt and hoodie fabric weight specification (180 GSM vs 5.3 oz/yd\xB2)",
+      "Denim and canvas fabric rating (10 oz to 14 oz workwear jeans)",
+      "Towel and fleece absorbency evaluation (400\u2013600 GSM bath towels)",
+      "Silk momme to GSM translation for luxury garment production"
+    ],
+    formula: "1 oz/yd\xB2 = 33.906 g/m\xB2 (GSM). oz/yd\xB2 = GSM \xF7 33.906, and GSM = oz/yd\xB2 \xD7 33.906.",
     faq: [
-      { q: "What does GSM mean in fabric?", a: 'GSM stands for "Grams per Square Meter" and measures the physical weight and density of fabric. Higher GSM generally means thicker, heavier material (e.g. 400+ GSM fleece vs 150 GSM summer t-shirt).' },
-      { q: "What is a good thread count for bed sheets?", a: "For quality cotton bed sheets, a thread count between 300 and 500 is considered ideal for softness, breathability, and durability." }
+      { q: "What does GSM mean in fabric?", a: "GSM stands for Grams per Square Meter (g/m\xB2) and measures the areal density of fabric. Higher GSM indicates heavier, thicker fabric (e.g. 480 GSM heavy fleece vs 150 GSM lightweight t-shirt)." },
+      { q: "How do you convert GSM to oz/yd\xB2?", a: "Divide GSM by 33.906 (or multiply by 0.0294935). For example, a 480 GSM heavyweight cotton fleece equals approximately 14.16 oz/yd\xB2." },
+      { q: "How do you convert oz/yd\xB2 to GSM?", a: "Multiply ounces per square yard by 33.906. For example, a classic 10 oz/yd\xB2 canvas duck fabric equals approximately 339.06 GSM." }
     ]
   },
   astronomy: {
@@ -1376,7 +1366,7 @@ var categoryContent = {
     title: "IEEE-754 Floating-Point Converter \u2014 FP16, FP32, FP64 & Hex Float",
     metaDesc: "Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.",
     h1: "IEEE-754 Floating-Point Visualizer & Bitfield Inspector",
-    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.",
+    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and special Not-a-Number representations.",
     popularPairs: [
       { from: "dec_real", to: "fp32", desc: "real \u2192 fp32 \u2014 decimal real number to 32-bit single precision IEEE-754" },
       { from: "fp32", to: "dec_real", desc: "fp32 \u2192 real \u2014 32-bit single precision bitfield to decimal real" },
@@ -1486,22 +1476,6 @@ var categoryContent = {
     faq: [
       { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)." },
       { q: "What is the standard MDCAT aggregate formula in Pakistan?", a: "The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation." }
-    ]
-  },
-  "cricket-overs": {
-    title: "Cricket Overs to Balls Converter \u2014 Run Rate & ICC Net Run Rate (NRR)",
-    metaDesc: "Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).",
-    h1: "Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter",
-    intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    popularPairs: [
-      { from: "overs_balls", to: "balls", desc: "cricket overs \u2192 balls \u2014 cricket overs notation (e.g. 14.3) to legal deliveries" },
-      { from: "overs_balls", to: "true_overs", desc: "cricket overs \u2192 decimal overs \u2014 cricket notation to true decimal overs for run rate" }
-    ],
-    useCases: ["ICC Tournament Net Run Rate (NRR) calculations", "Live match run rate and required run rate (RRR) analysis", "Bowler economy rate calculation (Runs / True Decimal Overs)", "Cricket database statistics & scorebook bookkeeping"],
-    formula: "Total Balls = (Floor(Overs) \xD7 6) + Remainder Balls. True Decimal Overs = Total Balls \xF7 6. Run Rate = Total Runs \xF7 True Decimal Overs.",
-    faq: [
-      { q: "Why is 14.3 overs not equal to 14.30 decimal overs?", a: 'Cricket overs are recorded in base-6, not base-10. The ".3" means 3 balls out of 6 (3/6 = 0.50). Therefore, 14.3 overs equals exactly 14.50 true decimal overs.' },
-      { q: "How does ICC calculate Net Run Rate (NRR)?", a: "NRR = (Total Runs Scored \xF7 Total True Decimal Overs Faced) \u2212 (Total Runs Conceded \xF7 Total True Decimal Overs Bowled). If a team is bowled out before completing their overs, the full quota of overs (e.g., 20 or 50) is used." }
     ]
   },
   typography: {
@@ -1924,7 +1898,6 @@ function generateSitemapEntries() {
   add("/categories", "0.9", "weekly");
   add("/formulas", "0.7", "weekly");
   add("/calculator", "0.7", "daily");
-  add("/health", "0.6", "weekly");
   add("/blog", "0.7", "weekly");
   add("/guides", "0.8", "weekly");
   add("/about", "0.6", "monthly");
@@ -2015,10 +1988,10 @@ run();
 
 // tests/routing.test.ts
 describe("Task 17.1 & 17.2: Canonical Category Route Integrity", () => {
-  it("guarantees all 36 categories have a canonical route", () => {
+  it("guarantees all 35 categories have a canonical route", () => {
     const routes = getAllCategoryRoutes();
-    assert.equal(routes.length, 36, "Expected exactly 36 category route definitions");
-    assert.equal(Categories.length, 36, "Expected Categories registry to have 36 definitions");
+    assert.equal(routes.length, 35, "Expected exactly 35 category route definitions");
+    assert.equal(Categories.length, 35, "Expected Categories registry to have 35 definitions");
     for (const cat of Categories) {
       const r = routes.find((entry) => entry.categoryId === cat.id);
       assert.ok(r, `Missing route definition for category "${cat.id}"`);
@@ -2121,7 +2094,6 @@ describe("Task 7 & 8: Static & Special Route Audit", () => {
       "/dashboard",
       "/formulas",
       "/calculator",
-      "/health",
       "/favorites",
       "/history",
       "/custom-units",
@@ -2136,11 +2108,9 @@ describe("Task 7 & 8: Static & Special Route Audit", () => {
       assert.ok(registered.has(path3), `Static route "${path3}" is missing from STATIC_ROUTES registry`);
     }
   });
-  it('verifies "/health" is documented and categorized as a user-facing feature route', () => {
+  it('verifies "/health" is retired from STATIC_ROUTES and redirected to ToolsHub', () => {
     const health = STATIC_ROUTES.find((s) => s.path === "/health");
-    assert.ok(health, 'Route "/health" must exist');
-    assert.equal(health?.type, "feature");
-    assert.equal(health?.label, "Health Hub");
+    assert.ok(!health, 'Route "/health" must be removed from STATIC_ROUTES');
   });
   it("guarantees static route paths are unique", () => {
     const paths = STATIC_ROUTES.map((s) => s.path);
@@ -2205,7 +2175,7 @@ describe("Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment"
       assert.ok(!entry.loc.includes("404"), `404 route leaked into sitemap: ${entry.loc}`);
       assert.ok(!entry.loc.includes("not-found"), `Not found path leaked into sitemap: ${entry.loc}`);
     }
-    assert.equal(entries.length, 245, `Expected exactly 245 sitemap entries, got ${entries.length}`);
+    assert.equal(entries.length, 242, `Expected exactly 242 sitemap entries, got ${entries.length}`);
   });
   it("ensures /404 path is excluded by indexability policy and invalid routes fail resolution", () => {
     assert.equal(isIndexablePath("/404"), false, "/404 must not be indexable");
@@ -2250,13 +2220,9 @@ describe("Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(content.includes('aria-label="Ask Omega X AI assistant"'), "AIAssistant input must have accessible name");
     assert.ok(content.includes("e.key === 'Escape'"), "AIAssistant must handle Escape key dismissal");
   });
-  it("verifies OnboardingTour and ShortcutsPanel implement modal dialog semantics and title associations", () => {
+  it("verifies ShortcutsPanel implements modal dialog semantics and title associations, and OnboardingTour is deleted", () => {
     const tourPath = path2.resolve(process.cwd(), "src/components/ui/OnboardingTour.tsx");
-    const tourContent = fs2.readFileSync(tourPath, "utf8");
-    assert.ok(tourContent.includes('role="dialog"'), 'OnboardingTour must have role="dialog"');
-    assert.ok(!tourContent.includes('aria-modal="true"'), 'OnboardingTour must be non-modal (no aria-modal="true")');
-    assert.ok(tourContent.includes('aria-labelledby="tour-heading"'), "OnboardingTour must reference tour heading");
-    assert.ok(tourContent.includes('id="tour-heading"'), 'OnboardingTour must define id="tour-heading"');
+    assert.ok(!fs2.existsSync(tourPath), "OnboardingTour must be completely removed from src/components/ui/");
     const shortcutsPath = path2.resolve(process.cwd(), "src/components/ui/ShortcutsPanel.tsx");
     const shortcutsContent = fs2.readFileSync(shortcutsPath, "utf8");
     assert.ok(shortcutsContent.includes('role="dialog"'), 'ShortcutsPanel must have role="dialog"');
@@ -2318,15 +2284,14 @@ describe("Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture", ()
     assert.ok(!appContent.includes("chart.js"), "src/App.tsx must not import chart.js");
     assert.ok(!appContent.includes("react-chartjs-2"), "src/App.tsx must not import react-chartjs-2");
   });
-  it("verifies heavy interactive widgets (AIAssistant, ShortcutsPanel, OnboardingTour) are code-split and lazy-loaded in App.tsx", () => {
+  it("verifies heavy interactive widgets (AIAssistant, ShortcutsPanel) are code-split and lazy-loaded in App.tsx", () => {
     const appPath = path2.resolve(process.cwd(), "src/App.tsx");
     const appContent = fs2.readFileSync(appPath, "utf8");
     assert.ok(appContent.includes("const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))"), "AIAssistant must be lazy loaded");
     assert.ok(appContent.includes("const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))"), "ShortcutsPanel must be lazy loaded");
-    assert.ok(appContent.includes("const OnboardingTour = lazy(() => import('./components/ui/OnboardingTour'))"), "OnboardingTour must be lazy loaded");
+    assert.ok(!appContent.includes("OnboardingTour"), "OnboardingTour must be completely removed from App.tsx");
     assert.ok(!appContent.includes("import AIAssistant from './components/widgets/AIAssistant'"), "AIAssistant must not be statically imported");
     assert.ok(!appContent.includes("import ShortcutsPanel from './components/ui/ShortcutsPanel'"), "ShortcutsPanel must not be statically imported");
-    assert.ok(!appContent.includes("import OnboardingTour from './components/ui/OnboardingTour'"), "OnboardingTour must not be statically imported");
   });
   it("verifies vite.config.ts configures vendor-motion manual chunking without monolithic bundle", () => {
     const configPath = path2.resolve(process.cwd(), "vite.config.ts");
@@ -2458,6 +2423,29 @@ describe("Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
     });
     const sourcePaths = new Set(rules.map((r) => r.from));
     for (const [from, to] of expectedRedirects) {
+      const match = rules.find((r) => r.from === from);
+      assert.ok(match, `Missing 301 redirect for ${from}`);
+      assert.equal(match.to, to, `Expected ${from} to redirect to ${to}, got ${match.to}`);
+      assert.equal(match.code, "301", `Expected 301 status for ${from}`);
+      assert.ok(!sourcePaths.has(to), `Redirect chain detected: ${from} -> ${to} which is also redirected`);
+    }
+  });
+  it("verifies out-of-scope and quality-retired routes have 301 permanent redirects without redirect chains", () => {
+    const publicRedirectsPath = path2.resolve(process.cwd(), "public/_redirects");
+    const content = fs2.readFileSync(publicRedirectsPath, "utf8");
+    const expectedQualityRedirects = [
+      ["/convert/textile/gsm-to-thread-count", "/convert/textile"],
+      ["/health", "https://toolshub.numanxstudio.com/tools/bmi-calculator/"],
+      ["/convert/cricket-overs", "https://toolshub.numanxstudio.com/tools/cricket-over-calculator/"],
+      ["/convert/cricket-overs/*", "https://toolshub.numanxstudio.com/tools/cricket-over-calculator/"]
+    ];
+    const lines = content.split("\n").map((l) => l.trim()).filter((l) => l && !l.startsWith("#"));
+    const rules = lines.map((l) => {
+      const parts = l.split(/\s+/);
+      return { from: parts[0], to: parts[1], code: parts[2] };
+    });
+    const sourcePaths = new Set(rules.map((r) => r.from));
+    for (const [from, to] of expectedQualityRedirects) {
       const match = rules.find((r) => r.from === from);
       assert.ok(match, `Missing 301 redirect for ${from}`);
       assert.equal(match.to, to, `Expected ${from} to redirect to ${to}, got ${match.to}`);

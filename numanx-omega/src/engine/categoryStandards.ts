@@ -165,12 +165,6 @@ export const CATEGORY_STANDARDS: Record<string, CategoryStandardInfo> = {
     standardsStatement:
       'Grading curves align with the Higher Education Commission (HEC) Pakistan Uniform Policy for Semester Examination System and PM&DC admission aggregate regulations.',
   },
-  'cricket-overs': {
-    aeoCapsule:
-      'Cricket overs and ball conversion calculates base-6 bowling delivery arithmetic. 1 cricket over consists of exactly 6 legal deliveries. Notation 14.3 denotes 14 overs and 3 balls (87 balls), translating to exactly 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    standardsStatement:
-      'Cricket delivery arithmetic conforms to the Marylebone Cricket Club (MCC) Laws of Cricket (Law 17: The Over) and International Cricket Council (ICC) Standard Playing Conditions Appendix G for Net Run Rate determination.',
-  },
   typography: {
     aeoCapsule:
       'Typography and digital layout conversion scales font sizes and spacing across CSS, screen pixels, and physical print units. Under the W3C CSS Values and Units Module Level 3, 1 physical inch equals exactly 96 CSS pixels and 72 desktop publishing points (pt), giving 1 pt = 1.33333 px. Standard browser root font size is 16 px (1 rem = 16 px).',

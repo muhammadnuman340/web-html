@@ -48,9 +48,6 @@
   <url><loc>https://converter.numanxstudio.com/convert/cooking/fluid-ounce-to-milliliter</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/stick-of-butter-to-tablespoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/cooking/tablespoon-to-teaspoon</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/convert/cricket-overs</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/convert/cricket-overs/overs-balls-to-balls</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/convert/cricket-overs/overs-balls-to-true-overs</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/bits-to-bytes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/data/gb-to-mb</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -208,7 +205,8 @@
   <url><loc>https://converter.numanxstudio.com/convert/temp/fahrenheit-to-kelvin</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/temp/kelvin-to-celsius</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/textile</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/convert/textile/gsm-to-thread-count</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/textile/gsm-to-oz</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://converter.numanxstudio.com/convert/textile/oz-to-gsm</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/time</loc><priority>0.85</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/time/days-to-hours</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/convert/time/hours-to-minutes</loc><priority>0.75</priority><changefreq>monthly</changefreq></url>
@@ -241,7 +239,6 @@
   <url><loc>https://converter.numanxstudio.com/guides/binary-hex-ieee-754-guide</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/cups-to-grams</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/guides/lakh-crore-to-million-billion</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://converter.numanxstudio.com/health</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/privacy</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/sitemap</loc><priority>0.5</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://converter.numanxstudio.com/terms</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>

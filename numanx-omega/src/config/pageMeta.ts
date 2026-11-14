@@ -49,10 +49,6 @@ export const PAGE_META = {
     title: 'Unit Conversion Formulas & Constants | Omega X',
     description: 'Reference library of conversion formulas, constants and worked derivations across all 36 measurement categories.',
   },
-  '/health': {
-    title: 'Health Calculators — BMI, BMR & Body Metrics | Omega X',
-    description: 'Free BMI and BMR calculators: check your body mass index category and estimate daily calories burned at rest. General estimates, not medical advice.',
-  },
   '/sitemap': {
     title: 'Sitemap — All Converters, Guides & Articles | Omega X',
     description: 'Directory of every public page on Omega X: core tools, 36 conversion categories, popular conversion pairs, guides and blog articles.',

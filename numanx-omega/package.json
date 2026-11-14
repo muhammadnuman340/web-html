@@ -20,6 +20,7 @@
     "seo:canonical": "node scripts/inject-canonical-robots.mjs",
     "seo:indexnow": "node scripts/ping-indexnow.mjs",
     "audit": "node scripts/audit-site.mjs",
+    "audit:consistency": "node scripts/audit-consistency.mjs",
     "audit:site:pro": "node scripts/audit-site.mjs",
     "audit:site:v4": "node scripts/audit-site.mjs",
     "test": "node --test tests/core.test.mjs tests/report.test.mjs && node scripts/build-conversion-tests.mjs && node --test tests/conversion.test.mjs tests/routing.test.mjs tests/seo.test.mjs tests/pwa.test.mjs tests/schema-graph.test.mjs tests/faq-parity.test.mjs tests/internal-linking-query-state.test.mjs tests/pseo-aeo-content.test.mjs tests/authority-entity.test.mjs tests/ai-discovery.test.mjs",

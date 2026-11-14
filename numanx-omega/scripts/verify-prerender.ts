@@ -9,6 +9,7 @@
  * 3. Canonical = site URL + route, and matches sitemap entry
  * 4. Valid JSON-LD (all <script type="application/ld+json"> parse without error)
  * 5. Category pages (/convert/:id): contains a <table> element
+ * 6. Content quality & integrity gates (no undefined, NaN, [object Object], unreplaced placeholders, tour or error-boundary text)
  *
  * Diagnostic Reports (reported without failing build):
  * - Duplicate titles across routes
@@ -18,9 +19,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { getSiteUrl } from '../src/config/site'
 
-const siteUrl = getSiteUrl()
 const cwd = process.cwd()
 const distDir = path.resolve(cwd, 'dist')
 const sitemapPath = path.resolve(distDir, 'sitemap.xml')
@@ -52,11 +51,11 @@ const metaDescriptions = new Map<string, string[]>()
 const categoryIntros: { url: string; routePath: string; introText: string }[] = []
 
 for (const url of urls) {
-  let routePath = '/'
+  let routePath: string
   try {
     const parsed = new URL(url)
     routePath = parsed.pathname
-  } catch (e) {
+  } catch {
     failures.push({ url, routePath: url, reason: `Invalid sitemap URL syntax: ${url}` })
     continue
   }
@@ -132,8 +131,8 @@ for (const url of urls) {
     for (const match of jsonLdMatches) {
       try {
         JSON.parse(match[1])
-      } catch (e: any) {
-        failures.push({ url, routePath, reason: `Invalid JSON-LD syntax: ${e.message}` })
+      } catch (e: unknown) {
+        failures.push({ url, routePath, reason: `Invalid JSON-LD syntax: ${e instanceof Error ? e.message : String(e)}` })
       }
     }
   }
@@ -155,6 +154,26 @@ for (const url of urls) {
     }
     categoryIntros.push({ url, routePath, introText })
   }
+
+  // Invariant 9: Content quality & integrity gates (no leaked artifacts)
+  if (html.includes('undefined')) {
+    failures.push({ url, routePath, reason: "Prerender HTML contains forbidden token 'undefined'" })
+  }
+  if (/\bNaN\b/.test(html)) {
+    failures.push({ url, routePath, reason: "Prerender HTML contains forbidden token 'NaN'" })
+  }
+  if (html.includes('[object Object]') || html.includes('object Object')) {
+    failures.push({ url, routePath, reason: "Prerender HTML contains forbidden token '[object Object]'" })
+  }
+  if (/\$\{[a-zA-Z0-9_.-]+\}/.test(html) || /\{\{\s*[a-zA-Z0-9_.-]+\s*\}\}/.test(html) || /\{(?:category|title|h1|intro|fromUnit|toUnit|pairSlug|from|to|value|factor|formula)\}/i.test(html)) {
+    failures.push({ url, routePath, reason: 'Prerender HTML contains unreplaced placeholder pattern' })
+  }
+  if (html.includes('Skip tour') || html.includes('uc_onboarded') || html.includes('OnboardingTour')) {
+    failures.push({ url, routePath, reason: 'Prerender HTML contains onboarding tour token' })
+  }
+  if (html.includes('NX-COS') || html.includes('Application Error') || html.includes('Something went wrong')) {
+    failures.push({ url, routePath, reason: 'Prerender HTML contains error boundary token' })
+  }
 }
 
 // -------------------------------------------------------------
@@ -163,7 +182,7 @@ for (const url of urls) {
 console.log('\n📊 --- PRERENDER AUDIT DIAGNOSTICS ---')
 
 // A. Duplicate Titles
-const dupTitles = [...titles.entries()].filter(([_, r]) => r.length > 1)
+const dupTitles = [...titles.entries()].filter(([, r]) => r.length > 1)
 console.log(`• Duplicate Titles: ${dupTitles.length}`)
 if (dupTitles.length > 0) {
   dupTitles.forEach(([t, r]) => {
@@ -172,7 +191,7 @@ if (dupTitles.length > 0) {
 }
 
 // B. Duplicate Meta Descriptions
-const dupDescs = [...metaDescriptions.entries()].filter(([_, r]) => r.length > 1)
+const dupDescs = [...metaDescriptions.entries()].filter(([, r]) => r.length > 1)
 console.log(`• Duplicate Meta Descriptions: ${dupDescs.length}`)
 if (dupDescs.length > 0) {
   dupDescs.forEach(([d, r]) => {

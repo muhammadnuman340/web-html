@@ -274,16 +274,16 @@ var Categories = [
     ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
-      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
-      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
-      { id: "A", lb: "Ampere", r: 1, s: "M" },
-      { id: "V", lb: "Volt", r: 1, s: "M" },
-      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
-      { id: "C", lb: "Coulomb", r: 1, s: "S" },
-      { id: "F", lb: "Farad", r: 1, s: "M" },
-      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
-      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
-      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
+      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M", dim: "capacitance" },
+      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M", dim: "current" },
+      { id: "A", lb: "Ampere", r: 1, s: "M", dim: "current" },
+      { id: "V", lb: "Volt", r: 1, s: "M", dim: "voltage" },
+      { id: "ohm", lb: "Ohm", r: 1, s: "M", dim: "resistance" },
+      { id: "C", lb: "Coulomb", r: 1, s: "S", dim: "charge" },
+      { id: "F", lb: "Farad", r: 1, s: "M", dim: "capacitance" },
+      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M", dim: "voltage" },
+      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M", dim: "resistance" },
+      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M", dim: "resistance" }
     ]
   },
   {
@@ -292,9 +292,9 @@ var Categories = [
     ic: "\u{1F9F2}",
     cl: "#e040fb",
     un: [
-      { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
-      { id: "T", lb: "Tesla", r: 1, s: "M" },
-      { id: "Wb", lb: "Weber", r: 1, s: "S" }
+      { id: "G", lb: "Gauss", r: 1e-4, s: "M", dim: "b_field" },
+      { id: "T", lb: "Tesla", r: 1, s: "M", dim: "b_field" },
+      { id: "Wb", lb: "Weber", r: 1, s: "S", dim: "flux" }
     ]
   },
   {
@@ -422,11 +422,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
-      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
-      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
-      { id: "tc", lb: "Thread Count", r: 1, s: "O" },
-      { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"], dim: "areal_density" },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz", "oz/yd2", "oz-yd2", "oz/sq yd", "osy", "ounce per square yard", "ounces per square yard"], dim: "areal_density" },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"], dim: "areal_density" }
     ]
   },
   {
@@ -435,11 +433,11 @@ var Categories = [
     ic: "\u{1F30C}",
     cl: "#7c4dff",
     un: [
-      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
-      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
-      { id: "au_a", lb: "AU", r: 1, s: "S" },
-      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
-      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
+      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S", dim: "mass" },
+      { id: "sm", lb: "Solar Mass", r: 1, s: "S", dim: "mass" },
+      { id: "au_a", lb: "AU", r: 1, s: "S", dim: "distance" },
+      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S", dim: "distance" },
+      { id: "pc_a", lb: "Parsec", r: 206265, s: "S", dim: "distance" }
     ]
   },
   {
@@ -624,20 +622,6 @@ var Categories = [
       { id: "matric_fsc1200", lb: "Matric / FSc Marks (Out of 1200)", s: "O", al: ["1200"] },
       { id: "mdcat_agg", lb: "MDCAT / ECAT Aggregate (%)", s: "O", al: ["mdcat", "aggregate"] }
     ]
-  },
-  {
-    id: "cricket-overs",
-    lb: "Cricket Base-6",
-    ic: "\u{1F3CF}",
-    cl: "#8bc34a",
-    sp: true,
-    al: ["cricket overs", "overs to balls", "run rate", "cricket balls", "net run rate", "base 6 overs"],
-    un: [
-      { id: "overs_balls", lb: "Cricket Overs (e.g. 14.3)", r: 1, s: "O", al: ["overs", "overs.balls"] },
-      { id: "true_overs", lb: "True Decimal Overs (14.50)", s: "S", al: ["decimal overs"] },
-      { id: "balls", lb: "Legal Deliveries / Balls", s: "S", al: ["balls", "deliveries"] },
-      { id: "run_rate_6", lb: "Run Rate Metric (Per 6 Balls)", s: "O", al: ["rr", "run rate"] }
-    ]
   }
 ];
 
@@ -703,27 +687,6 @@ function convertFuel(v, from, to) {
   if (!toBase[from] || !fromBase[to]) return null;
   if (from === to) return cleanFloat(v);
   return cleanFloat(fromBase[to](toBase[from](v)));
-}
-function convertCricketOvers(v, from, to) {
-  if (from === to) return cleanFloat(v);
-  let totalBalls;
-  if (from === "balls") {
-    totalBalls = Math.round(v);
-  } else if (from === "true_overs" || from === "run_rate_6") {
-    totalBalls = Math.round(v * 6);
-  } else {
-    const overs = Math.floor(Math.abs(v));
-    const frac = Math.round((Math.abs(v) - overs) * 10);
-    const validFrac = Math.min(5, Math.max(0, frac));
-    totalBalls = (overs * 6 + validFrac) * (v < 0 ? -1 : 1);
-  }
-  if (to === "balls") return totalBalls;
-  if (to === "true_overs" || to === "run_rate_6") return cleanFloat(totalBalls / 6, 4);
-  const sign = totalBalls < 0 ? -1 : 1;
-  const absBalls = Math.abs(totalBalls);
-  const fullOvers = Math.floor(absBalls / 6);
-  const remBalls = absBalls % 6;
-  return cleanFloat(sign * (fullOvers + remBalls / 10), 1);
 }
 function convertPkGpa(v, from, to) {
   if (from === to) return cleanFloat(v);
@@ -809,7 +772,6 @@ function convert(v, catId, fromId, toId) {
   if (!cat || v !== 0 && !v || !Number.isFinite(v)) return null;
   if (cat.id === "temp") return convertTemp(v, fromId, toId);
   if (cat.id === "fuel") return convertFuel(v, fromId, toId);
-  if (cat.id === "cricket-overs") return convertCricketOvers(v, fromId, toId);
   if (cat.id === "pk-gpa") return convertPkGpa(v, fromId, toId);
   if (cat.id === "statistics") return convertStatistics(v, fromId, toId);
   if (cat.id === "number-base") return convertNumberBase(v, fromId, toId);
@@ -818,6 +780,7 @@ function convert(v, catId, fromId, toId) {
   const fu = getUnit(cat, fromId);
   const tu = getUnit(cat, toId);
   if (!fu || !tu || !fu.r || !tu.r) return null;
+  if (fu.dim && tu.dim && fu.dim !== tu.dim) return null;
   return cleanFloat(v * fu.r / tu.r);
 }
 
@@ -2079,18 +2042,25 @@ var categoryContent = {
     ]
   },
   textile: {
-    title: "Textile Fabric Converter \u2014 GSM, Thread Count & Yarn Count",
-    metaDesc: "Convert fabric weight and textile specifications online: Grams per Square Meter (GSM), Thread Count (TC), and Yarn Count (YC) for bedding, apparel, and canvas.",
-    h1: "Textile & Fabric Units Conversion",
-    intro: "Convert textile density and quality metrics: Grams per Square Meter (GSM, fabric weight), Thread Count (TC, bedsheet weave density), and Yarn Count (YC). Essential for fashion designers, clothing manufacturers, bedding shoppers, and textile importers.",
+    title: "Textile Fabric Converter \u2014 GSM to oz/yd\xB2 & Fabric Weight",
+    metaDesc: "Convert fabric weight and textile density online: Grams per Square Meter (GSM) to Ounces per Square Yard (oz/yd\xB2), momme, and linear mass density.",
+    h1: "Textile & Fabric Weight Conversion",
+    intro: "Convert textile areal weight and density metrics: Grams per Square Meter (GSM, g/m\xB2) and Ounces per Square Yard (oz/yd\xB2). Essential for fashion designers, apparel manufacturers, garment importers, and fabric sourcing specialists.",
     popularPairs: [
-      { from: "GSM", to: "Thread Count", desc: "GSM \u2194 TC \u2014 evaluate fabric heaviness vs weave tightness" }
+      { from: "GSM", to: "oz", desc: "GSM \u2192 oz/yd\xB2 \u2014 fabric weight for apparel and canvas (1 oz/yd\xB2 \u2248 33.906 GSM)" },
+      { from: "oz", to: "GSM", desc: "oz/yd\xB2 \u2192 GSM \u2014 convert US imperial fabric specifications to international metric GSM" }
     ],
-    useCases: ["T-shirt and hoodie weight selection (e.g. 180 GSM vs 350 GSM)", "Bedding and sheet thread count quality evaluation", "Towel absorbency assessment (400-600 GSM)", "Industrial canvas and denim specification"],
-    formula: "GSM = weight in grams / area in square meters. Thread count = warp threads + weft threads per square inch.",
+    useCases: [
+      "T-shirt and hoodie fabric weight specification (180 GSM vs 5.3 oz/yd\xB2)",
+      "Denim and canvas fabric rating (10 oz to 14 oz workwear jeans)",
+      "Towel and fleece absorbency evaluation (400\u2013600 GSM bath towels)",
+      "Silk momme to GSM translation for luxury garment production"
+    ],
+    formula: "1 oz/yd\xB2 = 33.906 g/m\xB2 (GSM). oz/yd\xB2 = GSM \xF7 33.906, and GSM = oz/yd\xB2 \xD7 33.906.",
     faq: [
-      { q: "What does GSM mean in fabric?", a: 'GSM stands for "Grams per Square Meter" and measures the physical weight and density of fabric. Higher GSM generally means thicker, heavier material (e.g. 400+ GSM fleece vs 150 GSM summer t-shirt).' },
-      { q: "What is a good thread count for bed sheets?", a: "For quality cotton bed sheets, a thread count between 300 and 500 is considered ideal for softness, breathability, and durability." }
+      { q: "What does GSM mean in fabric?", a: "GSM stands for Grams per Square Meter (g/m\xB2) and measures the areal density of fabric. Higher GSM indicates heavier, thicker fabric (e.g. 480 GSM heavy fleece vs 150 GSM lightweight t-shirt)." },
+      { q: "How do you convert GSM to oz/yd\xB2?", a: "Divide GSM by 33.906 (or multiply by 0.0294935). For example, a 480 GSM heavyweight cotton fleece equals approximately 14.16 oz/yd\xB2." },
+      { q: "How do you convert oz/yd\xB2 to GSM?", a: "Multiply ounces per square yard by 33.906. For example, a classic 10 oz/yd\xB2 canvas duck fabric equals approximately 339.06 GSM." }
     ]
   },
   astronomy: {
@@ -2189,7 +2159,7 @@ var categoryContent = {
     title: "IEEE-754 Floating-Point Converter \u2014 FP16, FP32, FP64 & Hex Float",
     metaDesc: "Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.",
     h1: "IEEE-754 Floating-Point Visualizer & Bitfield Inspector",
-    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.",
+    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and special Not-a-Number representations.",
     popularPairs: [
       { from: "dec_real", to: "fp32", desc: "real \u2192 fp32 \u2014 decimal real number to 32-bit single precision IEEE-754" },
       { from: "fp32", to: "dec_real", desc: "fp32 \u2192 real \u2014 32-bit single precision bitfield to decimal real" },
@@ -2301,22 +2271,6 @@ var categoryContent = {
       { q: "What is the standard MDCAT aggregate formula in Pakistan?", a: "The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation." }
     ]
   },
-  "cricket-overs": {
-    title: "Cricket Overs to Balls Converter \u2014 Run Rate & ICC Net Run Rate (NRR)",
-    metaDesc: "Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).",
-    h1: "Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter",
-    intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    popularPairs: [
-      { from: "overs_balls", to: "balls", desc: "cricket overs \u2192 balls \u2014 cricket overs notation (e.g. 14.3) to legal deliveries" },
-      { from: "overs_balls", to: "true_overs", desc: "cricket overs \u2192 decimal overs \u2014 cricket notation to true decimal overs for run rate" }
-    ],
-    useCases: ["ICC Tournament Net Run Rate (NRR) calculations", "Live match run rate and required run rate (RRR) analysis", "Bowler economy rate calculation (Runs / True Decimal Overs)", "Cricket database statistics & scorebook bookkeeping"],
-    formula: "Total Balls = (Floor(Overs) \xD7 6) + Remainder Balls. True Decimal Overs = Total Balls \xF7 6. Run Rate = Total Runs \xF7 True Decimal Overs.",
-    faq: [
-      { q: "Why is 14.3 overs not equal to 14.30 decimal overs?", a: 'Cricket overs are recorded in base-6, not base-10. The ".3" means 3 balls out of 6 (3/6 = 0.50). Therefore, 14.3 overs equals exactly 14.50 true decimal overs.' },
-      { q: "How does ICC calculate Net Run Rate (NRR)?", a: "NRR = (Total Runs Scored \xF7 Total True Decimal Overs Faced) \u2212 (Total Runs Conceded \xF7 Total True Decimal Overs Bowled). If a team is bowled out before completing their overs, the full quota of overs (e.g., 20 or 50) is used." }
-    ]
-  },
   typography: {
     title: "Typography & CSS Unit Converter \u2014 Pixels, Points, REM, EM & Picas",
     metaDesc: "Precision typography and digital layout converter. Convert Pixels (px), Points (pt), REM, EM, Millimeters, and Picas using the 96 DPI CSS web standard.",
@@ -2398,6 +2352,9 @@ var PAIR_UNIT_SYNONYMS = {
   "true-overs": "true_overs",
   "run-rate-6": "run_rate_6",
   "oz-yd2": "oz_yd2",
+  "textile:oz": "oz_yd2",
+  "textile:oz-yd2": "oz_yd2",
+  "textile:gsm": "gsm",
   "momme": "momme",
   // Area
   "square-meter": "m2",
@@ -3483,10 +3440,15 @@ var PAIR_USE_CASES = {
     { domain: "Infant Feeding & Formula Bottle Preparation", context: "Measuring baby bottle liquid volumes accurately for powdered infant formula reconstitution." },
     { domain: "Specialty Coffee Brewing & Extraction", context: "Translating espresso and pour-over water volumes between customary ounces and metric milliliters." }
   ],
-  "textile:gsm-to-thread-count": [
-    { domain: "Luxury Bedding & Linen Sourcing", context: "Comparing bedsheet softness, durability, and fabric weight across international metric and imperial standards." },
-    { domain: "Apparel Fabric Selection & Garment Design", context: "Selecting appropriate cotton, linen, and synthetic fabric weights for shirts, jackets, and drapery." },
-    { domain: "Commercial Printing & Canvas Substrates", context: "Specifying fabric weight and weave density for custom banners, upholstery, and fine art canvases." }
+  "textile:gsm-to-oz": [
+    { domain: "Fashion & Streetwear", context: "Converting metric fabric weights to US ounces per square yard for hoodies, t-shirts, and cut-and-sew tech packs." },
+    { domain: "Textile Sourcing & Importing", context: "Validating international mill specifications (g/m\xB2) against US customs and retail merchandise standards (oz/yd\xB2)." },
+    { domain: "Canvas & Heavy Goods", context: "Specifying duck canvas, tote bags, workwear jackets, and marine-grade upholstery fabric weights." }
+  ],
+  "textile:oz-to-gsm": [
+    { domain: "Apparel Manufacturing", context: "Converting US tech pack fabric weights in oz/yd\xB2 to metric GSM for overseas knitting mills and dye houses." },
+    { domain: "Denim & Workwear", context: "Translating classic 12 oz, 14 oz, and 16 oz denim and canvas ratings into exact metric grams per square meter." },
+    { domain: "Customs & Metrology", context: "Ensuring import compliance with international fabric weight classification standards under ASTM D3776 and ISO 3801." }
   ],
   "astronomy:light-year-to-au": [
     { domain: "Exoplanetary Systems & Stellar Neighborhoods", context: "Comparing the distance to nearby stars (like Proxima Centauri at 4.24 ly) to our solar system's scale in astronomical units." },
@@ -3828,6 +3790,47 @@ function getPairEditorial(cat, u1, u2, pairParam) {
   const fieldNote = PAIR_FIELD_NOTES[pairSlug] || CATEGORY_FIELD_NOTES[cat.id];
   let workedExamples;
   let referenceTable;
+  const TEXTILE_WEIGHTS_TABLE = [
+    { label: "120 GSM", value: "3.54 oz/yd\xB2", extra: "Lightweight undershirts & sheer layering" },
+    { label: "150 GSM", value: "4.42 oz/yd\xB2", extra: "Standard lightweight summer t-shirts" },
+    { label: "180 GSM", value: "5.31 oz/yd\xB2", extra: "Midweight everyday crewneck t-shirts" },
+    { label: "200 GSM", value: "5.90 oz/yd\xB2", extra: "Heavyweight t-shirts & classic polo shirts" },
+    { label: "250 GSM", value: "7.37 oz/yd\xB2", extra: "Long sleeves & lightweight french terry" },
+    { label: "280 GSM", value: "8.26 oz/yd\xB2", extra: "Standard pullover hoodies & crewnecks" },
+    { label: "300 GSM", value: "8.85 oz/yd\xB2", extra: "Heavyweight fleece & sweatpants" },
+    { label: "350 GSM", value: "10.32 oz/yd\xB2", extra: "Premium streetwear hoodies & loopback terry" },
+    { label: "400 GSM", value: "11.80 oz/yd\xB2", extra: "Dense canvas & plush cotton bath towels" },
+    { label: "450 GSM", value: "13.27 oz/yd\xB2", extra: "Heavyweight canvas totes & luxury towels" },
+    { label: "480 GSM", value: "14.16 oz/yd\xB2", extra: "Ultra-heavyweight luxury streetwear hoodies" },
+    { label: "500 GSM", value: "14.75 oz/yd\xB2", extra: "Workwear jackets & heavy cotton bath sheets" },
+    { label: "600 GSM", value: "17.70 oz/yd\xB2", extra: "Marine-grade duck canvas & hotel bath rugs" }
+  ];
+  if (cat.id === "textile" && pairSlug === "gsm-to-oz") {
+    formulaDisplay = "oz/yd\xB2 = g/m\xB2 \xF7 33.906";
+    referenceTable = TEXTILE_WEIGHTS_TABLE;
+    workedExamples = [
+      "Formula: oz/yd\xB2 = g/m\xB2 \xF7 33.906 (or g/m\xB2 \xD7 0.0294936)",
+      "Worked Example for 480 GSM: 480 \xF7 33.906 = 14.157 oz/yd\xB2 (rounded to 14.16 oz/yd\xB2). A 480 GSM luxury custom streetwear hoodie represents exactly 14.16 ounces per square yard of heavyweight cotton fleece.",
+      "Common Conversions: 180 GSM = 5.31 oz/yd\xB2 (crewneck t-shirt) \xB7 300 GSM = 8.85 oz/yd\xB2 (heavyweight fleece) \xB7 400 GSM = 11.80 oz/yd\xB2 (dense canvas)."
+    ];
+    faqs.push(
+      { question: "What does 480 GSM equal in ounces per square yard?", answer: "480 GSM equals exactly 14.16 oz/yd\xB2 (rounded from 14.157 oz/yd\xB2). This weight is standard for premium luxury heavyweight hoodies and winter streetwear." },
+      { question: "Why does 1 oz/yd\xB2 equal 33.906 GSM?", answer: "One square yard equals 0.836127 square meters, and one avoirdupois ounce equals 28.349523 grams. Dividing 28.349523 grams by 0.836127 square meters yields exactly 33.9057474 g/m\xB2 (rounded to 33.906 g/m\xB2)." }
+    );
+  }
+  if (cat.id === "textile" && pairSlug === "oz-to-gsm") {
+    formulaDisplay = "g/m\xB2 = oz/yd\xB2 \xD7 33.906";
+    referenceTable = TEXTILE_WEIGHTS_TABLE.map((r) => ({ label: r.value, value: r.label, extra: r.extra }));
+    workedExamples = [
+      "Formula: g/m\xB2 = oz/yd\xB2 \xD7 33.906",
+      "Worked Example for 14.16 oz/yd\xB2: 14.157 oz/yd\xB2 \xD7 33.906 = 480.0 g/m\xB2 (480 GSM). 14.16 ounces per square yard corresponds to the benchmark 480 GSM fabric weight used in ultra-heavyweight streetwear hoodies.",
+      "Common Conversions: 5.31 oz/yd\xB2 = 180 GSM \xB7 8.85 oz/yd\xB2 = 300 GSM \xB7 11.80 oz/yd\xB2 = 400 GSM \xB7 14.75 oz/yd\xB2 = 500 GSM."
+    ];
+    faqs.push(
+      { question: "What does 14.16 oz/yd\xB2 equal in GSM?", answer: "14.16 oz/yd\xB2 equals exactly 480 GSM (grams per square meter), standard for ultra-heavyweight luxury streetwear hoodies." },
+      { question: "How do you convert oz/yd\xB2 to GSM in apparel manufacturing?", answer: "Multiply the oz/yd\xB2 fabric weight by 33.906. For example, 10 oz/yd\xB2 denim equals approximately 339 GSM, and 14 oz/yd\xB2 heavy denim equals approximately 475 GSM." }
+    );
+  }
   if (cat.id === "temp" && pairSlug === "celsius-to-fahrenheit") {
     workedExamples = [
       "25\xB0C \xD7 9/5 + 32 = 77\xB0F (a warm summer day in Europe is 77\xB0F)",
@@ -4216,10 +4219,6 @@ var CATEGORY_STANDARDS = {
     aeoCapsule: "Academic marks and GPA conversion translates between the Pakistani Higher Education Commission (HEC) 4.00 CGPA scale, 5.00 CGPA, percentage marks, matric/FSc examination marks (out of 1100 and 1200), and PMDC/MDCAT medical entrance aggregates.",
     standardsStatement: "Grading curves align with the Higher Education Commission (HEC) Pakistan Uniform Policy for Semester Examination System and PM&DC admission aggregate regulations."
   },
-  "cricket-overs": {
-    aeoCapsule: "Cricket overs and ball conversion calculates base-6 bowling delivery arithmetic. 1 cricket over consists of exactly 6 legal deliveries. Notation 14.3 denotes 14 overs and 3 balls (87 balls), translating to exactly 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.",
-    standardsStatement: "Cricket delivery arithmetic conforms to the Marylebone Cricket Club (MCC) Laws of Cricket (Law 17: The Over) and International Cricket Council (ICC) Standard Playing Conditions Appendix G for Net Run Rate determination."
-  },
   typography: {
     aeoCapsule: "Typography and digital layout conversion scales font sizes and spacing across CSS, screen pixels, and physical print units. Under the W3C CSS Values and Units Module Level 3, 1 physical inch equals exactly 96 CSS pixels and 72 desktop publishing points (pt), giving 1 pt = 1.33333 px. Standard browser root font size is 16 px (1 rem = 16 px).",
     standardsStatement: "Digital typography factors strictly comply with the W3C CSS Values and Units Module Level 3 specification (96 CSS px/inch standard) and traditional PostScript / DTP typesetting standards (72 points/inch, 12 points per pica)."
@@ -4395,20 +4394,20 @@ describe("Phase 3 Step 6 \u2014 GEO Authority, Source Citations & Entity Harmoni
       assert.ok(!tempStd.aeoCapsule.includes("ITS-90"));
     });
   });
-  describe("6. Health Page Schema Verification", () => {
-    test("/health page schema emits WebApplication with applicationCategory: HealthApplication", () => {
+  describe("6. Core Application Schema Verification", () => {
+    test("/calculator page schema emits WebApplication with applicationCategory: UtilitiesApplication", () => {
       const schema = buildCorePageSchema(
-        "/health",
-        "Health & Biometrics \u2014 Body Mass Index (BMI), BMR & Water Intake Calculator | Omega X",
-        "Health calculator description",
-        { pageType: "WebApplication", applicationCategory: "HealthApplication" }
+        "/calculator",
+        "Scientific Calculator | Omega X",
+        "Scientific calculator description",
+        { pageType: "WebApplication", applicationCategory: "UtilitiesApplication" }
       );
       assert.ok(schema);
       assert.ok(schema["@graph"]);
       const graph = schema["@graph"];
       const webApp = graph.find((item) => item["@type"] === "WebApplication");
       assert.ok(webApp, "Schema must contain @type: WebApplication");
-      assert.equal(webApp?.applicationCategory, "HealthApplication");
+      assert.equal(webApp?.applicationCategory, "UtilitiesApplication");
     });
   });
 });

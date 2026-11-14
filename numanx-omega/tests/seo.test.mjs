@@ -273,16 +273,16 @@ var Categories = [
     ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
-      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
-      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
-      { id: "A", lb: "Ampere", r: 1, s: "M" },
-      { id: "V", lb: "Volt", r: 1, s: "M" },
-      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
-      { id: "C", lb: "Coulomb", r: 1, s: "S" },
-      { id: "F", lb: "Farad", r: 1, s: "M" },
-      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
-      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
-      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
+      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M", dim: "capacitance" },
+      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M", dim: "current" },
+      { id: "A", lb: "Ampere", r: 1, s: "M", dim: "current" },
+      { id: "V", lb: "Volt", r: 1, s: "M", dim: "voltage" },
+      { id: "ohm", lb: "Ohm", r: 1, s: "M", dim: "resistance" },
+      { id: "C", lb: "Coulomb", r: 1, s: "S", dim: "charge" },
+      { id: "F", lb: "Farad", r: 1, s: "M", dim: "capacitance" },
+      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M", dim: "voltage" },
+      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M", dim: "resistance" },
+      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M", dim: "resistance" }
     ]
   },
   {
@@ -291,9 +291,9 @@ var Categories = [
     ic: "\u{1F9F2}",
     cl: "#e040fb",
     un: [
-      { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
-      { id: "T", lb: "Tesla", r: 1, s: "M" },
-      { id: "Wb", lb: "Weber", r: 1, s: "S" }
+      { id: "G", lb: "Gauss", r: 1e-4, s: "M", dim: "b_field" },
+      { id: "T", lb: "Tesla", r: 1, s: "M", dim: "b_field" },
+      { id: "Wb", lb: "Weber", r: 1, s: "S", dim: "flux" }
     ]
   },
   {
@@ -421,11 +421,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
-      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
-      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
-      { id: "tc", lb: "Thread Count", r: 1, s: "O" },
-      { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"], dim: "areal_density" },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz", "oz/yd2", "oz-yd2", "oz/sq yd", "osy", "ounce per square yard", "ounces per square yard"], dim: "areal_density" },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"], dim: "areal_density" }
     ]
   },
   {
@@ -434,11 +432,11 @@ var Categories = [
     ic: "\u{1F30C}",
     cl: "#7c4dff",
     un: [
-      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
-      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
-      { id: "au_a", lb: "AU", r: 1, s: "S" },
-      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
-      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
+      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S", dim: "mass" },
+      { id: "sm", lb: "Solar Mass", r: 1, s: "S", dim: "mass" },
+      { id: "au_a", lb: "AU", r: 1, s: "S", dim: "distance" },
+      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S", dim: "distance" },
+      { id: "pc_a", lb: "Parsec", r: 206265, s: "S", dim: "distance" }
     ]
   },
   {
@@ -623,20 +621,6 @@ var Categories = [
       { id: "matric_fsc1200", lb: "Matric / FSc Marks (Out of 1200)", s: "O", al: ["1200"] },
       { id: "mdcat_agg", lb: "MDCAT / ECAT Aggregate (%)", s: "O", al: ["mdcat", "aggregate"] }
     ]
-  },
-  {
-    id: "cricket-overs",
-    lb: "Cricket Base-6",
-    ic: "\u{1F3CF}",
-    cl: "#8bc34a",
-    sp: true,
-    al: ["cricket overs", "overs to balls", "run rate", "cricket balls", "net run rate", "base 6 overs"],
-    un: [
-      { id: "overs_balls", lb: "Cricket Overs (e.g. 14.3)", r: 1, s: "O", al: ["overs", "overs.balls"] },
-      { id: "true_overs", lb: "True Decimal Overs (14.50)", s: "S", al: ["decimal overs"] },
-      { id: "balls", lb: "Legal Deliveries / Balls", s: "S", al: ["balls", "deliveries"] },
-      { id: "run_rate_6", lb: "Run Rate Metric (Per 6 Balls)", s: "O", al: ["rr", "run rate"] }
-    ]
   }
 ];
 
@@ -757,10 +741,163 @@ function isIndexablePath(path3) {
   return true;
 }
 
+// src/utils/numbers.ts
+function cleanFloat(value, sigFigs = 14) {
+  if (!Number.isFinite(value) || value === 0) return 0;
+  const digits = Math.max(1, Math.min(100, sigFigs >= 1 ? Math.floor(sigFigs) : 14));
+  return Number(value.toPrecision(digits));
+}
+function fmt(v, prec = 6) {
+  if (v === null || v === void 0 || !isFinite(v)) return "\u2014";
+  if (v === 0) return "0";
+  const abs = Math.abs(v);
+  if (abs > 0 && abs < Math.pow(10, -Math.max(prec, 4)) || abs >= 1e12) {
+    return cleanFloat(v, Math.max(prec, 4)).toExponential(Math.min(prec, 6));
+  }
+  return cleanFloat(Number(v.toFixed(prec))).toString();
+}
+
 // src/engine/converter.ts
 var customCategories = [];
+function getCategory(id) {
+  return Categories.find((c) => c.id === id) || customCategories.find((c) => c.id === id);
+}
 function getAllCategories() {
   return [...Categories, ...customCategories];
+}
+function getUnit(cat, id) {
+  return cat.un.find((u) => u.id === id);
+}
+function convertTemp(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let c;
+  if (from === "C") c = v;
+  else if (from === "F") c = (v - 32) * 5 / 9;
+  else if (from === "K") c = v - 273.15;
+  else if (from === "R") c = (v - 491.67) * 5 / 9;
+  else if (from === "Re") c = v * 1.25;
+  else c = v;
+  let out;
+  if (to === "C") out = c;
+  else if (to === "F") out = c * 9 / 5 + 32;
+  else if (to === "K") out = c + 273.15;
+  else if (to === "R") out = (c + 273.15) * 9 / 5;
+  else if (to === "Re") out = c * 0.8;
+  else out = c;
+  return cleanFloat(out);
+}
+function convertFuel(v, from, to) {
+  if (!Number.isFinite(v) || v <= 0) return null;
+  const toBase = {
+    kmL: (n) => n,
+    L100km: (n) => 100 / n,
+    mpgUS: (n) => n * 0.425144,
+    mpgUK: (n) => n * 0.354006
+  };
+  const fromBase = {
+    kmL: (n) => n,
+    L100km: (n) => 100 / n,
+    mpgUS: (n) => n / 0.425144,
+    mpgUK: (n) => n / 0.354006
+  };
+  if (!toBase[from] || !fromBase[to]) return null;
+  if (from === to) return cleanFloat(v);
+  return cleanFloat(fromBase[to](toBase[from](v)));
+}
+function convertPkGpa(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let pct = v;
+  if (from === "percentage" || from === "mdcat_agg") {
+    pct = v;
+  } else if (from === "hec_gpa4") {
+    pct = Math.min(100, Math.max(0, v <= 0 ? 0 : v >= 4 ? 85 : 50 + (v - 1) * (35 / 3)));
+  } else if (from === "gpa5") {
+    pct = Math.min(100, Math.max(0, v / 5 * 100));
+  } else if (from === "matric_fsc1100") {
+    pct = v / 1100 * 100;
+  } else if (from === "matric_fsc1200") {
+    pct = v / 1200 * 100;
+  }
+  if (to === "percentage" || to === "mdcat_agg") return cleanFloat(pct, 2);
+  if (to === "matric_fsc1100") return cleanFloat(pct / 100 * 1100, 1);
+  if (to === "matric_fsc1200") return cleanFloat(pct / 100 * 1200, 1);
+  if (to === "gpa5") return cleanFloat(pct / 100 * 5, 2);
+  if (to === "hec_gpa4") {
+    if (pct >= 85) return 4;
+    if (pct < 50) return 0;
+    return cleanFloat(1 + (pct - 50) * (3 / 35), 2);
+  }
+  return cleanFloat(pct, 2);
+}
+function convertStatistics(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let p = 0.5;
+  if (from === "prob_pct" || from === "percentile") {
+    p = Math.min(0.99999, Math.max(1e-5, v / 100));
+  } else if (from === "dec_odds") {
+    p = v > 1 ? 1 / v : 0.5;
+  } else if (from === "frac_odds") {
+    p = v > 0 ? 1 / (v + 1) : 0.5;
+  } else if (from === "us_moneyline") {
+    if (v > 0) p = 100 / (v + 100);
+    else if (v < 0) p = Math.abs(v) / (Math.abs(v) + 100);
+  } else if (from === "z_score") {
+    const t = 1 / (1 + 0.2316419 * Math.abs(v));
+    const d = 0.3989423 * Math.exp(-v * v / 2);
+    const prob = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+    p = v > 0 ? 1 - prob : prob;
+    p = Math.min(0.99999, Math.max(1e-5, p));
+  } else if (from === "p_val_two") {
+    p = Math.min(0.99999, Math.max(1e-5, 1 - v / 2));
+  }
+  if (to === "prob_pct") return cleanFloat(p * 100, 2);
+  if (to === "percentile") return cleanFloat(p * 100, 2);
+  if (to === "dec_odds") return cleanFloat(1 / p, 3);
+  if (to === "frac_odds") return cleanFloat((1 - p) / p, 3);
+  if (to === "us_moneyline") {
+    if (p <= 0.5) return Math.round((1 - p) / p * 100);
+    return Math.round(-(p / (1 - p)) * 100);
+  }
+  if (to === "p_val_two") {
+    const tail = p > 0.5 ? 1 - p : p;
+    return cleanFloat(2 * tail, 4);
+  }
+  if (to === "z_score") {
+    const q = p > 0.5 ? 1 - p : p;
+    const w = Math.sqrt(-2 * Math.log(q));
+    const z = w - ((0.010328 * w + 0.802853) * w + 2.515517) / (((1308e-6 * w + 0.189269) * w + 1.432788) * w + 1);
+    return cleanFloat(p > 0.5 ? z : -z, 3);
+  }
+  return cleanFloat(p * 100, 2);
+}
+function convertNumberBase(v, from, to) {
+  if (from === to) return cleanFloat(v);
+  let dec = Math.floor(v);
+  if (from === "bin") {
+    dec = parseInt(String(Math.abs(Math.floor(v))), 2) || 0;
+  } else if (from === "oct") {
+    dec = parseInt(String(Math.abs(Math.floor(v))), 8) || 0;
+  }
+  if (to === "dec") return dec;
+  if (to === "bin") return parseInt(dec.toString(2), 10) || 0;
+  if (to === "oct") return parseInt(dec.toString(8), 10) || 0;
+  return dec;
+}
+function convert(v, catId, fromId, toId) {
+  const cat = getCategory(catId);
+  if (!cat || v !== 0 && !v || !Number.isFinite(v)) return null;
+  if (cat.id === "temp") return convertTemp(v, fromId, toId);
+  if (cat.id === "fuel") return convertFuel(v, fromId, toId);
+  if (cat.id === "pk-gpa") return convertPkGpa(v, fromId, toId);
+  if (cat.id === "statistics") return convertStatistics(v, fromId, toId);
+  if (cat.id === "number-base") return convertNumberBase(v, fromId, toId);
+  if (cat.id === "ieee-754") return 1;
+  if (cat.id === "matrix-format") return 1;
+  const fu = getUnit(cat, fromId);
+  const tu = getUnit(cat, toId);
+  if (!fu || !tu || !fu.r || !tu.r) return null;
+  if (fu.dim && tu.dim && fu.dim !== tu.dim) return null;
+  return cleanFloat(v * fu.r / tu.r);
 }
 
 // scripts/generate-sitemap.ts
@@ -1212,18 +1349,25 @@ var categoryContent = {
     ]
   },
   textile: {
-    title: "Textile Fabric Converter \u2014 GSM, Thread Count & Yarn Count",
-    metaDesc: "Convert fabric weight and textile specifications online: Grams per Square Meter (GSM), Thread Count (TC), and Yarn Count (YC) for bedding, apparel, and canvas.",
-    h1: "Textile & Fabric Units Conversion",
-    intro: "Convert textile density and quality metrics: Grams per Square Meter (GSM, fabric weight), Thread Count (TC, bedsheet weave density), and Yarn Count (YC). Essential for fashion designers, clothing manufacturers, bedding shoppers, and textile importers.",
+    title: "Textile Fabric Converter \u2014 GSM to oz/yd\xB2 & Fabric Weight",
+    metaDesc: "Convert fabric weight and textile density online: Grams per Square Meter (GSM) to Ounces per Square Yard (oz/yd\xB2), momme, and linear mass density.",
+    h1: "Textile & Fabric Weight Conversion",
+    intro: "Convert textile areal weight and density metrics: Grams per Square Meter (GSM, g/m\xB2) and Ounces per Square Yard (oz/yd\xB2). Essential for fashion designers, apparel manufacturers, garment importers, and fabric sourcing specialists.",
     popularPairs: [
-      { from: "GSM", to: "Thread Count", desc: "GSM \u2194 TC \u2014 evaluate fabric heaviness vs weave tightness" }
+      { from: "GSM", to: "oz", desc: "GSM \u2192 oz/yd\xB2 \u2014 fabric weight for apparel and canvas (1 oz/yd\xB2 \u2248 33.906 GSM)" },
+      { from: "oz", to: "GSM", desc: "oz/yd\xB2 \u2192 GSM \u2014 convert US imperial fabric specifications to international metric GSM" }
     ],
-    useCases: ["T-shirt and hoodie weight selection (e.g. 180 GSM vs 350 GSM)", "Bedding and sheet thread count quality evaluation", "Towel absorbency assessment (400-600 GSM)", "Industrial canvas and denim specification"],
-    formula: "GSM = weight in grams / area in square meters. Thread count = warp threads + weft threads per square inch.",
+    useCases: [
+      "T-shirt and hoodie fabric weight specification (180 GSM vs 5.3 oz/yd\xB2)",
+      "Denim and canvas fabric rating (10 oz to 14 oz workwear jeans)",
+      "Towel and fleece absorbency evaluation (400\u2013600 GSM bath towels)",
+      "Silk momme to GSM translation for luxury garment production"
+    ],
+    formula: "1 oz/yd\xB2 = 33.906 g/m\xB2 (GSM). oz/yd\xB2 = GSM \xF7 33.906, and GSM = oz/yd\xB2 \xD7 33.906.",
     faq: [
-      { q: "What does GSM mean in fabric?", a: 'GSM stands for "Grams per Square Meter" and measures the physical weight and density of fabric. Higher GSM generally means thicker, heavier material (e.g. 400+ GSM fleece vs 150 GSM summer t-shirt).' },
-      { q: "What is a good thread count for bed sheets?", a: "For quality cotton bed sheets, a thread count between 300 and 500 is considered ideal for softness, breathability, and durability." }
+      { q: "What does GSM mean in fabric?", a: "GSM stands for Grams per Square Meter (g/m\xB2) and measures the areal density of fabric. Higher GSM indicates heavier, thicker fabric (e.g. 480 GSM heavy fleece vs 150 GSM lightweight t-shirt)." },
+      { q: "How do you convert GSM to oz/yd\xB2?", a: "Divide GSM by 33.906 (or multiply by 0.0294935). For example, a 480 GSM heavyweight cotton fleece equals approximately 14.16 oz/yd\xB2." },
+      { q: "How do you convert oz/yd\xB2 to GSM?", a: "Multiply ounces per square yard by 33.906. For example, a classic 10 oz/yd\xB2 canvas duck fabric equals approximately 339.06 GSM." }
     ]
   },
   astronomy: {
@@ -1322,7 +1466,7 @@ var categoryContent = {
     title: "IEEE-754 Floating-Point Converter \u2014 FP16, FP32, FP64 & Hex Float",
     metaDesc: "Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.",
     h1: "IEEE-754 Floating-Point Visualizer & Bitfield Inspector",
-    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.",
+    intro: "Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and special Not-a-Number representations.",
     popularPairs: [
       { from: "dec_real", to: "fp32", desc: "real \u2192 fp32 \u2014 decimal real number to 32-bit single precision IEEE-754" },
       { from: "fp32", to: "dec_real", desc: "fp32 \u2192 real \u2014 32-bit single precision bitfield to decimal real" },
@@ -1432,22 +1576,6 @@ var categoryContent = {
     faq: [
       { q: "What percentage is a 3.00 CGPA in Pakistan under HEC?", a: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)." },
       { q: "What is the standard MDCAT aggregate formula in Pakistan?", a: "The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation." }
-    ]
-  },
-  "cricket-overs": {
-    title: "Cricket Overs to Balls Converter \u2014 Run Rate & ICC Net Run Rate (NRR)",
-    metaDesc: "Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).",
-    h1: "Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter",
-    intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    popularPairs: [
-      { from: "overs_balls", to: "balls", desc: "cricket overs \u2192 balls \u2014 cricket overs notation (e.g. 14.3) to legal deliveries" },
-      { from: "overs_balls", to: "true_overs", desc: "cricket overs \u2192 decimal overs \u2014 cricket notation to true decimal overs for run rate" }
-    ],
-    useCases: ["ICC Tournament Net Run Rate (NRR) calculations", "Live match run rate and required run rate (RRR) analysis", "Bowler economy rate calculation (Runs / True Decimal Overs)", "Cricket database statistics & scorebook bookkeeping"],
-    formula: "Total Balls = (Floor(Overs) \xD7 6) + Remainder Balls. True Decimal Overs = Total Balls \xF7 6. Run Rate = Total Runs \xF7 True Decimal Overs.",
-    faq: [
-      { q: "Why is 14.3 overs not equal to 14.30 decimal overs?", a: 'Cricket overs are recorded in base-6, not base-10. The ".3" means 3 balls out of 6 (3/6 = 0.50). Therefore, 14.3 overs equals exactly 14.50 true decimal overs.' },
-      { q: "How does ICC calculate Net Run Rate (NRR)?", a: "NRR = (Total Runs Scored \xF7 Total True Decimal Overs Faced) \u2212 (Total Runs Conceded \xF7 Total True Decimal Overs Bowled). If a team is bowled out before completing their overs, the full quota of overs (e.g., 20 or 50) is used." }
     ]
   },
   typography: {
@@ -1870,7 +1998,6 @@ function generateSitemapEntries() {
   add("/categories", "0.9", "weekly");
   add("/formulas", "0.7", "weekly");
   add("/calculator", "0.7", "daily");
-  add("/health", "0.6", "weekly");
   add("/blog", "0.7", "weekly");
   add("/guides", "0.8", "weekly");
   add("/about", "0.6", "monthly");
@@ -1886,9 +2013,9 @@ function generateSitemapEntries() {
     const content = categoryContent[cat.id];
     if (content?.popularPairs) {
       for (const pair of content.popularPairs) {
-        const cleanSlug = (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-        const fromSlug = cleanSlug(pair.from);
-        const toSlug = cleanSlug(pair.to);
+        const cleanSlug2 = (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        const fromSlug = cleanSlug2(pair.from);
+        const toSlug = cleanSlug2(pair.to);
         if (fromSlug && toSlug) {
           const pairParam = `${fromSlug}-to-${toSlug}`;
           add(`/convert/${cat.id}/${pairParam}`, "0.75", "monthly");
@@ -1962,6 +2089,2169 @@ run();
 // src/types/index.ts
 var SystemLabels = { M: "Metric", I: "Imperial", S: "Scientific", O: "Other", C: "Custom" };
 
+// src/engine/unitSymbols.ts
+var SCOPED = {
+  "temp:C": "\xB0C",
+  "temp:F": "\xB0F",
+  "acceleration:gal": "Gal",
+  "typography:px": "px",
+  "typography:pt": "pt",
+  "typography:pica": "pc",
+  "typography:rem": "rem",
+  "typography:em": "em",
+  "typography:mm": "mm",
+  "typography:cm": "cm",
+  "typography:in": "in"
+};
+var SYMBOLS = {
+  angstrom: "\xC5",
+  pm: "pm",
+  um: "\xB5m",
+  ug: "\xB5g",
+  us: "\xB5s",
+  uF: "\xB5F",
+  mm2: "mm\xB2",
+  cm2: "cm\xB2",
+  m2: "m\xB2",
+  km2: "km\xB2",
+  in2: "in\xB2",
+  ft2: "ft\xB2",
+  yd2: "yd\xB2",
+  mi2: "mi\xB2",
+  m3: "m\xB3",
+  in3: "in\xB3",
+  ft3: "ft\xB3",
+  yd3: "yd\xB3",
+  cm3: "cm\xB3",
+  impgal: "gal (UK)",
+  imppt: "pt (UK)",
+  impfloz: "fl oz (UK)",
+  floz: "fl oz",
+  floz_c: "fl oz",
+  cup_c: "cup",
+  tbsp_c: "tbsp",
+  tsp_c: "tsp",
+  mL_c: "mL",
+  stick_c: "stick",
+  jigger: "jigger",
+  stone: "st",
+  R: "\xB0R",
+  Re: "\xB0R\xE9",
+  ozt: "oz t",
+  lbt: "lb t",
+  slug: "slug",
+  dwt: "dwt",
+  q: "q",
+  fathom: "fath",
+  mil: "mil",
+  pt: "pt",
+  mps: "m/s",
+  kmh: "km/h",
+  knot: "kn",
+  mach: "Mach",
+  mps2: "m/s\xB2",
+  ftps2: "ft/s\xB2",
+  gforce: "g-force",
+  ohm: "\u03A9",
+  kohm: "k\u03A9",
+  Mohm: "M\u03A9",
+  Nm: "N\xB7m",
+  lbft: "lb\xB7ft",
+  lbin: "lb\xB7in",
+  ozin: "oz\xB7in",
+  kgfm: "kgf\xB7m",
+  Ncm: "N\xB7cm",
+  Nmm: "N\xB7mm",
+  ps: "PS",
+  tr: "TR",
+  GW: "GW",
+  hPa: "hPa",
+  mbar: "mbar",
+  inHg: "inHg",
+  inH2O: "inH\u2082O",
+  ksi: "ksi",
+  bpd: "bbl/d",
+  Lmin: "L/min",
+  gpm: "GPM",
+  m3h: "m\xB3/h",
+  cfm: "CFM",
+  Ls: "L/s",
+  m3s: "m\xB3/s",
+  nox: "nox",
+  lx: "lx",
+  fc: "fc",
+  ph: "ph",
+  cP: "cP",
+  mPas: "mPa\xB7s",
+  P: "P",
+  Pas: "Pa\xB7s",
+  lbfts: "lb/(ft\xB7s)",
+  pica: "pc",
+  rem: "rem",
+  KiB: "KiB",
+  MiB: "MiB",
+  GiB: "GiB",
+  TiB: "TiB",
+  kmL: "km/L",
+  mpgUS: "MPG (US)",
+  mpgUK: "MPG (UK)",
+  L100km: "L/100km",
+  kgm3: "kg/m\xB3",
+  gcm3: "g/cm\xB3",
+  lbft3: "lb/ft\xB3",
+  BTUh: "BTU/h",
+  tc: "TC",
+  oz_yd2: "oz/yd\xB2",
+  momme: "mm",
+  au: "AU",
+  au_a: "AU",
+  ly_a: "ly",
+  pc_a: "pc",
+  sm: "M\u2609",
+  em: "M\u2295",
+  ld: "LD",
+  sr: "R\u2609",
+  er: "R\u2295",
+  marla_soc: "marla (soc)",
+  marla_cap: "marla (cap)",
+  gaz_sq: "sq yd (gaz)",
+  maund_pk: "maund (mandi)",
+  bin_radix: "bin",
+  oct_radix: "oct",
+  dec_radix: "dec",
+  hex_radix: "hex",
+  bcd_code: "BCD",
+  gray_code: "Gray",
+  twos_comp: "2s-comp",
+  dec_real: "real",
+  hex_float: "hex float",
+  fp16: "FP16",
+  fp32: "FP32",
+  fp64: "FP64",
+  m_std: "Million",
+  b_std: "Billion",
+  t_std: "Trillion",
+  k_std: "Thousand",
+  lakh: "lakh",
+  crore: "crore",
+  arab: "arab",
+  kharab: "kharab",
+  hazar: "hazar",
+  z_score: "z",
+  p_val_two: "p-val (2-tail)",
+  p_val_one: "p-val (1-tail)",
+  dec_odds: "dec odds",
+  frac_odds: "frac odds",
+  us_moneyline: "moneyline",
+  pct_odds: "%",
+  csv: "CSV",
+  latex_b: "bmatrix",
+  latex_p: "pmatrix",
+  numpy: "NumPy",
+  matlab: "MATLAB",
+  json_2d: "JSON 2D",
+  dec_std: "dec",
+  sci_std: "sci",
+  eng_std: "eng",
+  sci_micro: "micro",
+  sci_nano: "nano",
+  sci_pico: "pico",
+  ppm: "ppm",
+  ppb: "ppb",
+  pct: "%",
+  hec_gpa4: "CGPA 4.0",
+  gpa5: "GPA 5.0",
+  matric_fsc1100: "marks (1100)",
+  mdcat200: "marks (200)",
+  percentage: "%",
+  overs_balls: "overs",
+  balls: "balls",
+  true_overs: "dec overs"
+};
+var SCOPED_NAMES = {
+  "temp:C": "Celsius",
+  "temp:F": "Fahrenheit",
+  "temp:K": "Kelvin",
+  "typography:px": "Pixel",
+  "typography:pt": "Point",
+  "typography:pica": "Pica",
+  "typography:rem": "Root EM",
+  "typography:em": "EM",
+  "typography:mm": "Millimeter",
+  "typography:cm": "Centimeter",
+  "typography:in": "Inch"
+};
+var NAMES = {
+  KB: "Kilobyte",
+  MB: "Megabyte",
+  GB: "Gigabyte",
+  TB: "Terabyte",
+  PB: "Petabyte",
+  KiB: "Kibibyte",
+  MiB: "Mebibyte",
+  GiB: "Gibibyte",
+  TiB: "Tebibyte",
+  kHz: "Kilohertz",
+  MHz: "Megahertz",
+  GHz: "Gigahertz",
+  THz: "Terahertz",
+  mm2: "Square Millimeter",
+  cm2: "Square Centimeter",
+  m2: "Square Meter",
+  km2: "Square Kilometer",
+  in2: "Square Inch",
+  ft2: "Square Foot",
+  yd2: "Square Yard",
+  mi2: "Square Mile",
+  m3: "Cubic Meter",
+  in3: "Cubic Inch",
+  ft3: "Cubic Foot",
+  yd3: "Cubic Yard",
+  cm3: "Cubic Centimeter",
+  impgal: "Imperial Gallon",
+  imppt: "Imperial Pint",
+  impfloz: "Imperial Fluid Ounce",
+  cL: "Centiliter",
+  dL: "Deciliter",
+  ozt: "Troy Ounce",
+  lbt: "Troy Pound",
+  q: "Metric Quintal",
+  slug: "Slug",
+  dwt: "Pennyweight",
+  angstrom: "Angstrom",
+  pm: "Picometer",
+  mil: "Thou / Mil",
+  fathom: "Fathom",
+  pt: "Point",
+  Nm: "Newton-meter",
+  lbft: "Pound-foot",
+  lbin: "Pound-inch",
+  ozin: "Ounce-inch",
+  kgfm: "Kilogram-force meter",
+  Ncm: "Newton-centimeter",
+  Nmm: "Newton-millimeter",
+  ps: "Metric Horsepower",
+  tr: "Ton of Refrigeration",
+  GW: "Gigawatt",
+  hPa: "Hectopascal",
+  mbar: "Millibar",
+  inHg: "Inches of Mercury",
+  inH2O: "Inches of Water",
+  ksi: "Kilopound per Square Inch",
+  bpd: "Barrels per Day",
+  Lmin: "Liter per Minute",
+  gpm: "Gallon per Minute",
+  m3h: "Cubic Meter per Hour",
+  cfm: "Cubic Feet per Minute",
+  Ls: "Liter per Second",
+  m3s: "Cubic Meter per Second",
+  nox: "Nox",
+  lx: "Lux",
+  fc: "Foot-candle",
+  ph: "Phot",
+  cP: "Centipoise",
+  mPas: "Millipascal-second",
+  P: "Poise",
+  Pas: "Pascal-second",
+  lbfts: "Pound per Foot-second",
+  pica: "Pica",
+  rem: "Root EM",
+  stick_c: "Stick of Butter",
+  jigger: "Jigger",
+  au_a: "Astronomical Unit",
+  oz_yd2: "Ounce per Square Yard",
+  momme: "Momme Silk",
+  marla_soc: "Marla (Society 225 sq ft)",
+  marla_cap: "Marla (Capital 250 sq ft)",
+  gaz_sq: "Square Yard (Gaz)",
+  maund_pk: "Maund (40 kg Mandi)",
+  bin_radix: "Binary (Base-2)",
+  oct_radix: "Octal (Base-8)",
+  dec_radix: "Decimal (Base-10)",
+  hex_radix: "Hexadecimal (Base-16)",
+  bcd_code: "Binary Coded Decimal",
+  gray_code: "Gray Code",
+  twos_comp: "Two's Complement",
+  dec_real: "Decimal Real",
+  hex_float: "Hexadecimal Float",
+  fp16: "Half Precision FP16",
+  fp32: "Single Precision FP32",
+  fp64: "Double Precision FP64",
+  m_std: "Million (Standard)",
+  b_std: "Billion (Standard)",
+  t_std: "Trillion (Standard)",
+  k_std: "Thousand (Standard)",
+  lakh: "Lakh",
+  crore: "Crore",
+  arab: "Arab",
+  kharab: "Kharab",
+  hazar: "Hazar",
+  z_score: "Z-Score",
+  p_val_two: "Two-Tailed P-Value",
+  p_val_one: "One-Tailed P-Value",
+  dec_odds: "Decimal Odds",
+  frac_odds: "Fractional Odds",
+  us_moneyline: "American Moneyline",
+  pct_odds: "Probability Percentage",
+  csv: "CSV Grid",
+  latex_b: "LaTeX bmatrix",
+  latex_p: "LaTeX pmatrix",
+  numpy: "Python NumPy Array",
+  matlab: "MATLAB Matrix",
+  json_2d: "JSON 2D Array",
+  dec_std: "Standard Decimal",
+  sci_std: "Scientific Notation",
+  eng_std: "Engineering Notation",
+  sci_micro: "Scientific Micro",
+  sci_nano: "Scientific Nano",
+  sci_pico: "Scientific Pico",
+  ppm: "Parts Per Million",
+  ppb: "Parts Per Billion",
+  pct: "Percentage",
+  hec_gpa4: "HEC CGPA (4.00 Scale)",
+  gpa5: "5.00 GPA Scale",
+  matric_fsc1100: "Matric / FSc Total (1100)",
+  mdcat200: "MDCAT Score (200)",
+  percentage: "Percentage Marks",
+  overs_balls: "Cricket Overs (O.B)",
+  balls: "Legal Deliveries (Balls)",
+  true_overs: "True Decimal Overs"
+};
+function unitSymbol(u, catId) {
+  return catId && SCOPED[`${catId}:${u.id}`] || SYMBOLS[u.id] || u.id;
+}
+function unitName(u, catId) {
+  return catId && SCOPED_NAMES[`${catId}:${u.id}`] || NAMES[u.id] || u.lb;
+}
+function unitLabel(u, catId) {
+  const name = unitName(u, catId);
+  const sym = unitSymbol(u, catId);
+  return name === sym ? name : `${name} (${sym})`;
+}
+
+// src/config/pairEditorial.ts
+function cleanSlug(s) {
+  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+var PAIR_UNIT_SYNONYMS = {
+  // Pakistani & Regional Units
+  "marla": "marla",
+  "marlas": "marla",
+  "standard-marla": "marla",
+  "marla-society": "marla_soc",
+  "marla-capital": "marla_cap",
+  "kanal": "kanal",
+  "kanals": "kanal",
+  "killa": "killa",
+  "murabba": "murabba",
+  "gaz": "gaz_sq",
+  "square-gaz": "gaz_sq",
+  "sarsahi": "sarsahi",
+  "tola": "tola",
+  "tolas": "tola",
+  "masha": "masha",
+  "ratti": "ratti",
+  "seer": "seer",
+  "pao": "pao",
+  "chhatank": "chhatank",
+  "dhari": "dhari",
+  "maund": "maund_pk",
+  "mann": "maund_pk",
+  "karam": "karam",
+  "girah": "girah",
+  "marla-soc": "marla_soc",
+  "marla-cap": "marla_cap",
+  "gaz-sq": "gaz_sq",
+  "maund-pk": "maund_pk",
+  "dec-real": "dec_real",
+  "fp32": "fp32",
+  "fp64": "fp64",
+  "hex-float": "hex_float",
+  "m-std": "m_std",
+  "b-std": "b_std",
+  "k-std": "k_std",
+  "t-std": "t_std",
+  "z-score": "z_score",
+  "p-val-two": "p_val_two",
+  "dec-odds": "dec_odds",
+  "frac-odds": "frac_odds",
+  "us-moneyline": "us_moneyline",
+  "prob-pct": "prob_pct",
+  "latex-b": "latex_b",
+  "latex-p": "latex_p",
+  "json-2d": "json_2d",
+  "dec-std": "dec_std",
+  "sci-micro": "sci_micro",
+  "hec-gpa4": "hec_gpa4",
+  "gpa5": "gpa5",
+  "matric-fsc1100": "matric_fsc1100",
+  "matric-fsc1200": "matric_fsc1200",
+  "mdcat-agg": "mdcat_agg",
+  "overs-balls": "overs_balls",
+  "true-overs": "true_overs",
+  "run-rate-6": "run_rate_6",
+  "oz-yd2": "oz_yd2",
+  "textile:oz": "oz_yd2",
+  "textile:oz-yd2": "oz_yd2",
+  "textile:gsm": "gsm",
+  "momme": "momme",
+  // Area
+  "square-meter": "m2",
+  "square-meters": "m2",
+  "square-foot": "ft2",
+  "square-feet": "ft2",
+  "square-kilometer": "km2",
+  "square-kilometers": "km2",
+  "square-mile": "mi2",
+  "square-miles": "mi2",
+  "square-yard": "yd2",
+  "square-yards": "yd2",
+  "square-inch": "in2",
+  "square-inches": "in2",
+  "square-millimeter": "mm2",
+  "square-millimeters": "mm2",
+  "square-centimeter": "cm2",
+  "square-centimeters": "cm2",
+  "acre": "ac",
+  "acres": "ac",
+  "hectare": "ha",
+  "hectares": "ha",
+  // Volume
+  "cubic-meter": "m3",
+  "cubic-meters": "m3",
+  "cubic-foot": "ft3",
+  "cubic-feet": "ft3",
+  "cubic-inch": "in3",
+  "cubic-inches": "in3",
+  "fluid-ounce": "floz",
+  "fluid-ounces": "floz",
+  // Speed
+  "speed:km-h": "kmh",
+  "speed:kmh": "kmh",
+  "speed:m-s": "mps",
+  "speed:mps": "mps",
+  // Acceleration
+  "acceleration:m-s": "mps2",
+  "acceleration:g-force": "gforce",
+  "acceleration:ft-s": "ftps2",
+  // Mass
+  "us-ton": "sh tn",
+  "short-ton": "sh tn",
+  "metric-ton": "t",
+  // Power / Energy
+  "btu-h": "BTUh",
+  "calories": "cal",
+  "calorie": "cal",
+  "joules": "J",
+  "joule": "J",
+  // Fuel
+  "mpg-us": "mpgUS",
+  "mpg-uk": "mpgUK",
+  "km-l": "kmL",
+  "l-100km": "L100km",
+  // Torque
+  "newton-meter": "Nm",
+  "foot-pound": "lbft",
+  "pound-foot": "lbft",
+  "pound-feet": "lbft",
+  "foot-pounds": "lbft",
+  "pound-inch": "lbin",
+  "pound-inches": "lbin",
+  "inch-pound": "lbin",
+  "inch-pounds": "lbin",
+  // Density
+  "g-cm": "gcm3",
+  "kg-m": "kgm3",
+  "lb-ft": "lbft3",
+  // Force
+  "force:kn": "kN",
+  // Frequency
+  "rpm": "rpm",
+  // Angle
+  "degrees": "deg",
+  "degree": "deg",
+  "radians": "rad",
+  "radian": "rad",
+  "gradians": "grad",
+  "gradian": "grad",
+  "arcminutes": "arcmin",
+  "arcminute": "arcmin",
+  "mrad": "mrad",
+  // Data
+  "bits": "bit",
+  "bytes": "B",
+  "gigabyte": "GB",
+  "gigabytes": "GB",
+  "gibibyte": "GiB",
+  "gibibytes": "GiB",
+  // Time
+  "seconds": "s",
+  "minutes": "min",
+  "hours": "hr",
+  // Curated Pair Slugs & New Units
+  "cubic-yard": "yd3",
+  "cubic-yards": "yd3",
+  "imperial-gallon": "impgal",
+  "imperial-gallons": "impgal",
+  "troy-ounce": "ozt",
+  "troy-ounces": "ozt",
+  "angstrom": "angstrom",
+  "angstroms": "angstrom",
+  "nanometer": "nm",
+  "nanometers": "nm",
+  "fathom": "fathom",
+  "fathoms": "fathom",
+  "hectopascal": "hPa",
+  "hectopascals": "hPa",
+  "millibar": "mbar",
+  "millibars": "mbar",
+  "inches-of-mercury": "inHg",
+  "metric-horsepower": "ps",
+  "ton-of-refrigeration": "tr",
+  "tons-of-refrigeration": "tr",
+  "stick-of-butter": "stick_c",
+  "sticks-of-butter": "stick_c",
+  "gallon-per-minute": "gpm",
+  "gallons-per-minute": "gpm",
+  "liter-per-minute": "Lmin",
+  "liters-per-minute": "Lmin",
+  "cubic-feet-per-minute": "cfm",
+  "cubic-foot-per-minute": "cfm",
+  "liter-per-second": "Ls",
+  "liters-per-second": "Ls",
+  "cubic-meter-per-hour": "m3h",
+  "cubic-meters-per-hour": "m3h",
+  "foot-candle": "fc",
+  "foot-candles": "fc",
+  "lux": "lx",
+  "centipoise": "cP",
+  "pascal-second": "Pas",
+  "pascal-seconds": "Pas",
+  "millipascal-second": "mPas",
+  "millipascal-seconds": "mPas",
+  "pixel": "px",
+  "pixels": "px",
+  "point": "pt",
+  "points": "pt",
+  "root-em": "rem",
+  "rem": "rem"
+};
+function findUnit(cat, raw) {
+  const q = raw.trim().toLowerCase();
+  const qSpaced = q.replace(/-/g, " ");
+  const qUnderscored = q.replace(/-/g, "_");
+  const scopedKey = `${cat.id}:${q}`;
+  if (PAIR_UNIT_SYNONYMS[scopedKey]) {
+    const direct = cat.un.find((u) => u.id.toLowerCase() === PAIR_UNIT_SYNONYMS[scopedKey].toLowerCase());
+    if (direct) return direct;
+  }
+  if (PAIR_UNIT_SYNONYMS[q]) {
+    const direct = cat.un.find((u) => u.id.toLowerCase() === PAIR_UNIT_SYNONYMS[q].toLowerCase());
+    if (direct) return direct;
+  }
+  const singularCandidates = [q, qSpaced, qUnderscored];
+  if (q.endsWith("ies")) singularCandidates.push(q.slice(0, -3) + "y");
+  if (q.endsWith("es")) {
+    singularCandidates.push(q.slice(0, -2));
+    singularCandidates.push(q.slice(0, -1));
+  }
+  if (q.endsWith("s")) singularCandidates.push(q.slice(0, -1));
+  return cat.un.find((u) => {
+    const uid = u.id.toLowerCase();
+    const uidHyphen = uid.replace(/_/g, "-");
+    const ulb = u.lb.toLowerCase();
+    for (const cand of singularCandidates) {
+      if (uid === cand || uidHyphen === cand || ulb === cand) return true;
+      if (u.al?.some((a) => a.toLowerCase() === cand)) return true;
+    }
+    return false;
+  });
+}
+var CANONICAL_PAIR_SET = /* @__PURE__ */ new Set();
+for (const [catId, content] of Object.entries(categoryContent)) {
+  if (content?.popularPairs) {
+    for (const pair of content.popularPairs) {
+      const fSlug = cleanSlug(pair.from);
+      const tSlug = cleanSlug(pair.to);
+      CANONICAL_PAIR_SET.add(`${catId}:${fSlug}-to-${tSlug}`);
+    }
+  }
+}
+var CATEGORY_METROLOGY = {
+  length: {
+    dimension: "linear distance and spatial extent",
+    siBase: "meter (m)",
+    systems: "International System of Units (SI) and US Customary / British Imperial units",
+    contextNote: "Standardized under the 1959 International Yard and Pound Agreement (1 yard = 0.9144 m; 1 inch = 25.4 mm)."
+  },
+  mass: {
+    dimension: "inertial and gravitational mass (quantity of matter)",
+    siBase: "kilogram (kg)",
+    systems: "SI metric mass units and avoirdupois imperial/customary units",
+    contextNote: "Standardized under BIPM and CGPM metrology definitions (1 avoirdupois pound = 0.45359237 kg)."
+  },
+  temp: {
+    dimension: "thermodynamic temperature and kinetic molecular energy",
+    siBase: "kelvin (K)",
+    systems: "Celsius (\xB0C), Fahrenheit (\xB0F), Kelvin (K), Rankine (\xB0R), and R\xE9aumur (\xB0Re)",
+    contextNote: "The kelvin and degree Celsius share the same unit interval size under SI definitions, with 0 \xB0C corresponding to 273.15 K."
+  },
+  area: {
+    dimension: "two-dimensional surface extent ($L^2$)",
+    siBase: "square meter (m\xB2)",
+    systems: "Metric area units and imperial/customary units (acres, square feet)",
+    contextNote: "Conversions scale quadratically with the underlying linear dimension (1 m\xB2 = 10.7639104 ft\xB2)."
+  },
+  volume: {
+    dimension: "three-dimensional volumetric capacity ($L^3$)",
+    siBase: "cubic meter (m\xB3) and liter (L)",
+    systems: "Metric liquid volume and US Customary / British Imperial liquid measures",
+    contextNote: "Standardized according to NIST Handbook 44 and OIML liquid capacity regulations."
+  },
+  speed: {
+    dimension: "rate of change of position with respect to time ($L/T$)",
+    siBase: "meters per second (m/s)",
+    systems: "Metric (km/h), imperial (mph), and nautical (knots)",
+    contextNote: "Standardized internationally by ICAO (aviation), IMO (maritime), and SI transport metrology."
+  },
+  time: {
+    dimension: "chronological duration and sequential progression ($T$)",
+    siBase: "second (s)",
+    systems: "SI atomic second and sexagesimal astronomical calendar units",
+    contextNote: "Defined via the cesium-133 ground-state hyperfine transition frequency under the BIPM SI Brochure."
+  },
+  energy: {
+    dimension: "capacity to perform mechanical work or transfer heat ($M \\cdot L^2 / T^2$)",
+    siBase: "joule (J)",
+    systems: "SI joules, nutritional/thermal calories, electrical kilowatt-hours, and British Thermal Units (BTU)",
+    contextNote: "Standardized under ISO 80000-5 and International Steam Table thermochemical definitions."
+  },
+  pressure: {
+    dimension: "force exerted perpendicularly per unit surface area ($F/A$)",
+    siBase: "pascal (Pa = N/m\xB2)",
+    systems: "SI pascals, metric bar, engineering psi, and standard atmospheres (atm)",
+    contextNote: "Standardized under ISO 80000-4 with standard atmospheric pressure defined as exactly 101,325 Pa."
+  },
+  power: {
+    dimension: "rate of energy transfer or work performed per unit time ($E/T$)",
+    siBase: "watt (W = J/s)",
+    systems: "SI watts/kilowatts and imperial/mechanical horsepower",
+    contextNote: "Mechanical horsepower is defined as 550 ft\xB7lbf/s (approximately 745.69987 W)."
+  },
+  force: {
+    dimension: "rate of change of momentum according to Newton's second law ($M \\cdot L / T^2$)",
+    siBase: "newton (N = kg\xB7m/s\xB2)",
+    systems: "SI newtons and gravitational pound-force (lbf)",
+    contextNote: "Pound-force relies on standard Earth gravitational acceleration $g_0 = 9.80665\\text{ m/s}^2$ ($1\\text{ lbf} \\approx 4.448222\\text{ N}$)."
+  },
+  data: {
+    dimension: "digital information storage capacity",
+    siBase: "byte (B) and bit",
+    systems: "Decimal metric multiples (SI 1000-byte) and binary multiples (IEC 1024-byte)",
+    contextNote: "Standardized under IEC 80000-13 and IEEE metrology conventions."
+  },
+  fuel: {
+    dimension: "fuel efficiency (distance per volume) and fuel consumption (volume per distance)",
+    siBase: "kilometers per liter (km/L) and liters per 100 kilometers (L/100km)",
+    systems: "Metric consumption (L/100km), metric efficiency (km/L), and US/UK Miles Per Gallon (MPG)",
+    contextNote: "Efficiency and consumption exhibit an inverse mathematical relationship ($L/100km = 235.215 / MPG_{US}$)."
+  },
+  angle: {
+    dimension: "planar angular separation and circular rotation",
+    siBase: "radian (rad)",
+    systems: "Sexagesimal degrees (360\xB0), radians ($2\\pi$), gradians (400 gon), and arcminutes",
+    contextNote: "Standardized under ISO 80000-3 with $\\pi$ radians spanning a 180-degree half-circle."
+  },
+  frequency: {
+    dimension: "rate of periodic recurrence or cycles per unit time ($1/T$)",
+    siBase: "hertz (Hz = 1/s)",
+    systems: "SI hertz multiples and rotational revolutions per minute (RPM)",
+    contextNote: "Rotational RPM relates directly to Hz via a factor of 60 ($1\\text{ Hz} = 60\\text{ RPM}$)."
+  },
+  acceleration: {
+    dimension: "rate of change of velocity with respect to time ($L/T^2$)",
+    siBase: "meters per second squared (m/s\xB2)",
+    systems: "SI m/s\xB2, imperial ft/s\xB2, and standard Earth gravitational acceleration ($g$)",
+    contextNote: "Standard gravitational acceleration is fixed internationally at $1\\text{ }g = 9.80665\\text{ m/s}^2$."
+  },
+  electricity: {
+    dimension: "electromagnetic potential, electric current, resistance, and capacitance",
+    siBase: "ampere (A), volt (V), ohm (\u03A9), farad (F)",
+    systems: "SI electromagnetic definitions",
+    contextNote: "Grounded in fundamental physical constants including the elementary charge $e = 1.602176634 \\times 10^{-19}\\text{ C}$."
+  },
+  magnetism: {
+    dimension: "magnetic flux density and magnetic field strength",
+    siBase: "tesla (T)",
+    systems: "SI tesla and CGS electromagnetic gauss ($1\\text{ T} = 10,000\\text{ G}$)",
+    contextNote: "Governed by BIPM SI specifications and electromagnetic induction laws."
+  },
+  datatransfer: {
+    dimension: "digital data transmission throughput and bandwidth ($bits/T$)",
+    siBase: "bits per second (bps)",
+    systems: "Telecommunication decimal transfer rates (kbps, Mbps, Gbps)",
+    contextNote: "Standardized under ITU-T and IEEE 802 telecommunications protocol specifications."
+  },
+  torque: {
+    dimension: "rotational moment and torsional force ($F \\cdot L$)",
+    siBase: "newton-meter (N\xB7m)",
+    systems: "SI newton-meters and imperial foot-pounds (lbf\xB7ft)",
+    contextNote: "Standardized under ISO 80000-4 mechanical engineering metrology ($1\\text{ N}\\cdot\\text{m} \\approx 0.737562\\text{ lbf}\\cdot\\text{ft}$)."
+  },
+  density: {
+    dimension: "volumetric mass density ($M / L^3$)",
+    siBase: "kilograms per cubic meter (kg/m\xB3)",
+    systems: "SI kg/m\xB3, metric g/cm\xB3, and imperial pounds per cubic foot (lb/ft\xB3)",
+    contextNote: "Water at 4\xB0C exhibits an approximate density of $1\\text{ g/cm}^3 = 1000\\text{ kg/m}^3 = 62.42796\\text{ lb/ft}^3$."
+  },
+  cooking: {
+    dimension: "culinary recipe volumetric capacity",
+    siBase: "milliliter (mL) and culinary units (cups, tablespoons, teaspoons)",
+    systems: "US Legal Cup (240 mL), US Customary Cup (~236.588 mL), and metric liquid volumes",
+    contextNote: "Standardized according to US FDA 21 CFR \xA7 101.9 nutritional and culinary measuring guidelines."
+  },
+  textile: {
+    dimension: "fabric surface density and weave density",
+    siBase: "grams per square meter (GSM)",
+    systems: "Metric GSM and imperial thread count (threads per square inch)",
+    contextNote: "Evaluated under ASTM D3776 textile mass specifications and international fabric trade standards."
+  },
+  astronomy: {
+    dimension: "astronomical interstellar distance and celestial stellar mass",
+    siBase: "astronomical unit (au), light-year (ly), parsec (pc), solar mass ($M_\\odot$)",
+    systems: "International Astronomical Union (IAU) astronomical constants",
+    contextNote: "Standardized under IAU Resolution B2 (2012) fixing $1\\text{ au} = 149,597,870,700\\text{ m}$."
+  },
+  flow: {
+    dimension: "volumetric fluid flow rate and discharge per unit time ($L^3/T$)",
+    siBase: "cubic meters per second (m\xB3/s)",
+    systems: "SI cubic meters per second, metric liters per minute, and US engineering GPM/CFM",
+    contextNote: "Standardized under ISO 5167, ASHRAE guidelines for HVAC duct ventilation, and AWWA fluid distribution standards."
+  },
+  illuminance: {
+    dimension: "luminous flux incident on a surface per unit area ($J/L^2$)",
+    siBase: "lux (lx = lm/m\xB2)",
+    systems: "SI metric lux and imperial foot-candles (lm/ft\xB2)",
+    contextNote: "Standardized under CIE (International Commission on Illumination) and IESNA lighting engineering standards (1 fc \u2248 10.76391 lx)."
+  },
+  viscosity: {
+    dimension: "dynamic fluid shear resistance and internal friction ($M / (L \\cdot T)$)",
+    siBase: "pascal-second (Pa\xB7s)",
+    systems: "SI pascal-seconds (Pa\xB7s), metric millipascal-seconds (mPa\xB7s), and CGS poise/centipoise (cP)",
+    contextNote: "Standardized under ISO 3104 and ASTM D445 with 1 cP defined as exactly 1 mPa\xB7s = 0.001 Pa\xB7s."
+  },
+  typography: {
+    dimension: "typographical font sizing, digital screen scaling, and print layout dimensions",
+    siBase: "CSS pixel (px, 1/96 inch reference pixel)",
+    systems: "W3C CSS standard pixels and root-em (rem), alongside traditional DTP points (pt) and picas",
+    contextNote: "Standardized under the W3C CSS Values and Units Module Level 3 where 1 inch is fixed at exactly 96 px and 72 pt (1 pt = 1.33333 px)."
+  }
+};
+var PAIR_FIELD_NOTES = {
+  "area:marla-to-ft2": {
+    badge: "Regional Metrology Gotcha",
+    title: "Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla",
+    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
+    standard: "Punjab Land Revenue Act / LDA Manual"
+  },
+  "marla-to-ft2": {
+    badge: "Regional Metrology Gotcha",
+    title: "Punjab Revenue (272.25 sq ft) vs Housing Society (225 sq ft) Marla",
+    note: "In Pakistani real estate, private housing societies (DHA, Bahria Town, LDA) measure 1 Marla as exactly 225 sq ft (25 sq yards). However, the Punjab Land Revenue Department, Patwaris, and statutory government registries legally define 1 Marla as 272.25 sq ft (9 square karams). Always verify whether your land deed adheres to Society or Revenue measurement.",
+    standard: "Punjab Land Revenue Act / LDA Manual"
+  },
+  "mass:tola-to-g": {
+    badge: "Bullion Standard Gotcha",
+    title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
+    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
+    standard: "APGJA / British Indian Currency Act"
+  },
+  "tola-to-g": {
+    badge: "Bullion Standard Gotcha",
+    title: "Pakistani Tola (11.6638 g) vs 10-Gram Rates",
+    note: "The official Pakistani Tola is defined as 180 troy grains = 11.6638038 grams (standardized since the British Indian Currency Act). However, bullion markets and jewelry associations frequently quote spot gold rates per 10 grams alongside per-tola prices. Ensure you never calculate gold value by treating 1 tola as 10 grams.",
+    standard: "APGJA / British Indian Currency Act"
+  },
+  "hec-gpa4-to-percentage": {
+    badge: "HEC Grading Regulation",
+    title: "Continuous Linear Model vs Institutional Curves",
+    note: "The Higher Education Commission (HEC) of Pakistan standardises degree equivalence via the continuous formula: Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 for transcripts without an institutional grading curve. First Division requires minimum 60% or ~2.80\u20133.00 CGPA.",
+    standard: "HEC Policy Guidelines for Uniform Semester System"
+  },
+  "kilowatts-to-horsepower": {
+    badge: "EV & Powertrain Metrology",
+    title: "Mechanical Horsepower (745.7 W) vs Metric PS (735.5 W)",
+    note: "1 kilowatt equals 1.34102 mechanical horsepower (imperial) or 1.35962 metric horsepower (PS). Electric vehicle powertrain specs quote kW internationally, while North American automotive markets use mechanical hp.",
+    standard: "SAE J1349 / ISO 1585"
+  },
+  "fahrenheit-to-celsius": {
+    badge: "Thermodynamics & Meteorology",
+    title: "Scale Coincidence at -40\xB0 and Offset Subtraction",
+    note: "Fahrenheit and Celsius intersect at exactly -40\xB0 (-40\xB0F = -40\xB0C). Converting Fahrenheit requires subtracting the 32\xB0 freezing offset before scaling by 5/9. Absolute zero is -459.67\xB0F or -273.15\xB0C.",
+    standard: "BIPM SI Brochure / ITS-90"
+  },
+  // Mass & Weight
+  "troy-ounce-to-gram": {
+    badge: "Jeweler & Bullion Advisory",
+    title: "Troy Ounce vs Avoirdupois Ounce Discrepancy",
+    note: "A Troy Ounce (oz t = 31.1035 g) is approximately 9.7% heavier than a standard US grocery avoirdupois ounce (oz = 28.3495 g). In precious metals trading, mistaking standard ounces for troy ounces leads to significant financial undervaluation.",
+    standard: "NIST SP 811 / US Mint Bullion Specifications"
+  },
+  "troy-ounce-to-ounce": {
+    badge: "Precious Metals Standard",
+    title: "1 oz t = 1.09714 oz Avoirdupois",
+    note: "Because gold and silver are quoted strictly in Troy weight (12 troy ounces per troy pound), never weigh precious metals on conventional grocery scales without applying the 1.09714 multiplier.",
+    standard: "BIPM SI Brochure (9th Edition) & LBMA Rules"
+  },
+  "kilogram-to-pounds": {
+    badge: "Aerospace & Medical Protocol",
+    title: "Exact Legal Ratio: 1 lb = 0.45359237 kg",
+    note: "The international avoirdupois pound is legally defined as exactly 0.45359237 kg. Critical medical dosing and aviation fuel calculations must never round this to 0.45 or 2.2 without accounting for cumulative patient weight errors.",
+    standard: "ISO 80000-4 / NIST Handbook 44"
+  },
+  "pounds-to-kilogram": {
+    badge: "Aviation & Clinical Standard",
+    title: "Compound Precision: Multiply by 0.45359237",
+    note: "Aviation weight-and-balance manifests mandate calculating passenger and cargo payloads to 4 decimal places before computing center-of-gravity moments.",
+    standard: "FAA Flight Weight & Balance Handbook"
+  },
+  // Pressure
+  "bar-to-psi": {
+    badge: "HVAC & Automotive Engineering",
+    title: "Gauge (psig) vs Absolute (psia) Offset",
+    note: "Most mechanical tire and pressure gauges measure relative to ambient atmosphere (reading 0 psi at sea level). For thermodynamics, engine boost, and altitude physics, add 14.696 psi (1.01325 bar) to gauge pressure to obtain absolute pressure.",
+    standard: "ASME B40.100 / ISO 5167"
+  },
+  "psi-to-bar": {
+    badge: "Pneumatics & Scuba Gotcha",
+    title: "Atmospheric Normalization at 1.01325 bar",
+    note: "1 standard atmosphere is 1.01325 bar (101.325 kPa), which equals 14.6959 psi. Industrial compressor ratings in bar frequently refer to bar gauge (barg); verify whether your equipment specification requires absolute or differential pressure.",
+    standard: "ISO 80000-4 / DIN EN 837"
+  },
+  "hectopascal-to-millibar": {
+    badge: "Meteorology & Altimetry",
+    title: "1:1 Identical Equivalence",
+    note: "1 hectopascal (hPa) is numerically and physically identical to 1 millibar (mbar = 100 Pa). Aviation altimeter subscale settings (QNH) in Europe use hPa, while marine weather barometers historically use mbar.",
+    standard: "WMO Technical Regulations / ICAO Annex 3"
+  },
+  "inches-of-mercury-to-psi": {
+    badge: "Aviation Barometry",
+    title: "Standard Altimeter Baseline: 29.92 inHg = 14.696 psi",
+    note: "US aircraft altimeters are calibrated to standard atmospheric pressure (29.92 inHg = 1013.25 hPa). Mercury column height varies slightly with ambient temperature, requiring barometric temperature compensation in laboratory manometers.",
+    standard: "NIST Monograph 8 / FAA AIM 7-2-1"
+  },
+  // Cooking
+  "stick-of-butter-to-tablespoon": {
+    badge: "Culinary Metrology",
+    title: "US Customary vs European Butter Blocks",
+    note: "In the United States, 1 standard stick of butter is exactly 8 tablespoons (1/2 cup, 4 oz, or ~113.4 grams). In the UK and Europe, butter is sold in 250 g or 500 g solid blocks; 1 European 250 g block is equivalent to roughly 2.2 US sticks.",
+    standard: "USDA National Nutrient Database"
+  },
+  // Length
+  "meter-to-feet": {
+    badge: "Survey & Architecture Note",
+    title: "Deprecation of the US Survey Foot",
+    note: "On January 1, 2023, the US National Geodetic Survey and NIST officially deprecated the historical US Survey Foot (1200/3937 m) in favor of the International Foot (0.3048 m exactly). In large-scale GIS and civil survey work, always ensure your coordinate projection matches the 1959 International standard.",
+    standard: "Federal Register Notice (85 FR 62698) / NIST SP 811"
+  },
+  "feet-to-meters": {
+    badge: "Civil Engineering Standard",
+    title: "Exact Metric Definition: 1 ft = 0.3048 m",
+    note: "Because 1 foot is exactly 304.8 millimeters by definition, compounding decimal conversions can be computed without rounding artifacts by dividing feet by 3.280839895 or multiplying by 0.3048.",
+    standard: "1959 International Yard and Pound Agreement"
+  },
+  "angstrom-to-nanometer": {
+    badge: "Semiconductor & Crystallography",
+    title: "1 \xC5 = 0.1 nm = 100 pm",
+    note: "The \xC5ngstr\xF6m is non-SI but universally employed in X-ray crystallography and optical coatings because chemical bond lengths and atomic radii range between 1 and 2 \xC5ngstr\xF6ms.",
+    standard: "IUCr International Tables for Crystallography"
+  },
+  "fathom-to-foot": {
+    badge: "Nautical Hydrography",
+    title: "Traditional Depth Measure: 1 fathom = 6 ft",
+    note: "1 fathom equals exactly 6 feet (1.8288 m), originally defined as the span of an adult sailor's outstretched arms. Modern bathymetric charts predominantly use meters, but nautical paper charts in US waters still report fathom depths.",
+    standard: "NOAA Office of Coast Survey Standards"
+  },
+  // Data
+  "gibibyte-to-gigabyte": {
+    badge: "SysAdmin & Storage Architecture",
+    title: "Binary (1024\xB3) vs Decimal (1000\xB3) Discrepancy",
+    note: "Operating systems like Windows calculate file system capacities in binary gibibytes (1 GiB = 1024\xB3 bytes), whereas drive manufacturers label hard drives in decimal gigabytes (1 GB = 1000\xB3 bytes). A physical 1 TB drive has 1,000,000,000,000 bytes, which equals 931.32 GiB in Windows.",
+    standard: "IEC 80000-13 / IEEE 1541"
+  },
+  // Torque
+  "newton-meter-to-pound-inch": {
+    badge: "Machinist & Fastener Caution",
+    title: "Pound-Foot vs Pound-Inch Confusion",
+    note: "Never confuse pound-inches (lb-in) with pound-feet (lb-ft). 1 N\xB7m is 8.8507 lb-in, but only 0.7376 lb-ft. Torquing a fastener to 25 lb-ft instead of 25 lb-in applies 12 times the intended torque, shearing small bolts and stripping aluminum threads.",
+    standard: "ISO 6789 / ASME B107.14"
+  },
+  "pound-foot-to-pound-inch": {
+    badge: "Automotive Mechanics",
+    title: "Exact Factor of 12",
+    note: "1 pound-foot equals exactly 12 pound-inches. Bicycle stems and small engine valve covers specify lb-in, while cylinder head bolts specify lb-ft. Always verify the scale on your click torque wrench before tightening.",
+    standard: "SAE J1701 / ASME B107.300"
+  },
+  // Power
+  "metric-horsepower-to-kilowatt": {
+    badge: "Automotive Dyno Standards",
+    title: "Metric HP (PS/CV) vs Mechanical HP (hp)",
+    note: "Metric horsepower (Pferdest\xE4rke / PS) equals 735.49875 W, whereas imperial mechanical horsepower equals 745.69987 W. A European car rated at 300 PS produces 220.65 kW, which translates to 295.9 mechanical hp.",
+    standard: "DIN 70020 / ISO 1585"
+  },
+  "ton-of-refrigeration-to-btu-h": {
+    badge: "HVAC Plant Engineering",
+    title: "Latent Heat of Ice Melting: 1 TR = 12,000 BTU/h",
+    note: "One refrigeration ton (TR) represents the rate of heat extraction required to freeze one short ton (2,000 lb) of water at 32\xB0F into ice in 24 hours (12,000 BTU/h or ~3.51685 kW).",
+    standard: "ASHRAE Handbook / AHRI 550/590"
+  },
+  // Temperature
+  "celsius-to-fahrenheit": {
+    badge: "Thermodynamics & Meteorology",
+    title: "Equal Point at -40\xB0 and Scale Offsets",
+    note: "Celsius and Fahrenheit intersect at exactly -40\xB0 (-40\xB0C = -40\xB0F). Because temperature is an affine scale with non-zero intercept, relative temperature differences (\u0394T) must not include the +32 offset: a change of 10\xB0C equals a change of 18\xB0F, not 50\xB0F.",
+    standard: "BIPM SI Brochure (9th Edition) / ITS-90"
+  },
+  // Flow Rate
+  "gallon-per-minute-to-liter-per-minute": {
+    badge: "Pumping & Piping Systems",
+    title: "US Liquid Gallon vs Imperial Gallon Flow",
+    note: "Standard US GPM uses 3.78541 L/min. UK and Commonwealth water works historically used Imperial GPM (4.54609 L/min), which is 20% greater volume per minute.",
+    standard: "Hydraulic Institute (HI) Standards / AWWA"
+  },
+  // Illuminance
+  "foot-candle-to-lux": {
+    badge: "Architectural Lighting Design",
+    title: "1 fc = 10.7639 lux (Square Foot to Square Meter)",
+    note: "A foot-candle represents 1 lumen per square foot, while lux represents 1 lumen per square meter. Because 1 m\xB2 = 10.7639 ft\xB2, multiplying foot-candles by ~10.76 yields exact lux.",
+    standard: "IESNA Lighting Handbook / EN 12464-1"
+  },
+  // Viscosity
+  "centipoise-to-pascal-second": {
+    badge: "Rheology & Lubrication",
+    title: "1 cP = 1 mPa\xB7s = 0.001 Pa\xB7s (Water Baseline)",
+    note: "At 20\xB0C, liquid water has a dynamic viscosity of almost exactly 1.002 cP (1.002 mPa\xB7s). Centipoise remains the dominant unit in petrochemical, paint, and polymer processing.",
+    standard: "ASTM D445 / ISO 3104"
+  },
+  // Typography
+  "pixel-to-point": {
+    badge: "Digital Publishing & DTP",
+    title: "96 DPI Screen vs 72 DPI PostScript Point",
+    note: "In modern CSS, 1 inch equals exactly 96 CSS pixels and 72 PostScript typographical points (pt). Thus, 1 pt equals 1.3333 CSS pixels, and 16 px equals 12 pt.",
+    standard: "W3C CSS Values and Units Level 3 / Adobe PostScript"
+  }
+};
+var CATEGORY_FIELD_NOTES = {
+  length: {
+    badge: "Dimensional Metrology",
+    title: "SI Base Traceability",
+    note: "All international length measures trace to the speed of light in vacuum (c = 299,792,458 m/s). 1 inch is legally fixed at exactly 25.4 mm.",
+    standard: "NIST SP 811 / ISO 80000-3"
+  },
+  mass: {
+    badge: "Metrology Traceability",
+    title: "Planck Constant Definition",
+    note: "Since 2019, the kilogram is defined by fixing the Planck constant h = 6.62607015 \xD7 10\u207B\xB3\u2074 J\xB7s. All imperial mass units derive directly from this definition.",
+    standard: "BIPM SI Brochure (9th Edition)"
+  },
+  volume: {
+    badge: "Volumetric Calibration",
+    title: "Thermal Expansion & Calibration",
+    note: "Liquid volumes expand with temperature. Standard volumetric glassware and hydrometers are calibrated at 20\xB0C (68\xB0F).",
+    standard: "ASTM E288 / ISO 4787"
+  },
+  pressure: {
+    badge: "Atmospheric Physics",
+    title: "Standard Atmospheric Baseline",
+    note: "Standard atmospheric pressure at mean sea level is defined as 101,325 Pa (1.01325 bar = 14.6959 psi = 760 mmHg).",
+    standard: "ISO 2533 / Standard Atmosphere"
+  },
+  temp: {
+    badge: "Thermodynamics",
+    title: "Absolute Zero Reference",
+    note: "Thermodynamic temperature begins at Absolute Zero (0 K = -273.15\xB0C = -459.67\xB0F), where molecular kinetic energy is minimal.",
+    standard: "BIPM SI Brochure (9th Edition)"
+  },
+  power: {
+    badge: "Electromechanical Conversion",
+    title: "Mechanical vs Electrical Horsepower",
+    note: "Mechanical horsepower is fixed at 550 ft\xB7lbf/s (\u2248745.7 W), while electrical horsepower is defined as exactly 746 W.",
+    standard: "IEEE Standards / ISO 80000-4"
+  },
+  energy: {
+    badge: "Work & Heat Thermodynamics",
+    title: "First Law Equivalence: 1 cal = 4.184 J",
+    note: "The mechanical equivalent of heat sets 1 thermochemical calorie to exactly 4.184 Joules. 1 kilowatt-hour equals exactly 3.6 Megajoules.",
+    standard: "ISO 80000-5 / CODATA"
+  },
+  data: {
+    badge: "Digital Information Standard",
+    title: "Binary vs Decimal Multiples",
+    note: "IEC 80000-13 standardizes binary prefixes (KiB = 1024 B, MiB = 1024\xB2 B) to distinguish them from SI decimal prefixes (kB = 1000 B, MB = 1000\xB2 B).",
+    standard: "IEC 80000-13 / IEEE 1541"
+  },
+  torque: {
+    badge: "Mechanical Engineering",
+    title: "Rotational Moment vs Energy",
+    note: "Although both torque (N\xB7m) and energy (Joules) have identical SI base dimensions (kg\xB7m\xB2/s\xB2), torque is a vector cross product and is never expressed in Joules.",
+    standard: "ISO 80000-4"
+  },
+  cooking: {
+    badge: "Culinary Precision",
+    title: "Weight vs Volume in Recipes",
+    note: "Professional baking recipes mandate mass (grams) over volume (cups) because ingredient settling, humidity, and sifting create up to 20% density fluctuations.",
+    standard: "Culinary Institute of America Standards"
+  }
+};
+var PAIR_USE_CASES = {
+  "length:meter-to-feet": [
+    { domain: "Architectural Framing & Blueprints", context: "Translating European and international metric architectural layouts into feet and inches for US residential framing and construction contractors." },
+    { domain: "Athletic Track & Field Reporting", context: "Converting international metric track and field jump distances and race heights for domestic sports broadcasts and imperial record books." },
+    { domain: "Mountain Hiking & Trail Elevations", context: "Comparing trail elevation gains, contour lines, and summit heights between international metric topo maps and US quadrangle maps." }
+  ],
+  "length:kilometer-to-miles": [
+    { domain: "Cross-Border Road Travel & Navigation", context: "Planning driving times, highway speed compliance, and fuel intervals when crossing between metric regions (Canada/Europe) and the United States." },
+    { domain: "Long-Distance Athletic Endurance Training", context: "Converting 5K, 10K, half-marathon, and marathon race splits and training logs between metric pacing and miles." },
+    { domain: "Automotive Import & Titling Verification", context: "Translating odometer mileage readings on imported Japanese and European vehicles for domestic registration and valuation." }
+  ],
+  "length:inches-to-centimeter": [
+    { domain: "Consumer Electronics & Display Sizing", context: "Translating TV, computer monitor, and smartphone screen diagonal specifications into metric dimensions for international buyers." },
+    { domain: "Apparel Tailoring & Garment Measurements", context: "Converting body measurements, waist sizing, and inseams between US customary apparel guides and metric sizing tables." },
+    { domain: "Precision Woodworking & CNC Machining", context: "Reconciling imperial bolt sizes and drill bit diameters with metric workshop cutting plans and stock materials." }
+  ],
+  "length:feet-to-meters": [
+    { domain: "Civil Engineering Tenders & International Bids", context: "Converting North American structural drawings, span lengths, and building heights into metric specifications for international tenders." },
+    { domain: "Maritime Navigation & Hydrographic Surveys", context: "Converting depth soundings and bridge clearance heights from customary feet into international hydrographic metric charts." },
+    { domain: "Real Estate Appraisals & Commercial Floor Plans", context: "Translating square footage and ceiling height measurements into metric meters for multinational real estate portfolios." }
+  ],
+  "length:centimeter-to-inches": [
+    { domain: "International Freight & Packaging Logistics", context: "Measuring carton dimensions in centimeters to calculate dimensional weight and courier shipping thresholds in inches." },
+    { domain: "Graphic Arts & Print Production", context: "Translating metric poster margins, paper trim sizes, and binding specifications into imperial desktop publishing layouts." },
+    { domain: "Office Ergonomics & Desk Setup", context: "Adjusting standing desk heights, monitor arm reaches, and chair clearances between metric product manuals and customary measurements." }
+  ],
+  "mass:kilogram-to-pounds": [
+    { domain: "Commercial Aviation Luggage & Air Cargo", context: "Calculating passenger checked baggage allowances where international ticket limits are posted in kilograms and domestic scales read in pounds." },
+    { domain: "Competitive Powerlifting & Olympic Weightlifting", context: "Converting international competition barbell loadings calibrated in kilograms into customary pounds for training logs." },
+    { domain: "Agricultural Commodity Export Logistics", context: "Translating wholesale bulk produce weights and livestock measurements between international metric kilograms and US customary pounds." }
+  ],
+  "mass:pounds-to-kilogram": [
+    { domain: "Personal Fitness & Bodyweight Logging", context: "Converting bodyweight logs between imperial pounds and metric kilograms for fitness applications and gym tracking." },
+    { domain: "International Customs Declarations & Freight", context: "Preparing commercial export invoices requiring metric kilogram tare and net weight disclosures from US shipping manifests." },
+    { domain: "Travel Luggage & Suitcase Weighing", context: "Checking personal luggage weight on household bathroom scales in pounds before traveling on airlines with kilogram baggage limits." }
+  ],
+  "mass:ounces-to-grams": [
+    { domain: "Artisan Baking & Pastry Formulation", context: "Converting delicate baking recipes requiring exact gram baker's percentages from traditional US volume and ounce recipes." },
+    { domain: "Precious Metals & Laboratory Assays", context: "Converting gold, silver, and precious alloy weights from avoirdupois and troy ounces into metric grams for chemical assaying." },
+    { domain: "Postal Dispatch & Parcel Postage", context: "Weighing lightweight international mail and envelopes to ensure compliance with postal bracket thresholds." }
+  ],
+  "mass:stone-to-kilogram": [
+    { domain: "UK & Commonwealth Personal Fitness Tracking", context: "Converting traditional British stone and pound scale readouts into metric kilograms for modern fitness apps." },
+    { domain: "Combat Sports & Martial Arts Weigh-Ins", context: "Reconciling British boxing, MMA, and wrestling weight divisions with international metric sanctioning standards." },
+    { domain: "Historical Genealogy & Military Archives", context: "Interpreting historic Commonwealth enlistment, medical, and immigration records recorded in stone." }
+  ],
+  "mass:metric-ton-to-us-ton": [
+    { domain: "Intermodal Freight & Rail Cargo Logistics", context: "Reconciling international ocean container shipping manifests in metric tonnes with North American railroad short-ton capacity limits." },
+    { domain: "Mining Extraction & Bulk Mineral Processing", context: "Calculating raw ore throughput, smelting yields, and stockpile inventories across multinational extraction ventures." },
+    { domain: "Civil Infrastructure & Structural Steel Fabrication", context: "Ordering structural steel beams and rebar tonnage from international mills for domestic civil projects." }
+  ],
+  "temp:celsius-to-fahrenheit": [
+    { domain: "International Travel & Weather Forecasts", context: "Translating overseas ambient weather forecasts into familiar Fahrenheit comfort benchmarks for American travelers." },
+    { domain: "Culinary Baking & Kitchen Thermostats", context: "Setting domestic US oven thermostats when preparing European and international baking recipes specified in Celsius." },
+    { domain: "Building Environmental HVAC Systems", context: "Calibrating dual-display thermostat controllers, chillers, and heat pump cooling thresholds in commercial buildings." }
+  ],
+  "temp:fahrenheit-to-celsius": [
+    { domain: "Scientific Laboratory Environmental Monitoring", context: "Converting incubator, water bath, and ambient laboratory temperature logs from US equipment into standard SI Celsius." },
+    { domain: "International Cuisine & Expat Kitchens", context: "Converting American cookbook baking temperatures for home cooks utilizing Celsius-calibrated European ovens." },
+    { domain: "Industrial Machinery Import & Maintenance", context: "Translating US machinery temperature safety cutoffs and operating ranges into metric SCADA process systems." }
+  ],
+  "temp:celsius-to-kelvin": [
+    { domain: "Thermodynamics & Physical Chemistry Calculations", context: "Inputting laboratory temperatures into thermodynamic equations including the Ideal Gas Law ($PV = nRT$) and entropy calculations." },
+    { domain: "Cryogenic Science & Laboratory Physics", context: "Comparing liquid nitrogen (-196 \xB0C = 77.15 K) and dry ice temperatures between Celsius and thermodynamic Kelvin scales." },
+    { domain: "Meteorology & Planetary Atmospheric Physics", context: "Calculating atmospheric lapse rates, radiative heat balance, and blackbody emission spectra." }
+  ],
+  "temp:kelvin-to-celsius": [
+    { domain: "Observational Astronomy & Stellar Physics", context: "Converting effective stellar surface temperatures and cosmic background radiation parameters into intuitive laboratory Celsius." },
+    { domain: "Materials Science & Superconductivity Research", context: "Translating critical transition temperatures ($T_c$) of advanced ceramic superconductors into working Celsius scales." },
+    { domain: "Semiconductor Fabrication & Thermal Annealing", context: "Converting furnace process specifications between thermodynamic modeling and manufacturing equipment displays." }
+  ],
+  "temp:fahrenheit-to-kelvin": [
+    { domain: "Thermodynamics Coursework & Physics Study", context: "Converting ambient temperature benchmarks in Fahrenheit to Kelvin for undergraduate thermodynamic problem sets." },
+    { domain: "Deep-Freeze Food Storage & Industrial Freezers", context: "Relating sub-zero commercial freezer ratings in Fahrenheit to thermodynamic Kelvin temperatures." },
+    { domain: "High-Temperature Industrial Combustion", context: "Modeling gas turbine and industrial boiler flame dynamics between engineering CAD software and thermodynamic physics." }
+  ],
+  "area:square-meters-to-square-feet": [
+    { domain: "Commercial Real Estate Leasing & Appraisal", context: "Converting international office floor plates and lease contracts into North American rentable square feet." },
+    { domain: "Flooring Installation & Material Estimation", context: "Estimating carpet, hardwood, and ceramic tile materials from architectural floor plans drawn in metric meters." },
+    { domain: "Interior Space Planning & Hospitality Design", context: "Evaluating furniture layouts, guest room scale, and conference hall occupant capacities from global drawings." }
+  ],
+  "area:acres-to-hectares": [
+    { domain: "Agricultural Farmland Sales & Agribusiness", context: "Translating US farm and ranch acreage for international agricultural trade, crop yield benchmarking, and EU filings." },
+    { domain: "Forestry & Environmental Conservation", context: "Mapping national park boundaries, wildfire burn areas, and reforestation projects onto international GIS layers." },
+    { domain: "Utility-Scale Solar & Wind Development", context: "Evaluating land acquisition acreage requirements for multinational renewable energy projects." }
+  ],
+  "area:square-feet-to-square-meters": [
+    { domain: "Global Architectural Submissions & Tenders", context: "Preparing North American architectural designs and commercial proposals for international zoning and municipal approvals." },
+    { domain: "Corporate Carbon & Energy Auditing", context: "Standardizing facility floor area for global greenhouse gas emissions reporting and energy efficiency certifications." },
+    { domain: "International Hotel Development & Franchising", context: "Standardizing guest suite dimensions and public amenity areas across global hospitality brands." }
+  ],
+  "area:hectares-to-acres": [
+    { domain: "International Land Investment & Timberland", context: "Evaluating overseas agricultural land parcels, vineyards, and timberland investments for North American buyers." },
+    { domain: "Geospatial Mapping & Cadastral Surveys", context: "Converting satellite property boundaries and global municipal survey data into customary deeds." },
+    { domain: "Conservation Biology & Wildlife Habitats", context: "Comparing multinational ecological preserves and wildlife corridors with domestic public land benchmarks." }
+  ],
+  "area:square-kilometers-to-square-miles": [
+    { domain: "Regional Demographics & Density Studies", context: "Comparing municipal land areas and metropolitan population densities between international and US census records." },
+    { domain: "Geophysical & Natural Disaster Impact Analysis", context: "Evaluating storm surge zones, seismic rupture areas, and wildfire perimeters on regional maps." },
+    { domain: "Regional Transit & Urban Planning", context: "Evaluating urban growth boundaries, transit catchment corridors, and municipal utility service areas." }
+  ],
+  "volume:liters-to-gallons": [
+    { domain: "Automotive Fuel Efficiency & Cross-Border Driving", context: "Calculating fuel purchase volumes and fuel range when driving between metric gas stations and US customary pumps." },
+    { domain: "Beverage Bottling & Commercial Distribution", context: "Converting wine, spirits, and dairy bulk processing volumes into US retail gallon packaging formats." },
+    { domain: "Aquaculture & Commercial Water Treatment", context: "Calculating chemical water treatment dosages and filtration pump sizing based on reservoir liter capacities." }
+  ],
+  "volume:gallons-to-liters": [
+    { domain: "Vehicle Importation & Registration Compliance", context: "Calculating engine coolant, transmission fluid, and fuel tank capacities for vehicles imported into metric countries." },
+    { domain: "Marine Bunkering & Commercial Vessels", context: "Reconciling domestic US fuel delivery receipts in gallons with vessel fuel sounding tables logged in metric liters." },
+    { domain: "Industrial Chemical Manufacturing & Mixing", context: "Converting batch manufacturing recipes specified in US gallons for European automated chemical plant reactors." }
+  ],
+  "volume:milliliters-to-fluid-ounces": [
+    { domain: "Culinary Mixology & Specialty Beverage Recipes", context: "Converting precise European cocktail and culinary syrups into US customary bar measurements." },
+    { domain: "Cosmetics & Personal Care Packaging", context: "Packaging liquid skincare serums, perfumes, and lotions for dual-market international compliance." },
+    { domain: "Travel Liquid Sizing & Airport Carry-On", context: "Checking travel-size shampoo, sunscreen, and cosmetic bottles in milliliters against airline 3.4 fluid ounce limits." }
+  ],
+  "volume:cubic-meters-to-cubic-feet": [
+    { domain: "Ocean Container Freight & Stowage Planning", context: "Calculating cargo volume (CBM) to optimize 20-foot and 40-foot ocean container packing and air cargo charges." },
+    { domain: "HVAC Ventilation & Cleanroom Engineering", context: "Converting airflow delivery rates and room air exchange volumes between metric designs and imperial blowers." },
+    { domain: "Bulk Aggregate & Concrete Placement", context: "Ordering sand, gravel, and ready-mix concrete for international civil construction projects." }
+  ],
+  "volume:quarts-to-liters": [
+    { domain: "Commercial Foodservice & Catering Operations", context: "Scaling large-batch soup, sauce, and dressing recipes from US kitchen quarts to commercial metric kettles." },
+    { domain: "Automotive Engine Oil & Lubricant Maintenance", context: "Purchasing engine oil containers in metric markets for domestic vehicles specifying multi-quart crankcases." },
+    { domain: "Educational Chemistry & Biological Science Labs", context: "Measuring reagent solutions and buffer preparations in educational laboratory settings." }
+  ],
+  "speed:km-h-to-mph": [
+    { domain: "Cross-Border Highway Navigation & Speed Limits", context: "Interpreting highway speed limit signs and vehicle digital head-up displays when driving between Canada, Mexico, and the US." },
+    { domain: "Sports Ballistics & Radar Speed Tracking", context: "Translating international tennis serve speeds and soccer ball velocities into miles per hour for North American sports media." },
+    { domain: "Accident Reconstruction & Forensic Telematics", context: "Converting electronic control module (ECM) crash telemetry from metric km/h into statutory speed limits." }
+  ],
+  "speed:mph-to-km-h": [
+    { domain: "International Driving & Rental Car Operation", context: "Navigating European, Australian, and worldwide motorways with speedometers calibrated in statute miles per hour." },
+    { domain: "Commercial Aviation Ground Speed Analysis", context: "Translating low-altitude radar ground speed figures into metric meteorological wind reports." },
+    { domain: "Automotive Performance Testing & Benchmarking", context: "Comparing North American 0-60 mph vehicle acceleration benchmarks with international 0-100 km/h testing." }
+  ],
+  "speed:knots-to-mph": [
+    { domain: "Maritime Navigation & Coastal Boating", context: "Translating nautical chart cruise speeds and tidal current velocities into statute land miles for recreational boaters." },
+    { domain: "Recreational Boating & Watersports", context: "Translating marine GPS speedometer readings in nautical knots to familiar statute miles per hour for wakeboarding and lake boating." },
+    { domain: "Marine Weather Advisories & Storm Tracking", context: "Interpreting hurricane wind speed advisories and gale warnings posted in nautical knots for onshore civil authorities." }
+  ],
+  "speed:m-s-to-km-h": [
+    { domain: "Meteorological Anemometer & Wind Reporting", context: "Converting raw weather station anemometer readings in meters per second into public broadcast storm speed figures." },
+    { domain: "Ballistics & Projectile Aerodynamics", context: "Analyzing bullet muzzle velocities, aerodynamic drag coefficients, and flight times in kinetic ballistic software." },
+    { domain: "Athletic Sprint Biomechanics", context: "Translating Olympic 100m sprint velocity meters per second into vehicle-equivalent kilometer per hour speeds." }
+  ],
+  "speed:mach-to-km-h": [
+    { domain: "Aviation Education & Acoustics Demonstration", context: "Explaining the speed of sound at sea level (Mach 1 \u2248 1,225 km/h) for science journalism and aviation enthusiasm." },
+    { domain: "Astronomy & High-Altitude Science Articles", context: "Communicating high-speed atmospheric phenomena and meteor re-entry velocities in accessible km/h figures." },
+    { domain: "Aerodynamics Coursework & Shockwave Physics", context: "Introducing supersonic fluid dynamics and shockwave phenomena in introductory engineering physics." }
+  ],
+  "time:hours-to-minutes": [
+    { domain: "Professional Consulting & Project Billing", context: "Converting fractional consultant hours and time tracking records into granular billing and payroll minutes." },
+    { domain: "Transit & Flight Connection Scheduling", context: "Calculating flight layover durations, train connection windows, and total itinerary travel times." },
+    { domain: "Broadcast Media & Audio/Video Post-Production", context: "Timing television commercial blocks, podcast episode runtimes, and digital video timelines." }
+  ],
+  "time:days-to-hours": [
+    { domain: "Intermodal Freight & Supply Chain Transit", context: "Calculating shipment transit times, port demurrage windows, and express freight delivery commitments." },
+    { domain: "Warranty Windows & Return Periods", context: "Calculating consumer return deadlines and service trial guarantee windows from days to remaining hours." },
+    { domain: "Construction Project Management & Milestones", context: "Breaking down multi-day construction phases into specific labor shift and equipment rental hours." }
+  ],
+  "time:minutes-to-seconds": [
+    { domain: "Athletic Interval Training & Sprint Splits", context: "Measuring high-intensity interval training (HIIT) durations and competition track split times." },
+    { domain: "Telecommunications & Cloud Function Billing", context: "Calculating cloud server execution timeouts and serverless compute execution billing intervals." },
+    { domain: "Laboratory Chemical Assay Incubation", context: "Timing precise biochemical enzymatic reactions, centrifuge runs, and diagnostic test incubation periods." }
+  ],
+  "time:weeks-to-days": [
+    { domain: "Obstetric & Gestational Milestones", context: "Tracking pregnancy progression and fetal development stages by exact calendar days from gestational weeks." },
+    { domain: "Contractor Sprint Scheduling & Agile Planning", context: "Breaking down multi-week software development sprints into daily standup task commitments." },
+    { domain: "Academic Terms & Instructional Schedules", context: "Calculating instructional classroom days from institutional semester calendars." }
+  ],
+  "time:years-to-days": [
+    { domain: "Financial Debt Securities & Interest Accrual", context: "Applying exact day-count conventions (Actual/365, Actual/360) for municipal bond and mortgage interest accrual." },
+    { domain: "Astronomical Orbital Period Modeling", context: "Calculating planetary and satellite orbital periods, accounting for leap year calendar shifts." },
+    { domain: "Industrial Equipment Depreciation & Warranties", context: "Calculating warranty expiration dates and straight-line capital equipment depreciation schedules." }
+  ],
+  "energy:joules-to-calories": [
+    { domain: "Nutritional Science & Dietary Labeling", context: "Translating international food packaging energy values in kilojoules into consumer nutritional calories." },
+    { domain: "Exercise Physiology & Ergometer Testing", context: "Converting mechanical work recorded by cycle ergometers in joules into metabolic calories expended." },
+    { domain: "Thermodynamics & Mechanical Heat Equivalence", context: "Demonstrating the mechanical equivalent of heat in laboratory physics and chemistry education." }
+  ],
+  "energy:kwh-to-btu": [
+    { domain: "Building HVAC Efficiency & Energy Audits", context: "Comparing electric heat pump energy consumption with natural gas furnace heating capacity." },
+    { domain: "Utility Bill Analysis & Energy Modeling", context: "Reconciling electric meter kilowatt-hour consumption with building thermal load calculations." },
+    { domain: "Industrial Boiler & Chiller Sizing", context: "Determining total British Thermal Unit heating requirements from electrical power inputs." }
+  ],
+  "energy:calories-to-joules": [
+    { domain: "Bomb Calorimetry & Combustion Chemistry", context: "Converting chemical combustion heat measured in calories into standard SI thermodynamic joules." },
+    { domain: "Sports Nutrition & Metabolic Rate Modeling", context: "Translating basal metabolic rate dietary intake into SI units for scientific publication." },
+    { domain: "Ecosystem Energetics & Biomass Energy", context: "Quantifying solar energy capture and food web trophic energy transfers in ecological studies." }
+  ],
+  "energy:ev-to-joules": [
+    { domain: "Quantum Mechanics & Particle Physics", context: "Converting subatomic particle kinetic energies and accelerator beam energies into SI joules." },
+    { domain: "Semiconductor Bandgap & Solar Photovoltaics", context: "Analyzing semiconductor bandgap absorption thresholds (e.g. 1.1 eV for silicon) in joules." },
+    { domain: "Spectroscopy & Molecular Ionization", context: "Calculating molecular bond dissociation energies and photon emission wavelengths." }
+  ],
+  "energy:btu-to-kwh": [
+    { domain: "Building Electrification & Heat Pump Transitions", context: "Calculating electrical power required to replace legacy heating oil and natural gas heating systems." },
+    { domain: "Commercial Refrigeration & Food Storage", context: "Sizing electrical substation supply capacity for cold storage warehouse refrigeration plants." },
+    { domain: "District Steam Energy Accounting", context: "Billing municipal steam heating customers by converting thermal steam heat into kilowatt-hours." }
+  ],
+  "pressure:psi-to-bar": [
+    { domain: "Automotive Tire Pressure Maintenance", context: "Converting vehicle tire specifications in US psi to European bar inflation gauges." },
+    { domain: "Scuba Diving Cylinder Pressure Inspection", context: "Interpreting breathing gas cylinder pressures on international diving trips with bar-calibrated gauges." },
+    { domain: "Industrial Pneumatics & Hydraulic Machinery", context: "Adjusting system pressure relief valves and compressor regulators on European industrial equipment." }
+  ],
+  "pressure:bar-to-psi": [
+    { domain: "Imported Machinery Calibration & Workshop Air", context: "Configuring European workshop air compressors and hydraulic presses for North American operators." },
+    { domain: "Motorsport & Track Day Tire Pressure Tuning", context: "Converting tire manufacturer recommended track hot pressures from bar into digital US psi gauges." },
+    { domain: "Industrial Gas Cylinder Manifold Regulation", context: "Regulating specialty gas delivery manifolds calibrated in metric bar for domestic factory use." }
+  ],
+  "pressure:atm-to-psi": [
+    { domain: "Atmospheric Physics & Weather Science", context: "Relating standard sea-level atmospheric pressure (1 atm) to engineering pressure in psi." },
+    { domain: "Recreational Scuba Diving Theory", context: "Calculating theoretical hydrostatic water pressures in atmospheres and converting to psi for dive table study." },
+    { domain: "Meteorology & Barometer Comparisons", context: "Comparing standard sea-level atmospheric pressure (1 atm) to domestic weather station readings in psi." }
+  ],
+  "pressure:pascals-to-psi": [
+    { domain: "HVAC Cleanroom Differential Pressure Monitoring", context: "Converting sensitive micro-manometer cleanroom air pressure readings from pascals to psi." },
+    { domain: "Structural Wind Engineering & Building Envelopes", context: "Translating wind tunnel surface pressure distributions into building envelope structural design loads." },
+    { domain: "Acoustic Sound Pressure & Loudspeaker Testing", context: "Evaluating acoustic pressure wave amplitudes in loudspeaker development and soundproofing audits." }
+  ],
+  "pressure:mmhg-to-atm": [
+    { domain: "Barometric Science & Historical Metrology", context: "Relating traditional mercury column heights (760 mmHg) to standard atmospheric pressure (1 atm)." },
+    { domain: "Laboratory Vacuum Distillation", context: "Monitoring low-pressure chemical distillation boiling points on mercury manometers." },
+    { domain: "Pharmaceutical Freeze-Drying & Lyophilization", context: "Controlling chamber vacuum sublimation pressures during drug freeze-drying cycles." }
+  ],
+  "power:horsepower-to-kilowatts": [
+    { domain: "Automotive Engine Ratings & EV Comparisons", context: "Converting traditional internal combustion horsepower into kilowatts for electric vehicle comparisons and EU taxation." },
+    { domain: "Industrial Electric Motor Specification", context: "Replacing imperial factory motors and pump drives with metric three-phase industrial motors." },
+    { domain: "Marine Propulsion & Yacht Sizing", context: "Standardizing inboard diesel engine power ratings across North American and European shipbuilders." }
+  ],
+  "power:kilowatts-to-horsepower": [
+    { domain: "Electric Vehicle Consumer Marketing", context: "Translating modern electric vehicle kilowatt drivetrain ratings into familiar automotive horsepower." },
+    { domain: "Agricultural Tractor & Machinery Evaluation", context: "Comparing power take-off (PTO) ratings between European tractors and North American farm equipment." },
+    { domain: "Emergency Standby Generator Installation", context: "Sizing commercial emergency diesel generators to drive industrial pump and motor loads." }
+  ],
+  "power:watts-to-btu-h": [
+    { domain: "Data Center Cooling & Server Rack Thermal Loads", context: "Calculating air conditioning cooling requirements (BTU/h) from server equipment electrical wattage." },
+    { domain: "Industrial Electrical Enclosure Thermal Design", context: "Sizing panel air conditioners and exhaust fans to dissipate heat generated by variable frequency drives." },
+    { domain: "Residential Architectural Cooling Calculations", context: "Modeling interior thermal heat gain from consumer electronics and lighting fixtures." }
+  ],
+  "power:mw-to-kw": [
+    { domain: "Utility-Scale Renewable Power Generation", context: "Reporting solar farm, wind turbine, and hydroelectric facility output to distribution grid operators." },
+    { domain: "High-Voltage Substation Transformer Capacity", context: "Monitoring transmission substation transformer loading against regional municipal power demands." },
+    { domain: "Industrial Plant Peak Demand Management", context: "Tracking heavy manufacturing electrical consumption to avoid peak-demand utility surcharges." }
+  ],
+  "power:horsepower-to-watts": [
+    { domain: "Small Engine & Consumer Appliance Engineering", context: "Converting lawnmower, snowblower, and shop vac power ratings into electrical wattage equivalents." },
+    { domain: "Exercise Ergometer & Human Power Testing", context: "Measuring athletic sprint power output on cycling ergometers relative to fractional mechanical horsepower." },
+    { domain: "Fluid Pump & Air Compressor Calculations", context: "Determining electrical motor input wattage needed to deliver fluid mechanical horsepower." }
+  ],
+  "force:newtons-to-pound-force": [
+    { domain: "Materials Testing & Tensile Strength Audits", context: "Converting universal testing machine load cell measurements from newtons into imperial engineering reports." },
+    { domain: "Structural Anchor & Fastener Engineering", context: "Verifying concrete anchor pull-out ratings and shear resistance against building code specifications." },
+    { domain: "Fitness Cable Machine Resistance", context: "Comparing selectorized weight stack resistance between international gym machines labeled in newtons and US customary pounds." }
+  ],
+  "force:pound-force-to-newtons": [
+    { domain: "Finite Element Analysis (FEA) Structural Simulations", context: "Inputting mechanical load vectors into CAD engineering simulation software standardized on SI units." },
+    { domain: "Automotive Crash Safety & Restraint Systems", context: "Converting seatbelt pretensioner tension and barrier impact loads into international safety metrics." },
+    { domain: "Robotics Joint Torque & Actuator Sizing", context: "Selecting robotic arm linear actuators specified in newtons to satisfy US design payload requirements." }
+  ],
+  "force:kn-to-lbf": [
+    { domain: "Civil Structural Engineering & Heavy Hoisting", context: "Converting crane lifting capacities, bridge bearing loads, and foundation pile ratings to imperial units." },
+    { domain: "Rigging Hardware & Cable Tension Verification", context: "Calculating wire rope, synthetic sling, and shackle working load limits on industrial construction sites." },
+    { domain: "Rock Climbing Gear Ratings", context: "Translating carabiner and harness breaking strength ratings stamped in kilonewtons (kN) to familiar pounds of force." }
+  ],
+  "force:dynes-to-newtons": [
+    { domain: "Surface Tension & Colloid Chemistry", context: "Converting interfacial surface tension measurements of liquid coatings and emulsions into SI newtons." },
+    { domain: "Micro-Electro-Mechanical Systems (MEMS)", context: "Calculating micro-scale electrostatic and magnetic actuation forces in silicon MEMS sensors." },
+    { domain: "Geological Tectonic Fault Slip Mechanics", context: "Analyzing micro-frictional stresses and crack propagation forces along seismic rupture surfaces." }
+  ],
+  "force:kgf-to-n": [
+    { domain: "Legacy European & Asian Machinery Operation", context: "Translating technical load ratings from vintage presses and Japanese machine tools to modern newtons." },
+    { domain: "Ergonomic Workplace Push/Pull Evaluations", context: "Measuring manual material handling forces on industrial carts to ensure worker physical safety." },
+    { domain: "Mechanical Spring Calibration & Testing", context: "Calibrating mechanical compression and extension springs against legacy kilogram-force specifications." }
+  ],
+  "data:mb-to-gb": [
+    { domain: "Cellular Mobile Data Management", context: "Tracking monthly data plan consumption, application updates, and streaming video usage against gigabyte caps." },
+    { domain: "Computer System RAM Allocation", context: "Allocating memory to virtual machines, Docker containers, and database buffer pools." },
+    { domain: "Cloud Storage & Photo Archival Planning", context: "Estimating cloud backup storage capacity required for high-resolution photo libraries." }
+  ],
+  "data:gb-to-mb": [
+    { domain: "Software Installation & Disk Space Auditing", context: "Verifying available local disk space prior to installing major software applications and updates." },
+    { domain: "Email & Online File Upload Portals", context: "Ensuring compressed file attachments meet maximum file size upload constraints." },
+    { domain: "Database Backup & SQL Dump Management", context: "Estimating disk transfer time and storage required for relational database archive dumps." }
+  ],
+  "data:gb-to-tb": [
+    { domain: "Storage Hardware & SSD Drive Sizing", context: "Selecting external hard drives, NAS network storage systems, and enterprise server storage arrays." },
+    { domain: "Enterprise Cloud Backup & Archival Budgets", context: "Calculating monthly recurring storage costs for enterprise multi-terabyte cloud backups." },
+    { domain: "Video Production & Digital Cinema Storage", context: "Estimating storage footprints for 4K and 8K uncompressed video footage on commercial shoots." }
+  ],
+  "data:kb-to-mb": [
+    { domain: "Web Performance Optimization & Core Web Vitals", context: "Auditing JavaScript bundles, web fonts, and optimized images to minimize browser download latency." },
+    { domain: "IoT Sensor Telemetry & Bandwidth Budgets", context: "Calculating monthly data transmission payloads for low-power remote IoT sensor gateways." },
+    { domain: "Document Archival & PDF Compression", context: "Compressing scanned legal documents and reports for web portal submission requirements." }
+  ],
+  "data:bits-to-bytes": [
+    { domain: "Internet Connection Speed vs Download Speed", context: "Understanding why an 800 Mbps internet connection downloads files at approximately 100 MB/s." },
+    { domain: "Low-Level Binary Protocols & Networking", context: "Calculating packet headers, bitmasks, and payload byte alignment in network device drivers." },
+    { domain: "Cryptographic Key Sizes & Hashing Algorithms", context: "Relating encryption key lengths (e.g. 256-bit AES) to raw 32-byte binary buffers." }
+  ],
+  "fuel:mpg-us-to-l-100km": [
+    { domain: "International Vehicle Comparisons & Reviews", context: "Translating US EPA window sticker fuel economy figures into metric consumption for overseas car shoppers." },
+    { domain: "Cross-Border Road Trip Fuel Budgeting", context: "Estimating fuel costs when driving US-registered vehicles across Canada, Mexico, and Europe." },
+    { domain: "Corporate Fleet Greenhouse Gas Reporting", context: "Converting fleet average fuel economy metrics into standardized metric emissions reports." }
+  ],
+  "fuel:l-100km-to-mpg-us": [
+    { domain: "Imported Vehicle Fuel Economy Verification", context: "Converting European and Asian WLTP fuel consumption ratings into familiar US EPA MPG figures." },
+    { domain: "Automotive Journalism & International Road Tests", context: "Reviewing global vehicle launches and international road tests for North American readers." },
+    { domain: "Consumer Hybrid & Diesel Efficiency Analysis", context: "Comparing foreign-market fuel-efficient diesel and hybrid models with domestic US vehicles." }
+  ],
+  "fuel:km-l-to-mpg-us": [
+    { domain: "Japanese Domestic Market (JDM) Imports", context: "Translating domestic fuel economy ratings in km/L from Japanese auction sheets into US MPG." },
+    { domain: "Motorcycle & High-Efficiency Scooter Testing", context: "Evaluating high-mileage commuter two-wheelers and scooters rated in kilometers per liter." },
+    { domain: "Eco-Driving Competitions & Efficiency Rallies", context: "Comparing fuel efficiency records between international metric teams and customary US drivers." }
+  ],
+  "fuel:mpg-uk-to-mpg-us": [
+    { domain: "British vs American Automotive Reviews", context: "Understanding why UK car reviews quote higher MPG figures due to the larger imperial gallon (4.546 L vs 3.785 L)." },
+    { domain: "Expat Vehicle Ownership & Budgeting", context: "Reconciling fuel cost expectations when relocating between the UK and the United States." },
+    { domain: "Classic British Sports Car Restoration", context: "Interpreting factory owner manual fuel economy ratings on vintage Jaguar, Triumph, and MG automobiles." }
+  ],
+  "fuel:l-100km-to-km-l": [
+    { domain: "Vehicle Dashboard Display Configuration", context: "Switching multi-function vehicle instrument clusters between consumption (L/100km) and range (km/L)." },
+    { domain: "Fleet Driver Coaching & Fuel Economy Tracking", context: "Providing intuitive real-time fuel conservation feedback to commercial freight drivers." },
+    { domain: "Rental Car Operation in Europe & Asia", context: "Adjusting unfamiliar rental car dashboard efficiency readouts to personal reading preferences." }
+  ],
+  "angle:degrees-to-radians": [
+    { domain: "Computer Graphics & Game Development", context: "Passing rotational angles into trigonometric functions (`Math.sin`, `Math.cos`) in 3D graphics engines." },
+    { domain: "Robotics Kinematics & Motion Planning", context: "Calculating robotic arm joint angle rotations and end-effector coordinate transformations." },
+    { domain: "Physics & Orbital Mechanics Simulations", context: "Computing satellite orbital trajectories, centripetal acceleration, and angular momentum." }
+  ],
+  "angle:radians-to-degrees": [
+    { domain: "Scientific Calculator Inverse Trigonometry", context: "Converting inverse trigonometric calculations (`atan2`, `asin`) back into intuitive degrees." },
+    { domain: "CAD Drafting & Mechanical Schematics", context: "Displaying angular dimensions and chamfer angles on mechanical fabrication blueprints." },
+    { domain: "Maritime & Aviation Compass Navigation", context: "Translating mathematical orientation vectors into standard compass degrees." }
+  ],
+  "angle:degrees-to-gradians": [
+    { domain: "Civil Surveying & Cadastral Mapping", context: "Converting property boundary bearings for European surveying instruments utilizing the 400-gradian circle." },
+    { domain: "Underground Tunneling & Mining Alignment", context: "Guiding underground laser tunneling and mining boring machines calibrated in grads." },
+    { domain: "Geodetic Triangulation & Artillery Metrology", context: "Interpreting European topographic surveying charts and specialized artillery sights." }
+  ],
+  "angle:arcminutes-to-degrees": [
+    { domain: "Astronomical Telescope Optical Pointing", context: "Converting celestial object angular coordinates and telescope field-of-view into decimal degrees." },
+    { domain: "Precision Long-Range Ballistics & Optics", context: "Adjusting rifle telescopic sight turrets calibrated in minutes of angle (MOA) for target shooting." },
+    { domain: "Geodetic Latitude & Longitude Coordinates", context: "Converting nautical and geographic coordinate minutes into decimal degree GIS coordinates." }
+  ],
+  "angle:radians-to-mrad": [
+    { domain: "Tactical Optics & Precision Marksmanship", context: "Converting ballistic bullet drop calculations into milliradian reticle holdovers." },
+    { domain: "Optical Laser Divergence & Collimation", context: "Measuring the angular beam expansion of industrial and communications laser systems." },
+    { domain: "Geodetic Baseline Interferometry", context: "Measuring ultra-precise angular shifts in continental drift and seismic monitoring arrays." }
+  ],
+  "frequency:mhz-to-ghz": [
+    { domain: "Microprocessor Clock Speeds & Computing", context: "Comparing CPU and GPU clock frequencies across generations from legacy megahertz to modern gigahertz." },
+    { domain: "Wireless Networking & Wi-Fi Bands", context: "Understanding frequency allocations across 2.4 GHz, 5 GHz, and 6 GHz wireless network spectrum." },
+    { domain: "Amateur Radio & Spectrum Coordination", context: "Coordinating high-frequency (HF) amateur bands with ultra-high frequency (UHF) microwave allocations." }
+  ],
+  "frequency:ghz-to-mhz": [
+    { domain: "Radar & Satellite Receiver Downconverters", context: "Calculating intermediate frequencies (IF) when downconverting satellite microwave signals for demodulation." },
+    { domain: "Cellular Telecommunications Spectrum Rebanding", context: "Refarming legacy cellular spectrum bands into modern 5G communications architectures." },
+    { domain: "RF Test Equipment & Oscilloscope Bandwidth", context: "Configuring radio frequency spectrum analyzers and oscilloscopes for wireless signal analysis." }
+  ],
+  "frequency:khz-to-mhz": [
+    { domain: "Ultrasonic Cleaning & Medical Transducers", context: "Specifying transducer operating frequencies for industrial ultrasonic cleaners and medical diagnostic imaging." },
+    { domain: "Medium-Wave AM Radio Broadcasting", context: "Converting commercial AM radio broadcast frequencies into megahertz spectrum maps." },
+    { domain: "Marine Radio Navigation & NDB Beacons", context: "Tuning non-directional aeronautical and maritime navigational radio beacons." }
+  ],
+  "frequency:hz-to-khz": [
+    { domain: "Audio Engineering & Studio Acoustics", context: "Analyzing human audible frequencies (20 Hz to 20 kHz) and configuring studio equalizer crossovers." },
+    { domain: "Predictive Vibration Analysis & Machinery Health", context: "Identifying mechanical bearing defect frequencies and gearbox resonance in industrial maintenance." },
+    { domain: "Electrical Grid Harmonic Distortion Audits", context: "Analyzing harmonic frequencies produced by industrial power inverters on electrical distribution systems." }
+  ],
+  "frequency:rpm-to-hz": [
+    { domain: "Engine & Motor Tachometer Frequency Analysis", context: "Converting rotational engine speeds (RPM) into fundamental cycling frequencies (Hz) for acoustic tuning." },
+    { domain: "Centrifuge & Turbomachinery Rotor Balancing", context: "Determining critical rotational vibration frequencies in high-speed laboratory centrifuges." },
+    { domain: "Wind Turbine Rotor & Gearbox Monitoring", context: "Calculating generator shaft rotational frequencies and wind turbine electrical grid synchronization." }
+  ],
+  "acceleration:m-s-to-g-force": [
+    { domain: "Aerospace & Combat Flight Physiology", context: "Monitoring pilot G-force physiological stress during high-acceleration aerobatic and tactical maneuvers." },
+    { domain: "Automotive Crash Safety & Impact Testing", context: "Analyzing crash test dummy accelerometer data against Federal Motor Vehicle Safety Standards." },
+    { domain: "Amusement Park Roller Coaster Design", context: "Ensuring vertical and lateral roller coaster accelerations remain within safe human biological tolerances." }
+  ],
+  "acceleration:g-force-to-m-s": [
+    { domain: "Earthquake Seismology & Structural Design", context: "Converting peak ground acceleration (PGA) recorded in $g$ into SI units for seismic building codes." },
+    { domain: "Packaging Transit Shock & Drop Testing", context: "Certifying protective packaging for delicate electronics against warehouse transit drop impacts." },
+    { domain: "Aerospace Rocket Launch Acceleration", context: "Calculating rocket payload stage separation forces and satellite launch vehicle acceleration profiles." }
+  ],
+  "acceleration:ft-s-to-m-s": [
+    { domain: "Civil Structural Engineering & Seismic Codes", context: "Translating American building code seismic acceleration parameters into international metric simulation software." },
+    { domain: "Elevator & Vertical Transit Ride Comfort", context: "Evaluating passenger elevator ride quality and acceleration rates against international standards." },
+    { domain: "Aviation Flight Simulator Actuator Tuning", context: "Calibrating multi-axis motion base hydraulic actuators for pilot flight training fidelity." }
+  ],
+  "electricity:volt-to-kilovolt": [
+    { domain: "Electrical Grid & Power Transmission", context: "Converting municipal distribution feeder voltages into regional high-voltage transmission grid kilovolts." },
+    { domain: "Consumer High-Voltage Devices & Demonstrations", context: "Understanding kilovolt output ratings on electric insect swatters, plasma lighters, and educational physics equipment." },
+    { domain: "Industrial Dielectric Breakdown Testing", context: "Testing high-voltage electrical insulation and transformer oil breakdown voltage thresholds." }
+  ],
+  "electricity:milliampere-to-ampere": [
+    { domain: "Electronics Hardware Design & Battery Life", context: "Calculating microcontroller sleep current and battery operating lifespans from milliampere specifications." },
+    { domain: "Industrial 4-20 mA Process Instrumentation", context: "Interpreting industrial current loop sensor signals into amperes for programmable logic controllers (PLCs)." },
+    { domain: "USB Charging & Power Bank Capacity", context: "Comparing smartphone charging adapter ampere ratings with battery capacities and power consumption in milliamperes." }
+  ],
+  "electricity:kilo-ohm-to-ohm": [
+    { domain: "Printed Circuit Board (PCB) Assembly", context: "Reading surface-mount resistor codes and schematic values for electronic circuit assembly." },
+    { domain: "Audio Equipment & Microphone Impedance", context: "Matching electrical impedances between audio studio microphones, preamplifiers, and line inputs." },
+    { domain: "Thermistor Temperature Sensor Calibration", context: "Translating negative temperature coefficient (NTC) thermistor resistance curves into circuit values." }
+  ],
+  "electricity:microfarad-to-farad": [
+    { domain: "DC Power Supply Smoothing & Filtering", context: "Sizing bulk electrolytic filtering capacitors for AC-to-DC power supply rectification circuits." },
+    { domain: "Supercapacitor Energy Storage Systems", context: "Comparing conventional electrolytic capacitor values with high-capacity farad supercapacitor backup banks." },
+    { domain: "Passive Speaker Crossover Network Design", context: "Calculating capacitor values for audio crossover high-pass and low-pass filter cutoff frequencies." }
+  ],
+  "magnetism:tesla-to-gauss": [
+    { domain: "Magnetic Resonance Imaging (MRI) Safety", context: "Converting clinical MRI magnetic field ratings (1.5T, 3.0T) into gauss to delineate 5-gauss exclusion zones." },
+    { domain: "Industrial Magnetic Separation & Chutes", context: "Specifying neodymium rare-earth magnetic grate strengths for food processing and grain milling." },
+    { domain: "Thermonuclear Fusion Plasma Confinement", context: "Measuring magnetic field confinement intensities in experimental tokamak fusion reactors." }
+  ],
+  "magnetism:gauss-to-tesla": [
+    { domain: "Hall Effect Sensor Calibration & Robotics", context: "Converting magnetic field readings from digital gaussmeters into standard SI tesla for robotic navigation." },
+    { domain: "Geomagnetic Field Mapping & Exploration", context: "Measuring subtle local variations in the Earth's geomagnetic field for geological mineral exploration." },
+    { domain: "Electromagnetic Shielding Verification", context: "Evaluating mu-metal attenuation of ambient stray magnetic fields in sensitive electron microscopy rooms." }
+  ],
+  "datatransfer:mbps-to-gbps": [
+    { domain: "High-Speed Broadband Internet Evaluation", context: "Comparing residential and business gigabit fiber internet connections with standard megabit streaming needs." },
+    { domain: "Enterprise Local Area Network (LAN) Design", context: "Calculating network switch uplink bandwidth requirements between access switches and data center backbones." },
+    { domain: "Ultra-High-Definition Video Streaming CDNs", context: "Managing content delivery network (CDN) server egress capacity for concurrent 4K live video streams." }
+  ],
+  "datatransfer:gbps-to-mbps": [
+    { domain: "Cloud Database Migration & Data Egress", context: "Estimating data transfer duration and costs when migrating large database clusters to cloud storage." },
+    { domain: "Storage Area Networks (SAN) & iSCSI Bandwidth", context: "Allocating high-speed Fibre Channel storage bandwidth across clustered enterprise server nodes." },
+    { domain: "Uncompressed Studio Video Ingestion", context: "Compressing raw SMPTE ST 2110 uncompressed broadcast video streams for transmission distribution." }
+  ],
+  "datatransfer:kbps-to-mbps": [
+    { domain: "Internet of Things (IoT) Telemetry Backhaul", context: "Aggregating low-bandwidth sensor telemetry packets into broadband cellular backhaul connections." },
+    { domain: "Voice over IP (VoIP) Telephony Capacity", context: "Calculating network bandwidth required to support concurrent enterprise telephone calls with VoIP codecs." },
+    { domain: "Digital Audio Streaming & Podcast Encoding", context: "Comparing audio compression bitrates between mobile streaming formats and uncompressed audio." }
+  ],
+  "torque:newton-meter-to-foot-pound": [
+    { domain: "Automotive Service & Wheel Lug Tightening", context: "Setting torque wrenches to factory bolt tightening specifications across domestic and imported vehicles." },
+    { domain: "Engine Dynamometer Performance Tuning", context: "Translating European and Japanese engine dynamometer torque ratings into familiar foot-pounds." },
+    { domain: "Industrial Robotic Assembly Fastening", context: "Programming automated factory nutrunners to apply precise clamping torque on assembly lines." }
+  ],
+  "torque:foot-pound-to-newton-meter": [
+    { domain: "Heavy Machinery & Fleet Maintenance", context: "Converting North American service manual torque specifications for international mechanics." },
+    { domain: "Bicycle Maintenance & Workshop Repairs", context: "Torquing delicate carbon fiber stems, seat clamps, and crank bolts according to manufacturer specifications in newton-meters." },
+    { domain: "High-Performance Bicycle Component Tuning", context: "Setting precision torque wrenches for carbon fiber handlebars, stems, and seatposts." }
+  ],
+  "density:g-cm-to-kg-m": [
+    { domain: "Materials Science & Polymer Engineering", context: "Converting plastic resin and metal alloy physical densities into SI units for finite element simulation." },
+    { domain: "Geological Mineral & Gemstone Identification", context: "Identifying mineral and ore specimens by measuring specific gravity and volumetric density." },
+    { domain: "Chemical Process Piping & Fluid Flow", context: "Calculating liquid density parameters for Reynolds number and pipe friction calculations." }
+  ],
+  "density:kg-m-to-lb-ft": [
+    { domain: "Naval Architecture & Marine Ballast Stability", context: "Calculating seawater ballast weight, center of gravity, and vessel displacement." },
+    { domain: "Geotechnical Soil Compaction & Foundations", context: "Evaluating earth embankment compaction densities and soil bearing capacities for foundation design." },
+    { domain: "Civil Structural Dead-Load Calculations", context: "Calculating structural dead weights of reinforced concrete, structural steel, and timber framing." }
+  ],
+  "cooking:cup-to-tablespoon": [
+    { domain: "Recipe Scaling & Small-Batch Baking", context: "Scaling down cake and cookie recipes without specialized measuring spoons." },
+    { domain: "Sauce & Salad Dressing Emulsions", context: "Measuring vinegar, oil, and flavor bases accurately when preparing culinary marinades." },
+    { domain: "Nutritional Meal Planning & Portions", context: "Calculating exact portion sizes and calorie counts from bulk cup measurements." }
+  ],
+  "cooking:tablespoon-to-teaspoon": [
+    { domain: "Leavening Agents & Baking Chemistry", context: "Measuring baking powder, baking soda, and yeast accurately for dough fermentation." },
+    { domain: "Spice Blends & Seasoning Formulations", context: "Creating custom spice rubs and seasoning mixes from proportional culinary recipes." },
+    { domain: "Tea, Coffee & Beverage Crafting", context: "Measuring loose tea leaves, ground espresso, and concentrated syrups using standard kitchen spoons." }
+  ],
+  "cooking:cup-to-milliliter": [
+    { domain: "International Culinary Recipe Adaptation", context: "Translating American cup-based recipes for European home cooks using metric measuring jugs and scales." },
+    { domain: "Commercial Bakery Batch Production", context: "Scaling artisan bread formulas from domestic cup measures to commercial metric mixing vats." },
+    { domain: "Nutritional Dietary Logging", context: "Converting recipe liquid volumes into precise milliliters for digital dietary tracking apps." }
+  ],
+  "cooking:fluid-ounce-to-milliliter": [
+    { domain: "Cocktail Mixology & Specialty Beverage Craft", context: "Formulating cocktail recipes written in US fluid ounces using metric graduated bar jiggers." },
+    { domain: "Infant Feeding & Formula Bottle Preparation", context: "Measuring baby bottle liquid volumes accurately for powdered infant formula reconstitution." },
+    { domain: "Specialty Coffee Brewing & Extraction", context: "Translating espresso and pour-over water volumes between customary ounces and metric milliliters." }
+  ],
+  "textile:gsm-to-oz": [
+    { domain: "Fashion & Streetwear", context: "Converting metric fabric weights to US ounces per square yard for hoodies, t-shirts, and cut-and-sew tech packs." },
+    { domain: "Textile Sourcing & Importing", context: "Validating international mill specifications (g/m\xB2) against US customs and retail merchandise standards (oz/yd\xB2)." },
+    { domain: "Canvas & Heavy Goods", context: "Specifying duck canvas, tote bags, workwear jackets, and marine-grade upholstery fabric weights." }
+  ],
+  "textile:oz-to-gsm": [
+    { domain: "Apparel Manufacturing", context: "Converting US tech pack fabric weights in oz/yd\xB2 to metric GSM for overseas knitting mills and dye houses." },
+    { domain: "Denim & Workwear", context: "Translating classic 12 oz, 14 oz, and 16 oz denim and canvas ratings into exact metric grams per square meter." },
+    { domain: "Customs & Metrology", context: "Ensuring import compliance with international fabric weight classification standards under ASTM D3776 and ISO 3801." }
+  ],
+  "astronomy:light-year-to-au": [
+    { domain: "Exoplanetary Systems & Stellar Neighborhoods", context: "Comparing the distance to nearby stars (like Proxima Centauri at 4.24 ly) to our solar system's scale in astronomical units." },
+    { domain: "Oort Cloud & Deep-Space Exploration", context: "Visualizing the outer boundary of the solar system and interstellar probes like Voyager." },
+    { domain: "Astrophysics Education & Science Outreach", context: "Communicating cosmic distances intuitively to students and planetarium audiences." }
+  ],
+  "astronomy:parsec-to-light-year": [
+    { domain: "Astrometric Parallax & Gaia Mission Data", context: "Converting stellar parallax angles measured by space telescopes into light-years." },
+    { domain: "Galactic Mapping & Spiral Arm Structure", context: "Measuring distances between star clusters, molecular clouds, and the galactic core." },
+    { domain: "Extragalactic Distance Ladder & Cosmology", context: "Calculating distances to neighboring galaxies and measuring cosmic expansion rates." }
+  ],
+  "astronomy:solar-mass-to-earth-mass": [
+    { domain: "Exoplanet Detection & Radial Velocity Studies", context: "Comparing exoplanetary masses with host star masses to calculate gravitational wobbles." },
+    { domain: "Stellar Evolution & Black Hole Physics", context: "Visualizing the immense mass of stellar-mass black holes relative to the Earth." },
+    { domain: "Celestial Mechanics & Planetary Orbit Modeling", context: "Inputting mass parameters into multi-body orbital simulations and gravitational models." }
+  ],
+  "volume:cubic-yard-to-cubic-meter": [
+    { domain: "Ready-Mix Concrete & Civil Engineering", context: "Converting concrete batching orders from US cubic yards into metric cubic meters for international building projects." },
+    { domain: "Excavation & Earthwork Contracting", context: "Calculating soil volume, fill material, and dump truck haulage capacities across regional measurement specifications." }
+  ],
+  "volume:imperial-gallon-to-gallon": [
+    { domain: "Transatlantic Automotive Fuel Analysis", context: "Translating UK automotive fuel tank volumes and fuel economy data into US customary gallons." },
+    { domain: "Maritime & Aviation Fluid Handling", context: "Reconciling Commonwealth bunker fuel logs with US gallon fluid storage and pumping equipment." }
+  ],
+  "volume:liter-to-imperial-gallon": [
+    { domain: "UK Fleet Management & Fuel Economy", context: "Converting European metric liter fuel dispensation into UK Imperial gallons for fleet efficiency auditing." },
+    { domain: "Brewing & Chemical Beverage Distribution", context: "Translating metric beverage packaging into traditional British Imperial casks and firkins." }
+  ],
+  "mass:troy-ounce-to-gram": [
+    { domain: "Bullion Trading & Precious Metals Minting", context: "Calculating fine gold, silver, and platinum market weights from standard troy ounces into grams for assay certification." },
+    { domain: "Jewelry Design & Gemological Valuation", context: "Translating precious metal alloy casting specifications into metric grams for high-precision weighing scales." }
+  ],
+  "mass:troy-ounce-to-ounce": [
+    { domain: "Precious Metal vs Avoirdupois Weight Comparison", context: "Reconciling heavy troy ounces (31.1035 g) with standard avoirdupois commercial ounces (28.3495 g) to prevent costly trading confusion." },
+    { domain: "Scrap Gold Buying & Estate Liquidation", context: "Converting postal scale kitchen ounces into true troy ounces for honest gold and silver scrap valuation." }
+  ],
+  "length:angstrom-to-nanometer": [
+    { domain: "Crystallography & X-Ray Diffraction", context: "Converting atomic lattice parameters and chemical bond lengths from historic angstroms into modern SI nanometers." },
+    { domain: "Semiconductor Lithography & Optics", context: "Translating extreme ultraviolet (EUV) laser wavelengths and dielectric film thicknesses between technical literature standards." }
+  ],
+  "length:fathom-to-foot": [
+    { domain: "Nautical Depth Sounding & Hydrographic Charts", context: "Translating historic marine nautical fathoms (6 feet) into precise feet for shallow-water vessel draft navigation." },
+    { domain: "Commercial Maritime Anchorage & Rigging", context: "Measuring anchor chain scope, mooring line lengths, and deep-sea cable laying depths." }
+  ],
+  "torque:newton-meter-to-pound-inch": [
+    { domain: "Precision Electronics & Medical Robotics Assembly", context: "Translating metric N\xB7m torque ratings into delicate lb\xB7in specifications for circuit board fasteners and chassis screws." },
+    { domain: "Bicycle Carbon Component Maintenance", context: "Calibrating fractional torque wrenches to prevent crushing lightweight carbon fiber handlebars and seatposts." }
+  ],
+  "torque:pound-foot-to-pound-inch": [
+    { domain: "Automotive Engine Fastener Tightening", context: "Converting between heavy-duty ft\xB7lb wheel lug ratings and smaller in\xB7lb valve cover and oil pan bolt tolerances." },
+    { domain: "Aerospace Mechanical Calibration", context: "Switching between high-torque airframe fasteners and low-torque instrument panel mounts on standardized maintenance sheets." }
+  ],
+  "pressure:hectopascal-to-millibar": [
+    { domain: "Aviation Altimetry & Barometric Pressure Reporting", context: "Confirming the 1:1 direct relationship between meteorological hectopascals (hPa) and barometric millibars (mbar) for altimeter setting." },
+    { domain: "Marine Weather Forecasting & Storm Tracking", context: "Logging atmospheric pressure drops during tropical cyclones across international meteorological bulletins." }
+  ],
+  "pressure:inches-of-mercury-to-psi": [
+    { domain: "Automotive Turbocharger & Supercharger Boost Tuning", context: "Translating engine manifold absolute pressure and vacuum from inHg into engineering pounds per square inch." },
+    { domain: "Aviation Flight Instruments & Barometric Altimeters", context: "Correlating FAA altimeter baro settings (inHg) with pneumatic system pressure instrumentation." }
+  ],
+  "power:metric-horsepower-to-kilowatt": [
+    { domain: "European Automotive Power Rating & Vehicle Registration", context: "Converting German DIN PferdeSt\xE4rke (PS) vehicle engine output into mandatory EU kilowatts." },
+    { domain: "Industrial Engine & Electric Motor Specification", context: "Comparing European commercial vehicle ratings with industrial electric drive power certifications." }
+  ],
+  "power:ton-of-refrigeration-to-btu-h": [
+    { domain: "Commercial HVAC Chiller Sizing & Engineering", context: "Translating standard cooling capacity from Tons of Refrigeration (TR) into BTU/h (1 TR = 12,000 BTU/h)." },
+    { domain: "Building Energy Modeling & Heat Load Calculation", context: "Determining total rooftop chiller and cooling tower thermal loads for architectural mechanical plans." }
+  ],
+  "data:gibibyte-to-gigabyte": [
+    { domain: "Server RAM Provisioning & Cloud Virtual Machines", context: "Translating binary IEC memory allocations (GiB) into advertised decimal storage capacity (GB)." },
+    { domain: "Operating System Drive Partitioning & Formatting", context: "Explaining why a 1,000 GB solid-state drive formats to approximately 931.3 GiB in Windows Disk Management." }
+  ],
+  "cooking:stick-of-butter-to-tablespoon": [
+    { domain: "Baking Recipe Rescaling & Kitchen Measurement", context: "Converting standard American butter sticks into tablespoons (1 stick = 8 tbsp = 1/2 cup) for pastry recipes." },
+    { domain: "Commercial Culinary Production & Portioning", context: "Scaling home recipe ingredients to commercial food service bulk prep sheets." }
+  ],
+  "flow:gallon-per-minute-to-liter-per-minute": [
+    { domain: "Plumbing Fixture Flow Compliance & Water Efficiency", context: "Converting showerhead and faucet aerator ratings from US GPM to metric L/min to verify green building standards." },
+    { domain: "Hydraulic Pumping & Irrigation System Design", context: "Sizing agricultural drip irrigation lines and submersible well pumps across global equipment catalogs." }
+  ],
+  "flow:cubic-feet-per-minute-to-liter-per-second": [
+    { domain: "HVAC Duct Sizing & Airflow Balancing", context: "Translating ventilation fan airflow from US CFM into metric liters per second (L/s) for building commissioning." },
+    { domain: "Cleanroom & Laboratory Fume Hood Exhaust", context: "Calibrating laminar flow hoods and hospital isolation room air change rates according to international air quality codes." }
+  ],
+  "flow:cubic-meter-per-hour-to-gallon-per-minute": [
+    { domain: "Municipal Water Distribution & Wastewater Treatment", context: "Converting bulk pumping station capacity from European m\xB3/h into US GPM for municipal engineers." },
+    { domain: "Industrial Chemical Process Cooling Circuits", context: "Sizing heat exchanger circulation pumps and cooling water flow rates across international plant designs." }
+  ],
+  "illuminance:foot-candle-to-lux": [
+    { domain: "Workplace Safety & OSHA Lighting Audits", context: "Converting American industrial foot-candle illumination requirements into European and international Lux standards." },
+    { domain: "Commercial Architectural Lighting Design", context: "Translating architectural lighting fixture schedules between US building codes and global photometric standards." }
+  ],
+  "illuminance:lux-to-foot-candle": [
+    { domain: "Cinematography & Photography Light Metering", context: "Translating ambient film set lighting measurements from digital lux meters into traditional foot-candles for exposure compensation." },
+    { domain: "Greenhouse Horticulture & Indoor Plant Cultivation", context: "Optimizing supplemental LED crop grow light arrays between metric target lux and foot-candle guidelines." }
+  ],
+  "viscosity:centipoise-to-pascal-second": [
+    { domain: "Chemical Process Rheology & Polymer Formulation", context: "Converting bench laboratory viscosity readings from CGS centipoise (cP) into SI coherent Pascal-seconds (Pa\xB7s)." },
+    { domain: "Industrial Pipe Flow & Pumping Friction Calculations", context: "Inputting dynamic fluid viscosity values into Navier-Stokes equations and Reynolds number flow models." }
+  ],
+  "viscosity:centipoise-to-millipascal-second": [
+    { domain: "Scientific Laboratory Reporting & ISO Equivalence", context: "Confirming the exact 1:1 identity between 1 Centipoise and 1 Millipascal-second across chemical databases." },
+    { domain: "Lubricant Quality Control & Motor Oil Grading", context: "Documenting high-temperature high-shear (HTHS) engine oil viscosity for ASTM standard compliance." }
+  ],
+  "typography:pixel-to-point": [
+    { domain: "Digital UI Design to Print Layout Translation", context: "Translating web application UI components (Figma/CSS 96 DPI) into desktop publishing points (72 DPI) for print manuals." },
+    { domain: "Mobile App Typography & Vector Rendering", context: "Harmonizing raster screen layout dimensions with vector font point sizes across iOS and Android design tokens." }
+  ],
+  "typography:pixel-to-root-em": [
+    { domain: "Responsive Web Design & Accessible CSS Typography", context: "Converting static Figma pixel mockups into scalable, accessible rem units based on browser root font sizes." },
+    { domain: "Design System Token Automation & Theme Engine", context: "Generating fluid typography clamp scales and layout spacing tokens for modern responsive frontend frameworks." }
+  ]
+};
+function getPairEditorial(cat, u1, u2, pairParam) {
+  const s1 = unitSymbol(u1, cat.id);
+  const s2 = unitSymbol(u2, cat.id);
+  const n1 = unitName(u1, cat.id);
+  const n2 = unitName(u2, cat.id);
+  const l1 = unitLabel(u1, cat.id);
+  const l2 = unitLabel(u2, cat.id);
+  const metrology = CATEGORY_METROLOGY[cat.id] || {
+    dimension: `${cat.lb} measurement`,
+    siBase: u1.id,
+    systems: "Standard international measurement systems",
+    contextNote: "Calculated with double-precision IEEE 754 floating-point accuracy."
+  };
+  const isTemp = cat.id === "temp";
+  const isFuel = cat.id === "fuel";
+  const isReciprocalFuel = isFuel && (u1.id === "mpgUS" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUS" || u1.id === "mpgUK" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUK" || u1.id === "kmL" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "kmL");
+  const unitRatio = convert(1, cat.id, u1.id, u2.id);
+  const inverseUnitRatio = convert(1, cat.id, u2.id, u1.id);
+  let summary;
+  let formulaDisplay;
+  let inverseSummary;
+  let calculationRule;
+  if (isTemp) {
+    if (u1.id === "C" && u2.id === "F") {
+      formulaDisplay = "\xB0F = (\xB0C \xD7 9/5) + 32";
+      summary = `1 \xB0C equals 33.8 \xB0F exactly (0 \xB0C corresponds exactly to 32 \xB0F by the scale conversion relationship).`;
+      calculationRule = `To convert Celsius to Fahrenheit, multiply the Celsius temperature by 9/5 (or 1.8) and add 32.`;
+      inverseSummary = `1 \xB0F equals approximately -17.2222 \xB0C (32 \xB0F corresponds exactly to 0 \xB0C by the scale conversion relationship). Formula: \xB0C = (\xB0F - 32) \xD7 5/9.`;
+    } else if (u1.id === "F" && u2.id === "C") {
+      formulaDisplay = "\xB0C = (\xB0F - 32) \xD7 5/9";
+      summary = `1 \xB0F equals approximately -17.2222 \xB0C (32 \xB0F corresponds exactly to 0 \xB0C by the scale conversion relationship).`;
+      calculationRule = `To convert Fahrenheit to Celsius, subtract 32 from the Fahrenheit temperature and multiply the result by 5/9 (or divide by 1.8).`;
+      inverseSummary = `1 \xB0C equals 33.8 \xB0F exactly. Formula: \xB0F = (\xB0C \xD7 9/5) + 32.`;
+    } else if (u1.id === "C" && u2.id === "K") {
+      formulaDisplay = "K = \xB0C + 273.15";
+      summary = `1 \xB0C corresponds to 274.15 K (the kelvin and degree Celsius have the same interval size, with 0 \xB0C corresponding to 273.15 K).`;
+      calculationRule = `To convert Celsius to Kelvin, add 273.15 to the Celsius temperature.`;
+      inverseSummary = `1 K corresponds to -272.15 \xB0C (with 0 K corresponding to -273.15 \xB0C). Formula: \xB0C = K - 273.15.`;
+    } else if (u1.id === "K" && u2.id === "C") {
+      formulaDisplay = "\xB0C = K - 273.15";
+      summary = `1 K corresponds to -272.15 \xB0C (with 0 K corresponding to -273.15 \xB0C).`;
+      calculationRule = `To convert Kelvin to Celsius, subtract 273.15 from the Kelvin value.`;
+      inverseSummary = `1 \xB0C corresponds to 274.15 K (with 0 \xB0C corresponding to 273.15 K). Formula: K = \xB0C + 273.15.`;
+    } else if (u1.id === "F" && u2.id === "K") {
+      formulaDisplay = "K = (\xB0F - 32) \xD7 5/9 + 273.15";
+      summary = `1 \xB0F equals approximately 255.9278 K (32 \xB0F corresponds to 273.15 K).`;
+      calculationRule = `To convert Fahrenheit to Kelvin, subtract 32 from the Fahrenheit value, multiply by 5/9, and add 273.15.`;
+      inverseSummary = `1 K equals approximately -457.87 \xB0F. Formula: \xB0F = (K - 273.15) \xD7 9/5 + 32.`;
+    } else {
+      formulaDisplay = `${s2} = formula(${s1})`;
+      summary = `1 ${l1} corresponds to approximately ${unitRatio !== null ? fmt(unitRatio, 4) : ""} ${l2}.`;
+      calculationRule = `To convert from ${n1} to ${n2}, apply the thermodynamic conversion formula.`;
+      inverseSummary = `1 ${l2} corresponds to approximately ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : ""} ${l1}.`;
+    }
+  } else if (isReciprocalFuel) {
+    if (u1.id === "mpgUS" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUS") {
+      formulaDisplay = "L/100km \u2248 235.215 \xF7 MPG (US)";
+      summary = `1 MPG (US) equals approximately 235.215 L/100km. Formula: L/100km \u2248 235.215 \xF7 MPG (US), where 235.215 = 100 \xD7 3.785411784 \xF7 1.609344.`;
+      calculationRule = `To convert between MPG (US) and L/100km, divide 235.215 by the known value (L/100km \u2248 235.215 \xF7 MPG). Note that 235.215 is a rounded constant.`;
+      inverseSummary = `1 L/100km equals approximately 235.215 MPG (US). Formula: MPG \u2248 235.215 \xF7 (L/100km).`;
+    } else if (u1.id === "mpgUK" && u2.id === "L100km" || u1.id === "L100km" && u2.id === "mpgUK") {
+      formulaDisplay = "L/100km \u2248 282.481 \xF7 MPG (UK)";
+      summary = `1 MPG (UK) equals approximately 282.481 L/100km. Formula: L/100km \u2248 282.481 \xF7 MPG (UK), where 282.481 = 100 \xD7 4.54609 \xF7 1.609344.`;
+      calculationRule = `To convert between MPG (UK) and L/100km, divide 282.481 by the known value (L/100km \u2248 282.481 \xF7 MPG). Note that 282.481 is a rounded constant.`;
+      inverseSummary = `1 L/100km equals approximately 282.481 MPG (UK). Formula: MPG \u2248 282.481 \xF7 (L/100km).`;
+    } else {
+      formulaDisplay = "L/100km = 100 \xF7 km/L";
+      summary = `1 km/L equals exactly 100 L/100km. Formula: L/100km = 100 \xF7 km/L.`;
+      calculationRule = `To convert between km/L and L/100km, divide 100 by the known value (L/100km = 100 \xF7 km/L).`;
+      inverseSummary = `1 L/100km equals exactly 100 km/L. Formula: km/L = 100 \xF7 (L/100km).`;
+    }
+    if (u1.id === "L100km") {
+      ;
+      [summary, inverseSummary] = [inverseSummary, summary];
+      const [lhs, rhs] = formulaDisplay.split(/ [≈=] /);
+      const op = formulaDisplay.includes("\u2248") ? "\u2248" : "=";
+      const [constant, divisor] = rhs.split(" \xF7 ");
+      formulaDisplay = `${divisor} ${op} ${constant} \xF7 ${lhs}`;
+    }
+  } else if (cat.id === "cricket-overs") {
+    if (u2.id === "balls") {
+      formulaDisplay = "Balls = (Floor(Overs) \xD7 6) + Remainder Deliveries";
+      summary = `1 over equals exactly 6 legal deliveries (balls). Cricket overs notation (e.g. 14.3 overs) denotes 14 overs and 3 balls (87 balls).`;
+      calculationRule = `To convert cricket overs to balls, multiply completed overs by 6 and add the remainder balls after the decimal point.`;
+      inverseSummary = `6 balls equal exactly 1 complete over (Overs = Floor(Balls \xF7 6) + (Balls mod 6) \xF7 10).`;
+    } else {
+      formulaDisplay = "True Decimal Overs = Floor(Overs) + (Remainder Balls \xF7 6)";
+      summary = `1 cricket over equals 1.00 true decimal over. Cricket notation uses base-6 (e.g. 14.3 overs = 14.50 true decimal overs).`;
+      calculationRule = `To convert cricket overs to true decimal overs, take completed overs and add remainder balls divided by 6.`;
+      inverseSummary = `1.00 true decimal over equals exactly 1.0 cricket over (6 balls).`;
+    }
+  } else if (cat.id === "ieee-754") {
+    formulaDisplay = "Value = (-1)^sign \xD7 2^(exponent - bias) \xD7 (1 + mantissa)";
+    summary = `Converts ${l1} to ${l2} with sign, exponent, and mantissa bitfields.`;
+    calculationRule = `To convert between decimal real values and IEEE-754 representations, extract the sign bit, calculate the biased exponent, and determine the normalized mantissa bits.`;
+    inverseSummary = `Converts ${l2} back to ${l1} with exact precision bitfield decoding.`;
+  } else if (cat.id === "matrix-format") {
+    formulaDisplay = "Format Mapping: Parser Tokenizer \u2192 Structural AST \u2192 Target Matrix Syntax";
+    summary = `Converts ${l1} matrix syntax into ${l2} array representation.`;
+    calculationRule = `To convert between matrix representations, parse row tokens, format column delimiters, and wrap in target syntax brackets.`;
+    inverseSummary = `Converts ${l2} representation back to ${l1} matrix syntax.`;
+  } else if (cat.id === "number-base") {
+    formulaDisplay = "Decimal Value = Sum(Digit \xD7 Radix^Position)";
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
+    calculationRule = `To convert between number bases, convert the source radix to decimal via Horner\u2019s polynomial method, then repeatedly divide by the target radix.`;
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
+  } else if (cat.id === "pk-gpa") {
+    formulaDisplay = "HEC Continuous Model: Percentage Marks \u2194 4.00 CGPA Scale";
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
+    calculationRule = `To convert marks to HEC CGPA, apply the Higher Education Commission of Pakistan continuous linear grading formula.`;
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
+  } else if (cat.id === "statistics") {
+    formulaDisplay = "Z = (X - \u03BC) / \u03C3; Percentile = \u03A6(Z) \xD7 100%";
+    summary = `1 ${l1} corresponds to ${unitRatio !== null ? fmt(unitRatio, 4) : "1"} ${l2}.`;
+    calculationRule = `To convert statistical metrics, apply the cumulative Gaussian normal distribution function or implied probability formula.`;
+    inverseSummary = `1 ${l2} corresponds to ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 4) : "1"} ${l1}.`;
+  } else {
+    const rFmt = unitRatio !== null ? fmt(unitRatio, 6) : "\u2014";
+    const invFmt = inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : "\u2014";
+    const isExact = unitRatio !== null && Math.abs(Number(rFmt) - unitRatio) < 1e-12;
+    const isInvExact = inverseUnitRatio !== null && Math.abs(Number(invFmt) - inverseUnitRatio) < 1e-12;
+    formulaDisplay = isExact ? `${s2} = ${s1} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}` : `${s2} \u2248 ${s1} \xD7 ${unitRatio !== null ? fmt(unitRatio, 8) : ""}`;
+    summary = isExact ? `1 ${l1} equals exactly ${rFmt} ${l2}.` : `1 ${l1} equals approximately ${rFmt} ${l2}.`;
+    calculationRule = isExact ? `To convert from ${n1} to ${n2}, multiply the quantity by ${rFmt} (or divide by ${invFmt}).` : `To convert from ${n1} to ${n2}, multiply the quantity by approximately ${rFmt} (or divide by approximately ${invFmt}).`;
+    inverseSummary = isInvExact ? `1 ${l2} equals exactly ${invFmt} ${l1}. Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.` : `1 ${l2} equals approximately ${invFmt} ${l1}. Formula: ${s1} \u2248 ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`;
+  }
+  const explanationHeading = `How ${l1} and ${l2} Relate`;
+  const p1 = `In metrology, ${cat.lb.toLowerCase()} quantifies ${metrology.dimension}. Within this domain, ${l1} and ${l2} originate from ${metrology.systems}. ${metrology.contextNote}`;
+  const p2 = isTemp ? `Unlike purely proportional units, temperature scales differ in both their degree intervals and their zero-point reference baselines. Converting between ${n1} and ${n2} requires an affine transformation (${formulaDisplay}) that shifts the temperature offset before scaling the unit intervals.` : isReciprocalFuel ? `Fuel economy units like ${s1} and ${s2} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.` : `Because both ${n1} and ${n2} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ""}) guarantees zero precision drift across mathematical calculations.`;
+  const pairKey = `${cat.id}:${pairParam}`;
+  const specificUseCases = PAIR_USE_CASES[pairKey] || [
+    { domain: `Engineering & Technical Specifications`, context: `Converting ${n1} measurements to ${n2} to align design drawings and component tolerances with global partner standards.` },
+    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${s1} records and domestic ${s2} systems.` },
+    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${n1} into standard SI and reporting units.` }
+  ];
+  const catPairs = categoryContent[cat.id]?.popularPairs || [];
+  let canonicalReverseSlug = null;
+  for (const p of catPairs) {
+    const pFrom = findUnit(cat, cleanSlug(p.from));
+    const pTo = findUnit(cat, cleanSlug(p.to));
+    if (pFrom && pTo && pFrom.id === u2.id && pTo.id === u1.id) {
+      canonicalReverseSlug = `${cleanSlug(p.from)}-to-${cleanSlug(p.to)}`;
+      break;
+    }
+  }
+  const reciprocal = canonicalReverseSlug ? {
+    hasCanonicalPair: true,
+    url: `/convert/${cat.id}/${canonicalReverseSlug}`,
+    anchorText: `Convert ${n2} to ${n1} (${s2} to ${s1})`,
+    badgeText: "Reverse Pair Available",
+    description: `Looking to calculate the reverse direction? Switch directly to our dedicated ${n2} to ${n1} converter.`
+  } : {
+    hasCanonicalPair: false,
+    url: `/convert/${cat.id}`,
+    anchorText: `All ${cat.lb} Converters & Tools`,
+    badgeText: "Category Hub",
+    description: `Need to convert other ${cat.lb.toLowerCase()} units? Explore all combinations in the full ${cat.lb} converter.`
+  };
+  const workedExampleQuestion = `What is an example calculation converting ${n1} to ${n2}?`;
+  let workedExampleAnswer;
+  if (isTemp) {
+    if (u1.id === "C" && u2.id === "F") {
+      workedExampleAnswer = `To convert 25 \xB0C to \xB0F: multiply 25 by 9/5 (which equals 45), then add 32 to get 77 \xB0F (25 \xB0C = 77 \xB0F, a comfortable room temperature).`;
+    } else if (u1.id === "F" && u2.id === "C") {
+      workedExampleAnswer = `To convert 68 \xB0F to \xB0C: subtract 32 from 68 (which equals 36), then multiply by 5/9 to get 20 \xB0C (68 \xB0F = 20 \xB0C).`;
+    } else if (u1.id === "C" && u2.id === "K") {
+      workedExampleAnswer = `To convert 20 \xB0C to Kelvin: add 273.15 to 20 to get 293.15 K.`;
+    } else if (u1.id === "K" && u2.id === "C") {
+      workedExampleAnswer = `To convert 300 K to \xB0C: subtract 273.15 from 300 to get 26.85 \xB0C.`;
+    } else {
+      const sampleVal = 20;
+      const sampleRes = convertTemp(sampleVal, u1.id, u2.id);
+      workedExampleAnswer = `To convert ${sampleVal} ${s1} to ${s2}: apply the scale formula to calculate ${sampleVal} ${s1} = ${cleanFloat(sampleRes, 4)} ${s2}.`;
+    }
+  } else if (isReciprocalFuel) {
+    if (u1.id === "mpgUS" && u2.id === "L100km") {
+      workedExampleAnswer = `To convert 30 MPG (US) to L/100km: divide 235.215 by 30, which yields 7.84 L/100km (235.215 \xF7 30 = 7.84 L/100km).`;
+    } else if (u1.id === "L100km" && u2.id === "mpgUS") {
+      workedExampleAnswer = `To convert 8 L/100km to MPG (US): divide 235.215 by 8, which yields 29.40 MPG (US) (235.215 \xF7 8 = 29.40 MPG).`;
+    } else if (u1.id === "kmL" && u2.id === "L100km") {
+      workedExampleAnswer = `To convert 15 km/L to L/100km: divide 100 by 15, which yields 6.67 L/100km (100 \xF7 15 = 6.67 L/100km).`;
+    } else {
+      workedExampleAnswer = `To convert 10 ${s1} to ${s2}: apply the reciprocal formula to calculate 10 ${s1} = ${convertFuel(10, u1.id, u2.id) !== null ? fmt(convertFuel(10, u1.id, u2.id), 4) : ""} ${s2}.`;
+    }
+  } else if (cat.id === "cricket-overs") {
+    if (u2.id === "balls") {
+      workedExampleAnswer = `To convert 14.3 overs to balls: (14 \xD7 6) + 3 = 84 + 3 = 87 legal deliveries.`;
+    } else {
+      workedExampleAnswer = `To convert 14.3 overs to true decimal overs: 14 + (3 \xF7 6) = 14 + 0.50 = 14.50 true decimal overs.`;
+    }
+  } else if (cat.id === "ieee-754") {
+    workedExampleAnswer = `For decimal 1.0: Sign = 0 (+), Exponent = 127 (01111111 binary), Mantissa = 0. In hex, this yields 0x3F800000.`;
+  } else if (cat.id === "matrix-format") {
+    workedExampleAnswer = `To convert a 2\xD72 CSV grid "1, 2\\n3, 4" into LaTeX bmatrix: wrap rows in \\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}.`;
+  } else if (cat.id === "number-base") {
+    workedExampleAnswer = `To convert decimal 13 to binary: 13 \xF7 2 = 6 rem 1, 6 \xF7 2 = 3 rem 0, 3 \xF7 2 = 1 rem 1, 1 \xF7 2 = 0 rem 1. Reading remainders bottom to top gives binary 1101.`;
+  } else if (cat.id === "pk-gpa") {
+    workedExampleAnswer = `Under standard HEC rules, 85% and above yields a 4.00 CGPA, 73% yields approximately 3.00 CGPA, and 60% yields approximately 2.00 CGPA.`;
+  } else if (cat.id === "statistics") {
+    workedExampleAnswer = `A Z-score of +2.0 on a standard normal distribution corresponds to the 97.72 percentile (two standard deviations above the mean).`;
+  } else {
+    const sampleVal = 10;
+    const sampleRes = convert(sampleVal, cat.id, u1.id, u2.id);
+    const isSampleExact = sampleRes !== null && Math.abs(Number(fmt(sampleRes, 4)) - sampleRes) < 1e-12;
+    workedExampleAnswer = isSampleExact ? `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get exactly ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${l2}.` : `To convert 10 ${n1} to ${n2}: multiply 10 by the conversion factor ${unitRatio !== null ? fmt(unitRatio, 6) : ""} to get approximately ${sampleRes !== null ? fmt(sampleRes, 4) : ""} ${l2}.`;
+  }
+  const faqs = [
+    {
+      question: isTemp ? `What is 1 ${n1} in ${n2}?` : `How many ${n2} in 1 ${n1}?`,
+      answer: `${summary} ${inverseSummary}`
+    },
+    {
+      question: `How to convert ${n1} to ${n2}?`,
+      answer: `${calculationRule} Mathematical formula: ${formulaDisplay}.`
+    },
+    {
+      question: workedExampleQuestion,
+      answer: workedExampleAnswer
+    },
+    {
+      question: `How to convert back from ${n2} to ${n1}?`,
+      answer: isTemp ? `To convert from ${n2} to ${n1}, reverse the calculation formula: ${inverseSummary}` : isReciprocalFuel ? `Because fuel economy conversions between ${s1} and ${s2} are reciprocal, divide the exact conversion constant by your ${s2} value to get ${s1}.` : `To convert from ${n2} to ${n1}, multiply by the inverse factor ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : ""} (or divide by ${unitRatio !== null ? fmt(unitRatio, 6) : ""}). Formula: ${s1} = ${s2} \xD7 ${inverseUnitRatio !== null ? fmt(inverseUnitRatio, 8) : ""}.`
+    }
+  ];
+  const pairSlug = cleanSlug(pairParam);
+  const fieldNote = PAIR_FIELD_NOTES[pairSlug] || CATEGORY_FIELD_NOTES[cat.id];
+  let workedExamples;
+  let referenceTable;
+  const TEXTILE_WEIGHTS_TABLE = [
+    { label: "120 GSM", value: "3.54 oz/yd\xB2", extra: "Lightweight undershirts & sheer layering" },
+    { label: "150 GSM", value: "4.42 oz/yd\xB2", extra: "Standard lightweight summer t-shirts" },
+    { label: "180 GSM", value: "5.31 oz/yd\xB2", extra: "Midweight everyday crewneck t-shirts" },
+    { label: "200 GSM", value: "5.90 oz/yd\xB2", extra: "Heavyweight t-shirts & classic polo shirts" },
+    { label: "250 GSM", value: "7.37 oz/yd\xB2", extra: "Long sleeves & lightweight french terry" },
+    { label: "280 GSM", value: "8.26 oz/yd\xB2", extra: "Standard pullover hoodies & crewnecks" },
+    { label: "300 GSM", value: "8.85 oz/yd\xB2", extra: "Heavyweight fleece & sweatpants" },
+    { label: "350 GSM", value: "10.32 oz/yd\xB2", extra: "Premium streetwear hoodies & loopback terry" },
+    { label: "400 GSM", value: "11.80 oz/yd\xB2", extra: "Dense canvas & plush cotton bath towels" },
+    { label: "450 GSM", value: "13.27 oz/yd\xB2", extra: "Heavyweight canvas totes & luxury towels" },
+    { label: "480 GSM", value: "14.16 oz/yd\xB2", extra: "Ultra-heavyweight luxury streetwear hoodies" },
+    { label: "500 GSM", value: "14.75 oz/yd\xB2", extra: "Workwear jackets & heavy cotton bath sheets" },
+    { label: "600 GSM", value: "17.70 oz/yd\xB2", extra: "Marine-grade duck canvas & hotel bath rugs" }
+  ];
+  if (cat.id === "textile" && pairSlug === "gsm-to-oz") {
+    formulaDisplay = "oz/yd\xB2 = g/m\xB2 \xF7 33.906";
+    referenceTable = TEXTILE_WEIGHTS_TABLE;
+    workedExamples = [
+      "Formula: oz/yd\xB2 = g/m\xB2 \xF7 33.906 (or g/m\xB2 \xD7 0.0294936)",
+      "Worked Example for 480 GSM: 480 \xF7 33.906 = 14.157 oz/yd\xB2 (rounded to 14.16 oz/yd\xB2). A 480 GSM luxury custom streetwear hoodie represents exactly 14.16 ounces per square yard of heavyweight cotton fleece.",
+      "Common Conversions: 180 GSM = 5.31 oz/yd\xB2 (crewneck t-shirt) \xB7 300 GSM = 8.85 oz/yd\xB2 (heavyweight fleece) \xB7 400 GSM = 11.80 oz/yd\xB2 (dense canvas)."
+    ];
+    faqs.push(
+      { question: "What does 480 GSM equal in ounces per square yard?", answer: "480 GSM equals exactly 14.16 oz/yd\xB2 (rounded from 14.157 oz/yd\xB2). This weight is standard for premium luxury heavyweight hoodies and winter streetwear." },
+      { question: "Why does 1 oz/yd\xB2 equal 33.906 GSM?", answer: "One square yard equals 0.836127 square meters, and one avoirdupois ounce equals 28.349523 grams. Dividing 28.349523 grams by 0.836127 square meters yields exactly 33.9057474 g/m\xB2 (rounded to 33.906 g/m\xB2)." }
+    );
+  }
+  if (cat.id === "textile" && pairSlug === "oz-to-gsm") {
+    formulaDisplay = "g/m\xB2 = oz/yd\xB2 \xD7 33.906";
+    referenceTable = TEXTILE_WEIGHTS_TABLE.map((r) => ({ label: r.value, value: r.label, extra: r.extra }));
+    workedExamples = [
+      "Formula: g/m\xB2 = oz/yd\xB2 \xD7 33.906",
+      "Worked Example for 14.16 oz/yd\xB2: 14.157 oz/yd\xB2 \xD7 33.906 = 480.0 g/m\xB2 (480 GSM). 14.16 ounces per square yard corresponds to the benchmark 480 GSM fabric weight used in ultra-heavyweight streetwear hoodies.",
+      "Common Conversions: 5.31 oz/yd\xB2 = 180 GSM \xB7 8.85 oz/yd\xB2 = 300 GSM \xB7 11.80 oz/yd\xB2 = 400 GSM \xB7 14.75 oz/yd\xB2 = 500 GSM."
+    ];
+    faqs.push(
+      { question: "What does 14.16 oz/yd\xB2 equal in GSM?", answer: "14.16 oz/yd\xB2 equals exactly 480 GSM (grams per square meter), standard for ultra-heavyweight luxury streetwear hoodies." },
+      { question: "How do you convert oz/yd\xB2 to GSM in apparel manufacturing?", answer: "Multiply the oz/yd\xB2 fabric weight by 33.906. For example, 10 oz/yd\xB2 denim equals approximately 339 GSM, and 14 oz/yd\xB2 heavy denim equals approximately 475 GSM." }
+    );
+  }
+  if (cat.id === "temp" && pairSlug === "celsius-to-fahrenheit") {
+    workedExamples = [
+      "25\xB0C \xD7 9/5 + 32 = 77\xB0F (a warm summer day in Europe is 77\xB0F)",
+      "0\xB0C \xD7 9/5 + 32 = 32\xB0F (water freezes at 0\xB0C or 32\xB0F)",
+      "37\xB0C \xD7 9/5 + 32 = 98.6\xB0F (normal human body temperature)",
+      "100\xB0C \xD7 9/5 + 32 = 212\xB0F (water boils at 100\xB0C or 212\xB0F)",
+      "-40\xB0C \xD7 9/5 + 32 = -40\xB0F (the only point where Celsius and Fahrenheit are equal)"
+    ];
+    faqs.push(
+      {
+        question: "What is the easiest way to convert Celsius to Fahrenheit?",
+        answer: "Double the Celsius value and add 30 for a quick estimate. For example, 20\xB0C \xD7 2 + 30 = 70\xB0F (real answer: 68\xB0F). For precise math, use the formula \xB0F = \xB0C \xD7 9/5 + 32."
+      },
+      {
+        question: "At what temperature are Celsius and Fahrenheit equal?",
+        answer: "-40\xB0C = -40\xB0F. This is the only temperature where both scales read the same value."
+      },
+      {
+        question: "What is normal body temperature in Fahrenheit?",
+        answer: "Normal human body temperature is 37\xB0C, which equals 98.6\xB0F."
+      }
+    );
+  } else if (cat.id === "temp" && pairSlug === "fahrenheit-to-celsius") {
+    workedExamples = [
+      "98.6\xB0F \u2212 32 = 66.6, \xD7 5/9 = 37.0\xB0C (normal body temperature)",
+      "32\xB0F \u2212 32 = 0, \xD7 5/9 = 0\xB0C (water freezes at 32\xB0F or 0\xB0C)",
+      "212\xB0F \u2212 32 = 180, \xD7 5/9 = 100\xB0C (water boils at 212\xB0F or 100\xB0C)",
+      "72\xB0F \u2212 32 = 40, \xD7 5/9 = 22.2\xB0C (room temperature is about 22\xB0C)"
+    ];
+    faqs.push(
+      {
+        question: "What is the easiest way to convert Fahrenheit to Celsius?",
+        answer: "Subtract 30 from Fahrenheit then divide by 2 for a quick estimate. For example, 70\xB0F \u2212 30 = 40, \xF7 2 = 20\xB0C (real answer: 21.1\xB0C)."
+      },
+      {
+        question: "What is 0\xB0F in Celsius?",
+        answer: "0\xB0F equals approximately -17.78\xB0C."
+      },
+      {
+        question: "What is 100\xB0F in Celsius?",
+        answer: "100\xB0F equals approximately 37.78\xB0C, which is near human body temperature."
+      }
+    );
+  } else if (cat.id === "mass" && pairSlug === "kilogram-to-pounds") {
+    workedExamples = [
+      "68 kg \xD7 2.20462 = 149.91 lb (a 68 kg person weighs about 150 lb)",
+      "5 kg \xD7 2.20462 = 11.02 lb (a 5 kg bag of rice is about 11 lb)",
+      "100 kg \xD7 2.20462 = 220.46 lb (100 kg is roughly 220 lb)",
+      "0.5 kg \xD7 2.20462 = 1.10 lb (half a kilogram is just over 1 pound)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert kg to lbs in my head?",
+        answer: "Double the kg value and add 10%. For example, 50 kg \xD7 2 = 100, plus 10% = 110 lb (real answer: 110.23 lb)."
+      },
+      {
+        question: "What is the difference between kg and lbs?",
+        answer: "Kilogram (kg) is the SI base unit of mass used by most countries. Pound (lb) is an imperial unit used mainly in the US and UK."
+      }
+    );
+  } else if (cat.id === "mass" && pairSlug === "pounds-to-kilogram") {
+    workedExamples = [
+      "150 lb \xD7 0.45359237 = 68.04 kg (a person weighing 150 lb weighs 68 kg)",
+      "10 lb \xD7 0.45359237 = 4.54 kg (a 10 lb bag of flour is 4.54 kg)",
+      "1 lb \xD7 0.45359237 = 0.45 kg (one pound is just under half a kilogram)",
+      "200 lb \xD7 0.45359237 = 90.72 kg (an adult male weighing 200 lb is about 91 kg)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert pounds to kilograms in my head?",
+        answer: "Divide pounds by 2.2 for a rough estimate. For example, 150 lb \xF7 2.2 \u2248 68 kg. For precise conversions, multiply by 0.45359237."
+      },
+      {
+        question: "What is the difference between lb and lbs?",
+        answer: 'Both are the same \u2014 "lb" is the singular abbreviation for pound (from Latin libra), and "lbs" is the plural form.'
+      },
+      {
+        question: "Why do Americans use pounds instead of kilograms?",
+        answer: "The US is one of three countries (along with Liberia and Myanmar) that still use the imperial system. Most of the world uses kilograms."
+      }
+    );
+  } else if (cat.id === "length" && pairSlug === "feet-to-meters") {
+    workedExamples = [
+      "10 ft \xD7 0.3048 = 3.05 m (a 10-foot room is about 3 meters)",
+      "6 ft \xD7 0.3048 = 1.83 m (a person who is 6 feet tall is 1.83 meters)",
+      "100 ft \xD7 0.3048 = 30.48 m (a 100-foot building is about 30 meters)",
+      "5280 ft \xD7 0.3048 = 1609.34 m (one mile in meters)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert feet to meters in my head?",
+        answer: "Divide feet by 3.3 for a quick estimate. For example, 10 ft \xF7 3.3 \u2248 3.03 m (real answer: 3.05 m)."
+      },
+      {
+        question: "What is 6 feet tall in meters?",
+        answer: "6 feet equals approximately 1.83 meters, which is considered tall in many countries."
+      }
+    );
+  } else if (cat.id === "length" && pairSlug === "meter-to-feet") {
+    workedExamples = [
+      "10 m \xD7 3.28084 = 32.81 ft (a 10-meter room is about 33 feet long)",
+      "1.83 m \xD7 3.28084 = 6.00 ft (a person who is 1.83 m tall is exactly 6 feet)",
+      "100 m \xD7 3.28084 = 328.08 ft (a football field is about 100 meters)",
+      "0.3048 m \xD7 3.28084 = 1.00 ft (one foot is exactly 0.3048 meters)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert meters to feet in my head?",
+        answer: "Multiply meters by 3.3 for a quick estimate. For example, 10 m \xD7 3.3 \u2248 33 ft (real answer: 32.81 ft)."
+      },
+      {
+        question: "What is the difference between a meter and a foot?",
+        answer: "A meter is the base SI unit of length used in most countries. A foot is an imperial unit used mainly in the US. One meter = 3.28084 feet."
+      },
+      {
+        question: "How do I convert meters to feet and inches?",
+        answer: "Multiply meters by 3.28084 to get decimal feet. Take the decimal part and multiply by 12 to get inches. For example: 1.83 m \xD7 3.28084 = 6.003 ft = 6 ft 0.04 in."
+      }
+    );
+  } else if (cat.id === "pressure" && pairSlug === "psi-to-bar") {
+    workedExamples = [
+      "32 psi \xD7 0.0689476 = 2.21 bar (recommended cold passenger car tire pressure)",
+      "35 psi \xD7 0.0689476 = 2.41 bar (common SUV / crossover tire pressure)",
+      "14.7 psi \xD7 0.0689476 = 1.013 bar (standard atmospheric pressure at sea level)",
+      "100 psi \xD7 0.0689476 = 6.89 bar (typical workshop air compressor output)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert PSI to bar in my head?",
+        answer: "Divide the PSI value by 15 for a fast mental estimate. For example, 30 psi \xF7 15 = 2.0 bar (exact answer: 2.07 bar). 45 psi \xF7 15 = 3.0 bar (exact answer: 3.10 bar)."
+      },
+      {
+        question: "What is the difference between psig and psia?",
+        answer: "psig measures gauge pressure relative to ambient atmosphere (a tire gauge reads 0 psi when disconnected). psia measures absolute pressure including the 14.7 psi atmospheric pressure baseline."
+      },
+      {
+        question: "What is 32 PSI in bar?",
+        answer: "32 PSI equals approximately 2.21 bar, which is the standard tire pressure recommendation for most compact and midsize sedans."
+      }
+    );
+  } else if (cat.id === "power" && pairSlug === "kilowatts-to-horsepower") {
+    workedExamples = [
+      "150 kW \xD7 1.34102 = 201.15 hp (standard electric vehicle motor rating)",
+      "220 kW \xD7 1.34102 = 295.02 hp (performance electric sedan dual-motor setup)",
+      "74.57 kW \xD7 1.34102 = 100.00 hp (exact mechanical horsepower definition)",
+      "500 kW \xD7 1.34102 = 670.51 hp (high-performance electric hypercar)"
+    ];
+    faqs.push(
+      {
+        question: "How do I convert kW to HP in my head?",
+        answer: "Multiply kW by 4 and divide by 3 (add one-third). For example, 150 kW \xD7 4/3 = 200 hp (exact answer: 201.15 hp). 300 kW \xD7 4/3 = 400 hp (exact answer: 402.3 hp)."
+      },
+      {
+        question: "What is the difference between mechanical HP and metric PS?",
+        answer: "Mechanical HP (imperial) is 745.69987 Watts. Metric HP (Pferdest\xE4rke / PS / CV) is 735.49875 Watts. 100 kW is 134.1 imperial hp or 136.0 metric PS."
+      },
+      {
+        question: "Why do electric vehicles use kW instead of HP?",
+        answer: "Kilowatt is the coherent SI unit for electrical power (Volts \xD7 Amperes \xF7 1000). Battery discharge capacity and charging speeds are quoted in kW and kWh, making kW mathematically consistent across the entire EV powertrain."
+      },
+      {
+        question: "How many kW is 300 horsepower?",
+        answer: "300 mechanical horsepower equals approximately 223.71 kW (300 \xF7 1.34102)."
+      }
+    );
+  } else if (cat.id === "mass" && pairSlug === "tola-to-g") {
+    referenceTable = [
+      { label: "1 Tola", value: "11.6638 g", extra: "180 troy grains / 12 Masha / 96 Ratti" },
+      { label: "1 Masha", value: "0.9720 g", extra: "8 Ratti (1/12 Tola)" },
+      { label: "1 Ratti", value: "0.1215 g", extra: "1/96 Tola" },
+      { label: "1 Chhatank", value: "58.3190 g", extra: "5 Tolas" },
+      { label: "1 Seer", value: "933.1043 g", extra: "16 Chhatanks / 80 Tolas" }
+    ];
+    workedExamples = [
+      "1 Tola 24K pure gold bar = 11.6638 grams of pure 99.99% gold",
+      "10 grams into Tolas: 10 \xF7 11.6638 = 0.85735 Tolas (approx 10.29 Mashas)",
+      "1 Masha of gold: 11.6638 \xF7 12 = 0.97198 grams",
+      "1 Ratti of gold: 11.6638 \xF7 96 = 0.12150 grams"
+    ];
+    faqs.push(
+      {
+        question: "How many Mashas and Rattis are in 1 Tola?",
+        answer: "There are exactly 12 Mashas in 1 Tola, and 8 Rattis in 1 Masha. Therefore, 1 Tola contains 96 Rattis."
+      },
+      {
+        question: "How do you calculate 22K gold price from the 24K Tola rate?",
+        answer: "Divide the 24K Tola rate by 24 and multiply by 22 (or multiply by 0.91667). For example, if 24K is PKR 240,000/tola, 22K gold is 240,000 \xD7 (22/24) = PKR 220,000/tola."
+      },
+      {
+        question: "What is a Chhatank in mass?",
+        answer: "A Chhatank is a traditional mass unit equal to exactly 5 Tolas (58.319 grams). Sixteen Chhatanks equal 1 Seer (933.1 grams)."
+      }
+    );
+  } else if (cat.id === "area" && pairSlug === "marla-to-ft2") {
+    referenceTable = [
+      { label: "1 Marla (Patwari / Revenue Standard)", value: "272.25 sq ft", extra: "9 square karams / 30.25 sq yards" },
+      { label: "1 Marla (CDA / Rawalpindi Standard)", value: "250.00 sq ft", extra: "Islamabad Capital Territory sector benchmark" },
+      { label: "1 Marla (Private Housing Society / DHA / Bahria)", value: "225.00 sq ft", extra: "25 square yards (Gaz)" },
+      { label: "1 Kanal (Revenue Standard)", value: "5,445.00 sq ft", extra: "20 Marlas (Revenue)" },
+      { label: "1 Kanal (Housing Society)", value: "4,500.00 sq ft", extra: "20 Marlas (Society)" }
+    ];
+    workedExamples = [
+      "5 Marla plot in DHA / Bahria: 5 \xD7 225 = 1,125 sq ft (approx 125 square yards / gaz)",
+      "5 Marla plot in Rawalpindi / CDA Sector: 5 \xD7 250 = 1,250 sq ft",
+      "5 Marla rural plot under Patwari Revenue Record: 5 \xD7 272.25 = 1,361.25 sq ft",
+      "1 Kanal standard property: 20 Marlas \xD7 272.25 = 5,445 sq ft (or 4,500 sq ft in societies)"
+    ];
+    faqs.push(
+      {
+        question: "Why is a Marla 225 sq ft in some housing societies and 272.25 sq ft in village records?",
+        answer: "Under traditional British Indian revenue measurement, 1 Karam equals 5.5 feet (66 inches), and 1 Sarsahi is 1 square Karam (30.25 sq ft). Nine Sarsahis make 1 Marla (9 \xD7 30.25 = 272.25 sq ft). Private urban developers adopted a simplified metric of 25 square yards (25 \xD7 9 = 225 sq ft) to allow neat decimal dimensions (e.g. 25 ft \xD7 45 ft for 5 Marla plots)."
+      },
+      {
+        question: "How many square yards (Gaz) is 1 Marla?",
+        answer: "In standard revenue records, 1 Marla = 30.25 square yards. In housing societies, 1 Marla = exactly 25 square yards (Gaz)."
+      },
+      {
+        question: "How many Marlas are in 1 Kanal?",
+        answer: "In all jurisdictions across Pakistan, 1 Kanal equals exactly 20 Marlas."
+      },
+      {
+        question: "What is a Sarsahi and how does it relate to a Marla?",
+        answer: "A Sarsahi is the foundational land unit in Punjab revenue records. Exactly 9 Sarsahis equal 1 Marla (1 Sarsahi = 30.25 square feet)."
+      }
+    );
+  } else if (cat.id === "pk-gpa" && pairSlug === "hec-gpa4-to-percentage") {
+    referenceTable = [
+      { label: "CGPA 4.00", value: "85.00%+", extra: "Distinction / Honors" },
+      { label: "CGPA 3.50", value: "79.17%", extra: "High First Division" },
+      { label: "CGPA 3.00", value: "73.33%", extra: "First Division (B Grade)" },
+      { label: "CGPA 2.50", value: "67.50%", extra: "Second Division" },
+      { label: "CGPA 2.00", value: "61.67%", extra: "Minimum Passing / Second Division" }
+    ];
+    workedExamples = [
+      "CGPA 3.50 on HEC 4.0 scale: ((3.50 - 1.0)/3.0) \xD7 35 + 50 = 79.17% marks",
+      "CGPA 3.00 on HEC 4.0 scale: ((3.00 - 1.0)/3.0) \xD7 35 + 50 = 73.33% marks (First Division)",
+      "MDCAT Aggregate with 170/200, 1020/1100 FSc, 1000/1100 Matric: 42.5% + 37.09% + 9.09% = 88.68%",
+      "Converting 5.0 CGPA scale to 4.0 CGPA: CGPA 4.0 = (CGPA 5.0 \xF7 5.0) \xD7 4.0"
+    ];
+    faqs.push(
+      {
+        question: "What percentage is a 3.00 CGPA in Pakistan under HEC?",
+        answer: "Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade)."
+      },
+      {
+        question: "What is the standard PMDC MDCAT aggregate formula?",
+        answer: "The PMDC formula calculates aggregate as: 50% MDCAT entrance test score + 40% FSc Pre-Medical board score + 10% Matriculation board score."
+      },
+      {
+        question: "Does HEC provide an official formula on degree equivalence certificates?",
+        answer: "HEC evaluates semester transcripts using the university-specific grading curve if specified on the reverse of the transcript. In the absence of an institutional curve, the standard continuous formula Percentage = ((CGPA - 1) / 3) \xD7 35 + 50 is applied."
+      },
+      {
+        question: "What CGPA is required for First Division in Pakistan?",
+        answer: "Under HEC regulations, a CGPA of 2.80 to 3.00 (depending on university grading criteria) or a minimum of 60% marks represents First Division."
+      }
+    );
+  }
+  return {
+    directAnswer: {
+      heading: `Direct Answer: 1 ${s1} to ${s2}`,
+      summary,
+      formulaDisplay,
+      inverseSummary,
+      calculationRule,
+      isAffine: isTemp,
+      isReciprocal: isReciprocalFuel
+    },
+    explanation: {
+      heading: explanationHeading,
+      paragraphs: [p1, p2],
+      systemContext: metrology.systems
+    },
+    useCases: specificUseCases,
+    reciprocal,
+    faqs,
+    fieldNote,
+    workedExamples,
+    referenceTable
+  };
+}
+
 // tests/seo.test.ts
 describe("SEO Architecture: Site Identity & Authoritative Origin", () => {
   it("enforces configured domain as authoritative origin", () => {
@@ -2000,10 +4290,10 @@ describe("SEO Architecture: Canonical URL & Alias Resolution", () => {
     assert.equal(canonicalUrl("/weight"), `${origin}/convert/mass`);
     assert.equal(canonicalUrl("/convert/length/meter-to-feet"), `${origin}/convert/length/meter-to-feet`);
   });
-  it("resolves canonical category routes to /convert/:id for all 36 categories", () => {
+  it("resolves canonical category routes to /convert/:id for all 35 categories", () => {
     const origin = getSiteUrl();
     const categories = getAllCategories();
-    assert.equal(categories.length, 36);
+    assert.equal(categories.length, 35);
     for (const cat of categories) {
       const canonical = canonicalUrl(`/convert/${cat.id}`);
       assert.equal(
@@ -2098,7 +4388,7 @@ describe("SEO Architecture: XML Sitemap Generator", () => {
     assert.ok(xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'));
     assert.ok(xml.trimEnd().endsWith("</urlset>"));
   });
-  it("includes all 36 canonical category URLs", () => {
+  it("includes all 35 canonical category URLs", () => {
     const entries = generateSitemapEntries();
     const locs = new Set(entries.map((e) => e.loc));
     const categories = getAllCategories();
@@ -2179,5 +4469,88 @@ describe("Phase 4 Step 4.3.3: SSG Mathematical Integrity & SI Classification Par
   });
   it('SystemLabels.S is designated as "Scientific" rather than "SI Base"', () => {
     assert.equal(SystemLabels.S, "Scientific", 'Unit system "S" must be labeled "Scientific"');
+  });
+});
+describe("Task F: Build Gate Integrity & Invariant Quality Gates", () => {
+  it("scripts/verify-prerender.ts contains Invariant 9 enforcing all forbidden leak patterns", () => {
+    const verifyScriptPath = path2.resolve(process.cwd(), "scripts/verify-prerender.ts");
+    assert.ok(fs2.existsSync(verifyScriptPath), "verify-prerender.ts must exist");
+    const verifyContent = fs2.readFileSync(verifyScriptPath, "utf8");
+    assert.ok(verifyContent.includes("html.includes('undefined')"), "Must fail on undefined");
+    assert.ok(verifyContent.includes("NaN") && verifyContent.includes("failures.push"), "Must fail on NaN");
+    assert.ok(verifyContent.includes("[object Object]"), "Must fail on [object Object]");
+    assert.ok(verifyContent.includes("Skip tour"), "Must fail on Skip tour");
+    assert.ok(verifyContent.includes("uc_onboarded"), "Must fail on uc_onboarded");
+    assert.ok(verifyContent.includes("NX-COS"), "Must fail on NX-COS");
+    assert.ok(verifyContent.includes("Application Error"), "Must fail on Application Error");
+    assert.ok(verifyContent.includes("Something went wrong"), "Must fail on Something went wrong");
+  });
+  it("validates gate F logic correctly catches forbidden tokens and passes clean HTML", () => {
+    function evaluateGateF(sampleHtml) {
+      const errs = [];
+      if (sampleHtml.includes("undefined")) errs.push("undefined");
+      if (/\bNaN\b/.test(sampleHtml)) errs.push("NaN");
+      if (sampleHtml.includes("[object Object]") || sampleHtml.includes("object Object")) errs.push("object Object");
+      if (/\$\{[a-zA-Z0-9_.-]+\}/.test(sampleHtml) || /\{\{\s*[a-zA-Z0-9_.-]+\s*\}\}/.test(sampleHtml) || /\{(?:category|title|h1|intro|fromUnit|toUnit|pairSlug|from|to|value|factor|formula)\}/i.test(sampleHtml)) {
+        errs.push("placeholder");
+      }
+      if (sampleHtml.includes("Skip tour") || sampleHtml.includes("uc_onboarded") || sampleHtml.includes("OnboardingTour")) {
+        errs.push("tour");
+      }
+      if (sampleHtml.includes("NX-COS") || sampleHtml.includes("Application Error") || sampleHtml.includes("Something went wrong")) {
+        errs.push("error-boundary");
+      }
+      return errs;
+    }
+    assert.deepEqual(evaluateGateF("<h1>Clean Title</h1><p>Value: 42</p>"), []);
+    assert.deepEqual(evaluateGateF("<p>Result is undefined</p>"), ["undefined"]);
+    assert.deepEqual(evaluateGateF("<td>NaN</td>"), ["NaN"]);
+    assert.deepEqual(evaluateGateF("<div>[object Object]</div>"), ["object Object"]);
+    assert.deepEqual(evaluateGateF("<p>Hello ${category}</p>"), ["placeholder"]);
+    assert.deepEqual(evaluateGateF("<p>{{title}}</p>"), ["placeholder"]);
+    assert.deepEqual(evaluateGateF("<button>Skip tour</button>"), ["tour"]);
+    assert.deepEqual(evaluateGateF("<div>NX-COS Crash Report</div>"), ["error-boundary"]);
+  });
+});
+describe("Task C2: Textile New Converter Pages (GSM \u2194 oz/yd\xB2)", () => {
+  it("verifies C2 editorial definitions for gsm-to-oz and oz-to-gsm", () => {
+    const textCat = Categories.find((c) => c.id === "textile");
+    assert.ok(textCat, "textile category must exist");
+    const gsmUnit = findUnit(textCat, "gsm");
+    const ozUnit = findUnit(textCat, "oz");
+    assert.ok(gsmUnit, "gsm unit must resolve");
+    assert.ok(ozUnit, "oz unit must resolve");
+    const gsmToOz = getPairEditorial(textCat, gsmUnit, ozUnit, "gsm-to-oz");
+    assert.ok(gsmToOz, "Editorial must exist for gsm-to-oz");
+    assert.ok(gsmToOz.directAnswer.formulaDisplay.includes("33.906"), "Formula must reference 33.906 factor");
+    assert.ok(gsmToOz.directAnswer.summary.includes("0.029494"), "Direct answer must include conversion factor");
+    assert.ok(gsmToOz.workedExamples?.some((w) => w.includes("480 GSM") && w.includes("14.16 oz/yd\xB2")), "workedExamples must contain 480 GSM worked example");
+    assert.ok(gsmToOz.referenceTable, "Must include common-weights reference table");
+    assert.equal(gsmToOz.referenceTable?.length, 13, "Must include 13 common weight rows");
+    const weights = [120, 150, 180, 200, 250, 280, 300, 350, 400, 450, 480, 500, 600];
+    for (const w of weights) {
+      assert.ok(gsmToOz.referenceTable?.some((r) => r.label.includes(String(w))), `Weights table must contain ${w} GSM`);
+    }
+    const ozToGsm = getPairEditorial(textCat, ozUnit, gsmUnit, "oz-to-gsm");
+    assert.ok(ozToGsm, "Editorial must exist for oz-to-gsm");
+    assert.ok(ozToGsm.directAnswer.formulaDisplay.includes("33.906"), "Inverse formula must reference 33.906 factor");
+  });
+  it("prerendered C2 HTML files satisfy static quality gates when dist is built", () => {
+    const gsmToOzPath = path2.resolve(process.cwd(), "dist/convert/textile/gsm-to-oz.html");
+    const ozToGsmPath = path2.resolve(process.cwd(), "dist/convert/textile/oz-to-gsm.html");
+    if (fs2.existsSync(gsmToOzPath)) {
+      const gsmHtml = fs2.readFileSync(gsmToOzPath, "utf8");
+      assert.ok(gsmHtml.includes("480 GSM") || gsmHtml.includes("14.16"), "gsm-to-oz must include 480 GSM worked example");
+      assert.ok(gsmHtml.includes("33.906"), "gsm-to-oz must include 33.906 formula factor");
+      assert.ok(gsmHtml.includes("t-shirt") || gsmHtml.includes("T-shirt"), "gsm-to-oz must include typical use applications");
+      assert.ok(!gsmHtml.includes("undefined"), "gsm-to-oz must not contain undefined");
+      assert.ok(!/\bNaN\b/.test(gsmHtml), "gsm-to-oz must not contain NaN");
+    }
+    if (fs2.existsSync(ozToGsmPath)) {
+      const ozHtml = fs2.readFileSync(ozToGsmPath, "utf8");
+      assert.ok(ozHtml.includes("33.906"), "oz-to-gsm must include 33.906 formula factor");
+      assert.ok(!ozHtml.includes("undefined"), "oz-to-gsm must not contain undefined");
+      assert.ok(!/\bNaN\b/.test(ozHtml), "oz-to-gsm must not contain NaN");
+    }
   });
 });

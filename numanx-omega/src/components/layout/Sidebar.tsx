@@ -32,7 +32,6 @@ const NAV_CATEGORIES = [
 const NAV_FEATURES = [
   { path: '/calculator', icon: '🧮', label: 'Calculator' },
   { path: '/formulas', icon: '📐', label: 'Formulas' },
-  { path: '/health', icon: '❤️', label: 'Health' },
   { path: '/favorites', icon: '⭐', label: 'Favorites' },
 ]
 

@@ -20,6 +20,7 @@ import {
   toShopFraction
 } from '../src/utils/numbers'
 import { parseNaturalLanguage } from '../src/engine/smartParser'
+import { getAllChains, executeChain } from '../src/engine/conversionChains'
 
 function approxEqual(actual: number | null, expected: number, tolerance = 1e-4, msg = ''): void {
   assert.notEqual(actual, null, `${msg}: Expected non-null value, got null`)
@@ -32,9 +33,9 @@ function approxEqual(actual: number | null, expected: number, tolerance = 1e-4, 
 }
 
 describe('Task 2 & 3: Category Registry & Integrity', () => {
-  it('contains exactly 36 registered categories', () => {
-    assert.equal(Categories.length, 36)
-    assert.equal(getAllCategories().length, 36)
+  it('contains exactly 35 registered categories', () => {
+    assert.equal(Categories.length, 35)
+    assert.equal(getAllCategories().length, 35)
   })
 
   it('guarantees unique category IDs across the entire registry', () => {
@@ -286,7 +287,7 @@ describe('Task 13: Universal Category Coverage — All 24 Categories Tested', ()
     { cat: 'fuel', from: 'kmL', to: 'L100km', val: 10 },
     { cat: 'density', from: 'gcm3', to: 'kgm3', val: 1 },
     { cat: 'cooking', from: 'cup_c', to: 'tbsp_c', val: 1 },
-    { cat: 'textile', from: 'gsm', to: 'tc', val: 1 },
+    { cat: 'textile', from: 'gsm', to: 'oz_yd2', val: 480 },
     { cat: 'astronomy', from: 'ly_a', to: 'au_a', val: 1 },
     { cat: 'flow', from: 'gpm', to: 'Lmin', val: 1 },
     { cat: 'illuminance', from: 'fc', to: 'lx', val: 1 },
@@ -299,11 +300,10 @@ describe('Task 13: Universal Category Coverage — All 24 Categories Tested', ()
     { cat: 'matrix-format', from: 'csv', to: 'csv', val: 1 },
     { cat: 'scientific-notation', from: 'sci_kilo', to: 'dec_std', val: 1 },
     { cat: 'pk-gpa', from: 'percentage', to: 'hec_gpa4', val: 85 },
-    { cat: 'cricket-overs', from: 'overs_balls', to: 'balls', val: 14.3 },
   ]
 
-  it('guarantees test execution for every one of the 36 registered categories', () => {
-    assert.equal(categoryTestCases.length, 36)
+  it('guarantees test execution for every one of the 35 registered categories', () => {
+    assert.equal(categoryTestCases.length, 35)
     for (const tc of categoryTestCases) {
       const res = convert(tc.val, tc.cat, tc.from, tc.to)
       assert.notEqual(res, null, `Category ${tc.cat} failed conversion from ${tc.from} to ${tc.to}`)
@@ -697,10 +697,9 @@ describe('Task: Pakistani Regional Units & Multi-Step Chains Verification', () =
     assert.equal(convert(1, 'length', 'girah', 'm'), 0.05715)
   })
 
-  it('verifies 10 total conversion chains including 5 new chains', () => {
-    const { getAllChains, executeChain } = require('../src/engine/conversionChains')
+  it('verifies 9 total conversion chains (cricket-nrr retired to ToolsHub)', () => {
     const chains = getAllChains()
-    assert.equal(chains.length, 10)
+    assert.equal(chains.length, 9)
     
     // Test area-plot-price chain
     const areaRes = executeChain('area-plot-price', 1)
@@ -712,9 +711,42 @@ describe('Task: Pakistani Regional Units & Multi-Step Chains Verification', () =
     assert.ok(goldRes !== null)
     assert.equal(goldRes.links.length, 4)
 
-    // Test cricket-nrr chain
-    const nrrRes = executeChain('cricket-nrr', 14.3)
-    assert.ok(nrrRes !== null)
-    assert.equal(nrrRes.links.length, 3)
+
+  })
+})
+
+describe('Task C2 & D: Textile Conversions & Dimensional Integrity', () => {
+  it('correctly converts between GSM and oz/yd² with source constant 33.9057474', () => {
+    // 1 oz/yd² = 33.9057474 g/m²
+    const gsmVal = convert(1, 'textile', 'oz_yd2', 'gsm')
+    assert.equal(gsmVal, 33.9057474)
+
+    // 480 GSM worked example -> 480 / 33.9057474 ≈ 14.1569
+    const ozVal = convert(480, 'textile', 'gsm', 'oz_yd2')
+    assert.ok(Math.abs((ozVal ?? 0) - 14.15689) < 1e-4, '480 GSM must convert to ~14.16 oz/yd²')
+
+    // 10 oz canvas worked example -> 10 * 33.9057474 = 339.057474
+    const canvasGsm = convert(10, 'textile', 'oz_yd2', 'gsm')
+    assert.equal(canvasGsm, 339.057474)
+  })
+
+  it('prevents cross-dimensional conversions in mixed-dimension categories', () => {
+    // Electricity: Current (A) cannot convert to Voltage (V)
+    assert.equal(convert(1, 'electricity', 'A', 'V'), null)
+    // Electricity: Capacitance (uF) cannot convert to Resistance (ohm)
+    assert.equal(convert(1, 'electricity', 'uF', 'ohm'), null)
+    // Astronomy: Distance (au_a) cannot convert to Mass (sm)
+    assert.equal(convert(1, 'astronomy', 'au_a', 'sm'), null)
+    // Magnetism: Field (T) cannot convert to Flux (Wb)
+    assert.equal(convert(1, 'magnetism', 'T', 'Wb'), null)
+  })
+
+  it('allows valid same-dimension conversions in mixed categories', () => {
+    // Current to current
+    assert.equal(convert(1, 'electricity', 'A', 'mA'), 1000)
+    // Voltage to voltage
+    assert.equal(convert(1, 'electricity', 'kV', 'V'), 1000)
+    // Astronomy distance to distance
+    assert.equal(convert(1, 'astronomy', 'ly_a', 'au_a'), 63241.1)
   })
 })

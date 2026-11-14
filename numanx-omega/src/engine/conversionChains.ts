@@ -85,16 +85,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
       { catId: 'mass', fromUnit: 'ratti', toUnit: 'ozt', label: 'Troy Ounces (oz t)' },
     ]
   },
-  {
-    id: 'cricket-nrr',
-    label: 'Overs & Balls → NRR Basis',
-    icon: '🏏',
-    links: [
-      { catId: 'cricket-overs', fromUnit: 'overs_balls', toUnit: 'overs_balls', label: 'Cricket Notation (Overs.Balls)' },
-      { catId: 'cricket-overs', fromUnit: 'overs_balls', toUnit: 'balls', label: 'Legal Deliveries (Balls)' },
-      { catId: 'cricket-overs', fromUnit: 'balls', toUnit: 'true_overs', label: 'True Decimal Overs' },
-    ]
-  },
+
   {
     id: 'ups-battery-backup',
     label: 'Power Load → Inverter Demand',
@@ -168,7 +159,6 @@ export function suggestChain(fromCat: string, toHint?: string): string | null {
   if (fromCat === 'pressure') return 'pressure-force'
   if (fromCat === 'area') return 'area-plot-price'
   if (fromCat === 'mass') return 'gold-karat-price'
-  if (fromCat === 'cricket-overs') return 'cricket-nrr'
   if (fromCat === 'power') return 'ups-battery-backup'
   return null
 }

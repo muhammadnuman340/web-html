@@ -61,7 +61,7 @@ for (const p of discoveredPairs) {
 let totalPassed = 0
 let totalErrors = 0
 
-for (const { cat, pair, htmlPath, relRoute } of discoveredPairs) {
+for (const { htmlPath, relRoute } of discoveredPairs) {
   const html = fs.readFileSync(htmlPath, 'utf8')
   const errors: string[] = []
 
@@ -107,8 +107,8 @@ for (const { cat, pair, htmlPath, relRoute } of discoveredPairs) {
   } else {
     try {
       const schema = JSON.parse(schemaMatch[1])
-      const graph = (schema['@graph'] || [schema])
-      const faqNode = graph.find((n: any) => n['@type'] === 'FAQPage')
+      const graph = (schema['@graph'] || [schema]) as Array<Record<string, unknown>>
+      const faqNode = graph.find(n => n['@type'] === 'FAQPage') as { mainEntity?: Array<{ name: string }> } | undefined
       if (!faqNode) {
         errors.push('Missing FAQPage node in schema graph')
       } else if (!faqNode.mainEntity || faqNode.mainEntity.length < 2) {
@@ -121,8 +121,8 @@ for (const { cat, pair, htmlPath, relRoute } of discoveredPairs) {
           }
         }
       }
-    } catch (e: any) {
-      errors.push(`Invalid JSON-LD schema: ${e.message}`)
+    } catch (e: unknown) {
+      errors.push(`Invalid JSON-LD schema: ${e instanceof Error ? e.message : String(e)}`)
     }
   }
 

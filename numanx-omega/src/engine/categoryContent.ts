@@ -453,18 +453,25 @@ export const categoryContent: Record<string, CategoryContent> = {
     ],
   },
   textile: {
-    title: 'Textile Fabric Converter — GSM, Thread Count & Yarn Count',
-    metaDesc: 'Convert fabric weight and textile specifications online: Grams per Square Meter (GSM), Thread Count (TC), and Yarn Count (YC) for bedding, apparel, and canvas.',
-    h1: 'Textile & Fabric Units Conversion',
-    intro: 'Convert textile density and quality metrics: Grams per Square Meter (GSM, fabric weight), Thread Count (TC, bedsheet weave density), and Yarn Count (YC). Essential for fashion designers, clothing manufacturers, bedding shoppers, and textile importers.',
+    title: 'Textile Fabric Converter — GSM to oz/yd² & Fabric Weight',
+    metaDesc: 'Convert fabric weight and textile density online: Grams per Square Meter (GSM) to Ounces per Square Yard (oz/yd²), momme, and linear mass density.',
+    h1: 'Textile & Fabric Weight Conversion',
+    intro: 'Convert textile areal weight and density metrics: Grams per Square Meter (GSM, g/m²) and Ounces per Square Yard (oz/yd²). Essential for fashion designers, apparel manufacturers, garment importers, and fabric sourcing specialists.',
     popularPairs: [
-      { from: 'GSM', to: 'Thread Count', desc: 'GSM ↔ TC — evaluate fabric heaviness vs weave tightness' },
+      { from: 'GSM', to: 'oz', desc: 'GSM → oz/yd² — fabric weight for apparel and canvas (1 oz/yd² ≈ 33.906 GSM)' },
+      { from: 'oz', to: 'GSM', desc: 'oz/yd² → GSM — convert US imperial fabric specifications to international metric GSM' },
     ],
-    useCases: ['T-shirt and hoodie weight selection (e.g. 180 GSM vs 350 GSM)', 'Bedding and sheet thread count quality evaluation', 'Towel absorbency assessment (400-600 GSM)', 'Industrial canvas and denim specification'],
-    formula: 'GSM = weight in grams / area in square meters. Thread count = warp threads + weft threads per square inch.',
+    useCases: [
+      'T-shirt and hoodie fabric weight specification (180 GSM vs 5.3 oz/yd²)',
+      'Denim and canvas fabric rating (10 oz to 14 oz workwear jeans)',
+      'Towel and fleece absorbency evaluation (400–600 GSM bath towels)',
+      'Silk momme to GSM translation for luxury garment production'
+    ],
+    formula: '1 oz/yd² = 33.906 g/m² (GSM). oz/yd² = GSM ÷ 33.906, and GSM = oz/yd² × 33.906.',
     faq: [
-      { q: 'What does GSM mean in fabric?', a: 'GSM stands for "Grams per Square Meter" and measures the physical weight and density of fabric. Higher GSM generally means thicker, heavier material (e.g. 400+ GSM fleece vs 150 GSM summer t-shirt).' },
-      { q: 'What is a good thread count for bed sheets?', a: 'For quality cotton bed sheets, a thread count between 300 and 500 is considered ideal for softness, breathability, and durability.' },
+      { q: 'What does GSM mean in fabric?', a: 'GSM stands for Grams per Square Meter (g/m²) and measures the areal density of fabric. Higher GSM indicates heavier, thicker fabric (e.g. 480 GSM heavy fleece vs 150 GSM lightweight t-shirt).' },
+      { q: 'How do you convert GSM to oz/yd²?', a: 'Divide GSM by 33.906 (or multiply by 0.0294935). For example, a 480 GSM heavyweight cotton fleece equals approximately 14.16 oz/yd².' },
+      { q: 'How do you convert oz/yd² to GSM?', a: 'Multiply ounces per square yard by 33.906. For example, a classic 10 oz/yd² canvas duck fabric equals approximately 339.06 GSM.' },
     ],
   },
   astronomy: {
@@ -563,7 +570,7 @@ export const categoryContent: Record<string, CategoryContent> = {
     title: 'IEEE-754 Floating-Point Converter — FP16, FP32, FP64 & Hex Float',
     metaDesc: 'Interactive IEEE-754 floating point converter. Inspect sign bit, exponent bias, and mantissa precision for FP16, FP32 single, and FP64 double.',
     h1: 'IEEE-754 Floating-Point Visualizer & Bitfield Inspector',
-    intro: 'Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and NaN.',
+    intro: 'Analyze IEEE-754 floating point representations. Visualizes the sign bit, biased exponent, and mantissa for 16-bit half precision, 32-bit single precision, and 64-bit double precision. Identifies subnormals, infinities, and special Not-a-Number representations.',
     popularPairs: [
       { from: 'dec_real', to: 'fp32', desc: 'real → fp32 — decimal real number to 32-bit single precision IEEE-754' },
       { from: 'fp32', to: 'dec_real', desc: 'fp32 → real — 32-bit single precision bitfield to decimal real' },
@@ -673,22 +680,6 @@ export const categoryContent: Record<string, CategoryContent> = {
     faq: [
       { q: 'What percentage is a 3.00 CGPA in Pakistan under HEC?', a: 'Under standard HEC semester rules, a 3.00 CGPA corresponds to approximately 72% to 74% aggregate marks, representing a strong First Division (B Grade).' },
       { q: 'What is the standard MDCAT aggregate formula in Pakistan?', a: 'The PMDC formula calculates aggregate as: 50% MDCAT score + 40% FSc Pre-Medical + 10% Matriculation.' },
-    ],
-  },
-  'cricket-overs': {
-    title: 'Cricket Overs to Balls Converter — Run Rate & ICC Net Run Rate (NRR)',
-    metaDesc: 'Convert cricket overs (e.g. 14.3) to legal deliveries (balls) and true decimal overs (14.50). Essential for accurate Run Rate & ICC Net Run Rate (NRR).',
-    h1: 'Cricket Overs (Base-6), Legal Balls & Net Run Rate (NRR) Converter',
-    intro: 'Accurately convert cricket overs notation into legal deliveries and true decimal overs. Because cricket uses a base-6 ball count (6 balls per over), writing "14.3 overs" is notation for 14 overs and 3 balls (87 balls), which equals 14.50 true decimal overs for run rate and ICC Net Run Rate (NRR) calculations.',
-    popularPairs: [
-      { from: 'overs_balls', to: 'balls', desc: 'cricket overs → balls — cricket overs notation (e.g. 14.3) to legal deliveries' },
-      { from: 'overs_balls', to: 'true_overs', desc: 'cricket overs → decimal overs — cricket notation to true decimal overs for run rate' },
-    ],
-    useCases: ['ICC Tournament Net Run Rate (NRR) calculations', 'Live match run rate and required run rate (RRR) analysis', 'Bowler economy rate calculation (Runs / True Decimal Overs)', 'Cricket database statistics & scorebook bookkeeping'],
-    formula: 'Total Balls = (Floor(Overs) × 6) + Remainder Balls. True Decimal Overs = Total Balls ÷ 6. Run Rate = Total Runs ÷ True Decimal Overs.',
-    faq: [
-      { q: 'Why is 14.3 overs not equal to 14.30 decimal overs?', a: 'Cricket overs are recorded in base-6, not base-10. The ".3" means 3 balls out of 6 (3/6 = 0.50). Therefore, 14.3 overs equals exactly 14.50 true decimal overs.' },
-      { q: 'How does ICC calculate Net Run Rate (NRR)?', a: 'NRR = (Total Runs Scored ÷ Total True Decimal Overs Faced) − (Total Runs Conceded ÷ Total True Decimal Overs Bowled). If a team is bowled out before completing their overs, the full quota of overs (e.g., 20 or 50) is used.' },
     ],
   },
   typography: {

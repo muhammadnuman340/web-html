@@ -83,6 +83,14 @@
 /guides/cricket-overs-to-balls-nrr      https://toolshub.numanxstudio.com/tools/cricket-over-calculator/ 301
 
 # ------------------------------------------------------------------------------
+# 1c. Quality Retires & Domain Scoping (301 Permanent Redirects)
+# ------------------------------------------------------------------------------
+/convert/textile/gsm-to-thread-count    /convert/textile                                               301
+/health                                 https://toolshub.numanxstudio.com/tools/bmi-calculator/       301
+/convert/cricket-overs                  https://toolshub.numanxstudio.com/tools/cricket-over-calculator/ 301
+/convert/cricket-overs/*                https://toolshub.numanxstudio.com/tools/cricket-over-calculator/ 301
+
+# ------------------------------------------------------------------------------
 # 2. Client-Side SPA Routes (200 Rewrites to Neutral Shell)
 # ------------------------------------------------------------------------------
 /dashboard                    /spa                     200

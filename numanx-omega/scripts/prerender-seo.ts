@@ -24,7 +24,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { canonicalUrl, getSiteUrl } from '../src/config/site'
 import { PAGE_META, withBrand } from '../src/config/pageMeta'
-import { getPrivacyPolicy, getTerms, getContactPage, buildSecurityTxt, DISCLAIMERS, LEGAL, type LegalDoc } from '../src/config/legal'
+import { getPrivacyPolicy, getTerms, getContactPage, buildSecurityTxt, LEGAL, type LegalDoc } from '../src/config/legal'
 import {
   buildGlobalSiteSchema,
   buildHomeSchema,
@@ -238,10 +238,7 @@ const homeStaticHtml = `
           <h3 style="margin-top:0;"><a href="/calculator" style="color:#0066cc;text-decoration:none;">Engineering Calculator</a></h3>
           <p style="font-size:0.9rem;color:#555;">Full-featured scientific calculator with trigonometric functions, memory registers, and formula history.</p>
         </div>
-        <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
-          <h3 style="margin-top:0;"><a href="/health" style="color:#0066cc;text-decoration:none;">Health & Biometrics</a></h3>
-          <p style="font-size:0.9rem;color:#555;">BMI, Basal Metabolic Rate (BMR), Ideal Body Weight, and daily water hydration calculators.</p>
-        </div>
+
         <div style="border:1px solid #ddd;border-radius:8px;padding:1rem;">
           <h3 style="margin-top:0;"><a href="/blog" style="color:#0066cc;text-decoration:none;">Guides & Blog</a></h3>
           <p style="font-size:0.9rem;color:#555;">In-depth metrological guides, fractional tape measure tips, and imperial vs metric tutorials.</p>
@@ -507,9 +504,8 @@ const corePages: PrerenderPageConfig[] = [
           </p>
         </section>
         <section>
-          <h2>Specialized Financial & Health Tools</h2>
+          <h2>Specialized Engineering Tools</h2>
           <p>
-            <a href="/health">Health Biometrics</a> ·
             <a href="/calculator">Scientific Calculator</a>
           </p>
         </section>
@@ -555,46 +551,6 @@ const corePages: PrerenderPageConfig[] = [
     `,
   },
   {
-    routePath: '/health',
-    title: PAGE_META['/health'].title,
-    description: PAGE_META['/health'].description,
-    schema: buildCorePageSchema(
-      '/health',
-      PAGE_META['/health'].title,
-      PAGE_META['/health'].description,
-      { applicationCategory: 'HealthApplication' }
-    ),
-    staticBodyHtml: `
-      <main class="max-w-4xl mx-auto p-6 space-y-6" style="font-family:system-ui,sans-serif;">
-        <nav aria-label="Breadcrumb" style="font-size:0.85rem;color:#666;margin-bottom:1rem;">
-          <a href="/">Home</a> / <strong>Health</strong>
-        </nav>
-        <header>
-          <h1 style="font-size:2rem;font-weight:700;">Health & Biometric Calculators</h1>
-          <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Evidence-based biometric calculations for fitness, nutrition, and physiological assessment based on World Health Organization (WHO) and clinical formulas.
-          </p>
-        </header>
-        <section>
-          <h2>Supported Biometric Tools</h2>
-          <ul>
-            <li><strong>Body Mass Index (BMI):</strong> Calculates ratio of weight to height according to standard WHO weight classifications.</li>
-            <li><strong>Basal Metabolic Rate (BMR):</strong> Estimates daily resting calorie expenditure using the Mifflin-St Jeor equation.</li>
-          </ul>
-        </section>
-        <section>
-          <h2>How BMI is calculated</h2>
-          <p>BMI = weight (kg) ÷ height (m)². Adult categories follow the World Health Organization: under 18.5 is underweight, 18.5 to 24.9 is normal, 25 to 29.9 is overweight and 30 or more is obese. For example, 70 kg at 1.75 m gives a BMI of 22.9 (normal).</p>
-        </section>
-        <section>
-          <h2>How BMR is calculated</h2>
-          <p>The Mifflin-St Jeor equation estimates calories burned at rest, using weight in kg, height in cm and age in years: men = 10 × weight + 6.25 × height − 5 × age + 5; women = 10 × weight + 6.25 × height − 5 × age − 161. A 30-year-old man at 70 kg and 175 cm has a BMR of about 1,649 kcal per day.</p>
-        </section>
-        <p style="font-size:0.85rem;color:#666;">${DISCLAIMERS.health} See our <a href="/terms">Terms of Use</a>.</p>
-      </main>
-    `,
-  },
-  {
     routePath: '/sitemap',
     title: PAGE_META['/sitemap'].title,
     description: PAGE_META['/sitemap'].description,
@@ -624,7 +580,6 @@ const corePages: PrerenderPageConfig[] = [
             <li><a href="/categories">All Categories</a></li>
             <li><a href="/formulas">Formulas Reference</a></li>
             <li><a href="/calculator">Engineering Calculator</a></li>
-            <li><a href="/health">Health & Biometrics</a></li>
             <li><a href="/blog">Metrology Blog</a></li>
             <li><a href="/about">About Omega X Converter</a></li>
             <li><a href="/sitemap">Sitemap</a></li>
@@ -673,7 +628,7 @@ for (const p of corePages) {
 // ==========================================
 // 3. 24 CANONICAL CATEGORIES (/convert/:id)
 // ==========================================
-console.log('⚡ Prerendering 24 Canonical Categories ...')
+console.log(`⚡ Prerendering ${Categories.length} Canonical Categories ...`)
 
 for (const cat of Categories) {
   const content = categoryContent[cat.id]
@@ -1115,17 +1070,17 @@ for (const guide of Object.values(guideContent)) {
             <caption style="text-align:left;font-weight:600;margin-bottom:0.5rem;">${guide.h1} Conversion Reference Values</caption>
             <thead style="background:#f0f0f0;">
               <tr>
-                <th scope="col">Value</th>
-                <th scope="col">Exact</th>
-                <th scope="col">Approximate</th>
+                <th scope="col">Input Value</th>
+                <th scope="col">Exact Value</th>
+                <th scope="col">Everyday Rounded</th>
               </tr>
             </thead>
             <tbody>
               ${guide.table.map(row => `
                 <tr>
-                  <td>${row.val}</td>
-                  <td><strong>${row.exact}</strong></td>
-                  <td>${row.approx}</td>
+                  <td>${escapeHtml(String(row.from))}</td>
+                  <td><strong>${escapeHtml(String(row.to))}</strong></td>
+                  <td>${escapeHtml(String(row.rounded))}</td>
                 </tr>
               `).join('')}
             </tbody>

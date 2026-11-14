@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useState, useCallback, useMemo } from 'react'
 import SEOHead from '../components/ui/SEOHead'
 import { PAGE_META } from '../config/pageMeta'
-import Disclaimer from '../components/ui/Disclaimer'
 import UniversalConverter from '../components/converter/UniversalConverter'
 import GlassCard from '../components/ui/GlassCard'
 import AIDashboardInsights from '../components/widgets/AIDashboardInsights'
@@ -15,7 +14,7 @@ import { fmt } from '../utils/numbers'
 import { getAllChains } from '../engine/conversionChains'
 
 const TABS = [
-  { id: 'convert', icon: '🔄', label: 'Convert' },  { id: 'health', icon: '❤️', label: 'Health' },
+  { id: 'convert', icon: '🔄', label: 'Convert' },
   { id: 'chains', icon: '⛓', label: 'Chains' },
   { id: 'insights', icon: '📊', label: 'Insights' },
 ]
@@ -70,7 +69,7 @@ export default function Dashboard() {
         <motion.div key={activeTab} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }}>
           {activeTab === 'convert' && (
             <GlassCard><UniversalConverter onHistoryAdd={handleHistoryAdd} /></GlassCard>
-          )}          {activeTab === 'health' && <HealthTab />}
+          )}
           {activeTab === 'chains' && <ChainsTab chains={chains} navigate={navigate} />}
           {activeTab === 'insights' && <InsightsTab summary={summary} analytics={analytics} />}
         </motion.div>
@@ -154,64 +153,7 @@ export default function Dashboard() {
   )
 }
 
-function HealthTab() {
-  const [weight, setWeight] = useState('70')
-  const [height, setHeight] = useState('175')
-  const [age, setAge] = useState('30')
-  const [gender, setGender] = useState('male')
 
-  const w = parseFloat(weight); const h = parseFloat(height) / 100; const a = parseFloat(age)
-  const bmi = w && h ? w / (h * h) : null
-  const bmr = w && h && a ? gender === 'male' ? 10 * w + 6.25 * parseFloat(height) - 5 * a + 5 : 10 * w + 6.25 * parseFloat(height) - 5 * a - 161 : null
-  const bmiCategory = bmi ? (bmi < 18.5 ? 'Underweight' : bmi < 25 ? 'Normal' : bmi < 30 ? 'Overweight' : 'Obese') : ''
-
-  return (
-    <GlassCard>
-      <div className="space-y-4">
-        <div className="text-xs font-semibold uppercase tracking-wide opacity-60"><span aria-hidden="true">❤️</span> Health Calculator</div>
-        <div className="grid grid-cols-3 gap-3">
-          <div>
-            <label htmlFor="health-weight" className="text-xs opacity-50 mb-1 block">Weight (kg)</label>
-            <input id="health-weight" type="number" value={weight} onChange={e => setWeight(e.target.value)}
-              aria-label="Weight in kilograms"
-              className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
-          </div>
-          <div>
-            <label htmlFor="health-height" className="text-xs opacity-50 mb-1 block">Height (cm)</label>
-            <input id="health-height" type="number" value={height} onChange={e => setHeight(e.target.value)}
-              aria-label="Height in centimeters"
-              className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
-          </div>
-          <div>
-            <label htmlFor="health-age" className="text-xs opacity-50 mb-1 block">Age</label>
-            <input id="health-age" type="number" value={age} onChange={e => setAge(e.target.value)}
-              aria-label="Age in years"
-              className="w-full p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-sm outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
-          </div>
-        </div>
-        <div role="radiogroup" aria-label="Biological sex for metabolic rate calculation" className="flex gap-2">
-          <button type="button" role="radio" aria-checked={gender === 'male'} onClick={() => setGender('male')}
-            className={`px-5 py-2 rounded-xl text-xs font-medium interact-lift transition-all ${
-              gender === 'male' ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]' : 'glass hover:bg-[var(--border)]'
-            }`}>Male</button>
-          <button type="button" role="radio" aria-checked={gender === 'female'} onClick={() => setGender('female')}
-            className={`px-5 py-2 rounded-xl text-xs font-medium interact-lift transition-all ${
-              gender === 'female' ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]' : 'glass hover:bg-[var(--border)]'
-            }`}>Female</button>
-        </div>
-        {bmi && (
-          <div className="text-center py-2">
-            <span className="text-3xl font-bold gradient-horizontal bg-clip-text text-transparent">{fmt(bmi, 1)}</span>
-            <span className="text-sm opacity-60 ml-2">BMI</span>
-            <div className={`text-xs mt-1 font-medium ${bmiCategory === 'Normal' ? 'text-[var(--success)]' : 'text-[var(--warning)]'}`}>{bmiCategory}</div>
-          </div>
-        )}
-        {bmr && <div className="text-center"><span className="text-2xl font-bold">{fmt(bmr, 0)}</span><span className="text-sm opacity-60 ml-2">kcal/day BMR</span></div>}
-        <Disclaimer kind="health" />
-      </div>
-    </GlassCard>
-  )
-}
 
 function ChainsTab({ chains, navigate }: { chains: ReturnType<typeof getAllChains>; navigate: ReturnType<typeof useNavigate> }) {
   return (

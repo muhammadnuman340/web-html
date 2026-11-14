@@ -75,10 +75,14 @@ export function AdSlotRail({ className = '' }: { className?: string }) {
     if (isPro) return
 
     if ('requestIdleCallback' in window) {
-      const handle = (window as any).requestIdleCallback(() => setMounted(true), { timeout: 2000 })
+      const win = window as unknown as {
+        requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number
+        cancelIdleCallback: (id: number) => void
+      }
+      const handle = win.requestIdleCallback(() => setMounted(true), { timeout: 2000 })
       return () => {
         if ('cancelIdleCallback' in window) {
-          ;(window as any).cancelIdleCallback(handle)
+          win.cancelIdleCallback(handle)
         }
       }
     } else {

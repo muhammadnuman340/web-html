@@ -7,7 +7,8 @@ import { getAllCategories, convert } from '../engine/converter'
 import { fmt } from '../utils/numbers'
 import { useTilt } from '../hooks/useTilt'
 import { buildCategoriesDirectorySchema } from '../config/schema'
-import type { CategoryDef } from '../types'
+import { categoryContent } from '../engine/categoryContent'
+import type { CategoryDef, UnitDef } from '../types'
 
 function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
   const { ref, style } = useTilt<HTMLDivElement>(10)
@@ -15,7 +16,34 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
   const [quickVal, setQuickVal] = useState('')
   const [quickResult, setQuickResult] = useState<number | null>(null)
   const quickRef = useRef<HTMLDivElement>(null)
-  const previewVal = useMemo(() => cat.un.length >= 2 ? convert(1, cat.id, cat.un[0].id, cat.un[1].id) : null, [cat])
+
+  // Resolve dimensionally valid pairs for display and quick convert
+  const samplePairs = useMemo(() => {
+    const content = categoryContent[cat.id]
+    if (content?.popularPairs && content.popularPairs.length > 0) {
+      const resolved: { from: UnitDef; to: UnitDef }[] = []
+      for (const p of content.popularPairs.slice(0, 3)) {
+        const fu = cat.un.find(u => u.lb.toLowerCase() === p.from.toLowerCase() || u.id.toLowerCase() === p.from.toLowerCase())
+          || cat.un.find(u => u.al?.some(a => a.toLowerCase() === p.from.toLowerCase()))
+        const tu = cat.un.find(u => u.lb.toLowerCase() === p.to.toLowerCase() || u.id.toLowerCase() === p.to.toLowerCase())
+          || cat.un.find(u => u.al?.some(a => a.toLowerCase() === p.to.toLowerCase()))
+        if (fu && tu && (!fu.dim || !tu.dim || fu.dim === tu.dim)) {
+          resolved.push({ from: fu, to: tu })
+        }
+      }
+      if (resolved.length > 0) return resolved
+    }
+    const fu = cat.un[0]
+    if (!fu) return []
+    const sameDimUnits = cat.un.filter(u => !fu.dim || !u.dim || u.dim === fu.dim)
+    return sameDimUnits.slice(0, 3).map(u => ({ from: fu, to: u }))
+  }, [cat])
+
+  const primaryPair = samplePairs.find(p => p.from.id !== p.to.id) || samplePairs[0] || null
+  const previewVal = useMemo(() => {
+    if (!primaryPair) return null
+    return convert(1, cat.id, primaryPair.from.id, primaryPair.to.id)
+  }, [cat, primaryPair])
 
   useEffect(() => {
     if (!showQuick) return
@@ -29,8 +57,8 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
   const handleQuick = (val: string) => {
     setQuickVal(val)
     const v = parseFloat(val)
-    if (!isNaN(v) && cat.un.length >= 2) {
-      setQuickResult(convert(v, cat.id, cat.un[0].id, cat.un[1].id))
+    if (!isNaN(v) && primaryPair) {
+      setQuickResult(convert(v, cat.id, primaryPair.from.id, primaryPair.to.id))
     } else {
       setQuickResult(null)
     }
@@ -61,12 +89,12 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
         </div>
 
         <div className="text-xs text-[var(--text2)] opacity-80 space-y-0.5">
-          {cat.un.slice(0, 3).map(u => {
-            const pv = convert(1, cat.id, cat.un[0]?.id || u.id, u.id)
+          {samplePairs.map(pair => {
+            const pv = convert(1, cat.id, pair.from.id, pair.to.id)
             return (
-              <div key={u.id} className="flex justify-between">
-                <span>1 {cat.un[0]?.lb}</span>
-                <span>= {pv !== null ? fmt(pv, 2) : '—'} {u.lb}</span>
+              <div key={`${pair.from.id}-${pair.to.id}`} className="flex justify-between">
+                <span>1 {pair.from.lb}</span>
+                <span>= {pv !== null ? fmt(pv, 2) : '—'} {pair.to.lb}</span>
               </div>
             )
           })}
@@ -85,10 +113,10 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
           )}
         </div>
 
-        {previewVal !== null && (
+        {previewVal !== null && primaryPair && (
           <div className="mt-2 pt-2 border-t border-[var(--border)] text-xs text-[var(--text2)] opacity-80 flex items-center justify-between">
-            <span>1 {cat.un[0]?.lb}</span>
-            <span>≈ {fmt(previewVal, 2)} {cat.un[1]?.lb}</span>
+            <span>1 {primaryPair.from.lb}</span>
+            <span>≈ {fmt(previewVal, 2)} {primaryPair.to.lb}</span>
           </div>
         )}
       </Link>
@@ -104,14 +132,14 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
             type="text"
             value={quickVal}
             onChange={e => handleQuick(e.target.value)}
-            placeholder={`Value in ${cat.un[0]?.lb}...`}
+            placeholder={`Value in ${primaryPair?.from.lb || cat.un[0]?.lb}...`}
             className="w-full p-2 rounded-lg border border-[var(--border)] bg-[var(--bg)] text-xs text-[var(--text)] outline-none focus:border-[var(--primary)] transition-colors"
             autoFocus
-            aria-label={`Quick convert value in ${cat.un[0]?.lb}`}
+            aria-label={`Quick convert value in ${primaryPair?.from.lb || cat.un[0]?.lb}`}
           />
           {quickResult !== null && (
             <div className="text-xs mt-2 font-medium text-[var(--primary)] text-center">
-              {quickVal} {cat.un[0]?.lb} = {fmt(quickResult, 4)} {cat.un[1]?.lb}
+              {quickVal} {primaryPair?.from.lb} = {fmt(quickResult, 4)} {primaryPair?.to.lb}
             </div>
           )}
         </div>

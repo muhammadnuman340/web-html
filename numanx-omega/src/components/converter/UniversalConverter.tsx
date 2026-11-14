@@ -106,6 +106,14 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     return filtered.length > 0 ? filtered : cat.un
   }, [cat, hideCategoryPicker, unitFamily])
 
+  const compatibleToUnits = useMemo(() => {
+    if (!cat) return []
+    const fu = cat.un.find(u => u.id === fromUnit)
+    if (!fu?.dim) return availableUnits
+    const filtered = availableUnits.filter(u => !u.dim || u.dim === fu.dim)
+    return filtered.length > 0 ? filtered : availableUnits
+  }, [cat, fromUnit, availableUnits])
+
   const handleUnitFamilyChange = (famId: string) => {
     setUnitFamily(famId)
     if (!cat) return
@@ -164,6 +172,19 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catId, initialFrom, initialTo])
+
+  useEffect(() => {
+    if (cat && fromUnit) {
+      const fu = cat.un.find(u => u.id === fromUnit)
+      if (fu?.dim) {
+        const tu = cat.un.find(u => u.id === toUnit)
+        if (tu?.dim && tu.dim !== fu.dim) {
+          const nextTu = cat.un.find(u => u.dim === fu.dim && u.id !== fu.id) || cat.un.find(u => u.dim === fu.dim)
+          if (nextTu) setToUnit(nextTu.id)
+        }
+      }
+    }
+  }, [cat, fromUnit, toUnit])
 
   // Save defaults when units change
 
@@ -792,7 +813,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                         aria-label="Target unit"
                         className="bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border-control)] rounded-lg px-2.5 py-1.5 text-xs font-medium outline-none min-h-[44px] cursor-pointer focus:border-[var(--primary)]"
                       >
-                        {availableUnits.map(u => (
+                        {compatibleToUnits.map(u => (
                           <option key={u.id} value={u.id}>
                             {u.lb} ({u.id})
                           </option>
@@ -1595,7 +1616,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           <select value={toUnit} onChange={e => setToUnit(e.target.value)}
             aria-label="Target unit"
             className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
-            {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
+            {compatibleToUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
       </div>

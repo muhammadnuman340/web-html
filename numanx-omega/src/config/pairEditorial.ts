@@ -80,6 +80,9 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   'true-overs': 'true_overs',
   'run-rate-6': 'run_rate_6',
   'oz-yd2': 'oz_yd2',
+  'textile:oz': 'oz_yd2',
+  'textile:oz-yd2': 'oz_yd2',
+  'textile:gsm': 'gsm',
   'momme': 'momme',
   // Area
   'square-meter': 'm2',
@@ -1245,10 +1248,15 @@ const PAIR_USE_CASES: Record<string, PairEditorialUseCases[]> = {
     { domain: 'Infant Feeding & Formula Bottle Preparation', context: 'Measuring baby bottle liquid volumes accurately for powdered infant formula reconstitution.' },
     { domain: 'Specialty Coffee Brewing & Extraction', context: 'Translating espresso and pour-over water volumes between customary ounces and metric milliliters.' },
   ],
-  'textile:gsm-to-thread-count': [
-    { domain: 'Luxury Bedding & Linen Sourcing', context: 'Comparing bedsheet softness, durability, and fabric weight across international metric and imperial standards.' },
-    { domain: 'Apparel Fabric Selection & Garment Design', context: 'Selecting appropriate cotton, linen, and synthetic fabric weights for shirts, jackets, and drapery.' },
-    { domain: 'Commercial Printing & Canvas Substrates', context: 'Specifying fabric weight and weave density for custom banners, upholstery, and fine art canvases.' },
+  'textile:gsm-to-oz': [
+    { domain: 'Fashion & Streetwear', context: 'Converting metric fabric weights to US ounces per square yard for hoodies, t-shirts, and cut-and-sew tech packs.' },
+    { domain: 'Textile Sourcing & Importing', context: 'Validating international mill specifications (g/m²) against US customs and retail merchandise standards (oz/yd²).' },
+    { domain: 'Canvas & Heavy Goods', context: 'Specifying duck canvas, tote bags, workwear jackets, and marine-grade upholstery fabric weights.' },
+  ],
+  'textile:oz-to-gsm': [
+    { domain: 'Apparel Manufacturing', context: 'Converting US tech pack fabric weights in oz/yd² to metric GSM for overseas knitting mills and dye houses.' },
+    { domain: 'Denim & Workwear', context: 'Translating classic 12 oz, 14 oz, and 16 oz denim and canvas ratings into exact metric grams per square meter.' },
+    { domain: 'Customs & Metrology', context: 'Ensuring import compliance with international fabric weight classification standards under ASTM D3776 and ISO 3801.' },
   ],
   'astronomy:light-year-to-au': [
     { domain: 'Exoplanetary Systems & Stellar Neighborhoods', context: 'Comparing the distance to nearby stars (like Proxima Centauri at 4.24 ly) to our solar system\'s scale in astronomical units.' },
@@ -1651,6 +1659,50 @@ export function getPairEditorial(
 
   let workedExamples: string[] | undefined
   let referenceTable: { label: string; value: string; extra?: string }[] | undefined
+
+  const TEXTILE_WEIGHTS_TABLE = [
+    { label: '120 GSM', value: '3.54 oz/yd²', extra: 'Lightweight undershirts & sheer layering' },
+    { label: '150 GSM', value: '4.42 oz/yd²', extra: 'Standard lightweight summer t-shirts' },
+    { label: '180 GSM', value: '5.31 oz/yd²', extra: 'Midweight everyday crewneck t-shirts' },
+    { label: '200 GSM', value: '5.90 oz/yd²', extra: 'Heavyweight t-shirts & classic polo shirts' },
+    { label: '250 GSM', value: '7.37 oz/yd²', extra: 'Long sleeves & lightweight french terry' },
+    { label: '280 GSM', value: '8.26 oz/yd²', extra: 'Standard pullover hoodies & crewnecks' },
+    { label: '300 GSM', value: '8.85 oz/yd²', extra: 'Heavyweight fleece & sweatpants' },
+    { label: '350 GSM', value: '10.32 oz/yd²', extra: 'Premium streetwear hoodies & loopback terry' },
+    { label: '400 GSM', value: '11.80 oz/yd²', extra: 'Dense canvas & plush cotton bath towels' },
+    { label: '450 GSM', value: '13.27 oz/yd²', extra: 'Heavyweight canvas totes & luxury towels' },
+    { label: '480 GSM', value: '14.16 oz/yd²', extra: 'Ultra-heavyweight luxury streetwear hoodies' },
+    { label: '500 GSM', value: '14.75 oz/yd²', extra: 'Workwear jackets & heavy cotton bath sheets' },
+    { label: '600 GSM', value: '17.70 oz/yd²', extra: 'Marine-grade duck canvas & hotel bath rugs' },
+  ]
+
+  if (cat.id === 'textile' && pairSlug === 'gsm-to-oz') {
+    formulaDisplay = 'oz/yd² = g/m² ÷ 33.906'
+    referenceTable = TEXTILE_WEIGHTS_TABLE
+    workedExamples = [
+      'Formula: oz/yd² = g/m² ÷ 33.906 (or g/m² × 0.0294936)',
+      'Worked Example for 480 GSM: 480 ÷ 33.906 = 14.157 oz/yd² (rounded to 14.16 oz/yd²). A 480 GSM luxury custom streetwear hoodie represents exactly 14.16 ounces per square yard of heavyweight cotton fleece.',
+      'Common Conversions: 180 GSM = 5.31 oz/yd² (crewneck t-shirt) · 300 GSM = 8.85 oz/yd² (heavyweight fleece) · 400 GSM = 11.80 oz/yd² (dense canvas).',
+    ]
+    faqs.push(
+      { question: 'What does 480 GSM equal in ounces per square yard?', answer: '480 GSM equals exactly 14.16 oz/yd² (rounded from 14.157 oz/yd²). This weight is standard for premium luxury heavyweight hoodies and winter streetwear.' },
+      { question: 'Why does 1 oz/yd² equal 33.906 GSM?', answer: 'One square yard equals 0.836127 square meters, and one avoirdupois ounce equals 28.349523 grams. Dividing 28.349523 grams by 0.836127 square meters yields exactly 33.9057474 g/m² (rounded to 33.906 g/m²).' },
+    )
+  }
+
+  if (cat.id === 'textile' && pairSlug === 'oz-to-gsm') {
+    formulaDisplay = 'g/m² = oz/yd² × 33.906'
+    referenceTable = TEXTILE_WEIGHTS_TABLE.map(r => ({ label: r.value, value: r.label, extra: r.extra }))
+    workedExamples = [
+      'Formula: g/m² = oz/yd² × 33.906',
+      'Worked Example for 14.16 oz/yd²: 14.157 oz/yd² × 33.906 = 480.0 g/m² (480 GSM). 14.16 ounces per square yard corresponds to the benchmark 480 GSM fabric weight used in ultra-heavyweight streetwear hoodies.',
+      'Common Conversions: 5.31 oz/yd² = 180 GSM · 8.85 oz/yd² = 300 GSM · 11.80 oz/yd² = 400 GSM · 14.75 oz/yd² = 500 GSM.',
+    ]
+    faqs.push(
+      { question: 'What does 14.16 oz/yd² equal in GSM?', answer: '14.16 oz/yd² equals exactly 480 GSM (grams per square meter), standard for ultra-heavyweight luxury streetwear hoodies.' },
+      { question: 'How do you convert oz/yd² to GSM in apparel manufacturing?', answer: 'Multiply the oz/yd² fabric weight by 33.906. For example, 10 oz/yd² denim equals approximately 339 GSM, and 14 oz/yd² heavy denim equals approximately 475 GSM.' },
+    )
+  }
 
   if (cat.id === 'temp' && pairSlug === 'celsius-to-fahrenheit') {
     workedExamples = [

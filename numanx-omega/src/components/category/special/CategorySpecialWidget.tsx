@@ -20,7 +20,6 @@ const FrequencyVisualizer = lazy(() => import('./FrequencyVisualizer'))
 const DensityVisualizer = lazy(() => import('./DensityVisualizer'))
 const NumberBaseVisualizer = lazy(() => import('./NumberBaseVisualizer'))
 const Ieee754Visualizer = lazy(() => import('./Ieee754Visualizer'))
-const CricketOversVisualizer = lazy(() => import('./CricketOversVisualizer'))
 const PkNumberingVisualizer = lazy(() => import('./PkNumberingVisualizer'))
 
 interface Props {
@@ -70,8 +69,6 @@ function renderWidget(category: string) {
       return <NumberBaseVisualizer />
     case 'ieee-754':
       return <Ieee754Visualizer />
-    case 'cricket-overs':
-      return <CricketOversVisualizer />
     case 'pk-numbering':
       return <PkNumberingVisualizer />
     default:

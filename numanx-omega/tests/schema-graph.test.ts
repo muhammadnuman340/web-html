@@ -69,7 +69,7 @@ describe('Phase 3 Step 3: Schema Graph Architecture & Identity Integrity', () =>
     assert.ok((webApp.featureList as string[]).length >= 8)
   })
 
-  test('categories directory schema resolves 36-item ItemList with exact count parity', () => {
+  test('categories directory schema resolves 35-item ItemList with exact count parity', () => {
     const schema = buildCategoriesDirectorySchema(Categories)
     const types = schema['@graph'].map(n => n['@type'])
 
@@ -79,12 +79,12 @@ describe('Phase 3 Step 3: Schema Graph Architecture & Identity Integrity', () =>
 
     const itemList = schema['@graph'].find(n => n['@type'] === 'ItemList') as Record<string, unknown>
     assert.ok(itemList)
-    assert.equal(itemList.numberOfItems, 36, 'ItemList declared count must equal exactly 36')
+    assert.equal(itemList.numberOfItems, 35, 'ItemList declared count must equal exactly 35')
 
     const elements = itemList.itemListElement as Array<{ '@type': string; position: number; name: string; item: string }>
-    assert.equal(elements.length, 36, 'ItemList must contain exactly 36 category entries')
+    assert.equal(elements.length, 35, 'ItemList must contain exactly 35 category entries')
 
-    // Verify sequential positions 1..36
+    // Verify sequential positions 1..35
     elements.forEach((el, idx) => {
       assert.equal(el.position, idx + 1)
       assert.ok(el.name.endsWith(' Converter'))
@@ -179,7 +179,6 @@ describe('Phase 3 Step 3: Schema Graph Architecture & Identity Integrity', () =>
     const coreRoutes = [
       { path: '/about', type: 'AboutPage' },
       { path: '/calculator', type: 'WebApplication' },
-      { path: '/health', type: 'WebApplication' },
       { path: '/sitemap', type: 'CollectionPage' },
     ]
 

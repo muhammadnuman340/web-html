@@ -41,7 +41,6 @@ const About = lazy(() => import('./pages/About'))
 const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))
-const OnboardingTour = lazy(() => import('./components/ui/OnboardingTour'))
 const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))
 const ProPassModal = lazy(() => import('./components/monetization/ProPassModal'))
 
@@ -182,9 +181,6 @@ function AppContent() {
         </Suspense>
       )}
       <AIFloatingButton open={aiAssistantOpen} onToggle={() => setAiAssistantOpen(p => !p)} />
-      <Suspense fallback={null}>
-        <OnboardingTour />
-      </Suspense>
 
       <AmbientBackground />
       <div className="relative z-10 flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
@@ -249,7 +245,6 @@ function AppContent() {
                       <Route path="/custom-units" element={<CustomUnits />} />
                       <Route path="/help" element={<Help />} />
                       <Route path="/calculator" element={<ConverterPage mode={mode} />} />
-                      <Route path="/health" element={<Dashboard />} />
                       <Route path="/guides" element={<GuidesHub />} />
                       <Route path="/guides/:slug" element={<GuidePage />} />
                       <Route path="/blog" element={<Blog />} />

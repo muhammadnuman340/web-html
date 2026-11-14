@@ -59,8 +59,6 @@ All primary interactive features are accessed via deterministic canonical URLs:
   Interactive directory of algebraic conversion formulas, dimensional scale factors, and mathematical definitions.
 - **Scientific Calculator:** ${canonicalUrl('/calculator')}
   Client-side mathematical calculator with standard arithmetic, trigonometry, powers, and logs.
-- **Health Metrics:** ${canonicalUrl('/health')}
-  Body Mass Index (BMI), Basal Metabolic Rate (BMR), and daily energy requirement calculators.
 - **Educational Blog:** ${canonicalUrl('/blog')}
   Engineering, metrology, and unit history articles written by NumanX Studio editorial teams.
 - **About & Standards:** ${canonicalUrl('/about')}
@@ -72,7 +70,7 @@ All primary interactive features are accessed via deterministic canonical URLs:
 - **Privacy Policy:** ${canonicalUrl('/privacy')}
   No accounts, ads, cookies or analytics; history and settings stay in the browser's local storage.
 - **Terms of Use:** ${canonicalUrl('/terms')}
-  Accuracy, third-party price data, health calculator limits, acceptable use and CC BY 4.0 content licensing.
+  Accuracy, third-party price data, acceptable use and CC BY 4.0 content licensing.
 `)
 
   sections.push(`## 3. Supported Measurement Categories (${Categories.length} Categories)
@@ -211,14 +209,13 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Categories Directory](${canonicalUrl('/categories')}): Complete index of all ${Categories.length} conversion categories with unit counts and reference standards.
 - [Formula Explorer](${canonicalUrl('/formulas')}): Mathematical conversion formulas, dimensional constants, and algebraic transformation rules.
 - [Scientific Calculator](${canonicalUrl('/calculator')}): Standard and scientific arithmetic calculator with trigonometric, logarithmic, and power functions.
-- [Health & Fitness Metrics](${canonicalUrl('/health')}): Body mass index (BMI), basal metabolic rate (BMR), and daily energy expenditure calculators.
 - [Educational Blog](${canonicalUrl('/blog')}): Technical articles on metrology, fractional machinist units, historical systems, and data prefixes.
 - [Conversion Guides Hub](${canonicalUrl('/guides')}): Step-by-step conversion guides with formula derivations, worked examples, and reference tables across scientific, regional, and computing units.
 - [About & Standards Methodology](${canonicalUrl('/about')}): Overview of conversion engine architecture, institutional standards citations (NIST, BIPM, ISO, CODATA), and project governance.
 - [HTML Sitemap](${canonicalUrl('/sitemap')}): Authoritative index of every canonical public page.
 - [Contact](${canonicalUrl('/contact')}): How to report a wrong conversion, a security issue or a privacy question.
 - [Privacy Policy](${canonicalUrl('/privacy')}): No accounts, ads, cookies or analytics; history and settings stay in the browser.
-- [Terms of Use](${canonicalUrl('/terms')}): Accuracy, third-party price data, health calculator limits and content licensing.
+- [Terms of Use](${canonicalUrl('/terms')}): Accuracy, third-party price data and content licensing.
 
 ## Category Landings
 
@@ -253,7 +250,6 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Matrix & Array Formats](${canonicalUrl('/convert/matrix-format')}): CSV grids, LaTeX bmatrix/pmatrix, Python NumPy, MATLAB, and JSON 2D arrays.
 - [Scientific & Parts-Per](${canonicalUrl('/convert/scientific-notation')}): Standard decimal, engineering notation, ppm, ppb, and percentages.
 - [HEC GPA & Marks](${canonicalUrl('/convert/pk-gpa')}): Pakistani HEC 4.00/5.00 CGPA, percentage marks, matric/FSc, and MDCAT aggregate.
-- [Cricket Base-6 Overs](${canonicalUrl('/convert/cricket-overs')}): Cricket overs notation (14.3), legal balls (87), and true decimal overs (14.50) for ICC Net Run Rate (NRR).
 
 ## Educational Guides
 

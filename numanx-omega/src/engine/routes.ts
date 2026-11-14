@@ -44,7 +44,6 @@ export const STATIC_ROUTES: StaticRouteDef[] = [
   { path: '/dashboard', label: 'Dashboard', type: 'feature', description: 'Analytics and usage control center' },
   { path: '/formulas', label: 'Formula Explorer', type: 'feature', description: 'Interactive scientific and engineering formulas' },
   { path: '/calculator', label: 'Calculator', type: 'feature', description: 'Quick calculation and conversion interface' },
-  { path: '/health', label: 'Health Hub', type: 'feature', description: 'BMI, BMR, and body composition calculators' },
   { path: '/favorites', label: 'Favorites', type: 'utility', description: 'Bookmarked conversion pairs' },
   { path: '/history', label: 'History', type: 'utility', description: 'Calculation history and log' },
   { path: '/custom-units', label: 'Custom Units', type: 'utility', description: 'User-defined custom unit manager' },

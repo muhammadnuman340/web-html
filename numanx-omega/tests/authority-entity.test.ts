@@ -210,20 +210,20 @@ describe('Phase 3 Step 6 — GEO Authority, Source Citations & Entity Harmonizat
     })
   })
 
-  describe('6. Health Page Schema Verification', () => {
-    test('/health page schema emits WebApplication with applicationCategory: HealthApplication', () => {
+  describe('6. Core Application Schema Verification', () => {
+    test('/calculator page schema emits WebApplication with applicationCategory: UtilitiesApplication', () => {
       const schema = buildCorePageSchema(
-        '/health',
-        'Health & Biometrics — Body Mass Index (BMI), BMR & Water Intake Calculator | Omega X',
-        'Health calculator description',
-        { pageType: 'WebApplication', applicationCategory: 'HealthApplication' }
+        '/calculator',
+        'Scientific Calculator | Omega X',
+        'Scientific calculator description',
+        { pageType: 'WebApplication', applicationCategory: 'UtilitiesApplication' }
       )
       assert.ok(schema)
       assert.ok(schema['@graph'])
       const graph = schema['@graph'] as Record<string, unknown>[]
       const webApp = graph.find(item => item['@type'] === 'WebApplication')
       assert.ok(webApp, 'Schema must contain @type: WebApplication')
-      assert.equal(webApp?.applicationCategory, 'HealthApplication')
+      assert.equal(webApp?.applicationCategory, 'UtilitiesApplication')
     })
   })
 })

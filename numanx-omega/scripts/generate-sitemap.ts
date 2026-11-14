@@ -43,7 +43,6 @@ export function generateSitemapEntries(): SitemapEntry[] {
   add('/categories', '0.9', 'weekly')
   add('/formulas', '0.7', 'weekly')
   add('/calculator', '0.7', 'daily')
-  add('/health', '0.6', 'weekly')
   add('/blog', '0.7', 'weekly')
   add('/guides', '0.8', 'weekly')
   add('/about', '0.6', 'monthly')

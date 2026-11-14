@@ -270,16 +270,16 @@ var Categories = [
     ic: "\u{1F50C}",
     cl: "#00e5ff",
     un: [
-      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M" },
-      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M" },
-      { id: "A", lb: "Ampere", r: 1, s: "M" },
-      { id: "V", lb: "Volt", r: 1, s: "M" },
-      { id: "ohm", lb: "Ohm", r: 1, s: "M" },
-      { id: "C", lb: "Coulomb", r: 1, s: "S" },
-      { id: "F", lb: "Farad", r: 1, s: "M" },
-      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M" },
-      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M" },
-      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M" }
+      { id: "uF", lb: "Microfarad", r: 1e-6, s: "M", dim: "capacitance" },
+      { id: "mA", lb: "Milliampere", r: 1e-3, s: "M", dim: "current" },
+      { id: "A", lb: "Ampere", r: 1, s: "M", dim: "current" },
+      { id: "V", lb: "Volt", r: 1, s: "M", dim: "voltage" },
+      { id: "ohm", lb: "Ohm", r: 1, s: "M", dim: "resistance" },
+      { id: "C", lb: "Coulomb", r: 1, s: "S", dim: "charge" },
+      { id: "F", lb: "Farad", r: 1, s: "M", dim: "capacitance" },
+      { id: "kV", lb: "Kilovolt", r: 1e3, s: "M", dim: "voltage" },
+      { id: "kohm", lb: "Kilo-ohm", r: 1e3, s: "M", dim: "resistance" },
+      { id: "Mohm", lb: "Mega-ohm", r: 1e6, s: "M", dim: "resistance" }
     ]
   },
   {
@@ -288,9 +288,9 @@ var Categories = [
     ic: "\u{1F9F2}",
     cl: "#e040fb",
     un: [
-      { id: "G", lb: "Gauss", r: 1e-4, s: "M" },
-      { id: "T", lb: "Tesla", r: 1, s: "M" },
-      { id: "Wb", lb: "Weber", r: 1, s: "S" }
+      { id: "G", lb: "Gauss", r: 1e-4, s: "M", dim: "b_field" },
+      { id: "T", lb: "Tesla", r: 1, s: "M", dim: "b_field" },
+      { id: "Wb", lb: "Weber", r: 1, s: "S", dim: "flux" }
     ]
   },
   {
@@ -418,11 +418,9 @@ var Categories = [
     ic: "\u{1F9F5}",
     cl: "#ab47bc",
     un: [
-      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"] },
-      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz/yd2", "oz/sq yd", "osy", "ounce per square yard"] },
-      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"] },
-      { id: "tc", lb: "Thread Count", r: 1, s: "O" },
-      { id: "yc", lb: "Yarn Count", r: 1, s: "O" }
+      { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"], dim: "areal_density" },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz", "oz/yd2", "oz-yd2", "oz/sq yd", "osy", "ounce per square yard", "ounces per square yard"], dim: "areal_density" },
+      { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"], dim: "areal_density" }
     ]
   },
   {
@@ -431,11 +429,11 @@ var Categories = [
     ic: "\u{1F30C}",
     cl: "#7c4dff",
     un: [
-      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S" },
-      { id: "sm", lb: "Solar Mass", r: 1, s: "S" },
-      { id: "au_a", lb: "AU", r: 1, s: "S" },
-      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S" },
-      { id: "pc_a", lb: "Parsec", r: 206265, s: "S" }
+      { id: "em", lb: "Earth Mass", r: 3003e-9, s: "S", dim: "mass" },
+      { id: "sm", lb: "Solar Mass", r: 1, s: "S", dim: "mass" },
+      { id: "au_a", lb: "AU", r: 1, s: "S", dim: "distance" },
+      { id: "ly_a", lb: "Light Year", r: 63241.1, s: "S", dim: "distance" },
+      { id: "pc_a", lb: "Parsec", r: 206265, s: "S", dim: "distance" }
     ]
   },
   {
@@ -619,20 +617,6 @@ var Categories = [
       { id: "matric_fsc1100", lb: "Matric / FSc Marks (Out of 1100)", s: "O", al: ["fsc marks", "matric marks", "1100"] },
       { id: "matric_fsc1200", lb: "Matric / FSc Marks (Out of 1200)", s: "O", al: ["1200"] },
       { id: "mdcat_agg", lb: "MDCAT / ECAT Aggregate (%)", s: "O", al: ["mdcat", "aggregate"] }
-    ]
-  },
-  {
-    id: "cricket-overs",
-    lb: "Cricket Base-6",
-    ic: "\u{1F3CF}",
-    cl: "#8bc34a",
-    sp: true,
-    al: ["cricket overs", "overs to balls", "run rate", "cricket balls", "net run rate", "base 6 overs"],
-    un: [
-      { id: "overs_balls", lb: "Cricket Overs (e.g. 14.3)", r: 1, s: "O", al: ["overs", "overs.balls"] },
-      { id: "true_overs", lb: "True Decimal Overs (14.50)", s: "S", al: ["decimal overs"] },
-      { id: "balls", lb: "Legal Deliveries / Balls", s: "S", al: ["balls", "deliveries"] },
-      { id: "run_rate_6", lb: "Run Rate Metric (Per 6 Balls)", s: "O", al: ["rr", "run rate"] }
     ]
   }
 ];
