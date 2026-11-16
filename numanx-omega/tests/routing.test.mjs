@@ -645,7 +645,7 @@ var STATIC_ROUTES = [
   { path: "/", label: "Home", type: "core", description: "Universal unit converter homepage" },
   { path: "/converter", label: "Universal Converter", type: "core", description: "Standard converter workspace" },
   { path: "/convert", label: "Converter Redirect", type: "core", description: "Root convert route rendering converter" },
-  { path: "/categories", label: "Browse Categories", type: "core", description: "Directory of all 28 categories" },
+  { path: "/categories", label: "Browse Categories", type: "core", description: "Directory of all 35 categories" },
   { path: "/formulas", label: "Formula Explorer", type: "feature", description: "Interactive scientific and engineering formulas" },
   { path: "/calculator", label: "Calculator", type: "feature", description: "Quick calculation and conversion interface" },
   { path: "/custom-units", label: "Custom Units", type: "utility", description: "User-defined custom unit manager" },
@@ -734,7 +734,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
+  defaultDescription: "Free universal unit converter platform with 35 categories, 300+ units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path3 = "") {

@@ -682,7 +682,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
+  defaultDescription: "Free universal unit converter platform with 35 categories, 300+ units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path = "") {
@@ -1135,8 +1135,8 @@ function buildHomeSchema() {
         operatingSystem: "All",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: [
-          "28 unit categories including length, mass, volume, temperature",
-          "220+ units from metric, imperial, and scientific systems",
+          "35 unit categories including length, mass, volume, temperature",
+          "300+ units from metric, imperial, and scientific systems",
           'Natural language input: type "5 km in miles" or "(5m+20cm)\xD72"',
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",
@@ -1158,7 +1158,7 @@ function buildCategoriesDirectorySchema(categories) {
         "@id": `${pageUrl}#collection`,
         name: "All Unit Conversion Categories",
         url: pageUrl,
-        description: "Directory of all 28 dedicated unit conversion calculators across science, engineering, and commerce."
+        description: "Directory of all 35 dedicated unit conversion calculators across science, engineering, and commerce."
       },
       {
         "@type": "BreadcrumbList",
@@ -1405,7 +1405,7 @@ function buildBlogIndexSchema(posts) {
       {
         "@type": "Blog",
         "@id": `${pageUrl}#blog`,
-        name: "NumanX Omega Blog \u2014 Precision Metrology & Unit Conversion Guides",
+        name: "Omega X Converter Blog \u2014 Precision Metrology & Unit Conversion Guides",
         description: "Expert tips, mathematical formulas, cheat sheets, and tutorials for engineering and scientific unit conversions.",
         url: pageUrl,
         blogPost: posts.map((post) => ({

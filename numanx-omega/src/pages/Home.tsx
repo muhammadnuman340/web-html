@@ -103,7 +103,7 @@ export default function Home({ mode = 'pro' }: Props) {
         </div>
       </section>
 
-      {/* 3. Canonical Metrology Domains (All 24 Categories) */}
+      {/* 3. Canonical Metrology Domains (All Categories) */}
       <section aria-labelledby="domains-heading" className="space-y-3">
         <div className="flex items-center justify-between gap-2">
           <h2 id="domains-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">

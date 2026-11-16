@@ -28,9 +28,8 @@ export const STORAGE_KEYS = {
   preferences: ['uc_theme_class', 'uc_font', 'uc_prec', 'uc_mode', 'uc_haptic'],
 }
 
-/** Short notices shown next to health and money tools. */
+/** Short notices shown next to money tools. */
 export const DISCLAIMERS = {
-  health: 'Results are general estimates for information only, not medical advice. Talk to a qualified health professional about your health.',
   finance: 'Rates come from third-party providers and may be delayed or cached. For information only, not financial advice and not suitable for trading.',
 }
 
@@ -135,12 +134,6 @@ export function getTerms(): LegalDoc {
       heading: 'Accuracy of conversions',
       paragraphs: [
         'Conversions use published standard factors (such as NIST SP 811 and the BIPM SI Brochure) and are checked by automated tests, but no tool is free of errors. Results are provided for general information. Double-check any value used for engineering, medical, legal, safety-critical or financial decisions with an authoritative source.',
-      ],
-    },
-    {
-      heading: 'Health calculators',
-      paragraphs: [
-        'BMI, BMR and other health results are general estimates. They are not medical advice and do not replace guidance from a qualified health professional.',
       ],
     },
     {

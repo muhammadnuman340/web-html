@@ -3718,7 +3718,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
+  defaultDescription: "Free universal unit converter platform with 35 categories, 300+ units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -4022,7 +4022,7 @@ function withBrand(title) {
 var PAGE_META = {
   "/": {
     title: "Omega X Converter \u2014 Free Unit Converter",
-    description: "Free unit converter with 36 categories and 220+ units, plus formulas. Runs privately in your browser."
+    description: "Free unit converter with 35 categories and 300+ units, plus formulas. Runs privately in your browser."
   },
   "/about": {
     title: "About Omega X Converter \u2014 NumanX Studio",
@@ -4037,20 +4037,20 @@ var PAGE_META = {
     description: "Free scientific and engineering calculator with trigonometric functions, memory, formula history and built-in unit conversion."
   },
   "/categories": {
-    title: "All 36 Unit Conversion Categories | Omega X",
-    description: "Browse all 36 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
+    title: "All 35 Unit Conversion Categories | Omega X",
+    description: "Browse all 35 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
   },
   "/converter": {
-    title: "Universal Unit Converter \u2014 28 Categories | Omega X",
-    description: 'Convert metric, imperial, scientific and astronomical units across 36 categories. Type naturally, like "5 km in miles", and get an instant answer.'
+    title: "Universal Unit Converter \u2014 35 Categories | Omega X",
+    description: 'Convert metric, imperial, scientific and astronomical units across 35 categories. Type naturally, like "5 km in miles", and get an instant answer.'
   },
   "/formulas": {
     title: "Unit Conversion Formulas & Constants | Omega X",
-    description: "Reference library of conversion formulas, constants and worked derivations across all 36 measurement categories."
+    description: "Reference library of conversion formulas, constants and worked derivations across all 35 measurement categories."
   },
   "/sitemap": {
     title: "Sitemap \u2014 All Converters, Guides & Articles | Omega X",
-    description: "Directory of every public page on Omega X: core tools, 36 conversion categories, popular conversion pairs, guides and blog articles."
+    description: "Directory of every public page on Omega X: core tools, 35 conversion categories, popular conversion pairs, guides and blog articles."
   },
   "/privacy": {
     title: "Privacy Policy \u2014 No Tracking, Local-Only Data | Omega X",
@@ -4058,7 +4058,7 @@ var PAGE_META = {
   },
   "/terms": {
     title: "Terms of Use | Omega X Converter",
-    description: "Terms for using Omega X Converter: accuracy of conversions, health calculator limits, acceptable use and content licensing."
+    description: "Terms for using Omega X Converter: accuracy of conversions, acceptable use and content licensing."
   },
   "/contact": {
     title: "Contact Omega X Converter \u2014 NumanX Studio",
@@ -4341,12 +4341,6 @@ function getTerms() {
       heading: "Accuracy of conversions",
       paragraphs: [
         "Conversions use published standard factors (such as NIST SP 811 and the BIPM SI Brochure) and are checked by automated tests, but no tool is free of errors. Results are provided for general information. Double-check any value used for engineering, medical, legal, safety-critical or financial decisions with an authoritative source."
-      ]
-    },
-    {
-      heading: "Health calculators",
-      paragraphs: [
-        "BMI, BMR and other health results are general estimates. They are not medical advice and do not replace guidance from a qualified health professional."
       ]
     },
     {

@@ -174,7 +174,7 @@ export default function Navbar({
                       onClick={() => setToolsOpen(false)}
                       className="block text-center py-2 text-xs font-bold text-[var(--link-text)] hover:text-[var(--link-hover)] hover:underline min-h-[44px] flex items-center justify-center"
                     >
-                      Browse All 36 Categories →
+                      Browse All 35 Categories →
                     </Link>
                   </div>
                 </motion.div>
@@ -343,7 +343,7 @@ export default function Navbar({
                 className="px-3 py-2.5 rounded-xl text-sm font-semibold text-[var(--text)] hover:bg-[var(--card2)] transition-colors flex items-center justify-between min-h-[44px]"
               >
                 <span>🛠️ All Tools & Categories</span>
-                <span className="text-xs text-[var(--text3)]">24 Categories</span>
+                <span className="text-xs text-[var(--text3)]">35 Categories</span>
               </Link>
               <Link
                 to="/converter"

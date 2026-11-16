@@ -151,7 +151,7 @@ export default function CategoryCheatSheet({ cat }: Props) {
 
       {/* Printable Title visible during print */}
       <div className="hidden print:block text-center py-2 border-b border-gray-300">
-        <h2 className="text-lg font-bold text-[var(--text)]">NumanX Omega — {cat.lb} Cheat Sheet</h2>
+        <h2 className="text-lg font-bold text-[var(--text)]">Omega X Converter — {cat.lb} Cheat Sheet</h2>
         <p className="text-xs text-gray-600">Reference: {fromDef?.lb} ({fromDef?.id}) to {toDef?.lb} ({toDef?.id})</p>
       </div>
 

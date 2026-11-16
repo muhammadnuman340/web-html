@@ -328,9 +328,21 @@ function PairLandingInner({
 
         {/* Quick Equality Statement */}
         <div className="text-center pt-2 border-t border-[var(--border)]/60 text-xs text-[var(--text2)] font-mono">
-          1 {unitSymbol(u1, cat.id)} = <strong className="text-[var(--text)] font-semibold">{unitRatio !== null ? fmt(unitRatio, 6) : '—'} {unitSymbol(u2, cat.id)}</strong>
-          <span className="mx-2 opacity-40 select-none">·</span>
-          1 {unitSymbol(u2, cat.id)} = <strong className="text-[var(--text)] font-semibold">{inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : '—'} {unitSymbol(u1, cat.id)}</strong>
+          {cat.id === 'temp' ? (
+            <>
+              Scale Benchmarks: 0 {unitSymbol(u1, cat.id)} = <strong className="text-[var(--text)] font-semibold">{fmt(convert(0, cat.id, u1.id, u2.id) ?? 0, 2)} {unitSymbol(u2, cat.id)}</strong>
+              <span className="mx-2 opacity-40 select-none">·</span>
+              100 {unitSymbol(u1, cat.id)} = <strong className="text-[var(--text)] font-semibold">{fmt(convert(100, cat.id, u1.id, u2.id) ?? 0, 2)} {unitSymbol(u2, cat.id)}</strong>
+              <span className="mx-2 opacity-40 select-none">·</span>
+              At 1 {unitSymbol(u1, cat.id)}: <strong className="text-[var(--text)] font-semibold">{unitRatio !== null ? fmt(unitRatio, 4) : '—'} {unitSymbol(u2, cat.id)}</strong>
+            </>
+          ) : (
+            <>
+              1 {unitSymbol(u1, cat.id)} = <strong className="text-[var(--text)] font-semibold">{unitRatio !== null ? fmt(unitRatio, 6) : '—'} {unitSymbol(u2, cat.id)}</strong>
+              <span className="mx-2 opacity-40 select-none">·</span>
+              1 {unitSymbol(u2, cat.id)} = <strong className="text-[var(--text)] font-semibold">{inverseUnitRatio !== null ? fmt(inverseUnitRatio, 6) : '—'} {unitSymbol(u1, cat.id)}</strong>
+            </>
+          )}
         </div>
       </section>
 
@@ -490,8 +502,12 @@ function PairLandingInner({
 
         {/* Printable Title visible during print */}
         <div className="hidden print:block text-center py-2 border-b border-gray-300">
-          <h2 className="text-lg font-bold text-[var(--text)]">NumanX Omega — {unitName(u1, cat.id)} to {unitName(u2, cat.id)} Conversion Sheet</h2>
-          <p className="text-xs text-gray-600">Formula: 1 {unitSymbol(u1, cat.id)} = {unitRatio !== null ? fmt(unitRatio, 6) : ''} {unitSymbol(u2, cat.id)}</p>
+          <h2 className="text-lg font-bold text-[var(--text)]">Omega X Converter — {unitName(u1, cat.id)} to {unitName(u2, cat.id)} Conversion Sheet</h2>
+          <p className="text-xs text-gray-600">
+            {cat.id === 'temp'
+              ? `Formula: ${editorial?.directAnswer?.formulaDisplay || 'Scale conversion'}`
+              : `Formula: 1 ${unitSymbol(u1, cat.id)} = ${unitRatio !== null ? fmt(unitRatio, 6) : ''} ${unitSymbol(u2, cat.id)}`}
+          </p>
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-[var(--border)]">

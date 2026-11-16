@@ -28,10 +28,3 @@ export const COMPARISONS: Record<string, [number, string][]> = {
   ]
 }
 
-
-
-export const HEALTH_FORMULAS = {
-  bmi: { label: 'BMI', formula: 'kg / (m)²', unit: 'kg/m²' },
-  bmr: { label: 'BMR (Mifflin-St Jeor)', formula: '10×kg + 6.25×cm - 5×age + s', unit: 'kcal/day' },
-  bodyFat: { label: 'Body Fat %', formula: '(1.20×BMI) + (0.23×age) - 16.2', unit: '%' }
-}

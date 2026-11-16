@@ -5,11 +5,11 @@
  * Generates meaningful, crawlable, route-specific static HTML and metadata
  * for every public indexable route in the XML sitemap:
  * - 1 Home route (dist/index.html)
- * - 8 Core public pages (/about, /blog, /calculator, /categories, /converter, /formulas, /health, /sitemap)
- * - 24 Canonical Category Landing pages (/convert/:category)
- * - 99 Curated Popular Pair pages (/convert/:category/:pair)
- * - 6 Educational Guides (/guides/:slug)
- * - 6 Blog Articles (/blog/:slug)
+ * - 7 Core public pages (/about, /blog, /calculator, /categories, /converter, /formulas, /sitemap)
+ * - 35 Canonical Category Landing pages (/convert/:category)
+ * - Curated Popular Pair pages (/convert/:category/:pair)
+ * - Educational Guides (/guides/:slug)
+ * - Blog Articles (/blog/:slug)
  *
  * Each page receives:
  * - Route-specific <title>
@@ -209,7 +209,7 @@ const homeStaticHtml = `
 
     <section aria-labelledby="categories-heading" style="margin-bottom:2.5rem;">
       <h2 id="categories-heading" style="font-size:1.4rem;font-weight:600;margin-bottom:1rem;border-bottom:2px solid #eee;padding-bottom:0.5rem;">
-        24 Metrology & Conversion Categories
+        ${Categories.length} Metrology & Conversion Categories
       </h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
         ${Categories.map(cat => `
@@ -312,7 +312,7 @@ const corePages: PrerenderPageConfig[] = [
         </section>
         <section>
           <h2>Explore Omega X</h2>
-          <p><a href="/converter">Universal Converter</a> · <a href="/categories">All 24 Categories</a> · <a href="/formulas">Formulas Reference</a> · <a href="/sitemap">HTML Sitemap</a></p>
+          <p><a href="/converter">Universal Converter</a> · <a href="/categories">All ${Categories.length} Categories</a> · <a href="/formulas">Formulas Reference</a> · <a href="/sitemap">HTML Sitemap</a></p>
         </section>
       </main>
     `,
@@ -451,7 +451,7 @@ const corePages: PrerenderPageConfig[] = [
         <header>
           <h1 style="font-size:2rem;font-weight:700;">Measurement & Conversion Categories</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Omega X supports 24 measurement categories across metric, imperial, astronomical, and scientific unit standards. Select any category below to access dedicated conversion tools and metrology charts.
+            Omega X supports ${Categories.length} measurement categories across metric, imperial, astronomical, and scientific unit standards. Select any category below to access dedicated conversion tools and metrology charts.
           </p>
         </header>
         <section>
@@ -492,7 +492,7 @@ const corePages: PrerenderPageConfig[] = [
         <header>
           <h1 style="font-size:2rem;font-weight:700;">Universal Unit Converter</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Convert across 24 measurement categories with sub-nanometer precision. Supports natural language queries (e.g., "5 feet 10 inches in cm", "100 km/h in mph") and architectural tape measure fractions.
+            Convert across ${Categories.length} measurement categories with sub-nanometer precision. Supports natural language queries (e.g., "5 feet 10 inches in cm", "100 km/h in mph") and architectural tape measure fractions.
           </p>
         </header>
         <section>
@@ -597,7 +597,7 @@ const corePages: PrerenderPageConfig[] = [
         </section>
 
         <section>
-          <h2>24 Measurement Categories</h2>
+          <h2>${Categories.length} Measurement Categories</h2>
           <ul style="columns:3;">
             ${Categories.map(cat => `
               <li><a href="/convert/${cat.id}">${cat.lb} Converter</a></li>
@@ -633,7 +633,7 @@ for (const p of corePages) {
 }
 
 // ==========================================
-// 3. 24 CANONICAL CATEGORIES (/convert/:id)
+// 3. CANONICAL CATEGORIES (/convert/:id)
 // ==========================================
 console.log(`⚡ Prerendering ${Categories.length} Canonical Categories ...`)
 
@@ -1268,7 +1268,7 @@ console.log('⚡ Prerendering 404 page (dist/404.html) ...')
 renderAndWritePage({
   routePath: '/404',
   title: 'Page Not Found (404)',
-  description: 'The page you requested does not exist or has been moved. Explore 24 unit conversion categories or return home.',
+  description: 'The page you requested does not exist or has been moved. Explore 35 unit conversion categories or return home.',
   staticBodyHtml: `
     <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;padding:3rem 1rem;font-family:system-ui,-apple-system,sans-serif;text-align:center;">
       <div style="font-size:4rem;font-weight:900;color:#2563eb;font-family:monospace;letter-spacing:0.05em;" aria-hidden="true">404</div>

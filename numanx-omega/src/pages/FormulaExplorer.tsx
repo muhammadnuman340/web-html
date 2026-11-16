@@ -121,16 +121,6 @@ const FORMULA_DATA: FormulaSection[] = [
       { name: 'Q = mcΔT', desc: 'Sensible Heat Transfer Energy', variables: 'Q: Heat Energy (J), m: Mass (kg), c: Specific Heat Capacity, ΔT: Temperature rise (K)', catId: 'energy', link: '/convert/energy' },
     ],
   },
-  {
-    field: 'Biometrics & Health Science',
-    icon: '❤️',
-    color: '#ef4444',
-    items: [
-      { name: 'BMI = kg/m²', desc: 'Body Mass Index Quetelet Formula', variables: 'kg: Mass in kilograms, m: Standing height in meters squared', catId: 'mass', link: '/convert/mass' },
-      { name: 'BMR = 10w + 6.25h - 5a + s', desc: 'Mifflin-St Jeor Basal Metabolic Rate', variables: 'w: Weight (kg), h: Height (cm), a: Age (years), s: Sex offset (+5 male, -161 female)', catId: 'energy', link: '/convert/energy' },
-      { name: 'HRmax = 220 - age', desc: 'Estimated Maximum Cardiovascular Heart Rate', variables: 'HRmax: Beats per minute (BPM), age: Biological age in years', catId: 'frequency', link: '/convert/frequency' },
-    ],
-  },
 ]
 
 export default function FormulaExplorer() {

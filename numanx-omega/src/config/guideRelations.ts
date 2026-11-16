@@ -4,7 +4,7 @@
  *
  * Connects:
  * - 3 Educational Guides (/guides/:slug)
- * - 36 Canonical Categories (/convert/:id)
+ * - 35 Canonical Categories (/convert/:id)
  * - 187 Curated Popular Pairs (/convert/:category/:pair)
  * - Relevant Metrology Blog Articles (/blog/:slug)
  */
