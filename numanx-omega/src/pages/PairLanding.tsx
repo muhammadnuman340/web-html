@@ -604,6 +604,17 @@ function PairLandingInner({
         </div>
       </section>
 
+      {/* In-page Feedback Trigger */}
+      <div className="pt-1 flex justify-center">
+        <button
+          type="button"
+          data-open-feedback
+          className="inline-flex items-center justify-center min-h-[38px] px-3.5 py-1.5 rounded-xl border border-[var(--border)] text-xs font-medium text-[var(--text2)] hover:text-[var(--text)] hover:border-[var(--border2)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer"
+        >
+          Report a problem / Suggest an improvement
+        </button>
+      </div>
+
       {/* Return to Category */}
       <div className="pt-2 text-center">
         <Link

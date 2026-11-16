@@ -844,7 +844,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                   </div>
                 </div>
 
-                {/* Telemetry & Provenance Line */}
+                {/* Provenance Line */}
                 <div className="space-y-1 pt-1 text-xs text-[var(--text2)]">
                   {formula && (
                     <div className="font-mono text-[11px] text-[var(--text)] bg-[var(--surface-3)] px-2.5 py-1.5 rounded-lg border border-[var(--border-subtle)] truncate">

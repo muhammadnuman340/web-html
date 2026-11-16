@@ -4264,7 +4264,7 @@ function getPrivacyPolicy() {
   return {
     path: "/privacy",
     h1: "Privacy Policy",
-    intro: `This policy explains what data Omega X Converter, operated by ${LEGAL.operator}, handles when you use it. In short: there are no accounts, no ads, no analytics or tracking cookies, and every conversion is calculated in your browser.`,
+    intro: `This policy explains what data Omega X Converter, operated by ${LEGAL.operator}, handles when you use it. In short: there are no accounts, no ads, no analytics or tracking cookies, and every conversion is calculated in your browser. Nothing leaves your browser unless you send feedback.`,
     sections: [
       {
         heading: "What stays on your device",
@@ -4278,18 +4278,30 @@ function getPrivacyPolicy() {
         ]
       },
       {
+        heading: "Feedback submissions",
+        paragraphs: [
+          'If you use the "Report a problem / Suggest an improvement" button, the feedback you enter is transmitted directly to our Google Apps Script intake sheet to help us fix issues and improve the tools. Nothing leaves your browser unless you send feedback.',
+          "The data sent consists solely of:"
+        ],
+        bullets: [
+          "Feedback type (problem or suggestion) and your written message (10 to 2,000 characters).",
+          'The page address where you opened the form, prefixed with "converter.numanxstudio.com".',
+          "Your email address (optional, only included if you choose to provide it for a reply)."
+        ]
+      },
+      {
         heading: "Requests to other services",
         paragraphs: [
           "A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent."
         ],
         bullets: [
-          "The website is hosted by Netlify, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
+          "The website is hosted by Cloudflare Pages, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
         ]
       },
       {
         heading: "What we do not do",
         paragraphs: [
-          "We do not use cookies, advertising, analytics or tracking tools, and we do not sell or share personal data. Fonts are served from our own website rather than a third-party font service."
+          "We do not use cookies, advertising, analytics or tracking tools, and we do not sell or share personal data. Fonts are served from our own website rather than a third-party font service. Nothing leaves your browser unless you send feedback."
         ]
       },
       {

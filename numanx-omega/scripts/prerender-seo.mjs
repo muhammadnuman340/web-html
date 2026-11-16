@@ -781,7 +781,7 @@ function getPrivacyPolicy() {
   return {
     path: "/privacy",
     h1: "Privacy Policy",
-    intro: `This policy explains what data Omega X Converter, operated by ${LEGAL.operator}, handles when you use it. In short: there are no accounts, no ads, no analytics or tracking cookies, and every conversion is calculated in your browser.`,
+    intro: `This policy explains what data Omega X Converter, operated by ${LEGAL.operator}, handles when you use it. In short: there are no accounts, no ads, no analytics or tracking cookies, and every conversion is calculated in your browser. Nothing leaves your browser unless you send feedback.`,
     sections: [
       {
         heading: "What stays on your device",
@@ -795,18 +795,30 @@ function getPrivacyPolicy() {
         ]
       },
       {
+        heading: "Feedback submissions",
+        paragraphs: [
+          'If you use the "Report a problem / Suggest an improvement" button, the feedback you enter is transmitted directly to our Google Apps Script intake sheet to help us fix issues and improve the tools. Nothing leaves your browser unless you send feedback.',
+          "The data sent consists solely of:"
+        ],
+        bullets: [
+          "Feedback type (problem or suggestion) and your written message (10 to 2,000 characters).",
+          'The page address where you opened the form, prefixed with "converter.numanxstudio.com".',
+          "Your email address (optional, only included if you choose to provide it for a reply)."
+        ]
+      },
+      {
         heading: "Requests to other services",
         paragraphs: [
           "A few features need data from outside services. When they run, your browser connects to those services directly, which means they can see your IP address and basic browser information, as any website can. The numbers you convert are never sent."
         ],
         bullets: [
-          "The website is hosted by Netlify, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
+          "The website is hosted by Cloudflare Pages, which keeps standard server logs (such as IP address, browser type and the page requested) to operate and secure the service."
         ]
       },
       {
         heading: "What we do not do",
         paragraphs: [
-          "We do not use cookies, advertising, analytics or tracking tools, and we do not sell or share personal data. Fonts are served from our own website rather than a third-party font service."
+          "We do not use cookies, advertising, analytics or tracking tools, and we do not sell or share personal data. Fonts are served from our own website rather than a third-party font service. Nothing leaves your browser unless you send feedback."
         ]
       },
       {
@@ -5045,7 +5057,7 @@ var STATIC_FOOTER_HTML = `
         <a href="https://toolshub.numanxstudio.com" style="color:#0066cc;font-weight:500;text-decoration:underline;">Visit NumanX Tools Hub</a>
       </div>
       <nav aria-label="Site">
-        <a href="/about">About</a> \xB7 <a href="/contact">Contact</a> \xB7 <a href="/privacy">Privacy Policy</a> \xB7 <a href="/terms">Terms of Use</a> \xB7 <a href="/sitemap">Sitemap</a>
+        <a href="/about">About</a> \xB7 <a href="/contact">Contact</a> \xB7 <a href="/privacy">Privacy Policy</a> \xB7 <a href="/terms">Terms of Use</a> \xB7 <a href="/sitemap">Sitemap</a> \xB7 <button type="button" data-open-feedback style="display:inline-block;background:none;border:none;padding:0;font:inherit;color:#0066cc;text-decoration:underline;cursor:pointer;">Report a problem / Suggest an improvement</button>
       </nav>
       <p style="margin:0.5rem 0 0;">\xA9 ${(/* @__PURE__ */ new Date()).getFullYear()} ${LEGAL.operator} \xB7 Omega X Converter</p>
     </footer>`;
@@ -5172,7 +5184,7 @@ var homeStaticHtml = `
     <section aria-labelledby="standards-heading" style="border-top:1px solid #eee;padding-top:1.5rem;font-size:0.9rem;color:#666;">
       <h2 id="standards-heading" style="font-size:1.1rem;font-weight:600;margin-bottom:0.5rem;">Metrological Authority & Standards Compliance</h2>
       <p>
-        Omega X conversion factors comply with the BIPM 2019 SI Redefinition, NIST Special Publication 811, NIST Handbook 44, and the 1959 International Yard and Pound Agreement. Zero server telemetry ensures 100% client-side privacy.
+        Omega X conversion factors comply with the BIPM 2019 SI Redefinition, NIST Special Publication 811, NIST Handbook 44, and the 1959 International Yard and Pound Agreement. Nothing leaves your browser unless you send feedback.
       </p>
     </section>
   </main>
@@ -5211,7 +5223,7 @@ var corePages = [
         <section>
           <h2>Core Architectural Pillars</h2>
           <ul>
-            <li><strong>100% Client-Side Privacy:</strong> All calculations execute directly in your browser. No personal data or calculation numbers are transmitted or stored remotely.</li>
+            <li><strong>100% Client-Side Calculations:</strong> All calculations execute directly in your browser. Nothing leaves your browser unless you send feedback.</li>
             <li><strong>NIST & BIPM Standards:</strong> Conversion factors adhere to published ratios defined in NIST Special Publication 811 and BIPM SI definitions.</li>
             <li><strong>Sub-Nanometer Precision:</strong> 14-digit floating-point mathematical engine prevents rounding cascade errors.</li>
             <li><strong>Zero-Latency Execution:</strong> Instant calculations and derivations execute directly in your browser.</li>
@@ -5267,6 +5279,10 @@ var corePages = [
             `).join("")}
           </div>
         </section>
+
+        <div style="margin-top:1.5rem;text-align:center;">
+          <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+        </div>
       </main>
     `
   },
@@ -5307,6 +5323,10 @@ var corePages = [
             `).join("")}
           </div>
         </section>
+
+        <div style="margin-top:1.5rem;text-align:center;">
+          <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+        </div>
       </main>
     `
   },
@@ -5699,6 +5719,10 @@ for (const cat of Categories) {
           `).join("")}
         </div>
       </section>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+      </div>
     </main>
   `;
   renderAndWritePage({
@@ -5875,6 +5899,10 @@ for (const cat of Categories) {
             `).join("")}
           </div>
         </section>
+
+        <div style="margin-top:1.5rem;text-align:center;">
+          <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+        </div>
       </main>
     `;
     renderAndWritePage({
@@ -5956,6 +5984,10 @@ for (const guide of Object.values(guideContent)) {
           `).join("")}
         </div>
       </section>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+      </div>
 
       ${rel ? `
         <section aria-labelledby="interactive-pair-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;">

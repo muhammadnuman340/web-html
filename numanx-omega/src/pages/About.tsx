@@ -35,9 +35,9 @@ export default function About() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="p-5 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-2">
           <div className="text-2xl" aria-hidden="true">🛡️</div>
-          <h2 className="text-base font-bold text-[var(--text)]">100% Client-Side Privacy</h2>
+          <h2 className="text-base font-bold text-[var(--text)]">100% Client-Side Calculations</h2>
           <p className="text-xs text-[var(--text2)] leading-relaxed">
-            All conversions and formulas run entirely inside your browser via local JavaScript. No numbers, notes, or calculations are ever transmitted to an external server.
+            All conversions and formulas run entirely inside your browser via local JavaScript. Nothing leaves your browser unless you send feedback.
           </p>
         </div>
 
@@ -61,7 +61,7 @@ export default function About() {
           <div className="text-2xl" aria-hidden="true">📱</div>
           <h2 className="text-base font-bold text-[var(--text)]">Zero-Latency Client Engine</h2>
           <p className="text-xs text-[var(--text2)] leading-relaxed">
-            All calculations run directly in your browser with zero network latency, instant recalculation, and complete client-side data privacy.
+            All calculations run directly in your browser with zero network latency and instant recalculation. Nothing leaves your browser unless you send feedback.
           </p>
         </div>
       </div>

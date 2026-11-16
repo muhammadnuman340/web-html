@@ -102,6 +102,16 @@ await esbuild.build({
 console.log('✅ Built tests/ai-discovery.test.mjs successfully.')
 
 await esbuild.build({
+  entryPoints: ['tests/feedback.test.ts'],
+  bundle: true,
+  platform: 'node',
+  format: 'esm',
+  packages: 'external',
+  outfile: 'tests/feedback.test.mjs'
+})
+console.log('✅ Built tests/feedback.test.mjs successfully.')
+
+await esbuild.build({
   entryPoints: ['scripts/generate-sitemap.ts'],
   bundle: true,
   platform: 'node',

@@ -1092,5 +1092,5 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 
 ### Privacy, Telemetry & Client Boundaries
 - Omega X Converter does not collect personally identifiable information (PII).
-- Calculations execute locally in client memory.
+- Calculations execute locally in client memory. Nothing leaves your browser unless you send feedback.
 - No analytics trackers, marketing pixels, or advertising cookies are loaded.

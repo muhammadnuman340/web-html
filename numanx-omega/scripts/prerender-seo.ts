@@ -102,7 +102,7 @@ const STATIC_FOOTER_HTML = `
         <a href="https://toolshub.numanxstudio.com" style="color:#0066cc;font-weight:500;text-decoration:underline;">Visit NumanX Tools Hub</a>
       </div>
       <nav aria-label="Site">
-        <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Use</a> · <a href="/sitemap">Sitemap</a>
+        <a href="/about">About</a> · <a href="/contact">Contact</a> · <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Use</a> · <a href="/sitemap">Sitemap</a> · <button type="button" data-open-feedback style="display:inline-block;background:none;border:none;padding:0;font:inherit;color:#0066cc;text-decoration:underline;cursor:pointer;">Report a problem / Suggest an improvement</button>
       </nav>
       <p style="margin:0.5rem 0 0;">© ${new Date().getFullYear()} ${LEGAL.operator} · Omega X Converter</p>
     </footer>`
@@ -248,7 +248,7 @@ const homeStaticHtml = `
     <section aria-labelledby="standards-heading" style="border-top:1px solid #eee;padding-top:1.5rem;font-size:0.9rem;color:#666;">
       <h2 id="standards-heading" style="font-size:1.1rem;font-weight:600;margin-bottom:0.5rem;">Metrological Authority & Standards Compliance</h2>
       <p>
-        Omega X conversion factors comply with the BIPM 2019 SI Redefinition, NIST Special Publication 811, NIST Handbook 44, and the 1959 International Yard and Pound Agreement. Zero server telemetry ensures 100% client-side privacy.
+        Omega X conversion factors comply with the BIPM 2019 SI Redefinition, NIST Special Publication 811, NIST Handbook 44, and the 1959 International Yard and Pound Agreement. Nothing leaves your browser unless you send feedback.
       </p>
     </section>
   </main>
@@ -293,7 +293,7 @@ const corePages: PrerenderPageConfig[] = [
         <section>
           <h2>Core Architectural Pillars</h2>
           <ul>
-            <li><strong>100% Client-Side Privacy:</strong> All calculations execute directly in your browser. No personal data or calculation numbers are transmitted or stored remotely.</li>
+            <li><strong>100% Client-Side Calculations:</strong> All calculations execute directly in your browser. Nothing leaves your browser unless you send feedback.</li>
             <li><strong>NIST & BIPM Standards:</strong> Conversion factors adhere to published ratios defined in NIST Special Publication 811 and BIPM SI definitions.</li>
             <li><strong>Sub-Nanometer Precision:</strong> 14-digit floating-point mathematical engine prevents rounding cascade errors.</li>
             <li><strong>Zero-Latency Execution:</strong> Instant calculations and derivations execute directly in your browser.</li>
@@ -349,6 +349,10 @@ const corePages: PrerenderPageConfig[] = [
             `).join('')}
           </div>
         </section>
+
+        <div style="margin-top:1.5rem;text-align:center;">
+          <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+        </div>
       </main>
     `,
   },
@@ -389,6 +393,10 @@ const corePages: PrerenderPageConfig[] = [
             `).join('')}
           </div>
         </section>
+
+        <div style="margin-top:1.5rem;text-align:center;">
+          <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+        </div>
       </main>
     `,
   },
@@ -794,6 +802,10 @@ for (const cat of Categories) {
           `).join('')}
         </div>
       </section>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+      </div>
     </main>
   `
 
@@ -987,6 +999,10 @@ for (const cat of Categories) {
             `).join('')}
           </div>
         </section>
+
+        <div style="margin-top:1.5rem;text-align:center;">
+          <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+        </div>
       </main>
     `
 
@@ -1076,6 +1092,10 @@ for (const guide of Object.values(guideContent)) {
           `).join('')}
         </div>
       </section>
+
+      <div style="margin-top:1.5rem;text-align:center;">
+        <button type="button" data-open-feedback style="display:inline-flex;align-items:center;min-height:36px;padding:0.4rem 0.9rem;border-radius:8px;border:1px solid #ccc;background:transparent;color:#444;font-size:0.85rem;font-weight:500;cursor:pointer;">Report a problem / Suggest an improvement</button>
+      </div>
 
       ${rel ? `
         <section aria-labelledby="interactive-pair-heading" style="border:1px solid #ddd;border-radius:8px;padding:1.25rem;">

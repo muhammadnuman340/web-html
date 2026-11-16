@@ -4370,7 +4370,7 @@ In-depth technical publications on dimensional metrology, machinist tolerances, 
 
 ### Privacy, Telemetry & Client Boundaries
 - Omega X Converter does not collect personally identifiable information (PII).
-- Calculations execute locally in client memory.
+- Calculations execute locally in client memory. Nothing leaves your browser unless you send feedback.
 - No analytics trackers, marketing pixels, or advertising cookies are loaded.
 `);
   return sections.join("\n");
@@ -4380,7 +4380,7 @@ function generateLlmsSummaryText() {
 
 > Universal unit conversion platform with ${Categories.length} physical categories, deterministic conversion algorithms, instant in-browser execution, and authoritative scientific standards alignment.
 
-Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking, zero advertising cookies, and zero server-side telemetry.
+Omega X Converter is a client-side unit conversion web application developed and published by NumanX Studio. It provides exact, deterministic conversions across length, mass, temperature, area, volume, digital data, energy, pressure, speed, time, and other scientific and everyday measurement systems. All calculations execute locally in the user's browser with zero tracking and zero advertising cookies. Nothing leaves your browser unless you send feedback.
 
 Canonical Origin: ${DEFAULT_SITE_URL}/
 Publisher: NumanX Studio
