@@ -263,7 +263,7 @@ describe('Special Category: Fuel Economy Reciprocal Suite', () => {
   })
 })
 
-describe('Task 13: Universal Category Coverage — All 24 Categories Tested', () => {
+describe('Task 13: Universal Category Coverage — All 35 Categories Tested', () => {
   const categoryTestCases: { cat: string; from: string; to: string; val: number }[] = [
     { cat: 'length', from: 'm', to: 'cm', val: 1 },
     { cat: 'area', from: 'm2', to: 'cm2', val: 1 },

@@ -5,9 +5,9 @@
  * Verifies:
  * 1. Single Authoritative Site Origin (Netlify live domain)
  * 2. URL normalization & absolute URL generation
- * 3. Canonical URL resolution (alias-to-canonical mapping across all 24 categories)
+ * 3. Canonical URL resolution (alias-to-canonical mapping across all 35 categories)
  * 4. Indexability policy & robots gating
- * 5. Deterministic sitemap generation (core routes, 24 categories, curated pairs, 0 aliases, 0 noindex)
+ * 5. Deterministic sitemap generation (core routes, 35 categories, curated pairs, 0 aliases, 0 noindex)
  * 6. robots.txt compliance
  */
 

@@ -1709,7 +1709,7 @@ describe("Phase 3 Step 3: Visible FAQ Parity & HowTo Acceptance Gate", () => {
       assert.ok(!types.includes("FAQPage"), `${r} must not emit FAQPage schema`);
     }
   });
-  test("all 24 categories with FAQs satisfy visible FAQ parity in static HTML", () => {
+  test("all 35 categories with FAQs satisfy visible FAQ parity in static HTML", () => {
     for (const cat of Categories) {
       const { schema, html } = readPrerenderedSchemaAndHtml(`/convert/${cat.id}`);
       assert.ok(schema, `Category ${cat.id} must have schema`);

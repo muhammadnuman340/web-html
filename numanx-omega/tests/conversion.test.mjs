@@ -1501,7 +1501,7 @@ describe("Special Category: Fuel Economy Reciprocal Suite", () => {
     assert.equal(convertFuel(NaN, "kmL", "L100km"), null);
   });
 });
-describe("Task 13: Universal Category Coverage \u2014 All 24 Categories Tested", () => {
+describe("Task 13: Universal Category Coverage \u2014 All 35 Categories Tested", () => {
   const categoryTestCases = [
     { cat: "length", from: "m", to: "cm", val: 1 },
     { cat: "area", from: "m2", to: "cm2", val: 1 },
