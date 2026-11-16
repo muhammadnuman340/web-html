@@ -122,10 +122,10 @@ export default function Home({ mode = 'pro' }: Props) {
             <Link
               key={cat.id}
               to={`/convert/${cat.id}`}
-              className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex items-center justify-between gap-2 min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+              className="p-3 h-12 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex items-center justify-between gap-2 group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className="text-lg flex-shrink-0" aria-hidden="true">
+                <span className="text-base flex-shrink-0" aria-hidden="true">
                   {cat.ic}
                 </span>
                 <span className="text-xs font-semibold text-[var(--text)] group-hover:text-[var(--link-text)] truncate">
@@ -150,13 +150,13 @@ export default function Home({ mode = 'pro' }: Props) {
             <Link
               key={pair.path}
               to={pair.path}
-              className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1 block min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+              className="p-3 h-20 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex flex-col justify-between group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
+                <span className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)] truncate">
                   {pair.label}
                 </span>
-                <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)]">
+                <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)] shrink-0">
                   {pair.from} → {pair.to}
                 </span>
               </div>
@@ -186,9 +186,9 @@ export default function Home({ mode = 'pro' }: Props) {
             <Link
               key={item.path}
               to={item.path}
-              className="p-3.5 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1.5 block min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+              className="p-3.5 h-24 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex flex-col justify-between group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
             >
-              <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
+              <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)] line-clamp-1">
                 {item.title}
               </div>
               <p className="text-[11px] text-[var(--text2)] leading-relaxed line-clamp-2">
@@ -205,20 +205,20 @@ export default function Home({ mode = 'pro' }: Props) {
           Platform Architecture Metrics
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">{Categories.length}</div>
+          <div className="p-3 h-20 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] flex flex-col items-center justify-center">
+            <div className="text-xl font-mono font-bold text-[var(--text)]">{Categories.length}</div>
             <div className="text-[11px] text-[var(--text2)]">Canonical Domains</div>
           </div>
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">{totalUnits}</div>
+          <div className="p-3 h-20 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] flex flex-col items-center justify-center">
+            <div className="text-xl font-mono font-bold text-[var(--text)]">{totalUnits}</div>
             <div className="text-[11px] text-[var(--text2)]">Category Unit Listings</div>
           </div>
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">123</div>
+          <div className="p-3 h-20 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] flex flex-col items-center justify-center">
+            <div className="text-xl font-mono font-bold text-[var(--text)]">186</div>
             <div className="text-[11px] text-[var(--text2)]">Published Pair Guides</div>
           </div>
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">0</div>
+          <div className="p-3 h-20 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] flex flex-col items-center justify-center">
+            <div className="text-xl font-mono font-bold text-[var(--text)]">0</div>
             <div className="text-[11px] text-[var(--text2)]">Third-Party Trackers</div>
           </div>
         </div>

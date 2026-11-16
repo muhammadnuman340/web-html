@@ -97,9 +97,9 @@ export default function Navbar({
               <span aria-hidden="true">Ω</span>
             </div>
             <div className="flex items-center gap-1 min-w-0">
-              <span className="font-extrabold text-sm sm:text-base tracking-tight text-[var(--text)]">NumanX</span>
+              <span className="font-extrabold text-sm sm:text-base tracking-tight text-[var(--text)]">Omega X</span>
               <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[var(--primary-muted)] text-[var(--link-text)] shrink-0">
-                Omega
+                Converter
               </span>
             </div>
           </Link>

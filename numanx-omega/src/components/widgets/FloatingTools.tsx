@@ -13,7 +13,7 @@ export default function FloatingTools() {
   const tools = [
     { icon: '🧮', label: 'Calculator', path: '/calculator' },
     { icon: '📐', label: 'Formulas', path: '/formulas' },
-    { icon: '❤️', label: 'Health', path: '/dashboard' },
+    { icon: '📂', label: 'Categories', path: '/categories' },
   ]
 
   return (

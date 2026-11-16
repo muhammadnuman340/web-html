@@ -57,7 +57,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [copyFormat, setCopyFormat] = useState<'plain' | 'md' | 'latex'>('plain')
   const [showAllCats, setShowAllCats] = useState(false)
   const [showAllUnits, setShowAllUnits] = useState(false)
-  const [showAIExplain, setShowAIExplain] = useState(false)
   const [prevFromUnit, setPrevFromUnit] = useState(fromUnit)
   const [showQuiz, setShowQuiz] = useState(false)
   const [catFilter, setCatFilter] = useState('')
@@ -1187,15 +1186,15 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
 
           {/* Chain selector (when chain mode is off) */}
-          {mode !== 'fast' && !chainMode && (
-            <div className={`flex gap-1 overflow-x-auto py-1 max-w-full min-w-0 scrollbar-thin ${compactOnMobile ? 'hidden sm:flex' : ''}`}>
+          {mode !== 'fast' && !chainMode && !hideComplexPanels && (
+            <div className={`flex gap-1.5 overflow-x-auto py-1 max-w-full min-w-0 scrollbar-none items-center ${compactOnMobile ? 'hidden sm:flex' : ''}`}>
               <button onClick={() => autoSuggestChain()}
-                className="btn-chip text-xs flex items-center gap-1.5 shrink-0 min-h-[44px] py-2 px-3">
+                className="h-8 px-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-xs text-[var(--text2)] hover:text-[var(--text)] shrink-0 font-medium whitespace-nowrap transition-colors flex items-center gap-1.5">
                 <span aria-hidden="true">⛓</span> Chain: {suggestChain(catId) ? chains.find(c => c.id === suggestChain(catId))?.label : 'Not available'}
               </button>
               {chains.map(chain => (
                 <button key={chain.id} onClick={() => { setActiveChain(chain.id); setChainMode(true) }}
-                  className="btn-chip text-xs shrink-0 min-h-[44px] flex items-center py-2 px-3">
+                  className="h-8 px-3 rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-xs text-[var(--text2)] hover:text-[var(--text)] shrink-0 font-medium whitespace-nowrap transition-colors flex items-center gap-1.5">
                   <span aria-hidden="true">{chain.icon}</span> {chain.label}
                 </button>
               ))}
@@ -1293,7 +1292,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
-                className="w-full p-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow),0_0_30px_var(--glow)] transition-all placeholder:text-base tabular-nums"
+                className="w-full h-14 sm:h-16 px-4 py-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow)] transition-all placeholder:text-base tabular-nums flex items-center"
                 onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
                 onDrop={e => { e.preventDefault(); const v = e.dataTransfer.getData('text/plain'); if (v) setFromVal(v) }}
               />
@@ -1336,7 +1335,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
           <select value={fromUnit} onChange={e => setFromUnit(e.target.value)}
             aria-label="Source unit"
-            className="p-3 min-h-[52px] rounded-xl border-2 border-[var(--border-control)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px] max-w-[130px] xs:max-w-[160px] sm:max-w-none">
+            className="w-36 xs:w-44 sm:w-56 shrink-0 h-14 sm:h-16 px-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm sm:text-base font-semibold outline-none focus:border-[var(--primary)] transition-colors cursor-pointer">
             {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
@@ -1358,20 +1357,22 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               key={st.label}
               type="button"
               onClick={st.fn}
-              className="btn-chip text-[11px] py-2 px-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center font-mono hover:text-[var(--link-text)]"
+              className="h-8 px-2.5 min-w-[36px] rounded-lg border border-[var(--border-subtle)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--text2)] hover:text-[var(--text)] text-xs font-mono font-medium flex items-center justify-center transition-colors"
             >
               {st.label}
             </button>
           ))}
         </div>
 
-        <AIPredictions
-          categoryId={catId}
-          fromVal={fromVal}
-          fromUnit={fromUnit}
-          toUnit={toUnit}
-          onApply={(from, to) => { setFromUnit(from); setToUnit(to) }}
-        />
+        {!hideComplexPanels && (
+          <AIPredictions
+            categoryId={catId}
+            fromVal={fromVal}
+            fromUnit={fromUnit}
+            toUnit={toUnit}
+            onApply={(from, to) => { setFromUnit(from); setToUnit(to) }}
+          />
+        )}
 
         {/* Recent conversions awareness */}
         {!fromVal && (() => {
@@ -1393,41 +1394,36 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex gap-2 items-center flex-wrap">
-          <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
-            animate={{ rotate: swapRotation }}
-            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            aria-label="Swap source and target units"
-            className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] interact-lift"><span aria-hidden="true">⇅</span></motion.button>
-          {mode !== 'fast' && (
-            <>
-              <button onClick={() => setFrac(!frac)}
-                aria-label="Toggle fraction display"
-                aria-pressed={frac}
-                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${frac ? 'active' : ''}`}>frac</button>
-              <button onClick={() => setSci(!sci)}
-                aria-label="Toggle scientific notation"
-                aria-pressed={sci}
-                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${sci ? 'active' : ''}`}>sci</button>
-              <button onClick={() => setShowExplanation(!showExplanation)}
-                aria-label={showExplanation ? 'Hide calculation steps' : 'Show calculation steps'}
-                aria-expanded={showExplanation}
-                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${showExplanation ? 'active' : ''}`}>
-                <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
-              </button>
-              <button onClick={() => setBatchMode(!batchMode)}
-                aria-label="Toggle batch conversion mode"
-                aria-pressed={batchMode}
-                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${batchMode ? 'active' : ''}`}>
-                <span aria-hidden="true">📋</span> Batch
-              </button>
-              <button onClick={() => setShowAIExplain(!showAIExplain)}
-                className={`btn-chip text-xs rounded-full min-h-[44px] min-w-[44px] px-3.5 flex items-center justify-center ${showAIExplain ? 'active' : ''}`}
-                aria-label="AI explain conversion">
-                <span aria-hidden="true">🤖</span> AI
-              </button>
-            </>
-          )}
-        </div>
+            <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
+              animate={{ rotate: swapRotation }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              aria-label="Swap source and target units"
+              className="w-10 h-10 min-w-[40px] min-h-[40px] rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-base shadow-md shadow-[var(--glow)] hover:opacity-90 transition-all"><span aria-hidden="true">⇅</span></motion.button>
+            {mode !== 'fast' && (
+              <>
+                <button onClick={() => setFrac(!frac)}
+                  aria-label="Toggle fraction display"
+                  aria-pressed={frac}
+                  className={`h-9 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center ${frac ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm' : 'border-[var(--border)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--text2)] hover:text-[var(--text)]'}`}>frac</button>
+                <button onClick={() => setSci(!sci)}
+                  aria-label="Toggle scientific notation"
+                  aria-pressed={sci}
+                  className={`h-9 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center ${sci ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm' : 'border-[var(--border)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--text2)] hover:text-[var(--text)]'}`}>sci</button>
+                <button onClick={() => setShowExplanation(!showExplanation)}
+                  aria-label={showExplanation ? 'Hide calculation steps' : 'Show calculation steps'}
+                  aria-expanded={showExplanation}
+                  className={`h-9 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center ${showExplanation ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm' : 'border-[var(--border)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--text2)] hover:text-[var(--text)]'}`}>
+                  <span aria-hidden="true">{mode === 'scientist' ? '🔬' : '📖'}</span>
+                </button>
+                <button onClick={() => setBatchMode(!batchMode)}
+                  aria-label="Toggle batch conversion mode"
+                  aria-pressed={batchMode}
+                  className={`h-9 px-3.5 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 ${batchMode ? 'bg-[var(--primary)] text-white border-[var(--primary)] shadow-sm' : 'border-[var(--border)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--text2)] hover:text-[var(--text)]'}`}>
+                  <span aria-hidden="true">📋</span> Batch
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
         <div className="flex gap-2 items-center">
@@ -1437,9 +1433,9 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               aria-live="polite"
               aria-atomic="true"
               aria-label="Converted calculation result"
-              className={`w-full p-4 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl font-bold min-h-[64px] flex items-center cursor-pointer transition-all duration-300 border-l-4 tabular-nums ${
+              className={`w-full h-14 sm:h-16 px-4 py-3 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold flex items-center cursor-pointer transition-all duration-300 tabular-nums ${
                 result !== null
-                  ? 'border-[var(--primary)]/40 shadow-[0_0_30px_var(--glow)]'
+                  ? 'border-[var(--primary)]/60 shadow-[0_0_20px_var(--glow)]'
                   : hasError
                     ? 'border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.2)]'
                     : 'border-[var(--border)]'
@@ -1546,7 +1542,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
           <select value={toUnit} onChange={e => setToUnit(e.target.value)}
             aria-label="Target unit"
-            className="p-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm outline-none focus:border-[var(--primary)] transition-colors min-w-[80px]">
+            className="w-36 xs:w-44 sm:w-56 shrink-0 h-14 sm:h-16 px-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm sm:text-base font-semibold outline-none focus:border-[var(--primary)] transition-colors cursor-pointer">
             {compatibleToUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
@@ -1554,39 +1550,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {formula && <div className="text-xs text-center text-[var(--text2)] opacity-85 italic">{formula}</div>}
 
-      {/* AI Explain section */}
-      {showAIExplain && result !== null && (
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-          className="glass rounded-xl p-3 space-y-2 border-l-4" style={{ borderLeftColor: 'var(--primary)' }}>
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-[var(--text)]">
-            <span aria-hidden="true">🤖</span> AI Explanation
-          </div>
-          <div className="text-xs space-y-1.5">
-            <p><span className="text-[var(--text2)] opacity-85">Conversion:</span> {fromVal} {fromUnit} = <strong>{fmtR(result)}</strong> {toUnit}</p>
-            {explanation && <p className="text-[var(--text)] opacity-90 leading-relaxed">{explanation}</p>}
-            {steps.length > 0 && (
-              <div className="pt-1 space-y-1">
-                <div className="text-xs text-[var(--text2)] opacity-85 uppercase tracking-wide">Steps</div>
-                {steps.map((s, i) => (
-                  <div key={i} className="flex items-center gap-2 text-xs">
-                    <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-xs font-bold shrink-0">{i + 1}</span>
-                    <span className="text-[var(--text2)] opacity-85 w-24 shrink-0 font-medium">{s.label}</span>
-                    <span className="text-[var(--text)] opacity-90">{s.detail}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-            {visualRef && (
-              <p className="pt-1 text-xs text-[var(--text)] opacity-90">
-                <span className="text-[var(--text2)] opacity-85">Real-world:</span> {visualRef.emoji} {fmtR(result)} {toUnit} ≈ <strong>{visualRef.label}</strong>
-              </p>
-            )}
-          </div>
-        </motion.div>
-      )}
-
-      {/* AI: "Also try" related conversions */}
-      {alsoTry.length > 0 && !showAIExplain && (
+      {/* "Also try" related conversions */}
+      {alsoTry.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap gap-1.5 items-center">
           <span className="text-xs opacity-50 uppercase tracking-wider mr-0.5">Also try</span>
           {alsoTry.map((p, i) => (
@@ -1599,17 +1564,19 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       )}
 
       {/* AI Quick Actions */}
-      <AIQuickActions
-        categoryId={catId}
-        fromUnit={fromUnit}
-        toUnit={toUnit}
-        result={result}
-        onRepeatBatch={() => setBatchMode(true)}
-        onOpenQuiz={() => setShowQuiz(p => !p)}
-      />
+      {!hideComplexPanels && (
+        <AIQuickActions
+          categoryId={catId}
+          fromUnit={fromUnit}
+          toUnit={toUnit}
+          result={result}
+          onRepeatBatch={() => setBatchMode(true)}
+          onOpenQuiz={() => setShowQuiz(p => !p)}
+        />
+      )}
 
       {/* Conversion Quiz toggle */}
-      {showQuiz && (
+      {!hideComplexPanels && showQuiz && (
         <ConversionQuiz />
       )}
 
