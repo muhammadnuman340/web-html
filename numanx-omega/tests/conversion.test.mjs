@@ -33,14 +33,14 @@ var Categories = [
       { id: "rod", lb: "Rod", r: 5.0292, s: "I" },
       { id: "chain", lb: "Chain", r: 20.1168, s: "I" },
       { id: "furlong", lb: "Furlong", r: 201.168, s: "I" },
-      { id: "mi", lb: "Mile", r: 1609.344, s: "I" },
+      { id: "mi", lb: "Mile", r: 1609.344, s: "I", al: ["mile", "miles"] },
       { id: "nmi", lb: "Nautical Mile", r: 1852, s: "O" },
       { id: "er", lb: "Earth Radius", r: 6371e3, s: "S" },
       { id: "ld", lb: "Lunar Distance", r: 3844e5, s: "S" },
       { id: "sr", lb: "Solar Radius", r: 6957e5, s: "S" },
-      { id: "au", lb: "Astronomical Unit", r: 1496e8, s: "S" },
-      { id: "ly", lb: "Light Year", r: 9461e12, s: "S" },
-      { id: "pc", lb: "Parsec", r: 3086e13, s: "S" }
+      { id: "au", lb: "Astronomical Unit", r: 149597870700, s: "S" },
+      { id: "ly", lb: "Light Year", r: 9460730472580800, s: "S" },
+      { id: "pc", lb: "Parsec", r: 30856775814913670, s: "S" }
     ]
   },
   {
@@ -53,14 +53,14 @@ var Categories = [
       { id: "mm2", lb: "mm\xB2", r: 1e-6, s: "M" },
       { id: "cm2", lb: "cm\xB2", r: 1e-4, s: "M" },
       { id: "in2", lb: "in\xB2", r: 64516e-8, s: "I" },
-      { id: "ft2", lb: "ft\xB2", r: 0.092903, s: "I" },
-      { id: "yd2", lb: "yd\xB2", r: 0.836127, s: "I" },
+      { id: "ft2", lb: "ft\xB2", r: 0.09290304, s: "I" },
+      { id: "yd2", lb: "yd\xB2", r: 0.83612736, s: "I" },
       { id: "m2", lb: "m\xB2", r: 1, s: "M" },
-      { id: "ac", lb: "Acre", r: 4046.86, s: "I" },
+      { id: "ac", lb: "Acre", r: 4046.8564224, s: "I" },
       { id: "ha", lb: "Hectare", r: 1e4, s: "M" },
       { id: "km2", lb: "km\xB2", r: 1e6, s: "M" },
-      { id: "mi2", lb: "mi\xB2", r: 259e4, s: "I" },
-      { id: "twp", lb: "Township", r: 9324e4, s: "I" },
+      { id: "mi2", lb: "mi\xB2", r: 2589988110336e-6, s: "I" },
+      { id: "twp", lb: "Township", r: 93239571972096e-6, s: "I" },
       { id: "marla_soc", lb: "Marla (Society - 225 sq ft)", r: 20.903184, s: "O", al: ["marla 225", "marla society", "dha marla", "bahria marla"] },
       { id: "marla_cap", lb: "Marla (Capital - 250 sq ft)", r: 23.22576, s: "O", al: ["marla 250", "cda marla", "islamabad marla", "rawalpindi marla"] },
       { id: "marla", lb: "Marla (Standard/Govt - 272.25 sq ft)", r: 25.29285264, s: "O", al: ["marla", "marlas", "standard marla", "punjab marla", "patwari marla"] },
@@ -82,20 +82,20 @@ var Categories = [
       { id: "cm3", lb: "Cubic Centimeter", r: 1e-3, s: "M", al: ["cc"] },
       { id: "cL", lb: "Centiliter", r: 0.01, s: "M" },
       { id: "dL", lb: "Deciliter", r: 0.1, s: "M" },
-      { id: "tsp", lb: "Teaspoon", r: 492892e-8, s: "I" },
-      { id: "tbsp", lb: "Tablespoon", r: 0.0147868, s: "I" },
-      { id: "in3", lb: "Cubic Inch", r: 0.0163871, s: "I" },
+      { id: "tsp", lb: "Teaspoon", r: 0.00492892159375, s: "I" },
+      { id: "tbsp", lb: "Tablespoon", r: 0.01478676478125, s: "I" },
+      { id: "in3", lb: "Cubic Inch", r: 0.016387064, s: "I" },
       { id: "impfloz", lb: "Imperial Fl Oz", r: 0.0284130625, s: "I", al: ["uk fluid ounce"] },
-      { id: "floz", lb: "Fluid Ounce", r: 0.0295735, s: "I", al: ["fl oz", "fluid ounces", "us fluid ounce"] },
-      { id: "cup", lb: "Cup", r: 0.24, s: "I" },
-      { id: "pt", lb: "Pint", r: 0.473176, s: "I", al: ["pints", "us pint"] },
+      { id: "floz", lb: "Fluid Ounce", r: 0.0295735295625, s: "I", al: ["fl oz", "fluid ounces", "us fluid ounce"] },
+      { id: "cup", lb: "Cup", r: 0.2365882365, s: "I" },
+      { id: "pt", lb: "Pint", r: 0.473176473, s: "I", al: ["pints", "us pint"] },
       { id: "imppt", lb: "Imperial Pint", r: 0.56826125, s: "I", al: ["uk pint"] },
       { id: "L", lb: "Liter", r: 1, s: "M" },
-      { id: "qt", lb: "Quart", r: 0.946353, s: "I" },
-      { id: "gal", lb: "Gallon", r: 3.78541, s: "I", al: ["gallons", "us gallon"] },
+      { id: "qt", lb: "Quart", r: 0.946352946, s: "I" },
+      { id: "gal", lb: "Gallon", r: 3.785411784, s: "I", al: ["gallons", "us gallon"] },
       { id: "impgal", lb: "Imperial Gallon", r: 4.54609, s: "I", al: ["uk gallon"] },
-      { id: "ft3", lb: "Cubic Foot", r: 28.3168, s: "I" },
-      { id: "bbl", lb: "Barrel", r: 158.987, s: "I" },
+      { id: "ft3", lb: "Cubic Foot", r: 28.316846592, s: "I" },
+      { id: "bbl", lb: "Barrel", r: 158.987294928, s: "I" },
       { id: "yd3", lb: "Cubic Yard", r: 764.554857984, s: "I", al: ["cubic yards", "cu yd"] },
       { id: "m3", lb: "Cubic Meter", r: 1e3, s: "M" }
     ]
@@ -110,29 +110,29 @@ var Categories = [
       { id: "amu", lb: "Atomic Mass Unit", r: 1660539e-33, s: "S" },
       { id: "ug", lb: "Microgram", r: 1e-9, s: "M" },
       { id: "mg", lb: "Milligram", r: 1e-6, s: "M" },
-      { id: "gr", lb: "Grain", r: 64799e-9, s: "I" },
+      { id: "gr", lb: "Grain", r: 6479891e-11, s: "I" },
       { id: "ct", lb: "Carat", r: 2e-4, s: "O" },
       { id: "g", lb: "Gram", r: 1e-3, s: "M" },
       { id: "dwt", lb: "Pennyweight", r: 0.00155517384, s: "O" },
-      { id: "oz", lb: "Ounce", r: 0.0283495, s: "I" },
+      { id: "oz", lb: "Ounce", r: 0.028349523125, s: "I" },
       { id: "ozt", lb: "Troy Ounce", r: 0.0311034768, s: "O", al: ["troy oz", "gold ounce"] },
       { id: "lbt", lb: "Troy Pound", r: 0.3732417216, s: "O" },
-      { id: "lb", lb: "Pound", r: 0.453592, s: "I", al: ["lbs"] },
+      { id: "lb", lb: "Pound", r: 0.45359237, s: "I", al: ["lbs"] },
       { id: "kg", lb: "Kilogram", r: 1, s: "M" },
-      { id: "stone", lb: "Stone", r: 6.35029, s: "I" },
+      { id: "stone", lb: "Stone", r: 6.35029318, s: "I" },
       { id: "slug", lb: "Slug", r: 14.5939029372, s: "I" },
       { id: "q", lb: "Metric Quintal", r: 100, s: "M", al: ["quintal"] },
-      { id: "sh tn", lb: "Short Ton", r: 907.185, s: "I" },
+      { id: "sh tn", lb: "Short Ton", r: 907.18474, s: "I" },
       { id: "t", lb: "Metric Ton", r: 1e3, s: "M" },
-      { id: "lg tn", lb: "Long Ton", r: 1016.05, s: "I" },
-      { id: "ratti", lb: "Ratti", r: 121497956e-12, s: "O", al: ["ratti"] },
+      { id: "lg tn", lb: "Long Ton", r: 1016.0469088, s: "I" },
+      { id: "ratti", lb: "Ratti", r: 12149795625e-14, s: "O", al: ["ratti"] },
       { id: "masha", lb: "Masha", r: 97198365e-11, s: "O", al: ["masha"] },
       { id: "tola", lb: "Tola (PK Standard)", r: 0.0116638038, s: "O", al: ["tola", "tolas", "bhori"] },
       { id: "chhatank", lb: "Chhatank", r: 0.058319019, s: "O", al: ["chhatank", "chatank"] },
       { id: "pao", lb: "Pao (250g)", r: 0.25, s: "O", al: ["pao", "paao", "pow"] },
-      { id: "seer", lb: "Seer", r: 0.9331043, s: "O", al: ["seer", "ser"] },
+      { id: "seer", lb: "Seer", r: 0.933104304, s: "O", al: ["seer", "ser"] },
       { id: "dhari", lb: "Dhari (5 kg)", r: 5, s: "O", al: ["dhari"] },
-      { id: "maund_trad", lb: "Maund (Traditional Imperial - 37.32 kg)", r: 37.324172, s: "O", al: ["traditional maund", "bengal maund"] },
+      { id: "maund_trad", lb: "Maund (Traditional Imperial - 37.32 kg)", r: 37.32417216, s: "O", al: ["traditional maund", "bengal maund"] },
       { id: "maund_pk", lb: "Maund / Mann (Mandi Standard - 40 kg)", r: 40, s: "O", al: ["maund", "mann", "mon", "pakistani maund"] }
     ]
   },
@@ -167,9 +167,9 @@ var Categories = [
       { id: "week", lb: "Week", r: 604800, s: "S" },
       { id: "mo", lb: "Month", r: 2629800, s: "S" },
       { id: "yr", lb: "Year", r: 31557600, s: "S" },
-      { id: "decade", lb: "Decade", r: 31558e4, s: "S" },
-      { id: "century", lb: "Century", r: 31558e5, s: "S" },
-      { id: "millennium", lb: "Millennium", r: 31558e6, s: "S" }
+      { id: "decade", lb: "Decade", r: 315576e3, s: "S" },
+      { id: "century", lb: "Century", r: 315576e4, s: "S" },
+      { id: "millennium", lb: "Millennium", r: 315576e5, s: "S" }
     ]
   },
   {
@@ -220,12 +220,12 @@ var Categories = [
       { id: "Pa", lb: "Pascal", r: 1, s: "M" },
       { id: "hPa", lb: "Hectopascal", r: 100, s: "M" },
       { id: "mbar", lb: "Millibar", r: 100, s: "M", al: ["mb"] },
-      { id: "torr", lb: "Torr", r: 133.322, s: "O" },
-      { id: "mmHg", lb: "mmHg", r: 133.322, s: "O" },
+      { id: "torr", lb: "Torr", r: 133.32236842105263, s: "O" },
+      { id: "mmHg", lb: "mmHg", r: 133.32236842105263, s: "O" },
       { id: "inH2O", lb: "inH\u2082O", r: 249.08891, s: "I", al: ["inches of water"] },
       { id: "kPa", lb: "Kilopascal", r: 1e3, s: "M" },
       { id: "inHg", lb: "inHg", r: 3386.389, s: "O", al: ["inches of mercury"] },
-      { id: "psi", lb: "PSI", r: 6894.76, s: "I" },
+      { id: "psi", lb: "PSI", r: 6894.757293168361, s: "I" },
       { id: "bar", lb: "Bar", r: 1e5, s: "M" },
       { id: "atm", lb: "Atmosphere", r: 101325, s: "O" },
       { id: "MPa", lb: "Megapascal", r: 1e6, s: "M" },
@@ -238,7 +238,7 @@ var Categories = [
     ic: "\u26A1",
     cl: "#f39c12",
     un: [
-      { id: "eV", lb: "Electronvolt", r: 1602e-22, s: "S" },
+      { id: "eV", lb: "Electronvolt", r: 1602176634e-28, s: "S" },
       { id: "J", lb: "Joule", r: 1, s: "M" },
       { id: "cal", lb: "Calorie", r: 4.184, s: "M" },
       { id: "BTU", lb: "BTU", r: 1055.06, s: "I" },
@@ -258,7 +258,7 @@ var Categories = [
       { id: "BTUh", lb: "BTU/h", r: 0.29307107, s: "I" },
       { id: "W", lb: "Watt", r: 1, s: "M" },
       { id: "ps", lb: "Metric Horsepower (PS)", r: 735.49875, s: "O", al: ["ch", "cv"] },
-      { id: "hp", lb: "Horsepower", r: 745.7, s: "I" },
+      { id: "hp", lb: "Horsepower", r: 745.6998715822702, s: "I" },
       { id: "kW", lb: "Kilowatt", r: 1e3, s: "M" },
       { id: "tr", lb: "Ton of Refrigeration", r: 3516.852842, s: "I", al: ["refrigeration ton", "tons of ac"] },
       { id: "MW", lb: "Megawatt", r: 1e6, s: "M" },
@@ -368,7 +368,7 @@ var Categories = [
       { id: "Ncm", lb: "N\xB7cm", r: 0.01, s: "M" },
       { id: "lbin", lb: "lb-in", r: 0.1129848290276167, s: "I", al: ["in-lb", "pound-inch", "pound-inches", "inch-pound"] },
       { id: "Nm", lb: "N\xB7m", r: 1, s: "M", al: ["newton-meter", "newton-meters"] },
-      { id: "lbft", lb: "lb-ft", r: 1.35582, s: "I", al: ["pound-foot", "pound-feet", "foot-pound", "foot-pounds"] },
+      { id: "lbft", lb: "lb-ft", r: 1.3558179483314003, s: "I", al: ["pound-foot", "pound-feet", "foot-pound", "foot-pounds"] },
       { id: "kgfm", lb: "kgf\xB7m", r: 9.80665, s: "M", al: ["kgf-m"] }
     ]
   },
@@ -392,7 +392,7 @@ var Categories = [
     cl: "#795548",
     un: [
       { id: "kgm3", lb: "kg/m\xB3", r: 1, s: "M" },
-      { id: "lbft3", lb: "lb/ft\xB3", r: 16.0185, s: "I" },
+      { id: "lbft3", lb: "lb/ft\xB3", r: 16.01846337396014, s: "I" },
       { id: "gcm3", lb: "g/cm\xB3", r: 1e3, s: "M" }
     ]
   },
@@ -407,7 +407,7 @@ var Categories = [
       { id: "mL_c", lb: "Milliliter", r: 1, s: "M" },
       { id: "tsp_c", lb: "Teaspoon", r: 5, s: "I" },
       { id: "tbsp_c", lb: "Tablespoon", r: 15, s: "I" },
-      { id: "floz_c", lb: "Fluid Ounce", r: 29.5735, s: "I" },
+      { id: "floz_c", lb: "Fluid Ounce", r: 29.5735295625, s: "I" },
       { id: "jigger", lb: "Jigger", r: 44.36029434375, s: "I", al: ["jiggers"] },
       { id: "stick_c", lb: "Stick of Butter", r: 120, s: "I", al: ["stick", "sticks"] },
       { id: "cup_c", lb: "Cup", r: 240, s: "I" }
@@ -420,7 +420,7 @@ var Categories = [
     cl: "#ab47bc",
     un: [
       { id: "gsm", lb: "GSM (Grams per Sq Meter)", r: 1, s: "O", al: ["gsm", "g/m2"], dim: "areal_density" },
-      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474, s: "O", al: ["oz", "oz/yd2", "oz-yd2", "oz/sq yd", "osy", "ounce per square yard", "ounces per square yard"], dim: "areal_density" },
+      { id: "oz_yd2", lb: "Ounce per Sq Yard (oz/yd\xB2)", r: 33.9057474748823, s: "O", al: ["oz", "oz/yd2", "oz-yd2", "oz/sq yd", "osy", "ounce per square yard", "ounces per square yard"], dim: "areal_density" },
       { id: "momme", lb: "Momme Silk (mm)", r: 4.34, s: "O", al: ["momme", "mm silk", "silk momme"], dim: "areal_density" }
     ]
   },
@@ -1374,22 +1374,22 @@ describe("Task 4: Golden Conversion Known-Answer Tests", () => {
     assert.equal(convert(1, "mass", "kg", "g"), 1e3);
     assert.equal(convert(1, "mass", "g", "mg"), 1e3);
     assert.equal(convert(1, "mass", "t", "kg"), 1e3);
-    assert.equal(convert(1, "mass", "lb", "kg"), 0.453592);
+    approxEqual(convert(1, "mass", "lb", "kg"), 0.45359237, 1e-6);
     approxEqual(convert(1, "mass", "lb", "oz"), 16, 1e-4, "1 lb to oz");
     approxEqual(convert(1, "mass", "stone", "lb"), 14, 1e-4, "1 stone to lb");
-    approxEqual(convert(1, "mass", "oz", "g"), 28.3495, 1e-4, "1 oz to g");
+    approxEqual(convert(1, "mass", "oz", "g"), 28.349523, 1e-4, "1 oz to g");
   });
   it("converts Area units accurately", () => {
     assert.equal(convert(1, "area", "m2", "cm2"), 1e4);
     assert.equal(convert(1, "area", "km2", "m2"), 1e6);
     assert.equal(convert(1, "area", "ha", "m2"), 1e4);
-    assert.equal(convert(1, "area", "ac", "m2"), 4046.86);
+    approxEqual(convert(1, "area", "ac", "m2"), 4046.8564224, 1e-4);
     approxEqual(convert(1, "area", "ft2", "in2"), 144, 1e-3, "1 ft2 to in2");
   });
   it("converts Volume units accurately (US liquid definitions)", () => {
     assert.equal(convert(1, "volume", "L", "mL"), 1e3);
     assert.equal(convert(1, "volume", "m3", "L"), 1e3);
-    assert.equal(convert(1, "volume", "gal", "L"), 3.78541);
+    approxEqual(convert(1, "volume", "gal", "L"), 3.785411784, 1e-6);
     approxEqual(convert(1, "volume", "gal", "qt"), 4, 1e-4, "1 gal to qt");
     approxEqual(convert(1, "volume", "qt", "pt"), 2, 1e-4, "1 qt to pt");
     approxEqual(convert(1, "volume", "pt", "floz"), 16, 1e-4, "1 pt to floz");
@@ -1427,7 +1427,7 @@ describe("Task 4: Golden Conversion Known-Answer Tests", () => {
   it("converts Power units accurately", () => {
     assert.equal(convert(1, "power", "kW", "W"), 1e3);
     assert.equal(convert(1, "power", "MW", "kW"), 1e3);
-    assert.equal(convert(1, "power", "hp", "W"), 745.7);
+    approxEqual(convert(1, "power", "hp", "W"), 745.69987158227, 1e-4);
   });
   it("converts Digital Data units accurately", () => {
     assert.equal(convert(1, "data", "B", "bit"), 8);
@@ -1776,7 +1776,7 @@ describe("Task 10: Zero, Negative & Extreme Mathematical Values", () => {
     assert.equal(convert(1, "length", "nm", "m"), 1e-9);
     assert.equal(convert(1e12, "data", "B", "TB"), 1);
     assert.equal(convert(1, "data", "TB", "B"), 1e12);
-    assert.equal(convert(1, "length", "ly", "m"), 9461e12);
+    assert.equal(convert(1, "length", "ly", "m"), 9460730472580800);
   });
 });
 describe("Task 14: Contract & Error Handling Behavior", () => {
@@ -1885,13 +1885,13 @@ describe("Task: Pakistani Regional Units & Multi-Step Chains Verification", () =
   });
 });
 describe("Task C2 & D: Textile Conversions & Dimensional Integrity", () => {
-  it("correctly converts between GSM and oz/yd\xB2 with source constant 33.9057474", () => {
+  it("correctly converts between GSM and oz/yd\xB2 with source constant 33.9057474748823", () => {
     const gsmVal = convert(1, "textile", "oz_yd2", "gsm");
-    assert.equal(gsmVal, 33.9057474);
+    approxEqual(gsmVal, 33.9057474748823, 1e-4);
     const ozVal = convert(480, "textile", "gsm", "oz_yd2");
     assert.ok(Math.abs((ozVal ?? 0) - 14.15689) < 1e-4, "480 GSM must convert to ~14.16 oz/yd\xB2");
     const canvasGsm = convert(10, "textile", "oz_yd2", "gsm");
-    assert.equal(canvasGsm, 339.057474);
+    approxEqual(canvasGsm, 339.057474748823, 1e-4);
   });
   it("prevents cross-dimensional conversions in mixed-dimension categories", () => {
     assert.equal(convert(1, "electricity", "A", "V"), null);

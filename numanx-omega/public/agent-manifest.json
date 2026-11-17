@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "name": "Omega X Converter Agent Tooling",
-  "description": "Deterministic SI metrology and unit conversion engine with 28 physical categories and 123 verified canonical pairs. Designed for autonomous agents, answer engines, and LLM tool calling.",
+  "description": "Deterministic SI metrology and unit conversion engine with 35 physical categories and 186 verified canonical pairs. Designed for autonomous agents, answer engines, and LLM tool calling.",
   "version": "2.4.0",
   "homepage": "https://converter.numanxstudio.com",
   "openapi": "3.1.0",
@@ -17,9 +17,9 @@
     }
   ],
   "capabilities": {
-    "categories_count": 28,
-    "canonical_pairs_count": 99,
-    "total_indexable_pages": 178,
+    "categories_count": 35,
+    "canonical_pairs_count": 186,
+    "total_indexable_pages": 241,
     "metrology_standards": [
       "BIPM SI Brochure 9th Edition (2019)",
       "NIST Special Publication 811 (Guide for the Use of the International System of Units)",

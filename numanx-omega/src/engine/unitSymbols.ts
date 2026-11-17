@@ -100,10 +100,19 @@ const NAMES: Record<string, string> = {
   stick_c: 'Stick of Butter', jigger: 'Jigger',
   au_a: 'Astronomical Unit',
   oz_yd2: 'Ounce per Square Yard', momme: 'Momme Silk',
-  marla_soc: 'Marla (Society 225 sq ft)', marla_cap: 'Marla (Capital 250 sq ft)', gaz_sq: 'Square Yard (Gaz)', maund_pk: 'Maund (40 kg Mandi)',
+  marla: 'Marla',
+  marla_soc: 'Marla (Society)',
+  marla_cap: 'Marla (Capital)',
+  gaz_sq: 'Square Gaz',
+  sarsahi: 'Sarsahi',
+  kanal: 'Kanal',
+  killa: 'Killa',
+  murabba: 'Murabba',
+  maund_pk: 'Maund (Mandi)',
+  maund_trad: 'Traditional Maund',
   bin_radix: 'Binary (Base-2)', oct_radix: 'Octal (Base-8)', dec_radix: 'Decimal (Base-10)', hex_radix: 'Hexadecimal (Base-16)',
   bcd_code: 'Binary Coded Decimal', gray_code: 'Gray Code', twos_comp: "Two's Complement",
-  dec_real: 'Decimal Real', hex_float: 'Hexadecimal Float', fp16: 'Half Precision FP16', fp32: 'Single Precision FP32', fp64: 'Double Precision FP64',
+  dec_real: 'Decimal Real', hex_float: 'Hex Float', fp16: 'FP16', fp32: 'FP32', fp64: 'FP64',
   m_std: 'Million (Standard)', b_std: 'Billion (Standard)', t_std: 'Trillion (Standard)', k_std: 'Thousand (Standard)',
   lakh: 'Lakh', crore: 'Crore', arab: 'Arab', kharab: 'Kharab', hazar: 'Hazar',
   z_score: 'Z-Score', p_val_two: 'Two-Tailed P-Value', p_val_one: 'One-Tailed P-Value',
@@ -130,14 +139,20 @@ export function unitLabel(u: UnitDef, catId?: string): string {
   return name === sym ? name : `${name} (${sym})`
 }
 
-/** "Convert Kilometer to Mile (km to mi)"; drops the symbols when they repeat the names. */
+/** "Convert Kilometer to Mile (km to mi)"; drops the symbols when they repeat the names or when title exceeds 60 chars. */
 export function pairTitle(u1: UnitDef, u2: UnitDef, catId: string): string {
   const n1 = unitName(u1, catId)
   const n2 = unitName(u2, catId)
   const s1 = unitSymbol(u1, catId)
   const s2 = unitSymbol(u2, catId)
   if (s1 === n1 && s2 === n2) return `Convert ${n1} to ${n2}`
-  return `Convert ${n1} to ${n2} (${s1} to ${s2})`
+  const full = `Convert ${n1} to ${n2} (${s1} to ${s2})`
+  if (full.length <= 60) return full
+  const compact = `Convert ${n1} to ${n2}`
+  if (compact.length <= 60) return compact
+  const symCompact = `Convert ${s1} to ${s2}`
+  if (symCompact.length <= 60) return symCompact
+  return compact.slice(0, 57) + '...'
 }
 
 /** Answer-first meta description for pair pages, kept under ~160 characters. */

@@ -512,7 +512,7 @@ export const categoryContent: Record<string, CategoryContent> = {
   },
   illuminance: {
     title: 'Illuminance Converter — Lux, Foot-candles, Nox & Phot',
-    metaDesc: 'Convert illuminance and luminous flux density between Lux (lx), Foot-candles (fc), Phot (ph), and Nox. Standardized for lighting design, OSHA compliance, and photography.',
+    metaDesc: 'Convert illuminance between Lux (lx), Foot-candles (fc), Phot, and Nox. Accurate formulas for lighting design, OSHA compliance, and photography.',
     h1: 'Illuminance & Lighting Design Converter',
     intro: 'Convert luminous flux incident on a surface across SI metric and imperial lighting standards. Accurately translate between Lux (lumens per square meter, lx), Foot-candles (lumens per square foot, fc), Phot (ph), and Nox according to CIE (International Commission on Illumination) standards for architectural lighting, workspace safety, greenhouse horticulture, and cinematography.',
     popularPairs: [
@@ -529,7 +529,7 @@ export const categoryContent: Record<string, CategoryContent> = {
   },
   viscosity: {
     title: 'Viscosity Converter — Centipoise, Pascal-seconds, Poise & mPa·s',
-    metaDesc: 'Dynamic viscosity converter for chemical engineering, lubrication, and fluid mechanics. Convert Centipoise (cP), Pascal-seconds (Pa·s), Poise (P), and mPa·s accurately.',
+    metaDesc: 'Dynamic viscosity converter. Convert between Centipoise (cP), Pascal-seconds (Pa·s), Poise (P), and mPa·s for fluid mechanics and lubrication.',
     h1: 'Dynamic Viscosity & Fluid Mechanics Converter',
     intro: 'Calculate dynamic fluid viscosity across international scientific and engineering units. Convert seamlessly between Centipoise (cP), Pascal-seconds (Pa·s), Millipascal-seconds (mPa·s), Poise (P), and imperial pound per foot-second according to ISO 3104 and ASTM D445 standards for lubricant formulation, polymer rheology, petroleum refining, and chemical processing.',
     popularPairs: [

@@ -58,6 +58,14 @@ export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   'hex-float': 'hex_float',
   'm-std': 'm_std',
   'b-std': 'b_std',
+  'mile': 'mi',
+  'miles': 'mi',
+  'length:mile': 'mi',
+  'length:miles': 'mi',
+  'thou': 'mil',
+  'mil': 'mil',
+  'length:thou': 'mil',
+  'length:mil': 'mil',
   'k-std': 'k_std',
   't-std': 't_std',
   'z-score': 'z_score',
@@ -258,25 +266,59 @@ export function findUnit(cat: CategoryDef, raw: string): UnitDef | undefined {
     if (direct) return direct
   }
 
-  // 3. Clean plural forms
-  const singularCandidates = [q, qSpaced, qUnderscored]
-  if (q.endsWith('ies')) singularCandidates.push(q.slice(0, -3) + 'y')
-  if (q.endsWith('es')) {
-    singularCandidates.push(q.slice(0, -2))
-    singularCandidates.push(q.slice(0, -1))
-  }
-  if (q.endsWith('s')) singularCandidates.push(q.slice(0, -1))
-
-  return cat.un.find(u => {
-    const uid = u.id.toLowerCase()
-    const uidHyphen = uid.replace(/_/g, '-')
-    const ulb = u.lb.toLowerCase()
-    for (const cand of singularCandidates) {
+  // 3. Exact candidate matching across units (highest priority)
+  const exactCandidates = [q, qSpaced, qUnderscored]
+  for (const cand of exactCandidates) {
+    const direct = cat.un.find(u => {
+      const uid = u.id.toLowerCase()
+      const uidHyphen = uid.replace(/_/g, '-')
+      const ulb = u.lb.toLowerCase()
       if (uid === cand || uidHyphen === cand || ulb === cand) return true
       if (u.al?.some(a => a.toLowerCase() === cand)) return true
+      return false
+    })
+    if (direct) return direct
+  }
+
+  // 4. Singular forms in order of specificity
+  const singularCandidates: string[] = []
+  if (q.endsWith('ies')) singularCandidates.push(q.slice(0, -3) + 'y')
+  if (q.endsWith('s') && !q.endsWith('ss')) {
+    singularCandidates.push(q.slice(0, -1)) // e.g. 'miles' -> 'mile', 'meters' -> 'meter'
+  }
+  if (q.endsWith('es')) {
+    singularCandidates.push(q.slice(0, -2)) // e.g. 'inches' -> 'inch', 'boxes' -> 'box'
+  }
+
+  for (const cand of singularCandidates) {
+    const scopedCandKey = `${cat.id}:${cand}`
+    if (PAIR_UNIT_SYNONYMS[scopedCandKey]) {
+      const direct = cat.un.find(u => u.id.toLowerCase() === PAIR_UNIT_SYNONYMS[scopedCandKey].toLowerCase())
+      if (direct) return direct
     }
-    return false
-  })
+    if (PAIR_UNIT_SYNONYMS[cand]) {
+      const direct = cat.un.find(u => u.id.toLowerCase() === PAIR_UNIT_SYNONYMS[cand].toLowerCase())
+      if (direct) return direct
+    }
+
+    const candSpaced = cand.replace(/-/g, ' ')
+    const candUnderscored = cand.replace(/-/g, '_')
+    const candsToCheck = [cand, candSpaced, candUnderscored]
+
+    const match = cat.un.find(u => {
+      const uid = u.id.toLowerCase()
+      const uidHyphen = uid.replace(/_/g, '-')
+      const ulb = u.lb.toLowerCase()
+      for (const c of candsToCheck) {
+        if (uid === c || uidHyphen === c || ulb === c) return true
+        if (u.al?.some(a => a.toLowerCase() === c)) return true
+      }
+      return false
+    })
+    if (match) return match
+  }
+
+  return undefined
 }
 
 // Build Canonical 99 Pair Registry Set

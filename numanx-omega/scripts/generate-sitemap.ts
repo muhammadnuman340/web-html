@@ -93,11 +93,12 @@ export function generateSitemapEntries(): SitemapEntry[] {
 }
 
 export function buildSitemapXml(entries: SitemapEntry[]): string {
+  const lastmod = '2026-11-17'
   const lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ...entries.map(
-      e => `  <url><loc>${e.loc}</loc><priority>${e.priority}</priority><changefreq>${e.changefreq}</changefreq></url>`
+      e => `  <url><loc>${e.loc}</loc><lastmod>${lastmod}</lastmod></url>`
     ),
     '</urlset>',
     '',

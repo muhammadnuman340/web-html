@@ -116,24 +116,24 @@ describe('Task 4: Golden Conversion Known-Answer Tests', () => {
     assert.equal(convert(1, 'mass', 'kg', 'g'), 1000)
     assert.equal(convert(1, 'mass', 'g', 'mg'), 1000)
     assert.equal(convert(1, 'mass', 't', 'kg'), 1000)
-    assert.equal(convert(1, 'mass', 'lb', 'kg'), 0.453592)
+    approxEqual(convert(1, 'mass', 'lb', 'kg'), 0.45359237, 1e-6)
     approxEqual(convert(1, 'mass', 'lb', 'oz'), 16, 1e-4, '1 lb to oz')
     approxEqual(convert(1, 'mass', 'stone', 'lb'), 14, 1e-4, '1 stone to lb')
-    approxEqual(convert(1, 'mass', 'oz', 'g'), 28.3495, 1e-4, '1 oz to g')
+    approxEqual(convert(1, 'mass', 'oz', 'g'), 28.349523, 1e-4, '1 oz to g')
   })
 
   it('converts Area units accurately', () => {
     assert.equal(convert(1, 'area', 'm2', 'cm2'), 10000)
     assert.equal(convert(1, 'area', 'km2', 'm2'), 1000000)
     assert.equal(convert(1, 'area', 'ha', 'm2'), 10000)
-    assert.equal(convert(1, 'area', 'ac', 'm2'), 4046.86)
+    approxEqual(convert(1, 'area', 'ac', 'm2'), 4046.8564224, 1e-4)
     approxEqual(convert(1, 'area', 'ft2', 'in2'), 144, 1e-3, '1 ft2 to in2')
   })
 
   it('converts Volume units accurately (US liquid definitions)', () => {
     assert.equal(convert(1, 'volume', 'L', 'mL'), 1000)
     assert.equal(convert(1, 'volume', 'm3', 'L'), 1000)
-    assert.equal(convert(1, 'volume', 'gal', 'L'), 3.78541)
+    approxEqual(convert(1, 'volume', 'gal', 'L'), 3.785411784, 1e-6)
     approxEqual(convert(1, 'volume', 'gal', 'qt'), 4, 1e-4, '1 gal to qt')
     approxEqual(convert(1, 'volume', 'qt', 'pt'), 2, 1e-4, '1 qt to pt')
     approxEqual(convert(1, 'volume', 'pt', 'floz'), 16, 1e-4, '1 pt to floz')
@@ -176,7 +176,7 @@ describe('Task 4: Golden Conversion Known-Answer Tests', () => {
   it('converts Power units accurately', () => {
     assert.equal(convert(1, 'power', 'kW', 'W'), 1000)
     assert.equal(convert(1, 'power', 'MW', 'kW'), 1000)
-    assert.equal(convert(1, 'power', 'hp', 'W'), 745.7)
+    approxEqual(convert(1, 'power', 'hp', 'W'), 745.69987158227, 1e-4)
   })
 
   it('converts Digital Data units accurately', () => {
@@ -573,7 +573,7 @@ describe('Task 10: Zero, Negative & Extreme Mathematical Values', () => {
     assert.equal(convert(1, 'length', 'nm', 'm'), 1e-9)
     assert.equal(convert(1e12, 'data', 'B', 'TB'), 1)
     assert.equal(convert(1, 'data', 'TB', 'B'), 1e12)
-    assert.equal(convert(1, 'length', 'ly', 'm'), 9.461e15)
+    assert.equal(convert(1, 'length', 'ly', 'm'), 9460730472580800)
   })
 })
 
@@ -716,18 +716,18 @@ describe('Task: Pakistani Regional Units & Multi-Step Chains Verification', () =
 })
 
 describe('Task C2 & D: Textile Conversions & Dimensional Integrity', () => {
-  it('correctly converts between GSM and oz/yd² with source constant 33.9057474', () => {
-    // 1 oz/yd² = 33.9057474 g/m²
+  it('correctly converts between GSM and oz/yd² with source constant 33.9057474748823', () => {
+    // 1 oz/yd² ≈ 33.905747 g/m²
     const gsmVal = convert(1, 'textile', 'oz_yd2', 'gsm')
-    assert.equal(gsmVal, 33.9057474)
+    approxEqual(gsmVal, 33.9057474748823, 1e-4)
 
-    // 480 GSM worked example -> 480 / 33.9057474 ≈ 14.1569
+    // 480 GSM worked example -> 480 / 33.905747 ≈ 14.1569
     const ozVal = convert(480, 'textile', 'gsm', 'oz_yd2')
     assert.ok(Math.abs((ozVal ?? 0) - 14.15689) < 1e-4, '480 GSM must convert to ~14.16 oz/yd²')
 
-    // 10 oz canvas worked example -> 10 * 33.9057474 = 339.057474
+    // 10 oz canvas worked example -> 10 * 33.905747 = 339.05747
     const canvasGsm = convert(10, 'textile', 'oz_yd2', 'gsm')
-    assert.equal(canvasGsm, 339.057474)
+    approxEqual(canvasGsm, 339.057474748823, 1e-4)
   })
 
   it('prevents cross-dimensional conversions in mixed-dimension categories', () => {

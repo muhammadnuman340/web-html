@@ -101,13 +101,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
     return filtered.length > 0 ? filtered : cat.un
   }, [cat, hideCategoryPicker, unitFamily])
 
-  const compatibleToUnits = useMemo(() => {
-    if (!cat) return []
-    const fu = cat.un.find(u => u.id === fromUnit)
-    if (!fu?.dim) return availableUnits
-    const filtered = availableUnits.filter(u => !u.dim || u.dim === fu.dim)
-    return filtered.length > 0 ? filtered : availableUnits
-  }, [cat, fromUnit, availableUnits])
 
   const handleUnitFamilyChange = (famId: string) => {
     setUnitFamily(famId)
@@ -173,16 +166,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
   if (prevFromUnit !== fromUnit) {
     setPrevFromUnit(fromUnit)
-    if (cat && fromUnit) {
-      const fu = cat.un.find(u => u.id === fromUnit)
-      if (fu?.dim) {
-        const tu = cat.un.find(u => u.id === toUnit)
-        if (tu?.dim && tu.dim !== fu.dim) {
-          const nextTu = cat.un.find(u => u.dim === fu.dim && u.id !== fu.id) || cat.un.find(u => u.dim === fu.dim)
-          if (nextTu && nextTu.id !== toUnit) setToUnit(nextTu.id)
-        }
-      }
-    }
   }
 
   // Save defaults when units change
@@ -759,7 +742,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                         aria-label="Target unit"
                         className="bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border-control)] rounded-lg px-2.5 py-1.5 text-xs font-medium outline-none min-h-[44px] cursor-pointer focus:border-[var(--primary)]"
                       >
-                        {compatibleToUnits.map(u => (
+                        {availableUnits.map(u => (
                           <option key={u.id} value={u.id}>
                             {u.lb} ({u.id})
                           </option>
@@ -1254,7 +1237,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       })()}
 
       {/* Converter UI */}
-      <div className="space-y-3">
+      <div className={compactOnMobile ? "space-y-2 sm:space-y-3" : "space-y-3"}>
         <div className="flex gap-2 items-center">
             <div className="flex-1 relative">
               <input ref={inputRef} type="text" value={fromVal}
@@ -1292,7 +1275,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                 autoComplete="off"
                 autoCorrect="off"
                 spellCheck={false}
-                className="w-full h-14 sm:h-16 px-4 py-3 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow)] transition-all placeholder:text-base tabular-nums flex items-center"
+                className={`w-full ${compactOnMobile ? 'h-12 py-2 text-xl' : 'h-14 py-3 text-2xl'} sm:h-16 px-4 pr-8 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] sm:text-3xl font-bold outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_4px_var(--glow)] transition-all placeholder:text-base tabular-nums flex items-center`}
                 onDragOver={e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
                 onDrop={e => { e.preventDefault(); const v = e.dataTransfer.getData('text/plain'); if (v) setFromVal(v) }}
               />
@@ -1335,7 +1318,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
           <select value={fromUnit} onChange={e => setFromUnit(e.target.value)}
             aria-label="Source unit"
-            className="w-36 xs:w-44 sm:w-56 shrink-0 h-14 sm:h-16 px-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm sm:text-base font-semibold outline-none focus:border-[var(--primary)] transition-colors cursor-pointer">
+            className={`w-36 xs:w-44 sm:w-56 shrink-0 ${compactOnMobile ? 'h-12 text-xs sm:text-base' : 'h-14 text-sm sm:text-base'} sm:h-16 px-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] font-semibold outline-none focus:border-[var(--primary)] transition-colors cursor-pointer`}>
             {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
@@ -1433,7 +1416,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
               aria-live="polite"
               aria-atomic="true"
               aria-label="Converted calculation result"
-              className={`w-full h-14 sm:h-16 px-4 py-3 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] text-2xl sm:text-3xl font-bold flex items-center cursor-pointer transition-all duration-300 tabular-nums ${
+              className={`w-full ${compactOnMobile ? 'h-12 py-2 text-xl' : 'h-14 py-3 text-2xl'} sm:h-16 px-4 rounded-xl border-2 bg-[var(--card2)] text-[var(--text)] sm:text-3xl font-bold flex items-center cursor-pointer transition-all duration-300 tabular-nums ${
                 result !== null
                   ? 'border-[var(--primary)]/60 shadow-[0_0_20px_var(--glow)]'
                   : hasError
@@ -1542,8 +1525,8 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           </div>
           <select value={toUnit} onChange={e => setToUnit(e.target.value)}
             aria-label="Target unit"
-            className="w-36 xs:w-44 sm:w-56 shrink-0 h-14 sm:h-16 px-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] text-sm sm:text-base font-semibold outline-none focus:border-[var(--primary)] transition-colors cursor-pointer">
-            {compatibleToUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
+            className={`w-36 xs:w-44 sm:w-56 shrink-0 ${compactOnMobile ? 'h-12 text-xs sm:text-base' : 'h-14 text-sm sm:text-base'} sm:h-16 px-3 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-[var(--text)] font-semibold outline-none focus:border-[var(--primary)] transition-colors cursor-pointer`}>
+            {availableUnits.map(u => <option key={u.id} value={u.id}>{u.lb}</option>)}
           </select>
         </div>
       </div>

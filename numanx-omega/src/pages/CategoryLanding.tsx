@@ -141,25 +141,25 @@ export default function CategoryLanding({ categorySlug }: Props) {
       />
 
       {/* 1. Category Masthead (Compact Spatial Bento Header) */}
-      <header className="rounded-2xl bg-[var(--surface-1)] border border-[var(--border-subtle)] p-3 sm:p-5 overflow-hidden relative space-y-2.5 sm:space-y-3">
+      <header className="rounded-2xl bg-[var(--surface-1)] border border-[var(--border-subtle)] p-2.5 sm:p-5 overflow-hidden relative space-y-1.5 sm:space-y-3">
         {/* Canonical Category Accent Stripe */}
         <div
-          className="absolute top-0 left-0 right-0 h-1.5"
+          className="absolute top-0 left-0 right-0 h-1 sm:h-1.5"
           style={{ background: cat.cl || 'var(--primary)' }}
           aria-hidden="true"
         />
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-0.5 sm:pt-1">
-          <div className="flex items-center gap-2.5 sm:gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-2.5 pt-0.5 sm:pt-1">
+          <div className="flex items-center gap-2 sm:gap-3">
             <span
-              className="text-xl sm:text-3xl p-2 sm:p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border-subtle)] shadow-xs flex-shrink-0"
+              className="text-lg sm:text-3xl p-1.5 sm:p-2.5 rounded-xl bg-[var(--surface-2)] border border-[var(--border-subtle)] shadow-xs flex-shrink-0"
               role="img"
               aria-hidden="true"
             >
               {cat.ic}
             </span>
             <div>
-              <h1 className="text-lg sm:text-2xl font-bold text-[var(--text)] tracking-tight">
+              <h1 className="text-base sm:text-2xl font-bold text-[var(--text)] tracking-tight">
                 {content.h1}
               </h1>
               <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1 text-xs text-[var(--text2)]">
@@ -197,13 +197,13 @@ export default function CategoryLanding({ categorySlug }: Props) {
           </div>
         </div>
 
-        <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed max-w-3xl line-clamp-2 sm:line-clamp-none">
+        <p className="text-xs sm:text-sm text-[var(--text2)] leading-relaxed max-w-3xl line-clamp-1 sm:line-clamp-none">
           {content.intro}
         </p>
       </header>
 
       {/* 2. Primary Conversion Instrument (Dominant Above-The-Fold Centerpiece) */}
-      <section aria-labelledby="convert-heading" className="space-y-1.5 sm:space-y-2 min-w-0 max-w-full overflow-hidden">
+      <section aria-labelledby="convert-heading" className="space-y-1 sm:space-y-2 min-w-0 max-w-full overflow-hidden">
         <div className="flex items-center justify-between gap-2">
           <h2 id="convert-heading" className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-2">
             <span className="w-2 h-2 rounded-full" style={{ background: cat.cl || 'var(--primary)' }} aria-hidden="true" />
@@ -213,7 +213,7 @@ export default function CategoryLanding({ categorySlug }: Props) {
             Precision Metrology
           </span>
         </div>
-        <div className="rounded-2xl bg-[var(--surface-2)] border border-[var(--border-subtle)] p-2.5 sm:p-5 shadow-xs min-w-0 max-w-full overflow-hidden">
+        <div className="rounded-2xl bg-[var(--surface-2)] border border-[var(--border-subtle)] p-2 sm:p-5 shadow-xs min-w-0 max-w-full overflow-hidden">
           <UniversalConverter category={cat.id} hideCategoryPicker={true} compactOnMobile={true} initialValue={1} />
         </div>
       </section>
