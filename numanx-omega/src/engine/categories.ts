@@ -218,7 +218,7 @@ export const Categories: CategoryDef[] = [
       { id: 'BTUh', lb: 'BTU/h', r: 0.29307107, s: 'I' },
       { id: 'W', lb: 'Watt', r: 1, s: 'M' },
       { id: 'ps', lb: 'Metric Horsepower (PS)', r: 735.49875, s: 'O', al: ['ch', 'cv'] },
-      { id: 'hp', lb: 'Horsepower', r: 745.69987158227022, s: 'I' },
+      { id: 'hp', lb: 'Horsepower', r: 745.6998715822702, s: 'I' },
       { id: 'kW', lb: 'Kilowatt', r: 1e3, s: 'M' },
       { id: 'tr', lb: 'Ton of Refrigeration', r: 3516.852842, s: 'I', al: ['refrigeration ton', 'tons of ac'] },
       { id: 'MW', lb: 'Megawatt', r: 1e6, s: 'M' },
@@ -307,7 +307,7 @@ export const Categories: CategoryDef[] = [
       { id: 'Ncm', lb: 'N·cm', r: 0.01, s: 'M' },
       { id: 'lbin', lb: 'lb-in', r: 0.1129848290276167, s: 'I', al: ['in-lb', 'pound-inch', 'pound-inches', 'inch-pound'] },
       { id: 'Nm', lb: 'N·m', r: 1, s: 'M', al: ['newton-meter', 'newton-meters'] },
-      { id: 'lbft', lb: 'lb-ft', r: 1.3558179483314004, s: 'I', al: ['pound-foot', 'pound-feet', 'foot-pound', 'foot-pounds'] },
+      { id: 'lbft', lb: 'lb-ft', r: 1.3558179483314003, s: 'I', al: ['pound-foot', 'pound-feet', 'foot-pound', 'foot-pounds'] },
       { id: 'kgfm', lb: 'kgf·m', r: 9.80665, s: 'M', al: ['kgf-m'] }
     ]
   },

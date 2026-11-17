@@ -71,54 +71,46 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay: index * 0.025, type: 'spring', stiffness: 180, damping: 22 }}
-      className="glass rounded-2xl overflow-hidden group will-change-transform relative border border-transparent hover:border-[var(--border)] transition-colors"
+      className="glass rounded-xl overflow-hidden group will-change-transform relative border border-[var(--border-subtle)] hover:border-[var(--primary)] transition-all flex flex-col justify-between"
     >
-      <div className="h-1.5" style={{ background: cat.cl || '#7c6fff' }} />
+      <div className="h-1" style={{ background: cat.cl || '#7c6fff' }} />
 
       <Link
         to={`/convert/${cat.id}`}
-        className="block p-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] rounded-b-2xl"
+        className="block p-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] rounded-b-xl flex-1 flex flex-col justify-between"
         aria-label={`${cat.lb} conversion calculator with ${cat.un.length} units`}
       >
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-3xl group-hover:scale-110 transition-transform duration-300" role="img" aria-hidden="true">{cat.ic}</span>
-          <span className="text-xs text-[var(--text2)] opacity-80 font-medium">{cat.un.length} units</span>
-        </div>
-        <div className="font-semibold text-sm mb-1 text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">
-          {cat.lb}
-        </div>
+        <div>
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-xl shrink-0 group-hover:scale-110 transition-transform duration-300" role="img" aria-hidden="true">{cat.ic}</span>
+              <span className="font-bold text-sm text-[var(--text)] group-hover:text-[var(--primary)] transition-colors truncate">{cat.lb}</span>
+            </div>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)] shrink-0 font-medium">{cat.un.length} units</span>
+          </div>
 
-        <div className="text-xs text-[var(--text2)] opacity-80 space-y-0.5">
-          {samplePairs.map(pair => {
-            const pv = convert(1, cat.id, pair.from.id, pair.to.id)
-            return (
-              <div key={`${pair.from.id}-${pair.to.id}`} className="flex justify-between">
-                <span>1 {pair.from.lb}</span>
-                <span>= {pv !== null ? fmt(pv, 2) : '—'} {pair.to.lb}</span>
-              </div>
-            )
-          })}
-        </div>
-
-        <div className="flex gap-1 flex-wrap mt-3">
-          {cat.un.slice(0, 4).map(u => (
-            <span key={u.id} className="px-1.5 py-0.5 rounded text-xs bg-[var(--border)] text-[var(--text2)] font-medium">
-              {u.lb}
-            </span>
-          ))}
-          {cat.un.length > 4 && (
-            <span className="px-1.5 py-0.5 rounded text-xs bg-[var(--border)] text-[var(--text2)] opacity-70">
-              +{cat.un.length - 4}
-            </span>
+          {primaryPair && (
+            <div className="py-1 px-2 rounded-lg bg-[var(--surface-2)]/60 border border-[var(--border-subtle)] text-[11px] font-mono text-[var(--text2)] flex items-center justify-between mb-2">
+              <span className="truncate">1 {primaryPair.from.lb}</span>
+              <span className="shrink-0 text-[var(--text)] font-semibold ml-2">
+                = {previewVal !== null ? (Math.abs(previewVal) < 0.01 && previewVal !== 0 ? fmt(previewVal, 4) : fmt(previewVal, 2)) : '—'} {primaryPair.to.lb}
+              </span>
+            </div>
           )}
         </div>
 
-        {previewVal !== null && primaryPair && (
-          <div className="mt-2 pt-2 border-t border-[var(--border)] text-xs text-[var(--text2)] opacity-80 flex items-center justify-between">
-            <span>1 {primaryPair.from.lb}</span>
-            <span>≈ {fmt(previewVal, 2)} {primaryPair.to.lb}</span>
-          </div>
-        )}
+        <div className="flex gap-1 items-center flex-wrap overflow-hidden pt-1">
+          {cat.un.slice(0, 3).map(u => (
+            <span key={u.id} className="px-1.5 py-0.5 rounded text-[10px] bg-[var(--border)] text-[var(--text2)] font-medium truncate max-w-[90px]">
+              {u.lb}
+            </span>
+          ))}
+          {cat.un.length > 3 && (
+            <span className="px-1.5 py-0.5 rounded text-[10px] bg-[var(--border)] text-[var(--text2)] opacity-70 font-mono">
+              +{cat.un.length - 3}
+            </span>
+          )}
+        </div>
       </Link>
 
       {/* Quick convert preview popup */}
@@ -152,7 +144,7 @@ function TiltCard({ cat, index }: { cat: CategoryDef; index: number }) {
           e.stopPropagation()
           setShowQuick(!showQuick)
         }}
-        className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity hover:bg-[var(--primary)] hover:text-white"
+        className="absolute top-2 right-2 w-6 h-6 rounded-md bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity hover:bg-[var(--primary)] hover:text-white"
         aria-label={showQuick ? 'Hide quick convert' : `Quick convert for ${cat.lb}`}
       >
         <span aria-hidden="true">{showQuick ? '✕' : '⚡'}</span>

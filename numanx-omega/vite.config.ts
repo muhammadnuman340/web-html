@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { defineConfig } from 'vite'
+import type { ServerResponse } from 'node:http'
+import { defineConfig, type PreviewServer, type Connect } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { getSiteUrl } from './src/config/site'
@@ -8,8 +9,8 @@ import { getSiteUrl } from './src/config/site'
 function previewServerRoutingPlugin() {
   return {
     name: 'omega-preview-routing',
-    configurePreviewServer(server: any) {
-      server.middlewares.use((req: any, res: any, next: any) => {
+    configurePreviewServer(server: PreviewServer) {
+      server.middlewares.use((req: Connect.IncomingMessage, res: ServerResponse, next: Connect.NextFunction) => {
         const url = req.url || '/'
         const [rawPath] = url.split('?')
         const pathname = decodeURIComponent(rawPath)
