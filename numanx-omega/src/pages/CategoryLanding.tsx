@@ -2,7 +2,7 @@
 /* Anti-Slop Gate · P5 H5 E5 S5 R5 V5 · Silhouette: Spatial Bento Workbench */
 
 import { useMemo, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useSearchParams } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories } from '../engine/converter'
 import { categoryContent } from '../engine/categoryContent'
@@ -32,10 +32,16 @@ interface Props {
 
 export default function CategoryLanding({ categorySlug }: Props) {
   const { category: paramCategory } = useParams<{ category: string }>()
+  const [searchParams] = useSearchParams()
   const rawCategory = categorySlug || paramCategory
   const category = rawCategory ? (resolveCategoryId(rawCategory) || rawCategory.toLowerCase()) : undefined
   const content = category ? categoryContent[category] : null
   const cat = category ? getAllCategories().find(c => c.id === category) : null
+
+  const queryFrom = searchParams.get('from') || undefined
+  const queryTo = searchParams.get('to') || undefined
+  const valParam = searchParams.get('val')
+  const queryVal = valParam ? parseFloat(valParam) : undefined
 
   const allCats = useMemo(() => getAllCategories(), [])
   const categoryGuides = useMemo(() => (cat ? getGuidesForCategory(cat.id) : []), [cat])
@@ -214,7 +220,14 @@ export default function CategoryLanding({ categorySlug }: Props) {
           </span>
         </div>
         <div className="rounded-2xl bg-[var(--surface-2)] border border-[var(--border-subtle)] p-2 sm:p-5 shadow-xs min-w-0 max-w-full overflow-hidden">
-          <UniversalConverter category={cat.id} hideCategoryPicker={true} compactOnMobile={true} initialValue={1} />
+          <UniversalConverter
+            category={cat.id}
+            hideCategoryPicker={true}
+            compactOnMobile={true}
+            initialFrom={queryFrom}
+            initialTo={queryTo}
+            initialValue={queryVal !== undefined && !isNaN(queryVal) ? queryVal : 1}
+          />
         </div>
       </section>
 

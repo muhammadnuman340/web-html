@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, NavLink, useLocation, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Sidebar from './components/layout/Sidebar'
-import CommandBar from './components/ui/CommandBar'
 import FeedbackModal from './components/ui/FeedbackModal'
 import type { AppMode } from './components/widgets/ModeSwitcher'
 import FloatingTools from './components/widgets/FloatingTools'
@@ -37,6 +36,7 @@ const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))
 const ProPassModal = lazy(() => import('./components/monetization/ProPassModal'))
+const CommandBar = lazy(() => import('./components/ui/CommandBar'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -98,12 +98,12 @@ function AppContent() {
 
   const handleCommandConvert = useCallback((val: number, from: string, to: string) => {
     const cat = getAllCategories().find(c => c.un.some(u => u.id === from))
-    if (cat) navigate(`/converter?cat=${cat.id}&from=${from}&to=${to}&val=${val}`)
+    if (cat) navigate(`/convert/${cat.id}?from=${from}&to=${to}&val=${val}`)
   }, [navigate])
 
   const handleApplyPair = useCallback((from: string, to: string) => {
     const cat = getAllCategories().find(c => c.un.some(u => u.id === from))
-    if (cat) navigate(`/converter?cat=${cat.id}&from=${from}&to=${to}`)
+    if (cat) navigate(`/convert/${cat.id}?from=${from}&to=${to}`)
   }, [navigate])
 
   useGlobalShortcuts({
@@ -148,7 +148,11 @@ function AppContent() {
         Skip to main content
       </a>
       <JSONLD />
-      <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
+      {commandBarOpen && (
+        <Suspense fallback={null}>
+          <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
+        </Suspense>
+      )}
       <Suspense fallback={null}><ProPassModal /></Suspense>
       <FeedbackModal />
       {shortcutsOpen && (

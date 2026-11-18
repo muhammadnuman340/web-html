@@ -1157,6 +1157,33 @@ function parseNaturalLanguage(input) {
       return { type: "convert", value: val, fromUnit: unit, raw, intent };
     }
   }
+  const unitToUnitPatterns = [
+    /^(?:(?:convert|change|transform)\s+)?([a-zA-Z°/\s-]+?)\s+(?:into|to|in|as|→|->|=>)\s+([a-zA-Z°/\s-]+?)$/i,
+    /^(?:convert\s+)?([a-zA-Z°/\s-]+?)\s+([a-zA-Z°/\s-]+?)$/i
+  ];
+  for (const pattern of unitToUnitPatterns) {
+    const m = raw.match(pattern);
+    if (m) {
+      const fromRaw = m[1].trim();
+      const toRaw = m[2].trim();
+      const fromUnit = extractUnit(fromRaw);
+      const toUnit = extractUnit(toRaw);
+      if (fromUnit && toUnit && fromUnit !== toUnit) {
+        return {
+          type: "convert",
+          value: 1,
+          fromUnit,
+          toUnit,
+          raw,
+          intent: "convert",
+          steps: [
+            { label: "Source unit", value: fromRaw },
+            { label: "Target unit", value: toRaw }
+          ]
+        };
+      }
+    }
+  }
   return { type: "unknown", raw, intent };
 }
 

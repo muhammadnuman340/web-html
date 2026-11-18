@@ -4,15 +4,27 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { parseNaturalLanguage } from '../../engine/smartParser'
 import { getAllCategories } from '../../engine/converter'
 
+function cleanSlug(s: string): string {
+  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+}
+
 interface Props {
   open: boolean
   onClose: () => void
   onConvert: (val: number, from: string, to: string) => void
 }
 
+interface PairItem {
+  catId: string
+  from: string
+  to: string
+  desc?: string
+}
+
 export default function CommandBar({ open, onClose, onConvert }: Props) {
   const [query, setQuery] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [popularPairs, setPopularPairs] = useState<PairItem[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
   const previousActiveElement = useRef<HTMLElement | null>(null)
@@ -23,6 +35,20 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
       previousActiveElement.current = document.activeElement as HTMLElement | null
       startTransition(() => { setQuery(''); setSelectedIndex(0) })
       const timer = setTimeout(() => inputRef.current?.focus(), 50)
+
+      // Dynamically load category content for pair search without bloating initial bundle
+      import('../../engine/categoryContent').then(({ categoryContent }) => {
+        const list: PairItem[] = []
+        for (const [catId, content] of Object.entries(categoryContent)) {
+          if (content?.popularPairs) {
+            for (const p of content.popularPairs) {
+              list.push({ catId, from: p.from, to: p.to, desc: p.desc })
+            }
+          }
+        }
+        setPopularPairs(list)
+      }).catch(() => {})
+
       return () => clearTimeout(timer)
     } else if (previousActiveElement.current) {
       previousActiveElement.current.focus?.()
@@ -44,47 +70,13 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
 
   const results = useMemo(() => {
     if (!query.trim()) return []
-    const q = query.toLowerCase()
+    const q = query.trim().toLowerCase()
+    const qSingular = q.endsWith('s') && !q.endsWith('ss') ? q.slice(0, -1) : q
     const parsed = parseNaturalLanguage(query)
-    const r: { label: string; type: string; action: () => void }[] = []
+    const items: { label: string; type: string; score: number; action: () => void }[] = []
+    const allCategories = getAllCategories()
 
-    if (parsed.type === 'convert' && parsed.value && parsed.fromUnit && parsed.toUnit) {
-      r.push({
-        label: `🔄 Convert ${parsed.value} ${parsed.fromUnit} → ${parsed.toUnit}`,
-        type: 'convert',
-        action: () => { onConvert(parsed.value!, parsed.fromUnit!, parsed.toUnit!); onClose() }
-      })
-    }
-
-    getAllCategories().forEach(c => {
-      if (c.lb.toLowerCase().includes(q) || c.id.includes(q) || c.al?.some(a => a.toLowerCase().includes(q))) {
-        r.push({
-          label: `${c.ic} ${c.lb}`,
-          type: 'category',
-          action: () => { navigate(`/converter?cat=${c.id}`); onClose() }
-        })
-      }
-      c.un.forEach(u => {
-        if (u.lb.toLowerCase().includes(q) || u.id.toLowerCase().includes(q)) {
-          r.push({
-            label: `${u.lb} → ${c.ic} ${c.lb}`,
-            type: 'unit',
-            action: () => { navigate(`/converter?cat=${c.id}`); onClose() }
-          })
-        }
-      })
-    })
-
-    const pages = [
-      { label: '🏠 Home', path: '/' }, { label: '🔄 Converter', path: '/converter' }, { label: '📜 History', path: '/history' }, { label: '⚙️ Settings', path: '/settings' },
-      { label: '📐 Formulas', path: '/formulas' }, { label: 'ℹ️ Help', path: '/help' }
-    ]
-    pages.forEach(p => {
-      if (p.label.toLowerCase().includes(q)) {
-        r.push({ label: p.label, type: 'page', action: () => { navigate(p.path); onClose() } })
-      }
-    })
-
+    // 1. Math calculation (e.g. 100+200, 50*1.5)
     const mathMatch = query.match(/^(\d+\.?\d*)\s*([+\-*/])\s*(\d+\.?\d*)$/)
     if (mathMatch) {
       const v1 = parseFloat(mathMatch[1]), op = mathMatch[2], v2 = parseFloat(mathMatch[3])
@@ -95,15 +87,168 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
         case '*': mathResult = v1 * v2; break
         case '/': mathResult = v2 !== 0 ? v1 / v2 : 0; break
       }
-      r.push({
+      items.push({
         label: `🧮 ${v1} ${op} ${v2} = ${mathResult}`,
         type: 'math',
+        score: 120,
         action: () => { navigator.clipboard?.writeText(String(mathResult)); onClose() }
       })
     }
 
-    return r.slice(0, 10)
-  }, [query, navigate, onConvert, onClose])
+    // 2. Natural language convert intent (e.g. "5 km in miles", "mile to kilometer")
+    if (parsed.type === 'convert' && parsed.fromUnit && parsed.toUnit) {
+      const fromCat = allCategories.find(c => c.un.some(u => u.id === parsed.fromUnit))
+      const toCat = allCategories.find(c => c.un.some(u => u.id === parsed.toUnit))
+      const fromUnitDef = fromCat?.un.find(u => u.id === parsed.fromUnit)
+      const toUnitDef = toCat?.un.find(u => u.id === parsed.toUnit)
+      const val = parsed.value ?? 1
+      const fromLabel = fromUnitDef?.lb || parsed.fromUnit
+      const toLabel = toUnitDef?.lb || parsed.toUnit
+
+      items.push({
+        label: `🔄 Convert ${val} ${fromLabel} → ${toLabel}`,
+        type: 'convert',
+        score: 110,
+        action: () => { onConvert(val, parsed.fromUnit!, parsed.toUnit!); onClose() }
+      })
+    }
+
+    // 3. Published canonical pair guides
+    for (const pair of popularPairs) {
+      const cat = allCategories.find(c => c.id === pair.catId)
+      const fromL = pair.from.toLowerCase()
+      const toL = pair.to.toLowerCase()
+      const pairTitle = `convert ${fromL} to ${toL}`
+      const pairReverse = `convert ${toL} to ${fromL}`
+      let pairScore = 0
+
+      if (
+        q === pairTitle || q === `${fromL} to ${toL}` || q === `${fromL} ${toL}` ||
+        q === pairReverse || q === `${toL} to ${fromL}` || q === `${toL} ${fromL}`
+      ) {
+        pairScore = 105
+      } else if (fromL === q || toL === q || fromL === qSingular || toL === qSingular) {
+        pairScore = 92
+      } else if (pairTitle.startsWith(q) || `${fromL} to ${toL}`.startsWith(q)) {
+        pairScore = 85
+      } else if (pairTitle.includes(q) || (pair.desc && pair.desc.toLowerCase().includes(q))) {
+        pairScore = 70
+      }
+
+      if (pairScore > 0) {
+        const fSlug = cleanSlug(pair.from)
+        const tSlug = cleanSlug(pair.to)
+        items.push({
+          label: `Convert ${pair.from} to ${pair.to} → ${cat?.ic || '📐'} ${cat?.lb || pair.catId}`,
+          type: 'pair',
+          score: pairScore,
+          action: () => { navigate(`/convert/${pair.catId}/${fSlug}-to-${tSlug}`); onClose() }
+        })
+      }
+    }
+
+    // 4. Units matching across all categories
+    for (const c of allCategories) {
+      for (const u of c.un) {
+        const uid = u.id.toLowerCase()
+        const ulb = u.lb.toLowerCase()
+        const aliases = (u.al || []).map(a => a.toLowerCase())
+        let unitScore = 0
+
+        // Exact match on id, label, alias, or plural/singular
+        if (
+          uid === q || ulb === q || aliases.includes(q) ||
+          (qSingular !== q && (ulb === qSingular || aliases.includes(qSingular) || uid === qSingular)) ||
+          ulb + 's' === q ||
+          (q === 'feet' && (uid === 'ft' || aliases.includes('feet'))) ||
+          (q === 'foot' && (uid === 'ft' || aliases.includes('foot')))
+        ) {
+          unitScore = 100
+        } else if (
+          // Word-level exact match (e.g. "feet" in "square feet" or "Square Foot")
+          ulb.split(/\s+/).some(w => w === q || w === qSingular) ||
+          aliases.some(a => a.split(/\s+/).some(w => w === q || w === qSingular))
+        ) {
+          unitScore = 90
+        } else if (
+          ulb.startsWith(q) || uid.startsWith(q) || aliases.some(a => a.startsWith(q)) ||
+          ulb.split(/\s+/).some(w => w.startsWith(q))
+        ) {
+          unitScore = 80
+        } else if (ulb.includes(q) || aliases.some(a => a.includes(q))) {
+          unitScore = 50
+        }
+
+        if (unitScore > 0) {
+          items.push({
+            label: `${u.lb} (${u.id}) → ${c.ic} ${c.lb}`,
+            type: 'unit',
+            score: unitScore,
+            action: () => { navigate(`/convert/${c.id}?from=${u.id}`); onClose() }
+          })
+        }
+      }
+
+      // 5. Category matching
+      const cid = c.id.toLowerCase()
+      const clb = c.lb.toLowerCase()
+      const caliases = (c.al || []).map(a => a.toLowerCase())
+      let catScore = 0
+
+      if (cid === q || clb === q || caliases.includes(q) || clb === qSingular) {
+        catScore = 95
+      } else if (clb.startsWith(q) || cid.startsWith(q) || caliases.some(a => a.startsWith(q))) {
+        catScore = 75
+      } else if (clb.includes(q) || caliases.some(a => a.includes(q))) {
+        catScore = 45
+      }
+
+      if (catScore > 0) {
+        items.push({
+          label: `${c.ic} ${c.lb}`,
+          type: 'category',
+          score: catScore,
+          action: () => { navigate(`/convert/${c.id}`); onClose() }
+        })
+      }
+    }
+
+    // 6. Navigation pages
+    const pages = [
+      { label: '🏠 Home', path: '/' },
+      { label: '📂 Categories', path: '/categories' },
+      { label: '🔄 Converter', path: '/converter' },
+      { label: '⚙️ Settings', path: '/settings' },
+      { label: '📐 Formulas', path: '/formulas' },
+      { label: 'ℹ️ About', path: '/about' },
+      { label: '📚 Guides', path: '/guides' },
+      { label: '📰 Blog', path: '/blog' }
+    ]
+    for (const p of pages) {
+      if (p.label.toLowerCase().includes(q) || p.path.toLowerCase().includes(q)) {
+        items.push({
+          label: p.label,
+          type: 'page',
+          score: 60,
+          action: () => { navigate(p.path); onClose() }
+        })
+      }
+    }
+
+    // Sort by score descending and deduplicate by label
+    items.sort((a, b) => b.score - a.score)
+    const seen = new Set<string>()
+    const deduped: { label: string; type: string; action: () => void }[] = []
+    for (const item of items) {
+      if (!seen.has(item.label)) {
+        seen.add(item.label)
+        deduped.push({ label: item.label, type: item.type, action: item.action })
+        if (deduped.length >= 10) break
+      }
+    }
+
+    return deduped
+  }, [query, popularPairs, navigate, onConvert, onClose])
 
   const executeSelected = useCallback(() => {
     if (results[selectedIndex]) {
@@ -195,6 +340,8 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
                   >
                     <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${
                       r.type === 'convert' ? 'text-green-500 bg-green-500/10' :
+                      r.type === 'pair' ? 'text-cyan-400 bg-cyan-400/10' :
+                      r.type === 'unit' ? 'text-purple-400 bg-purple-400/10' :
                       r.type === 'category' ? 'text-blue-500 bg-blue-500/10' :
                       r.type === 'math' ? 'text-yellow-500 bg-yellow-500/10' :
                       'opacity-50'
