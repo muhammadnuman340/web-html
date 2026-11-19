@@ -1,0 +1,50 @@
+[
+  {
+    "url": "https://converter.numanxstudio.com/convert/area/hectares-to-acres",
+    "strategy": "mobile",
+    "attempts": 1,
+    "error": "The operation was aborted due to timeout (body read; not retried — script bug, fixed before rerun)"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/area/hectares-to-acres",
+    "strategy": "desktop",
+    "attempts": 1,
+    "error": "The operation was aborted due to timeout (body read; not retried — script bug, fixed before rerun)"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/illuminance/lux-to-foot-candle",
+    "strategy": "desktop",
+    "attempts": 1,
+    "error": "The operation was aborted due to timeout (body read; not retried — script bug, fixed before rerun)"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/length",
+    "strategy": "mobile",
+    "attempts": 1,
+    "error": "The operation was aborted due to timeout (body read; not retried — script bug, fixed before rerun)"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/length/angstrom-to-nanometer",
+    "strategy": "mobile",
+    "attempts": 2,
+    "error": "The operation was aborted due to timeout (body read; not retried — script bug, fixed before rerun)"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/length/centimeter-to-inches",
+    "strategy": "mobile",
+    "attempts": 3,
+    "error": "fetch failed"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/length/centimeter-to-inches",
+    "strategy": "desktop",
+    "attempts": 3,
+    "error": "The operation was aborted due to timeout (body read; not retried — script bug, fixed before rerun)"
+  },
+  {
+    "url": "https://converter.numanxstudio.com/convert/mass/troy-ounce-to-gram",
+    "strategy": "desktop",
+    "attempts": 1,
+    "error": "HTTP 400: Lighthouse returned error: NO_FCP (not retried: 4xx)"
+  }
+]

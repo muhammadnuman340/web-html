@@ -26,3 +26,6 @@ audit.env
 scratch/
 AUDIT_*.md
 .wrangler/
+
+# PageSpeed audit raw responses (large; summary.md/csv are kept)
+reports/psi/*/raw/
