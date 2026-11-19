@@ -50,6 +50,16 @@ function AppContent() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  // Skip the route enter animation on the first (hard) page load only, so the
+  // landing page paints in place instead of starting at opacity 0. Client-side
+  // navigations still animate. AnimatePresence's own `initial={false}` can't do
+  // this here: the animated wrapper mounts later, when the lazy route resolves.
+  const [landing, setLanding] = useState({ path: location.pathname, active: true })
+  if (landing.active && location.pathname !== landing.path) {
+    setLanding({ path: landing.path, active: false })
+  }
+  const skipEnterAnimation = landing.active
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('uc_theme_class')
     if (savedTheme === null) {
@@ -180,7 +190,7 @@ function AppContent() {
                 <Suspense fallback={<SkeletonPage />}>
                   <motion.div
                     key={location.pathname}
-                    initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                    initial={skipEnterAnimation ? false : { opacity: 0, y: 16, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -12, scale: 0.97 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 28 }}
