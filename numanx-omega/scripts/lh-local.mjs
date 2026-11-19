@@ -4,7 +4,7 @@
  * One URL per template, mobile + desktop presets, N runs each, median reported.
  * Shells out to `npx lighthouse@13.6.0` (same major/minor PSI used on 2026-11-19).
  *
- *   node scripts/lh-local.mjs <label> [--runs 3] [--base http://localhost:4173] [--only mobile|desktop]
+ *   node scripts/lh-local.mjs <label> [--runs 3] [--base http://localhost:4173] [--only mobile|desktop] [--urls file.json]
  *   node scripts/lh-local.mjs --compare <beforeLabel> <afterLabel>
  *
  * Output: reports/lighthouse/<label>/raw/*.json (gitignored) and reports/lighthouse/<label>/medians.json
@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const LH = 'lighthouse@13.6.0';
-export const URLS = {
+const DEFAULT_URLS = {
   home: '/',
   categories: '/categories',
   'convert/<cat>': '/convert/length',
@@ -42,6 +42,8 @@ const median = (xs) => { const v = [...xs].sort((a, b) => a - b); const m = v.le
 
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : d; };
+// --urls <file.json>: { "label": "/path", ... } replaces the default one-URL-per-template set.
+const URLS = opt('--urls') ? JSON.parse(fs.readFileSync(path.resolve(opt('--urls')), 'utf8')) : DEFAULT_URLS;
 
 async function chromePath() {
   if (process.env.CHROME_PATH) return process.env.CHROME_PATH;
@@ -63,11 +65,11 @@ function compare(a, b) {
   for (const preset of ['mobile', 'desktop']) {
     out.push(`### ${preset} (local Lighthouse ${LH.split('@')[1]}, median of ${A.runs} runs; before = \`${a}\`, after = \`${b}\`)`, '');
     out.push('| Template | URL | Score | LCP | TBT | CLS | FCP | SI | JS transfer |', '|---|---|---|---|---|---|---|---|---|');
-    for (const t of Object.keys(URLS)) {
+    for (const t of Object.keys(A.results[preset] || {})) {
       const x = A.results[preset]?.[t], y = B.results[preset]?.[t];
       if (!x || !y) continue;
       const cell = (k) => `${fmt(k, x[k])} → ${fmt(k, y[k])}`;
-      out.push(`| ${t} | \`${URLS[t]}\` | ${cell('score')} | ${cell('LCP')} | ${cell('TBT')} | ${cell('CLS')} | ${cell('FCP')} | ${cell('SI')} | ${cell('JS')} |`);
+      out.push(`| ${t} | \`${x.url}\` | ${cell('score')} | ${cell('LCP')} | ${cell('TBT')} | ${cell('CLS')} | ${cell('FCP')} | ${cell('SI')} | ${cell('JS')} |`);
     }
     out.push('');
   }

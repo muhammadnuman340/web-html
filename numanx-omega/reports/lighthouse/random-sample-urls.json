@@ -1,0 +1,10 @@
+{
+  "convert/<cat>": "/convert/force",
+  "convert/<cat>/<pair> #1": "/convert/volume/imperial-gallon-to-gallon",
+  "convert/<cat>/<pair> #2": "/convert/frequency/khz-to-mhz",
+  "guides": "/guides/lakh-crore-to-million-billion",
+  "blog": "/blog/temperature-scales-celsius-fahrenheit-kelvin",
+  "static": "/sitemap",
+  "other": "/formulas",
+  "pair (worst PSI mobile, not random)": "/convert/mass/g-to-tola"
+}
