@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, NavLink, useLocation, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Sidebar from './components/layout/Sidebar'
-import CommandBar from './components/ui/CommandBar'
 import type { AppMode } from './components/widgets/ModeSwitcher'
 import FloatingTools from './components/widgets/FloatingTools'
 import ErrorBoundary from './components/ui/ErrorBoundary'
@@ -36,10 +35,14 @@ const LegalPage = lazy(() => import('./pages/LegalPage'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))
 const ProPassModal = lazy(() => import('./components/monetization/ProPassModal'))
+const CommandBar = lazy(() => import('./components/ui/CommandBar'))
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [commandBarOpen, setCommandBarOpen] = useState(false)
+  // CommandBar's chunk is fetched on first open (Ctrl+K / search button) and kept mounted after.
+  const [commandBarLoaded, setCommandBarLoaded] = useState(false)
+  if (commandBarOpen && !commandBarLoaded) setCommandBarLoaded(true)
   const [mode, setMode] = useLocalStorage<AppMode>('uc_mode', 'pro')
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -170,7 +173,11 @@ function AppContent() {
         Skip to main content
       </a>
       <JSONLD />
-      <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
+      {commandBarLoaded && (
+        <Suspense fallback={null}>
+          <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
+        </Suspense>
+      )}
       {proRequest && (
         <Suspense fallback={null}><ProPassModal initialOpen initialReason={proRequest.reason} /></Suspense>
       )}
