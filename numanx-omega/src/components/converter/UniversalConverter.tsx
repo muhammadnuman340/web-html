@@ -68,7 +68,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const historyIndex = useRef(-1)
 
 
-  useEffect(() => { inputRef.current?.focus() }, [catId])
+  // preventScroll: where the converter sits mid-page (e.g. blog posts) a plain
+  // focus() scrolled the page to it in the same frame the page rendered, which
+  // Lighthouse counted as a large layout shift (blog post desktop CLS ~0.2).
+  useEffect(() => { inputRef.current?.focus({ preventScroll: true }) }, [catId])
 
   // Smart defaults — remember last units per category
   const DEFAULTS_KEY = 'uc_unit_defaults'
