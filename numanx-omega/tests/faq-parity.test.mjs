@@ -1662,10 +1662,12 @@ var BLOG_POSTS = [
   }
 ];
 
-// src/config/pairEditorial.ts
+// src/utils/slug.ts
 function cleanSlug(s) {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
+
+// src/config/pairEditorial.ts
 var CANONICAL_PAIR_SET = /* @__PURE__ */ new Set();
 for (const [catId, content] of Object.entries(categoryContent)) {
   if (content?.popularPairs) {

@@ -17,10 +17,10 @@ import { convert, convertTemp, convertFuel } from '../engine/converter'
 import { fmt, cleanFloat } from '../utils/numbers'
 import { categoryContent } from '../engine/categoryContent'
 import { unitSymbol, unitName, unitLabel } from '../engine/unitSymbols'
+import { cleanSlug } from '../utils/slug'
 
-export function cleanSlug(s: string): string {
-  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
-}
+// Re-exported so existing importers (PairLanding, tests) keep working.
+export { cleanSlug }
 
 export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   // Pakistani & Regional Units

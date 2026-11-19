@@ -1832,10 +1832,12 @@ function pairMetaDescription(u1, u2, catId, summary) {
   return cut > 0 ? summary.slice(0, cut + 1) : summary.slice(0, 157) + "\u2026";
 }
 
-// src/config/pairEditorial.ts
+// src/utils/slug.ts
 function cleanSlug(s) {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
+
+// src/config/pairEditorial.ts
 var PAIR_UNIT_SYNONYMS = {
   // Pakistani & Regional Units
   "marla": "marla",

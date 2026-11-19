@@ -2932,10 +2932,12 @@ function getGuideRelationship(guideSlug) {
   return GUIDE_RELATIONSHIPS.find((r) => r.guideSlug === guideSlug);
 }
 
-// src/config/pairEditorial.ts
+// src/utils/slug.ts
 function cleanSlug(s) {
   return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
+
+// src/config/pairEditorial.ts
 var PAIR_UNIT_SYNONYMS = {
   // Pakistani & Regional Units
   "marla": "marla",

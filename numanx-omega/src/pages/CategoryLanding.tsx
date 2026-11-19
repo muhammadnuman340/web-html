@@ -21,7 +21,7 @@ import { resolveCategoryId } from '../engine/routes'
 import { buildCategorySchema } from '../config/schema'
 import { getGuidesForCategory } from '../config/guideRelations'
 import { getCategoryAuthoritySources } from '../config/authoritySources'
-import { cleanSlug } from '../config/pairEditorial'
+import { cleanSlug } from '../utils/slug'
 import { SystemLabels, type UnitSystem } from '../types'
 
 const SI_BASE_UNIT_IDS = new Set(['m', 'kg', 's', 'A', 'K'])
