@@ -4,10 +4,12 @@ export interface ProPassModalProps {
   isOpen?: boolean
   onClose?: () => void
   initialReason?: string
+  /** Open on mount: used when App mounts the modal lazily in response to the first open-pro-modal event. */
+  initialOpen?: boolean
 }
 
-export default function ProPassModal({ isOpen: controlledOpen, onClose: controlledClose, initialReason }: ProPassModalProps) {
-  const [open, setOpen] = useState(false)
+export default function ProPassModal({ isOpen: controlledOpen, onClose: controlledClose, initialReason, initialOpen = false }: ProPassModalProps) {
+  const [open, setOpen] = useState(initialOpen)
   const [reason, setReason] = useState<string | null>(initialReason || null)
   const [tab, setTab] = useState<'pk' | 'global' | 'activate'>('pk')
 

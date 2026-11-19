@@ -60,6 +60,19 @@ function AppContent() {
   }
   const skipEnterAnimation = landing.active
 
+  // ProPassModal is mounted (and its chunk fetched) only when first requested.
+  // The first open-pro-modal event is captured here and passed in so the modal
+  // opens on mount; later events go to the modal's own listener.
+  const [proRequest, setProRequest] = useState<{ reason?: string } | null>(null)
+  useEffect(() => {
+    const onOpenPro = (e: Event) => {
+      const reason = (e as CustomEvent<{ reason?: string }>).detail?.reason
+      setProRequest(prev => prev ?? { reason })
+    }
+    window.addEventListener('open-pro-modal', onOpenPro)
+    return () => window.removeEventListener('open-pro-modal', onOpenPro)
+  }, [])
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('uc_theme_class')
     if (savedTheme === null) {
@@ -158,7 +171,9 @@ function AppContent() {
       </a>
       <JSONLD />
       <CommandBar open={commandBarOpen} onClose={() => setCommandBarOpen(false)} onConvert={handleCommandConvert} />
-      <Suspense fallback={null}><ProPassModal /></Suspense>
+      {proRequest && (
+        <Suspense fallback={null}><ProPassModal initialOpen initialReason={proRequest.reason} /></Suspense>
+      )}
       {shortcutsOpen && (
         <Suspense fallback={null}>
           <ShortcutsPanel open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
