@@ -29,3 +29,4 @@ AUDIT_*.md
 
 # PageSpeed audit raw responses (large; summary.md/csv are kept)
 reports/psi/*/raw/
+reports/lighthouse/*/raw/

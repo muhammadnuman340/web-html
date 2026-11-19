@@ -2,7 +2,7 @@
 /**
  * PageSpeed Insights audit of every URL in the live sitemap.
  *
- * Node built-ins + fetch only. Reads PSI_API_KEY from ./.env (or the process
+ * Node built-ins + fetch only. Reads PSI_API_KEY from ./.env.local or ./.env (or the process
  * environment). The key is never printed, logged or written to disk: every
  * error string goes through redact(), and raw responses are saved without the
  * request URL.
@@ -52,13 +52,17 @@ const RAW_DIR = path.join(OUT_DIR, 'raw');
 const FAIL_PATH = path.join(OUT_DIR, 'failures.json');
 
 // ---------- key handling ----------
+// .env.local is checked first: tests/routing.test reject any Google key in .env,
+// so the key normally lives in .env.local (gitignored via `.env.*`).
 function loadKey() {
   if (process.env.PSI_API_KEY) return process.env.PSI_API_KEY.trim();
-  const envPath = path.join(ROOT, '.env');
-  if (!existsSync(envPath)) return '';
-  for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
-    const m = line.match(/^\s*(?:export\s+)?PSI_API_KEY\s*=\s*(.*?)\s*$/);
-    if (m) return m[1].replace(/^['"]|['"]$/g, '').trim();
+  for (const name of ['.env.local', '.env']) {
+    const envPath = path.join(ROOT, name);
+    if (!existsSync(envPath)) continue;
+    for (const line of readFileSync(envPath, 'utf8').split(/\r?\n/)) {
+      const m = line.match(/^\s*(?:export\s+)?PSI_API_KEY\s*=\s*(.*?)\s*$/);
+      if (m) return m[1].replace(/^['"]|['"]$/g, '').trim();
+    }
   }
   return '';
 }
@@ -527,7 +531,7 @@ async function main() {
   if (SUMMARIZE_ONLY) return summarize(null);
 
   if (!KEY) {
-    console.error('PSI_API_KEY not found in .env or the environment.');
+    console.error('PSI_API_KEY not found in .env.local, .env or the environment.');
     process.exit(2);
   }
   log('API key: loaded');
