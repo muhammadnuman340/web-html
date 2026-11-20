@@ -35,6 +35,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [fromUnit, setFromUnit] = useState(initialFrom || '')
   const [toUnit, setToUnit] = useState(initialTo || '')
   const [result, setResult] = useState<number | null>(null)
+  // Inputs the current `result` was computed for. The result is set in a deferred
+  // transition, so for a render or two after units change, `result` still belongs
+  // to the previous inputs; the error notice must not treat that as "can't convert".
+  const [resultFor, setResultFor] = useState<string | null>(null)
+  const inputKey = `${catId}|${fromUnit}|${toUnit}|${fromVal}`
   const [allResults, setAllResults] = useState<{ id: string; label: string; value: number | null }[]>([])
   const [prec, setPrec] = useState(6)
   const [frac, setFrac] = useState(false)
@@ -254,7 +259,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         const expl = fu && tu && fu.r && tu.r ? getFormulaExplanation(fu.lb, tu.lb, fu.r / tu.r) : null
         const st = fu && tu && fu.r && tu.r ? getDetailedSteps(fu.lb, tu.lb, rawVal, r || 0, fu.r / tu.r) : []
         startTransition(() => {
-          setResult(r); setPulseKey(k => k + 1); setAllResults(convertAll(rawVal, catId, fromUnit))
+          setResult(r); setResultFor(inputKey); setPulseKey(k => k + 1); setAllResults(convertAll(rawVal, catId, fromUnit))
           setFormula(f); setExplanation(expl); setSteps(st)
         })
         if (fu && tu && fu.r && tu.r) {
@@ -263,10 +268,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
           } catch { /* ignore */ }
         }
       } else {
-        startTransition(() => { setResult(null); setAllResults([]); setFormula(''); setExplanation(null); setSteps([]) })
+        startTransition(() => { setResult(null); setResultFor(inputKey); setAllResults([]); setFormula(''); setExplanation(null); setSteps([]) })
       }
     }
-  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat, cats])
+  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat, cats, inputKey])
 
   const handleConvert = useCallback(() => {
     const v = parseSmart(fromVal)
@@ -366,7 +371,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result, fromVal, fromUnit, toUnit, copyResult])
 
-  const hasError = fromVal.trim() !== '' && parseSmart(fromVal) !== null && result === null && fromUnit && toUnit
+  const hasError = fromVal.trim() !== '' && parseSmart(fromVal) !== null && result === null && fromUnit && toUnit && resultFor === inputKey
 
   // Visual context — real-world comparisons
   const visualRef = useMemo(() => {
