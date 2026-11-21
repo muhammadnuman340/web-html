@@ -1,0 +1,99 @@
+{
+  "label": "before-ab-random",
+  "runs": 3,
+  "base": "http://localhost:4173",
+  "lighthouse": "lighthouse@13.6.0",
+  "at": "2026-11-21T02:30:55.248Z",
+  "results": {
+    "mobile": {
+      "convert/<cat>": {
+        "score": 40,
+        "LCP": 4882.38,
+        "TBT": 8181.31825,
+        "CLS": 0.006803651814128215,
+        "FCP": 2540.3301,
+        "SI": 9236.708156311377,
+        "JS": 271521,
+        "n": 3,
+        "url": "/convert/force"
+      },
+      "convert/<cat>/<pair> #1": {
+        "score": 39,
+        "LCP": 5469.4892,
+        "TBT": 9394.0743,
+        "CLS": 0,
+        "FCP": 2240.8514,
+        "SI": 9068.579702864228,
+        "JS": 243083,
+        "n": 3,
+        "url": "/convert/volume/imperial-gallon-to-gallon"
+      },
+      "convert/<cat>/<pair> #2": {
+        "score": 47,
+        "LCP": 4259.6574,
+        "TBT": 5806.3094,
+        "CLS": 0,
+        "FCP": 2277.3812,
+        "SI": 6422.327092860306,
+        "JS": 243083,
+        "n": 3,
+        "url": "/convert/frequency/khz-to-mhz"
+      },
+      "guides": {
+        "score": 48,
+        "LCP": 4261.6744,
+        "TBT": 6347.0104,
+        "CLS": 0,
+        "FCP": 2141.4496,
+        "SI": 6920.217852190457,
+        "JS": 199114,
+        "n": 3,
+        "url": "/guides/lakh-crore-to-million-billion"
+      },
+      "blog": {
+        "score": 41,
+        "LCP": 4055.820625,
+        "TBT": 7543.071750000001,
+        "CLS": 0.1543134872417983,
+        "FCP": 2190.8565,
+        "SI": 7745.546935001488,
+        "JS": 255610,
+        "n": 3,
+        "url": "/blog/temperature-scales-celsius-fahrenheit-kelvin"
+      },
+      "static": {
+        "score": 51,
+        "LCP": 3759.5021999999994,
+        "TBT": 6627.8326,
+        "CLS": 0,
+        "FCP": 2190.3348,
+        "SI": 6624.699820923512,
+        "JS": 196603,
+        "n": 3,
+        "url": "/sitemap"
+      },
+      "other": {
+        "score": 48,
+        "LCP": 4468.77225,
+        "TBT": 5722.5,
+        "CLS": 0,
+        "FCP": 2152.5042000000003,
+        "SI": 6872.180680797372,
+        "JS": 167767,
+        "n": 3,
+        "url": "/formulas"
+      },
+      "pair (worst PSI mobile, not random)": {
+        "score": 47,
+        "LCP": 4226.27925,
+        "TBT": 9101.8913,
+        "CLS": 0,
+        "FCP": 2177.7797,
+        "SI": 8611.118279557526,
+        "JS": 243083,
+        "n": 3,
+        "url": "/convert/mass/g-to-tola"
+      }
+    }
+  }
+}
