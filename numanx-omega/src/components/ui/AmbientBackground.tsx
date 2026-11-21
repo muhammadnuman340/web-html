@@ -221,13 +221,29 @@ export default function AmbientBackground() {
       }
     }
 
-    render()
+    // Start drawing only after the page has loaded and the main thread is idle,
+    // so the particle loop doesn't compete with first render. The CSS glow
+    // layers below show immediately; visuals are unchanged once running.
+    let started = false
+    let idleId: number | undefined
+    let timerId: ReturnType<typeof setTimeout> | undefined
+    const start = () => {
+      if (started) return
+      started = true
+      render()
+    }
+    const scheduleStart = () => {
+      if ('requestIdleCallback' in window) idleId = window.requestIdleCallback(start, { timeout: 1000 })
+      else timerId = setTimeout(start, 300)
+    }
+    if (document.readyState === 'complete') scheduleStart()
+    else window.addEventListener('load', scheduleStart, { once: true })
 
     // Pause animation when tab is inactive to save battery and GPU cycles
     const handleVisibilityChange = () => {
       if (document.hidden) {
         cancelAnimationFrame(animId)
-      } else if (!prefersReducedMotion) {
+      } else if (!prefersReducedMotion && started) {
         animId = requestAnimationFrame(render)
       }
     }
@@ -235,6 +251,9 @@ export default function AmbientBackground() {
 
     return () => {
       cancelAnimationFrame(animId)
+      if (idleId !== undefined) window.cancelIdleCallback(idleId)
+      if (timerId !== undefined) clearTimeout(timerId)
+      window.removeEventListener('load', scheduleStart)
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', onPointerMove)
       window.removeEventListener('pointerleave', onPointerLeave)

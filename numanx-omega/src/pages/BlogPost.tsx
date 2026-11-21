@@ -5,7 +5,7 @@ import UniversalConverter from '../components/converter/UniversalConverter'
 import { BLOG_POSTS, getRelatedPosts } from '../data/blogPosts'
 import { categoryContent } from '../engine/categoryContent'
 import { Categories } from '../engine/categories'
-import { cleanSlug } from '../config/pairEditorial'
+import { cleanSlug } from '../utils/slug'
 import { buildBlogPostSchema } from '../config/schema'
 import { useState } from 'react'
 

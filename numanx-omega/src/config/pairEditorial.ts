@@ -17,10 +17,10 @@ import { convert, convertTemp, convertFuel } from '../engine/converter'
 import { fmt, cleanFloat } from '../utils/numbers'
 import { categoryContent } from '../engine/categoryContent'
 import { unitSymbol, unitName, unitLabel } from '../engine/unitSymbols'
+import { cleanSlug } from '../utils/slug'
 
-export function cleanSlug(s: string): string {
-  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
-}
+// Re-exported so existing importers (PairLanding, tests) keep working.
+export { cleanSlug }
 
 export const PAIR_UNIT_SYNONYMS: Record<string, string> = {
   // Pakistani & Regional Units
@@ -1539,13 +1539,9 @@ export function getPairEditorial(
     ? `Fuel economy units like ${s1} and ${s2} exhibit an inverse (reciprocal) relationship rather than a direct multiplication factor. One metric measures distance traveled per volume of fuel consumed, while the other measures fuel volume consumed per standard travel distance.`
     : `Because both ${n1} and ${n2} belong to the linear ${cat.lb.toLowerCase()} domain, conversion between them is strictly proportional. The exact conversion factor (${unitRatio !== null ? fmt(unitRatio, 8) : ''}) guarantees zero precision drift across mathematical calculations.`
 
-  // Practical Use Cases
+  // Single real-world practical example merged into worked examples
   const pairKey = `${cat.id}:${pairParam}`
-  const specificUseCases = PAIR_USE_CASES[pairKey] || [
-    { domain: `Engineering & Technical Specifications`, context: `Converting ${n1} measurements to ${n2} to align design drawings and component tolerances with global partner standards.` },
-    { domain: `Commercial Procurement & Logistics`, context: `Reconciling packaging, order quantities, and freight manifests between international ${s1} records and domestic ${s2} systems.` },
-    { domain: `Academic Research & Educational Labs`, context: `Translating experimental laboratory readings from ${n1} into standard SI and reporting units.` },
-  ]
+  const firstUseCase = PAIR_USE_CASES[pairKey]?.[0]
 
   // Reciprocal Canonical Pair Resolution
   const catPairs = categoryContent[cat.id]?.popularPairs || []
@@ -1961,6 +1957,13 @@ export function getPairEditorial(
     )
   }
 
+  if (!workedExamples) {
+    workedExamples = [workedExampleAnswer]
+    if (firstUseCase) {
+      workedExamples.push(`${firstUseCase.domain}: ${firstUseCase.context}`)
+    }
+  }
+
   return {
     directAnswer: {
       heading: `Direct Answer: 1 ${s1} to ${s2}`,
@@ -1976,7 +1979,7 @@ export function getPairEditorial(
       paragraphs: [p1, p2],
       systemContext: metrology.systems,
     },
-    useCases: specificUseCases,
+    useCases: [],
     reciprocal,
     faqs,
     fieldNote,

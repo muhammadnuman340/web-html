@@ -1,0 +1,154 @@
+
+> numanx-omega@0.0.0 build
+> node scripts/build-conversion-tests.mjs && vite build && node scripts/prerender-seo.mjs && node scripts/inject-canonical-robots.mjs && node scripts/generate-sitemap.mjs && node scripts/generate-llms-full.mjs && node scripts/verify-prerender.mjs
+
+✅ Built tests/conversion.test.mjs successfully.
+✅ Built tests/routing.test.mjs successfully.
+✅ Built tests/seo.test.mjs successfully.
+✅ Built tests/pwa.test.mjs successfully.
+✅ Built tests/schema-graph.test.mjs successfully.
+✅ Built tests/faq-parity.test.mjs successfully.
+✅ Built tests/internal-linking-query-state.test.mjs successfully.
+✅ Built tests/pseo-aeo-content.test.mjs successfully.
+✅ Built tests/authority-entity.test.mjs successfully.
+✅ Built tests/ai-discovery.test.mjs successfully.
+✅ Built scripts/generate-sitemap.mjs successfully.
+✅ Built scripts/prerender-seo.mjs successfully.
+✅ Built scripts/generate-llms-full.mjs successfully.
+✅ Built scripts/check-sitemap-inventory.mjs successfully.
+✅ Built scripts/verify-all-99-html.mjs successfully.
+✅ Built scripts/verify-prerender.mjs successfully.
+[36mvite v8.0.13 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming...✓ 526 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                     3.44 kB │ gzip:   1.10 kB
+dist/assets/jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2    7.50 kB
+dist/assets/jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2         9.00 kB
+dist/assets/inter-vietnamese-wght-normal-CBcvBZtf.woff2            10.25 kB
+dist/assets/inter-greek-ext-wght-normal-DlzME5K_.woff2             11.23 kB
+dist/assets/jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2     12.10 kB
+dist/assets/jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2    15.19 kB
+dist/assets/inter-cyrillic-wght-normal-DqGufNeO.woff2              18.74 kB
+dist/assets/inter-greek-wght-normal-CkhJZR-_.woff2                 18.99 kB
+dist/assets/inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2          25.96 kB
+dist/assets/jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2        40.40 kB
+dist/assets/inter-latin-wght-normal-Dx4kXJAl.woff2                 48.25 kB
+dist/assets/inter-latin-ext-wght-normal-DO1Apj_S.woff2             85.06 kB
+dist/assets/index-lhZz41Ao.css                                    105.97 kB │ gzip:  20.65 kB
+dist/assets/rolldown-runtime-BPhFYGVA.js                            1.21 kB │ gzip:   0.67 kB
+dist/assets/guideRelations-DC2OXimY.js                              1.43 kB │ gzip:   0.65 kB
+dist/assets/Breadcrumbs-BrREZuJ-.js                                 1.53 kB │ gzip:   0.64 kB
+dist/assets/Converter-DZ_YKz17.js                                   1.54 kB │ gzip:   0.79 kB
+dist/assets/NotFound-DszmnJyZ.js                                    1.61 kB │ gzip:   0.75 kB
+dist/assets/relatedCategories-DybVEzT0.js                           1.63 kB │ gzip:   0.57 kB
+dist/assets/LegalPage-e9-80fUL.js                                   1.86 kB │ gzip:   0.75 kB
+dist/assets/ShortcutsPanel-BFX8T66K.js                              3.13 kB │ gzip:   1.36 kB
+dist/assets/authoritySources-BSjsmksN.js                            3.27 kB │ gzip:   1.40 kB
+dist/assets/SEOHead-DQWwwzC4.js                                     4.60 kB │ gzip:   1.86 kB
+dist/assets/Help-C9J3s5rc.js                                        4.73 kB │ gzip:   1.88 kB
+dist/assets/Ieee754Visualizer-BKPK50Mf.js                           4.77 kB │ gzip:   1.70 kB
+dist/assets/CookingRecipeScaler-kFcX6q-8.js                         4.92 kB │ gzip:   1.79 kB
+dist/assets/PkNumberingVisualizer-EZIKpKQZ.js                       5.10 kB │ gzip:   1.55 kB
+dist/assets/TemperatureVisualizer-C7L8pZDq.js                       5.21 kB │ gzip:   1.81 kB
+dist/assets/DataTransferEstimator-CezPjM3H.js                       5.28 kB │ gzip:   1.72 kB
+dist/assets/CustomUnits-DHK8x4xe.js                                 5.43 kB │ gzip:   2.07 kB
+dist/assets/MassWeightReference-B0cBFd4K.js                         5.43 kB │ gzip:   1.89 kB
+dist/assets/ForceVisualizer-D-NLw_7-.js                             5.61 kB │ gzip:   1.63 kB
+dist/assets/NumberBaseVisualizer-D3KENDBU.js                        5.69 kB │ gzip:   1.68 kB
+dist/assets/EnergyVisualizer-DxllLmKm.js                            6.06 kB │ gzip:   1.75 kB
+dist/assets/PowerVisualizer-DVmDkk_S.js                             6.16 kB │ gzip:   1.87 kB
+dist/assets/AreaVisualizer-DVouhRfX.js                              6.19 kB │ gzip:   1.90 kB
+dist/assets/legal-B1RvM-Zs.js                                       6.23 kB │ gzip:   2.59 kB
+dist/assets/Settings-G4niTb6A.js                                    6.45 kB │ gzip:   2.14 kB
+dist/assets/VolumeVisualizer-3F2Rl1Xi.js                            6.46 kB │ gzip:   1.84 kB
+dist/assets/FrequencyVisualizer-DG9mRTu1.js                         6.54 kB │ gzip:   1.97 kB
+dist/assets/PressureVisualizer-BZrgN3YR.js                          6.61 kB │ gzip:   1.90 kB
+dist/assets/TimeVisualizer-CZekoM2G.js                              6.63 kB │ gzip:   1.91 kB
+dist/assets/SpeedVisualizer-CUwq0NNV.js                             6.67 kB │ gzip:   1.99 kB
+dist/assets/Blog-BDSzkEku.js                                        6.68 kB │ gzip:   2.43 kB
+dist/assets/About-CBQ8PEKf.js                                       6.79 kB │ gzip:   2.13 kB
+dist/assets/AngleVisualizer-CY_3EyFC.js                             6.87 kB │ gzip:   1.99 kB
+dist/assets/DensityVisualizer-D8O0N1sO.js                           6.92 kB │ gzip:   2.15 kB
+dist/assets/GuidesHub-BTKiiwVH.js                                   6.99 kB │ gzip:   2.47 kB
+dist/assets/TorqueVisualizer-eCGJ-Y_3.js                            7.27 kB │ gzip:   2.18 kB
+dist/assets/FuelTripCalculator-DJ1aZ0XB.js                          7.87 kB │ gzip:   2.05 kB
+dist/assets/Categories-szP7hIUK.js                                  8.83 kB │ gzip:   2.91 kB
+dist/assets/guideContent-y67U6Ya3.js                               10.09 kB │ gzip:   3.66 kB
+dist/assets/BlogPost-DecB69X1.js                                   10.11 kB │ gzip:   2.69 kB
+dist/assets/FormulaExplorer-BX_ZSbig.js                            10.35 kB │ gzip:   4.10 kB
+dist/assets/Home-Bh4vh4XT.js                                       10.56 kB │ gzip:   2.82 kB
+dist/assets/blogPosts-Duag2SWp.js                                  10.97 kB │ gzip:   4.70 kB
+dist/assets/ProPassModal-B8FPeaDP.js                               12.37 kB │ gzip:   3.54 kB
+dist/assets/Sitemap-aSPIsdfm.js                                    13.55 kB │ gzip:   3.14 kB
+dist/assets/GuidePage-Bp9uefcr.js                                  14.47 kB │ gzip:   3.35 kB
+dist/assets/LengthComparisonBar-B4p51MSz.js                        23.23 kB │ gzip:   5.65 kB
+dist/assets/PairLanding-Cq-XSa8C.js                                52.33 kB │ gzip:  15.32 kB
+dist/assets/categoryContent-C_GNsuyI.js                            61.00 kB │ gzip:  20.42 kB
+dist/assets/CategoryLanding-DJp_kL3o.js                            69.08 kB │ gzip:  17.96 kB
+dist/assets/UniversalConverter-CDtnUOch.js                         87.55 kB │ gzip:  21.68 kB
+dist/assets/pairEditorial-D_HwjYa-.js                             116.92 kB │ gzip:  40.37 kB
+dist/assets/vendor-motion-BjNgjhSu.js                             135.59 kB │ gzip:  45.42 kB
+dist/assets/index-DneIVKHs.js                                     345.09 kB │ gzip: 111.25 kB
+
+[33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+  - vite:esbuild-transpile (40%)
+  - vite:css (25%)
+  - @tailwindcss/vite:generate:build (13%)
+  - vite:css-post (8%)
+  - rolldown:vite-resolve (5%)
+See https://rolldown.rs/options/checks#plugintimings for more details.
+[39m
+[32m✓ built in 11.03s[39m
+⚡ Emitted neutral SPA shell (dist/spa.html)
+⚡ Prerendering Home route (/) ...
+⚡ Prerendering Core Public Pages (10 pages) ...
+⚡ Prerendering 35 Canonical Categories ...
+⚡ Prerendering 99 Popular Conversion Pairs ...
+⚡ Prerendering 3 Educational Guides ...
+⚡ Prerendering 6 Blog Posts ...
+⚡ Prerendering legal & contact pages ...
+ℹ️  Skipped security.txt: set LEGAL.contactEmail in src/config/legal.ts to publish it
+⚡ Prerendering 404 page (dist/404.html) ...
+
+🎉 Prerender Complete! Generated meaningful static HTML for 241 routes.
+
+🔍 Found 244 HTML files in: C:\numan\web.html\numanx-omega\dist
+========================================
+📊 Canonical & Robots Injection Report:
+========================================
+Total HTML files scanned:  244
+Canonicals injected:       0
+Canonicals updated:        0
+Robots tags injected:      0
+Already compliant:         242
+Skipped non-HTML/shells:   2
+Target Production Origin:  https://converter.numanxstudio.com
+========================================
+
+✅ All HTML files in dist verified and synchronized with production canonicals!
+
+✅ Updated public/sitemap.xml (241 URLs)
+✅ Updated root and public robots.txt
+✅ Updated dist/sitemap.xml (241 URLs)
+✅ Updated dist/robots.txt
+✅ Generated public/llms-full.txt and public/llms.txt successfully.
+✅ Generated dist/llms-full.txt and dist/llms.txt successfully.
+
+🔍 Verifying 241 prerendered routes against SSG invariants...
+
+📊 --- PRERENDER AUDIT DIAGNOSTICS ---
+• Duplicate Titles: 0
+• Duplicate Meta Descriptions: 0
+• Category Intro Pairs with >80% Similarity: 0
+
+🔗 --- INTERNAL LINK CRAWLER AUDIT ---
+• Total Internal <a href> Links Crawled: 4534
+• Link Invariant Violations: 0
+
+🛡️  --- SSG HARD INVARIANT RESULTS ---
+Total canonical routes verified: 241
+Passed: 241 / 241
+Failed: 0 / 241
+✅ ALL 241 ROUTES MEET ALL PRERENDER INVARIANTS (100% PASS).
+

@@ -44,7 +44,6 @@ import { convert } from '../src/engine/converter'
 import { fmt } from '../src/utils/numbers'
 import {
   getGuidesForCategory,
-  getGuideForPair,
   getGuideRelationship,
 } from '../src/config/guideRelations'
 import { getPairEditorial, findUnit } from '../src/config/pairEditorial'
@@ -836,7 +835,6 @@ for (const cat of Categories) {
     const unitRatio = convert(1, cat.id, u1.id, u2.id)
     const inverseUnitRatio = convert(1, cat.id, u2.id, u1.id)
     const editorial = getPairEditorial(cat, u1, u2, pairParam)
-    const pairGuide = getGuideForPair(cat.id, pairParam)
 
     const pageTitle = pairTitle(u1, u2, cat.id)
     const metaDescription = pairMetaDescription(u1, u2, cat.id, editorial.directAnswer.summary)
@@ -884,20 +882,6 @@ for (const cat of Categories) {
           </div>
         </section>
 
-        <section aria-labelledby="usecases-heading" style="border:1px solid #ddd;border-radius:12px;padding:1.5rem;background:#fafafa;margin-bottom:1.5rem;">
-          <h2 id="usecases-heading" style="font-size:1.2rem;font-weight:700;margin-top:0;margin-bottom:0.75rem;color:#222;">
-            🎯 Common Practical Applications
-          </h2>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
-            ${editorial.useCases.map(uc => `
-              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1rem;">
-                <h3 style="font-size:0.95rem;font-weight:700;margin:0 0 0.35rem 0;color:#1a202c;">${uc.domain}</h3>
-                <p style="font-size:0.85rem;color:#4a5568;margin:0;line-height:1.5;">${uc.context}</p>
-              </div>
-            `).join('')}
-          </div>
-        </section>
-
         ${editorial.referenceTable && editorial.referenceTable.length > 0 ? `
           <section aria-labelledby="reference-table-heading" style="border:1px solid #e2e8f0;border-radius:12px;padding:1.5rem;background:#fafafa;margin-bottom:1.5rem;">
             <h2 id="reference-table-heading" style="font-size:1.2rem;font-weight:700;margin-top:0;margin-bottom:0.75rem;color:#222;">
@@ -941,23 +925,7 @@ for (const cat of Categories) {
           </section>
         ` : ''}
 
-        <section aria-labelledby="reciprocal-heading" style="border:1px solid #e2e8f0;border-radius:12px;padding:1.25rem 1.5rem;background:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
-          <div>
-            <span style="display:inline-block;background:#e2e8f0;color:#4a5568;font-size:0.75rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:4px;text-transform:uppercase;margin-bottom:0.25rem;">${editorial.reciprocal.badgeText}</span>
-            <h2 id="reciprocal-heading" style="font-size:1.05rem;font-weight:700;margin:0 0 0.25rem 0;color:#2d3748;">Reverse Conversion Option</h2>
-            <p style="font-size:0.9rem;color:#4a5568;margin:0;">${editorial.reciprocal.description}</p>
-          </div>
-          <a href="${editorial.reciprocal.url}" style="display:inline-block;background:#0066cc;color:#fff;text-decoration:none;font-weight:600;font-size:0.85rem;padding:0.6rem 1.2rem;border-radius:8px;">${editorial.reciprocal.anchorText} →</a>
-        </section>
-
-        ${pairGuide ? `
-          <section aria-labelledby="guide-callout-heading" style="border:1px solid #bbf;border-radius:8px;padding:1rem;background:#f0f7ff;margin:1rem 0;">
-            <h2 id="guide-callout-heading" style="font-size:1.1rem;font-weight:700;margin-bottom:0.25rem;">Need detailed formula derivations or worked calculation steps?</h2>
-            <p style="font-size:0.9rem;color:#333;margin-bottom:0.5rem;">Read our in-depth <a href="/guides/${pairGuide.guideSlug}"><strong>${pairGuide.title} Conversion Guide</strong></a> with step-by-step mathematical proofs, lookup tables, and worked examples.</p>
-          </section>
-        ` : ''}
-
-        <section aria-labelledby="chart-heading">
+        <section aria-labelledby="chart-heading" style="margin-bottom:1.5rem;">
           <h2 id="chart-heading" style="font-size:1.25rem;margin-bottom:0.75rem;">${unitName(u1, cat.id)} to ${unitName(u2, cat.id)} Conversion Table (1 to 1000)</h2>
           <div style="overflow-x:auto;">
             <table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;text-align:left;border:1px solid #ddd;font-size:0.9rem;">
@@ -986,6 +954,15 @@ for (const cat of Categories) {
               </tbody>
             </table>
           </div>
+        </section>
+
+        <section aria-labelledby="reciprocal-heading" style="border:1px solid #e2e8f0;border-radius:12px;padding:1.25rem 1.5rem;background:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;">
+          <div>
+            <span style="display:inline-block;background:#e2e8f0;color:#4a5568;font-size:0.75rem;font-weight:700;padding:0.2rem 0.5rem;border-radius:4px;text-transform:uppercase;margin-bottom:0.25rem;">${editorial.reciprocal.badgeText}</span>
+            <h2 id="reciprocal-heading" style="font-size:1.05rem;font-weight:700;margin:0 0 0.25rem 0;color:#2d3748;">Reverse Conversion Option</h2>
+            <p style="font-size:0.9rem;color:#4a5568;margin:0;">${editorial.reciprocal.description}</p>
+          </div>
+          <a href="${editorial.reciprocal.url}" style="display:inline-block;background:#0066cc;color:#fff;text-decoration:none;font-weight:600;font-size:0.85rem;padding:0.6rem 1.2rem;border-radius:8px;">${editorial.reciprocal.anchorText} →</a>
         </section>
 
         <section aria-labelledby="related-heading">

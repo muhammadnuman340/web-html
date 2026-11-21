@@ -76,9 +76,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
     })
 
     const pages = [
-      { label: '🏠 Home', path: '/' }, { label: '📊 Dashboard', path: '/dashboard' },
-      { label: '🔄 Converter', path: '/converter' }, { label: '⭐ Favorites', path: '/favorites' },
-      { label: '📜 History', path: '/history' }, { label: '⚙️ Settings', path: '/settings' },
+      { label: '🏠 Home', path: '/' }, { label: '🔄 Converter', path: '/converter' }, { label: '📜 History', path: '/history' }, { label: '⚙️ Settings', path: '/settings' },
       { label: '📐 Formulas', path: '/formulas' }, { label: 'ℹ️ Help', path: '/help' }
     ]
     pages.forEach(p => {

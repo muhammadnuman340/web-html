@@ -12,7 +12,6 @@ const GROUPS = [
     items: [
       { keys: ['⌘', 'K'], desc: 'Command palette' },
       { keys: ['⌘', '⇧', 'C'], desc: 'Quick convert' },
-      { keys: ['⌘', 'H'], desc: 'History' },
       { keys: ['⌘', 'D'], desc: 'Toggle dark mode' },
       { keys: ['?'], desc: 'This panel' },
     ],

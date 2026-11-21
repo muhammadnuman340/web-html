@@ -89,13 +89,14 @@
 /health                                 https://toolshub.numanxstudio.com/tools/bmi-calculator/       301
 /convert/cricket-overs                  https://toolshub.numanxstudio.com/tools/cricket-over-calculator/ 301
 /convert/cricket-overs/*                https://toolshub.numanxstudio.com/tools/cricket-over-calculator/ 301
+/dashboard                              /                                                              301
+/favorites                              /                                                              301
+/history                                /                                                              301
+/blog/ai-powered-unit-conversions-in-2026 /blog                                                        301
 
 # ------------------------------------------------------------------------------
 # 2. Client-Side SPA Routes (200 Rewrites to Neutral Shell)
 # ------------------------------------------------------------------------------
-/dashboard                    /spa                     200
-/favorites                    /spa                     200
-/history                      /spa                     200
 /settings                     /spa                     200
 /custom-units                 /spa                     200
 /help                         /spa                     200

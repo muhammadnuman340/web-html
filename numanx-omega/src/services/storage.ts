@@ -1,21 +1,31 @@
-import localforage from 'localforage'
 import type { HistoryEntry, FavoriteEntry, CustomUnit } from '../types'
 
-const store = localforage.createInstance({ name: 'nx-cos' })
+// localforage (~29 KB) is loaded on first storage access instead of being
+// bundled into every page chunk that imports this module. The API was already
+// async, so callers are unchanged. A failed chunk load is retried next call.
+let storePromise: Promise<LocalForage> | null = null
+function getStore(): Promise<LocalForage> {
+  if (!storePromise) {
+    storePromise = import('localforage')
+      .then((m) => m.default.createInstance({ name: 'nx-cos' }))
+      .catch((err) => { storePromise = null; throw err })
+  }
+  return storePromise
+}
 
 export async function getItem<T>(key: string, fallback: T): Promise<T> {
   try {
-    const val = await store.getItem<T>(key)
+    const val = await (await getStore()).getItem<T>(key)
     return val !== null ? val : fallback
   } catch { return fallback }
 }
 
 export async function setItem<T>(key: string, value: T): Promise<void> {
-  try { await store.setItem(key, value) } catch { /* ignore */ }
+  try { await (await getStore()).setItem(key, value) } catch { /* ignore */ }
 }
 
 export async function removeItem(key: string): Promise<void> {
-  try { await store.removeItem(key) } catch { /* ignore */ }
+  try { await (await getStore()).removeItem(key) } catch { /* ignore */ }
 }
 
 // History

@@ -10,12 +10,10 @@ import { executeBatch, parseCSV, generateSequence } from '../../engine/batchEngi
 import type { AppMode } from '../widgets/ModeSwitcher'
 import { useToast } from '../../hooks/useToast'
 import { useClipboardDetection } from '../../hooks/useClipboard'
-import { toggleFavorite, getFavorites } from '../../services/storage'
 import { findVisualContext } from '../../engine/visualContext'
 import AIPredictions from '../widgets/AIPredictions'
 import AIQuickActions from '../widgets/AIQuickActions'
 import ConversionQuiz from '../widgets/ConversionQuiz'
-import ConversionStreaks from '../widgets/ConversionStreaks'
 
 interface Props {
   category?: string
@@ -37,6 +35,11 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [fromUnit, setFromUnit] = useState(initialFrom || '')
   const [toUnit, setToUnit] = useState(initialTo || '')
   const [result, setResult] = useState<number | null>(null)
+  // Inputs the current `result` was computed for. The result is set in a deferred
+  // transition, so for a render or two after units change, `result` still belongs
+  // to the previous inputs; the error notice must not treat that as "can't convert".
+  const [resultFor, setResultFor] = useState<string | null>(null)
+  const inputKey = `${catId}|${fromUnit}|${toUnit}|${fromVal}`
   const [allResults, setAllResults] = useState<{ id: string; label: string; value: number | null }[]>([])
   const [prec, setPrec] = useState(6)
   const [frac, setFrac] = useState(false)
@@ -60,11 +63,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const [showAllCats, setShowAllCats] = useState(false)
   const [showAllUnits, setShowAllUnits] = useState(false)
   const [showAIExplain, setShowAIExplain] = useState(false)
-  const [showFavSuggestion, setShowFavSuggestion] = useState(false)
-  const [prevFavKey, setPrevFavKey] = useState('')
   const [prevFromUnit, setPrevFromUnit] = useState(fromUnit)
-  const [tipDismissed, setTipDismissed] = useState(false)
-  const [prevTipKey, setPrevTipKey] = useState<string>('')
   const [showQuiz, setShowQuiz] = useState(false)
   const [catFilter, setCatFilter] = useState('')
   const [unitSuggestions, setUnitSuggestions] = useState<{ id: string; lb: string; cat: string; ic: string }[]>([])
@@ -74,7 +73,10 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   const historyIndex = useRef(-1)
 
 
-  useEffect(() => { inputRef.current?.focus() }, [catId])
+  // preventScroll: where the converter sits mid-page (e.g. blog posts) a plain
+  // focus() scrolled the page to it in the same frame the page rendered, which
+  // Lighthouse counted as a large layout shift (blog post desktop CLS ~0.2).
+  useEffect(() => { inputRef.current?.focus({ preventScroll: true }) }, [catId])
 
   // Smart defaults — remember last units per category
   const DEFAULTS_KEY = 'uc_unit_defaults'
@@ -257,31 +259,19 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         const expl = fu && tu && fu.r && tu.r ? getFormulaExplanation(fu.lb, tu.lb, fu.r / tu.r) : null
         const st = fu && tu && fu.r && tu.r ? getDetailedSteps(fu.lb, tu.lb, rawVal, r || 0, fu.r / tu.r) : []
         startTransition(() => {
-          setResult(r); setPulseKey(k => k + 1); setAllResults(convertAll(rawVal, catId, fromUnit))
+          setResult(r); setResultFor(inputKey); setPulseKey(k => k + 1); setAllResults(convertAll(rawVal, catId, fromUnit))
           setFormula(f); setExplanation(expl); setSteps(st)
         })
         if (fu && tu && fu.r && tu.r) {
-          analytics.track({ type: 'convert', category: catId, fromUnit, toUnit })
-          // Update conversion streak
           try {
-            const streak = JSON.parse(localStorage.getItem('uc_streaks') || '{}')
-            const today = new Date().toISOString().slice(0, 10)
-            if (streak.lastActiveDate !== today) {
-              const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10)
-              if (streak.lastActiveDate === yesterday) streak.currentStreak = (streak.currentStreak || 0) + 1
-              else streak.currentStreak = 1
-              streak.lastActiveDate = today
-              streak.longestStreak = Math.max(streak.longestStreak || 0, streak.currentStreak)
-              streak.totalActiveDays = (streak.totalActiveDays || 0) + 1
-              localStorage.setItem('uc_streaks', JSON.stringify(streak))
-            }
+            analytics.track({ type: 'convert', category: catId, fromUnit, toUnit })
           } catch { /* ignore */ }
         }
       } else {
-        startTransition(() => { setResult(null); setAllResults([]); setFormula(''); setExplanation(null); setSteps([]) })
+        startTransition(() => { setResult(null); setResultFor(inputKey); setAllResults([]); setFormula(''); setExplanation(null); setSteps([]) })
       }
     }
-  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat, cats])
+  }, [fromVal, fromUnit, toUnit, catId, chainMode, activeChain, cat, cats, inputKey])
 
   const handleConvert = useCallback(() => {
     const v = parseSmart(fromVal)
@@ -302,58 +292,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   }, [result])
-
-  const favKey = `${fromUnit}→${toUnit}`
-  if ((prevFavKey !== favKey || !result) && showFavSuggestion) {
-    setPrevFavKey(favKey)
-    setShowFavSuggestion(false)
-  }
-
-  // Smart favorites suggestion — prompt after 3+ conversions of same pair
-  useEffect(() => {
-    if (!result || !fromUnit || !toUnit) return
-    const pairKey = `${fromUnit}→${toUnit}`
-    const count = analytics.getSummary().unitPairs[pairKey] || 0
-    if (count >= 3) {
-      getFavorites().then(favs => {
-        const already = favs.some(f => f.cat === catId && f.from === fromUnit && f.to === toUnit)
-        if (!already) setShowFavSuggestion(true)
-      })
-    }
-  }, [result, fromUnit, toUnit, catId])
-
-  // AI mode suggestion — detect patterns and suggest mode switch
-  const modeSuggestion = useMemo(() => {
-    if (!catId || !result) return null
-    const sciCats = ['energy', 'force', 'pressure', 'frequency', 'density', 'astronomy']
-    const basicCats = ['length', 'mass', 'volume', 'temp']
-    if (sciCats.includes(catId) && mode === 'pro') {
-      return { mode: 'scientist', label: 'Scientist mode', icon: '🔬' }
-    } else if (basicCats.includes(catId) && showExplanation && mode !== 'student') {
-      return { mode: 'student', label: 'Student mode', icon: '🎓' }
-    }
-    return null
-  }, [catId, result, mode, showExplanation])
-
-  // AI learning tip — show a "Did you know?" after conversion
-  const tipKey = `${catId}:${result ?? ''}`
-  if (prevTipKey !== tipKey) {
-    setPrevTipKey(tipKey)
-    setTipDismissed(false)
-  }
-
-  const learningTip = useMemo(() => {
-    if (!result || tipDismissed) return null
-    const exps = getExplanations(catId)
-    if (exps.length === 0) return null
-    const seed = Math.abs(Math.round(result * 1000)) + catId.length
-    const idx = seed % exps.length
-    const tip = exps[idx]
-    return {
-      title: tip.title,
-      text: tip.explanation.length > 120 ? tip.explanation.slice(0, 120) + '…' : tip.explanation,
-    }
-  }, [result, catId, tipDismissed])
 
   // Close context menu on click outside
   useEffect(() => {
@@ -433,7 +371,7 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result, fromVal, fromUnit, toUnit, copyResult])
 
-  const hasError = fromVal.trim() !== '' && parseSmart(fromVal) !== null && result === null && fromUnit && toUnit
+  const hasError = fromVal.trim() !== '' && parseSmart(fromVal) !== null && result === null && fromUnit && toUnit && resultFor === inputKey
 
   // Visual context — real-world comparisons
   const visualRef = useMemo(() => {
@@ -538,7 +476,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                     </button>
                   )}
                 </div>
-                <ConversionStreaks compact />
               </div>
             </div>
 
@@ -1074,21 +1011,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
                       {suggestChain(catId) ? 'Available' : 'None'}
                     </span>
                   </button>
-
-                  {showFavSuggestion && (
-                    <button
-                      type="button"
-                      onClick={async () => {
-                        await toggleFavorite({ cat: catId, from: fromUnit, to: toUnit })
-                        setShowFavSuggestion(false)
-                        addToast('Added to favorites!', 'success', '⭐')
-                      }}
-                      className="btn-secondary text-xs py-2 px-3 min-h-[44px] flex items-center justify-between rounded-lg font-medium text-amber-500 border-amber-500/30"
-                    >
-                      <span>⭐ Save to Favorites</span>
-                      <span>+</span>
-                    </button>
-                  )}
                 </div>
               </div>
 
@@ -1478,7 +1400,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
         })()}
 
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <ConversionStreaks compact />
           <div className="flex gap-2 items-center flex-wrap">
           <motion.button whileTap={{ scale: 0.9 }} onClick={swap}
             animate={{ rotate: swapRotation }}
@@ -1641,20 +1562,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
 
       {formula && <div className="text-xs text-center text-[var(--text2)] opacity-85 italic">{formula}</div>}
 
-      {/* AI Learning Tip — Did you know? */}
-      {learningTip && !showAIExplain && (
-        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-          className="flex items-start gap-2 px-3 py-2 rounded-xl glass border border-[var(--border)] text-xs">
-          <span className="text-sm mt-0.5 shrink-0" aria-hidden="true">💡</span>
-          <div>
-            <span className="font-semibold text-xs text-[var(--text)]">{learningTip.title}</span>
-            <p className="text-[var(--text2)] opacity-85 mt-0.5">{learningTip.text}</p>
-          </div>
-          <button onClick={() => setTipDismissed(true)}
-            className="w-6 h-6 flex items-center justify-center rounded-lg text-xs opacity-75 hover:opacity-100 hover:bg-[var(--border)] shrink-0 ml-auto" aria-label="Dismiss tip">✕</button>
-        </motion.div>
-      )}
-
       {/* AI Explain section */}
       {showAIExplain && result !== null && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
@@ -1712,40 +1619,6 @@ export default function UniversalConverter({ category: initialCat, mode = 'pro',
       {/* Conversion Quiz toggle */}
       {showQuiz && (
         <ConversionQuiz />
-      )}
-
-      {/* Smart favorites suggestion */}
-      {showFavSuggestion && (
-        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2">
-          <button onClick={async () => {
-            await toggleFavorite({ cat: catId, from: fromUnit, to: toUnit })
-            setShowFavSuggestion(false)
-            addToast('Added to favorites!', 'success', '⭐')
-          }}
-            className="btn-secondary text-xs gap-1 border-amber-500/30 text-amber-600 dark:text-amber-400">
-            ⭐ Save to favorites
-          </button>
-          <button onClick={() => setShowFavSuggestion(false)}
-            className="btn-icon w-6 h-6 text-xs" aria-label="Dismiss favorites suggestion">✕</button>
-        </motion.div>
-      )}
-
-      {/* AI mode suggestion */}
-      {modeSuggestion && (
-        <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2">
-          <button onClick={() => {
-            window.dispatchEvent(new CustomEvent('uc-mode-suggest', { detail: modeSuggestion.mode }))
-            setModeSuggestion(null)
-            addToast(`Switched to ${modeSuggestion.label}!`, 'success', modeSuggestion.icon)
-          }}
-            className="btn-secondary text-xs gap-1 border-[var(--primary)]/30 text-[var(--primary)]">
-            {modeSuggestion.icon} Try {modeSuggestion.label}
-          </button>
-          <button onClick={() => setModeSuggestion(null)}
-            className="btn-icon w-6 h-6 text-xs" aria-label="Dismiss mode suggestion">✕</button>
-        </motion.div>
       )}
 
       {/* Visual context — real-world comparison */}

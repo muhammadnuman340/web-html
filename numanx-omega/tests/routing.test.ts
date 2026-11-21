@@ -138,11 +138,8 @@ describe('Task 7 & 8: Static & Special Route Audit', () => {
       '/converter',
       '/convert',
       '/categories',
-      '/dashboard',
       '/formulas',
       '/calculator',
-      '/favorites',
-      '/history',
       '/custom-units',
       '/settings',
       '/help',
@@ -157,9 +154,12 @@ describe('Task 7 & 8: Static & Special Route Audit', () => {
     }
   })
 
-  it('verifies "/health" is retired from STATIC_ROUTES and redirected to ToolsHub', () => {
-    const health = STATIC_ROUTES.find(s => s.path === '/health')
-    assert.ok(!health, 'Route "/health" must be removed from STATIC_ROUTES')
+  it('verifies "/health", "/dashboard", "/favorites", "/history" are retired from STATIC_ROUTES and redirected', () => {
+    const retiredRoutes = ['/health', '/dashboard', '/favorites', '/history']
+    for (const retired of retiredRoutes) {
+      const match = STATIC_ROUTES.find(s => s.path === retired)
+      assert.ok(!match, `Route "${retired}" must be removed from STATIC_ROUTES`)
+    }
   })
 
   it('guarantees static route paths are unique', () => {
@@ -236,8 +236,8 @@ describe('Phase 2 Step 2: Runtime Resilience, 404 Catch-All & Error Containment'
       assert.ok(!entry.loc.includes('404'), `404 route leaked into sitemap: ${entry.loc}`)
       assert.ok(!entry.loc.includes('not-found'), `Not found path leaked into sitemap: ${entry.loc}`)
     }
-    // Verify count matches authoritative sitemap inventory (242 URLs: 245 - 5 removed + 2 added)
-    assert.equal(entries.length, 242, `Expected exactly 242 sitemap entries, got ${entries.length}`)
+    // Verify count matches authoritative sitemap inventory (241 URLs: 242 - 1 blog post removed)
+    assert.equal(entries.length, 241, `Expected exactly 241 sitemap entries, got ${entries.length}`)
   })
 
   it('ensures /404 path is excluded by indexability policy and invalid routes fail resolution', () => {
@@ -279,13 +279,19 @@ describe('Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(content.includes("e.key === 'Tab'"), 'CommandBar must manage Tab focus cycling')
   })
 
-  it('verifies AIAssistant drawer implements dialog semantics, input auto-focus, and escape listener', () => {
-    const aiPath = path.resolve(process.cwd(), 'src/components/widgets/AIAssistant.tsx')
-    const content = fs.readFileSync(aiPath, 'utf8')
-    assert.ok(content.includes('role="dialog"'), 'AIAssistant must have role="dialog"')
-    assert.ok(content.includes('aria-label="NX-COS AI Assistant"'), 'AIAssistant must have accessible name')
-    assert.ok(content.includes('aria-label="Ask Omega X AI assistant"'), 'AIAssistant input must have accessible name')
-    assert.ok(content.includes("e.key === 'Escape'"), 'AIAssistant must handle Escape key dismissal')
+  it('verifies non-converting widgets (AIAssistant, AIFloatingButton, ContextBar, ConversionStreaks, AdSlot3Tier) are deleted', () => {
+    const deletedComponents = [
+      'src/components/widgets/AIAssistant.tsx',
+      'src/components/widgets/AIFloatingButton.tsx',
+      'src/components/widgets/ContextBar.tsx',
+      'src/components/widgets/ConversionStreaks.tsx',
+      'src/engine/appKnowledge.ts',
+      'src/components/monetization/AdSlot3Tier.tsx'
+    ]
+    for (const relPath of deletedComponents) {
+      const fullPath = path.resolve(process.cwd(), relPath)
+      assert.ok(!fs.existsSync(fullPath), `${relPath} must be completely removed`)
+    }
   })
 
   it('verifies ShortcutsPanel implements modal dialog semantics and title associations, and OnboardingTour is deleted', () => {
@@ -300,7 +306,7 @@ describe('Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(shortcutsContent.includes('id="shortcuts-title"'), 'ShortcutsPanel must define id="shortcuts-title"')
   })
 
-  it('verifies form controls in CustomUnits, History, Settings, and Dashboard have accessible names', () => {
+  it('verifies form controls in CustomUnits and Settings have accessible names, and retired pages are removed', () => {
     const customUnitsPath = path.resolve(process.cwd(), 'src/pages/CustomUnits.tsx')
     const cuContent = fs.readFileSync(customUnitsPath, 'utf8')
     assert.ok(cuContent.includes('aria-label="Target category for custom unit"'), 'CustomUnits category selector must have accessible name')
@@ -309,18 +315,18 @@ describe('Phase 2 Step 3: Accessibility, Keyboard Navigation & Semantic UI Harde
     assert.ok(cuContent.includes('aria-label="Conversion rate relative to base unit"'), 'CustomUnits rate input must have accessible name')
     assert.ok(cuContent.includes('aria-describedby="custom-unit-rate-hint"'), 'CustomUnits rate input must have aria-describedby')
 
-    const historyPath = path.resolve(process.cwd(), 'src/pages/History.tsx')
-    const historyContent = fs.readFileSync(historyPath, 'utf8')
-    assert.ok(historyContent.includes('aria-label="Search conversion history"'), 'History search input must have accessible name')
-
     const settingsPath = path.resolve(process.cwd(), 'src/pages/Settings.tsx')
     const settingsContent = fs.readFileSync(settingsPath, 'utf8')
     assert.ok(settingsContent.includes('aria-label="Default conversion precision in decimal places"'), 'Settings precision range must have accessible name')
 
+    const historyPath = path.resolve(process.cwd(), 'src/pages/History.tsx')
+    assert.ok(!fs.existsSync(historyPath), 'src/pages/History.tsx must be removed')
+
     const dashPath = path.resolve(process.cwd(), 'src/pages/Dashboard.tsx')
-    const dashContent = fs.readFileSync(dashPath, 'utf8')
-    assert.ok(dashContent.includes('role="tablist"'), 'Dashboard tab nav must have role="tablist"')
-    assert.ok(dashContent.includes('role="tab"'), 'Dashboard tab buttons must have role="tab"')
+    assert.ok(!fs.existsSync(dashPath), 'src/pages/Dashboard.tsx must be removed')
+
+    const favPath = path.resolve(process.cwd(), 'src/pages/Favorites.tsx')
+    assert.ok(!fs.existsSync(favPath), 'src/pages/Favorites.tsx must be removed')
   })
 
   it('verifies dynamic notifications implement accessible status/error announcements in useToast', () => {
@@ -362,15 +368,15 @@ describe('Phase 2 Step 5: Performance, Bundle Size & Isolation Architecture', ()
     assert.ok(!appContent.includes('react-chartjs-2'), 'src/App.tsx must not import react-chartjs-2')
   })
 
-  it('verifies heavy interactive widgets (AIAssistant, ShortcutsPanel) are code-split and lazy-loaded in App.tsx', () => {
+  it('verifies heavy interactive widgets (ShortcutsPanel) are code-split and lazy-loaded in App.tsx and AIAssistant is removed', () => {
     const appPath = path.resolve(process.cwd(), 'src/App.tsx')
     const appContent = fs.readFileSync(appPath, 'utf8')
 
-    assert.ok(appContent.includes("const AIAssistant = lazy(() => import('./components/widgets/AIAssistant'))"), 'AIAssistant must be lazy loaded')
     assert.ok(appContent.includes("const ShortcutsPanel = lazy(() => import('./components/ui/ShortcutsPanel'))"), 'ShortcutsPanel must be lazy loaded')
     assert.ok(!appContent.includes('OnboardingTour'), 'OnboardingTour must be completely removed from App.tsx')
+    assert.ok(!appContent.includes('AIAssistant'), 'AIAssistant must be completely removed from App.tsx')
+    assert.ok(!appContent.includes('ContextBar'), 'ContextBar must be completely removed from App.tsx')
 
-    assert.ok(!appContent.includes("import AIAssistant from './components/widgets/AIAssistant'"), 'AIAssistant must not be statically imported')
     assert.ok(!appContent.includes("import ShortcutsPanel from './components/ui/ShortcutsPanel'"), 'ShortcutsPanel must not be statically imported')
   })
 
@@ -561,7 +567,11 @@ describe('Phase 2 Step 6: Security, Privacy, HTTP Headers & Deployment Hardening
       ['/convert/textile/gsm-to-thread-count', '/convert/textile'],
       ['/health', 'https://toolshub.numanxstudio.com/tools/bmi-calculator/'],
       ['/convert/cricket-overs', 'https://toolshub.numanxstudio.com/tools/cricket-over-calculator/'],
-      ['/convert/cricket-overs/*', 'https://toolshub.numanxstudio.com/tools/cricket-over-calculator/']
+      ['/convert/cricket-overs/*', 'https://toolshub.numanxstudio.com/tools/cricket-over-calculator/'],
+      ['/dashboard', '/'],
+      ['/favorites', '/'],
+      ['/history', '/'],
+      ['/blog/ai-powered-unit-conversions-in-2026', '/blog']
     ]
 
     const lines = content.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'))

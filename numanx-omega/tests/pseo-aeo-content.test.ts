@@ -79,11 +79,10 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
           assert.ok(!p.includes('NaN'), `Paragraph must not contain NaN for ${cat.id}:${pairParam}`)
         }
 
-        // 3. Practical Use Cases
-        assert.ok(editorial.useCases.length >= 2, `Must have at least 2 use cases for ${cat.id}:${pairParam}`)
-        for (const uc of editorial.useCases) {
-          assert.ok(uc.domain, `Use case domain required for ${cat.id}:${pairParam}`)
-          assert.ok(uc.context, `Use case context required for ${cat.id}:${pairParam}`)
+        // 3. Worked Examples & Merged Real-World Example
+        assert.ok(editorial.workedExamples && editorial.workedExamples.length >= 1, `Must have worked examples for ${cat.id}:${pairParam}`)
+        for (const ex of editorial.workedExamples) {
+          assert.ok(ex.length > 10, `Worked example must be substantive for ${cat.id}:${pairParam}`)
         }
 
         // 4. Reciprocal Link
@@ -226,10 +225,11 @@ describe('Phase 3 Step 5: pSEO Content Differentiation & AEO Answer Quality', ()
         assert.ok(fs.existsSync(htmlPath), `Prerender file must exist: dist/convert/${cat.id}/${pairParam}.html`)
         const html = fs.readFileSync(htmlPath, 'utf8')
 
-        assert.ok(html.includes('id="aeo-answer-heading"') || html.includes('Quick Direct Answer'), `Direct answer heading missing in ${cat.id}:${pairParam}`)
+        assert.ok(html.includes('id="aeo-answer-heading"') || html.includes('Direct Answer'), `Direct answer heading missing in ${cat.id}:${pairParam}`)
         assert.ok(html.includes('id="explanation-heading"') || html.includes('Relate'), `Explanation heading missing in ${cat.id}:${pairParam}`)
-        assert.ok(html.includes('id="usecases-heading"') || html.includes('Practical Applications'), `Use cases heading missing in ${cat.id}:${pairParam}`)
-        assert.ok(html.includes('id="reciprocal-heading"') || html.includes('Reciprocal'), `Reciprocal heading missing in ${cat.id}:${pairParam}`)
+        assert.ok(html.includes('id="worked-examples-heading"') || html.includes('Worked Conversion Examples'), `Worked examples heading missing in ${cat.id}:${pairParam}`)
+        assert.ok(!html.includes('id="usecases-heading"'), `Use cases heading must be removed in ${cat.id}:${pairParam}`)
+        assert.ok(html.includes('id="reciprocal-heading"') || html.includes('Reverse Conversion Option'), `Reciprocal heading missing in ${cat.id}:${pairParam}`)
         assert.ok(!html.includes('NaN'), `NaN found in ${cat.id}:${pairParam}`)
         assert.ok(!html.includes('undefined'), `undefined found in ${cat.id}:${pairParam}`)
         assert.ok(!html.includes('Infinity'), `Infinity found in ${cat.id}:${pairParam}`)

@@ -141,7 +141,7 @@ Comprehensive technical guides detailing unit origins, math shortcuts, and real-
     }
   }
 
-  sections.push(`## 6. Technical Blog Articles (6 Articles)
+  sections.push(`## 6. Technical Blog Articles (${BLOG_POSTS.length} Articles)
 
 In-depth technical publications on dimensional metrology, machinist tolerances, and computational architecture:
 `)
@@ -264,7 +264,6 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - [Metric vs Imperial Engineering Standards](${canonicalUrl('/blog/metric-vs-imperial-engineering-guide')}): Analysis of global dual-unit documentation in aerospace, automotive, and civil engineering.
 - [Thermodynamic Temperature Scales](${canonicalUrl('/blog/temperature-scales-celsius-fahrenheit-kelvin')}): Deep dive into absolute zero, Boltzmann's constant, and ITS-90 temperature standards.
 - [Digital Storage Measurement](${canonicalUrl('/blog/digital-data-storage-units-guide')}): Hardware disk capacity versus operating system reported file sizes.
-- [AI-Assisted Conversion Architecture](${canonicalUrl('/blog/ai-powered-unit-conversions-in-2026')}): Local client regex and natural-language pattern matching for rapid unit extraction without remote data transmission.
 
 ## Machine Usage & Agent Guidelines
 
@@ -272,7 +271,7 @@ Full Agent Documentation: ${DEFAULT_SITE_URL}/llms-full.txt
 - URL Structure: All public routes follow deterministic paths: \`/convert/{category}\` for category landings and \`/convert/{category}/{from}-to-{to}\` for unit pairs.
 - Scientific Grounding: Conversion factors follow the BIPM SI Brochure (9th Edition) and NIST Special Publication 811.
 - No Commercial Endorsement: Institutional references (NIST, BIPM, ISO, IEC, CODATA, WMO) represent scientific source provenance only and do not imply institutional endorsement.
-- Privacy & State: The application runs entirely on the client. Routes such as \`/history\`, \`/favorites\`, \`/settings\`, \`/custom-units\`, \`/help\`, and \`/dashboard\` rely on browser LocalStorage, are tagged noindex, and are not public indexable URLs.
+- Privacy & State: The application runs entirely on the client. Routes such as \`/settings\`, \`/custom-units\`, and \`/help\` rely on browser LocalStorage, are tagged noindex, and are not public indexable URLs.
 `
 }
 

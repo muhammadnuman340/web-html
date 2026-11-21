@@ -32,13 +32,10 @@ const NAV_CATEGORIES = [
 const NAV_FEATURES = [
   { path: '/calculator', icon: '🧮', label: 'Calculator' },
   { path: '/formulas', icon: '📐', label: 'Formulas' },
-  { path: '/favorites', icon: '⭐', label: 'Favorites' },
 ]
 
 const NAV_SECONDARY = [
-  { path: '/history', icon: '📜', label: 'History' },
   { path: '/custom-units', icon: '⚒️', label: 'Custom Units' },
-  { path: '/dashboard', icon: '📊', label: 'Analytics' },
   { path: '/sitemap', icon: '🗺️', label: 'Sitemap' },
   { path: '/settings', icon: '⚙️', label: 'Settings' },
 ]

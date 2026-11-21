@@ -8,9 +8,12 @@ export function SkeletonCard({ className = '' }: { className?: string }) {
   )
 }
 
+// Route-loading fallback. min-h-screen keeps the footer below the fold while the
+// lazy route chunk loads, so the real page replacing it doesn't push the footer
+// down and cause a layout shift (desktop CLS ~0.81 before this).
 export function SkeletonPage() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-h-screen">
       <div className="h-6 w-48 rounded bg-[var(--border)] animate-pulse" />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {[1, 2, 3, 4].map(i => <SkeletonCard key={i} />)}
