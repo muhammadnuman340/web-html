@@ -4,7 +4,7 @@
  * One URL per template, mobile + desktop presets, N runs each, median reported.
  * Shells out to `npx lighthouse@13.6.0` (same major/minor PSI used on 2026-11-19).
  *
- *   node scripts/lh-local.mjs <label> [--runs 3] [--base http://localhost:4173] [--only mobile|desktop] [--urls file.json]
+ *   node scripts/lh-local.mjs <label> [--runs 3] [--base http://localhost:4173] [--only mobile|desktop] [--urls file.json] [--resume]
  *   node scripts/lh-local.mjs --compare <beforeLabel> <afterLabel>
  *
  * Output: reports/lighthouse/<label>/raw/*.json (gitignored) and reports/lighthouse/<label>/medians.json
@@ -96,8 +96,13 @@ async function main() {
         const file = path.join(dir, 'raw', `${t.replace(/[^a-z0-9]+/gi, '_')}__${preset}__${i}.json`);
         const lhArgs = ['-y', LH, base + p, '--only-categories=performance', '--output=json', `--output-path=${file}`, '--quiet', '--chrome-flags=--headless=new --no-first-run'];
         if (preset === 'desktop') lhArgs.push('--preset=desktop');
-        let r;
-        for (let attempt = 1; attempt <= 2; attempt++) {
+        // --resume: reuse a complete raw result from an interrupted run.
+        let r = { status: 0 };
+        let reuse = false;
+        if (args.includes('--resume') && fs.existsSync(file)) {
+          try { reuse = JSON.parse(fs.readFileSync(file, 'utf8')).categories?.performance?.score != null; } catch { reuse = false; }
+        }
+        for (let attempt = 1; !reuse && attempt <= 2; attempt++) {
           if (fs.existsSync(file)) fs.rmSync(file);
           r = spawnSync('npx', lhArgs, { env, shell: true, encoding: 'utf8', cwd: ROOT });
           if (r.status === 0 && fs.existsSync(file)) break;
