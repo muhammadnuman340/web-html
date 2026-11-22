@@ -1,12 +1,11 @@
 // Canonical entity: Omega X Converter · NumanX Studio
 
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import ConverterCard from '../components/converter/ConverterCard'
+import CategoryConverter from '../components/converter/CategoryConverter'
 import SEOHead from '../components/ui/SEOHead'
 import { PAGE_META } from '../config/pageMeta'
 import { Categories } from '../engine/categories'
-import { getAllCategories } from '../engine/converter'
 import { buildHomeSchema } from '../config/schema'
 import { categoryIcon } from '../config/categoryIcons'
 
@@ -31,20 +30,7 @@ const sectionTitle = 'text-xl sm:text-2xl'
 
 export default function Home() {
   const homeSchema = useMemo(() => buildHomeSchema(), [])
-  const allCats = useMemo(() => getAllCategories(), [])
-  const [catId, setCatId] = useState('length')
-  const cat = allCats.find(c => c.id === catId) ?? allCats[0]
   const totalUnits = Categories.reduce((acc, c) => acc + c.un.length, 0)
-
-  // Sensible starting pair for the selected category
-  const defaultPair: Record<string, [string, string]> = {
-    length: ['m', 'ft'], mass: ['kg', 'lb'], temp: ['c', 'f'], volume: ['l', 'gal'],
-  }
-  const [fromId, toId] = (() => {
-    const d = defaultPair[cat.id]
-    if (d && cat.un.some(u => u.id === d[0]) && cat.un.some(u => u.id === d[1])) return d
-    return [cat.un[0].id, (cat.un[1] ?? cat.un[0]).id]
-  })()
 
   return (
     <article className="space-y-12">
@@ -58,18 +44,7 @@ export default function Home() {
           </p>
         </header>
 
-        <div className="max-w-xs">
-          <label htmlFor="home-category" className="block text-[13px] font-semibold text-[var(--text2)] mb-1.5">Category</label>
-          <select
-            id="home-category"
-            value={cat.id}
-            onChange={e => setCatId(e.target.value)}
-            className="w-full min-h-[48px] rounded-xl border border-[var(--border-control)] bg-[var(--card)] text-[var(--text)] px-3 text-base hover:border-[var(--text)]"
-          >
-            {allCats.map(c => <option key={c.id} value={c.id}>{c.lb}</option>)}
-          </select>
-        </div>
-        <ConverterCard key={cat.id} cat={cat} fromId={fromId} toId={toId} title={`${cat.lb} converter`} />
+        <CategoryConverter />
       </div>
 
       <section aria-labelledby="popular-heading" className="space-y-4">

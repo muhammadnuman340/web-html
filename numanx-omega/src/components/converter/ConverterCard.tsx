@@ -114,7 +114,7 @@ export default function ConverterCard({ cat, fromId, toId, initialValue = '1', o
         </div>
       </div>
 
-      <div className="rounded-xl bg-[var(--card2)] border border-[var(--border)] p-4 flex items-center justify-between gap-3">
+      <div className="rounded-xl bg-[var(--card2)] border border-[var(--border)] p-4 flex flex-wrap items-center justify-between gap-3">
         <output
           htmlFor={`${uid}-value ${uid}-from ${uid}-to`}
           aria-live="polite"

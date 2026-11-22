@@ -1,47 +1,36 @@
-import { useSearchParams, useLocation } from 'react-router-dom'
-import UniversalConverter from '../components/converter/UniversalConverter'
+import { Link, useSearchParams, useLocation } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
+import CategoryConverter from '../components/converter/CategoryConverter'
 import { PAGE_META } from '../config/pageMeta'
-import type { AppMode } from '../components/widgets/ModeSwitcher'
+import { getAllCategories } from '../engine/converter'
 
-interface Props { mode?: AppMode }
-
-export default function ConverterPage({ mode }: Props) {
+export default function ConverterPage() {
   const [params] = useSearchParams()
   // /calculator renders this page too; keep its own title and canonical URL
   const route = useLocation().pathname === '/calculator' ? '/calculator' : '/converter'
-  const cat = params.get('cat') || undefined
-  const initFrom = params.get('from') || undefined
-  const initTo = params.get('to') || undefined
-  const initVal = params.get('val') ? parseFloat(params.get('val')!) : undefined
+  const cats = getAllCategories()
+  const totalUnits = cats.reduce((a, c) => a + c.un.length, 0)
 
   return (
-    <article className="space-y-3 max-w-6xl mx-auto w-full min-w-0">
+    <article className="space-y-8">
       <SEOHead {...PAGE_META[route]} path={route} />
-      <header className="flex flex-wrap items-center justify-between gap-2 pb-0.5">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text)] flex items-center gap-2">
-            <span aria-hidden="true" className="text-[var(--accent)] font-mono text-base px-2 py-0.5 rounded-lg bg-[var(--surface-2)] border border-[var(--border-subtle)]">NΩ</span> Universal Converter
-          </h1>
-          <p className="text-xs text-[var(--text2)]">Precision metrology workbench · 35 categories</p>
-        </div>
-        {mode === 'student' && (
-          <span className="text-xs px-2.5 py-1 rounded-full bg-[var(--surface-3)] border border-[var(--border-control)] text-[var(--link-text)] font-medium">
-            Student Mode Active
-          </span>
-        )}
-      </header>
-      <div className="w-full min-w-0">
-        <UniversalConverter
-          variant="workbench"
-          category={cat}
-          mode={mode}
-          initialFrom={initFrom}
-          initialTo={initTo}
-          initialValue={initVal}
+      <div className="space-y-5">
+        <header className="space-y-3">
+          <h1>Universal Converter</h1>
+          <p className="text-lg text-[var(--text2)]">Pick a category, then convert between any of its units. {cats.length} categories, {totalUnits} units.</p>
+        </header>
+        <CategoryConverter
+          // Query string from search and shared links: ?cat=&from=&to=&val=
+          key={params.toString()}
+          initialCategory={params.get('cat') || undefined}
+          initialFrom={params.get('from') || undefined}
+          initialTo={params.get('to') || undefined}
+          initialValue={params.get('val') || undefined}
         />
       </div>
+      <p className="text-[var(--text2)] nx-prose">
+        Each category also has its own page with formulas, tables and FAQs. <Link to="/categories">Browse all categories</Link>.
+      </p>
     </article>
   )
 }
-

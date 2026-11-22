@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import Breadcrumbs from '../components/ui/Breadcrumbs'
-import UniversalConverter from '../components/converter/UniversalConverter'
+import { FixedCategoryConverter } from '../components/converter/CategoryConverter'
 import { BLOG_POSTS, getRelatedPosts } from '../data/blogPosts'
 import { categoryContent } from '../engine/categoryContent'
 import { Categories } from '../engine/categories'
@@ -175,9 +175,7 @@ export default function BlogPost() {
             Test the math live with high precision right inside this guide:
           </p>
         </div>
-        <div className="p-2 sm:p-4 rounded-xl bg-[var(--card2)] border border-[var(--border)]">
-          <UniversalConverter category={post.relatedCat} hideCategoryPicker={true} />
-        </div>
+        <FixedCategoryConverter catId={post.relatedCat} />
       </section>
 
       {/* Frequently Asked Questions */}
