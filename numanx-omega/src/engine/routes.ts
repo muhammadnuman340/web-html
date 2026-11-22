@@ -21,7 +21,7 @@ const CUSTOM_CATEGORY_ALIASES: Record<string, string[]> = {
   data: ['/data-converter', '/data'],
 }
 
-// Generate authoritative category route metadata for all 24 categories
+// Generate authoritative category route metadata for all 35 categories
 export const CATEGORY_ROUTES: CategoryRouteDef[] = Categories.map(cat => {
   const custom = CUSTOM_CATEGORY_ALIASES[cat.id]
   const defaultAliases = [`/${cat.id}-converter`, `/${cat.id}`]
@@ -40,7 +40,7 @@ export const STATIC_ROUTES: StaticRouteDef[] = [
   { path: '/', label: 'Home', type: 'core', description: 'Universal unit converter homepage' },
   { path: '/converter', label: 'Universal Converter', type: 'core', description: 'Standard converter workspace' },
   { path: '/convert', label: 'Converter Redirect', type: 'core', description: 'Root convert route rendering converter' },
-  { path: '/categories', label: 'Browse Categories', type: 'core', description: 'Directory of all 28 categories' },
+  { path: '/categories', label: 'Browse Categories', type: 'core', description: 'Directory of all 35 categories' },
   { path: '/formulas', label: 'Formula Explorer', type: 'feature', description: 'Interactive scientific and engineering formulas' },
   { path: '/calculator', label: 'Calculator', type: 'feature', description: 'Quick calculation and conversion interface' },
   { path: '/custom-units', label: 'Custom Units', type: 'utility', description: 'User-defined custom unit manager' },

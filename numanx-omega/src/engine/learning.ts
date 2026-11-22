@@ -331,12 +331,12 @@ export function getQuizzes(categoryId: string): QuizQuestion[] {
 
 export function getBeginnerTopics(): { id: string; title: string; icon: string }[] {
   return [
-    { id: 'length', title: 'Length Basics', icon: '📏' },
-    { id: 'mass', title: 'Mass & Weight', icon: '⚖️' },
-    { id: 'temp', title: 'Temperature Scales', icon: '🌡️' },
-    { id: 'data', title: 'Digital Storage', icon: '💾' },
-    { id: 'speed', title: 'Speed Conversions', icon: '🚀' },
-    { id: 'pressure', title: 'Pressure Units', icon: '🔵' },
-    { id: 'energy', title: 'Energy & Work', icon: '⚡' },
+    { id: 'length', title: 'Length Basics', icon: '' },
+    { id: 'mass', title: 'Mass & Weight', icon: '' },
+    { id: 'temp', title: 'Temperature Scales', icon: '' },
+    { id: 'data', title: 'Digital Storage', icon: '' },
+    { id: 'speed', title: 'Speed Conversions', icon: '' },
+    { id: 'pressure', title: 'Pressure Units', icon: '' },
+    { id: 'energy', title: 'Energy & Work', icon: '' },
   ]
 }

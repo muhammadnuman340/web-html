@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { X } from 'lucide-react'
 
 export interface ProPassModalProps {
   isOpen?: boolean
@@ -84,20 +85,20 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
       if (res.ok) {
         setOrderFeedback({
           success: true,
-          msg: '🎉 Order submitted successfully! Your TID is under verification. Once approved, your NXPRO license key will be sent via SMS / WhatsApp.'
+          msg: 'Order submitted successfully! Your TID is under verification. Once approved, your NXPRO license key will be sent via SMS / WhatsApp.'
         })
       } else {
         // Fallback simulation for offline testing
         setOrderFeedback({
           success: true,
-          msg: '✅ Transaction ID recorded! Your payment receipt has been queued for verification.'
+          msg: 'Transaction ID recorded! Your payment receipt has been queued for verification.'
         })
       }
     } catch {
       // Graceful fallback if worker offline
       setOrderFeedback({
         success: true,
-        msg: '✅ Verification receipt logged locally! Your Pro Pass request is queued.'
+        msg: 'Verification receipt logged locally! Your Pro Pass request is queued.'
       })
     } finally {
       setIsSubmittingOrder(false)
@@ -139,7 +140,7 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
       if (isVerified || /^NXPRO-[A-Z0-9-]{4,}$/.test(key)) {
         localStorage.setItem('nx_pro', 'true')
         window.dispatchEvent(new Event('pro-status-changed'))
-        setActivationFeedback({ success: true, msg: '🌟 Pro Pass Activated! All ads have been removed and Pro features are unlocked.' })
+        setActivationFeedback({ success: true, msg: 'Pro Pass Activated! All ads have been removed and Pro features are unlocked.' })
         setTimeout(() => {
           handleClose()
         }, 1800)
@@ -158,17 +159,16 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
       role="dialog"
       aria-modal="true"
       aria-labelledby="pro-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 animate-fade-in"
       onClick={handleClose}
     >
       <div
-        className="w-full max-w-lg rounded-2xl border border-[var(--border)] bg-[var(--surface,#121826)] text-[var(--text,#f1f5f9)] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        className="w-full max-w-lg rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text)] overflow-hidden flex flex-col max-h-[90vh]"
         onClick={e => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-sunken,#0b101b)]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)] bg-[var(--surface-sunken)]">
           <div className="flex items-center gap-2">
-            <span className="text-xl" aria-hidden="true">⭐</span>
             <h2 id="pro-modal-title" className="text-lg font-bold">
               Omega X Pro Pass
             </h2>
@@ -178,77 +178,71 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
             onClick={handleClose}
             className="p-1 rounded-lg text-[var(--text2)] hover:text-[var(--text)] hover:bg-[var(--border)] transition-colors text-lg"
             aria-label="Close dialog"
-          >
-            ✕
-          </button>
+          ><X size={16} aria-hidden="true" /></button>
         </div>
 
         {/* Reason banner if triggered from a specific action */}
         {reason && (
-          <div className="px-6 py-2.5 bg-[var(--primary-muted,#1e293b)] text-xs text-[var(--link-text,#38bdf8)] border-b border-[var(--border)] flex items-center gap-2">
-            <span>✨</span>
+          <div className="px-6 py-2.5 bg-[var(--primary-muted)] text-xs text-[var(--link-text)] border-b border-[var(--border)] flex items-center gap-2">
             <span>{reason}</span>
           </div>
         )}
 
         {/* Value Proposition Hero */}
-        <div className="px-6 py-4 border-b border-[var(--border)] bg-gradient-to-b from-[var(--surface-sunken,#0b101b)]/50 to-transparent">
-          <p className="text-xs text-[var(--text2,#94a3b8)] leading-relaxed mb-3">
+        <div className="px-6 py-4 border-b border-[var(--border)] bg-[var(--fill)]">
+          <p className="text-xs text-[var(--text2)] leading-relaxed mb-3">
             One-time payment for lifetime access. No subscriptions, zero tracking.
           </p>
           <div className="grid grid-cols-3 gap-2 text-center text-xs">
-            <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface,#121826)]/60">
-              <div className="text-base mb-1">🚫</div>
+            <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]/60">
               <div className="font-semibold text-[var(--text)]">100% Ad-Free</div>
-              <div className="text-[10px] text-[var(--text3)]">Zero layout shift</div>
+              <div className="text-[13px] text-[var(--text3)]">Zero layout shift</div>
             </div>
-            <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface,#121826)]/60">
-              <div className="text-base mb-1">📊</div>
+            <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]/60">
               <div className="font-semibold text-[var(--text)]">Bulk CSV Tool</div>
-              <div className="text-[10px] text-[var(--text3)]">&gt;100 rows batch</div>
+              <div className="text-[13px] text-[var(--text3)]">&gt;100 rows batch</div>
             </div>
-            <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface,#121826)]/60">
-              <div className="text-base mb-1">📄</div>
+            <div className="p-2 rounded-xl border border-[var(--border)] bg-[var(--surface)]/60">
               <div className="font-semibold text-[var(--text)]">LaTeX / PDF</div>
-              <div className="text-[10px] text-[var(--text3)]">Printable sheets</div>
+              <div className="text-[13px] text-[var(--text3)]">Printable sheets</div>
             </div>
           </div>
         </div>
 
         {/* Tabs: Pakistan / Global / Activate */}
-        <div className="flex border-b border-[var(--border)] bg-[var(--surface-sunken,#0b101b)]/60 px-6 pt-2">
+        <div className="flex border-b border-[var(--border)] bg-[var(--surface-sunken)]/60 px-6 pt-2">
           <button
             type="button"
             onClick={() => setTab('pk')}
             className={`pb-2.5 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
               tab === 'pk'
-                ? 'border-[var(--accent,#00d2ff)] text-[var(--accent,#00d2ff)]'
+                ? 'border-[var(--accent)] text-[var(--accent)]'
                 : 'border-transparent text-[var(--text2)] hover:text-[var(--text)]'
             }`}
           >
-            🇵🇰 Pakistan (PKR 1,200)
+            Pakistan (PKR 1,200)
           </button>
           <button
             type="button"
             onClick={() => setTab('global')}
             className={`pb-2.5 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
               tab === 'global'
-                ? 'border-[var(--accent,#00d2ff)] text-[var(--accent,#00d2ff)]'
+                ? 'border-[var(--accent)] text-[var(--accent)]'
                 : 'border-transparent text-[var(--text2)] hover:text-[var(--text)]'
             }`}
           >
-            🌐 International ($9 USD)
+            International ($9 USD)
           </button>
           <button
             type="button"
             onClick={() => setTab('activate')}
             className={`pb-2.5 px-3 text-xs font-semibold border-b-2 transition-colors cursor-pointer ${
               tab === 'activate'
-                ? 'border-[var(--accent,#00d2ff)] text-[var(--accent,#00d2ff)]'
+                ? 'border-[var(--accent)] text-[var(--accent)]'
                 : 'border-transparent text-[var(--text2)] hover:text-[var(--text)]'
             }`}
           >
-            🔑 Activate Key
+            Activate Key
           </button>
         </div>
 
@@ -256,12 +250,12 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
         <div className="p-6 overflow-y-auto space-y-4">
           {tab === 'pk' && (
             <form onSubmit={handleSubmitPkOrder} className="space-y-4 text-xs">
-              <div className="p-3 rounded-xl border border-emerald-500/30 bg-emerald-950/20 text-emerald-200">
+              <div className="p-3 rounded-xl border border-[var(--status-success)] bg-[var(--card2)] text-[var(--status-success)]">
                 <div className="font-bold text-sm mb-1">PKR 1,200 — Lifetime License</div>
-                <p className="text-[11px] leading-relaxed">
+                <p className="text-[13px] leading-relaxed">
                   Send PKR 1,200 via <strong>NayaPay, SadaPay, or JazzCash</strong> to the account below, then paste your Transaction ID (TID) to receive instant verification.
                 </p>
-                <div className="mt-2 pt-2 border-t border-emerald-500/20 font-mono text-[11px] space-y-1">
+                <div className="mt-2 pt-2 border-t border-[var(--status-success)] font-mono text-[13px] space-y-1">
                   <div><strong>Account Title:</strong> Numan Iftikhar</div>
                   <div><strong>NayaPay / SadaPay / JazzCash:</strong> 0300-8433940</div>
                 </div>
@@ -277,8 +271,8 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
                       onClick={() => setPkPaymentMethod(method)}
                       className={`py-2 px-2 rounded-lg border text-center font-medium capitalize transition-all cursor-pointer ${
                         pkPaymentMethod === method
-                          ? 'border-[var(--accent,#00d2ff)] bg-[var(--primary-muted,#1e293b)] text-[var(--accent,#00d2ff)]'
-                          : 'border-[var(--border)] bg-[var(--surface-sunken,#0b101b)] text-[var(--text2)]'
+                          ? 'border-[var(--accent)] bg-[var(--primary-muted)] text-[var(--accent)]'
+                          : 'border-[var(--border)] bg-[var(--surface-sunken)] text-[var(--text2)]'
                       }`}
                     >
                       {method}
@@ -296,7 +290,7 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
                     value={senderName}
                     onChange={e => setSenderName(e.target.value)}
                     placeholder="e.g. Muhammad Ali"
-                    className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken,#0b101b)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none"
+                    className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none"
                   />
                 </div>
                 <div className="space-y-1">
@@ -307,7 +301,7 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
                     value={customerContact}
                     onChange={e => setCustomerContact(e.target.value)}
                     placeholder="0300-1234567"
-                    className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken,#0b101b)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none"
+                    className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none"
                   />
                 </div>
               </div>
@@ -320,13 +314,13 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
                   value={tid}
                   onChange={e => setTid(e.target.value)}
                   placeholder="e.g. 1029384756"
-                  className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken,#0b101b)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none font-mono"
+                  className="w-full px-3 py-2 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none font-mono"
                 />
               </div>
 
               {orderFeedback && (
                 <div className={`p-3 rounded-lg text-xs leading-relaxed ${
-                  orderFeedback.success ? 'bg-emerald-950/40 border border-emerald-500/40 text-emerald-200' : 'bg-red-950/40 border border-red-500/40 text-red-200'
+                  orderFeedback.success ? 'bg-[var(--card2)] border border-[var(--status-success)] text-[var(--status-success)]' : 'bg-[var(--card2)] border border-[var(--status-danger)] text-[var(--status-danger)]'
                 }`}>
                   {orderFeedback.msg}
                 </div>
@@ -335,7 +329,7 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
               <button
                 type="submit"
                 disabled={isSubmittingOrder}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-md transition-all cursor-pointer disabled:opacity-50"
+                className="w-full py-2.5 px-4 rounded-xl text-[var(--on-fill)] font-bold text-xs transition-all cursor-pointer disabled:opacity-50 bg-[var(--fill)]"
               >
                 {isSubmittingOrder ? 'Submitting TID...' : 'Submit TID for Verification (PKR 1,200)'}
               </button>
@@ -344,12 +338,12 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
 
           {tab === 'global' && (
             <div className="space-y-4 text-xs">
-              <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-sunken,#0b101b)] space-y-2">
+              <div className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface-sunken)] space-y-2">
                 <div className="flex justify-between items-baseline">
                   <span className="text-sm font-bold text-[var(--text)]">International Pro Pass</span>
-                  <span className="text-lg font-mono font-bold text-[var(--accent,#00d2ff)]">$9 USD</span>
+                  <span className="text-lg font-mono font-bold text-[var(--accent)]">$9 USD</span>
                 </div>
-                <p className="text-[11px] text-[var(--text2)] leading-relaxed">
+                <p className="text-[13px] text-[var(--text2)] leading-relaxed">
                   Instant global checkout via Credit Card, Debit Card, Apple Pay, Google Pay, or PayPal. Lifetime license key delivered immediately on screen.
                 </p>
               </div>
@@ -358,12 +352,12 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
                 href="https://numan77781.workers.dev/order?currency=usd&plan=pro"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full block text-center py-2.5 px-4 rounded-xl bg-gradient-to-r from-[var(--primary,#2563eb)] to-[var(--accent,#00d2ff)] hover:brightness-110 text-white font-bold text-xs shadow-md transition-all"
+                className="w-full block text-center py-2.5 px-4 rounded-xl hover:brightness-110 text-[var(--on-fill)] font-bold text-xs transition-all bg-[var(--fill)]"
               >
                 Proceed to Secure Checkout ($9 USD) →
               </a>
 
-              <p className="text-[10px] text-[var(--text3)] text-center">
+              <p className="text-[13px] text-[var(--text3)] text-center">
                 Encrypted 256-bit SSL transaction. 14-day money-back guarantee.
               </p>
             </div>
@@ -379,13 +373,13 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
                   value={licenseKey}
                   onChange={e => setLicenseKey(e.target.value)}
                   placeholder="NXPRO-XXXX-XXXX"
-                  className="w-full px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken,#0b101b)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none font-mono text-center tracking-widest text-sm"
+                  className="w-full px-3 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--surface-sunken)] text-[var(--text)] placeholder-[var(--text3)] focus:border-[var(--accent)] outline-none font-mono text-center tracking-widest text-sm"
                 />
               </div>
 
               {activationFeedback && (
                 <div className={`p-3 rounded-lg text-xs leading-relaxed ${
-                  activationFeedback.success ? 'bg-emerald-950/40 border border-emerald-500/40 text-emerald-200' : 'bg-red-950/40 border border-red-500/40 text-red-200'
+                  activationFeedback.success ? 'bg-[var(--card2)] border border-[var(--status-success)] text-[var(--status-success)]' : 'bg-[var(--card2)] border border-[var(--status-danger)] text-[var(--status-danger)]'
                 }`}>
                   {activationFeedback.msg}
                 </div>
@@ -394,7 +388,7 @@ export default function ProPassModal({ isOpen: controlledOpen, onClose: controll
               <button
                 type="submit"
                 disabled={isActivating}
-                className="w-full py-2.5 px-4 rounded-xl bg-[var(--primary,#2563eb)] hover:bg-[var(--primary-hover,#1d4ed8)] text-white font-bold text-xs shadow-md transition-all cursor-pointer disabled:opacity-50"
+                className="w-full py-2.5 px-4 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white font-bold text-xs transition-all cursor-pointer disabled:opacity-50"
               >
                 {isActivating ? 'Verifying...' : 'Verify & Unlock Pro'}
               </button>

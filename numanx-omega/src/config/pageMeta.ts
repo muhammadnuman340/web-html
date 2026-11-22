@@ -23,7 +23,7 @@ export interface PageMeta {
 export const PAGE_META = {
   '/': {
     title: 'Omega X Converter — Free Unit Converter',
-    description: 'Free unit converter with 36 categories and 220+ units, plus formulas. Runs privately in your browser.',
+    description: 'Free unit converter with 35 categories and 315 units, plus formulas. Runs privately in your browser.',
   },
   '/about': {
     title: 'About Omega X Converter — NumanX Studio',
@@ -38,20 +38,20 @@ export const PAGE_META = {
     description: 'Free scientific and engineering calculator with trigonometric functions, memory, formula history and built-in unit conversion.',
   },
   '/categories': {
-    title: 'All 36 Unit Conversion Categories | Omega X',
-    description: 'Browse all 36 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter.',
+    title: 'All 35 Unit Conversion Categories | Omega X',
+    description: 'Browse all 35 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter.',
   },
   '/converter': {
-    title: 'Universal Unit Converter — 28 Categories | Omega X',
-    description: 'Convert metric, imperial, scientific and astronomical units across 36 categories. Type naturally, like "5 km in miles", and get an instant answer.',
+    title: 'Universal Unit Converter — 35 Categories | Omega X',
+    description: 'Convert metric, imperial, scientific and astronomical units across 35 categories. Type naturally, like "5 km in miles", and get an instant answer.',
   },
   '/formulas': {
     title: 'Unit Conversion Formulas & Constants | Omega X',
-    description: 'Reference library of conversion formulas, constants and worked derivations across all 36 measurement categories.',
+    description: 'Reference library of conversion formulas, constants and worked derivations across all 35 measurement categories.',
   },
   '/sitemap': {
     title: 'Sitemap — All Converters, Guides & Articles | Omega X',
-    description: 'Directory of every public page on Omega X: core tools, 36 conversion categories, popular conversion pairs, guides and blog articles.',
+    description: 'Directory of every public page on Omega X: core tools, 35 conversion categories, popular conversion pairs, guides and blog articles.',
   },
   '/privacy': {
     title: 'Privacy Policy — No Tracking, Local-Only Data | Omega X',

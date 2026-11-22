@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react'
+import { Copy, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
@@ -23,7 +24,7 @@ interface FormulaSection {
 const FORMULA_DATA: FormulaSection[] = [
   {
     field: 'Unit Conversion Equations',
-    icon: '🔄',
+    icon: '',
     color: '#3b82f6',
     items: [
       {
@@ -86,7 +87,7 @@ const FORMULA_DATA: FormulaSection[] = [
   },
   {
     field: 'Physics',
-    icon: '⚛️',
+    icon: '',
     color: '#7c6fff',
     items: [
       { name: 'F = ma', desc: "Newton's Second Law of Motion", variables: 'F: Force (N), m: Mass (kg), a: Acceleration (m/s²)', catId: 'force', link: '/convert/force' },
@@ -101,7 +102,7 @@ const FORMULA_DATA: FormulaSection[] = [
   },
   {
     field: 'Chemistry & Thermodynamics',
-    icon: '🧪',
+    icon: '',
     color: '#22c55e',
     items: [
       { name: 'PV = nRT', desc: 'Ideal Gas Equation of State', variables: 'P: Pressure (Pa), V: Volume (m³), n: Moles, R: 8.314 J/(mol·K), T: Temp (K)', catId: 'pressure', link: '/convert/pressure' },
@@ -112,7 +113,7 @@ const FORMULA_DATA: FormulaSection[] = [
   },
   {
     field: 'Mechanical & Structural Engineering',
-    icon: '🔧',
+    icon: '',
     color: '#f59e0b',
     items: [
       { name: 'σ = F/A', desc: 'Mechanical Normal Stress', variables: 'σ: Normal Stress (Pa or psi), F: Normal Force (N), A: Cross-section Area (m²)', catId: 'pressure', link: '/convert/pressure' },
@@ -123,7 +124,7 @@ const FORMULA_DATA: FormulaSection[] = [
   },
   {
     field: 'Biometrics & Health Science',
-    icon: '❤️',
+    icon: '',
     color: '#ef4444',
     items: [
       { name: 'BMI = kg/m²', desc: 'Body Mass Index Quetelet Formula', variables: 'kg: Mass in kilograms, m: Standing height in meters squared', catId: 'mass', link: '/convert/mass' },
@@ -165,7 +166,6 @@ export default function FormulaExplorer() {
       {/* Header */}
       <header className="space-y-1">
         <h1 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
-          <span aria-hidden="true">📐</span>
           <span>Formula Explorer & Equation Registry</span>
         </h1>
         <p className="text-xs sm:text-sm text-[var(--text2)] opacity-85">
@@ -183,17 +183,12 @@ export default function FormulaExplorer() {
           className="w-full p-3.5 pl-10 rounded-xl border border-[var(--border)] bg-[var(--card2)] text-xs font-medium text-[var(--text)] outline-none focus:border-[var(--primary)] transition-colors"
           aria-label="Filter formulas by name, variable, or keyword"
         />
-        <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm opacity-40 select-none" aria-hidden="true">
-          🔍
-        </span>
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs opacity-50 hover:opacity-100 p-1"
             aria-label="Clear formula search"
-          >
-            ✕
-          </button>
+          ><X size={16} aria-hidden="true" /></button>
         )}
       </div>
 
@@ -201,7 +196,6 @@ export default function FormulaExplorer() {
       <div className="space-y-3">
         {filteredData.map(section => {
           const isOpen = expanded[section.field] !== false
-          const colors = [section.color, `${section.color}22`]
           return (
             <div key={section.field} className="glass rounded-2xl overflow-hidden border border-[var(--border)]">
               <button
@@ -210,7 +204,6 @@ export default function FormulaExplorer() {
                 aria-expanded={isOpen}
               >
                 <div className="flex items-center gap-2.5">
-                  <span className="text-xl" aria-hidden="true">{section.icon}</span>
                   <span className="font-bold text-sm text-[var(--text)]">{section.field}</span>
                   <span className="text-xs opacity-50 font-mono">({section.items.length})</span>
                 </div>
@@ -247,7 +240,7 @@ export default function FormulaExplorer() {
                               <button
                                 onClick={() => copyFormula(item.name)}
                                 className="font-mono text-sm font-bold text-left hover:underline focus:outline-none"
-                                style={{ color: colors[0] }}
+                                style={{ color: 'var(--accent)' }}
                                 title="Click to copy equation"
                               >
                                 {item.name}
@@ -257,13 +250,11 @@ export default function FormulaExplorer() {
                                 className="text-xs opacity-40 hover:opacity-100 p-1 transition-opacity shrink-0"
                                 aria-label={`Copy formula ${item.name}`}
                                 title="Copy formula"
-                              >
-                                📋
-                              </button>
+                              ><Copy size={16} aria-hidden="true" /></button>
                             </div>
                             <div className="text-xs font-semibold text-[var(--text)] mt-1">{item.desc}</div>
                             {item.variables && (
-                              <div className="text-[11px] text-[var(--text2)] opacity-80 mt-1 font-mono leading-relaxed">
+                              <div className="text-[13px] text-[var(--text2)] opacity-80 mt-1 font-mono leading-relaxed">
                                 {item.variables}
                               </div>
                             )}
@@ -280,7 +271,7 @@ export default function FormulaExplorer() {
                               </Link>
                               <button
                                 onClick={() => copyFormula(item.name)}
-                                className="text-[10px] text-[var(--text2)] opacity-70 hover:opacity-100 uppercase tracking-wider font-mono"
+                                className="text-[13px] text-[var(--text2)] opacity-70 hover:opacity-100 uppercase tracking-wider font-mono"
                               >
                                 Copy Formula
                               </button>

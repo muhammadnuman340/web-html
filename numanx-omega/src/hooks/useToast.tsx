@@ -45,10 +45,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 
   const typeIcons = {
-    success: '✅',
-    error: '❌',
-    info: 'ℹ️',
-    warning: '⚠️',
+    success: '',
+    error: '',
+    info: '',
+    warning: '',
   }
 
   return (
@@ -77,7 +77,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               }}
               whileDrag={{ scale: 0.95, opacity: 0.8 }}
               onClick={() => removeToast(toast.id)}
-              className="pointer-events-auto px-4 py-2.5 rounded-xl border backdrop-blur-md text-xs font-medium shadow-lg flex items-center gap-2 cursor-grab active:cursor-grabbing select-none"
+              className="pointer-events-auto px-4 py-2.5 rounded-xl border text-xs font-medium flex items-center gap-2 cursor-grab active:cursor-grabbing select-none"
               style={{ borderColor: 'var(--border)', background: 'var(--glass-bg)' }}
             >
               <span className="text-sm">{toast.icon || typeIcons[toast.type]}</span>

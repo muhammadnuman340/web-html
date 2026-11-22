@@ -5,20 +5,12 @@ import App from './App'
 // Fonts are self-hosted (bundled) so no visitor data is sent to Google Fonts
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
+import '@fontsource/archivo/700.css'
+import '@fontsource/archivo/800.css'
+import '@fontsource/archivo/900.css'
 import './index.css'
 
-// System theme detection — auto dark/light if no saved preference
-(function detectSystemTheme() {
-  if (!localStorage.getItem('uc_theme_class')) {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    if (prefersDark) document.body.className = 'dark'
-  }
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    if (!localStorage.getItem('uc_theme_class')) {
-      document.body.className = e.matches ? 'dark' : ''
-    }
-  })
-})()
+// Theme class is set by the inline script in index.html (light by default).
 
 import { loadBuiltinPlugins } from './engine/pluginSystem'
 

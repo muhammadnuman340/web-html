@@ -37,10 +37,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
       return this.props.fallback || (
         <div className="flex items-center justify-center min-h-[50vh] p-8" role="alert" aria-live="assertive">
-          <div className="glass rounded-2xl p-8 max-w-md w-full text-center space-y-4 border border-[var(--border)] shadow-xl">
-            <div className="text-5xl" aria-hidden="true">
-              {isChunkError ? '🔄' : '⚠️'}
-            </div>
+          <div className="glass rounded-2xl p-8 max-w-md w-full text-center space-y-4 border border-[var(--border)] ">
             <h2 className="text-lg font-bold text-[var(--text)]">
               {isChunkError ? 'Application Reload Required' : 'Something went wrong'}
             </h2>
@@ -53,7 +50,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               <button
                 type="button"
                 onClick={() => { this.setState({ hasError: false, error: null }); window.location.reload() }}
-                className="px-5 py-2 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold interact-lift"
+                className="px-5 py-2 rounded-xl bg-[var(--fill)] text-[var(--on-fill)] text-sm font-semibold interact-lift"
               >
                 {isChunkError ? 'Reload Application' : 'Reload Page'}
               </button>

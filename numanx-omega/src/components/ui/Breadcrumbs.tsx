@@ -1,4 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { ChevronRight } from 'lucide-react'
 
 export interface BreadcrumbItem {
   label: string
@@ -7,53 +8,28 @@ export interface BreadcrumbItem {
 
 interface BreadcrumbsProps {
   items: BreadcrumbItem[]
-  backTo?: {
-    label: string
-    path: string
-  }
   className?: string
 }
 
-export default function Breadcrumbs({ items, backTo, className = '' }: BreadcrumbsProps) {
-  const navigate = useNavigate()
-
+export default function Breadcrumbs({ items, className = '' }: BreadcrumbsProps) {
   return (
-    <div className={`space-y-3 mb-6 ${className}`}>
-      {/* Breadcrumb Hierarchy */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[var(--text3)] flex-wrap">
-        <Link to="/" className="hover:text-[var(--text)] transition-colors font-medium py-2 inline-flex items-center min-h-[44px]">Home</Link>
+    <nav aria-label="Breadcrumb" className={`text-sm text-[var(--text2)] ${className}`}>
+      <ol className="flex flex-wrap items-center gap-x-1">
+        <li><Link to="/" className="inline-flex items-center min-h-[44px] hover:text-[var(--text)] hover:underline">Home</Link></li>
         {items.map((item, index) => {
           const isLast = index === items.length - 1
           return (
-            <div key={index} className="flex items-center gap-2">
-              <span className="opacity-40 select-none" aria-hidden="true">›</span>
+            <li key={index} className="flex items-center gap-x-1 min-w-0">
+              <ChevronRight size={14} aria-hidden="true" />
               {isLast || !item.path ? (
-                <span className="text-[var(--text)] font-semibold truncate max-w-[280px] sm:max-w-md py-2 inline-flex items-center min-h-[44px]" aria-current="page">
-                  {item.label}
-                </span>
+                <span className="text-[var(--text)] font-medium truncate" aria-current="page">{item.label}</span>
               ) : (
-                <Link to={item.path} className="hover:text-[var(--text)] transition-colors font-medium py-2 inline-flex items-center min-h-[44px]">
-                  {item.label}
-                </Link>
+                <Link to={item.path} className="inline-flex items-center min-h-[44px] hover:text-[var(--text)] hover:underline">{item.label}</Link>
               )}
-            </div>
+            </li>
           )
         })}
-      </nav>
-
-      {/* Back Button matching Image 2 */}
-      {backTo && (
-        <div>
-          <button
-            onClick={() => backTo.path ? navigate(backTo.path) : navigate(-1)}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--text)] hover:text-[var(--link-text)] transition-colors group py-2.5 min-h-[44px]"
-            aria-label={`Back to ${backTo.label}`}
-          >
-            <span className="text-sm transition-transform group-hover:-translate-x-1" aria-hidden="true">←</span>
-            <span>{backTo.label}</span>
-          </button>
-        </div>
-      )}
-    </div>
+      </ol>
+    </nav>
   )
 }

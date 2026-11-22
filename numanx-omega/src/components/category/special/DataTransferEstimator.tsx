@@ -56,8 +56,7 @@ export default function DataTransferEstimator() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
-            <span aria-hidden="true">💾</span> Download & Upload Transfer Time Calculator
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]"> Download & Upload Transfer Time Calculator
           </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Estimate real-world transfer duration based on data size and network connection bandwidth.

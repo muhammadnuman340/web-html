@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { X } from 'lucide-react'
 
 interface Ingredient {
   id: string
@@ -72,8 +73,7 @@ export default function CookingRecipeScaler() {
     <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
-            <span aria-hidden="true">🍳</span> Interactive Kitchen Recipe Portion Scaler
+          <h2 className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]"> Interactive Kitchen Recipe Portion Scaler
           </h2>
           <p className="text-xs opacity-60 mt-0.5">
             Multiply recipe quantities for baking and dinner parties without messy fraction math.
@@ -111,12 +111,10 @@ export default function CookingRecipeScaler() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="opacity-40 hover:opacity-100 text-xs text-red-400"
+                    className="opacity-40 hover:opacity-100 text-xs text-[var(--status-danger)]"
                     title="Remove item"
                     aria-label={`Remove ${item.name}`}
-                  >
-                    ✕
-                  </button>
+                  ><X size={16} aria-hidden="true" /></button>
                   <span className="font-medium text-[var(--text)]">{item.name}</span>
                 </div>
 

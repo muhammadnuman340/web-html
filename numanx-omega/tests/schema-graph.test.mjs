@@ -682,7 +682,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
+  defaultDescription: "Free universal unit converter platform with 35 categories, 315 units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path = "") {
@@ -1135,8 +1135,8 @@ function buildHomeSchema() {
         operatingSystem: "All",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: [
-          "28 unit categories including length, mass, volume, temperature",
-          "220+ units from metric, imperial, and scientific systems",
+          "35 unit categories including length, mass, volume, temperature",
+          "315 units from metric, imperial, and scientific systems",
           'Natural language input: type "5 km in miles" or "(5m+20cm)\xD72"',
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",

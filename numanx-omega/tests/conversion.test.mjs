@@ -1165,7 +1165,7 @@ var CHAINS = [
   {
     id: "energy-cost",
     label: "Energy \u2192 Cost",
-    icon: "\u26A1",
+    icon: "",
     links: [
       { catId: "energy", fromUnit: "kWh", toUnit: "kWh", label: "Energy (kWh)" },
       { catId: "power", fromUnit: "kW", toUnit: "W", label: "Power (W)" },
@@ -1175,7 +1175,7 @@ var CHAINS = [
   {
     id: "speed-distance",
     label: "Speed \u2192 Distance",
-    icon: "\u{1F680}",
+    icon: "",
     links: [
       { catId: "speed", fromUnit: "kmh", toUnit: "mps", label: "Speed (m/s)" },
       { catId: "time", fromUnit: "hr", toUnit: "s", label: "Time (s)" }
@@ -1184,7 +1184,7 @@ var CHAINS = [
   {
     id: "fuel-cost",
     label: "Fuel \u2192 Cost",
-    icon: "\u26FD",
+    icon: "",
     links: [
       { catId: "fuel", fromUnit: "L100km", toUnit: "kmL", label: "Fuel Economy" },
       { catId: "volume", fromUnit: "L", toUnit: "gal", label: "Fuel Volume" }
@@ -1193,7 +1193,7 @@ var CHAINS = [
   {
     id: "pressure-force",
     label: "Pressure \u2192 Force",
-    icon: "\u{1F535}",
+    icon: "",
     links: [
       { catId: "pressure", fromUnit: "Pa", toUnit: "bar", label: "Pressure" },
       { catId: "area", fromUnit: "m2", toUnit: "cm2", label: "Area" },
@@ -1203,7 +1203,7 @@ var CHAINS = [
   {
     id: "data-time",
     label: "Data \u2192 Transfer Time",
-    icon: "\u{1F4BE}",
+    icon: "",
     links: [
       { catId: "data", fromUnit: "GB", toUnit: "MB", label: "Data Size" },
       { catId: "datatransfer", fromUnit: "Mbps", toUnit: "bps", label: "Transfer Speed" },
@@ -1213,7 +1213,7 @@ var CHAINS = [
   {
     id: "area-plot-price",
     label: "Area \u2192 Plot Measurement",
-    icon: "\u{1F3E0}",
+    icon: "",
     links: [
       { catId: "area", fromUnit: "marla", toUnit: "marla", label: "Land Area (Standard Marla)" },
       { catId: "area", fromUnit: "marla", toUnit: "ft2", label: "Square Feet (ft\xB2)" },
@@ -1224,7 +1224,7 @@ var CHAINS = [
   {
     id: "gold-karat-price",
     label: "Gold Mass \u2192 Bullion Units",
-    icon: "\u{1FA99}",
+    icon: "",
     links: [
       { catId: "mass", fromUnit: "tola", toUnit: "tola", label: "Bullion (Tola)" },
       { catId: "mass", fromUnit: "tola", toUnit: "g", label: "Pure Mass (Grams)" },
@@ -1235,7 +1235,7 @@ var CHAINS = [
   {
     id: "ups-battery-backup",
     label: "Power Load \u2192 Inverter Demand",
-    icon: "\u{1F50B}",
+    icon: "",
     links: [
       { catId: "power", fromUnit: "W", toUnit: "W", label: "Appliance Load (Watts)" },
       { catId: "power", fromUnit: "W", toUnit: "kW", label: "Kilowatt Demand (kW)" },
@@ -1245,7 +1245,7 @@ var CHAINS = [
   {
     id: "solar-units-saved",
     label: "Solar kW \u2192 Energy Yield",
-    icon: "\u2600\uFE0F",
+    icon: "",
     links: [
       { catId: "power", fromUnit: "kW", toUnit: "kW", label: "System Capacity (kW)" },
       { catId: "energy", fromUnit: "kWh", toUnit: "kWh", label: "Energy Generation (kWh)" },

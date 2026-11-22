@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
@@ -80,7 +81,6 @@ export default function Blog() {
       {/* Breadcrumb Navigation */}
       <Breadcrumbs
         items={[{ label: 'Blog' }]}
-        backTo={{ label: 'All Tools', path: '/categories' }}
       />
 
       {/* Hero Header */}
@@ -96,9 +96,8 @@ export default function Blog() {
         <div className="pt-1">
           <Link
             to="/guides"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[var(--primary-muted)] text-[var(--link-text)] hover:bg-[var(--primary)] hover:text-white transition-colors"
-          >
-            <span>📚</span> Browse All Conversion Guides &rarr;
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[var(--primary-muted)] text-[var(--link-text)] hover:bg-[var(--fill)] hover:text-[var(--on-fill)] transition-colors"
+          > Browse All Conversion Guides &rarr;
           </Link>
         </div>
       </header>
@@ -123,7 +122,7 @@ export default function Blog() {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search articles and guides (e.g. marla, tola, fraction, metric, temperature)..."
-            className="w-full pl-11 pr-10 py-3 rounded-full border border-[var(--border)] bg-[var(--card)] text-sm text-[var(--text)] placeholder-[var(--text3)] outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-muted)] transition-all shadow-sm"
+            className="w-full pl-11 pr-10 py-3 rounded-full border border-[var(--border)] bg-[var(--card)] text-sm text-[var(--text)] placeholder-[var(--text3)] outline-none focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary-muted)] transition-all "
             aria-label="Search articles and guides"
           />
           {searchQuery && (
@@ -131,9 +130,7 @@ export default function Blog() {
               onClick={() => setSearchQuery('')}
               className="absolute right-4 text-xs text-[var(--text3)] hover:text-[var(--text)]"
               aria-label="Clear article search"
-            >
-              ✕
-            </button>
+            ><X size={16} aria-hidden="true" /></button>
           )}
         </div>
       </div>
@@ -152,7 +149,7 @@ export default function Blog() {
               onClick={() => setSelectedCat(cat)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                 isActive
-                  ? 'bg-[var(--primary)] text-white shadow-sm shadow-[var(--glow)] scale-105'
+                  ? 'bg-[var(--fill)] text-[var(--on-fill)] scale-105'
                   : 'bg-[var(--card)] text-[var(--text2)] border border-[var(--border)] hover:bg-[var(--card2)] hover:border-[var(--text3)]'
               }`}
             >
@@ -165,7 +162,6 @@ export default function Blog() {
       {/* Unified Cards Grid */}
       {filteredItems.length === 0 ? (
         <div className="text-center py-16 bg-[var(--card)] rounded-2xl border border-[var(--border)] space-y-3">
-          <div className="text-3xl" aria-hidden="true">📑</div>
           <h2 className="text-base font-bold text-[var(--text)]">No articles or guides found</h2>
           <p className="text-xs text-[var(--text2)]">Try searching for other keywords like "marla", "tola", "fractions", "metric", or "temperature".</p>
           <button
@@ -189,14 +185,14 @@ export default function Blog() {
               >
                 <Link
                   to={item.url}
-                  className="flex flex-col h-full p-5 sm:p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] hover:shadow-md transition-all duration-200 group-hover:-translate-y-0.5 justify-between"
+                  className="flex flex-col h-full p-5 sm:p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] transition-all duration-200 group-hover:-translate-y-0.5 justify-between"
                 >
                   <div className="space-y-2.5">
                     {/* Top Metadata Badges */}
                     <div className="flex items-center gap-2 text-xs text-[var(--text3)]">
-                      <span className={`px-2.5 py-0.5 rounded-md font-semibold text-[10px] uppercase tracking-wider ${
+                      <span className={`px-2.5 py-0.5 rounded-md font-semibold text-[13px] uppercase tracking-wider ${
                         item.badge === 'Conversion Guide'
-                          ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                          ? 'bg-[var(--card2)] text-[var(--accent)] dark:text-[var(--accent)] border border-[var(--border)]'
                           : 'bg-[var(--primary-muted)] text-[var(--primary)]'
                       }`}>
                         {item.badge}
@@ -218,7 +214,7 @@ export default function Blog() {
 
                     {/* Formula Pill if Guide */}
                     {item.formula && (
-                      <div className="p-2 rounded-lg bg-[var(--card2)] font-mono text-[11px] text-[var(--link-text)] truncate border border-[var(--border-subtle)]">
+                      <div className="p-2 rounded-lg bg-[var(--card2)] font-mono text-[13px] text-[var(--link-text)] truncate border border-[var(--border-subtle)]">
                         {item.formula}
                       </div>
                     )}

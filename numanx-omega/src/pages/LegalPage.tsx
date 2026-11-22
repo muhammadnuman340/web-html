@@ -17,7 +17,7 @@ export default function LegalPage({ doc: docKey }: { doc: keyof typeof DOCS }) {
     <article className="space-y-6 max-w-3xl mx-auto py-2">
       <SEOHead {...PAGE_META[doc.path]} path={doc.path} />
 
-      <Breadcrumbs items={[{ label: doc.h1 }]} backTo={{ label: 'Home', path: '/' }} />
+      <Breadcrumbs items={[{ label: doc.h1 }]} />
 
       <header className="space-y-2">
         <h1 className="text-3xl font-extrabold text-[var(--text)] tracking-tight">{doc.h1}</h1>

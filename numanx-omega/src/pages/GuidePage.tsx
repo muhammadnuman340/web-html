@@ -21,7 +21,6 @@ export default function GuidePage() {
   if (!content) {
     return (
       <div className="text-center py-12">
-        <div className="text-4xl mb-4">🔍</div>
         <h1 className="text-xl font-bold mb-2">Guide not found</h1>
         <p className="text-sm opacity-60 mb-4">The guide "{slug}" does not exist yet.</p>
         <Link to="/guides" className="text-sm text-[var(--primary)] hover:underline">Browse all guides →</Link>
@@ -63,18 +62,18 @@ export default function GuidePage() {
       {/* Masterclass Header */}
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--primary)] bg-[var(--primary)]/10 px-2.5 py-1 rounded-full border border-[var(--primary)]/20">
+          <span className="text-[13px] font-semibold uppercase tracking-wider text-[var(--primary)] bg-[var(--primary)]/10 px-2.5 py-1 rounded-full border border-[var(--primary)]/20">
             Masterclass Guide
           </span>
-          <span className="text-[11px] opacity-70 bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
-            ⏱️ ~5 min read
+          <span className="text-[13px] opacity-70 bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
+            ~5 min read
           </span>
-          <span className="text-[11px] opacity-70 bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
-            🏛️ {content.source ? 'Culinary Standards' : 'NIST & Regional Standard'}
+          <span className="text-[13px] opacity-70 bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
+            {content.source ? 'Culinary Standards' : 'NIST & Regional Standard'}
           </span>
           {rel?.pairLabel && (
-            <span className="text-[11px] font-medium text-[var(--text2)] bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
-              🎯 Target: {rel.pairLabel}
+            <span className="text-[13px] font-medium text-[var(--text2)] bg-[var(--card)] px-2.5 py-1 rounded-full border border-[var(--border)]">
+              Target: {rel.pairLabel}
             </span>
           )}
         </div>
@@ -87,7 +86,6 @@ export default function GuidePage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 px-1">
           <div>
             <h2 id="convert-heading" className="text-sm sm:text-base font-semibold text-[var(--text)] flex items-center gap-2">
-              <span aria-hidden="true">⚡</span>
               <span>Interactive Live Calculator</span>
             </h2>
             <p className="text-xs text-[var(--text2)] opacity-70">
@@ -104,7 +102,7 @@ export default function GuidePage() {
             </Link>
           )}
         </div>
-        <div className="glass-liquid rounded-2xl p-3 sm:p-5 border border-[var(--border)] shadow-lg shadow-black/5">
+        <div className="glass-liquid rounded-2xl p-3 sm:p-5 border border-[var(--border)] shadow-black/5">
           <UniversalConverter
             category={content.relatedCat}
             initialFrom={rel?.fromUnit}
@@ -121,7 +119,6 @@ export default function GuidePage() {
       <section aria-labelledby="formula-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <h2 id="formula-heading" className="text-sm font-semibold flex items-center gap-2">
-            <span aria-hidden="true">📐</span>
             <span>Mathematical Conversion Formula</span>
           </h2>
           <button
@@ -129,7 +126,7 @@ export default function GuidePage() {
             className="text-xs px-2.5 py-1 rounded-lg bg-[var(--card)] hover:bg-[var(--border)] border border-[var(--border)] transition-colors text-[var(--text2)]"
             title="Copy formula"
           >
-            {copiedFormula ? '✓ Copied' : '📋 Copy Formula'}
+            {copiedFormula ? 'Copied' : 'Copy Formula'}
           </button>
         </div>
         <div className="bg-[var(--bg)] border border-[var(--border)] rounded-xl p-4 font-mono text-sm sm:text-base text-center text-[var(--primary)] font-semibold shadow-inner">
@@ -154,10 +151,9 @@ export default function GuidePage() {
       <section aria-labelledby="table-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <h2 id="table-heading" className="text-sm font-semibold flex items-center gap-2">
-            <span aria-hidden="true">📊</span>
             <span>Quick Reference Conversion Table</span>
           </h2>
-          <span className="text-[11px] opacity-60">Verified {content.table.length} reference values</span>
+          <span className="text-[13px] opacity-60">Verified {content.table.length} reference values</span>
         </div>
         <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
           <table className="w-full text-xs text-left border-collapse">
@@ -185,7 +181,6 @@ export default function GuidePage() {
       {/* Real-world examples */}
       <section aria-labelledby="examples-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
         <h2 id="examples-heading" className="text-sm font-semibold flex items-center gap-2">
-          <span aria-hidden="true">💡</span>
           <span>Real-World Applications & Examples</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -207,7 +202,6 @@ export default function GuidePage() {
       {/* FAQ */}
       <section aria-labelledby="faq-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
         <h2 id="faq-heading" className="text-sm font-semibold flex items-center gap-2">
-          <span aria-hidden="true">❓</span>
           <span>Frequently Asked Questions</span>
         </h2>
         <div className="space-y-3">
@@ -224,7 +218,6 @@ export default function GuidePage() {
       <section aria-labelledby="related-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
         <div className="flex items-center justify-between">
           <h2 id="related-heading" className="text-sm font-semibold flex items-center gap-2">
-            <span aria-hidden="true">📚</span>
             <span>Related Conversion Guides</span>
           </h2>
           <Link to="/guides" className="text-xs text-[var(--primary)] hover:underline font-medium">
@@ -259,11 +252,11 @@ export default function GuidePage() {
                   <span>Convert {rel.title} Interactively</span>
                   <span aria-hidden="true">&rarr;</span>
                 </div>
-                <div className="text-[11px] opacity-60 mt-1">
+                <div className="text-[13px] opacity-60 mt-1">
                   Open the full two-way interactive converter with real-time calculations and copyable results.
                 </div>
               </div>
-              <div className="text-[11px] text-[var(--primary)] font-medium mt-2">
+              <div className="text-[13px] text-[var(--primary)] font-medium mt-2">
                 Launch interactive pair tool &rarr;
               </div>
             </Link>
@@ -276,11 +269,11 @@ export default function GuidePage() {
                   <span>Explore All {rel.categoryName} Conversions</span>
                   <span aria-hidden="true">&rarr;</span>
                 </div>
-                <div className="text-[11px] opacity-60 mt-1">
+                <div className="text-[13px] opacity-60 mt-1">
                   Browse the comprehensive directory of all units, reference charts, and live matrices in {rel.categoryName.toLowerCase()}.
                 </div>
               </div>
-              <div className="text-[11px] text-[var(--primary)] font-medium mt-2">
+              <div className="text-[13px] text-[var(--primary)] font-medium mt-2">
                 View {rel.categoryName} directory &rarr;
               </div>
             </Link>
@@ -303,7 +296,7 @@ export default function GuidePage() {
                   <span>{post.title}</span>
                   <span aria-hidden="true">&rarr;</span>
                 </div>
-                <div className="text-[11px] opacity-60 mt-0.5 line-clamp-1">
+                <div className="text-[13px] opacity-60 mt-0.5 line-clamp-1">
                   {post.excerpt}
                 </div>
               </Link>
@@ -315,10 +308,9 @@ export default function GuidePage() {
       {/* Standards & Metrological Grounding */}
       <section aria-labelledby="standards-grounding-heading" className="glass rounded-2xl p-4 border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
         <div className="flex items-center gap-2 font-semibold text-[var(--text)]">
-          <span aria-hidden="true">🏛️</span>
           <span id="standards-grounding-heading">Standards Reference & Metrological Grounding</span>
         </div>
-        <p className="leading-relaxed text-[11px]">
+        <p className="leading-relaxed text-[13px]">
           {content.source
             ? `Calculations and ingredient reference weights in this guide are sourced from ${content.source}. Review our complete `
             : 'Calculations and conversion factors in this guide adhere to NIST Special Publication 811, BIPM SI brochure, and official provincial real estate / Mandi standards. Review our complete '}

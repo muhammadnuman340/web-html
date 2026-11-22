@@ -10,10 +10,10 @@ interface VehiclePreset {
 }
 
 const VEHICLE_PRESETS: VehiclePreset[] = [
-  { name: 'Hybrid Sedan', icon: '🔋', l100km: 4.2, mpgUS: 56, desc: 'e.g. Toyota Prius / Ioniq' },
-  { name: 'Compact Car', icon: '🚗', l100km: 6.5, mpgUS: 36, desc: 'e.g. Civic / Corolla / Golf' },
-  { name: 'Family Crossover', icon: '🚙', l100km: 9.0, mpgUS: 26, desc: 'e.g. RAV4 / CR-V / Tiguan' },
-  { name: 'Pickup Truck', icon: '🛻', l100km: 13.5, mpgUS: 17, desc: 'e.g. F-150 / Silverado / Ram' },
+  { name: 'Hybrid Sedan', icon: '', l100km: 4.2, mpgUS: 56, desc: 'e.g. Toyota Prius / Ioniq' },
+  { name: 'Compact Car', icon: '', l100km: 6.5, mpgUS: 36, desc: 'e.g. Civic / Corolla / Golf' },
+  { name: 'Family Crossover', icon: '', l100km: 9.0, mpgUS: 26, desc: 'e.g. RAV4 / CR-V / Tiguan' },
+  { name: 'Pickup Truck', icon: '', l100km: 13.5, mpgUS: 17, desc: 'e.g. F-150 / Silverado / Ram' },
 ]
 
 export default function FuelTripCalculator() {
@@ -41,8 +41,7 @@ export default function FuelTripCalculator() {
     <section aria-labelledby="fuel-calc-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)]/60 pb-3">
         <div>
-          <h2 id="fuel-calc-heading" className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]">
-            <span role="img" aria-hidden="true">⛽</span> Road Trip Fuel Cost & Efficiency Calculator
+          <h2 id="fuel-calc-heading" className="text-sm sm:text-base font-bold flex items-center gap-2 text-[var(--text)]"> Road Trip Fuel Cost & Efficiency Calculator
           </h2>
           <p className="text-xs text-[var(--text2)] opacity-85 mt-0.5">
             Estimate fuel needed, trip budget, and carbon footprint across Metric and Imperial ratings.
@@ -56,7 +55,7 @@ export default function FuelTripCalculator() {
               onClick={() => setPriceSymbol(curr)}
               className={`w-7 h-7 rounded-lg text-xs font-semibold transition-colors ${
                 costSymbol === curr
-                  ? 'bg-[var(--primary)] text-white shadow-sm'
+                  ? 'bg-[var(--fill)] text-[var(--on-fill)] '
                   : 'bg-[var(--card2)] border border-[var(--border)] text-[var(--text2)] hover:text-[var(--text)]'
               }`}
               aria-label={`Select unit ${curr}`}
@@ -185,13 +184,12 @@ export default function FuelTripCalculator() {
               onClick={() => setEfficiencyL100km(v.l100km)}
               className={`p-2.5 rounded-xl border text-left transition-all interact-lift text-xs ${
                 Math.abs(efficiencyL100km - v.l100km) < 0.2
-                  ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--text)] shadow-sm'
+                  ? 'border-[var(--primary)] bg-[var(--primary)]/10 text-[var(--text)] '
                   : 'border-[var(--border)] glass hover:bg-[var(--border)] text-[var(--text2)]'
               }`}
               aria-label={`Select vehicle ${v.name}: ${v.l100km} liters per 100 kilometers`}
             >
               <div className="flex items-center gap-1.5 font-semibold text-[var(--text)]">
-                <span role="img" aria-hidden="true">{v.icon}</span>
                 <span>{v.name}</span>
               </div>
               <div className="text-xs opacity-75 font-mono mt-0.5">{v.l100km} L/100km · {v.mpgUS} MPG</div>

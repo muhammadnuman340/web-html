@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { Check, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getAllCategories, convert } from '../../engine/converter'
 
@@ -57,7 +58,7 @@ function generateQuestion(fixedCatId?: string): QuizQuestion {
   const shuffled = Array.from(options).sort(() => Math.random() - 0.5)
 
   return {
-    category: cat.lb, catIcon: cat.ic || '🔄',
+    category: cat.lb, catIcon: cat.ic || '',
     fromUnit: fromUnit.id, fromLabel: fromUnit.lb,
     toUnit: toUnit.id, toLabel: toUnit.lb,
     value, correctAnswer: correct, options: shuffled,
@@ -94,11 +95,10 @@ export default function ConversionQuiz({ category, title = 'Conversion Quiz', cl
     <div className={`glass rounded-xl p-4 space-y-3 ${className}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-lg" aria-hidden="true">🧠</span>
           <span className="text-sm font-semibold">{title}</span>
         </div>
         <div className="flex items-center gap-3 text-xs">
-          {streak >= 3 && <span className="px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-500">🔥 {streak} streak</span>}
+          {streak >= 3 && <span className="px-1.5 py-0.5 rounded bg-[var(--card2)] text-[var(--accent)]">{streak} streak</span>}
           <span className="opacity-60">{score.correct}/{score.total} ({accuracy}%)</span>
         </div>
       </div>
@@ -109,7 +109,6 @@ export default function ConversionQuiz({ category, title = 'Conversion Quiz', cl
           className="space-y-3"
         >
           <div className="flex items-center gap-2 text-sm">
-            <span aria-hidden="true">{question.catIcon}</span>
             <span className="opacity-60">{question.category}</span>
           </div>
           <div className="text-center py-2">
@@ -126,18 +125,18 @@ export default function ConversionQuiz({ category, title = 'Conversion Quiz', cl
                   onClick={() => handleSelect(opt)}
                   className={`p-2.5 rounded-xl text-sm font-mono font-bold transition-all ${
                     !showResult
-                      ? 'glass border border-[var(--border)] hover:border-[var(--primary)] hover:shadow-[0_0_0_3px_var(--glow)]'
+                      ? 'glass border border-[var(--border)] hover:border-[var(--primary)] '
                       : isCorrectOpt
-                        ? 'bg-green-500/20 text-green-500 border border-green-500/50'
+                        ? 'bg-[var(--card2)] text-[var(--status-success)] border border-[var(--status-success)]'
                         : isSelected
-                          ? 'bg-red-500/20 text-red-500 border border-red-500/50'
+                          ? 'bg-[var(--card2)] text-[var(--status-danger)] border border-[var(--status-danger)]'
                           : 'glass border border-[var(--border)] opacity-40'
                   }`}
                   disabled={showResult}
                 >
                   {opt}
-                  {showResult && isCorrectOpt && <span className="ml-1">✓</span>}
-                  {showResult && isSelected && !isCorrectOpt && <span className="ml-1">✗</span>}
+                  {showResult && isCorrectOpt && <Check size={16} className="inline ml-1" aria-label="correct" />}
+                  {showResult && isSelected && !isCorrectOpt && <X size={16} className="inline ml-1" aria-label="wrong" />}
                 </motion.button>
               )
             })}
@@ -146,11 +145,11 @@ export default function ConversionQuiz({ category, title = 'Conversion Quiz', cl
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               className="flex items-center justify-between pt-1"
             >
-              <span className={`text-xs ${isCorrect ? 'text-green-500' : 'text-red-500'}`}>
-                {isCorrect ? '✓ Correct!' : `✗ Answer: ${question.correctAnswer} ${question.toLabel}`}
+              <span className={`text-xs ${isCorrect ? 'text-[var(--status-success)]' : 'text-[var(--status-danger)]'}`}>
+                {isCorrect ? 'Correct!' : `Answer: ${question.correctAnswer} ${question.toLabel}`}
               </span>
               <button onClick={next}
-                className="px-3 py-1.5 rounded-lg text-xs bg-[var(--primary)] text-white interact-lift">
+                className="px-3 py-1.5 rounded-lg text-xs bg-[var(--fill)] text-[var(--on-fill)] interact-lift">
                 Next →
               </button>
             </motion.div>

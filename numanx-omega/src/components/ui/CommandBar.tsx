@@ -50,7 +50,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
 
     if (parsed.type === 'convert' && parsed.value && parsed.fromUnit && parsed.toUnit) {
       r.push({
-        label: `🔄 Convert ${parsed.value} ${parsed.fromUnit} → ${parsed.toUnit}`,
+        label: `Convert ${parsed.value} ${parsed.fromUnit} → ${parsed.toUnit}`,
         type: 'convert',
         action: () => { onConvert(parsed.value!, parsed.fromUnit!, parsed.toUnit!); onClose() }
       })
@@ -59,7 +59,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
     getAllCategories().forEach(c => {
       if (c.lb.toLowerCase().includes(q) || c.id.includes(q) || c.al?.some(a => a.toLowerCase().includes(q))) {
         r.push({
-          label: `${c.ic} ${c.lb}`,
+          label: `${c.lb}`,
           type: 'category',
           action: () => { navigate(`/converter?cat=${c.id}`); onClose() }
         })
@@ -67,7 +67,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
       c.un.forEach(u => {
         if (u.lb.toLowerCase().includes(q) || u.id.toLowerCase().includes(q)) {
           r.push({
-            label: `${u.lb} → ${c.ic} ${c.lb}`,
+            label: `${u.lb} → ${c.lb}`,
             type: 'unit',
             action: () => { navigate(`/converter?cat=${c.id}`); onClose() }
           })
@@ -76,8 +76,8 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
     })
 
     const pages = [
-      { label: '🏠 Home', path: '/' }, { label: '🔄 Converter', path: '/converter' }, { label: '📜 History', path: '/history' }, { label: '⚙️ Settings', path: '/settings' },
-      { label: '📐 Formulas', path: '/formulas' }, { label: 'ℹ️ Help', path: '/help' }
+      { label: 'Home', path: '/' }, { label: 'Converter', path: '/converter' }, { label: 'History', path: '/history' }, { label: 'Settings', path: '/settings' },
+      { label: 'Formulas', path: '/formulas' }, { label: 'Help', path: '/help' }
     ]
     pages.forEach(p => {
       if (p.label.toLowerCase().includes(q)) {
@@ -96,7 +96,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
         case '/': mathResult = v2 !== 0 ? v1 / v2 : 0; break
       }
       r.push({
-        label: `🧮 ${v1} ${op} ${v2} = ${mathResult}`,
+        label: `${v1} ${op} ${v2} = ${mathResult}`,
         type: 'math',
         action: () => { navigator.clipboard?.writeText(String(mathResult)); onClose() }
       })
@@ -155,7 +155,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh] bg-black/50 "
           onClick={e => { if (e.target === e.currentTarget) onClose() }}
         >
           <motion.div
@@ -166,7 +166,7 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
             role="dialog"
             aria-modal="true"
             aria-label="Command palette"
-            className="w-full max-w-lg glass rounded-2xl shadow-2xl overflow-hidden border border-[var(--border)]"
+            className="w-full max-w-lg glass rounded-2xl overflow-hidden border border-[var(--border)]"
           >
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)]">
               <span className="text-lg opacity-50" aria-hidden="true">⌘</span>
@@ -194,9 +194,9 @@ export default function CommandBar({ open, onClose, onConvert }: Props) {
                     }`}
                   >
                     <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${
-                      r.type === 'convert' ? 'text-green-500 bg-green-500/10' :
-                      r.type === 'category' ? 'text-blue-500 bg-blue-500/10' :
-                      r.type === 'math' ? 'text-yellow-500 bg-yellow-500/10' :
+                      r.type === 'convert' ? 'text-[var(--status-success)] bg-[var(--card2)]' :
+                      r.type === 'category' ? 'text-[var(--text)] bg-[var(--card2)]' :
+                      r.type === 'math' ? 'text-[var(--accent)] bg-[var(--card2)]' :
                       'opacity-50'
                     }`}>{r.type}</span>
                     <span>{r.label}</span>

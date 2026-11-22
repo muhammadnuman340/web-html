@@ -72,7 +72,7 @@ export function loadBuiltinPlugins() {
   registerPlugin({
     id: 'core-health',
     name: 'Health Engine',
-    icon: '❤️',
+    icon: '',
     color: '#e74c3c',
     priority: 80,
     description: 'BMI, BMR, body fat calculators',
@@ -82,7 +82,7 @@ export function loadBuiltinPlugins() {
   registerPlugin({
     id: 'core-education',
     name: 'Learning System',
-    icon: '🎓',
+    icon: '',
     color: '#6c63ff',
     priority: 70,
     description: 'Step-by-step explanations and quizzes',
@@ -92,7 +92,7 @@ export function loadBuiltinPlugins() {
   registerPlugin({
     id: 'core-formulas',
     name: 'Formula Explorer',
-    icon: '📐',
+    icon: '',
     color: '#00bcd4',
     priority: 60,
     description: 'Physics, chemistry, engineering formulas',
@@ -102,7 +102,7 @@ export function loadBuiltinPlugins() {
   registerPlugin({
     id: 'core-science',
     name: 'Science Tools',
-    icon: '🔬',
+    icon: '',
     color: '#9b59b6',
     priority: 50,
     description: 'Scientific constants and advanced math',

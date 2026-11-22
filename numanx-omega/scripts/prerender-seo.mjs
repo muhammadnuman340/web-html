@@ -682,7 +682,7 @@ var SITE = {
   organization: "NumanX Studio",
   url: `${getSiteUrl()}/`,
   defaultTitle: "Omega X Converter \u2014 Universal Unit Calculator",
-  defaultDescription: "Free universal unit converter platform with 28 categories, 220+ units, formula charts, and instant precision.",
+  defaultDescription: "Free universal unit converter platform with 35 categories, 315 units, formula charts, and instant precision.",
   license: "https://creativecommons.org/licenses/by/4.0/"
 };
 function normalizePath(path2 = "") {
@@ -717,7 +717,7 @@ function withBrand(title) {
 var PAGE_META = {
   "/": {
     title: "Omega X Converter \u2014 Free Unit Converter",
-    description: "Free unit converter with 36 categories and 220+ units, plus formulas. Runs privately in your browser."
+    description: "Free unit converter with 35 categories and 315 units, plus formulas. Runs privately in your browser."
   },
   "/about": {
     title: "About Omega X Converter \u2014 NumanX Studio",
@@ -732,20 +732,20 @@ var PAGE_META = {
     description: "Free scientific and engineering calculator with trigonometric functions, memory, formula history and built-in unit conversion."
   },
   "/categories": {
-    title: "All 36 Unit Conversion Categories | Omega X",
-    description: "Browse all 36 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
+    title: "All 35 Unit Conversion Categories | Omega X",
+    description: "Browse all 35 measurement categories: length, mass, temperature, area, volume, pressure, data, energy and more, each with its own converter."
   },
   "/converter": {
-    title: "Universal Unit Converter \u2014 28 Categories | Omega X",
-    description: 'Convert metric, imperial, scientific and astronomical units across 36 categories. Type naturally, like "5 km in miles", and get an instant answer.'
+    title: "Universal Unit Converter \u2014 35 Categories | Omega X",
+    description: 'Convert metric, imperial, scientific and astronomical units across 35 categories. Type naturally, like "5 km in miles", and get an instant answer.'
   },
   "/formulas": {
     title: "Unit Conversion Formulas & Constants | Omega X",
-    description: "Reference library of conversion formulas, constants and worked derivations across all 36 measurement categories."
+    description: "Reference library of conversion formulas, constants and worked derivations across all 35 measurement categories."
   },
   "/sitemap": {
     title: "Sitemap \u2014 All Converters, Guides & Articles | Omega X",
-    description: "Directory of every public page on Omega X: core tools, 36 conversion categories, popular conversion pairs, guides and blog articles."
+    description: "Directory of every public page on Omega X: core tools, 35 conversion categories, popular conversion pairs, guides and blog articles."
   },
   "/privacy": {
     title: "Privacy Policy \u2014 No Tracking, Local-Only Data | Omega X",
@@ -1371,8 +1371,8 @@ function buildHomeSchema() {
         operatingSystem: "All",
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         featureList: [
-          "28 unit categories including length, mass, volume, temperature",
-          "220+ units from metric, imperial, and scientific systems",
+          "35 unit categories including length, mass, volume, temperature",
+          "315 units from metric, imperial, and scientific systems",
           'Natural language input: type "5 km in miles" or "(5m+20cm)\xD72"',
           "Batch conversion mode for 1000+ values at once",
           "Cross-category conversion chains: Energy\u2192Cost, Speed\u2192Distance, Fuel\u2192Cost",
@@ -5135,7 +5135,7 @@ var homeStaticHtml = `
 
     <section aria-labelledby="categories-heading" style="margin-bottom:2.5rem;">
       <h2 id="categories-heading" style="font-size:1.4rem;font-weight:600;margin-bottom:1rem;border-bottom:2px solid #eee;padding-bottom:0.5rem;">
-        24 Metrology & Conversion Categories
+        35 Metrology & Conversion Categories
       </h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
         ${Categories.map((cat) => `
@@ -5232,7 +5232,7 @@ var corePages = [
         </section>
         <section>
           <h2>Explore Omega X</h2>
-          <p><a href="/converter">Universal Converter</a> \xB7 <a href="/categories">All 24 Categories</a> \xB7 <a href="/formulas">Formulas Reference</a> \xB7 <a href="/sitemap">HTML Sitemap</a></p>
+          <p><a href="/converter">Universal Converter</a> \xB7 <a href="/categories">All 35 Categories</a> \xB7 <a href="/formulas">Formulas Reference</a> \xB7 <a href="/sitemap">HTML Sitemap</a></p>
         </section>
       </main>
     `
@@ -5363,7 +5363,7 @@ var corePages = [
         <header>
           <h1 style="font-size:2rem;font-weight:700;">Measurement & Conversion Categories</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Omega X supports 24 measurement categories across metric, imperial, astronomical, and scientific unit standards. Select any category below to access dedicated conversion tools and metrology charts.
+            Omega X supports 35 measurement categories across metric, imperial, astronomical, and scientific unit standards. Select any category below to access dedicated conversion tools and metrology charts.
           </p>
         </header>
         <section>
@@ -5404,7 +5404,7 @@ var corePages = [
         <header>
           <h1 style="font-size:2rem;font-weight:700;">Universal Unit Converter</h1>
           <p style="font-size:1.1rem;color:#555;line-height:1.6;">
-            Convert across 24 measurement categories with sub-nanometer precision. Supports natural language queries (e.g., "5 feet 10 inches in cm", "100 km/h in mph") and architectural tape measure fractions.
+            Convert across 35 measurement categories with sub-nanometer precision. Supports natural language queries (e.g., "5 feet 10 inches in cm", "100 km/h in mph") and architectural tape measure fractions.
           </p>
         </header>
         <section>
@@ -5509,7 +5509,7 @@ var corePages = [
         </section>
 
         <section>
-          <h2>24 Measurement Categories</h2>
+          <h2>35 Measurement Categories</h2>
           <ul style="columns:3;">
             ${Categories.map((cat) => `
               <li><a href="/convert/${cat.id}">${cat.lb} Converter</a></li>
@@ -6118,7 +6118,7 @@ console.log("\u26A1 Prerendering 404 page (dist/404.html) ...");
 renderAndWritePage({
   routePath: "/404",
   title: "Page Not Found (404)",
-  description: "The page you requested does not exist or has been moved. Explore 24 unit conversion categories or return home.",
+  description: "The page you requested does not exist or has been moved. Explore 35 unit conversion categories or return home.",
   staticBodyHtml: `
     <main style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;padding:3rem 1rem;font-family:system-ui,-apple-system,sans-serif;text-align:center;">
       <div style="font-size:4rem;font-weight:900;color:#2563eb;font-family:monospace;letter-spacing:0.05em;" aria-hidden="true">404</div>
