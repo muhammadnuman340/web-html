@@ -1,20 +1,18 @@
-import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate, NavLink, useLocation, Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Sidebar from './components/layout/Sidebar'
 import type { AppMode } from './components/widgets/ModeSwitcher'
-import FloatingTools from './components/widgets/FloatingTools'
 import ErrorBoundary from './components/ui/ErrorBoundary'
 import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
-import AmbientBackground from './components/ui/AmbientBackground'
 import Navbar from './components/layout/Navbar'
+import SiteFooter from './components/layout/SiteFooter'
 import JSONLD from './components/ui/JSONLD'
 import { getAllCategories } from './engine/converter'
 import { CATEGORY_ROUTES } from './engine/routes'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { useGlobalShortcuts } from './hooks/useKeyboard'
-import { useSwipe } from './hooks/useSwipe'
+import { getTheme, setTheme } from './utils/theme'
 
 const Home = lazy(() => import('./pages/Home'))
 const Categories = lazy(() => import('./pages/Categories'))
@@ -38,30 +36,16 @@ const ProPassModal = lazy(() => import('./components/monetization/ProPassModal')
 const CommandBar = lazy(() => import('./components/ui/CommandBar'))
 
 function AppContent() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [commandBarOpen, setCommandBarOpen] = useState(false)
   // CommandBar's chunk is fetched on first open (Ctrl+K / search button) and kept mounted after.
   const [commandBarLoaded, setCommandBarLoaded] = useState(false)
   if (commandBarOpen && !commandBarLoaded) setCommandBarLoaded(true)
-  const [mode, setMode] = useLocalStorage<AppMode>('uc_mode', 'pro')
+  const [mode] = useLocalStorage<AppMode>('uc_mode', 'pro')
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem('uc_theme_class')
-    return saved === null || saved === 'dark' || saved === 'theme-cosmic' || saved === 'theme-amoled' || saved === 'theme-cyberpunk' || saved === 'theme-rgb'
-  })
+  const [isDark, setIsDark] = useState(() => getTheme() === 'dark')
   const navigate = useNavigate()
   const location = useLocation()
-
-  // Skip the route enter animation on the first (hard) page load only, so the
-  // landing page paints in place instead of starting at opacity 0. Client-side
-  // navigations still animate. AnimatePresence's own `initial={false}` can't do
-  // this here: the animated wrapper mounts later, when the lazy route resolves.
-  const [landing, setLanding] = useState({ path: location.pathname, active: true })
-  if (landing.active && location.pathname !== landing.path) {
-    setLanding({ path: landing.path, active: false })
-  }
-  const skipEnterAnimation = landing.active
 
   // ProPassModal is mounted (and its chunk fetched) only when first requested.
   // The first open-pro-modal event is captured here and passed in so the modal
@@ -77,74 +61,34 @@ function AppContent() {
   }, [])
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('uc_theme_class')
-    if (savedTheme === null) {
-      document.body.className = 'dark'
-      localStorage.setItem('uc_theme_class', 'dark')
-
-    } else if (savedTheme) {
-      document.body.className = savedTheme
-
-    } else {
-      document.body.className = ''
-
-    }
     const savedFont = localStorage.getItem('uc_font') || 'inter'
-    const classes = ['font-system', 'font-inter']
-    document.body.classList.remove(...classes)
-    if (savedFont === 'system') document.body.classList.add('font-system')
-    else document.body.classList.add('font-inter')
+    document.body.classList.remove('font-system', 'font-inter')
+    document.body.classList.add(savedFont === 'system' ? 'font-system' : 'font-inter')
   }, [])
 
   const toggleDark = useCallback(() => {
-    const current = document.body.className
-    const isCurrentlyDark = current === 'dark' || current === 'theme-cosmic' || current === 'theme-amoled' || current === 'theme-cyberpunk' || current === 'theme-rgb'
-    const next = isCurrentlyDark ? '' : 'dark'
-    document.body.className = next
-    localStorage.setItem('uc_theme_class', next)
-    setIsDark(next === 'dark')
+    setIsDark(prev => {
+      const next = !prev
+      setTheme(next ? 'dark' : 'light')
+      return next
+    })
   }, [])
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 8)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0 })
   }, [location.pathname])
 
-  const mainRef = useRef<HTMLDivElement>(null)
-  useSwipe(mainRef, {
-    onSwipeRight: () => setSidebarOpen(true),
-    onSwipeLeft: () => setSidebarOpen(false),
-  })
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   const handleCommandConvert = useCallback((val: number, from: string, to: string) => {
     const cat = getAllCategories().find(c => c.un.some(u => u.id === from))
     if (cat) navigate(`/converter?cat=${cat.id}&from=${from}&to=${to}&val=${val}`)
   }, [navigate])
 
-  const handleApplyPair = useCallback((from: string, to: string) => {
-    const cat = getAllCategories().find(c => c.un.some(u => u.id === from))
-    if (cat) navigate(`/converter?cat=${cat.id}&from=${from}&to=${to}`)
-  }, [navigate])
-
   useGlobalShortcuts({
     onCommandBar: () => setCommandBarOpen(p => !p),
     onDarkMode: toggleDark,
   })
-
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const mode = (e as CustomEvent).detail as string
-      setMode(mode as AppMode)
-      localStorage.setItem('uc_mode', JSON.stringify(mode))
-    }
-    window.addEventListener('uc-mode-suggest', handler)
-    return () => window.removeEventListener('uc-mode-suggest', handler)
-  }, [setMode])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -156,19 +100,11 @@ function AppContent() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
-  const navItems = [
-    { path: '/', icon: '🏠', label: 'Home' },
-    { path: '/categories', icon: '🛠️', label: 'Tools' },
-    { path: '/blog', icon: '📰', label: 'Blog' },
-    { path: '/about', icon: 'ℹ️', label: 'About' },
-    { path: '/settings', icon: '⚙️', label: 'Settings' },
-  ]
-
   return (
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[999] focus:px-4 focus:py-2 focus:bg-[var(--primary)] focus:text-white focus:rounded-xl focus:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white text-sm font-semibold transition-all"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[999] focus:px-4 focus:py-2.5 focus:bg-[var(--fill)] focus:text-[var(--on-fill)] focus:rounded-xl font-semibold"
       >
         Skip to main content
       </a>
@@ -186,133 +122,60 @@ function AppContent() {
           <ShortcutsPanel open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
         </Suspense>
       )}
-      <div className="distraction"><FloatingTools /></div>
 
-      <AmbientBackground />
-      <div className="relative z-10 flex min-h-screen" style={{ background: 'transparent' }} ref={mainRef}>
-        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} mode={mode} onModeChange={setMode} onApplyPair={handleApplyPair} />
+      <div className="flex min-h-screen flex-col">
+        <Navbar
+          isDark={isDark}
+          onToggleDark={toggleDark}
+          onOpenCommandBar={() => setCommandBarOpen(true)}
+          onOpenMenu={() => setMenuOpen(true)}
+        />
+        <Sidebar open={menuOpen} onClose={closeMenu} />
 
-        <div className="flex-1 flex flex-col min-h-screen min-w-0 max-w-full w-full">
-          {/* Proper Nav matching user Image 1 */}
-          <Navbar
-            isDark={isDark}
-            onToggleDark={toggleDark}
-            onOpenCommandBar={() => setCommandBarOpen(true)}
-            onOpenSidebar={() => setSidebarOpen(true)}
-            scrolled={scrolled}
-          />
+        <main id="main-content" tabIndex={-1} className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 min-w-0 outline-none">
+          <ErrorBoundary>
+            <Suspense fallback={<SkeletonPage />}>
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/converter" element={<ConverterPage mode={mode} />} />
+                <Route path="/convert" element={<ConverterPage mode={mode} />} />
+                <Route path="/convert/:category" element={<CategoryLanding />} />
+                <Route path="/category/:category" element={<CategoryLanding />} />
+                <Route path="/convert/:category/:pair" element={<PairLanding />} />
+                <Route path="/pair/:pair" element={<PairLanding />} />
 
-          {/* Gradient accent bar below header */}
-          <div className="gradient-accent" />
+                {/* Authoritative Data-Driven Category Route Compatibility Aliases */}
+                {CATEGORY_ROUTES.flatMap(cat =>
+                  cat.aliases.map(alias => (
+                    <Route
+                      key={alias}
+                      path={alias}
+                      element={<CategoryLanding categorySlug={cat.categoryId} />}
+                    />
+                  ))
+                )}
+                <Route path="/formulas" element={<FormulaExplorer />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/custom-units" element={<CustomUnits />} />
+                <Route path="/help" element={<Help />} />
+                <Route path="/calculator" element={<ConverterPage mode={mode} />} />
+                <Route path="/guides" element={<GuidesHub />} />
+                <Route path="/guides/:slug" element={<GuidePage />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/sitemap" element={<Sitemap />} />
+                <Route path="/privacy" element={<LegalPage doc="privacy" />} />
+                <Route path="/terms" element={<LegalPage doc="terms" />} />
+                <Route path="/contact" element={<LegalPage doc="contact" />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
+        </main>
 
-          {/* Main content */}
-          <main id="main-content" tabIndex={-1} className={`flex-1 px-3 sm:px-5 py-4 sm:py-6 max-w-5xl mx-auto w-full min-w-0 outline-none ${mode === 'fast' ? 'pt-8' : ''}`}>
-            <ErrorBoundary>
-              <AnimatePresence mode="wait">
-                <Suspense fallback={<SkeletonPage />}>
-                  <motion.div
-                    key={location.pathname}
-                    initial={skipEnterAnimation ? false : { opacity: 0, y: 16, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -12, scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-                    className="w-full min-w-0"
-                  >
-                    <Routes location={location}>
-                      <Route path="/" element={<Home mode={mode} />} />
-                      <Route path="/categories" element={<Categories />} />
-                      <Route path="/converter" element={<ConverterPage mode={mode} />} />
-                      <Route path="/convert" element={<ConverterPage mode={mode} />} />
-                      <Route path="/convert/:category" element={<CategoryLanding />} />
-                      <Route path="/category/:category" element={<CategoryLanding />} />
-                      <Route path="/convert/:category/:pair" element={<PairLanding />} />
-                      <Route path="/pair/:pair" element={<PairLanding />} />
-
-                      {/* Authoritative Data-Driven Category Route Compatibility Aliases */}
-                      {CATEGORY_ROUTES.flatMap(cat =>
-                        cat.aliases.map(alias => (
-                          <Route
-                            key={alias}
-                            path={alias}
-                            element={<CategoryLanding categorySlug={cat.categoryId} />}
-                          />
-                        ))
-                      )}
-                      <Route path="/formulas" element={<FormulaExplorer />} />
-                      <Route path="/settings" element={<Settings />} />
-                      <Route path="/custom-units" element={<CustomUnits />} />
-                      <Route path="/help" element={<Help />} />
-                      <Route path="/calculator" element={<ConverterPage mode={mode} />} />
-                      <Route path="/guides" element={<GuidesHub />} />
-                      <Route path="/guides/:slug" element={<GuidePage />} />
-                      <Route path="/blog" element={<Blog />} />
-                      <Route path="/blog/:slug" element={<BlogPost />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/sitemap" element={<Sitemap />} />
-                      <Route path="/privacy" element={<LegalPage doc="privacy" />} />
-                      <Route path="/terms" element={<LegalPage doc="terms" />} />
-                      <Route path="/contact" element={<LegalPage doc="contact" />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </motion.div>
-                </Suspense>
-              </AnimatePresence>
-            </ErrorBoundary>
-          </main>
-
-          {/* Footer (mobile keeps space for the fixed bottom nav) */}
-          <footer className="px-5 py-4 mb-20 lg:mb-4 text-xs text-[var(--text2)] border-t border-[var(--border)] distraction space-y-3">
-            {/* Cross-link to NumanX Tools Hub */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-[var(--border)]">
-              <div>
-                <h3 className="font-semibold text-xs text-[var(--text)]">More from NumanX Studio</h3>
-                <p className="text-[11px] sm:text-xs text-[var(--text2)] mt-0.5 max-w-2xl">
-                  NumanX Tools Hub — free online tools for images, text, QR codes, YouTube creators and cricket stats. No sign-up, works in your browser.
-                </p>
-              </div>
-              <a
-                href="https://toolshub.numanxstudio.com"
-                className="inline-flex items-center justify-center shrink-0 min-h-[44px] px-3 py-1.5 rounded-lg text-xs font-semibold text-[var(--link-text)] hover:underline hover:text-[var(--link-hover)] transition-colors"
-              >
-                Visit NumanX Tools Hub
-              </a>
-            </div>
-
-            <div className="flex flex-col lg:flex-row gap-2 items-center justify-between">
-              <span>© {new Date().getFullYear()} NumanX Studio · Omega X v2.0</span>
-              <nav aria-label="Site" className="flex flex-wrap justify-center gap-1 sm:gap-2 items-center">
-                <Link to="/about" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">About</Link>
-                <Link to="/contact" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Contact</Link>
-                <Link to="/privacy" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Privacy</Link>
-                <Link to="/terms" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Terms</Link>
-                <Link to="/sitemap" className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 py-2 rounded-lg hover:underline hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent)]">Sitemap</Link>
-                <span className="hidden lg:inline ml-2 text-[var(--text2)] opacity-70">Press <kbd className="px-1.5 py-0.5 rounded bg-[var(--card2)] border border-[var(--border)] text-[var(--text)] font-mono text-xs">⌘K</kbd> for commands</span>
-              </nav>
-            </div>
-          </footer>
-
-          {/* Mobile bottom nav */}
-          <nav aria-label="Mobile navigation" className="lg:hidden fixed bottom-0 left-0 right-0 z-30 glass border-t border-[var(--border)] safe-area-bottom">
-            <div className="grid grid-cols-5 items-center gap-0.5 max-w-lg mx-auto px-1 py-1">
-              {navItems.map(item => {
-                const isActive = location.pathname === item.path ||
-                  (item.path !== '/' && location.pathname.startsWith(item.path))
-                return (
-                  <NavLink key={item.path} to={item.path}
-                    className={`relative flex flex-col items-center justify-center gap-0.5 px-1 py-2 min-h-[48px] min-w-[44px] rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-1 ${
-                      isActive
-                        ? 'text-[var(--link-text)] bg-[var(--primary-muted)] font-semibold'
-                        : 'text-[var(--text3)] hover:text-[var(--text2)] hover:bg-[var(--border)]'
-                    }`}
-                    aria-label={item.label}>
-                    <span className={`text-lg transition-all duration-200 ${isActive ? 'scale-110' : ''}`} aria-hidden="true">{item.icon}</span>
-                    <span className={`text-xs font-medium leading-tight truncate ${isActive ? 'opacity-100' : 'opacity-70'}`}>{item.label}</span>
-                  </NavLink>
-                )
-              })}
-            </div>
-          </nav>
-        </div>
+        <SiteFooter />
       </div>
     </>
   )

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Props {
@@ -27,12 +28,12 @@ const GROUPS = [
   {
     label: 'Modes',
     items: [
-      { keys: ['🎓'], desc: 'Student — simplified + explanations' },
-      { keys: ['🔧'], desc: 'Engineer — precision focus' },
-      { keys: ['🔬'], desc: 'Scientist — constants & math' },
-      { keys: ['💹'], desc: 'Fast — minimal instant mode' },
-      { keys: ['⚡'], desc: 'Fast — minimal instant mode' },
-      { keys: ['🚀'], desc: 'Pro — full analytics & smart instruments' },
+      { keys: [''], desc: 'Student — simplified + explanations' },
+      { keys: [''], desc: 'Engineer — precision focus' },
+      { keys: [''], desc: 'Scientist — constants & math' },
+      { keys: [''], desc: 'Fast — minimal instant mode' },
+      { keys: [''], desc: 'Fast — minimal instant mode' },
+      { keys: [''], desc: 'Pro — full analytics & smart instruments' },
     ],
   },
 ]
@@ -59,7 +60,7 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
           onClick={onClose}
         >
           {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/40 " />
 
           {/* Panel */}
           <motion.div
@@ -71,13 +72,11 @@ export default function ShortcutsPanel({ open, onClose }: Props) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="shortcuts-title"
-            className="relative glass rounded-2xl p-5 max-w-lg w-full max-h-[80vh] overflow-y-auto shadow-2xl border border-[var(--border)]"
+            className="relative glass rounded-2xl p-5 max-w-lg w-full max-h-[80vh] overflow-y-auto border border-[var(--border)]"
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 id="shortcuts-title" className="text-sm font-bold"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</h2>
-              <button onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--border)] text-xs opacity-50 hover:opacity-100 transition-all" aria-label="Close shortcuts panel">
-                ✕
-              </button>
+              <h2 id="shortcuts-title" className="text-sm font-bold"> Keyboard Shortcuts</h2>
+              <button onClick={onClose} className="p-1 rounded-lg hover:bg-[var(--border)] text-xs opacity-50 hover:opacity-100 transition-all" aria-label="Close shortcuts panel"><X size={16} aria-hidden="true" /></button>
             </div>
 
             <div className="space-y-4">

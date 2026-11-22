@@ -25,14 +25,14 @@ const LUMBER_SIZES = [
 ]
 
 const SOCKET_SIZES = [
-  { fraction: '1/4″', decIn: '0.2500″', mm: '6.35 mm', socket: '6.5 mm (or 7 mm loose)', tol: '+0.15 mm (Snug)', color: 'text-amber-500' },
-  { fraction: '5/16″', decIn: '0.3125″', mm: '7.94 mm', socket: '8 mm', tol: '+0.06 mm (Direct Swap)', color: 'text-green-500' },
-  { fraction: '3/8″', decIn: '0.3750″', mm: '9.53 mm', socket: '10 mm', tol: '+0.47 mm (Slight Play)', color: 'text-amber-500' },
-  { fraction: '7/16″', decIn: '0.4375″', mm: '11.11 mm', socket: '11 mm', tol: '-0.11 mm (Tight / Tap-on)', color: 'text-red-500' },
-  { fraction: '1/2″', decIn: '0.5000″', mm: '12.70 mm', socket: '13 mm', tol: '+0.30 mm (Safe Swap)', color: 'text-green-500' },
-  { fraction: '9/16″', decIn: '0.5625″', mm: '14.29 mm', socket: '14 mm', tol: '-0.29 mm (Tight)', color: 'text-amber-500' },
-  { fraction: '5/8″', decIn: '0.6250″', mm: '15.88 mm', socket: '16 mm', tol: '+0.12 mm (Direct Swap)', color: 'text-green-500' },
-  { fraction: '3/4″', decIn: '0.7500″', mm: '19.05 mm', socket: '19 mm', tol: '-0.05 mm (Exact Fit)', color: 'text-green-500' },
+  { fraction: '1/4″', decIn: '0.2500″', mm: '6.35 mm', socket: '6.5 mm (or 7 mm loose)', tol: '+0.15 mm (Snug)', color: 'text-[var(--accent)]' },
+  { fraction: '5/16″', decIn: '0.3125″', mm: '7.94 mm', socket: '8 mm', tol: '+0.06 mm (Direct Swap)', color: 'text-[var(--status-success)]' },
+  { fraction: '3/8″', decIn: '0.3750″', mm: '9.53 mm', socket: '10 mm', tol: '+0.47 mm (Slight Play)', color: 'text-[var(--accent)]' },
+  { fraction: '7/16″', decIn: '0.4375″', mm: '11.11 mm', socket: '11 mm', tol: '-0.11 mm (Tight / Tap-on)', color: 'text-[var(--status-danger)]' },
+  { fraction: '1/2″', decIn: '0.5000″', mm: '12.70 mm', socket: '13 mm', tol: '+0.30 mm (Safe Swap)', color: 'text-[var(--status-success)]' },
+  { fraction: '9/16″', decIn: '0.5625″', mm: '14.29 mm', socket: '14 mm', tol: '-0.29 mm (Tight)', color: 'text-[var(--accent)]' },
+  { fraction: '5/8″', decIn: '0.6250″', mm: '15.88 mm', socket: '16 mm', tol: '+0.12 mm (Direct Swap)', color: 'text-[var(--status-success)]' },
+  { fraction: '3/4″', decIn: '0.7500″', mm: '19.05 mm', socket: '19 mm', tol: '-0.05 mm (Exact Fit)', color: 'text-[var(--status-success)]' },
 ]
 
 export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }) => {
@@ -57,7 +57,6 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
     <section aria-labelledby="toolkit-heading" className="space-y-6 my-6">
       <div className="flex items-center gap-2">
         <h2 id="toolkit-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
-          <span className="p-1 rounded-md bg-[var(--primary)]/10 text-[var(--primary)]" aria-hidden="true">🛠️</span>
           <span>Professional Length & Fabrication Toolkit</span>
         </h2>
       </div>
@@ -67,7 +66,6 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
         <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2 min-w-0 max-w-full">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-1.5">
-              <span aria-hidden="true">📐</span>
               <span>Tape Measure Fractional Snap</span>
             </h3>
             <div className="flex gap-1" role="group" aria-label="Fractional denominator precision">
@@ -78,7 +76,7 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
                   onClick={() => setFractionDenom(d)}
                   className={`px-2 py-0.5 text-xs rounded-md font-mono transition ${
                     fractionDenom === d
-                      ? 'bg-[var(--primary)] text-white font-bold'
+                      ? 'bg-[var(--fill)] text-[var(--on-fill)] font-bold'
                       : 'bg-[var(--card2)] text-[var(--text2)] hover:text-[var(--text)]'
                   }`}
                 >
@@ -97,7 +95,7 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
               </div>
             </div>
             <div className="text-right font-mono text-xs">
-              <span className={fracData.isExact ? 'text-green-500 font-bold' : 'text-amber-500'}>
+              <span className={fracData.isExact ? 'text-[var(--status-success)] font-bold' : 'text-[var(--accent)]'}>
                 {fracData.isExact
                   ? 'Exact Match (0.00 mm error)'
                   : `Tolerance: ${fracData.errorMillimeters > 0 ? '+' : ''}${fracData.errorMillimeters} mm`}
@@ -110,7 +108,6 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
         <div className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-2 min-w-0 max-w-full">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text2)] flex items-center gap-1.5">
-              <span aria-hidden="true">🏗️</span>
               <span>Blueprint & Model Scale ({`1:${scaleRatio}`})</span>
             </h3>
             <select
@@ -144,7 +141,6 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h3 id="lumber-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
-              <span aria-hidden="true">🪵</span>
               <span>Carpentry Reference: Nominal vs. Actual Lumber Dimensions (Softwood S4S)</span>
             </h3>
             <p className="text-xs text-[var(--text2)] mt-0.5">
@@ -156,7 +152,7 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
             onClick={copyEmbed}
             className="text-xs px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card2)] hover:border-[var(--primary)] font-semibold transition"
           >
-            {copiedEmbed ? '✅ Embed Code Copied!' : '🔗 Embed This Converter'}
+            {copiedEmbed ? 'Embed Code Copied!' : 'Embed This Converter'}
           </button>
         </div>
 
@@ -188,7 +184,6 @@ export const LengthProToolkit: React.FC<LengthProToolkitProps> = ({ baseMeters }
       {/* 3. GEO Table: Fractional Bolt to Metric Socket Interchangeability */}
       <div aria-labelledby="machinist-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
         <h3 id="machinist-heading" className="text-sm sm:text-base font-bold text-[var(--text)] flex items-center gap-2">
-          <span aria-hidden="true">🔧</span>
           <span>Machinist & DIY Reference: Fractional Inch to Metric Socket Interchangeability</span>
         </h3>
         <p className="text-xs text-[var(--text2)]">

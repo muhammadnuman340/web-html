@@ -8,12 +8,12 @@ interface Props {
 }
 
 export const MODES: { id: AppMode; icon: string; label: string; desc: string }[] = [ // eslint-disable-line react-refresh/only-export-components
-  { id: 'student', icon: '🎓', label: 'Student', desc: 'Simplified UI + explanations ON' },
-  { id: 'engineer', icon: '🔧', label: 'Engineer', desc: 'Precision + formulas + advanced units' },
-  { id: 'scientist', icon: '🔬', label: 'Scientist', desc: 'Constants + advanced math + accuracy' },
-  { id: 'trader', icon: '💹', label: 'Trader', desc: 'High-speed keyboard-driven conversion' },
-  { id: 'fast', icon: '⚡', label: 'Fast', desc: 'Minimal UI + instant conversion' },
-  { id: 'pro', icon: '🚀', label: 'Pro', desc: 'Full dashboard + analytics + AI' },
+  { id: 'student', icon: '', label: 'Student', desc: 'Simplified UI + explanations ON' },
+  { id: 'engineer', icon: '', label: 'Engineer', desc: 'Precision + formulas + advanced units' },
+  { id: 'scientist', icon: '', label: 'Scientist', desc: 'Constants + advanced math + accuracy' },
+  { id: 'trader', icon: '', label: 'Trader', desc: 'High-speed keyboard-driven conversion' },
+  { id: 'fast', icon: '', label: 'Fast', desc: 'Minimal UI + instant conversion' },
+  { id: 'pro', icon: '', label: 'Pro', desc: 'Full dashboard + analytics + AI' },
 ]
 
 export default function ModeSwitcher({ mode, setMode }: Props) {
@@ -27,11 +27,10 @@ export default function ModeSwitcher({ mode, setMode }: Props) {
           whileTap={{ scale: 0.95 }}
           className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
             mode === m.id
-              ? 'bg-[var(--primary)] text-white shadow-md shadow-[var(--glow)]'
+              ? 'bg-[var(--fill)] text-[var(--on-fill)] '
               : 'opacity-50 hover:opacity-100'
           }`}
         >
-          <span aria-hidden="true">{m.icon}</span>
           <span className="hidden sm:inline">{m.label}</span>
         </motion.button>
       ))}

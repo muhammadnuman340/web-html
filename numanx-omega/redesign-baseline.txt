@@ -1,0 +1,28 @@
+NumanX white redesign — baseline vs after
+Branch: redesign/numanx-white (from main cdc33e0). Backup: backup/pre-white-converter.
+
+BASELINE (main, before any edit)
+- npm test (after a build): 221 tests, 221 pass, 0 fail
+  (run before any build: 7 fail, because those tests read dist/ — not a regression)
+- Typecheck (tsc -p tsconfig.app.json --noEmit): 24 errors (pre-existing; build does not type-check)
+- Build: exit 0
+- Prerender verification: 241 / 241 canonical routes pass; 244 HTML files in dist
+- Unit data: 35 categories, 315 units (matches expected 35/315)
+- UI line count, exact command
+  git ls-files src | grep -vE "data|units|test|spec|generated" | xargs wc -l | tail -1
+  -> 19092
+  Note: "spec" also matches "special", so src/components/category/special/* is
+  excluded by this command. Counting those too: 23082.
+
+AFTER (redesign/numanx-white)
+- npm test: 221 tests, 221 pass, 0 fail
+- Typecheck: 18 errors (all pre-existing ones; 6 disappeared with deleted files; 0 new)
+- ESLint src: 0 problems
+- Build: exit 0
+- Prerender verification: 241 / 241 pass; 244 HTML files (unchanged)
+- Built HTML: 0 files contain "undefined", "NaN" or "[object Object]"
+- First-screen check, one pair page per category (35) at 390x844 and 1280x800:
+  70 / 70 pass (H1 + converter card + answer line inside the first screen,
+  no horizontal scroll, result rendered, no bad values)
+- UI line count, exact command: 14879  (-4213, -22.1%)
+  Including special/: 15647 (-7435, -32.2%)

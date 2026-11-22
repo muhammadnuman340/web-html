@@ -18,7 +18,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'energy-cost',
     label: 'Energy → Cost',
-    icon: '⚡',
+    icon: '',
     links: [
       { catId: 'energy', fromUnit: 'kWh', toUnit: 'kWh', label: 'Energy (kWh)' },
       { catId: 'power', fromUnit: 'kW', toUnit: 'W', label: 'Power (W)' },
@@ -28,7 +28,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'speed-distance',
     label: 'Speed → Distance',
-    icon: '🚀',
+    icon: '',
     links: [
       { catId: 'speed', fromUnit: 'kmh', toUnit: 'mps', label: 'Speed (m/s)' },
       { catId: 'time', fromUnit: 'hr', toUnit: 's', label: 'Time (s)' },
@@ -37,7 +37,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'fuel-cost',
     label: 'Fuel → Cost',
-    icon: '⛽',
+    icon: '',
     links: [
       { catId: 'fuel', fromUnit: 'L100km', toUnit: 'kmL', label: 'Fuel Economy' },
       { catId: 'volume', fromUnit: 'L', toUnit: 'gal', label: 'Fuel Volume' },
@@ -46,7 +46,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'pressure-force',
     label: 'Pressure → Force',
-    icon: '🔵',
+    icon: '',
     links: [
       { catId: 'pressure', fromUnit: 'Pa', toUnit: 'bar', label: 'Pressure' },
       { catId: 'area', fromUnit: 'm2', toUnit: 'cm2', label: 'Area' },
@@ -56,7 +56,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'data-time',
     label: 'Data → Transfer Time',
-    icon: '💾',
+    icon: '',
     links: [
       { catId: 'data', fromUnit: 'GB', toUnit: 'MB', label: 'Data Size' },
       { catId: 'datatransfer', fromUnit: 'Mbps', toUnit: 'bps', label: 'Transfer Speed' },
@@ -66,7 +66,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'area-plot-price',
     label: 'Area → Plot Measurement',
-    icon: '🏠',
+    icon: '',
     links: [
       { catId: 'area', fromUnit: 'marla', toUnit: 'marla', label: 'Land Area (Standard Marla)' },
       { catId: 'area', fromUnit: 'marla', toUnit: 'ft2', label: 'Square Feet (ft²)' },
@@ -77,7 +77,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'gold-karat-price',
     label: 'Gold Mass → Bullion Units',
-    icon: '🪙',
+    icon: '',
     links: [
       { catId: 'mass', fromUnit: 'tola', toUnit: 'tola', label: 'Bullion (Tola)' },
       { catId: 'mass', fromUnit: 'tola', toUnit: 'g', label: 'Pure Mass (Grams)' },
@@ -89,7 +89,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'ups-battery-backup',
     label: 'Power Load → Inverter Demand',
-    icon: '🔋',
+    icon: '',
     links: [
       { catId: 'power', fromUnit: 'W', toUnit: 'W', label: 'Appliance Load (Watts)' },
       { catId: 'power', fromUnit: 'W', toUnit: 'kW', label: 'Kilowatt Demand (kW)' },
@@ -99,7 +99,7 @@ const CHAINS: { id: string; label: string; icon: string; links: ChainLink[] }[] 
   {
     id: 'solar-units-saved',
     label: 'Solar kW → Energy Yield',
-    icon: '☀️',
+    icon: '',
     links: [
       { catId: 'power', fromUnit: 'kW', toUnit: 'kW', label: 'System Capacity (kW)' },
       { catId: 'energy', fromUnit: 'kWh', toUnit: 'kWh', label: 'Energy Generation (kWh)' },

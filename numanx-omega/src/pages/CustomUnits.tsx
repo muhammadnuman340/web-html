@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback } from 'react'
+import { X } from 'lucide-react'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/ui/SEOHead'
 import { getAllCategories, getCategory } from '../engine/converter'
@@ -27,27 +28,27 @@ export default function CustomUnits() {
 
   const add = useCallback(() => {
     if (!name.trim() || !sym.trim() || !rate.trim()) {
-      addToast('Fill all fields', 'warning', '⚠️')
+      addToast('Fill all fields', 'warning', '')
       return
     }
     const r = parseFloat(rate)
     if (isNaN(r) || r <= 0) {
-      addToast('Rate must be a positive number', 'error', '❌')
+      addToast('Rate must be a positive number', 'error', '')
       return
     }
     const id = sym.trim().toLowerCase().replace(/\s+/g, '_')
     const cat = getCategory(catId)
     if (cat && cat.un.find(u => u.id === id)) {
-      addToast('Symbol already exists in this category', 'warning', '⚠️')
+      addToast('Symbol already exists in this category', 'warning', '')
       return
     }
     const ok = addCustomUnit(catId, id, name.trim(), r)
-    if (!ok) { addToast('Failed to add unit', 'error', '❌'); return }
+    if (!ok) { addToast('Failed to add unit', 'error', ''); return }
     const cu: CustomUnit = { lb: name.trim(), id, r, cat: catId }
     const next = [...customs, cu]
     setCustoms(next)
     saveCustom(next)
-    addToast(`Added ${name} (${id})`, 'success', '✅')
+    addToast(`Added ${name} (${id})`, 'success', '')
     setName(''); setSym(''); setRate('')
   }, [name, sym, rate, catId, customs, addToast])
 
@@ -55,7 +56,7 @@ export default function CustomUnits() {
     const next = customs.filter((_, i) => i !== idx)
     setCustoms(next)
     saveCustom(next)
-    addToast('Unit removed — refresh categories to apply', 'info', '🔄')
+    addToast('Unit removed — refresh categories to apply', 'info', '')
   }, [customs, addToast])
 
   const grouped = useMemo(() => {
@@ -75,7 +76,7 @@ export default function CustomUnits() {
     >
       <SEOHead title="Custom Unit Creator — Define Your Own Units" description="Create custom conversion units with your own symbols and conversion rates. Perfect for specialized industries, niche measurements, and personal use." path="/custom-units" />
       <div className="page-header">
-        <h1 className="text-lg font-bold"><span aria-hidden="true">⚒️</span> Custom Unit Creator</h1>
+        <h1 className="text-lg font-bold"> Custom Unit Creator</h1>
         <p className="text-xs opacity-40 mt-1">Define your own units and conversion factors</p>
       </div>
 
@@ -85,24 +86,24 @@ export default function CustomUnits() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <select value={catId} onChange={e => setCatId(e.target.value)}
             aria-label="Target category for custom unit"
-            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all">
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus: transition-all">
             {cats.map(c => (
-              <option key={c.id} value={c.id}>{c.ic} {c.lb}</option>
+              <option key={c.id} value={c.id}>{c.lb}</option>
             ))}
           </select>
           <input type="text" value={name} onChange={e => setName(e.target.value)}
             aria-label="Custom unit name"
             placeholder="Unit name (e.g. MyToken)"
-            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus: transition-all" />
           <input type="text" value={sym} onChange={e => setSym(e.target.value)}
             aria-label="Custom unit symbol"
             placeholder="Symbol (e.g. MTK)"
-            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus: transition-all" />
           <input type="text" value={rate} onChange={e => setRate(e.target.value)}
             aria-label="Conversion rate relative to base unit"
             aria-describedby="custom-unit-rate-hint"
             placeholder="1 of base = ?"
-            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus:shadow-[0_0_0_3px_var(--glow)] transition-all" />
+            className="p-2.5 rounded-xl border-2 border-[var(--border)] bg-[var(--card2)] text-xs outline-none focus:border-[var(--primary)] focus: transition-all" />
         </div>
         <div id="custom-unit-rate-hint" className="text-xs opacity-30">Rate: how many base units equal 1 of your unit (e.g., for length base is meters)</div>
         <button onClick={add}
@@ -119,7 +120,6 @@ export default function CustomUnits() {
             return (
               <div key={cat}>
                 <div className="text-xs font-semibold opacity-50 mb-1 flex items-center gap-1">
-                  <span>{c?.ic || '📦'}</span>
                   <span>{c?.lb || cat}</span>
                   <span className="opacity-30">· {units.length} units</span>
                 </div>
@@ -134,9 +134,7 @@ export default function CustomUnits() {
                       <div className="flex items-center gap-3">
                         <span className="text-xs opacity-40">1 = {u.r}</span>
                         <button onClick={() => remove(customs.indexOf(u))}
-                          className="p-1 rounded-lg text-xs opacity-30 hover:opacity-100 hover:bg-red-500/20 hover:text-red-500 transition-all" aria-label="Remove custom unit">
-                          ✕
-                        </button>
+                          className="p-1 rounded-lg text-xs opacity-30 hover:opacity-100 hover:bg-[var(--card2)] hover:text-[var(--status-danger)] transition-all" aria-label="Remove custom unit"><X size={16} aria-hidden="true" /></button>
                       </div>
                     </div>
                   ))}

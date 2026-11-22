@@ -17,12 +17,11 @@ export default function BlogPost() {
   if (!post) {
     return (
       <div className="text-center py-20 space-y-4 max-w-md mx-auto">
-        <div className="text-4xl" aria-hidden="true">📄</div>
         <h1 className="text-xl font-bold text-[var(--text)]">Article Not Found</h1>
         <p className="text-xs text-[var(--text2)]">The blog post you requested does not exist or may have moved.</p>
         <Link
           to="/blog"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--fill)] text-[var(--on-fill)] text-xs font-semibold hover:bg-[var(--fill-hover)] transition-opacity"
         >
           ← Return to Blog
         </Link>
@@ -57,13 +56,12 @@ export default function BlogPost() {
           { label: 'Blog', path: '/blog' },
           { label: post.title }
         ]}
-        backTo={{ label: 'All Articles', path: '/blog' }}
       />
 
       {/* Post Header */}
       <header className="space-y-4 border-b border-[var(--border)] pb-6">
         <div className="flex items-center gap-2.5 text-xs text-[var(--text3)]">
-          <span className="px-2.5 py-0.5 rounded-md font-semibold text-[11px] bg-[var(--primary-muted)] text-[var(--primary)]">
+          <span className="px-2.5 py-0.5 rounded-md font-semibold text-[13px] bg-[var(--primary-muted)] text-[var(--primary)]">
             {post.category}
           </span>
           <span>{post.date}</span>
@@ -85,9 +83,9 @@ export default function BlogPost() {
         <div className="flex items-center gap-2 pt-2">
           <button
             onClick={copyLink}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card2)] text-xs font-semibold text-[var(--text)] transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--card2)] text-xs font-semibold text-[var(--text)] transition-colors "
           >
-            <span>{copied ? '✓ Copied' : '🔗 Copy Link'}</span>
+            <span>{copied ? 'Copied' : 'Copy Link'}</span>
           </button>
           <Link
             to={`/convert/${post.relatedCat}`}
@@ -101,8 +99,7 @@ export default function BlogPost() {
       {/* Key Takeaways Callout */}
       {post.content.keyTakeaways.length > 0 && (
         <section aria-labelledby="takeaways-heading" className="p-5 rounded-2xl bg-[var(--primary-muted)] border border-[var(--primary)]/20 space-y-2.5">
-          <h2 id="takeaways-heading" className="text-xs font-bold uppercase tracking-wider text-[var(--primary)] flex items-center gap-1.5">
-            <span aria-hidden="true">💡</span> Key Takeaways
+          <h2 id="takeaways-heading" className="text-xs font-bold uppercase tracking-wider text-[var(--primary)] flex items-center gap-1.5"> Key Takeaways
           </h2>
           <ul className="space-y-1.5 text-xs sm:text-sm text-[var(--text)] list-disc list-inside">
             {post.content.keyTakeaways.map((point, i) => (
@@ -141,7 +138,7 @@ export default function BlogPost() {
 
             {/* Comparison Table */}
             {sec.table && (
-              <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--card)] my-3 shadow-sm">
+              <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--card)] my-3 ">
                 <table className="w-full text-left text-xs">
                   <thead>
                     <tr className="border-b border-[var(--border)] bg-[var(--card2)]">
@@ -169,10 +166,10 @@ export default function BlogPost() {
       </div>
 
       {/* Embedded Live Tool */}
-      <section aria-labelledby="interactive-converter" className="p-5 sm:p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4 shadow-sm">
+      <section aria-labelledby="interactive-converter" className="p-5 sm:p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)] space-y-4 ">
         <div>
           <h2 id="interactive-converter" className="text-base font-bold text-[var(--text)] flex items-center gap-2">
-            <span>⚡ Interactive {post.relatedCat.toUpperCase()} Calculator</span>
+            <span>Interactive {post.relatedCat.toUpperCase()} Calculator</span>
           </h2>
           <p className="text-xs text-[var(--text2)] mt-0.5">
             Test the math live with high precision right inside this guide:
@@ -207,10 +204,9 @@ export default function BlogPost() {
       {/* Standards Provenance & Editorial Standards */}
       <section aria-labelledby="editorial-standards-heading" className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] text-xs text-[var(--text2)] space-y-1.5">
         <div className="flex items-center gap-2 font-semibold text-[var(--text)]">
-          <span aria-hidden="true">🏛️</span>
           <span id="editorial-standards-heading">Standards & Provenance Note</span>
         </div>
-        <p className="leading-relaxed text-[11px]">
+        <p className="leading-relaxed text-[13px]">
           Editorial content published by {post.author} on behalf of NumanX Studio. Conversion constants referenced in this article adhere to NIST SP 811 and the BIPM SI brochure. For complete metrological documentation, consult our <Link to="/about" className="text-[var(--primary)] underline hover:opacity-80">metrology standards directory</Link>.
         </p>
       </section>
@@ -249,9 +245,9 @@ export default function BlogPost() {
               <Link
                 key={rp.slug}
                 to={`/blog/${rp.slug}`}
-                className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] hover:shadow-sm transition-all space-y-1.5 group"
+                className="p-4 rounded-xl bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)] transition-all space-y-1.5 group"
               >
-                <div className="flex items-center gap-2 text-[11px] text-[var(--text3)]">
+                <div className="flex items-center gap-2 text-[13px] text-[var(--text3)]">
                   <span className="font-semibold text-[var(--primary)]">{rp.category}</span>
                   <span>·</span>
                   <span>{rp.readTime}</span>

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { PAGE_META } from '../config/pageMeta'
@@ -8,20 +9,20 @@ import { guideContent } from '../engine/guideContent'
 import { BLOG_POSTS } from '../data/blogPosts'
 
 const CORE_ROUTES = [
-  { path: '/', label: 'Home Page', icon: '🏠', desc: 'Main converter dashboard with instant input and quick pairs' },
-  { path: '/converter', label: 'Universal Converter', icon: '🔄', desc: 'Precision conversion engine supporting chains & batch processing' },
-  { path: '/categories', label: 'Browse Categories', icon: '📂', desc: 'Interactive directory of all 36 scientific and everyday unit systems' },
-  { path: '/guides', label: 'Conversion Guides Hub', icon: '📚', desc: 'Step-by-step masterclass conversion guides with worked examples' },
-  { path: '/blog', label: 'Blog & Articles Hub', icon: '📰', desc: 'Expert guides, tutorials, precision formulas, and cheat sheets' },
-  { path: '/about', label: 'About NumanX Omega', icon: 'ℹ️', desc: 'Mission, NIST metrology compliance, privacy, and scientific engine' },
-  { path: '/calculator', label: 'Smart Calculator', icon: '🧮', desc: 'Instant calculation and conversion hybrid tool' },
-  { path: '/formulas', label: 'Formula Explorer', icon: '📐', desc: 'Interactive mathematical formulas and conversion steps' },
-  { path: '/contact', label: 'Contact', icon: '✉️', desc: 'Report a wrong conversion, a security issue or a privacy question' },
-  { path: '/privacy', label: 'Privacy Policy', icon: '🔒', desc: 'What stays in your browser and which outside services the app uses' },
-  { path: '/terms', label: 'Terms of Use', icon: '📄', desc: 'Accuracy, price data, health calculator limits and content licensing' },
-  { path: '/custom-units', label: 'Custom Unit Builder', icon: '⚒️', desc: 'Define and save custom user conversion ratios' },
-  { path: '/settings', label: 'App Settings', icon: '⚙️', desc: 'Theme, precision, haptics, and display preferences' },
-  { path: '/help', label: 'Help & Shortcuts', icon: '❓', desc: 'FAQ, keyboard shortcuts reference, and platform documentation' },
+  { path: '/', label: 'Home Page', icon: '', desc: 'Main converter dashboard with instant input and quick pairs' },
+  { path: '/converter', label: 'Universal Converter', icon: '', desc: 'Precision conversion engine supporting chains & batch processing' },
+  { path: '/categories', label: 'Browse Categories', icon: '', desc: 'Interactive directory of all 36 scientific and everyday unit systems' },
+  { path: '/guides', label: 'Conversion Guides Hub', icon: '', desc: 'Step-by-step masterclass conversion guides with worked examples' },
+  { path: '/blog', label: 'Blog & Articles Hub', icon: '', desc: 'Expert guides, tutorials, precision formulas, and cheat sheets' },
+  { path: '/about', label: 'About NumanX Omega', icon: '', desc: 'Mission, NIST metrology compliance, privacy, and scientific engine' },
+  { path: '/calculator', label: 'Smart Calculator', icon: '', desc: 'Instant calculation and conversion hybrid tool' },
+  { path: '/formulas', label: 'Formula Explorer', icon: '', desc: 'Interactive mathematical formulas and conversion steps' },
+  { path: '/contact', label: 'Contact', icon: '', desc: 'Report a wrong conversion, a security issue or a privacy question' },
+  { path: '/privacy', label: 'Privacy Policy', icon: '', desc: 'What stays in your browser and which outside services the app uses' },
+  { path: '/terms', label: 'Terms of Use', icon: '', desc: 'Accuracy, price data, health calculator limits and content licensing' },
+  { path: '/custom-units', label: 'Custom Unit Builder', icon: '', desc: 'Define and save custom user conversion ratios' },
+  { path: '/settings', label: 'App Settings', icon: '', desc: 'Theme, precision, haptics, and display preferences' },
+  { path: '/help', label: 'Help & Shortcuts', icon: '', desc: 'FAQ, keyboard shortcuts reference, and platform documentation' },
 ]
 
 export default function Sitemap() {
@@ -132,9 +133,7 @@ export default function Sitemap() {
                 onClick={() => setFilter('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-50 hover:opacity-100"
                 aria-label="Clear sitemap filter"
-              >
-                ✕
-              </button>
+              ><X size={16} aria-hidden="true" /></button>
             )}
           </div>
         </div>
@@ -143,8 +142,7 @@ export default function Sitemap() {
       {/* Section 1: Core Pages & Tools */}
       <section aria-labelledby="core-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="core-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
-            <span role="img" aria-hidden="true">🛠️</span> Core Platform & Specialized Tools ({filteredCore.length})
+          <h2 id="core-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]"> Core Platform & Specialized Tools ({filteredCore.length})
           </h2>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -156,7 +154,6 @@ export default function Sitemap() {
             >
               <div>
                 <div className="flex items-center gap-2.5 mb-1.5">
-                  <span className="text-xl group-hover:scale-110 transition-transform" role="img" aria-hidden="true">{item.icon}</span>
                   <span className="font-semibold text-sm text-[var(--text)] group-hover:text-[var(--primary)] transition-colors">{item.label}</span>
                 </div>
                 <p className="text-xs text-[var(--text2)] opacity-80 line-clamp-2 leading-relaxed">{item.desc}</p>
@@ -173,8 +170,7 @@ export default function Sitemap() {
       {/* Section 2: All 36 Conversion Categories */}
       <section aria-labelledby="categories-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="categories-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
-            <span role="img" aria-hidden="true">📂</span> Unit Conversion Categories ({filteredCategories.length})
+          <h2 id="categories-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]"> Unit Conversion Categories ({filteredCategories.length})
           </h2>
           <span className="text-xs text-[var(--text2)] opacity-70">Dedicated Pages</span>
         </div>
@@ -187,7 +183,6 @@ export default function Sitemap() {
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-2xl group-hover:scale-110 transition-transform" role="img" aria-hidden="true">{cat.ic}</span>
                   <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[var(--primary-muted)] text-[var(--primary)]">
                     {cat.un.length} units
                   </span>
@@ -211,8 +206,7 @@ export default function Sitemap() {
       {/* Section 3: Popular Single-Pair Micro Calculators */}
       <section aria-labelledby="pairs-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="pairs-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
-            <span role="img" aria-hidden="true">⚡</span> Popular Conversion Pairs ({filteredPairs.length})
+          <h2 id="pairs-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]"> Popular Conversion Pairs ({filteredPairs.length})
           </h2>
           <span className="text-xs text-[var(--text2)] opacity-70">Direct Calculators</span>
         </div>
@@ -242,8 +236,7 @@ export default function Sitemap() {
       {/* Section 4: In-Depth Guides */}
       <section aria-labelledby="guides-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="guides-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
-            <span role="img" aria-hidden="true">📖</span> Conversion Guides & Math Articles ({filteredGuides.length})
+          <h2 id="guides-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]"> Conversion Guides & Math Articles ({filteredGuides.length})
           </h2>
           <span className="text-xs text-[var(--text2)] opacity-70">Step-by-step math</span>
         </div>
@@ -256,7 +249,6 @@ export default function Sitemap() {
             >
               <div>
                 <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[var(--primary)]">
-                  <span role="img" aria-hidden="true">📚</span>
                   <span>{(guide.category || 'conversion').toUpperCase()} GUIDE</span>
                 </div>
                 <h3 className="font-semibold text-sm text-[var(--text)] mb-1 group-hover:text-[var(--primary)] transition-colors">
@@ -278,8 +270,7 @@ export default function Sitemap() {
       {/* Section 5: Blog Articles & In-Depth Tutorials */}
       <section aria-labelledby="blog-heading" className="space-y-4">
         <div className="flex items-center justify-between border-b border-[var(--border)] pb-2">
-          <h2 id="blog-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]">
-            <span role="img" aria-hidden="true">📰</span> Blog Articles & Educational Guides ({filteredBlogPosts.length})
+          <h2 id="blog-heading" className="text-base font-semibold flex items-center gap-2 text-[var(--text)]"> Blog Articles & Educational Guides ({filteredBlogPosts.length})
           </h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -287,11 +278,11 @@ export default function Sitemap() {
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
-              className="glass p-5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between border border-transparent shadow-sm"
+              className="glass p-5 rounded-2xl hover:border-[var(--primary)] transition-all interact-lift group flex flex-col justify-between border border-transparent "
             >
               <div>
                 <div className="flex items-center gap-2 mb-2 text-xs font-semibold text-[var(--primary)]">
-                  <span className="px-2 py-0.5 rounded-md bg-[var(--primary-muted)] text-[11px]">{post.category}</span>
+                  <span className="px-2 py-0.5 rounded-md bg-[var(--primary-muted)] text-[13px]">{post.category}</span>
                   <span className="text-[var(--text3)]">·</span>
                   <span className="text-[var(--text3)]">{post.date}</span>
                   <span className="text-[var(--text3)]">·</span>

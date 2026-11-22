@@ -6,12 +6,12 @@ export default function NotFound() {
     <div className="flex flex-col items-center justify-center min-h-[55vh] py-12 px-4 text-center">
       <SEOHead
         title="Page Not Found (404) — Omega X"
-        description="The page you requested does not exist or has been moved. Explore 36 unit conversion categories or return home."
+        description="The page you requested does not exist or has been moved. Explore 35 unit conversion categories or return home."
         path="/404"
         noindex={true}
       />
 
-      <div className="glass rounded-2xl p-8 max-w-md w-full border border-[var(--border)] shadow-xl space-y-5">
+      <div className="glass rounded-2xl p-8 max-w-md w-full border border-[var(--border)] space-y-5">
         <div
           className="text-6xl font-black font-mono text-[var(--primary)] tracking-wider"
           aria-hidden="true"
@@ -31,7 +31,7 @@ export default function NotFound() {
         <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/"
-            className="px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-xs font-semibold hover:brightness-110 transition-all text-center interact-lift"
+            className="px-5 py-2.5 rounded-xl bg-[var(--fill)] text-[var(--on-fill)] text-xs font-semibold hover:bg-[var(--fill-hover)] transition-all text-center interact-lift"
           >
             ← Return Home
           </Link>

@@ -1,227 +1,116 @@
 // Canonical entity: Omega X Converter · NumanX Studio
-/* Anti-Slop Gate · P5 H5 E5 S5 R5 V5 · Silhouette: Spatial Bento Workbench */
 
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import UniversalConverter from '../components/converter/UniversalConverter'
+import ConverterCard from '../components/converter/ConverterCard'
 import SEOHead from '../components/ui/SEOHead'
 import { PAGE_META } from '../config/pageMeta'
 import { Categories } from '../engine/categories'
+import { getAllCategories } from '../engine/converter'
 import { buildHomeSchema } from '../config/schema'
-import type { AppMode } from '../components/widgets/ModeSwitcher'
-
-interface Props {
-  mode?: AppMode
-}
+import { categoryIcon } from '../config/categoryIcons'
 
 const POPULAR_PAIRS = [
-  { label: 'Meter to Feet', from: 'm', to: 'ft', cat: 'length', path: '/convert/length/meter-to-feet', formula: '1 m = 3.28084 ft' },
-  { label: 'Kilometer to Miles', from: 'km', to: 'mi', cat: 'length', path: '/convert/length/kilometer-to-miles', formula: '1 km = 0.621371 mi' },
-  { label: 'Kilogram to Pounds', from: 'kg', to: 'lb', cat: 'mass', path: '/convert/mass/kilogram-to-pounds', formula: '1 kg = 2.20462 lb' },
-  { label: 'Ounces to Grams', from: 'oz', to: 'g', cat: 'mass', path: '/convert/mass/ounces-to-grams', formula: '1 oz = 28.3495 g' },
-  { label: 'Celsius to Fahrenheit', from: '°C', to: '°F', cat: 'temp', path: '/convert/temp/celsius-to-fahrenheit', formula: '°F = (°C × 9/5) + 32' },
-  { label: 'Liters to Gallons', from: 'L', to: 'gal', cat: 'volume', path: '/convert/volume/liters-to-gallons', formula: '1 L = 0.264172 gal' },
-  { label: 'km/h to mph', from: 'km/h', to: 'mph', cat: 'speed', path: '/convert/speed/km-h-to-mph', formula: '1 km/h = 0.621371 mph' },
-  { label: 'Bar to PSI', from: 'bar', to: 'psi', cat: 'pressure', path: '/convert/pressure/bar-to-psi', formula: '1 bar = 14.5038 psi' },
+  { label: 'Meters to feet', path: '/convert/length/meter-to-feet', formula: '1 m = 3.28084 ft' },
+  { label: 'Kilometers to miles', path: '/convert/length/kilometer-to-miles', formula: '1 km = 0.621371 mi' },
+  { label: 'Kilograms to pounds', path: '/convert/mass/kilogram-to-pounds', formula: '1 kg = 2.20462 lb' },
+  { label: 'Ounces to grams', path: '/convert/mass/ounces-to-grams', formula: '1 oz = 28.3495 g' },
+  { label: 'Celsius to Fahrenheit', path: '/convert/temp/celsius-to-fahrenheit', formula: '°F = (°C × 9/5) + 32' },
+  { label: 'Liters to gallons', path: '/convert/volume/liters-to-gallons', formula: '1 L = 0.264172 gal' },
+  { label: 'km/h to mph', path: '/convert/speed/km-h-to-mph', formula: '1 km/h = 0.621371 mph' },
+  { label: 'Bar to PSI', path: '/convert/pressure/bar-to-psi', formula: '1 bar = 14.5038 psi' },
 ]
 
-const GUIDES_AND_EDITORIAL = [
-  { title: 'Meters to Feet Conversion Guide', path: '/convert/length/meter-to-feet', desc: 'Precision conversion factors, architectural scale, and NIST formulas.' },
-  { title: 'Pounds to Kilograms Reference', path: '/convert/mass/pounds-to-kilogram', desc: 'International avoirdupois pound conversion and SI mass traceability.' },
-  { title: 'Celsius to Fahrenheit Scale Guide', path: '/convert/temp/celsius-to-fahrenheit', desc: 'Thermodynamic zero, freezing points, and temperature conversion.' },
-  { title: 'Metric vs Imperial: Engineering Guide', path: '/blog/metric-vs-imperial-engineering-guide', desc: 'Historical origins, industrial standardization, and dual-unit drafting.' },
-  { title: 'Temperature Scales & Thermodynamic Zero', path: '/blog/temperature-scales-celsius-fahrenheit-kelvin', desc: 'Comparative metrology across Celsius, Fahrenheit, Kelvin, and Rankine.' },
-  { title: 'Fractional Inches to Millimeters', path: '/blog/fractional-inches-to-mm-best-practices', desc: 'Machinist tolerances, 1/64 tape fraction lookup, and metric offsets.' },
+const GUIDES = [
+  { title: 'Metric vs imperial: engineering guide', path: '/blog/metric-vs-imperial-engineering-guide' },
+  { title: 'Temperature scales and absolute zero', path: '/blog/temperature-scales-celsius-fahrenheit-kelvin' },
+  { title: 'Fractional inches to millimeters', path: '/blog/fractional-inches-to-mm-best-practices' },
 ]
 
-export default function Home({ mode = 'pro' }: Props) {
-  const [showAllCategories, setShowAllCategories] = useState(false)
+const sectionTitle = 'text-xl sm:text-2xl'
+
+export default function Home() {
   const homeSchema = useMemo(() => buildHomeSchema(), [])
-  const totalUnits = useMemo(() => Categories.reduce((acc, cat) => acc + cat.un.length, 0), [])
+  const allCats = useMemo(() => getAllCategories(), [])
+  const [catId, setCatId] = useState('length')
+  const cat = allCats.find(c => c.id === catId) ?? allCats[0]
+  const totalUnits = Categories.reduce((acc, c) => acc + c.un.length, 0)
+
+  // Sensible starting pair for the selected category
+  const defaultPair: Record<string, [string, string]> = {
+    length: ['m', 'ft'], mass: ['kg', 'lb'], temp: ['c', 'f'], volume: ['l', 'gal'],
+  }
+  const [fromId, toId] = (() => {
+    const d = defaultPair[cat.id]
+    if (d && cat.un.some(u => u.id === d[0]) && cat.un.some(u => u.id === d[1])) return d
+    return [cat.un[0].id, (cat.un[1] ?? cat.un[0]).id]
+  })()
 
   return (
-    <article className="space-y-6 max-w-6xl mx-auto w-full min-w-0">
-      <SEOHead
-        {...PAGE_META['/']}
-        path="/"
-        schema={homeSchema}
-      />
+    <article className="space-y-12">
+      <SEOHead {...PAGE_META['/']} path="/" schema={homeSchema} />
 
-      {/* 1. Compact Masthead (< 80px vertical footprint) */}
-      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-1 pb-1">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text)] flex items-center gap-2">
-            <span aria-hidden="true" className="font-mono text-sm px-2 py-0.5 rounded-lg bg-[var(--surface-2)] text-[var(--accent)] border border-[var(--border-subtle)] font-bold">
-              NΩ
-            </span>
-            <span>Omega X Converter</span>
-          </h1>
-          <p className="text-xs text-[var(--text2)] mt-0.5">
-            Precision metrology suite · {Categories.length} scientific domains · {totalUnits} category unit listings · Deterministic decimal engine
+      <div className="space-y-5">
+        <header className="space-y-3">
+          <h1>Omega X Converter</h1>
+          <p className="text-lg text-[var(--text2)] max-w-2xl">
+            Free unit converter with {Categories.length} categories and {totalUnits} units. Runs in your browser.
           </p>
-        </div>
-        {mode !== 'pro' && (
-          <span className="self-start sm:self-auto text-xs px-2.5 py-1 rounded-full bg-[var(--surface-3)] border border-[var(--border-control)] text-[var(--link-text)] font-medium">
-            Active Mode: {mode.charAt(0).toUpperCase() + mode.slice(1)}
-          </span>
-        )}
-      </header>
+        </header>
 
-      {/* 2. Dominant Primary Conversion Instrument (Above-the-Fold Centerpiece) */}
-      <section aria-labelledby="workbench-heading" className="w-full min-w-0">
-        <h2 id="workbench-heading" className="sr-only">
-          Primary Conversion Instrument
-        </h2>
-        <div className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-2xl p-3.5 sm:p-5 shadow-sm space-y-3">
-          <div className="flex items-center justify-between gap-2 pb-1 border-b border-[var(--border-subtle)]">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-              <span className="text-xs font-mono font-bold tracking-wider uppercase text-[var(--text2)]">
-                Conversion Workbench
-              </span>
-            </div>
-            <Link
-              to="/converter"
-              className="text-xs font-medium text-[var(--link-text)] hover:underline flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded min-h-[44px] px-2"
-            >
-              Full Workbench Grid →
-            </Link>
-          </div>
-          <UniversalConverter mode={mode} variant="embedded" hideComplexPanels={true} />
-        </div>
-
-        <div className="pt-1 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setShowAllCategories(prev => !prev)}
-            className="btn-chip text-xs px-4 py-2 min-h-[44px] rounded-xl border border-[var(--border-subtle)] bg-[var(--surface-1)] hover:bg-[var(--surface-2)] text-[var(--link-text)] font-semibold flex items-center gap-1.5 transition-all"
-            aria-expanded={showAllCategories}
+        <div className="max-w-xs">
+          <label htmlFor="home-category" className="block text-[13px] font-semibold text-[var(--text2)] mb-1.5">Category</label>
+          <select
+            id="home-category"
+            value={cat.id}
+            onChange={e => setCatId(e.target.value)}
+            className="w-full min-h-[48px] rounded-xl border border-[var(--border-control)] bg-[var(--card)] text-[var(--text)] px-3 text-base hover:border-[var(--text)]"
           >
-            <span>{showAllCategories ? 'Show Less (Top 8 Categories)' : `Explore All ${Categories.length} Measurement Domains (+${Categories.length - 8} more)`}</span>
-            <span aria-hidden="true">{showAllCategories ? '▲' : '▼'}</span>
-          </button>
+            {allCats.map(c => <option key={c.id} value={c.id}>{c.lb}</option>)}
+          </select>
         </div>
-      </section>
+        <ConverterCard key={cat.id} cat={cat} fromId={fromId} toId={toId} title={`${cat.lb} converter`} />
+      </div>
 
-      {/* 3. Canonical Metrology Domains (All 24 Categories) */}
-      <section aria-labelledby="domains-heading" className="space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <h2 id="domains-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
-            {Categories.length} Metrological Domains
-          </h2>
-          <Link
-            to="/categories"
-            className="text-xs font-medium text-[var(--link-text)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded min-h-[44px] px-2 flex items-center"
-          >
-            Directory View →
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5">
-          {(showAllCategories ? Categories : Categories.slice(0, 8)).map(cat => (
-            <Link
-              key={cat.id}
-              to={`/convert/${cat.id}`}
-              className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all flex items-center justify-between gap-2 min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
-            >
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="text-lg flex-shrink-0" aria-hidden="true">
-                  {cat.ic}
-                </span>
-                <span className="text-xs font-semibold text-[var(--text)] group-hover:text-[var(--link-text)] truncate">
-                  {cat.lb}
-                </span>
-              </div>
-              <span className="text-[11px] font-mono text-[var(--text2)] opacity-70 flex-shrink-0">
-                {cat.un.length}
-              </span>
-            </Link>
+      <section aria-labelledby="popular-heading" className="space-y-4">
+        <h2 id="popular-heading" className={sectionTitle}>Popular conversions</h2>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {POPULAR_PAIRS.map(p => (
+            <li key={p.path}>
+              <Link to={p.path} className="nx-card-link block h-full p-4">
+                <span className="block font-semibold">{p.label}</span>
+                <span className="block mt-1 text-[15px] text-[var(--text2)] tabular">{p.formula}</span>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
-      {/* 4. Popular Conversion Pairs */}
-      <section aria-labelledby="popular-heading" className="space-y-3">
-        <h2 id="popular-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
-          Popular Conversion Pairs
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
-          {POPULAR_PAIRS.map(pair => (
-            <Link
-              key={pair.path}
-              to={pair.path}
-              className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1 block min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
-            >
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
-                  {pair.label}
-                </span>
-                <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-[var(--surface-3)] text-[var(--text2)] border border-[var(--border-subtle)]">
-                  {pair.from} → {pair.to}
-                </span>
-              </div>
-              <div className="text-[11px] font-mono text-[var(--text2)] truncate">
-                {pair.formula}
-              </div>
-            </Link>
+      <section aria-labelledby="domains-heading" className="space-y-4">
+        <h2 id="domains-heading" className={sectionTitle}>All {Categories.length} categories</h2>
+        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {Categories.map(c => {
+            const Icon = categoryIcon(c.id)
+            return (
+              <li key={c.id}>
+                <Link to={`/convert/${c.id}`} className="nx-card-link flex items-center gap-3 h-full min-h-[56px] px-4 py-3">
+                  <Icon size={20} className="text-[var(--text2)] shrink-0" aria-hidden="true" />
+                  <span className="font-medium truncate">{c.lb}</span>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
+
+      <section aria-labelledby="guides-heading" className="space-y-4">
+        <h2 id="guides-heading" className={sectionTitle}>Guides</h2>
+        <ul className="flex flex-wrap gap-2">
+          {GUIDES.map(g => (
+            <li key={g.path}><Link to={g.path} className="nx-chip">{g.title}</Link></li>
           ))}
-        </div>
-      </section>
-
-      {/* 5. Metrological Guides & Engineering Reference */}
-      <section aria-labelledby="guides-heading" className="space-y-3">
-        <div className="flex items-center justify-between gap-2">
-          <h2 id="guides-heading" className="text-sm font-bold uppercase tracking-wider text-[var(--text2)]">
-            Metrological Guides & Editorial Reference
-          </h2>
-          <Link
-            to="/blog"
-            className="text-xs font-medium text-[var(--link-text)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded min-h-[44px] px-2 flex items-center"
-          >
-            All Articles →
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {GUIDES_AND_EDITORIAL.map(item => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className="p-3.5 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)] hover:border-[var(--primary)] hover:bg-[var(--surface-2)] transition-all space-y-1.5 block min-h-[44px] group focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
-            >
-              <div className="text-xs font-bold text-[var(--text)] group-hover:text-[var(--link-text)]">
-                {item.title}
-              </div>
-              <p className="text-[11px] text-[var(--text2)] leading-relaxed line-clamp-2">
-                {item.desc}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 6. Factual Platform Architecture Metrics (Data-Driven, Zero Fake Stats) */}
-      <section aria-labelledby="metrics-heading" className="pt-2">
-        <h2 id="metrics-heading" className="sr-only">
-          Platform Architecture Metrics
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">{Categories.length}</div>
-            <div className="text-[11px] text-[var(--text2)]">Canonical Domains</div>
-          </div>
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">{totalUnits}</div>
-            <div className="text-[11px] text-[var(--text2)]">Category Unit Listings</div>
-          </div>
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">123</div>
-            <div className="text-[11px] text-[var(--text2)]">Published Pair Guides</div>
-          </div>
-          <div className="p-3 rounded-xl bg-[var(--surface-1)] border border-[var(--border-subtle)]">
-            <div className="text-lg font-mono font-bold text-[var(--text)]">0</div>
-            <div className="text-[11px] text-[var(--text2)]">Third-Party Trackers</div>
-          </div>
-        </div>
+          <li><Link to="/blog" className="nx-chip font-semibold">All articles</Link></li>
+        </ul>
       </section>
     </article>
   )

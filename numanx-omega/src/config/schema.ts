@@ -7,7 +7,7 @@
  * 2. Absolute canonical URLs and IDs without duplicate slashes.
  * 3. Strict Visible FAQ Parity: FAQPage nodes are only emitted when matching questions
  *    and answers are visibly present on that exact route.
- * 4. ItemList accuracy: contains all 24 canonical categories with matching count.
+ * 4. ItemList accuracy: contains all 35 canonical categories with matching count.
  * 5. HowTo and Article parity: steps and metadata accurately mirror page content.
  */
 
@@ -86,8 +86,8 @@ export function buildHomeSchema(): SchemaGraph {
         operatingSystem: 'All',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
         featureList: [
-          '28 unit categories including length, mass, volume, temperature',
-          '220+ units from metric, imperial, and scientific systems',
+          '35 unit categories including length, mass, volume, temperature',
+          '315 units from metric, imperial, and scientific systems',
           'Natural language input: type "5 km in miles" or "(5m+20cm)×2"',
           'Batch conversion mode for 1000+ values at once',
           'Cross-category conversion chains: Energy→Cost, Speed→Distance, Fuel→Cost',
@@ -102,7 +102,7 @@ export function buildHomeSchema(): SchemaGraph {
 
 /**
  * Schema for the Categories Directory page (/categories).
- * Generates an ItemList with exactly 28 canonical category entries.
+ * Generates an ItemList with one entry per canonical category entries.
  */
 export function buildCategoriesDirectorySchema(categories: CategoryDef[]): SchemaGraph {
   const pageUrl = canonicalUrl('/categories')
