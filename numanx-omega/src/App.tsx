@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import Sidebar from './components/layout/Sidebar'
-import type { AppMode } from './components/widgets/ModeSwitcher'
 import ErrorBoundary from './components/ui/ErrorBoundary'
 import { SkeletonPage } from './components/ui/Skeleton'
 import { ToastProvider } from './hooks/useToast'
@@ -10,7 +9,6 @@ import SiteFooter from './components/layout/SiteFooter'
 import JSONLD from './components/ui/JSONLD'
 import { getAllCategories } from './engine/converter'
 import { CATEGORY_ROUTES } from './engine/routes'
-import { useLocalStorage } from './hooks/useLocalStorage'
 import { useGlobalShortcuts } from './hooks/useKeyboard'
 import { getTheme, setTheme } from './utils/theme'
 
@@ -41,7 +39,6 @@ function AppContent() {
   // CommandBar's chunk is fetched on first open (Ctrl+K / search button) and kept mounted after.
   const [commandBarLoaded, setCommandBarLoaded] = useState(false)
   if (commandBarOpen && !commandBarLoaded) setCommandBarLoaded(true)
-  const [mode] = useLocalStorage<AppMode>('uc_mode', 'pro')
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const [isDark, setIsDark] = useState(() => getTheme() === 'dark')
   const navigate = useNavigate()
@@ -138,8 +135,8 @@ function AppContent() {
               <Routes location={location}>
                 <Route path="/" element={<Home />} />
                 <Route path="/categories" element={<Categories />} />
-                <Route path="/converter" element={<ConverterPage mode={mode} />} />
-                <Route path="/convert" element={<ConverterPage mode={mode} />} />
+                <Route path="/converter" element={<ConverterPage />} />
+                <Route path="/convert" element={<ConverterPage />} />
                 <Route path="/convert/:category" element={<CategoryLanding />} />
                 <Route path="/category/:category" element={<CategoryLanding />} />
                 <Route path="/convert/:category/:pair" element={<PairLanding />} />
@@ -159,7 +156,7 @@ function AppContent() {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/custom-units" element={<CustomUnits />} />
                 <Route path="/help" element={<Help />} />
-                <Route path="/calculator" element={<ConverterPage mode={mode} />} />
+                <Route path="/calculator" element={<ConverterPage />} />
                 <Route path="/guides" element={<GuidesHub />} />
                 <Route path="/guides/:slug" element={<GuidePage />} />
                 <Route path="/blog" element={<Blog />} />

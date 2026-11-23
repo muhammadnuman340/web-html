@@ -2,11 +2,10 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import SEOHead from '../components/ui/SEOHead'
 import { guideContent } from '../engine/guideContent'
-import UniversalConverter from '../components/converter/UniversalConverter'
+import { FixedCategoryConverter } from '../components/converter/CategoryConverter'
 import { buildGuideSchema } from '../config/schema'
 import { getGuideRelationship } from '../config/guideRelations'
 import { BLOG_POSTS } from '../data/blogPosts'
-import ConversionQuiz from '../components/widgets/ConversionQuiz'
 
 export default function GuidePage() {
   const { slug } = useParams<{ slug: string }>()
@@ -102,17 +101,7 @@ export default function GuidePage() {
             </Link>
           )}
         </div>
-        <div className="glass-liquid rounded-2xl p-3 sm:p-5 border border-[var(--border)] shadow-black/5">
-          <UniversalConverter
-            category={content.relatedCat}
-            initialFrom={rel?.fromUnit}
-            initialTo={rel?.toUnit}
-            initialValue={1}
-            hideCategoryPicker={true}
-            compactOnMobile={true}
-            variant="embedded"
-          />
-        </div>
+        <FixedCategoryConverter catId={content.relatedCat} from={rel?.fromUnit} to={rel?.toUnit} />
       </section>
 
       {/* Formula & Method */}
@@ -192,12 +181,6 @@ export default function GuidePage() {
           ))}
         </div>
       </section>
-
-      {/* Interactive Metrology Practice Quiz */}
-      <ConversionQuiz
-        category={content.relatedCat}
-        title={`${content.h1} Mastery Quiz`}
-      />
 
       {/* FAQ */}
       <section aria-labelledby="faq-heading" className="glass rounded-2xl p-4 sm:p-5 border border-[var(--border)] space-y-3">
